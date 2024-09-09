@@ -1,4 +1,4 @@
-import 'package:deskgoo/providers/themes/theme_changer_provider.dart';
+import 'package:deskgoo/providers/themes_provider/theme_changer_provider.dart';
 import 'package:deskgoo/routes/app_route_configuration.dart';
 import 'package:deskgoo/tests/providers/count_provider.dart';
 import 'package:deskgoo/tests/providers/favourite_provider.dart';

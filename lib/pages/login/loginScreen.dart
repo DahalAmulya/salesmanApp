@@ -1,4 +1,4 @@
-import 'package:deskgoo/providers/themes/theme_changer_provider.dart';
+import 'package:deskgoo/providers/themes_provider/theme_changer_provider.dart';
 import 'package:deskgoo/themes/custom_colors.dart';
 import 'package:deskgoo/widgets/app_bars/custom_app_bars.dart';
 import 'package:deskgoo/widgets/buttons/elevated_button.dart';
@@ -12,6 +12,7 @@ class LoginPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    print('build');
     return Scaffold(
       backgroundColor: Colors.grey.shade200,
       appBar: _appBar(context),
@@ -20,10 +21,12 @@ class LoginPage extends StatelessWidget {
   }
 
   PreferredSize _appBar(context) {
+    print('appbar build');
     return PreferredSize(
       preferredSize: Size.fromHeight(60.0),
       child: Consumer<ThemeChangerProvider>(
         builder: (context, provider, _) {
+          print('CustomAppBar build');
           return CustomAppBar(
             tabName: '',
             backgroundColor: Colors.grey.shade200,
@@ -31,8 +34,8 @@ class LoginPage extends StatelessWidget {
             showThemeIcon: true,
             onPressedThemeIcon: () {
               provider.toogleIsChooseThemePopUp();
-              print(
-                  'provider.isChooseThemePopup = ${provider.isChooseThemePopup}');
+              // print(
+              //     'provider.isChooseThemePopup = ${provider.isChooseThemePopup}');
               // provider.setIsChooseThemePopup(isChooseThemePopup)
             },
           );
@@ -42,6 +45,7 @@ class LoginPage extends StatelessWidget {
   }
 
   Widget _buildUI(BuildContext context) {
+    print('body build');
     return Stack(
       children: [
         Center(
@@ -49,6 +53,7 @@ class LoginPage extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Consumer<ThemeChangerProvider>(builder: (context, provider, _) {
+                print('CustomContainer build');
                 return CustomContainer(
                   color: provider.themeMode == ThemeMode.light
                       ? Colors.white
@@ -72,7 +77,7 @@ class LoginPage extends StatelessWidget {
                       SizedBox(
                         height: 8.0,
                       ),
-                      TextField(
+                      TextFormField(
                         decoration: InputDecoration(
                           filled: true,
                           fillColor: Color(0xfff3f3f3),
@@ -134,79 +139,83 @@ class LoginPage extends StatelessWidget {
             ],
           ),
         ),
-        Consumer<ThemeChangerProvider>(builder: (context, provider, _) {
-          return Center(
-            child: provider.isChooseThemePopup
-                ? Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      CustomContainer(
-                        width: 0.90,
-                        applyShadow: true,
-                        child: Column(
-                          children: [
-                            CustomText(
-                              text: 'Choose Theme',
-                              size: 20,
-                              fontWeight: FontWeight.w500,
-                            ),
-                            RadioListTile(
-                              title: CustomText(text: 'Light'),
-                              value: ThemeMode.light,
-                              groupValue: provider.themeMode,
-                              onChanged: (newValue) {
-                                provider.setThemeMode(newValue);
-                              },
-                            ),
-                            RadioListTile(
-                              title: CustomText(text: 'Dark'),
-                              value: ThemeMode.dark,
-                              groupValue: provider.themeMode,
-                              onChanged: (newValue) {
-                                provider.setThemeMode(newValue);
-                              },
-                            ),
-                            RadioListTile(
-                              title: CustomText(text: 'System'),
-                              value: ThemeMode.system,
-                              groupValue: provider.themeMode,
-                              onChanged: (newValue) {
-                                provider.setThemeMode(newValue);
-                              },
-                            ),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                CustomElevatedButton(
-                                  onPressed: () {
-                                    provider.toogleIsChooseThemePopUp();
-                                  },
-                                  borderColor: Color(0xffff0000),
-                                  widget: CustomText(
-                                    text: 'Cancel',
-                                    color: Colors.red,
+        Consumer<ThemeChangerProvider>(
+          builder: (context, provider, _) {
+            print('Theme option build');
+            return Center(
+              child: provider.isChooseThemePopup
+                  ? Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        CustomContainer(
+                          width: 0.90,
+                          applyShadow: true,
+                          child: Column(
+                            children: [
+                              CustomText(
+                                text: 'Choose Theme',
+                                size: 20,
+                                fontWeight: FontWeight.w500,
+                              ),
+                              RadioListTile(
+                                title: CustomText(text: 'Light'),
+                                value: ThemeMode.light,
+                                groupValue: provider.themeMode,
+                                onChanged: (newValue) {
+                                  provider.setThemeMode(newValue);
+                                },
+                              ),
+                              RadioListTile(
+                                title: CustomText(text: 'Dark'),
+                                value: ThemeMode.dark,
+                                groupValue: provider.themeMode,
+                                onChanged: (newValue) {
+                                  provider.setThemeMode(newValue);
+                                },
+                              ),
+                              RadioListTile(
+                                title: CustomText(text: 'System'),
+                                value: ThemeMode.system,
+                                groupValue: provider.themeMode,
+                                onChanged: (newValue) {
+                                  provider.setThemeMode(newValue);
+                                },
+                              ),
+                              Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  CustomElevatedButton(
+                                    onPressed: () {
+                                      provider.toogleIsChooseThemePopUp();
+                                    },
+                                    borderColor: Color(0xffff0000),
+                                    widget: CustomText(
+                                      text: 'Cancel',
+                                      color: Colors.red,
+                                    ),
                                   ),
-                                ),
-                                CustomElevatedButton(
-                                  onPressed: () {
-                                    provider.toogleIsChooseThemePopUp();
-                                  },
-                                  borderColor: Color(0xff171717),
-                                  widget: CustomText(
-                                    text: 'Save',
-                                    color: Color(0xff171717),
+                                  CustomElevatedButton(
+                                    onPressed: () {
+                                      provider.toogleIsChooseThemePopUp();
+                                    },
+                                    borderColor: Color(0xff171717),
+                                    widget: CustomText(
+                                      text: 'Save',
+                                      color: Color(0xff171717),
+                                    ),
                                   ),
-                                ),
-                              ],
-                            )
-                          ],
+                                ],
+                              )
+                            ],
+                          ),
                         ),
-                      ),
-                    ],
-                  )
-                : null,
-          );
-        })
+                      ],
+                    )
+                  : null,
+            );
+          },
+        ),
       ],
     );
   }
