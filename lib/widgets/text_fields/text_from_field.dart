@@ -39,7 +39,10 @@ class TextFromFieldWithPrefixSuffix extends StatelessWidget {
       validator: validator,
       autofocus: autoFocus,
       autovalidateMode: AutovalidateMode.onUserInteraction,
-      // onTapOutside: ,
+      onTapOutside: (event) {
+        print('onTapOutside');
+        FocusManager.instance.primaryFocus?.unfocus();
+      },
       decoration: InputDecoration(
         filled: true,
         fillColor: fillColor ?? Color(0xfff3f3f3),
