@@ -1,10 +1,6 @@
 import 'package:deskgoo/pages/error/error_page.dart';
 import 'package:deskgoo/pages/login/loginScreen.dart';
 import 'package:deskgoo/routes/app_route_constants.dart';
-import 'package:deskgoo/tests/pages/cart_page.dart';
-import 'package:deskgoo/tests/pages/favourite/favourite_page.dart';
-import 'package:deskgoo/tests/pages/home_screen.dart';
-import 'package:deskgoo/tests/pages/products_page.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
@@ -23,26 +19,26 @@ class MyAppRouter {
           // return MaterialPage(child: TestHomeScreen());
         },
       ),
-      GoRoute(
-        name: MyAppRouteConstants.productsRouteName,
-        path: '/products/:category',
-        pageBuilder: (context, state) {
-          return MaterialPage(
-            child: ProductsPage(
-              username: state.pathParameters['category']!,
-              userId: state.extra.toString(),
-              userEmail: state.extra.toString(),
-            ),
-          );
-        },
-      ),
-      GoRoute(
-        name: MyAppRouteConstants.cartRouteName,
-        path: '/cart',
-        pageBuilder: (context, state) {
-          return MaterialPage(child: CartPage());
-        },
-      ),
+      // GoRoute(
+      //   name: MyAppRouteConstants.productsRouteName,
+      //   path: '/products/:category',
+      //   pageBuilder: (context, state) {
+      //     return MaterialPage(
+      //       child: ProductsPage(
+      //         username: state.pathParameters['category']!,
+      //         userId: state.extra.toString(),
+      //         userEmail: state.extra.toString(),
+      //       ),
+      //     );
+      //   },
+      // ),
+      // GoRoute(
+      //   name: MyAppRouteConstants.cartRouteName,
+      //   path: '/cart',
+      //   pageBuilder: (context, state) {
+      //     return MaterialPage(child: CartPage());
+      //   },
+      // ),
       //   ],
       // ),
     ],
