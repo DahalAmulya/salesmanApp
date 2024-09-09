@@ -18,6 +18,7 @@ class MyAppRouter {
           return MaterialPage(child: LoginPage());
         },
       ),
+
       GoRoute(
         name: MyAppRouteConstants.forgotPasswordRouteName,
         path: '/forgotPassword',
@@ -25,6 +26,7 @@ class MyAppRouter {
           return MaterialPage(child: ForgotPasswordScreen());
         },
       ),
+
       // GoRoute(
       //   name: MyAppRouteConstants.productsRouteName,
       //   path: '/products/:category',

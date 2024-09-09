@@ -32,6 +32,7 @@ class _MyAppState extends State<MyApp> {
     // final themeChangerProvider = Provider.of<ThemeChangerProvider>(context);
     return MultiProvider(
       providers: [
+        ChangeNotifierProvider(create: (context) => ThemeChangerProvider())
         ChangeNotifierProvider(create: (context) => ThemeChangerProvider()),
         ChangeNotifierProvider(create: (context) => UserAuthProvider()),
       ],
