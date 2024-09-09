@@ -56,6 +56,7 @@ class CustomAppBar extends StatelessWidget {
           size: size ?? 28.0,
           color: color ?? Colors.black,
         ),
+        automaticallyImplyLeading: false,
         leading: showLeading
             ? InkWell(
                 onTap: () {

@@ -1,11 +1,9 @@
+import 'package:deskgoo/providers/auth_provider/user_auth_provider.dart';
 import 'package:deskgoo/providers/themes_provider/theme_changer_provider.dart';
 import 'package:deskgoo/routes/app_route_configuration.dart';
-import 'package:deskgoo/tests/providers/count_provider.dart';
-import 'package:deskgoo/tests/providers/favourite_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
-import 'package:deskgoo/tests/providers/cart_provider.dart';
 
 void main() {
   runApp(
@@ -34,10 +32,8 @@ class _MyAppState extends State<MyApp> {
     // final themeChangerProvider = Provider.of<ThemeChangerProvider>(context);
     return MultiProvider(
       providers: [
-        ChangeNotifierProvider(create: (context) => CartProvider()),
-        ChangeNotifierProvider(create: (context) => CountProvider()),
-        ChangeNotifierProvider(create: (context) => FavouriteProvider()),
-        ChangeNotifierProvider(create: (context) => ThemeChangerProvider())
+        ChangeNotifierProvider(create: (context) => ThemeChangerProvider()),
+        ChangeNotifierProvider(create: (context) => UserAuthProvider()),
       ],
       child: MediaQuery(
         data: MediaQuery.of(context).copyWith(

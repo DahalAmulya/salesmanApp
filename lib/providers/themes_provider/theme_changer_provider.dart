@@ -21,10 +21,12 @@ class ThemeChangerProvider extends ChangeNotifier {
       if (WidgetsBinding.instance.platformDispatcher.platformBrightness ==
           Brightness.dark) {
         _isDarkMode = true;
+        print('Dark mode = $_isDarkMode');
       }
       if (WidgetsBinding.instance.platformDispatcher.platformBrightness ==
           Brightness.light) {
         _isDarkMode = false;
+        print('Dark mode = $_isDarkMode');
       }
     }
     notifyListeners();
