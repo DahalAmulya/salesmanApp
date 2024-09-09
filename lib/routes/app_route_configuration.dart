@@ -1,5 +1,6 @@
+import 'package:deskgoo/pages/auth_screens/forgot_password/forgot_password_screen.dart';
 import 'package:deskgoo/pages/error/error_page.dart';
-import 'package:deskgoo/pages/login/loginScreen.dart';
+import 'package:deskgoo/pages/auth_screens/login/login_screen.dart';
 import 'package:deskgoo/routes/app_route_constants.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
@@ -15,10 +16,17 @@ class MyAppRouter {
         path: '/',
         pageBuilder: (context, state) {
           return MaterialPage(child: LoginPage());
-          // return MaterialPage(child: FavouritePage());
-          // return MaterialPage(child: TestHomeScreen());
         },
       ),
+
+      GoRoute(
+        name: MyAppRouteConstants.forgotPasswordRouteName,
+        path: '/forgotPassword',
+        pageBuilder: (context, state) {
+          return MaterialPage(child: ForgotPasswordScreen());
+        },
+      ),
+
       // GoRoute(
       //   name: MyAppRouteConstants.productsRouteName,
       //   path: '/products/:category',
