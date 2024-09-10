@@ -1,9 +1,9 @@
 import 'package:deskgoo/themes/custom_colors.dart';
 import 'package:deskgoo/widgets/app_bars/custom_app_bars.dart';
 import 'package:deskgoo/widgets/bottom_navigation/gnav_bar.dart';
-import 'package:flutter/gestures.dart';
+import 'package:deskgoo/widgets/drawers/custom_drawer.dart';
+import 'package:deskgoo/widgets/texts/custom_text.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class HomeScreen extends StatelessWidget {
@@ -26,34 +26,25 @@ class HomeScreen extends StatelessWidget {
   PreferredSize _appBar(context) {
     return PreferredSize(
       preferredSize: Size.fromHeight(kToolbarHeight),
-      child: CustomAppBar(
-        tabName: 'Home',
-        titleColor: CustomColors.primaryBackgroundColor,
-        backgroundColor: CustomColors.primaryBlack,
-        showLeading: true,
-        leadingIcon: FontAwesomeIcons.bars,
-        leadingIconColor: CustomColors.primaryBackgroundColor,
-        onTapLeadingIcon: () {
-          Scaffold.of(context).openDrawer();
-        },
+      child: Builder(
+        builder: (context) => CustomAppBar(
+          tabName: 'Home',
+          titleColor: CustomColors.primaryBackgroundColor,
+          backgroundColor: CustomColors.primaryBlack,
+          showLeading: true,
+          leadingIcon: FontAwesomeIcons.bars,
+          leadingIconColor: CustomColors.primaryBackgroundColor,
+          onTapLeadingIcon: () {
+            // Use the context under the Scaffold
+            Scaffold.of(context).openDrawer();
+          },
+        ),
       ),
     );
   }
 
-  Drawer _drawer(context) {
-    return Drawer(
-      child: ListView.builder(
-          itemCount: 5,
-          itemBuilder: (context, child) {
-            return ListTile(
-              leading: Icon(Icons.home),
-              title: Text('Home'),
-              // onTap: () {
-              //   Scaffold.of(context).closeDrawer();
-              // },
-            );
-          }),
-    );
+  CustomDrawer _drawer(context) {
+    return CustomDrawer();
   }
 
   CustomGNavBar _bottomNavBar(context) {

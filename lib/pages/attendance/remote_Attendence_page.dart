@@ -12,7 +12,6 @@ import '../../widgets/texts/custom_text.dart';
 import 'package:nepali_utils/nepali_utils.dart';
 
 class RemoteAttendencePage extends StatefulWidget {
-
   const RemoteAttendencePage({super.key});
 
   @override
@@ -27,7 +26,7 @@ class _RemoteAttendencePageState extends State<RemoteAttendencePage> {
   final _formState = GlobalKey<FormState>();
   final descriptionTextController = TextEditingController();
   final dateTimeController = TextEditingController();
-  final GpsLocationController = TextEditingController();
+  final gpsLocationController = TextEditingController();
   @override
   void initState() {
     // TODO: implement initState
@@ -38,14 +37,13 @@ class _RemoteAttendencePageState extends State<RemoteAttendencePage> {
     getTime();
   }
 
-  Future<void> getLocation() async{
+  Future<void> getLocation() async {}
 
-  }
-
-  Future<void>getTime()async{
+  Future<void> getTime() async {
     setState(() {
       var currentNepaliTime = NepaliDateTime.now();
-      String formattedTime = NepaliDateFormat("yyyy-MM-dd HH:mm").format(currentNepaliTime); // Format the date and time
+      String formattedTime = NepaliDateFormat("yyyy-MM-dd HH:mm")
+          .format(currentNepaliTime); // Format the date and time
       setState(() {
         final nepaliTime = formattedTime; // Set it to the state variable.
       });
@@ -72,8 +70,8 @@ class _RemoteAttendencePageState extends State<RemoteAttendencePage> {
             backgroundColor: Colors.grey.shade100,
             leadingIcon: Icons.arrow_back,
             onTapLeadingIcon: () {
-              GoRouter.of(context)
-                  .pushReplacementNamed(MyAppRouteConstants.homeRouteName);
+              GoRouter.of(context).pushReplacementNamed(
+                  MyAppRouteConstants.homeNavBarRouteName);
             },
             showLeading: true,
             applyShadow: true,
@@ -94,7 +92,7 @@ class _RemoteAttendencePageState extends State<RemoteAttendencePage> {
           height: 16,
         ),
         Padding(
-          padding: const EdgeInsets.symmetric(horizontal:16.0),
+          padding: const EdgeInsets.symmetric(horizontal: 16.0),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
@@ -162,14 +160,18 @@ class _RemoteAttendencePageState extends State<RemoteAttendencePage> {
         //     ),
         //   ),
         // ),
-        SizedBox(height: 16,),
+        SizedBox(
+          height: 16,
+        ),
         Container(
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16.0),
             child: CustomText(text: 'Date and Time'),
           ),
         ),
-        SizedBox(height: 16,),
+        SizedBox(
+          height: 16,
+        ),
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 16.0),
           child: Container(
@@ -181,32 +183,33 @@ class _RemoteAttendencePageState extends State<RemoteAttendencePage> {
               // labelText: nepaliTime.isNotEmpty ? nepaliTime : 'Loading...',
               validator: (String) {
                 return null;
-            },
-
+              },
             ),
           ),
         ),
-        SizedBox(height: 16,),
+        SizedBox(
+          height: 16,
+        ),
         Container(
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16.0),
             child: CustomText(text: 'GPS Location'),
           ),
         ),
-        SizedBox(height: 16,),
+        SizedBox(
+          height: 16,
+        ),
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 16.0),
           child: Container(
             width: MediaQuery.of(context).size.width * 0.90,
             child: TextFromFieldWithPrefixSuffix(
-              controller: null,
-              prefixIcon: null,
+              controller: gpsLocationController,
+              applyPrefix: false,
               readOnly: true,
-              labelText: '',
-              validator: (String ) {
+              validator: (String) {
                 return null;
               },
-
             ),
           ),
         ),
