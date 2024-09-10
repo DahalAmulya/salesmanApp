@@ -24,7 +24,7 @@ class TextFromFieldWithPrefixSuffix extends StatelessWidget {
   final String? labelText;
   final bool obscure;
   final bool applyPrefix;
-  final Widget prefixIcon;
+  final Widget? prefixIcon;
   final bool applySuffixIcon;
   final Widget? suffixIcon;
   final Color? fillColor;
