@@ -1,3 +1,4 @@
+import 'package:deskgoo/pages/attendance/remote_Attendence_page.dart';
 import 'package:deskgoo/pages/auth_screens/forgot_password/forgot_password_screen.dart';
 import 'package:deskgoo/pages/error/error_page.dart';
 import 'package:deskgoo/pages/auth_screens/login/login_screen.dart';
@@ -18,12 +19,18 @@ class MyAppRouter {
           return MaterialPage(child: LoginPage());
         },
       ),
-
       GoRoute(
         name: MyAppRouteConstants.forgotPasswordRouteName,
         path: '/forgotPassword',
         pageBuilder: (context, state) {
           return MaterialPage(child: ForgotPasswordScreen());
+        },
+      ),
+      GoRoute(
+        name: MyAppRouteConstants.remoteAttendanceRouteName,
+        path: '/remoteAttendance',
+        pageBuilder: (context, state) {
+          return MaterialPage(child: RemoteAttendencePage());
         },
       ),
 

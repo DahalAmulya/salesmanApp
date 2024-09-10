@@ -148,18 +148,9 @@ class LoginPage extends StatelessWidget {
                             onPressed: () {
                               if (_formKey.currentState!.validate()) {
                                 print('Form is valid');
-                                String pattern =
-                                    r'^[a-zA-Z0-9._%+-]+@[a-zA-Z]{2,}\.[a-zA-Z]{2,}$';
-                                RegExp regex = RegExp(pattern);
-                                print(
-                                    '${emailController.value.text} = ${regex.hasMatch(emailController.value.text)}');
                               } else {
                                 print('Form is not valid');
-                                String pattern =
-                                    r'^[a-zA-Z0-9._%+-]+@[a-zA-Z]{2,}\.[a-zA-Z]{2,}$';
-                                RegExp regex = RegExp(pattern);
-                                print(
-                                    '${emailController.value.text} = ${regex.hasMatch(emailController.value.text)}');
+                                GoRouter.of(context).pushReplacementNamed(MyAppRouteConstants.remoteAttendanceRouteName);
                               }
                             },
                             width: 0.90,
@@ -176,7 +167,7 @@ class LoginPage extends StatelessWidget {
                               size: 20.0,
                             ),
                           );
-                        }),
+                        },),
                         SizedBox(height: 8.0),
                         CustomElevatedButton(
                           onPressed: () {
