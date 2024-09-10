@@ -1,6 +1,8 @@
+import 'package:deskgoo/routes/app_route_constants.dart';
 import 'package:deskgoo/themes/custom_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:go_router/go_router.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
 
 class CustomGNavBar extends StatelessWidget {
@@ -21,7 +23,7 @@ class CustomGNavBar extends StatelessWidget {
       tabActiveBorder: Border.all(color: CustomColors.primaryBackgroundColor),
       tabBorderRadius: 100,
       tabMargin: EdgeInsets.symmetric(vertical: 8.0, horizontal: 0.0),
-      tabs: const [
+      tabs:  [
         GButton(
           // margin: EdgeInsets.symmetric(horizontal: 8, vertical: 0),
           padding: EdgeInsets.symmetric(vertical: 16, horizontal: 16),
@@ -44,6 +46,9 @@ class CustomGNavBar extends StatelessWidget {
           text: 'Search',
         ),
         GButton(
+          onPressed: (){
+            GoRouter.of(context).pushReplacementNamed(MyAppRouteConstants.remoteAttendanceRouteName);
+          },
           // margin: EdgeInsets.symmetric(horizontal: 0, vertical: 0),
           padding: EdgeInsets.symmetric(vertical: 16, horizontal: 16),
           icon: FontAwesomeIcons.gear,
