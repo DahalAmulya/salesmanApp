@@ -5,7 +5,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 class CustomAppBar extends StatelessWidget {
   CustomAppBar(
       {required this.tabName,
-      this.color,
+      this.titleColor,
       this.fontWeight,
       this.size,
       this.backgroundColor = Colors.white,
@@ -14,6 +14,7 @@ class CustomAppBar extends StatelessWidget {
       this.showPopupMenu = false,
       this.showLeading = false,
       this.isLeadingImage = false,
+      this.leadingIconColor = Colors.black,
       this.imageName,
       this.leadingIcon,
       this.onTapLeadingIcon,
@@ -23,7 +24,7 @@ class CustomAppBar extends StatelessWidget {
       super.key});
 
   final String tabName;
-  final Color? color;
+  final Color? titleColor;
   final Color backgroundColor;
   final FontWeight? fontWeight;
   final double? size;
@@ -31,6 +32,7 @@ class CustomAppBar extends StatelessWidget {
   final bool showTrailingIcons;
   final bool showPopupMenu;
   final bool showLeading;
+  final Color leadingIconColor;
   final bool isLeadingImage;
   final String? imageName;
   final IconData? leadingIcon;
@@ -62,7 +64,7 @@ class CustomAppBar extends StatelessWidget {
           text: tabName,
           fontWeight: fontWeight ?? FontWeight.bold,
           size: size ?? 28.0,
-          color: color ?? Colors.black,
+          color: titleColor ?? Colors.black,
         ),
         automaticallyImplyLeading: false,
         leading: showLeading
@@ -78,7 +80,7 @@ class CustomAppBar extends StatelessWidget {
                     onPressed: onTapLeadingIcon,
                     icon: Icon(
                       leadingIcon ?? null,
-                      color: Colors.black,
+                      color: leadingIconColor,
                     ),
                   )
             : null,
