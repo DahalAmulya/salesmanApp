@@ -23,7 +23,7 @@ class CustomGNavBar extends StatelessWidget {
       tabActiveBorder: Border.all(color: CustomColors.primaryBackgroundColor),
       tabBorderRadius: 100,
       tabMargin: EdgeInsets.symmetric(vertical: 8.0, horizontal: 0.0),
-      tabs:  [
+      tabs: [
         GButton(
           // margin: EdgeInsets.symmetric(horizontal: 8, vertical: 0),
           padding: EdgeInsets.symmetric(vertical: 16, horizontal: 16),
@@ -46,9 +46,7 @@ class CustomGNavBar extends StatelessWidget {
           text: 'Search',
         ),
         GButton(
-          onPressed: (){
-            GoRouter.of(context).pushReplacementNamed(MyAppRouteConstants.remoteAttendanceRouteName);
-          },
+          onPressed: () {},
           // margin: EdgeInsets.symmetric(horizontal: 0, vertical: 0),
           padding: EdgeInsets.symmetric(vertical: 16, horizontal: 16),
           icon: FontAwesomeIcons.gear,
