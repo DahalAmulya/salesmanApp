@@ -19,7 +19,7 @@ class TextFromFieldWithPrefixSuffix extends StatelessWidget {
     this.readOnly = false,
   });
 
-  final TextEditingController? controller;
+  final TextEditingController controller;
   final String? hintText;
   final String? labelText;
   final bool obscure;
