@@ -1,9 +1,22 @@
+import 'package:deskgoo/routes/app_route_constants.dart';
 import 'package:deskgoo/themes/custom_colors.dart';
+import 'package:deskgoo/widgets/drawers/drawers_items/custom_listTile.dart';
 import 'package:deskgoo/widgets/texts/custom_text.dart';
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:go_router/go_router.dart';
 
 class CustomDrawer extends StatelessWidget {
-  const CustomDrawer({super.key});
+  const CustomDrawer({
+    super.key,
+    this.userImg = 'assets/images/deskgooBlack.png',
+    this.userName = 'Farhan Ansari',
+    this.userRole = 'Developer',
+  });
+
+  final String userImg;
+  final String userName;
+  final String userRole;
 
   @override
   Widget build(BuildContext context) {
@@ -17,12 +30,12 @@ class CustomDrawer extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Padding(
-                padding: const EdgeInsets.symmetric(
-                  vertical: 8.0,
-                  horizontal: 16.0,
+                padding: const EdgeInsets.only(
+                  top: 16.0,
+                  left: 16.0,
+                  bottom: 8.0,
                 ),
                 child: Row(
-                  // crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Container(
                       height: 60,
@@ -32,9 +45,7 @@ class CustomDrawer extends StatelessWidget {
                         borderRadius: BorderRadius.circular(100),
                       ),
                       child: Image.asset(
-                        'assets/images/deskgooBlack.png',
-                        // width: 120,
-                        // height: 60,
+                        userImg,
                       ),
                     ),
                     SizedBox(
@@ -44,12 +55,12 @@ class CustomDrawer extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         CustomText(
-                          text: 'Farhan Ansari',
+                          text: userName,
                           color: CustomColors.primaryBackgroundColor,
                           fontWeight: FontWeight.w600,
                         ),
                         CustomText(
-                          text: 'Developer',
+                          text: userRole,
                           color: CustomColors.primaryBackgroundColor,
                           fontWeight: FontWeight.w400,
                           size: 14,
@@ -61,24 +72,30 @@ class CustomDrawer extends StatelessWidget {
               ),
               Divider(),
               Expanded(
-                child: ListView.builder(
-                  itemCount: 5,
-                  itemBuilder: (context, child) {
-                    return ListTile(
-                      leading: Icon(
-                        Icons.home,
-                        color: Colors.white,
-                      ),
-                      title: CustomText(
-                        text: 'Home',
-                        color: Colors.white,
-                      ),
+                child: ListView(
+                  children: [
+                    CustomListTile(
+                      onTap: () {},
+                      isTabActive: true,
+                      icon: FontAwesomeIcons.house,
+                      text: 'Home',
+                    ),
+                    CustomListTile(
                       onTap: () {
-                        print('Pressed on drawer');
-                        // Scaffold.of(context).closeDrawer();
+                        GoRouter.of(context).pushReplacementNamed(
+                            MyAppRouteConstants.remoteAttendanceRouteName);
                       },
-                    );
-                  },
+                      isTabActive: false,
+                      isIcon: false,
+                      imgName: 'assets/images/biometricAttendanceWhite.png',
+                      imgBoxFit: BoxFit.scaleDown,
+                      imgHeigt: 32,
+                      imgWidth: 32,
+                      imgColor: Colors.white,
+                      text: 'Attendance',
+                      textColor: Colors.white,
+                    ),
+                  ],
                 ),
               ),
             ],
