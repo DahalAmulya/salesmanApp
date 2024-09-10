@@ -6,7 +6,7 @@ class TextFromFieldWithPrefixSuffix extends StatelessWidget {
     required this.controller,
     this.hintText,
     this.labelText,
-    required this.prefixIcon,
+    this.prefixIcon,
     required this.validator,
     this.keyboardType = TextInputType.text,
     this.obscure = false,

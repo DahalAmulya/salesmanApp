@@ -41,6 +41,9 @@ dependencies:
   font_awesome_icon_class: ^0.0.6
   go_router: ^14.2.7
   flutter_switch: ^0.3.2
+  nepali_utils: ^3.0.6
+  geolocator: ^13.0.1
+  geocoding: ^3.0.0
 
 
 dev_dependencies:
