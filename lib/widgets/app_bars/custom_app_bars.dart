@@ -13,6 +13,10 @@ class CustomAppBar extends StatelessWidget {
       this.showTrailingIcons = false,
       this.showPopupMenu = false,
       this.showLeading = false,
+        this.isLeadingImage = false,
+      this.imageName,
+      this.leadingIcon,
+        this.onTapLeadingIcon,
       this.applyShadow = false,
       this.showThemeIcon = false,
       this.onPressedThemeIcon,
@@ -27,6 +31,10 @@ class CustomAppBar extends StatelessWidget {
   final bool showTrailingIcons;
   final bool showPopupMenu;
   final bool showLeading;
+  final bool isLeadingImage;
+  final String? imageName;
+  final IconData? leadingIcon;
+  final Function()? onTapLeadingIcon;
   final bool applyShadow;
   final bool showThemeIcon;
   final Function()? onPressedThemeIcon;
@@ -58,14 +66,14 @@ class CustomAppBar extends StatelessWidget {
         ),
         automaticallyImplyLeading: false,
         leading: showLeading
-            ? InkWell(
+            ? isLeadingImage ? InkWell(
                 onTap: () {
                   // Get.off(const ShowBustime());
                 },
-                child: const Image(
-                  image: AssetImage('assets/icons/logo.png'),
+                child: Image(
+                  image: AssetImage(imageName ?? 'assets/images/deskgooBlack.png'),
                 ),
-              )
+              ) : IconButton(onPressed: onTapLeadingIcon,icon: Icon(leadingIcon ?? null,color: Colors.black,))
             : null,
         actions: showTrailingIcons
             ? [
