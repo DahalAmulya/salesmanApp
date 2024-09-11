@@ -17,10 +17,12 @@ class visitSummary extends StatefulWidget {
 }
 
 class _visitSummaryState extends State<visitSummary> {
+  double screenHeight = ScreenUtils.getScreenHeight;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: CustomColors.primaryBackgroundColor,
+      backgroundColor: CustomColors.primaryWhite,
       appBar: _appBar(context),
       body: _buildUI(context),
     );
