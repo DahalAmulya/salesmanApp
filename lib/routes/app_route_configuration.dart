@@ -8,6 +8,8 @@ import 'package:deskgoo/widgets/bottom_navigation/notched_bottom_nav_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
+import '../pages/visit/summary_Page.dart';
+
 class MyAppRouter {
   // static GoRouter returnRouter(bool isAuth) {
   GoRouter router = GoRouter(
@@ -49,6 +51,13 @@ class MyAppRouter {
         path: '/home_screen',
         pageBuilder: (context, state) {
           return MaterialPage(child: HomeScreen());
+        },
+      ),
+      GoRoute(
+        name: MyAppRouteConstants.visitSummaryRouteName,
+        path: '/visit_summary',
+        pageBuilder: (context, state) {
+          return MaterialPage(child: visitSummary());
         },
       ),
 
