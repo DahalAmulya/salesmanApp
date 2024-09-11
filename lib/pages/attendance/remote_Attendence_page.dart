@@ -34,20 +34,21 @@ class _RemoteAttendencePageState extends State<RemoteAttendencePage> {
   @override
   void initState() {
     super.initState();
-    NepaliDateFormat formattedTime = NepaliDateFormat("yyyy-MM-dd HH:mm");
     getTime();
-    gpsLocationController.text =
-        'Latitude: ${latitude.toString()}, Longitude: ${longitude.toString()}';
+    dateTimeController.text = nepaliTime.toString();
+    // NepaliDateFormat formattedTime = NepaliDateFormat("yyyy-MM-dd HH:mm");
+    gpsLocationController.text = 'Latitude: ${latitude.toString()}, Longitude: ${longitude.toString()}';
     getLocation();
   }
 
   Future<void> getTime() async {
     setState(() {
       var currentNepaliTime = NepaliDateTime.now();
-      String formattedTime = NepaliDateFormat("yyyy-MM-dd HH:mm")
-          .format(currentNepaliTime); // Format the date and time
+      String formattedTime = NepaliDateFormat("yyyy-MM-dd HH:mm").format(currentNepaliTime); // Format the date and time
+      print(nepaliTime);
       setState(() {
-        final nepaliTime = formattedTime; // Set it to the state variable.
+        final nepaliTime = formattedTime;// Set it to the state variable.
+        // NepaliDateFormat formattedTime = NepaliDateFormat("yyyy-MM-dd HH:mm");
       });
     });
   }
