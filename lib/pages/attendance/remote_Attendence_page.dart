@@ -1,4 +1,5 @@
 import 'package:deskgoo/widgets/bottom_navigation/gnav_bar.dart';
+import 'package:deskgoo/widgets/buttons/elevated_button.dart';
 import 'package:deskgoo/widgets/containers/custom_container.dart';
 import 'package:deskgoo/widgets/drawers/custom_drawer.dart';
 import 'package:flutter/material.dart';
@@ -103,6 +104,7 @@ class _RemoteAttendencePageState extends State<RemoteAttendencePage> {
               print('CustomAppBar build');
               return CustomAppBar(
                 tabName: 'Remote Attendance',
+                fontWeight: FontWeight.w600,
                 showLeading: true,
                 leadingIcon: FontAwesomeIcons.bars,
                 onTapLeadingIcon: () {
@@ -132,82 +134,107 @@ class _RemoteAttendencePageState extends State<RemoteAttendencePage> {
               width: 0.95,
               verticalPad: 16.0,
               horizontalPad: 16.0,
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  SizedBox(
-                    height: 0,
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      CustomText(
-                        text: isSwitched ? 'Check In' : 'Check Out',
-                        color: Colors.black,
-                        size: 16,
-                      ),
-                      Switch.adaptive(
-                        activeColor: Colors.blue,
-                        value: isSwitched,
-                        onChanged: (value) {
-                          setState(() {
-                            isSwitched = value;
-                          });
-                        },
-                      ),
-                    ],
-                  ),
-                  SizedBox(
-                    height: 8,
-                  ),
-                  TextFromFieldWithPrefixSuffix(
-                    controller: descriptionTextController,
-                    hintText: 'Remarks here ...',
-                    minLine: 4,
-                    maxLines: 4,
-                    validator: (value) {
-                      return null;
-                    },
-                  ),
-                  SizedBox(
-                    height: 8,
-                  ),
-                  SizedBox(
-                    height: 8,
-                  ),
-                  CustomText(text: 'Date and Time'),
-                  SizedBox(
-                    height: 4,
-                  ),
-                  TextFromFieldWithPrefixSuffix(
-                    controller: dateTimeController,
-                    applyPrefix: false,
-                    readOnly: true,
-                    validator: (String) {
-                      return null;
-                    },
-                  ),
-                  SizedBox(
-                    height: 16,
-                  ),
-                  CustomText(text: 'GPS Location'),
-                  SizedBox(
-                    height: 4,
-                  ),
-                  TextFromFieldWithPrefixSuffix(
-                    controller: gpsLocationController,
-                    applyPrefix: false,
-                    readOnly: true,
-                    // labelText: nepaliTime.isNotEmpty ? nepaliTime : 'Loading...',
-                    validator: (String) {
-                      return null;
-                    },
-                  ),
-                  SizedBox(
-                    height: 16.0,
-                  ),
-                ],
+              child: Form(
+                key: _formState,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    SizedBox(
+                      height: 0,
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        CustomText(
+                          text: isSwitched ? 'Check In' : 'Check Out',
+                          color: Colors.black,
+                          size: 16,
+                        ),
+                        Switch.adaptive(
+                          activeColor: Colors.blue,
+                          value: isSwitched,
+                          onChanged: (value) {
+                            setState(() {
+                              isSwitched = value;
+                            });
+                          },
+                        ),
+                      ],
+                    ),
+                    SizedBox(
+                      height: 8,
+                    ),
+                    TextFromFieldWithPrefixSuffix(
+                      controller: descriptionTextController,
+                      hintText: 'Remarks here ...',
+                      minLine: 4,
+                      maxLines: 4,
+                      validator: (value) {
+                        return value!.isEmpty ? 'This field is required' : value.length < 3 ? 'Remarks must be more than 3 letters' : null;
+                      },
+                    ),
+                    SizedBox(
+                      height: 8,
+                    ),
+                    SizedBox(
+                      height: 8,
+                    ),
+                    CustomText(text: 'Date and Time'),
+                    SizedBox(
+                      height: 4,
+                    ),
+                    TextFromFieldWithPrefixSuffix(
+                      controller: dateTimeController,
+                      applyPrefix: false,
+                      readOnly: true,
+                      validator: (String) {
+                        return null;
+                      },
+                    ),
+                    SizedBox(
+                      height: 16,
+                    ),
+                    CustomText(text: 'GPS Location'),
+                    SizedBox(
+                      height: 4,
+                    ),
+                    TextFromFieldWithPrefixSuffix(
+                      controller: gpsLocationController,
+                      applyPrefix: false,
+                      readOnly: true,
+                      // labelText: nepaliTime.isNotEmpty ? nepaliTime : 'Loading...',
+                      validator: (String) {
+                        return null;
+                      },
+                    ),
+                    SizedBox(
+                      height: 16.0,
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: [
+                        CustomElevatedButton(
+                          onPressed: () {
+                            if(_formState.currentState!.validate()){
+                              print('valid form printed');
+                            }else {
+                              print(
+                                  '_formState.currentState!.validate() = ${_formState
+                                      .currentState!.validate()}');
+                            }
+                          },
+                          height: 50,
+                          backgroundColor: CustomColors.primaryColor,
+                          widget: CustomText(
+                            text: 'Submit',
+                            fontWeight: FontWeight.w500,
+                          ),
+                        ),
+                      ],
+                    )
+                  ],
+                ),
               ),
             ),
           ],
