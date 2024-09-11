@@ -1,3 +1,4 @@
+import 'package:deskgoo/themes/custom_colors.dart';
 import 'package:deskgoo/widgets/texts/custom_text.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -8,7 +9,8 @@ class CustomAppBar extends StatelessWidget {
       this.titleColor,
       this.fontWeight,
       this.size,
-      this.backgroundColor = Colors.white,
+      this.backgroundColor,
+      this.centerTitle = true,
       this.isShowCard = true,
       this.showTrailingIcons = false,
       this.showPopupMenu = false,
@@ -25,7 +27,8 @@ class CustomAppBar extends StatelessWidget {
 
   final String tabName;
   final Color? titleColor;
-  final Color backgroundColor;
+  final bool centerTitle;
+  final Color? backgroundColor;
   final FontWeight? fontWeight;
   final double? size;
   final bool isShowCard;
@@ -45,7 +48,7 @@ class CustomAppBar extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-        color: backgroundColor,
+        color: backgroundColor ?? CustomColors.primaryColor,
         boxShadow: applyShadow
             ? [
                 BoxShadow(
@@ -58,8 +61,8 @@ class CustomAppBar extends StatelessWidget {
             : null,
       ),
       child: AppBar(
-        centerTitle: true,
-        backgroundColor: backgroundColor,
+        centerTitle: centerTitle,
+        backgroundColor: backgroundColor ?? CustomColors.primaryColor,
         title: CustomText(
           text: tabName,
           fontWeight: fontWeight ?? FontWeight.bold,

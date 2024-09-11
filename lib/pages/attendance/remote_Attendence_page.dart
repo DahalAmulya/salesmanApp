@@ -1,12 +1,9 @@
-import 'package:deskgoo/routes/app_route_constants.dart';
+import 'package:deskgoo/widgets/bottom_navigation/gnav_bar.dart';
 import 'package:deskgoo/widgets/containers/custom_container.dart';
 import 'package:deskgoo/widgets/drawers/custom_drawer.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
-import 'package:flutter_switch/flutter_switch.dart';
 import '../../providers/themes_provider/theme_changer_provider.dart';
 import '../../themes/custom_colors.dart';
 import '../../widgets/app_bars/custom_app_bars.dart';
@@ -37,18 +34,19 @@ class _RemoteAttendencePageState extends State<RemoteAttendencePage> {
     getTime();
     dateTimeController.text = nepaliTime.toString();
     // NepaliDateFormat formattedTime = NepaliDateFormat("yyyy-MM-dd HH:mm");
-    gpsLocationController.text = 'Latitude: ${latitude.toString()}, Longitude: ${longitude.toString()}';
+    gpsLocationController.text =
+        'Latitude: ${latitude.toString()}, Longitude: ${longitude.toString()}';
     getLocation();
   }
 
   Future<void> getTime() async {
     setState(() {
       var currentNepaliTime = NepaliDateTime.now();
-      String formattedTime = NepaliDateFormat("yyyy-MM-dd HH:mm").format(currentNepaliTime); // Format the date and time
+      String formattedTime = NepaliDateFormat("yyyy-MM-dd HH:mm")
+          .format(currentNepaliTime); // Format the date and time
       print(nepaliTime);
       setState(() {
-        final nepaliTime = formattedTime;// Set it to the state variable.
-        // NepaliDateFormat formattedTime = NepaliDateFormat("yyyy-MM-dd HH:mm");
+        final nepaliTime = formattedTime; // Set it to the state variable.
       });
     });
   }
@@ -90,6 +88,7 @@ class _RemoteAttendencePageState extends State<RemoteAttendencePage> {
         isAttendanceActive: true,
       ),
       body: _buildUI(context),
+      bottomNavigationBar: _bottomNavBar(context),
     );
   }
 
@@ -97,27 +96,28 @@ class _RemoteAttendencePageState extends State<RemoteAttendencePage> {
     print('appbar build');
     return PreferredSize(
       preferredSize: Size.fromHeight(60.0),
-      child: Builder(builder: (context) {
-        return Consumer<ThemeChangerProvider>(
-          builder: (context, provider, _) {
-            print('CustomAppBar build');
-            return CustomAppBar(
-              tabName: 'Remote Attendance',
-              backgroundColor: Colors.grey.shade100,
-              leadingIcon: FontAwesomeIcons.bars,
-              onTapLeadingIcon: () {
-                print('Pressed');
-                Scaffold.of(context).openDrawer();
-              },
-              showLeading: true,
-              applyShadow: true,
-              onPressedThemeIcon: () {
-                provider.toogleIsChooseThemePopUp();
-              },
-            );
-          },
-        );
-      }),
+      child: Builder(
+        builder: (context) {
+          return Consumer<ThemeChangerProvider>(
+            builder: (context, provider, _) {
+              print('CustomAppBar build');
+              return CustomAppBar(
+                tabName: 'Remote Attendance',
+                showLeading: true,
+                leadingIcon: FontAwesomeIcons.bars,
+                onTapLeadingIcon: () {
+                  print('Pressed');
+                  Scaffold.of(context).openDrawer();
+                },
+                applyShadow: true,
+                onPressedThemeIcon: () {
+                  provider.toogleIsChooseThemePopUp();
+                },
+              );
+            },
+          );
+        },
+      ),
     );
   }
 
@@ -130,8 +130,8 @@ class _RemoteAttendencePageState extends State<RemoteAttendencePage> {
           children: [
             CustomContainer(
               width: 0.95,
-              verticalPad: 8.0,
-              horizontalPad: 8.0,
+              verticalPad: 16.0,
+              horizontalPad: 16.0,
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -139,128 +139,70 @@ class _RemoteAttendencePageState extends State<RemoteAttendencePage> {
                   SizedBox(
                     height: 0,
                   ),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        CustomText(
-                          text: isSwitched ? 'Check In' : 'Check Out',
-                          color: Colors.black,
-                          size: 16,
-                        ),
-                        Switch.adaptive(
-                          activeColor: Colors.blue,
-                          value: isSwitched,
-                          onChanged: (value) {
-                            setState(() {
-                              isSwitched = value;
-                            });
-                          },
-                        ),
-                      ],
-                    ),
-                  ),
-                  SizedBox(
-                    height: 8,
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                    child: TextField(
-                      style: const TextStyle(color: Colors.black),
-                      decoration: InputDecoration(
-                        labelText: 'Remarks here*',
-                        labelStyle: const TextStyle(color: Colors.black),
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(8.0),
-                          borderSide: const BorderSide(color: Colors.black),
-                        ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      CustomText(
+                        text: isSwitched ? 'Check In' : 'Check Out',
+                        color: Colors.black,
+                        size: 16,
                       ),
-                      maxLines: 5,
-                      controller: descriptionTextController,
-                    ),
+                      Switch.adaptive(
+                        activeColor: Colors.blue,
+                        value: isSwitched,
+                        onChanged: (value) {
+                          setState(() {
+                            isSwitched = value;
+                          });
+                        },
+                      ),
+                    ],
                   ),
                   SizedBox(
                     height: 8,
                   ),
-                  // Padding(
-                  //   padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                  //   child: Container(
-                  //     height: MediaQuery.of(context).size.height * 0.25,
-                  //     width: MediaQuery.of(context).size.width * 0.90,
-                  //     decoration: BoxDecoration(
-                  //       borderRadius: BorderRadius.circular(8),
-                  //       color: Color(0xfffFFFFFF),
-                  //       boxShadow: [
-                  //         BoxShadow(
-                  //           color: Colors.grey.withOpacity(0.5),
-                  //           spreadRadius: 2,
-                  //           blurRadius: 5,
-                  //         ),
-                  //       ],
-                  //     ),
-                  //     child: Padding(
-                  //       padding: const EdgeInsets.symmetric(vertical: 16.0,horizontal: 16.0),
-                  //       child: CustomText(
-                  //         text: 'Remark here*',
-                  //         color: Colors.grey,
-                  //       ),
-                  //     ),
-                  //   ),
-                  // ),
+                  TextFromFieldWithPrefixSuffix(
+                    controller: descriptionTextController,
+                    hintText: 'Remarks here ...',
+                    minLine: 4,
+                    maxLines: 4,
+                    validator: (value) {
+                      return null;
+                    },
+                  ),
                   SizedBox(
                     height: 8,
                   ),
-                  Container(
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                      child: CustomText(text: 'Date and Time'),
-                    ),
+                  SizedBox(
+                    height: 8,
                   ),
+                  CustomText(text: 'Date and Time'),
                   SizedBox(
                     height: 4,
                   ),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                    child: Container(
-                      width: MediaQuery.of(context).size.width * 0.90,
-                      child: TextFromFieldWithPrefixSuffix(
-                        controller: dateTimeController,
-                        applyPrefix: false,
-                        readOnly: true,
-                        // labelText: nepaliTime.isNotEmpty ? nepaliTime : 'Loading...',
-                        validator: (String) {
-                          return null;
-                        },
-                      ),
-                    ),
+                  TextFromFieldWithPrefixSuffix(
+                    controller: dateTimeController,
+                    applyPrefix: false,
+                    readOnly: true,
+                    validator: (String) {
+                      return null;
+                    },
                   ),
                   SizedBox(
                     height: 16,
                   ),
-                  Container(
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                      child: CustomText(text: 'GPS Location'),
-                    ),
-                  ),
+                  CustomText(text: 'GPS Location'),
                   SizedBox(
                     height: 4,
                   ),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                    child: Container(
-                      width: MediaQuery.of(context).size.width * 0.90,
-                      child: TextFromFieldWithPrefixSuffix(
-                        controller: gpsLocationController,
-                        applyPrefix: false,
-                        readOnly: true,
-                        // labelText: nepaliTime.isNotEmpty ? nepaliTime : 'Loading...',
-                        validator: (String) {
-                          return null;
-                        },
-                      ),
-                    ),
+                  TextFromFieldWithPrefixSuffix(
+                    controller: gpsLocationController,
+                    applyPrefix: false,
+                    readOnly: true,
+                    // labelText: nepaliTime.isNotEmpty ? nepaliTime : 'Loading...',
+                    validator: (String) {
+                      return null;
+                    },
                   ),
                   SizedBox(
                     height: 16.0,
@@ -271,6 +213,13 @@ class _RemoteAttendencePageState extends State<RemoteAttendencePage> {
           ],
         ),
       ),
+    );
+  }
+
+  CustomGNavBar _bottomNavBar(context) {
+    return CustomGNavBar(
+      selectedIndex: 0,
+      onTap: (value) {},
     );
   }
 }
