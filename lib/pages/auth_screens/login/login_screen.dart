@@ -21,7 +21,7 @@ class LoginPage extends StatelessWidget {
   Widget build(BuildContext context) {
     print('build');
     return Scaffold(
-      backgroundColor: CustomColors.primaryBackgroundColor,
+      backgroundColor: CustomColors.primaryWhite,
       // appBar: _appBar(context),
       body: _buildUI(context),
     );

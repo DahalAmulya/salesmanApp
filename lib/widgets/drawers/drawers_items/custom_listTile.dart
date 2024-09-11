@@ -45,9 +45,7 @@ class CustomListTile extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.symmetric(vertical: 0),
       decoration: BoxDecoration(
-          color: isTabActive
-              ? CustomColors.primaryBackgroundColor
-              : Colors.transparent),
+          color: isTabActive ? CustomColors.primaryWhite : Colors.transparent),
       child: ListTile(
         leading: isIcon
             ? FaIcon(
@@ -60,7 +58,7 @@ class CustomListTile extends StatelessWidget {
                 width: imgWidth ?? 40,
                 height: imgHeigt ?? 40,
                 fit: imgBoxFit ?? BoxFit.none,
-                color: imgColor ?? Colors.white,
+                color: imgColor ?? null,
               ),
         title: Text(
           text,

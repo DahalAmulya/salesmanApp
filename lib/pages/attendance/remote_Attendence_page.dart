@@ -1,7 +1,9 @@
 import 'package:deskgoo/routes/app_route_constants.dart';
 import 'package:deskgoo/widgets/containers/custom_container.dart';
+import 'package:deskgoo/widgets/drawers/custom_drawer.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_switch/flutter_switch.dart';
@@ -13,9 +15,7 @@ import '../../widgets/texts/custom_text.dart';
 import 'package:nepali_utils/nepali_utils.dart';
 import 'package:geolocator/geolocator.dart';
 
-
 class RemoteAttendencePage extends StatefulWidget {
-
   const RemoteAttendencePage({super.key});
 
   @override
@@ -41,7 +41,7 @@ class _RemoteAttendencePageState extends State<RemoteAttendencePage> {
     getLocation();
   }
 
-  Future<void>getTime()async{
+  Future<void> getTime() async {
     setState(() {
       var currentNepaliTime = NepaliDateTime.now();
       String formattedTime = NepaliDateFormat("yyyy-MM-dd HH:mm").format(currentNepaliTime); // Format the date and time
@@ -53,38 +53,42 @@ class _RemoteAttendencePageState extends State<RemoteAttendencePage> {
     });
   }
 
-  Future<void> getLocation() async{
-    try{
+  Future<void> getLocation() async {
+    try {
       await askPermission(); // This do not exists
       Position position = await Geolocator.getCurrentPosition(
           desiredAccuracy: LocationAccuracy.medium);
       setState(() {
         latitude = position.latitude;
         longitude = position.longitude;
-        gpsLocationController.text = 'Latitude: ${latitude.toString()}, Longitude: ${longitude.toString()}';
+        gpsLocationController.text =
+            'Latitude: ${latitude.toString()}, Longitude: ${longitude.toString()}';
       });
       print('longitude: $latitude');
       print('longitude: $longitude');
-    }catch(e){
+    } catch (e) {
       print(e);
     }
   }
 
-Future<void>askPermission()async{
-  LocationPermission permission = await Geolocator.checkPermission();
-  if (permission == LocationPermission.denied) {
-    permission = await Geolocator.requestPermission();
+  Future<void> askPermission() async {
+    LocationPermission permission = await Geolocator.checkPermission();
     if (permission == LocationPermission.denied) {
-      return askPermission();
+      permission = await Geolocator.requestPermission();
+      if (permission == LocationPermission.denied) {
+        return askPermission();
+      }
     }
   }
-}
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: CustomColors.primaryBackgroundColor,
+      backgroundColor: CustomColors.primaryWhite,
       appBar: _appBar(context),
+      drawer: CustomDrawer(
+        isAttendanceActive: true,
+      ),
       body: _buildUI(context),
     );
   }
@@ -93,46 +97,50 @@ Future<void>askPermission()async{
     print('appbar build');
     return PreferredSize(
       preferredSize: Size.fromHeight(60.0),
-      child: Consumer<ThemeChangerProvider>(
-        builder: (context, provider, _) {
-          print('CustomAppBar build');
-          return CustomAppBar(
-            tabName: 'Remote Attendance',
-            backgroundColor: Colors.grey.shade100,
-            leadingIcon: Icons.arrow_back,
-            onTapLeadingIcon: () {
-              GoRouter.of(context)
-                  .pushReplacementNamed(MyAppRouteConstants.homeNavBarRouteName);
-            },
-            showLeading: true,
-            applyShadow: true,
-            onPressedThemeIcon: () {
-              provider.toogleIsChooseThemePopUp();
-            },
-          );
-        },
-      ),
+      child: Builder(builder: (context) {
+        return Consumer<ThemeChangerProvider>(
+          builder: (context, provider, _) {
+            print('CustomAppBar build');
+            return CustomAppBar(
+              tabName: 'Remote Attendance',
+              backgroundColor: Colors.grey.shade100,
+              leadingIcon: FontAwesomeIcons.bars,
+              onTapLeadingIcon: () {
+                print('Pressed');
+                Scaffold.of(context).openDrawer();
+              },
+              showLeading: true,
+              applyShadow: true,
+              onPressedThemeIcon: () {
+                provider.toogleIsChooseThemePopUp();
+              },
+            );
+          },
+        );
+      }),
     );
   }
 
   Widget _buildUI(context) {
-    return SingleChildScrollView(
-      // scrollDirection: Axis.vertical,
-      child: Center(
+    return Center(
+      child: SingleChildScrollView(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             CustomContainer(
-              width: 1,
+              width: 0.95,
+              verticalPad: 8.0,
+              horizontalPad: 8.0,
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   SizedBox(
-                    height: 16,
+                    height: 0,
                   ),
                   Padding(
-                    padding: const EdgeInsets.symmetric(horizontal:16.0),
+                    padding: const EdgeInsets.symmetric(horizontal: 16.0),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
@@ -154,7 +162,7 @@ Future<void>askPermission()async{
                     ),
                   ),
                   SizedBox(
-                    height: 16,
+                    height: 8,
                   ),
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 16.0),
@@ -173,7 +181,7 @@ Future<void>askPermission()async{
                     ),
                   ),
                   SizedBox(
-                    height: 16,
+                    height: 8,
                   ),
                   // Padding(
                   //   padding: const EdgeInsets.symmetric(horizontal: 16.0),
@@ -200,14 +208,18 @@ Future<void>askPermission()async{
                   //     ),
                   //   ),
                   // ),
-                  SizedBox(height: 16,),
+                  SizedBox(
+                    height: 8,
+                  ),
                   Container(
                     child: Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 16.0),
                       child: CustomText(text: 'Date and Time'),
                     ),
                   ),
-                  SizedBox(height: 16,),
+                  SizedBox(
+                    height: 4,
+                  ),
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 16.0),
                     child: Container(
@@ -219,19 +231,22 @@ Future<void>askPermission()async{
                         // labelText: nepaliTime.isNotEmpty ? nepaliTime : 'Loading...',
                         validator: (String) {
                           return null;
-                      },
-
+                        },
                       ),
                     ),
                   ),
-                  SizedBox(height: 16,),
+                  SizedBox(
+                    height: 16,
+                  ),
                   Container(
                     child: Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 16.0),
                       child: CustomText(text: 'GPS Location'),
                     ),
                   ),
-                  SizedBox(height: 16,),
+                  SizedBox(
+                    height: 4,
+                  ),
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 16.0),
                     child: Container(
@@ -244,11 +259,12 @@ Future<void>askPermission()async{
                         validator: (String) {
                           return null;
                         },
-
                       ),
                     ),
                   ),
-
+                  SizedBox(
+                    height: 16.0,
+                  ),
                 ],
               ),
             ),

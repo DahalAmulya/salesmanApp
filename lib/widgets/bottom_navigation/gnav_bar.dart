@@ -17,14 +17,18 @@ class CustomGNavBar extends StatelessWidget {
       onTabChange: onTap,
       selectedIndex: selectedIndex,
       padding: EdgeInsets.symmetric(horizontal: 20, vertical: 0),
-      backgroundColor: CustomColors.primaryBlack,
-      color: CustomColors.primaryBackgroundColor,
-      activeColor: CustomColors.primaryBackgroundColor,
-      tabActiveBorder: Border.all(color: CustomColors.primaryBackgroundColor),
+      backgroundColor: CustomColors.primaryColor,
+      color: CustomColors.primaryBlack,
+      activeColor: CustomColors.primaryBlack,
+      tabActiveBorder: Border.all(color: CustomColors.primaryBlack),
       tabBorderRadius: 100,
       tabMargin: EdgeInsets.symmetric(vertical: 8.0, horizontal: 0.0),
       tabs: [
         GButton(
+          onPressed: () {
+            GoRouter.of(context)
+                .pushReplacementNamed(MyAppRouteConstants.homeNavBarRouteName);
+          },
           // margin: EdgeInsets.symmetric(horizontal: 8, vertical: 0),
           padding: EdgeInsets.symmetric(vertical: 16, horizontal: 16),
           icon: FontAwesomeIcons.house,

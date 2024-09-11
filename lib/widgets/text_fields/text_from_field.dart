@@ -17,6 +17,8 @@ class TextFromFieldWithPrefixSuffix extends StatelessWidget {
     this.borderRadius = 8.0,
     this.autoFocus = false,
     this.readOnly = false,
+    this.minLine = 1,
+    this.maxLines = 1,
   });
 
   final TextEditingController controller;
@@ -33,6 +35,8 @@ class TextFromFieldWithPrefixSuffix extends StatelessWidget {
   final bool autoFocus;
   final bool readOnly;
   final TextInputType keyboardType;
+  final int minLine;
+  final int maxLines;
 
   @override
   Widget build(BuildContext context) {
@@ -43,6 +47,8 @@ class TextFromFieldWithPrefixSuffix extends StatelessWidget {
       validator: validator,
       autofocus: autoFocus,
       readOnly: readOnly,
+      minLines: minLine,
+      maxLines: maxLines,
       autovalidateMode: AutovalidateMode.onUserInteraction,
       onTapOutside: (event) {
         print('onTapOutside');

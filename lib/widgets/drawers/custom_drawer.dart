@@ -9,14 +9,23 @@ import 'package:go_router/go_router.dart';
 class CustomDrawer extends StatelessWidget {
   const CustomDrawer({
     super.key,
-    this.userImg = 'assets/images/deskgooBlack.png',
-    this.userName = 'Farhan Ansari',
-    this.userRole = 'Developer',
+    this.hasImage = true,
+    // this.userImg,
+    this.userImg = 'assets/images/johnCena.jpg',
+    this.userName = 'John Cena',
+    this.userRole = 'Wrestler',
+    this.isHomeActive = false,
+    this.isVisitActive = false,
+    this.isAttendanceActive = false,
   });
 
-  final String userImg;
+  final bool hasImage;
+  final String? userImg;
   final String userName;
   final String userRole;
+  final bool isHomeActive;
+  final bool isVisitActive;
+  final bool isAttendanceActive;
 
   @override
   Widget build(BuildContext context) {
@@ -24,7 +33,7 @@ class CustomDrawer extends StatelessWidget {
       backgroundColor: Colors.transparent,
       child: SafeArea(
         child: Container(
-          color: Colors.black,
+          color: CustomColors.primaryColor,
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -37,15 +46,34 @@ class CustomDrawer extends StatelessWidget {
                 ),
                 child: Row(
                   children: [
-                    Container(
-                      height: 60,
-                      width: 60,
-                      decoration: BoxDecoration(
-                        color: CustomColors.primaryBackgroundColor,
-                        borderRadius: BorderRadius.circular(100),
-                      ),
-                      child: Image.asset(
-                        userImg,
+                    CircleAvatar(
+                      radius: 34,
+                      backgroundColor: CustomColors.primaryWhite,
+                      child: Padding(
+                        padding: const EdgeInsets.all(2),
+                        child: ClipRRect(
+                          borderRadius: BorderRadius.circular(100),
+                          child: hasImage
+                              ? Image.asset(
+                                  userImg!,
+                                  fit: BoxFit.scaleDown,
+                                )
+                              : Container(
+                                  color: Colors.black,
+                                  width: double.infinity,
+                                  height: double.infinity,
+                                  padding: EdgeInsets.all(4),
+                                  child: Center(
+                                    child: CustomText(
+                                      text:
+                                          '${userName.split(' ')[0][0]} ${userName.split(' ')[1][0]}',
+                                      size: 24,
+                                      color: CustomColors.primaryWhite,
+                                      fontWeight: FontWeight.w600,
+                                    ),
+                                  ),
+                                ),
+                        ),
                       ),
                     ),
                     SizedBox(
@@ -56,12 +84,12 @@ class CustomDrawer extends StatelessWidget {
                       children: [
                         CustomText(
                           text: userName,
-                          color: CustomColors.primaryBackgroundColor,
+                          color: CustomColors.primaryBlack,
                           fontWeight: FontWeight.w600,
                         ),
                         CustomText(
                           text: userRole,
-                          color: CustomColors.primaryBackgroundColor,
+                          color: CustomColors.primaryBlack,
                           fontWeight: FontWeight.w400,
                           size: 14,
                         ),
@@ -70,30 +98,68 @@ class CustomDrawer extends StatelessWidget {
                   ],
                 ),
               ),
-              Divider(),
+              Divider(
+                color: CustomColors.primaryBlack,
+              ),
               Expanded(
                 child: ListView(
                   children: [
                     CustomListTile(
-                      onTap: () {},
-                      isTabActive: true,
+                      onTap: () {
+                        GoRouter.of(context).pushReplacementNamed(
+                            MyAppRouteConstants.homeNavBarRouteName);
+                      },
+                      isTabActive: isHomeActive,
                       icon: FontAwesomeIcons.house,
                       text: 'Home',
+                      textFontWeight: FontWeight.w500,
+                    ),
+                    // CustomListTile(
+                    //   onTap: () {
+                    //     GoRouter.of(context).pushReplacementNamed(
+                    //         MyAppRouteConstants.remoteAttendanceRouteName);
+                    //   },
+                    //   isTabActive: isAttendanceActive,
+                    //   isIcon: false,
+                    //   imgName: 'assets/images/dashboard-monitor.png',
+                    //   imgBoxFit: BoxFit.scaleDown,
+                    //   imgHeigt: 32,
+                    //   imgWidth: 32,
+                    //   // imgColor: Colors.transparent,
+                    //   text: 'Dashboard',
+                    //   textColor: Colors.white,
+                    // ),
+                    CustomListTile(
+                      onTap: () {
+                        GoRouter.of(context).pushReplacementNamed(
+                            MyAppRouteConstants.visitRouteName);
+                      },
+                      isTabActive: isVisitActive,
+                      isIcon: false,
+                      imgName: 'assets/images/sale.png',
+                      imgBoxFit: BoxFit.scaleDown,
+                      imgHeigt: 32,
+                      imgWidth: 32,
+                      // imgColor: Colors.transparent,
+                      text: 'Visit',
+                      textColor: CustomColors.primaryBlack,
+                      textFontWeight: FontWeight.w500,
                     ),
                     CustomListTile(
                       onTap: () {
                         GoRouter.of(context).pushReplacementNamed(
                             MyAppRouteConstants.remoteAttendanceRouteName);
                       },
-                      isTabActive: false,
+                      isTabActive: isAttendanceActive,
                       isIcon: false,
                       imgName: 'assets/images/biometricAttendanceWhite.png',
                       imgBoxFit: BoxFit.scaleDown,
                       imgHeigt: 32,
                       imgWidth: 32,
-                      imgColor: Colors.white,
+                      imgColor: CustomColors.primaryBlack,
                       text: 'Attendance',
-                      textColor: Colors.white,
+                      textColor: CustomColors.primaryBlack,
+                      textFontWeight: FontWeight.w500,
                     ),
                   ],
                 ),
