@@ -8,6 +8,8 @@ class CustomContainer extends StatelessWidget {
     this.width = 0.95,
     this.color = Colors.white,
     this.applyShadow = false,
+    this.verticalPad = 16.0,
+    this.horizontalPad = 16.0,
   });
 
   final Widget child;
@@ -15,12 +17,15 @@ class CustomContainer extends StatelessWidget {
   final double borderRadius;
   final Color color;
   final bool applyShadow;
+  final double verticalPad;
+  final double horizontalPad;
 
   @override
   Widget build(BuildContext context) {
     return Container(
       width: MediaQuery.of(context).size.width * width,
-      padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 16.0),
+      padding: EdgeInsets.symmetric(
+          horizontal: horizontalPad, vertical: verticalPad),
       decoration: BoxDecoration(
         color: color,
         borderRadius: BorderRadius.circular(borderRadius),
