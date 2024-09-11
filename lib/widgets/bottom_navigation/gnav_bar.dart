@@ -46,7 +46,9 @@ class CustomGNavBar extends StatelessWidget {
           text: 'Search',
         ),
         GButton(
-          onPressed: () {},
+          onPressed: () {
+         GoRouter.of(context).pushReplacementNamed(MyAppRouteConstants.visitSummaryRouteName);
+          },
           // margin: EdgeInsets.symmetric(horizontal: 0, vertical: 0),
           padding: EdgeInsets.symmetric(vertical: 16, horizontal: 16),
           icon: FontAwesomeIcons.gear,

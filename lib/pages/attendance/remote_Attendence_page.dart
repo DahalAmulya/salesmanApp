@@ -34,8 +34,9 @@ class _RemoteAttendencePageState extends State<RemoteAttendencePage> {
   @override
   void initState() {
     super.initState();
-    NepaliDateFormat formattedTime = NepaliDateFormat("yyyy-MM-dd HH:mm");
     getTime();
+    dateTimeController.text = nepaliTime.toString();
+    // NepaliDateFormat formattedTime = NepaliDateFormat("yyyy-MM-dd HH:mm");
     gpsLocationController.text = 'Latitude: ${latitude.toString()}, Longitude: ${longitude.toString()}';
     getLocation();
   }
@@ -44,15 +45,15 @@ class _RemoteAttendencePageState extends State<RemoteAttendencePage> {
     setState(() {
       var currentNepaliTime = NepaliDateTime.now();
       String formattedTime = NepaliDateFormat("yyyy-MM-dd HH:mm").format(currentNepaliTime); // Format the date and time
+      print(nepaliTime);
       setState(() {
-        final nepaliTime = formattedTime; // Set it to the state variable.
+        final nepaliTime = formattedTime;// Set it to the state variable.
+        // NepaliDateFormat formattedTime = NepaliDateFormat("yyyy-MM-dd HH:mm");
       });
     });
   }
 
   Future<void> getLocation() async{
-
-
     try{
       await askPermission(); // This do not exists
       Position position = await Geolocator.getCurrentPosition(
