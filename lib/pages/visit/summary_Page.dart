@@ -17,7 +17,7 @@ class visitSummary extends StatefulWidget {
 }
 
 class _visitSummaryState extends State<visitSummary> {
-  double screenHeight = ScreenUtils.getScreenHeight;
+
 
   @override
   Widget build(BuildContext context) {
