@@ -1,307 +1,399 @@
 import 'package:deskgoo/providers/themes_provider/theme_changer_provider.dart';
 import 'package:deskgoo/routes/app_route_constants.dart';
 import 'package:deskgoo/widgets/app_bars/custom_app_bars.dart';
+import 'package:deskgoo/widgets/bottom_navigation/gnav_bar.dart';
 import 'package:deskgoo/widgets/containers/custom_container.dart';
+import 'package:deskgoo/widgets/drawers/custom_drawer.dart';
 import 'package:deskgoo/widgets/texts/custom_text.dart';
 import 'package:flutter/material.dart';
+import 'package:font_awesome_icon_class/font_awesome_icon_class.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
-
+import 'package:signature/signature.dart';
 import '../../themes/custom_colors.dart';
+import '../../widgets/buttons/elevated_button.dart';
 
-class visitSummary extends StatefulWidget {
-  const visitSummary({super.key});
+class visitSummary extends StatelessWidget {
+  final String? name;
+  final String? itemName;
+  final int? quantity;
+  final int? perQuantityPrice;
+  final int? totalPrice;
+  final int? subTotalPrice;
+  final int? schemeDiscountPrice;
+  final int? discountPrice;
+  final int? netPrice;
+  final String? paymentMethod;
+  final int? billNo;
+  final int? receivedAmount;
+  final String? followUp;
 
-  @override
-  State<visitSummary> createState() => _visitSummaryState();
-}
+  visitSummary({
+    super.key,
+    this.name = 'Farhan',
+    this.itemName = 'HEADPHONES HD001',
+    this.quantity,
+    this.perQuantityPrice,
+    this.totalPrice,
+    this.subTotalPrice,
+    this.schemeDiscountPrice,
+    this.discountPrice,
+    this.netPrice,
+    this.paymentMethod = 'Cash',
+    this.billNo,
+    this.receivedAmount,
+    this.followUp = 'paid',
+  });
 
-class _visitSummaryState extends State<visitSummary> {
+  final SignatureController _controller = SignatureController(
+    penStrokeWidth: 5,
+    penColor: Colors.red,
+    exportBackgroundColor: Colors.lightBlue,
+  );
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: CustomColors.primaryColor,
+      backgroundColor: CustomColors.primaryWhite,
       appBar: _appBar(context),
+      drawer: _customDrawer(context),
       body: _buildUI(context),
+      bottomNavigationBar: _bottomNavBar(context),
     );
   }
-}
 
-PreferredSize _appBar(context) {
-  return PreferredSize(
+  PreferredSize _appBar(context) {
+    return PreferredSize(
       preferredSize: Size.fromHeight(60.0),
-      child: Consumer<ThemeChangerProvider>(builder: (context, provider, _) {
-        return CustomAppBar(
-          tabName: 'Visit Summary',
-          showLeading: true,
-          leadingIcon: Icons.arrow_back,
-          backgroundColor: Colors.grey.shade100,
-          applyShadow: true,
-          onTapLeadingIcon: () {
-            GoRouter.of(context)
-                .pushReplacementNamed(MyAppRouteConstants.homeNavBarRouteName);
-          },
-          onPressedThemeIcon: () {
-            provider.toogleIsChooseThemePopUp();
-          },
-        );
-      }));
-}
-
-Widget _buildUI(context) {
-  return Column(
-    children: [
-      Container(
-        width: MediaQuery.of(context).size.width * 1,
-        height: MediaQuery.of(context).size.height * 0.040,
-        color: Colors.grey.shade300,
-        child: Center(
-          child: CustomText(
-            text: 'ANISH YADAV',
-            fontWeight: FontWeight.bold,
-            size: 17,
-          ),
-        ),
+      child: Consumer<ThemeChangerProvider>(
+        builder: (context, provider, _) {
+          return Builder(builder: (context) {
+            return CustomAppBar(
+              tabName: 'Visit Summary',
+              showLeading: true,
+              leadingIcon: FontAwesomeIcons.bars,
+              applyShadow: true,
+              onTapLeadingIcon: () {
+                Scaffold.of(context).openDrawer();
+              },
+              onPressedThemeIcon: () {
+                provider.toogleIsChooseThemePopUp();
+              },
+            );
+          });
+        },
       ),
-      Container(
-        child: Column(
-          children: [
-            Container(
-              width: MediaQuery.of(context).size.width * 1,
-              height: MediaQuery.of(context).size.height * 0.050,
-              color: Colors.lightBlue.shade200,
-              child: Padding(
-                padding:
-                    const EdgeInsets.symmetric(vertical: 8.0, horizontal: 8.0),
-                child: CustomText(
-                  text: 'Order',
-                  fontWeight: FontWeight.bold,
-                  size: 18,
+    );
+  }
+
+  CustomDrawer _customDrawer(context) {
+    return CustomDrawer(
+      isHomeActive: true,
+    );
+  }
+
+  Widget _buildUI(context) {
+    return SingleChildScrollView(
+      child: Center(
+        child: CustomContainer(
+          verticalPad: 0,
+          horizontalPad: 0,
+          verticalMargin: 24,
+          // horizontalMargin: 24,
+          child: Column(
+            children: [
+              SizedBox(
+                height: 8.0,
+              ),
+              Container(
+                width: MediaQuery.of(context).size.width * 1,
+                // color: CustomColors.primaryWhite,
+                child: Center(
+                  child: CustomText(
+                    text: name!,
+                    fontWeight: FontWeight.w600,
+                    size: 20,
+                  ),
                 ),
               ),
-            ),
-            Container(
-              width: MediaQuery.of(context).size.width * 1,
-              height: MediaQuery.of(context).size.height * 0.19,
-              color: Colors.white,
-              child: Column(
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.symmetric(
-                        vertical: 8.0, horizontal: 8.0),
-                    child: Container(
+              Container(
+                child: Column(
+                  children: [
+                    Container(
                       width: MediaQuery.of(context).size.width * 1,
-                      height: MediaQuery.of(context).size.height * 0.055,
-                      color: Colors.grey.shade400,
+                      color: CustomColors.primaryColor,
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(
+                            vertical: 8.0, horizontal: 8.0),
+                        child: CustomText(
+                          text: 'Order',
+                          fontWeight: FontWeight.w600,
+                          size: 18,
+                        ),
+                      ),
+                    ),
+                    Container(
+                      width: MediaQuery.of(context).size.width * 1,
+                      color: Colors.white,
+                      child: Column(
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.symmetric(
+                                vertical: 8.0, horizontal: 8.0),
+                            child: Container(
+                              padding: EdgeInsets.symmetric(vertical: 8.0, horizontal: 8.0),
+                              width: MediaQuery.of(context).size.width * 1,
+                              color: Colors.grey.shade400,
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  CustomText(
+                                    text: itemName!,
+                                    fontWeight: FontWeight.w600,
+                                  ),
+                                  Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      CustomText(text: quantity.toString(),fontWeight: FontWeight.w600,),
+                                      CustomText(text: perQuantityPrice.toString(),fontWeight: FontWeight.w600,),
+                                      CustomText(text: totalPrice.toString(),fontWeight: FontWeight.w600,),
+                                    ],
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                          Divider(
+                            height: 1,
+                            thickness: 0.5,
+                            color: Colors.black,
+                          ),
+                          SizedBox(
+                            height: 10,
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                            child: Container(
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                children: [
+                                  CustomText(
+                                    text: 'Sub Total:',
+                                    fontWeight: FontWeight.w600,
+                                  ),
+                                  CustomText(
+                                    text: subTotalPrice.toString(),
+                                    fontWeight: FontWeight.w600,
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                            child: Container(
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                children: [
+                                  CustomText(
+                                    text: 'Scheme Discount:',
+                                    fontWeight: FontWeight.w600,
+                                  ),
+                                  CustomText(
+                                    text: schemeDiscountPrice.toString(),
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                            child: Container(
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                children: [
+                                  CustomText(
+                                    text: 'Discount:',
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                  CustomText(
+                                    text: discountPrice.toString(),
+                                    fontWeight: FontWeight.w600,
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                            child: Container(
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                children: [
+                                  CustomText(
+                                    text: 'Total Amount:',
+                                    fontWeight: FontWeight.w600,
+                                  ),
+                                  CustomText(
+                                    text: netPrice.toString(),
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              Container(
+                child: Column(
+                  children: [
+                    Container(
+                      width: MediaQuery.of(context).size.width * 1,
+                      color: CustomColors.primaryColor,
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(
+                            vertical: 8.0, horizontal: 8.0),
+                        child: CustomText(
+                          text: 'Payment',
+                          fontWeight: FontWeight.w600,
+                          size: 18,
+                        ),
+                      ),
+                    ),
+                    Container(
+                      width: MediaQuery.of(context).size.width * 1,
+                      color: Color(0xfffFAFAFA),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          CustomText(
-                            text: 'HEADPHONE HD001',
-                            fontWeight: FontWeight.bold,
+                          Padding(
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 8.0, vertical: 8.0),
+                            child: CustomText(
+                              text: paymentMethod!,
+                              fontWeight: FontWeight.w600,
+                            ),
                           ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              CustomText(text: '1'),
-                              CustomText(text: '1,349.10'),
-                              CustomText(text: '1,349.10'),
-                            ],
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                  Divider(
-                    height: 1,
-                    thickness: 0.5,
-                    color: Colors.black,
-                  ),
-                  SizedBox(
-                    height: 10,
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                    child: Container(
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          CustomText(
-                            text: 'Sub Total:',
-                            fontWeight: FontWeight.bold,
-                          ),
-                          CustomText(
-                            text: '1,349.10',
-                            fontWeight: FontWeight.bold,
+                          CustomContainer(
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                CustomText(
+                                  text: billNo.toString(),
+                                  fontWeight: FontWeight.w600,
+                                ),
+                                CustomText(
+                                  text: receivedAmount.toString(),
+                                  fontWeight: FontWeight.w600,
+                                ),
+                              ],
+                            ),
                           ),
                         ],
                       ),
                     ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                    child: Container(
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          CustomText(
-                            text: 'Scheme Discount:',
-                            fontWeight: FontWeight.bold,
-                          ),
-                          CustomText(
-                            text: '0.00',
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                    child: Container(
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          CustomText(
-                            text: 'Discount:',
-                            fontWeight: FontWeight.bold,
-                          ),
-                          CustomText(
-                            text: '0.0',
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                    child: Container(
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          CustomText(
-                            text: 'Total Amount:',
-                            fontWeight: FontWeight.bold,
-                          ),
-                          CustomText(
-                            text: '1,349.10',
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ],
-        ),
-      ),
-      Container(
-        child: Column(
-          children: [
-            Container(
-              width: MediaQuery.of(context).size.width * 1,
-              height: MediaQuery.of(context).size.height * 0.040,
-              color: Colors.lightBlue.shade200,
-              child: Padding(
-                padding:
-                    const EdgeInsets.symmetric(vertical: 8.0, horizontal: 8.0),
-                child: CustomText(
-                  text: 'Payment',
-                  fontWeight: FontWeight.bold,
-                  size: 18,
+                  ],
                 ),
               ),
-            ),
-            Container(
-              width: MediaQuery.of(context).size.width * 1,
-              height: MediaQuery.of(context).size.height * 0.11,
-              color: Color(0xfffFAFAFA),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
+              Container(
+                child: Column(
+                  children: [
+                    Container(
+                      width: MediaQuery.of(context).size.width * 1,
+                      color: CustomColors.primaryColor,
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(
+                            vertical: 8.0, horizontal: 8.0),
+                        child: CustomText(
+                          text: 'Followup',
+                          fontWeight: FontWeight.w600,
+                          size: 18,
+                        ),
+                      ),
+                    ),
+                    Container(
+                      width: MediaQuery.of(context).size.width * 1,
+                      color: Colors.white,
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(
+                            vertical: 8.0, horizontal: 8.0),
+                        child: CustomText(
+                          text: followUp!,
+                          fontWeight: FontWeight.w600,
+                          size: 18,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              Container(
+                width: MediaQuery.of(context).size.width * 1,
+                color: CustomColors.primaryColor,
+                child: Padding(
+                  padding:
+                      const EdgeInsets.symmetric(vertical: 8.0, horizontal: 8.0),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      CustomText(
+                        text: 'Signature',
+                        fontWeight: FontWeight.w600,
+                        size: 18,
+                      ),
+                      InkWell(
+                        onTap: () {
+                          _controller.clear();
+                        },
+                        child: Icon(FontAwesomeIcons.rotateRight),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+              Container(
+                height: MediaQuery.of(context).size.height * 0.2,
+                width: MediaQuery.of(context).size.width * 1,
+                child: Signature(
+                  controller: _controller,
+                  backgroundColor: Colors.grey.shade300,
+                ),
+              ),
+              SizedBox(height: 16,),
+              Row(
+               mainAxisAlignment: MainAxisAlignment.end,
                 children: [
-                  Padding(
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: 8.0, vertical: 8.0),
-                    child: CustomText(
-                      text: 'Cash',
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                  CustomContainer(
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        CustomText(
-                          text: '51617',
-                          fontWeight: FontWeight.bold,
-                        ),
-                        CustomText(
-                          text: '1,300.00',
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ],
+                  CustomElevatedButton(
+                    onPressed: () {
+
+                    },
+                    height: MediaQuery.of(context).size.height * 0.060,
+                    backgroundColor: CustomColors.primaryColor,
+                    widget: CustomText(
+                      text: 'Submit',
+                      fontWeight: FontWeight.w600,
                     ),
                   ),
                 ],
               ),
-            ),
-          ],
-        ),
-      ),
-      Container(
-        child: Column(
-          children: [
-            Container(
-              width: MediaQuery.of(context).size.width * 1,
-              height: MediaQuery.of(context).size.height * 0.050,
-              color: Colors.lightBlue.shade200,
-              child: Padding(
-                padding:
-                    const EdgeInsets.symmetric(vertical: 8.0, horizontal: 8.0),
-                child: CustomText(
-                  text: 'Followup',
-                  fontWeight: FontWeight.bold,
-                  size: 18,
-                ),
-              ),
-            ),
-            Container(
-              width: MediaQuery.of(context).size.width * 1,
-              height: MediaQuery.of(context).size.height * 0.05,
-              color: Colors.white,
-              child: Padding(
-                padding:
-                    const EdgeInsets.symmetric(vertical: 8.0, horizontal: 8.0),
-                child: CustomText(
-                  text: 'paid',
-                  fontWeight: FontWeight.bold,
-                  size: 18,
-                ),
-              ),
-            ),
-          ],
-        ),
-      ),
-      Container(
-        width: MediaQuery.of(context).size.width * 1,
-        height: MediaQuery.of(context).size.height * 0.050,
-        color: Colors.lightBlue.shade200,
-        child: Padding(
-          padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 8.0),
-          child: Row(
-            children: [
-              CustomText(
-                text: 'Signature',
-                fontWeight: FontWeight.bold,
-                size: 18,
-              ),
+              SizedBox(height: 16,),
             ],
           ),
         ),
       ),
-    ],
-  );
+    );
+  }
+
+  CustomGNavBar _bottomNavBar(context) {
+    return CustomGNavBar(
+      onTap: (value) {},
+      selectedIndex: 3,
+    );
+  }
 }
