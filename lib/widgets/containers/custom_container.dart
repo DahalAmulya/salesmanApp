@@ -10,6 +10,8 @@ class CustomContainer extends StatelessWidget {
     this.applyShadow = false,
     this.verticalPad = 16.0,
     this.horizontalPad = 16.0,
+    this.verticalMargin = 0,
+    this.horizontalMargin = 0,
   });
 
   final Widget child;
@@ -19,6 +21,8 @@ class CustomContainer extends StatelessWidget {
   final bool applyShadow;
   final double verticalPad;
   final double horizontalPad;
+  final double verticalMargin;
+  final double horizontalMargin;
 
   @override
   Widget build(BuildContext context) {
@@ -26,6 +30,7 @@ class CustomContainer extends StatelessWidget {
       width: MediaQuery.of(context).size.width * width,
       padding: EdgeInsets.symmetric(
           horizontal: horizontalPad, vertical: verticalPad),
+      margin: EdgeInsets.symmetric(vertical: verticalMargin, horizontal: horizontalMargin),
       decoration: BoxDecoration(
         color: color,
         borderRadius: BorderRadius.circular(borderRadius),
