@@ -30,7 +30,7 @@ class visitSummary extends StatelessWidget {
 
   visitSummary({
     super.key,
-    this.name = 'farhan',
+    this.name = 'Farhan',
     this.itemName = 'HEADPHONES HD001',
     this.quantity,
     this.perQuantityPrice,
@@ -50,10 +50,7 @@ class visitSummary extends StatelessWidget {
     penColor: Colors.red,
     exportBackgroundColor: Colors.lightBlue,
   );
-  // void dispose() {
-  //   _controller.dispose();
-  //   super.dispose();
-  // }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -97,293 +94,301 @@ class visitSummary extends StatelessWidget {
 
   Widget _buildUI(context) {
     return SingleChildScrollView(
-      child: Column(
-        children: [
-          SizedBox(
-            height: 8.0,
-          ),
-          Container(
-            width: MediaQuery.of(context).size.width * 1,
-            color: CustomColors.primaryWhite,
-            child: Center(
-              child: CustomText(
-                text: name!,
-                fontWeight: FontWeight.w600,
-                size: 20,
+      child: Center(
+        child: CustomContainer(
+          verticalPad: 0,
+          horizontalPad: 0,
+          verticalMargin: 24,
+          // horizontalMargin: 24,
+          child: Column(
+            children: [
+              SizedBox(
+                height: 8.0,
               ),
-            ),
-          ),
-          Container(
-            child: Column(
-              children: [
-                Container(
-                  width: MediaQuery.of(context).size.width * 1,
-                  color: CustomColors.primaryColor,
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(
-                        vertical: 8.0, horizontal: 8.0),
-                    child: CustomText(
-                      text: 'Order',
-                      fontWeight: FontWeight.w600,
-                      size: 18,
-                    ),
+              Container(
+                width: MediaQuery.of(context).size.width * 1,
+                // color: CustomColors.primaryWhite,
+                child: Center(
+                  child: CustomText(
+                    text: name!,
+                    fontWeight: FontWeight.w600,
+                    size: 20,
                   ),
                 ),
-                Container(
-                  width: MediaQuery.of(context).size.width * 1,
-                  color: Colors.white,
-                  child: Column(
-                    children: [
-                      Padding(
+              ),
+              Container(
+                child: Column(
+                  children: [
+                    Container(
+                      width: MediaQuery.of(context).size.width * 1,
+                      color: CustomColors.primaryColor,
+                      child: Padding(
                         padding: const EdgeInsets.symmetric(
                             vertical: 8.0, horizontal: 8.0),
-                        child: Container(
-                          width: MediaQuery.of(context).size.width * 1,
-                          color: Colors.grey.shade400,
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              CustomText(
-                                text: itemName!,
-                                fontWeight: FontWeight.w600,
-                              ),
-                              Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
+                        child: CustomText(
+                          text: 'Order',
+                          fontWeight: FontWeight.w600,
+                          size: 18,
+                        ),
+                      ),
+                    ),
+                    Container(
+                      width: MediaQuery.of(context).size.width * 1,
+                      color: Colors.white,
+                      child: Column(
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.symmetric(
+                                vertical: 8.0, horizontal: 8.0),
+                            child: Container(
+                              padding: EdgeInsets.symmetric(vertical: 8.0, horizontal: 8.0),
+                              width: MediaQuery.of(context).size.width * 1,
+                              color: Colors.grey.shade400,
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  CustomText(text: quantity.toString(),fontWeight: FontWeight.w600,),
-                                  CustomText(text: perQuantityPrice.toString(),fontWeight: FontWeight.w600,),
-                                  CustomText(text: totalPrice.toString(),fontWeight: FontWeight.w600,),
+                                  CustomText(
+                                    text: itemName!,
+                                    fontWeight: FontWeight.w600,
+                                  ),
+                                  Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      CustomText(text: quantity.toString(),fontWeight: FontWeight.w600,),
+                                      CustomText(text: perQuantityPrice.toString(),fontWeight: FontWeight.w600,),
+                                      CustomText(text: totalPrice.toString(),fontWeight: FontWeight.w600,),
+                                    ],
+                                  ),
                                 ],
                               ),
-                            ],
+                            ),
                           ),
-                        ),
-                      ),
-                      Divider(
-                        height: 1,
-                        thickness: 0.5,
-                        color: Colors.black,
-                      ),
-                      SizedBox(
-                        height: 10,
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                        child: Container(
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              CustomText(
-                                text: 'Sub Total:',
-                                fontWeight: FontWeight.w600,
-                              ),
-                              CustomText(
-                                text: subTotalPrice.toString(),
-                                fontWeight: FontWeight.w600,
-                              ),
-                            ],
+                          Divider(
+                            height: 1,
+                            thickness: 0.5,
+                            color: Colors.black,
                           ),
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                        child: Container(
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              CustomText(
-                                text: 'Scheme Discount:',
-                                fontWeight: FontWeight.w600,
-                              ),
-                              CustomText(
-                                text: schemeDiscountPrice.toString(),
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ],
+                          SizedBox(
+                            height: 10,
                           ),
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                        child: Container(
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              CustomText(
-                                text: 'Discount:',
-                                fontWeight: FontWeight.bold,
+                          Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                            child: Container(
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                children: [
+                                  CustomText(
+                                    text: 'Sub Total:',
+                                    fontWeight: FontWeight.w600,
+                                  ),
+                                  CustomText(
+                                    text: subTotalPrice.toString(),
+                                    fontWeight: FontWeight.w600,
+                                  ),
+                                ],
                               ),
-                              CustomText(
-                                text: discountPrice.toString(),
-                                fontWeight: FontWeight.w600,
-                              ),
-                            ],
+                            ),
                           ),
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                        child: Container(
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              CustomText(
-                                text: 'Total Amount:',
-                                fontWeight: FontWeight.w600,
+                          Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                            child: Container(
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                children: [
+                                  CustomText(
+                                    text: 'Scheme Discount:',
+                                    fontWeight: FontWeight.w600,
+                                  ),
+                                  CustomText(
+                                    text: schemeDiscountPrice.toString(),
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ],
                               ),
-                              CustomText(
-                                text: netPrice.toString(),
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ],
+                            ),
                           ),
-                        ),
+                          Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                            child: Container(
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                children: [
+                                  CustomText(
+                                    text: 'Discount:',
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                  CustomText(
+                                    text: discountPrice.toString(),
+                                    fontWeight: FontWeight.w600,
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                            child: Container(
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                children: [
+                                  CustomText(
+                                    text: 'Total Amount:',
+                                    fontWeight: FontWeight.w600,
+                                  ),
+                                  CustomText(
+                                    text: netPrice.toString(),
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                        ],
                       ),
-                    ],
-                  ),
-                ),
-              ],
-            ),
-          ),
-          Container(
-            child: Column(
-              children: [
-                Container(
-                  width: MediaQuery.of(context).size.width * 1,
-                  color: CustomColors.primaryColor,
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(
-                        vertical: 8.0, horizontal: 8.0),
-                    child: CustomText(
-                      text: 'Payment',
-                      fontWeight: FontWeight.w600,
-                      size: 18,
                     ),
-                  ),
+                  ],
                 ),
-                Container(
-                  width: MediaQuery.of(context).size.width * 1,
-                  color: Color(0xfffFAFAFA),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Padding(
+              ),
+              Container(
+                child: Column(
+                  children: [
+                    Container(
+                      width: MediaQuery.of(context).size.width * 1,
+                      color: CustomColors.primaryColor,
+                      child: Padding(
                         padding: const EdgeInsets.symmetric(
-                            horizontal: 8.0, vertical: 8.0),
+                            vertical: 8.0, horizontal: 8.0),
                         child: CustomText(
-                          text: paymentMethod!,
+                          text: 'Payment',
                           fontWeight: FontWeight.w600,
+                          size: 18,
                         ),
                       ),
-                      CustomContainer(
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            CustomText(
-                              text: billNo.toString(),
+                    ),
+                    Container(
+                      width: MediaQuery.of(context).size.width * 1,
+                      color: Color(0xfffFAFAFA),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 8.0, vertical: 8.0),
+                            child: CustomText(
+                              text: paymentMethod!,
                               fontWeight: FontWeight.w600,
                             ),
-                            CustomText(
-                              text: receivedAmount.toString(),
-                              fontWeight: FontWeight.w600,
+                          ),
+                          CustomContainer(
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                CustomText(
+                                  text: billNo.toString(),
+                                  fontWeight: FontWeight.w600,
+                                ),
+                                CustomText(
+                                  text: receivedAmount.toString(),
+                                  fontWeight: FontWeight.w600,
+                                ),
+                              ],
                             ),
-                          ],
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              Container(
+                child: Column(
+                  children: [
+                    Container(
+                      width: MediaQuery.of(context).size.width * 1,
+                      color: CustomColors.primaryColor,
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(
+                            vertical: 8.0, horizontal: 8.0),
+                        child: CustomText(
+                          text: 'Followup',
+                          fontWeight: FontWeight.w600,
+                          size: 18,
                         ),
+                      ),
+                    ),
+                    Container(
+                      width: MediaQuery.of(context).size.width * 1,
+                      color: Colors.white,
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(
+                            vertical: 8.0, horizontal: 8.0),
+                        child: CustomText(
+                          text: followUp!,
+                          fontWeight: FontWeight.w600,
+                          size: 18,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              Container(
+                width: MediaQuery.of(context).size.width * 1,
+                color: CustomColors.primaryColor,
+                child: Padding(
+                  padding:
+                      const EdgeInsets.symmetric(vertical: 8.0, horizontal: 8.0),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      CustomText(
+                        text: 'Signature',
+                        fontWeight: FontWeight.w600,
+                        size: 18,
+                      ),
+                      InkWell(
+                        onTap: () {
+                          _controller.clear();
+                        },
+                        child: Icon(FontAwesomeIcons.rotateRight),
                       ),
                     ],
                   ),
                 ),
-              ],
-            ),
-          ),
-          Container(
-            child: Column(
-              children: [
-                Container(
-                  width: MediaQuery.of(context).size.width * 1,
-                  color: CustomColors.primaryColor,
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(
-                        vertical: 8.0, horizontal: 8.0),
-                    child: CustomText(
-                      text: 'Followup',
-                      fontWeight: FontWeight.w600,
-                      size: 18,
-                    ),
-                  ),
+              ),
+              Container(
+                height: MediaQuery.of(context).size.height * 0.2,
+                width: MediaQuery.of(context).size.width * 1,
+                child: Signature(
+                  controller: _controller,
+                  backgroundColor: Colors.grey.shade300,
                 ),
-                Container(
-                  width: MediaQuery.of(context).size.width * 1,
-                  color: Colors.white,
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(
-                        vertical: 8.0, horizontal: 8.0),
-                    child: CustomText(
-                      text: followUp!,
-                      fontWeight: FontWeight.w600,
-                      size: 18,
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          ),
-          Container(
-            width: MediaQuery.of(context).size.width * 1,
-            color: CustomColors.primaryColor,
-            child: Padding(
-              padding:
-                  const EdgeInsets.symmetric(vertical: 8.0, horizontal: 8.0),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              ),
+              SizedBox(height: 16,),
+              Row(
+               mainAxisAlignment: MainAxisAlignment.end,
                 children: [
-                  CustomText(
-                    text: 'Signature',
-                    fontWeight: FontWeight.w600,
-                    size: 18,
-                  ),
-                  InkWell(
-                    onTap: () {
-                      _controller.clear();
+                  CustomElevatedButton(
+                    onPressed: () {
+
                     },
-                    child: Icon(FontAwesomeIcons.rotateRight),
+                    height: MediaQuery.of(context).size.height * 0.060,
+                    backgroundColor: CustomColors.primaryColor,
+                    widget: CustomText(
+                      text: 'Submit',
+                      fontWeight: FontWeight.w600,
+                    ),
                   ),
                 ],
               ),
-            ),
-          ),
-          Container(
-            height: MediaQuery.of(context).size.height * 0.2,
-            width: MediaQuery.of(context).size.width * 1,
-            child: Signature(
-              controller: _controller,
-              backgroundColor: Colors.grey.shade400,
-            ),
-          ),
-          SizedBox(height: 16,),
-          Row(
-           mainAxisAlignment: MainAxisAlignment.end,
-            children: [
-              CustomElevatedButton(
-                onPressed: () {
-
-                },
-                height: MediaQuery.of(context).size.height * 0.060,
-                backgroundColor: CustomColors.primaryColor,
-                widget: CustomText(
-                  text: 'Submit',
-                  fontWeight: FontWeight.w500,
-                ),
-              ),
+              SizedBox(height: 16,),
             ],
           ),
-          SizedBox(height: 16,),
-        ],
+        ),
       ),
     );
   }
-
 
   CustomGNavBar _bottomNavBar(context) {
     return CustomGNavBar(
