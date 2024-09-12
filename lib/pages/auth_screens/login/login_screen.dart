@@ -21,7 +21,7 @@ class LoginPage extends StatelessWidget {
   Widget build(BuildContext context) {
     print('build');
     return Scaffold(
-      backgroundColor: CustomColors.primaryWhite,
+      backgroundColor: CustomColors.primaryColor,
       // appBar: _appBar(context),
       body: _buildUI(context),
     );
@@ -97,6 +97,7 @@ class LoginPage extends StatelessWidget {
                                       ? 'Invalid email'
                                       : null;
                             },
+                            onChange: (value) {},
                             hintText: 'jane@example.com',
                             prefixIcon: Icon(
                               Icons.email,
@@ -120,6 +121,7 @@ class LoginPage extends StatelessWidget {
                                       ? 'Password required'
                                       : null;
                                 },
+                                onChange: (value) {},
                                 hintText: '••••••',
                                 prefixIcon: Icon(
                                   Icons.lock,
@@ -159,12 +161,12 @@ class LoginPage extends StatelessWidget {
                               height: 50,
                               backgroundColor: provider.isDarkMode
                                   ? Colors.white
-                                  : CustomColors.primaryBlack,
+                                  : CustomColors.primaryColor,
                               widget: CustomText(
                                 text: 'Login',
                                 fontWeight: FontWeight.w600,
                                 color: !provider.isDarkMode
-                                    ? Colors.white
+                                    ? CustomColors.primaryBlack
                                     : CustomColors.primaryBlack,
                                 size: 20.0,
                               ),
@@ -179,7 +181,7 @@ class LoginPage extends StatelessWidget {
                             },
                             widget: CustomText(
                               text: 'Forgot Password?',
-                              fontWeight: FontWeight.w500,
+                              fontWeight: FontWeight.w600,
                               color: provider.isDarkMode
                                   ? Colors.white
                                   : CustomColors.primaryBlack,

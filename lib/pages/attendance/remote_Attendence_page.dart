@@ -169,6 +169,7 @@ class _RemoteAttendencePageState extends State<RemoteAttendencePage> {
                     validator: (value) {
                       return null;
                     },
+                    onChange: (value) {},
                   ),
                   SizedBox(
                     height: 8,
@@ -187,6 +188,7 @@ class _RemoteAttendencePageState extends State<RemoteAttendencePage> {
                     validator: (String) {
                       return null;
                     },
+                    onChange: (value) {},
                   ),
                   SizedBox(
                     height: 16,
@@ -203,6 +205,7 @@ class _RemoteAttendencePageState extends State<RemoteAttendencePage> {
                     validator: (String) {
                       return null;
                     },
+                    onChange: (value) {},
                   ),
                   SizedBox(
                     height: 16.0,

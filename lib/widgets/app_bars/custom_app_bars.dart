@@ -65,7 +65,7 @@ class CustomAppBar extends StatelessWidget {
         backgroundColor: backgroundColor ?? CustomColors.primaryColor,
         title: CustomText(
           text: tabName,
-          fontWeight: fontWeight ?? FontWeight.bold,
+          fontWeight: fontWeight ?? FontWeight.w600,
           size: size ?? 28.0,
           color: titleColor ?? Colors.black,
         ),

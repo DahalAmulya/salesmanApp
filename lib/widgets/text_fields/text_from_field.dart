@@ -19,6 +19,7 @@ class TextFromFieldWithPrefixSuffix extends StatelessWidget {
     this.readOnly = false,
     this.minLine = 1,
     this.maxLines = 1,
+    required this.onChange,
   });
 
   final TextEditingController controller;
@@ -37,6 +38,7 @@ class TextFromFieldWithPrefixSuffix extends StatelessWidget {
   final TextInputType keyboardType;
   final int minLine;
   final int maxLines;
+  final Function(String?) onChange;
 
   @override
   Widget build(BuildContext context) {
@@ -54,6 +56,7 @@ class TextFromFieldWithPrefixSuffix extends StatelessWidget {
         print('onTapOutside');
         FocusManager.instance.primaryFocus?.unfocus();
       },
+      onChanged: onChange,
       decoration: InputDecoration(
         filled: true,
         fillColor: fillColor ?? Color(0xfff3f3f3),

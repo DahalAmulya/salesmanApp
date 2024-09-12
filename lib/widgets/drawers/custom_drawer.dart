@@ -90,7 +90,7 @@ class CustomDrawer extends StatelessWidget {
                         CustomText(
                           text: userRole,
                           color: CustomColors.primaryBlack,
-                          fontWeight: FontWeight.w400,
+                          fontWeight: FontWeight.w500,
                           size: 14,
                         ),
                       ],
@@ -112,7 +112,6 @@ class CustomDrawer extends StatelessWidget {
                       isTabActive: isHomeActive,
                       icon: FontAwesomeIcons.house,
                       text: 'Home',
-                      textFontWeight: FontWeight.w500,
                     ),
                     // CustomListTile(
                     //   onTap: () {
@@ -143,7 +142,6 @@ class CustomDrawer extends StatelessWidget {
                       // imgColor: Colors.transparent,
                       text: 'Visit',
                       textColor: CustomColors.primaryBlack,
-                      textFontWeight: FontWeight.w500,
                     ),
                     CustomListTile(
                       onTap: () {
@@ -159,7 +157,6 @@ class CustomDrawer extends StatelessWidget {
                       imgColor: CustomColors.primaryBlack,
                       text: 'Attendance',
                       textColor: CustomColors.primaryBlack,
-                      textFontWeight: FontWeight.w500,
                     ),
                   ],
                 ),
