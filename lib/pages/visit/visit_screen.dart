@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:deskgoo/providers/visit_provider/visit_screen_provider.dart';
+import 'package:deskgoo/routes/app_route_constants.dart';
 import 'package:deskgoo/themes/custom_colors.dart';
 import 'package:deskgoo/widgets/app_bars/custom_app_bars.dart';
 import 'package:deskgoo/widgets/bottom_navigation/gnav_bar.dart';
@@ -10,6 +11,7 @@ import 'package:deskgoo/widgets/text_fields/text_from_field.dart';
 import 'package:deskgoo/widgets/texts/custom_text.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:go_router/go_router.dart';
 import 'package:nepali_utils/nepali_utils.dart';
 import 'package:provider/provider.dart';
 
@@ -28,97 +30,6 @@ class _VisitScreenState extends State<VisitScreen>
   NepaliDateFormat nepaliDateFormatter = NepaliDateFormat('yyyy-MM-ddThh:mm');
   String formatedDateTime = '';
   final searchController = TextEditingController();
-
-  // List<Map<String, dynamic>> visitStats = [
-  //   {
-  //     'client': 'Anu Yadav',
-  //     'orderAmt': 0.0,
-  //     'paidAmt': 0.0,
-  //     'dueAmt': 0.0,
-  //     'salesRepresentative': 'John Cena',
-  //     'dateTime': '2081-05-27T09:05:32'
-  //   },
-  //   {
-  //     'client': 'Raj Patel',
-  //     'orderAmt': 150.0,
-  //     'paidAmt': 100.0,
-  //     'dueAmt': 50.0,
-  //     'salesRepresentative': 'John Cena',
-  //     'dateTime': '2081-05-27T09:05:32'
-  //   },
-  //   {
-  //     'client': 'Sita Rai',
-  //     'orderAmt': 200.0,
-  //     'paidAmt': 200.0,
-  //     'dueAmt': 0.0,
-  //     'salesRepresentative': 'John Cena',
-  //     'dateTime': '2081-05-27T09:05:32'
-  //   },
-  //   {
-  //     'client': 'Ram Sharma',
-  //     'orderAmt': 300.0,
-  //     'paidAmt': 150.0,
-  //     'dueAmt': 150.0,
-  //     'salesRepresentative': 'John Cena',
-  //     'dateTime': '2081-05-27T09:05:32'
-  //   },
-  //   {
-  //     'client': 'Gita Shrestha',
-  //     'orderAmt': 400.0,
-  //     'paidAmt': 300.0,
-  //     'dueAmt': 100.0,
-  //     'salesRepresentative': 'John Cena',
-  //     'dateTime': '2081-05-27T09:05:32'
-  //   },
-  //   {
-  //     'client': 'Hari Singh',
-  //     'orderAmt': 100.0,
-  //     'paidAmt': 100.0,
-  //     'dueAmt': 0.0,
-  //     'salesRepresentative': 'John Cena',
-  //     'dateTime': '2081-05-27T09:05:32'
-  //   },
-  //   {
-  //     'client': 'Kiran Thapa',
-  //     'orderAmt': 250.0,
-  //     'paidAmt': 200.0,
-  //     'dueAmt': 50.0,
-  //     'salesRepresentative': 'John Cena',
-  //     'dateTime': '2081-05-27T09:05:32'
-  //   },
-  //   {
-  //     'client': 'Meena Karki',
-  //     'orderAmt': 500.0,
-  //     'paidAmt': 400.0,
-  //     'dueAmt': 100.0,
-  //     'salesRepresentative': 'John Cena',
-  //     'dateTime': '2081-05-27T09:05:32'
-  //   },
-  //   {
-  //     'client': 'Sunil Joshi',
-  //     'orderAmt': 600.0,
-  //     'paidAmt': 300.0,
-  //     'dueAmt': 300.0,
-  //     'salesRepresentative': 'John Cena',
-  //     'dateTime': '2081-05-27T09:05:32'
-  //   },
-  //   {
-  //     'client': 'Nina Maharjan',
-  //     'orderAmt': 350.0,
-  //     'paidAmt': 350.0,
-  //     'dueAmt': 0.0,
-  //     'salesRepresentative': 'John Cena',
-  //     'dateTime': '2081-05-27T09:05:32'
-  //   },
-  //   {
-  //     'client': 'Manish kumar Rajbanshi',
-  //     'orderAmt': 0.0,
-  //     'paidAmt': 350.0,
-  //     'dueAmt': 0.0,
-  //     'salesRepresentative': 'John Cena',
-  //     'dateTime': '2081-05-27T09:05:32'
-  //   }
-  // ];
 
   List<Map<String, dynamic>> searchResult = [];
 
@@ -147,23 +58,6 @@ class _VisitScreenState extends State<VisitScreen>
 
     super.initState();
   }
-
-  // void runFilter(String enteredKeyWord) {
-  //   List<Map<String, dynamic>> resluts = [];
-  //   if (enteredKeyWord.isEmpty) {
-  //     resluts = visitStats;
-  //   } else {
-  //     resluts = visitStats
-  //         .where((client) => client['client']
-  //             .toString()
-  //             .toLowerCase()
-  //             .contains(enteredKeyWord.toLowerCase()))
-  //         .toList();
-  //   }
-  //   setState(() {
-  //     searchResult = resluts;
-  //   });
-  // }
 
   @override
   void dispose() {
@@ -194,7 +88,9 @@ class _VisitScreenState extends State<VisitScreen>
                 backgroundColor: CustomColors.primaryColor,
                 foregroundColor: CustomColors.primaryBlack,
                 onPressed: () {
-                  print('dateTime = $formatedDateTime');
+                  // print('dateTime = $formatedDateTime');
+                  GoRouter.of(context).pushReplacementNamed(
+                      MyAppRouteConstants.visitClientRouteName);
                 },
                 child: Icon(
                   Icons.add,
@@ -205,7 +101,10 @@ class _VisitScreenState extends State<VisitScreen>
           );
         },
       ),
-      bottomNavigationBar: CustomGNavBar(onTap: (value) {}),
+      bottomNavigationBar: CustomGNavBar(
+        onTap: (value) {},
+        selectedIndex: 0,
+      ),
     );
   }
 

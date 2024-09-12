@@ -171,8 +171,13 @@ class _RemoteAttendencePageState extends State<RemoteAttendencePage> {
                       minLine: 4,
                       maxLines: 4,
                       validator: (value) {
-                        return value!.isEmpty ? 'This field is required' : value.length < 3 ? 'Remarks must be more than 3 letters' : null;
+                        return value!.isEmpty
+                            ? 'This field is required'
+                            : value.length < 3
+                                ? 'Remarks must be more than 3 letters'
+                                : null;
                       },
+                      onChange: (value) {},
                     ),
                     SizedBox(
                       height: 8,
@@ -191,6 +196,7 @@ class _RemoteAttendencePageState extends State<RemoteAttendencePage> {
                       validator: (String) {
                         return null;
                       },
+                      onChange: (value) {},
                     ),
                     SizedBox(
                       height: 16,
@@ -207,6 +213,7 @@ class _RemoteAttendencePageState extends State<RemoteAttendencePage> {
                       validator: (String) {
                         return null;
                       },
+                      onChange: (value) {},
                     ),
                     SizedBox(
                       height: 16.0,
@@ -216,12 +223,11 @@ class _RemoteAttendencePageState extends State<RemoteAttendencePage> {
                       children: [
                         CustomElevatedButton(
                           onPressed: () {
-                            if(_formState.currentState!.validate()){
+                            if (_formState.currentState!.validate()) {
                               print('valid form printed');
-                            }else {
+                            } else {
                               print(
-                                  '_formState.currentState!.validate() = ${_formState
-                                      .currentState!.validate()}');
+                                  '_formState.currentState!.validate() = ${_formState.currentState!.validate()}');
                             }
                           },
                           height: 50,
