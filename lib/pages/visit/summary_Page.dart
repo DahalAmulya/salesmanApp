@@ -9,8 +9,9 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_icon_class/font_awesome_icon_class.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
-
+import 'package:signature/signature.dart';
 import '../../themes/custom_colors.dart';
+import '../../widgets/buttons/elevated_button.dart';
 
 class visitSummary extends StatelessWidget {
   final String? name;
@@ -27,24 +28,32 @@ class visitSummary extends StatelessWidget {
   final int? receivedAmount;
   final String? followUp;
 
-
-  const visitSummary({
+  visitSummary({
     super.key,
     this.name = 'farhan',
-    this.itemName = '',
-    this.quantity ,
+    this.itemName = 'HEADPHONES HD001',
+    this.quantity,
     this.perQuantityPrice,
     this.totalPrice,
     this.subTotalPrice,
     this.schemeDiscountPrice,
     this.discountPrice,
     this.netPrice,
-    this.paymentMethod = '',
+    this.paymentMethod = 'Cash',
     this.billNo,
     this.receivedAmount,
-    this.followUp = '',
+    this.followUp = 'paid',
   });
 
+  final SignatureController _controller = SignatureController(
+    penStrokeWidth: 5,
+    penColor: Colors.red,
+    exportBackgroundColor: Colors.lightBlue,
+  );
+  // void dispose() {
+  //   _controller.dispose();
+  //   super.dispose();
+  // }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -90,19 +99,17 @@ class visitSummary extends StatelessWidget {
     return SingleChildScrollView(
       child: Column(
         children: [
-          SizedBox(height: 8.0,),
+          SizedBox(
+            height: 8.0,
+          ),
           Container(
-            width: MediaQuery
-                .of(context)
-                .size
-                .width * 1,
-            // height: MediaQuery.of(context).size.height * 0.040,
+            width: MediaQuery.of(context).size.width * 1,
             color: CustomColors.primaryWhite,
             child: Center(
               child: CustomText(
                 text: name!,
-                fontWeight: FontWeight.bold,
-                size: 17,
+                fontWeight: FontWeight.w600,
+                size: 20,
               ),
             ),
           ),
@@ -110,28 +117,20 @@ class visitSummary extends StatelessWidget {
             child: Column(
               children: [
                 Container(
-                  width: MediaQuery
-                      .of(context)
-                      .size
-                      .width * 1,
-                  // height: MediaQuery.of(context).size.height * 0.050,
-                  color: Colors.lightBlue.shade200,
+                  width: MediaQuery.of(context).size.width * 1,
+                  color: CustomColors.primaryColor,
                   child: Padding(
-                    padding:
-                    const EdgeInsets.symmetric(vertical: 8.0, horizontal: 8.0),
+                    padding: const EdgeInsets.symmetric(
+                        vertical: 8.0, horizontal: 8.0),
                     child: CustomText(
                       text: 'Order',
-                      fontWeight: FontWeight.bold,
+                      fontWeight: FontWeight.w600,
                       size: 18,
                     ),
                   ),
                 ),
                 Container(
-                  width: MediaQuery
-                      .of(context)
-                      .size
-                      .width * 1,
-                  // height: MediaQuery.of(context).size.height * 0.19,
+                  width: MediaQuery.of(context).size.width * 1,
                   color: Colors.white,
                   child: Column(
                     children: [
@@ -139,26 +138,22 @@ class visitSummary extends StatelessWidget {
                         padding: const EdgeInsets.symmetric(
                             vertical: 8.0, horizontal: 8.0),
                         child: Container(
-                          width: MediaQuery
-                              .of(context)
-                              .size
-                              .width * 1,
-                          // height: MediaQuery.of(context).size.height * 0.055,
+                          width: MediaQuery.of(context).size.width * 1,
                           color: Colors.grey.shade400,
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               CustomText(
                                 text: itemName!,
-                                fontWeight: FontWeight.bold,
+                                fontWeight: FontWeight.w600,
                               ),
                               Row(
-                                mainAxisAlignment: MainAxisAlignment
-                                    .spaceBetween,
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
                                 children: [
-                                  CustomText(text: quantity.toString()),
-                                  CustomText(text: perQuantityPrice.toString()),
-                                  CustomText(text: totalPrice.toString()),
+                                  CustomText(text: quantity.toString(),fontWeight: FontWeight.w600,),
+                                  CustomText(text: perQuantityPrice.toString(),fontWeight: FontWeight.w600,),
+                                  CustomText(text: totalPrice.toString(),fontWeight: FontWeight.w600,),
                                 ],
                               ),
                             ],
@@ -181,11 +176,11 @@ class visitSummary extends StatelessWidget {
                             children: [
                               CustomText(
                                 text: 'Sub Total:',
-                                fontWeight: FontWeight.bold,
+                                fontWeight: FontWeight.w600,
                               ),
                               CustomText(
                                 text: subTotalPrice.toString(),
-                                fontWeight: FontWeight.bold,
+                                fontWeight: FontWeight.w600,
                               ),
                             ],
                           ),
@@ -199,7 +194,7 @@ class visitSummary extends StatelessWidget {
                             children: [
                               CustomText(
                                 text: 'Scheme Discount:',
-                                fontWeight: FontWeight.bold,
+                                fontWeight: FontWeight.w600,
                               ),
                               CustomText(
                                 text: schemeDiscountPrice.toString(),
@@ -221,7 +216,7 @@ class visitSummary extends StatelessWidget {
                               ),
                               CustomText(
                                 text: discountPrice.toString(),
-                                fontWeight: FontWeight.bold,
+                                fontWeight: FontWeight.w600,
                               ),
                             ],
                           ),
@@ -235,7 +230,7 @@ class visitSummary extends StatelessWidget {
                             children: [
                               CustomText(
                                 text: 'Total Amount:',
-                                fontWeight: FontWeight.bold,
+                                fontWeight: FontWeight.w600,
                               ),
                               CustomText(
                                 text: netPrice.toString(),
@@ -255,28 +250,20 @@ class visitSummary extends StatelessWidget {
             child: Column(
               children: [
                 Container(
-                  width: MediaQuery
-                      .of(context)
-                      .size
-                      .width * 1,
-                  // height: MediaQuery.of(context).size.height * 0.040,
-                  color: Colors.lightBlue.shade200,
+                  width: MediaQuery.of(context).size.width * 1,
+                  color: CustomColors.primaryColor,
                   child: Padding(
-                    padding:
-                    const EdgeInsets.symmetric(vertical: 8.0, horizontal: 8.0),
+                    padding: const EdgeInsets.symmetric(
+                        vertical: 8.0, horizontal: 8.0),
                     child: CustomText(
                       text: 'Payment',
-                      fontWeight: FontWeight.bold,
+                      fontWeight: FontWeight.w600,
                       size: 18,
                     ),
                   ),
                 ),
                 Container(
-                  width: MediaQuery
-                      .of(context)
-                      .size
-                      .width * 1,
-                  // height: MediaQuery.of(context).size.height * 0.11,
+                  width: MediaQuery.of(context).size.width * 1,
                   color: Color(0xfffFAFAFA),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -286,7 +273,7 @@ class visitSummary extends StatelessWidget {
                             horizontal: 8.0, vertical: 8.0),
                         child: CustomText(
                           text: paymentMethod!,
-                          fontWeight: FontWeight.bold,
+                          fontWeight: FontWeight.w600,
                         ),
                       ),
                       CustomContainer(
@@ -295,11 +282,11 @@ class visitSummary extends StatelessWidget {
                           children: [
                             CustomText(
                               text: billNo.toString(),
-                              fontWeight: FontWeight.bold,
+                              fontWeight: FontWeight.w600,
                             ),
                             CustomText(
                               text: receivedAmount.toString(),
-                              fontWeight: FontWeight.bold,
+                              fontWeight: FontWeight.w600,
                             ),
                           ],
                         ),
@@ -314,35 +301,27 @@ class visitSummary extends StatelessWidget {
             child: Column(
               children: [
                 Container(
-                  width: MediaQuery
-                      .of(context)
-                      .size
-                      .width * 1,
-                  // height: MediaQuery.of(context).size.height * 0.050,
-                  color: Colors.lightBlue.shade200,
+                  width: MediaQuery.of(context).size.width * 1,
+                  color: CustomColors.primaryColor,
                   child: Padding(
-                    padding:
-                    const EdgeInsets.symmetric(vertical: 8.0, horizontal: 8.0),
+                    padding: const EdgeInsets.symmetric(
+                        vertical: 8.0, horizontal: 8.0),
                     child: CustomText(
                       text: 'Followup',
-                      fontWeight: FontWeight.bold,
+                      fontWeight: FontWeight.w600,
                       size: 18,
                     ),
                   ),
                 ),
                 Container(
-                  width: MediaQuery
-                      .of(context)
-                      .size
-                      .width * 1,
-                  // height: MediaQuery.of(context).size.height * 0.05,
+                  width: MediaQuery.of(context).size.width * 1,
                   color: Colors.white,
                   child: Padding(
-                    padding:
-                    const EdgeInsets.symmetric(vertical: 8.0, horizontal: 8.0),
+                    padding: const EdgeInsets.symmetric(
+                        vertical: 8.0, horizontal: 8.0),
                     child: CustomText(
                       text: followUp!,
-                      fontWeight: FontWeight.bold,
+                      fontWeight: FontWeight.w600,
                       size: 18,
                     ),
                   ),
@@ -351,33 +330,64 @@ class visitSummary extends StatelessWidget {
             ),
           ),
           Container(
-            width: MediaQuery
-                .of(context)
-                .size
-                .width * 1,
-            // height: MediaQuery.of(context).size.height * 0.050,
-            color: Colors.lightBlue.shade200,
+            width: MediaQuery.of(context).size.width * 1,
+            color: CustomColors.primaryColor,
             child: Padding(
-              padding: const EdgeInsets.symmetric(
-                  vertical: 8.0, horizontal: 8.0),
+              padding:
+                  const EdgeInsets.symmetric(vertical: 8.0, horizontal: 8.0),
               child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   CustomText(
                     text: 'Signature',
-                    fontWeight: FontWeight.bold,
+                    fontWeight: FontWeight.w600,
                     size: 18,
+                  ),
+                  InkWell(
+                    onTap: () {
+                      _controller.clear();
+                    },
+                    child: Icon(FontAwesomeIcons.rotateRight),
                   ),
                 ],
               ),
             ),
           ),
+          Container(
+            height: MediaQuery.of(context).size.height * 0.2,
+            width: MediaQuery.of(context).size.width * 1,
+            child: Signature(
+              controller: _controller,
+              backgroundColor: Colors.grey.shade400,
+            ),
+          ),
+          SizedBox(height: 16,),
+          Row(
+           mainAxisAlignment: MainAxisAlignment.end,
+            children: [
+              CustomElevatedButton(
+                onPressed: () {
+
+                },
+                height: MediaQuery.of(context).size.height * 0.060,
+                backgroundColor: CustomColors.primaryColor,
+                widget: CustomText(
+                  text: 'Submit',
+                  fontWeight: FontWeight.w500,
+                ),
+              ),
+            ],
+          ),
+          SizedBox(height: 16,),
         ],
       ),
     );
   }
 
+
   CustomGNavBar _bottomNavBar(context) {
-    return CustomGNavBar(onTap: (value) {},
+    return CustomGNavBar(
+      onTap: (value) {},
       selectedIndex: 3,
     );
   }
