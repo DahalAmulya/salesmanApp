@@ -14,7 +14,7 @@ class ForgotPasswordScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: CustomColors.primaryWhite,
+      backgroundColor: CustomColors.primaryColor,
       body: SafeArea(
         child: Center(
           child: Column(
@@ -51,6 +51,7 @@ class ForgotPasswordScreen extends StatelessWidget {
                                 ? 'Invalid email'
                                 : null;
                       },
+                      onChange: (value) {},
                       hintText: 'Email Address',
                       prefixIcon: Icon(
                         Icons.email,
@@ -65,11 +66,11 @@ class ForgotPasswordScreen extends StatelessWidget {
                       onPressed: () {},
                       width: 0.90,
                       height: 50,
-                      backgroundColor: CustomColors.primaryBlack,
+                      backgroundColor: CustomColors.primaryColor,
                       widget: CustomText(
                         text: 'Reset Password',
                         fontWeight: FontWeight.w600,
-                        color: Colors.white,
+                        color: CustomColors.primaryBlack,
                         size: 20.0,
                       ),
                     ),

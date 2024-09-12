@@ -45,7 +45,7 @@ class CustomContainer extends StatelessWidget {
               ]
             : null,
       ),
-      child: Center(child: child),
+      child: child,
     );
   }
 }

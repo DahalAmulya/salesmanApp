@@ -1,3 +1,4 @@
+import 'package:deskgoo/providers/visit_provider/visit_screen_provider.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:deskgoo/providers/auth_provider/user_auth_provider.dart';
 import 'package:deskgoo/providers/themes_provider/theme_changer_provider.dart';
@@ -41,6 +42,7 @@ class _MyAppState extends State<MyApp> {
       providers: [
         ChangeNotifierProvider(create: (context) => ThemeChangerProvider()),
         ChangeNotifierProvider(create: (context) => UserAuthProvider()),
+        ChangeNotifierProvider(create: (context) => VisitScreenProvider()),
       ],
       child: MediaQuery(
         data: MediaQuery.of(context).copyWith(
