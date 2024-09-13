@@ -40,6 +40,7 @@ class ForgotPasswordScreen extends StatelessWidget {
                       keyboardType: TextInputType.emailAddress,
                       autoFocus: false,
                       controller: emailController,
+                      onTap: () {},
                       validator: (value) {
                         String pattern =
                             r'^[a-zA-Z]{3,}(?:\.[a-zA-Z]{2,})?@[a-zA-Z]{2,}\.[a-zA-Z]{2,}$';

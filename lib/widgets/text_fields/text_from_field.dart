@@ -1,3 +1,4 @@
+import 'package:deskgoo/themes/custom_colors.dart';
 import 'package:flutter/material.dart';
 
 class TextFromFieldWithPrefixSuffix extends StatelessWidget {
@@ -20,6 +21,7 @@ class TextFromFieldWithPrefixSuffix extends StatelessWidget {
     this.minLine = 1,
     this.maxLines = 1,
     required this.onChange,
+    required this.onTap,
   });
 
   final TextEditingController controller;
@@ -39,6 +41,7 @@ class TextFromFieldWithPrefixSuffix extends StatelessWidget {
   final int minLine;
   final int maxLines;
   final Function(String?) onChange;
+  final Function() onTap;
 
   @override
   Widget build(BuildContext context) {
@@ -53,14 +56,14 @@ class TextFromFieldWithPrefixSuffix extends StatelessWidget {
       maxLines: maxLines,
       autovalidateMode: AutovalidateMode.onUserInteraction,
       onTapOutside: (event) {
-        print('onTapOutside');
         FocusManager.instance.primaryFocus?.unfocus();
       },
+      onTap: onTap,
       onChanged: onChange,
       decoration: InputDecoration(
         filled: true,
-        fillColor: fillColor ?? Color(0xfff3f3f3),
-        focusColor: Colors.blue,
+        fillColor: fillColor ?? CustomColors.primaryWhite,
+        focusColor: CustomColors.primaryWhite,
         labelText: labelText ?? null,
         hintText: hintText ?? null,
         prefixIcon: applyPrefix ? prefixIcon : null,

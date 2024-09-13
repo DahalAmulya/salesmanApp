@@ -167,6 +167,7 @@ class _RemoteAttendencePageState extends State<RemoteAttendencePage> {
                     ),
                     TextFromFieldWithPrefixSuffix(
                       controller: descriptionTextController,
+                      onTap: () {},
                       hintText: 'Remarks here ...',
                       minLine: 4,
                       maxLines: 4,
@@ -193,6 +194,7 @@ class _RemoteAttendencePageState extends State<RemoteAttendencePage> {
                       controller: dateTimeController,
                       applyPrefix: false,
                       readOnly: true,
+                      onTap: () {},
                       validator: (String) {
                         return null;
                       },
@@ -209,7 +211,7 @@ class _RemoteAttendencePageState extends State<RemoteAttendencePage> {
                       controller: gpsLocationController,
                       applyPrefix: false,
                       readOnly: true,
-                      // labelText: nepaliTime.isNotEmpty ? nepaliTime : 'Loading...',
+                      onTap: () {},
                       validator: (String) {
                         return null;
                       },
