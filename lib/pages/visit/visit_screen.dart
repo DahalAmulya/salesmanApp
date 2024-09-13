@@ -131,7 +131,7 @@ class _VisitScreenState extends State<VisitScreen>
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           Padding(
-            padding: const EdgeInsets.only(top: 8.0),
+            padding: const EdgeInsets.only(top: 16.0),
             child: CustomContainer(
               verticalPad: 0,
               color: Colors.transparent,
@@ -139,7 +139,10 @@ class _VisitScreenState extends State<VisitScreen>
                 builder: (context, provider, _) {
                   return TextFromFieldWithPrefixSuffix(
                     controller: searchController,
-                    validator: (value) {},
+                    onTap: () {},
+                    validator: (value) {
+                      return null;
+                    },
                     onChange: (value) =>
                         provider.runFilter(searchController.value.text),
                     labelText: 'Search',

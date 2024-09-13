@@ -1,5 +1,4 @@
 import 'package:deskgoo/providers/themes_provider/theme_changer_provider.dart';
-import 'package:deskgoo/routes/app_route_constants.dart';
 import 'package:deskgoo/widgets/app_bars/custom_app_bars.dart';
 import 'package:deskgoo/widgets/bottom_navigation/gnav_bar.dart';
 import 'package:deskgoo/widgets/containers/custom_container.dart';
@@ -7,7 +6,6 @@ import 'package:deskgoo/widgets/drawers/custom_drawer.dart';
 import 'package:deskgoo/widgets/texts/custom_text.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_icon_class/font_awesome_icon_class.dart';
-import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 import 'package:signature/signature.dart';
 import '../../themes/custom_colors.dart';
@@ -141,7 +139,8 @@ class visitSummary extends StatelessWidget {
                             padding: const EdgeInsets.symmetric(
                                 vertical: 8.0, horizontal: 8.0),
                             child: Container(
-                              padding: EdgeInsets.symmetric(vertical: 8.0, horizontal: 8.0),
+                              padding: EdgeInsets.symmetric(
+                                  vertical: 8.0, horizontal: 8.0),
                               width: MediaQuery.of(context).size.width * 1,
                               color: Colors.grey.shade400,
                               child: Column(
@@ -155,9 +154,18 @@ class visitSummary extends StatelessWidget {
                                     mainAxisAlignment:
                                         MainAxisAlignment.spaceBetween,
                                     children: [
-                                      CustomText(text: quantity.toString(),fontWeight: FontWeight.w600,),
-                                      CustomText(text: perQuantityPrice.toString(),fontWeight: FontWeight.w600,),
-                                      CustomText(text: totalPrice.toString(),fontWeight: FontWeight.w600,),
+                                      CustomText(
+                                        text: quantity.toString(),
+                                        fontWeight: FontWeight.w600,
+                                      ),
+                                      CustomText(
+                                        text: perQuantityPrice.toString(),
+                                        fontWeight: FontWeight.w600,
+                                      ),
+                                      CustomText(
+                                        text: totalPrice.toString(),
+                                        fontWeight: FontWeight.w600,
+                                      ),
                                     ],
                                   ),
                                 ],
@@ -173,10 +181,12 @@ class visitSummary extends StatelessWidget {
                             height: 10,
                           ),
                           Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                            padding:
+                                const EdgeInsets.symmetric(horizontal: 8.0),
                             child: Container(
                               child: Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
                                 children: [
                                   CustomText(
                                     text: 'Sub Total:',
@@ -191,10 +201,12 @@ class visitSummary extends StatelessWidget {
                             ),
                           ),
                           Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                            padding:
+                                const EdgeInsets.symmetric(horizontal: 8.0),
                             child: Container(
                               child: Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
                                 children: [
                                   CustomText(
                                     text: 'Scheme Discount:',
@@ -209,10 +221,12 @@ class visitSummary extends StatelessWidget {
                             ),
                           ),
                           Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                            padding:
+                                const EdgeInsets.symmetric(horizontal: 8.0),
                             child: Container(
                               child: Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
                                 children: [
                                   CustomText(
                                     text: 'Discount:',
@@ -227,10 +241,12 @@ class visitSummary extends StatelessWidget {
                             ),
                           ),
                           Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                            padding:
+                                const EdgeInsets.symmetric(horizontal: 8.0),
                             child: Container(
                               child: Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
                                 children: [
                                   CustomText(
                                     text: 'Total Amount:',
@@ -337,8 +353,8 @@ class visitSummary extends StatelessWidget {
                 width: MediaQuery.of(context).size.width * 1,
                 color: CustomColors.primaryColor,
                 child: Padding(
-                  padding:
-                      const EdgeInsets.symmetric(vertical: 8.0, horizontal: 8.0),
+                  padding: const EdgeInsets.symmetric(
+                      vertical: 8.0, horizontal: 8.0),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
@@ -365,14 +381,14 @@ class visitSummary extends StatelessWidget {
                   backgroundColor: Colors.grey.shade300,
                 ),
               ),
-              SizedBox(height: 16,),
+              SizedBox(
+                height: 16,
+              ),
               Row(
-               mainAxisAlignment: MainAxisAlignment.end,
+                mainAxisAlignment: MainAxisAlignment.end,
                 children: [
                   CustomElevatedButton(
-                    onPressed: () {
-
-                    },
+                    onPressed: () {},
                     height: MediaQuery.of(context).size.height * 0.060,
                     backgroundColor: CustomColors.primaryColor,
                     widget: CustomText(
@@ -382,7 +398,9 @@ class visitSummary extends StatelessWidget {
                   ),
                 ],
               ),
-              SizedBox(height: 16,),
+              SizedBox(
+                height: 16,
+              ),
             ],
           ),
         ),

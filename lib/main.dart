@@ -7,8 +7,9 @@ import 'package:device_preview/device_preview.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
+// import 'package:flutter_background_service/flutter_background_service.dart';
 
-void main() {
+void main() async {
   if (kIsWeb) {
     print('Running on browser');
     runApp(
@@ -16,6 +17,8 @@ void main() {
     );
   } else {
     print('Not Running on browser');
+    // WidgetsFlutterBinding.ensureInitialized();
+    // FlutterBackgroundService();
     runApp(const MyApp());
   }
 }

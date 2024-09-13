@@ -86,6 +86,7 @@ class LoginPage extends StatelessWidget {
                             keyboardType: TextInputType.emailAddress,
                             autoFocus: true,
                             controller: emailController,
+                            onTap: () {},
                             validator: (value) {
                               String pattern =
                                   r'^[a-zA-Z]{3,}(?:\.[a-zA-Z]{2,})?@[a-zA-Z]{2,}\.[a-zA-Z]{2,}$';
@@ -113,6 +114,7 @@ class LoginPage extends StatelessWidget {
                               return TextFromFieldWithPrefixSuffix(
                                 controller: passwordController,
                                 obscure: authProvider.obscure,
+                                onTap: () {},
                                 validator: (value) {
                                   // String pattern =
                                   //     r'^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[\W_]).{8,}$';
