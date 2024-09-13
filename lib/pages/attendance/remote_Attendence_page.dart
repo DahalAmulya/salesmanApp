@@ -172,7 +172,7 @@ class _RemoteAttendencePageState extends State<RemoteAttendencePage> {
                       minLine: 4,
                       maxLines: 4,
                       validator: (value) {
-                        return value!.isEmpty
+             return value!.isEmpty
                             ? 'This field is required'
                             : value.length < 3
                                 ? 'Remarks must be more than 3 letters'
