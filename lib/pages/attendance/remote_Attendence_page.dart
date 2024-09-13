@@ -167,12 +167,18 @@ class _RemoteAttendencePageState extends State<RemoteAttendencePage> {
                     ),
                     TextFromFieldWithPrefixSuffix(
                       controller: descriptionTextController,
+                      onTap: () {},
                       hintText: 'Remarks here ...',
                       minLine: 4,
                       maxLines: 4,
                       validator: (value) {
-                        return value!.isEmpty ? 'This field is required' : value.length < 3 ? 'Remarks must be more than 3 letters' : null;
-                      }, onChange: (value) {  },
+             return value!.isEmpty
+                            ? 'This field is required'
+                            : value.length < 3
+                                ? 'Remarks must be more than 3 letters'
+                                : null;
+                      },
+                      onChange: (value) {},
                     ),
                     SizedBox(
                       height: 8,
@@ -188,9 +194,11 @@ class _RemoteAttendencePageState extends State<RemoteAttendencePage> {
                       controller: dateTimeController,
                       applyPrefix: false,
                       readOnly: true,
+                      onTap: () {},
                       validator: (String) {
                         return null;
-                      }, onChange: (value ) {  },
+                      },
+                      onChange: (value) {},
                     ),
                     SizedBox(
                       height: 16,
@@ -203,10 +211,11 @@ class _RemoteAttendencePageState extends State<RemoteAttendencePage> {
                       controller: gpsLocationController,
                       applyPrefix: false,
                       readOnly: true,
-                      // labelText: nepaliTime.isNotEmpty ? nepaliTime : 'Loading...',
+                      onTap: () {},
                       validator: (String) {
                         return null;
-                      }, onChange: (value ) {  },
+                      },
+                      onChange: (value) {},
                     ),
                     SizedBox(
                       height: 16.0,
@@ -216,12 +225,11 @@ class _RemoteAttendencePageState extends State<RemoteAttendencePage> {
                       children: [
                         CustomElevatedButton(
                           onPressed: () {
-                            if(_formState.currentState!.validate()){
+                            if (_formState.currentState!.validate()) {
                               print('valid form printed');
-                            }else {
+                            } else {
                               print(
-                                  '_formState.currentState!.validate() = ${_formState
-                                      .currentState!.validate()}');
+                                  '_formState.currentState!.validate() = ${_formState.currentState!.validate()}');
                             }
                           },
                           height: 50,

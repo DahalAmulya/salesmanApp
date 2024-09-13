@@ -30,16 +30,17 @@ class CustomContainer extends StatelessWidget {
       width: MediaQuery.of(context).size.width * width,
       padding: EdgeInsets.symmetric(
           horizontal: horizontalPad, vertical: verticalPad),
-      margin: EdgeInsets.symmetric(vertical: verticalMargin, horizontal: horizontalMargin),
+      margin: EdgeInsets.symmetric(
+          vertical: verticalMargin, horizontal: horizontalMargin),
       decoration: BoxDecoration(
         color: color,
         borderRadius: BorderRadius.circular(borderRadius),
         boxShadow: applyShadow
             ? [
                 BoxShadow(
-                  color: Colors.black.withOpacity(0.2),
+                  color: Colors.black.withOpacity(0.1),
                   spreadRadius: 2.0,
-                  blurRadius: 10.0,
+                  blurRadius: 1.0,
                   offset: const Offset(3, 3),
                 )
               ]

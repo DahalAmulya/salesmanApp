@@ -67,6 +67,7 @@ class HomeScreen extends StatelessWidget {
               minLine: 4,
               maxLines: 8,
               keyboardType: TextInputType.multiline,
+              onTap: () {},
               validator: (value) {
                 return null;
               },

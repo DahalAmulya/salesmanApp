@@ -3,6 +3,8 @@ import 'package:deskgoo/pages/auth_screens/forgot_password/forgot_password_scree
 import 'package:deskgoo/pages/error/error_page.dart';
 import 'package:deskgoo/pages/auth_screens/login/login_screen.dart';
 import 'package:deskgoo/pages/home/home_screen.dart';
+import 'package:deskgoo/pages/visit/visit_client_screen.dart';
+import 'package:deskgoo/pages/visit/visit_order_screen.dart';
 import 'package:deskgoo/pages/visit/visit_screen.dart';
 import 'package:deskgoo/routes/app_route_constants.dart';
 import 'package:deskgoo/widgets/bottom_navigation/notched_bottom_nav_bar.dart';
@@ -64,6 +66,22 @@ class MyAppRouter {
         path: '/visit_summary',
         pageBuilder: (context, state) {
           return MaterialPage(child: visitSummary());
+        },
+      ),
+
+      GoRoute(
+        name: MyAppRouteConstants.visitClientRouteName,
+        path: '/visit_client',
+        pageBuilder: (context, state) {
+          return MaterialPage(child: VisitClientScreen());
+        },
+      ),
+
+      GoRoute(
+        name: MyAppRouteConstants.visitOrderRouteName,
+        path: '/visit_order',
+        pageBuilder: (context, state) {
+          return MaterialPage(child: VisitOrderScreen());
         },
       ),
 
