@@ -178,10 +178,10 @@ class _VisitScreenState extends State<VisitScreen>
                   // Color cardColor = index.isEven ? Colors.white : CustomColors.primaryColor;
                   return ListTile(
                     titleAlignment: ListTileTitleAlignment.center,
-                    title: Card(
+                    title: CustomContainer(
                       color: Colors.white,
-                      elevation: 2,
-                      margin: EdgeInsets.all(0),
+                      // elevation: 2,
+                      // margin: EdgeInsets.all(0),
                       child: CustomContainer(
                         verticalPad: 8,
                         horizontalPad: 0,
