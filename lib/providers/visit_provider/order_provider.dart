@@ -9,4 +9,9 @@ class OrderProvider extends ChangeNotifier {
     _items.add(item);
     notifyListeners();
   }
+
+  void remove(Product item) {
+    _items.remove(item);
+    notifyListeners();
+  }
 }
