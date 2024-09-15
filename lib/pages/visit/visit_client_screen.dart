@@ -30,13 +30,14 @@ class _VisitClientScreenState extends State<VisitClientScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: CustomColors.primaryWhite,
-      appBar: _appBar(context),
-      drawer: _drawer(context),
-      body: _buidlUI(context),
-      bottomNavigationBar: _bottomNavBar(context),
-    );
+    return _buidlUI(context);
+    //     Scaffold(
+    //   backgroundColor: CustomColors.primaryWhite,
+    //   appBar: _appBar(context),
+    //   drawer: _drawer(context),
+    //   body: _buidlUI(context),
+    //   bottomNavigationBar: _bottomNavBar(context),
+    // );
   }
 
   PreferredSize _appBar(context) {
@@ -64,124 +65,126 @@ class _VisitClientScreenState extends State<VisitClientScreen> {
   }
 
   Widget _buidlUI(context) {
-    return Center(
-      child: SingleChildScrollView(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            CustomContainer(
-              verticalPad: 24.0,
-              horizontalPad: 16.0,
-              applyShadow: true,
-              child: Column(
-                children: [
-                  Builder(builder: (context) {
-                    return TextFromFieldWithPrefixSuffix(
-                      controller: clientNameController,
-                      labelText: 'Client Name',
-                      readOnly: true,
-                      onTap: () {
-                        _showBottomSheet(context);
-                      },
-                      validator: (value) {
-                        return null;
-                      },
-                      onChange: (value) {},
-                    );
-                  }),
-                  SizedBox(
-                    height: 10.0,
-                  ),
-                  TextFromFieldWithPrefixSuffix(
-                    controller: addressController,
+    return Expanded(
+      child: Column(
+        // mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          SizedBox(
+            height: 8,
+          ),
+          CustomContainer(
+            verticalPad: 24.0,
+            horizontalPad: 16.0,
+            applyShadow: true,
+            child: Column(
+              children: [
+                Builder(builder: (context) {
+                  return TextFromFieldWithPrefixSuffix(
+                    controller: clientNameController,
+                    labelText: 'Select Client Name',
+                    // hintText: 'Select Client Name',
                     readOnly: true,
-                    labelText: 'Address',
-                    onTap: () {},
+                    onTap: () {
+                      _showBottomSheet(context);
+                    },
                     validator: (value) {
                       return null;
                     },
                     onChange: (value) {},
-                  ),
-                  SizedBox(
-                    height: 10.0,
-                  ),
-                  TextFromFieldWithPrefixSuffix(
-                    controller: phoneController,
-                    readOnly: true,
-                    labelText: 'Phone',
-                    onTap: () {},
-                    validator: (value) {
-                      return null;
-                    },
-                    onChange: (value) {},
-                  ),
-                  SizedBox(
-                    height: 10.0,
-                  ),
-                  TextFromFieldWithPrefixSuffix(
-                    controller: emailController,
-                    readOnly: true,
-                    labelText: 'Email',
-                    onTap: () {},
-                    validator: (value) {
-                      return null;
-                    },
-                    onChange: (value) {},
-                  ),
-                  SizedBox(
-                    height: 10.0,
-                  ),
-                  TextFromFieldWithPrefixSuffix(
-                    controller: panController,
-                    readOnly: true,
-                    labelText: 'PAN',
-                    onTap: () {},
-                    validator: (value) {
-                      return null;
-                    },
-                    onChange: (value) {},
-                  ),
-                  SizedBox(
-                    height: 8.0,
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      CustomElevatedButton(
-                        backgroundColor: CustomColors.lightRed,
-                        borderColor: CustomColors.primaryBlack,
-                        onPressed: () {
-                          GoRouter.of(context).pushReplacementNamed(
-                              MyAppRouteConstants.visitRouteName);
-                        },
-                        widget: CustomText(
-                          text: 'Back',
-                          size: 18,
-                          color: Colors.white,
-                          fontWeight: FontWeight.w500,
-                        ),
-                      ),
-                      CustomElevatedButton(
-                        borderColor: CustomColors.primaryBlack,
-                        backgroundColor: CustomColors.primaryColor,
-                        onPressed: () {
-                          GoRouter.of(context).pushReplacementNamed(
-                              MyAppRouteConstants.visitOrderRouteName);
-                        },
-                        widget: CustomText(
-                          text: 'Next',
-                          size: 18,
-                          color: Colors.black,
-                          fontWeight: FontWeight.w500,
-                        ),
-                      ),
-                    ],
-                  ),
-                ],
-              ),
+                  );
+                }),
+                SizedBox(
+                  height: 10.0,
+                ),
+                TextFromFieldWithPrefixSuffix(
+                  controller: addressController,
+                  readOnly: true,
+                  labelText: 'Address',
+                  onTap: () {},
+                  validator: (value) {
+                    return null;
+                  },
+                  onChange: (value) {},
+                ),
+                SizedBox(
+                  height: 10.0,
+                ),
+                TextFromFieldWithPrefixSuffix(
+                  controller: phoneController,
+                  readOnly: true,
+                  labelText: 'Phone',
+                  onTap: () {},
+                  validator: (value) {
+                    return null;
+                  },
+                  onChange: (value) {},
+                ),
+                SizedBox(
+                  height: 10.0,
+                ),
+                TextFromFieldWithPrefixSuffix(
+                  controller: emailController,
+                  readOnly: true,
+                  labelText: 'Email',
+                  onTap: () {},
+                  validator: (value) {
+                    return null;
+                  },
+                  onChange: (value) {},
+                ),
+                SizedBox(
+                  height: 10.0,
+                ),
+                TextFromFieldWithPrefixSuffix(
+                  controller: panController,
+                  readOnly: true,
+                  labelText: 'PAN',
+                  onTap: () {},
+                  validator: (value) {
+                    return null;
+                  },
+                  onChange: (value) {},
+                ),
+                SizedBox(
+                  height: 8.0,
+                ),
+                // Row(
+                //   mainAxisAlignment: MainAxisAlignment.end,
+                //   children: [
+                //     CustomElevatedButton(
+                //       backgroundColor: CustomColors.lightRed,
+                //       borderColor: CustomColors.primaryBlack,
+                //       onPressed: () {
+                //         GoRouter.of(context).pushReplacementNamed(
+                //             MyAppRouteConstants.visitRouteName);
+                //       },
+                //       widget: CustomText(
+                //         text: 'Back',
+                //         size: 18,
+                //         color: Colors.white,
+                //         fontWeight: FontWeight.w500,
+                //       ),
+                //     ),
+                //     CustomElevatedButton(
+                //       borderColor: CustomColors.primaryBlack,
+                //       backgroundColor: CustomColors.primaryColor,
+                //       onPressed: () {
+                //         GoRouter.of(context).pushReplacementNamed(
+                //             MyAppRouteConstants.visitOrderRouteName);
+                //       },
+                //       widget: CustomText(
+                //         text: 'Next',
+                //         size: 18,
+                //         color: Colors.black,
+                //         fontWeight: FontWeight.w500,
+                //       ),
+                //     ),
+                //   ],
+                // ),
+              ],
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }
@@ -236,9 +239,9 @@ class _VisitClientScreenState extends State<VisitClientScreen> {
               builder: (context, provider, _) {
                 return TextFromFieldWithPrefixSuffix(
                   controller: searchController,
-                  labelText: 'Search',
-                  applySuffixIcon: true,
-                  suffixIcon: Icon(Icons.search),
+                  labelText: 'Search Client',
+                  applyPrefix: true,
+                  prefixIcon: Icon(Icons.search),
                   validator: (value) {
                     return null;
                   },

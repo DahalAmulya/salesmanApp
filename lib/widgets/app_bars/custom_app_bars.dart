@@ -1,3 +1,4 @@
+import 'package:buttons_tabbar/buttons_tabbar.dart';
 import 'package:deskgoo/themes/custom_colors.dart';
 import 'package:deskgoo/widgets/texts/custom_text.dart';
 import 'package:flutter/material.dart';
@@ -69,6 +70,43 @@ class CustomAppBar extends StatelessWidget {
           size: size ?? 28.0,
           color: titleColor ?? Colors.black,
         ),
+        // bottom: ButtonsTabBar(
+        //   backgroundColor: CustomColors.primaryColor,
+        //   splashColor: Colors.blueAccent,
+        //   contentCenter: true,
+        //   contentPadding: EdgeInsets.all(8),
+        //   labelSpacing: 8,
+        //   unselectedBackgroundColor: Colors.grey.shade300,
+        //   unselectedLabelStyle: TextStyle(color: Colors.black),
+        //   labelStyle:
+        //       TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
+        //   tabs: [
+        //     Tab(
+        //       // icon: FaIcon(FontAwesomeIcons.youtube),
+        //       text: 'Visit',
+        //     ),
+        //     Tab(
+        //       // icon: FaIcon(FontAwesomeIcons.whatsapp),
+        //       text: 'Order',
+        //     ),
+        //     Tab(
+        //       // icon: FaIcon(FontAwesomeIcons.instagram),
+        //       text: 'Collection',
+        //     ),
+        //     Tab(
+        //       // icon: FaIcon(FontAwesomeIcons.linkedin),
+        //       text: 'Follow up',
+        //     ),
+        //     Tab(
+        //       // icon: FaIcon(FontAwesomeIcons.facebook),
+        //       text: 'Facebook',
+        //     ),
+        //     Tab(
+        //       // icon: FaIcon(FontAwesomeIcons.discord),
+        //       text: 'Discord',
+        //     ),
+        //   ],
+        // ),
         automaticallyImplyLeading: false,
         leading: showLeading
             ? isLeadingImage
