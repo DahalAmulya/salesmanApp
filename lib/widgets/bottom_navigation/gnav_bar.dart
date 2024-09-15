@@ -42,16 +42,17 @@ class CustomGNavBar extends StatelessWidget {
           gap: 12,
           text: 'Favourite',
         ),
-        GButton(
-          // margin: EdgeInsets.symmetric(horizontal: 0, vertical: 16),
-          padding: EdgeInsets.symmetric(vertical: 16, horizontal: 16),
-          icon: FontAwesomeIcons.magnifyingGlass,
-          gap: 12,
-          text: 'Search',
-        ),
+        // GButton(
+        //   // margin: EdgeInsets.symmetric(horizontal: 0, vertical: 16),
+        //   padding: EdgeInsets.symmetric(vertical: 16, horizontal: 16),
+        //   icon: FontAwesomeIcons.magnifyingGlass,
+        //   gap: 12,
+        //   text: 'Search',
+        // ),
         GButton(
           onPressed: () {
-         GoRouter.of(context).pushReplacementNamed(MyAppRouteConstants.visitSummaryRouteName);
+            GoRouter.of(context).pushReplacementNamed(
+                MyAppRouteConstants.visitSummaryRouteName);
           },
           // margin: EdgeInsets.symmetric(horizontal: 0, vertical: 0),
           padding: EdgeInsets.symmetric(vertical: 16, horizontal: 16),

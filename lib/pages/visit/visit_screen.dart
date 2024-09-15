@@ -1,17 +1,22 @@
 import 'dart:async';
 
+import 'package:deskgoo/pages/visit/visit_client_screen.dart';
+import 'package:deskgoo/pages/visit/visit_order_screen.dart';
+import 'package:deskgoo/providers/visit_provider/order_items.dart';
+import 'package:deskgoo/providers/visit_provider/order_provider.dart';
 import 'package:deskgoo/providers/visit_provider/visit_screen_provider.dart';
-import 'package:deskgoo/routes/app_route_constants.dart';
+// import 'package:deskgoo/routes/app_route_constants.dart';
 import 'package:deskgoo/themes/custom_colors.dart';
 import 'package:deskgoo/widgets/app_bars/custom_app_bars.dart';
 import 'package:deskgoo/widgets/bottom_navigation/gnav_bar.dart';
+import 'package:deskgoo/widgets/buttons/elevated_button.dart';
 import 'package:deskgoo/widgets/containers/custom_container.dart';
 import 'package:deskgoo/widgets/drawers/custom_drawer.dart';
 import 'package:deskgoo/widgets/text_fields/text_from_field.dart';
 import 'package:deskgoo/widgets/texts/custom_text.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:go_router/go_router.dart';
+// import 'package:go_router/go_router.dart';
 import 'package:nepali_utils/nepali_utils.dart';
 import 'package:provider/provider.dart';
 
@@ -30,8 +35,30 @@ class _VisitScreenState extends State<VisitScreen>
   NepaliDateFormat nepaliDateFormatter = NepaliDateFormat('yyyy-MM-ddThh:mm');
   String formatedDateTime = '';
   final searchController = TextEditingController();
+  final searchProductController = TextEditingController();
+  final quantityController = TextEditingController();
+  final mrpController = TextEditingController();
+  final discountController = TextEditingController();
+  final netPriceController = TextEditingController();
+  final totalAmountController = TextEditingController();
 
   List<Map<String, dynamic>> searchResult = [];
+  List<String> items = [
+    'History',
+    'New Visit',
+    'Order',
+    'Collection',
+    'Follow Up',
+  ];
+
+  List<IconData> icons = [
+    FontAwesomeIcons.hourglassHalf,
+    FontAwesomeIcons.userPlus,
+    FontAwesomeIcons.cartPlus,
+    FontAwesomeIcons.moneyBillWave,
+    FontAwesomeIcons.arrowRightArrowLeft,
+  ];
+  int currentIndex = 0;
 
   @override
   void initState() {
@@ -69,42 +96,51 @@ class _VisitScreenState extends State<VisitScreen>
   Widget build(BuildContext context) {
     print('build');
     return Scaffold(
-      backgroundColor: CustomColors.primaryWhite,
+      backgroundColor: Colors.grey.shade200,
       // backgroundColor: Colors.amberAccent,
       appBar: _appBar(context),
       drawer: CustomDrawer(
         isVisitActive: true,
       ),
       body: _buildUI(context),
-      floatingActionButton: AnimatedBuilder(
-        animation: _animation,
-        builder: (context, child) {
-          return Transform.translate(
-            offset: Offset(0, -_animation.value * 50),
-            child: Transform.scale(
-              scale: 1 + (_animation.value * 0.20),
-              child: FloatingActionButton(
-                mini: true,
-                backgroundColor: CustomColors.primaryColor,
-                foregroundColor: CustomColors.primaryBlack,
-                onPressed: () {
-                  // print('dateTime = $formatedDateTime');
-                  GoRouter.of(context).pushReplacementNamed(
-                      MyAppRouteConstants.visitClientRouteName);
-                },
-                child: Icon(
-                  Icons.add,
-                  size: 28 + (_animation.value * 5),
-                ),
-              ),
-            ),
-          );
-        },
-      ),
-      bottomNavigationBar: CustomGNavBar(
-        onTap: (value) {},
-        selectedIndex: 0,
-      ),
+      floatingActionButton: currentIndex == 1 || currentIndex == 2
+          ? AnimatedBuilder(
+              animation: _animation,
+              builder: (context, child) {
+                return Transform.translate(
+                  offset: Offset(0, -_animation.value * 50),
+                  child: Transform.scale(
+                    scale: 1 + (_animation.value * 0.20),
+                    child: FloatingActionButton(
+                      mini: true,
+                      backgroundColor: CustomColors.primaryColor,
+                      foregroundColor: CustomColors.primaryBlack,
+                      onPressed: () {
+                        // print('dateTime = $formatedDateTime');
+                        // GoRouter.of(context).pushReplacementNamed(
+                        //     MyAppRouteConstants.visitClientRouteName);
+                        // ++currentIndex;
+                        if (currentIndex == 1) {
+                          print('Current index = $currentIndex 1');
+                        } else if (currentIndex == 2) {
+                          print('Current index = $currentIndex 2');
+                          openDialog();
+                        }
+                      },
+                      child: Icon(
+                        Icons.add,
+                        size: 28 + (_animation.value * 5),
+                      ),
+                    ),
+                  ),
+                );
+              },
+            )
+          : null,
+      // bottomNavigationBar: CustomGNavBar(
+      //   onTap: (value) {},
+      //   selectedIndex: 0,
+      // ),
     );
   }
 
@@ -125,163 +161,647 @@ class _VisitScreenState extends State<VisitScreen>
   }
 
   Widget _buildUI(context) {
-    return Center(
+    return Container(
+      width: double.infinity,
+      height: double.infinity,
+      margin: EdgeInsets.symmetric(vertical: 8, horizontal: 8),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          Padding(
-            padding: const EdgeInsets.only(top: 16.0),
-            child: CustomContainer(
-              verticalPad: 0,
-              color: Colors.transparent,
-              child: Consumer<VisitScreenProvider>(
-                builder: (context, provider, _) {
-                  return TextFromFieldWithPrefixSuffix(
-                    controller: searchController,
-                    onTap: () {},
-                    validator: (value) {
-                      return null;
-                    },
-                    onChange: (value) =>
-                        provider.runFilter(searchController.value.text),
-                    labelText: 'Search',
-                    fillColor: Colors.white,
-                    applySuffixIcon: true,
-                    suffixIcon: Icon(Icons.search),
-                  );
-                },
-              ),
-            ),
-          ),
-          Expanded(
-            child:
-                Consumer<VisitScreenProvider>(builder: (context, provider, _) {
-              provider.searchResult;
-              return ListView.builder(
-                itemCount: provider.searchResult.length,
-                padding: EdgeInsets.only(
-                    bottom: 48,
-                    top: 8,
-                    left: MediaQuery.of(context).size.width * 0.01),
-                itemBuilder: (context, index) {
-                  String name = provider.searchResult[index]['client'];
-                  double orderAmt = provider.searchResult[index]['orderAmt'];
-                  double paidAmt = provider.searchResult[index]['paidAmt'];
-                  String salesRepresentative =
-                      provider.searchResult[index]['salesRepresentative'];
-                  String dateTime = provider.searchResult[index]['dateTime'];
-                  // double dueAmt = 0.0;
-                  // if (orderAmt == 0.0 && paidAmt > orderAmt) {
-                  //   dueAmt = 0.0;
-                  // }
-                  // Color cardColor = index.isEven ? Colors.white : CustomColors.primaryColor;
-                  return ListTile(
-                    titleAlignment: ListTileTitleAlignment.center,
-                    title: CustomContainer(
-                      color: Colors.white,
-                      // elevation: 2,
-                      // margin: EdgeInsets.all(0),
-                      child: CustomContainer(
-                        verticalPad: 8,
-                        horizontalPad: 0,
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            CustomText(
-                              text: name,
-                              fontWeight: FontWeight.w600,
-                              size: 20,
-                            ),
-                            Divider(
-                              thickness: 1,
-                              // color: CustomColors.primaryBlack,
-                            ),
-                            Padding(
-                              padding:
-                                  const EdgeInsets.symmetric(horizontal: 12.0),
-                              child: Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  CustomText(
-                                    text: 'Order amount: ',
-                                    fontWeight: FontWeight.w500,
-                                  ),
-                                  CustomText(
-                                    text: orderAmt.toStringAsFixed(1),
-                                    fontWeight: FontWeight.w500,
-                                  ),
-                                ],
+          SizedBox(
+            height: 50,
+            width: double.infinity,
+            child: ListView.builder(
+              physics: BouncingScrollPhysics(),
+              itemCount: items.length,
+              scrollDirection: Axis.horizontal,
+              itemBuilder: (context, index) {
+                return Column(
+                  children: [
+                    InkWell(
+                      onTap: () {
+                        setState(() {
+                          currentIndex = index;
+                          print('current index: $currentIndex');
+                        });
+                      },
+                      child: AnimatedContainer(
+                        duration: const Duration(milliseconds: 300),
+                        margin: EdgeInsets.all(4),
+                        width: 120,
+                        height: 40,
+                        padding: EdgeInsets.all(4),
+                        decoration: BoxDecoration(
+                          color: currentIndex == index
+                              ? CustomColors.primaryColor
+                              : Colors.white,
+                          borderRadius: BorderRadius.circular(8),
+                          // border: Border.all(
+                          //     color: currentIndex == index
+                          //         ? Colors.black
+                          //         : Colors.transparent),
+                        ),
+                        child: Center(
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            children: [
+                              FaIcon(
+                                icons[index],
+                                size: 14,
+                                color: currentIndex == index
+                                    ? Colors.black
+                                    : Colors.grey,
                               ),
-                            ),
-                            Padding(
-                              padding:
-                                  const EdgeInsets.symmetric(horizontal: 12.0),
-                              child: Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  CustomText(
-                                    text: 'Paid amount: ',
-                                    fontWeight: FontWeight.w500,
-                                  ),
-                                  CustomText(
-                                    text: paidAmt.toStringAsFixed(1),
-                                    fontWeight: FontWeight.w500,
-                                  ),
-                                ],
+                              CustomText(
+                                text: '${items[index]}',
+                                fontWeight: FontWeight.w500,
+                                color: currentIndex == index
+                                    ? Colors.black
+                                    : Colors.grey,
                               ),
-                            ),
-                            Divider(
-                                // color: CustomColors.primaryBlack,
-                                ),
-                            // Padding(
-                            //   padding:
-                            //       const EdgeInsets.symmetric(horizontal: 8.0),
-                            //   child: Row(
-                            //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            //     children: [
-                            //       CustomText(
-                            //         text: 'Due amount: ',
-                            //         fontWeight: FontWeight.w500,
-                            //       ),
-                            //       CustomText(
-                            //         text: dueAmt.toStringAsFixed(1),
-                            //         fontWeight: FontWeight.w500,
-                            //       ),
-                            //     ],
-                            //   ),
-                            // ),
-                            // Divider(),
-                            Padding(
-                              padding:
-                                  const EdgeInsets.symmetric(horizontal: 12.0),
-                              child: Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  CustomText(
-                                    text: salesRepresentative,
-                                    fontWeight: FontWeight.w500,
-                                  ),
-                                  CustomText(
-                                    text: dateTime.replaceFirst('T', ' '),
-                                    fontWeight: FontWeight.w500,
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ],
+                            ],
+                          ),
                         ),
                       ),
                     ),
-                  );
-                },
-              );
-            }),
+                  ],
+                );
+              },
+            ),
+          ),
+          currentIndex == 0
+              ? _visitHistory(context)
+              : currentIndex == 1
+                  ? VisitClientScreen()
+                  : VisitOrderScreen(),
+        ],
+      ),
+    );
+  }
+
+  Expanded _visitHistory(context) {
+    return Expanded(
+      child: Column(
+        children: [
+          SizedBox(
+            height: 8,
+          ),
+          CustomContainer(
+            verticalPad: 0,
+            horizontalPad: 0,
+            // width: double.infinity,
+            color: Colors.transparent,
+            child: Consumer<VisitScreenProvider>(
+              builder: (context, provider, _) {
+                return TextFromFieldWithPrefixSuffix(
+                  controller: searchController,
+                  onTap: () {},
+                  validator: (value) {
+                    return null;
+                  },
+                  onChange: (value) =>
+                      provider.runFilter(searchController.value.text),
+                  labelText: 'Search Client',
+                  fillColor: Colors.white,
+                  applyPrefix: true,
+                  prefixIcon: Icon(Icons.search),
+                );
+              },
+            ),
+          ),
+          Expanded(
+            child: Consumer<VisitScreenProvider>(
+              builder: (context, provider, _) {
+                provider.searchResult;
+                return ListView.builder(
+                  itemCount: provider.searchResult.length,
+                  padding: EdgeInsets.only(
+                      bottom: 8,
+                      top: 8,
+                      left: MediaQuery.of(context).size.width * 0),
+                  itemBuilder: (context, index) {
+                    String name = provider.searchResult[index]['client'];
+                    double orderAmt = provider.searchResult[index]['orderAmt'];
+                    double paidAmt = provider.searchResult[index]['paidAmt'];
+                    String salesRepresentative =
+                        provider.searchResult[index]['salesRepresentative'];
+                    String dateTime = provider.searchResult[index]['dateTime'];
+                    // double dueAmt = 0.0;
+                    // if (orderAmt == 0.0 && paidAmt > orderAmt) {
+                    //   dueAmt = 0.0;
+                    // }
+                    // Color cardColor = index.isEven ? Colors.white : CustomColors.primaryColor;
+                    return ListTile(
+                      contentPadding: EdgeInsets.all(0),
+                      titleAlignment: ListTileTitleAlignment.center,
+                      title: CustomContainer(
+                        color: Colors.white,
+                        width: double.infinity,
+                        // applyShadow: true,
+                        borderRadius: 8,
+                        // elevation: 2,
+                        // margin: EdgeInsets.all(0),
+                        child: CustomContainer(
+                          verticalPad: 0,
+                          horizontalPad: 0,
+                          width: 1,
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              CustomText(
+                                text: name,
+                                fontWeight: FontWeight.w600,
+                                size: 20,
+                              ),
+                              Divider(
+                                thickness: 1,
+                                // color: CustomColors.primaryBlack,
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.symmetric(
+                                    horizontal: 12.0),
+                                child: Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    CustomText(
+                                      text: 'Order amount: ',
+                                      fontWeight: FontWeight.w500,
+                                    ),
+                                    CustomText(
+                                      text: orderAmt.toStringAsFixed(1),
+                                      fontWeight: FontWeight.w500,
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.symmetric(
+                                    horizontal: 12.0),
+                                child: Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    CustomText(
+                                      text: 'Paid amount: ',
+                                      fontWeight: FontWeight.w500,
+                                    ),
+                                    CustomText(
+                                      text: paidAmt.toStringAsFixed(1),
+                                      fontWeight: FontWeight.w500,
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              Divider(
+                                  // color: CustomColors.primaryBlack,
+                                  ),
+                              Padding(
+                                padding: const EdgeInsets.symmetric(
+                                    horizontal: 12.0),
+                                child: Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    CustomText(
+                                      text: salesRepresentative,
+                                      fontWeight: FontWeight.w500,
+                                    ),
+                                    CustomText(
+                                      text: dateTime.replaceFirst('T', ' '),
+                                      fontWeight: FontWeight.w500,
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    );
+                  },
+                );
+              },
+            ),
           ),
         ],
+      ),
+    );
+  }
+
+  Future openDialog() => showDialog(
+        context: context,
+        builder: (_) {
+          return AlertDialog(
+            backgroundColor: Colors.grey.shade200,
+            elevation: 10,
+            // shape: ShapeBorder.lerp(
+            //   Border.fromBorderSide(),)
+            title: Center(
+              child: CustomText(
+                text: 'Select Product',
+                fontWeight: FontWeight.bold,
+                size: 22,
+                color: CustomColors.primaryBlack,
+              ),
+            ),
+            content: SingleChildScrollView(
+              child: Column(
+                children: [
+                  SizedBox(
+                    height: 10,
+                  ),
+                  TextFromFieldWithPrefixSuffix(
+                    autoFocus: true,
+                    controller: searchProductController,
+                    labelText: 'Search Product',
+                    validator: (value) {
+                      return null;
+                    },
+                    onChange: (value) {
+                      searchProductController.text = value!;
+                      print('${searchProductController.value.text}');
+                    },
+                    onTap: () {
+                      print('tapped');
+                      _showBottomSheet(context);
+                    },
+                  ),
+                  SizedBox(
+                    height: 10,
+                  ),
+                  Consumer<OrderProvider>(builder: (context, provider, _) {
+                    return TextFromFieldWithPrefixSuffix(
+                      controller: quantityController,
+                      labelText: 'Quantity',
+                      validator: (value) {
+                        return null;
+                      },
+                      onChange: (value) {
+                        int quantity = int.parse(value!);
+                        provider.setQuantity(quantity);
+                        provider.totalPrice();
+                        totalAmountController.text =
+                            provider.total.toStringAsFixed(2);
+                      },
+                      onTap: () {},
+                    );
+                  }),
+                  SizedBox(
+                    height: 10,
+                  ),
+                  TextFromFieldWithPrefixSuffix(
+                    controller: mrpController,
+                    labelText: 'MRP',
+                    readOnly: true,
+                    validator: (value) {
+                      return null;
+                    },
+                    onChange: (value) {},
+                    onTap: () {},
+                  ),
+                  SizedBox(
+                    height: 10,
+                  ),
+                  Consumer<OrderProvider>(builder: (context, provider, _) {
+                    return TextFromFieldWithPrefixSuffix(
+                      controller: discountController,
+                      labelText: 'Discount',
+                      // readOnly: true,
+                      validator: (value) {
+                        return null;
+                      },
+                      onChange: (value) {
+                        double discountRate = double.parse(value!);
+                        provider.setDiscountRate(discountRate);
+                        provider.setDiscountedPrice();
+                        provider.totalPrice();
+                        netPriceController.text =
+                            provider.discountedPrice.toStringAsFixed(2);
+                        totalAmountController.text =
+                            provider.total.toStringAsFixed(2);
+                        // netPriceController.text = provider.
+                      },
+                      onTap: () {},
+                    );
+                  }),
+                  SizedBox(
+                    height: 10,
+                  ),
+                  TextFromFieldWithPrefixSuffix(
+                    controller: netPriceController,
+                    labelText: 'Net Price',
+                    readOnly: true,
+                    validator: (value) {
+                      return null;
+                    },
+                    onChange: (value) {},
+                    onTap: () {},
+                  ),
+                  SizedBox(
+                    height: 10,
+                  ),
+                  Consumer<OrderProvider>(
+                    builder: (context, provider, _) {
+                      totalAmountController.text =
+                          provider.total.toStringAsFixed(2);
+                      return TextFromFieldWithPrefixSuffix(
+                        controller: totalAmountController,
+                        labelText: 'Total Amount',
+                        readOnly: true,
+                        validator: (value) {
+                          return null;
+                        },
+                        onChange: (value) {},
+                        onTap: () {},
+                      );
+                    },
+                  ),
+                ],
+              ),
+            ),
+            actions: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Consumer<OrderProvider>(builder: (context, provider, _) {
+                    return CustomElevatedButton(
+                      onPressed: () {
+                        clearInputFieldValues();
+                        provider.clearValues();
+                        Navigator.pop(context, false); // passing false
+                      },
+                      backgroundColor: Colors.white,
+                      widget: CustomText(
+                        text: 'Cancel',
+                        color: CustomColors.primaryBlack,
+                        fontWeight: FontWeight.w500,
+                      ),
+                    );
+                  }),
+                  Consumer<OrderProvider>(builder: (context, provider, _) {
+                    return CustomElevatedButton(
+                      onPressed: () {
+                        // Orders(
+                        //   productName: searchProductController.text,
+                        //   quantity: provider.quantity,
+                        //   price: provider.price,
+                        //   discountRate: 5,
+                        //   netAmount: provider.discountedPrice,
+                        //   totalPrice: provider.total,
+                        // );
+                        provider.addItem(Orders(
+                          productName: searchProductController.text,
+                          quantity: provider.quantity,
+                          price: provider.price,
+                          discountRate: provider.discountRate,
+                          netAmount: provider.discountedPrice,
+                          totalPrice: provider.total,
+                        ));
+                        clearInputFieldValues();
+                        provider.clearValues();
+                        Navigator.pop(context, false);
+                        // SystemNavigator.pop();
+                      }, // passing true
+                      backgroundColor: CustomColors.primaryColor,
+                      widget: CustomText(
+                        text: 'Add',
+                        color: CustomColors.primaryBlack,
+                        fontWeight: FontWeight.w500,
+                      ),
+                    );
+                  }),
+                ],
+              ),
+            ],
+          );
+        },
+      );
+
+  void clearInputFieldValues() {
+    searchController.clear();
+    searchController.clear();
+    mrpController.clear();
+    totalAmountController.clear();
+    discountController.clear();
+    quantityController.clear();
+    netPriceController.clear();
+  }
+
+  // showDialog(
+  //       context: context,
+  //       builder: (context) => AlertDialog(
+  //         backgroundColor: Colors.grey.shade200,
+  //         title: CustomText(text: 'Select Product'),
+  //         content: Center(
+  //           child: SingleChildScrollView(
+  //             child: SizedBox(
+  //               width: double.infinity,
+  //               height: 500,
+  //               child: Column(
+  //                 mainAxisAlignment: MainAxisAlignment.center,
+  //                 children: [
+  //                   SizedBox(
+  //                     height: 10,
+  //                   ),
+  //                   TextFromFieldWithPrefixSuffix(
+  //                     autoFocus: true,
+  //                     controller: searchProduct,
+  //                     labelText: 'Search Product',
+  //                     validator: (value) {
+  //                       return null;
+  //                     },
+  //                     onChange: (value) {},
+  //                     onTap: () {},
+  //                   ),
+  //                   SizedBox(
+  //                     height: 10,
+  //                   ),
+  //                   TextFromFieldWithPrefixSuffix(
+  //                     controller: searchProduct,
+  //                     labelText: 'Quantity',
+  //                     validator: (value) {
+  //                       return null;
+  //                     },
+  //                     onChange: (value) {},
+  //                     onTap: () {},
+  //                   ),
+  //                   SizedBox(
+  //                     height: 10,
+  //                   ),
+  //                   TextFromFieldWithPrefixSuffix(
+  //                     controller: searchProduct,
+  //                     labelText: 'MRP',
+  //                     validator: (value) {
+  //                       return null;
+  //                     },
+  //                     onChange: (value) {},
+  //                     onTap: () {},
+  //                   ),
+  //                   SizedBox(
+  //                     height: 10,
+  //                   ),
+  //                   TextFromFieldWithPrefixSuffix(
+  //                     controller: searchProduct,
+  //                     labelText: 'Discount',
+  //                     validator: (value) {
+  //                       return null;
+  //                     },
+  //                     onChange: (value) {},
+  //                     onTap: () {},
+  //                   ),
+  //                   SizedBox(
+  //                     height: 10,
+  //                   ),
+  //                   TextFromFieldWithPrefixSuffix(
+  //                     controller: searchProduct,
+  //                     labelText: 'Net Price',
+  //                     validator: (value) {
+  //                       return null;
+  //                     },
+  //                     onChange: (value) {},
+  //                     onTap: () {},
+  //                   ),
+  //                   SizedBox(
+  //                     height: 10,
+  //                   ),
+  //                   TextFromFieldWithPrefixSuffix(
+  //                     controller: searchProduct,
+  //                     labelText: 'Amount',
+  //                     validator: (value) {
+  //                       return null;
+  //                     },
+  //                     onChange: (value) {},
+  //                     onTap: () {},
+  //                   ),
+  //                 ],
+  //               ),
+  //             ),
+  //           ),
+  //         ),
+  //         actions: [
+  //           CustomElevatedButton(
+  //             onPressed: () {},
+  //             widget: CustomText(text: 'Cancel'),
+  //           ),
+  //           CustomElevatedButton(
+  //             onPressed: () {},
+  //             widget: CustomText(text: 'Add'),
+  //           ),
+  //         ],
+  //       ),
+  //     );
+
+  Future<void> _showBottomSheet(context) async {
+    showModalBottomSheet(
+      isScrollControlled: true,
+      useSafeArea: true,
+      context: context,
+      builder: (context) => ClipRRect(
+        borderRadius: BorderRadius.circular(16.0),
+        child: SizedBox(
+          height: MediaQuery.of(context).size.height * 0.90,
+          child: Scaffold(
+            backgroundColor: Colors.grey.shade200,
+            appBar: _bottomSheetAppBar(context),
+            body: _bottomSheetBody(context),
+          ),
+        ),
+      ),
+    );
+  }
+
+  PreferredSize _bottomSheetAppBar(context) {
+    return PreferredSize(
+      preferredSize: Size.fromHeight(kToolbarHeight),
+      child: CustomAppBar(
+        showLeading: true,
+        leadingIcon: FontAwesomeIcons.arrowLeft,
+        tabName: 'Select Product',
+        onTapLeadingIcon: () {
+          Navigator.pop(context);
+        },
+      ),
+    );
+  }
+
+  Widget _bottomSheetBody(context) {
+    return Center(
+      child: CustomContainer(
+        verticalMargin: 16.0,
+        child: Column(
+          children: [
+            Consumer<VisitScreenProvider>(
+              builder: (context, provider, _) {
+                return TextFromFieldWithPrefixSuffix(
+                  controller: searchController,
+                  labelText: 'Search Product',
+                  applyPrefix: true,
+                  prefixIcon: Icon(Icons.search),
+                  validator: (value) {
+                    return null;
+                  },
+                  onChange: (value) =>
+                      provider.runFilter(searchController.value.text),
+                  onTap: () {},
+                );
+              },
+            ),
+            Expanded(
+              child: Consumer<OrderProvider>(builder: (context, provider, _) {
+                return ListView.builder(
+                  itemCount: PRODUCTS.length,
+                  itemBuilder: (context, index) {
+                    Product product = PRODUCTS[index];
+                    return InkWell(
+                      onTap: () {
+                        print(product);
+                        searchProductController.text = product.name.toString();
+                        mrpController.text = product.price.toString();
+                        netPriceController.text = product.price.toString();
+                        provider.setPrice(product.price);
+                        // phoneController.text =
+                        //     provider.searchResult[index]['phone'].toString();
+                        // emailController.text =
+                        //     provider.searchResult[index]['email'].toString();
+                        // panController.text =
+                        //     provider.searchResult[index]['pan'].toString();
+                        Navigator.pop(context);
+                      },
+                      child: ListTile(
+                        leading: CustomText(text: product.name),
+                      ),
+                    );
+                  },
+                );
+              }),
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                CustomElevatedButton(
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
+                  borderColor: CustomColors.lightRed,
+                  widget: CustomText(
+                    text: 'Cancel',
+                    color: CustomColors.lightRed,
+                  ),
+                ),
+                CustomElevatedButton(
+                  onPressed: () {},
+                  borderColor: CustomColors.primaryColor,
+                  widget: CustomText(
+                    text: 'Create',
+                    color: CustomColors.primaryColor,
+                  ),
+                ),
+              ],
+            ),
+          ],
+        ),
       ),
     );
   }
