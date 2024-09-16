@@ -153,7 +153,7 @@ class VisitOrderScreen extends StatelessWidget {
                                               horizontal: 8.0),
                                           child: CustomText(
                                             text:
-                                                '\$ ${orders.netAmount.toStringAsFixed(2)}',
+                                                'Rs. ${orders.netAmount.toStringAsFixed(2)}',
                                             size: 14,
                                             fontWeight: FontWeight.w500,
                                           ),
@@ -165,7 +165,7 @@ class VisitOrderScreen extends StatelessWidget {
                                               horizontal: 8.0),
                                           child: CustomText(
                                             text:
-                                                '\$ ${(orders.totalPrice).toStringAsFixed(2)}',
+                                                'Rs. ${(orders.totalPrice).toStringAsFixed(2)}',
                                             size: 14,
                                             fontWeight: FontWeight.w500,
                                           ),

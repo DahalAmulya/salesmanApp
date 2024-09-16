@@ -172,14 +172,30 @@ class _VisitScreenState extends State<VisitScreen>
                     InkWell(
                       onTap: () {
                         setState(() {
-                          currentIndex = index;
-                          // if (currentIndex == 4 &&
-                          //     _followUpFormKey.currentState!.validate()) {
-                          //   currentIndex = index;
-                          print('_followUpFormKey not valid');
-                          // } else {
-                          print('current index: $currentIndex');
-                          // }
+                          if (currentIndex == 1 && currentIndex != index) {
+                            if (_newVisitFormKey.currentState!.validate()) {
+                              currentIndex = index;
+                            } else {
+                              currentIndex = 1;
+                              print(
+                                  '_newVisitFormKey valid = ${_newVisitFormKey.currentState!.validate()}');
+                            }
+                          } else if (currentIndex == 4 &&
+                              currentIndex != index) {
+                            if (_followUpFormKey.currentState!.validate()) {
+                              print('Form valid');
+                              currentIndex = index;
+                            } else {
+                              print(
+                                  '_newVisitFormKey = ${!_followUpFormKey.currentState!.validate()}');
+                              currentIndex = 4;
+                            }
+                            print(
+                                '_followUpFormKey valid = $isFollowUpFormValid');
+                          } else {
+                            currentIndex = index;
+                            print('current index: $currentIndex');
+                          }
                         });
                       },
                       child: AnimatedContainer(
@@ -398,12 +414,14 @@ class _VisitScreenState extends State<VisitScreen>
 
   // --------------------------- New Visit Tab --------------------------- //
 
+  final _newVisitFormKey = GlobalKey<FormState>();
   final clientNameController = TextEditingController();
   final addressController = TextEditingController();
   final phoneController = TextEditingController();
   final emailController = TextEditingController();
   final panController = TextEditingController();
   final searchClientController = TextEditingController();
+  bool isVisitFormValid = false;
 
   void clearNewVisitValues() {
     searchClientController.clear();
@@ -425,79 +443,86 @@ class _VisitScreenState extends State<VisitScreen>
             verticalPad: 24.0,
             horizontalPad: 16.0,
             applyShadow: true,
-            child: Column(
-              children: [
-                Builder(builder: (context) {
-                  return TextFromFieldWithPrefixSuffix(
-                    controller: clientNameController,
-                    labelText: 'Select Client Name',
-                    // hintText: 'Select Client Name',
+            child: Form(
+              key: _newVisitFormKey,
+              child: Column(
+                children: [
+                  Builder(builder: (context) {
+                    return TextFromFieldWithPrefixSuffix(
+                      controller: clientNameController,
+                      labelText: 'Select Client Name',
+                      // hintText: 'Select Client Name',
+                      readOnly: true,
+                      onTap: () {
+                        _newVisitshowBottomSheet(context);
+                      },
+                      validator: (value) {
+                        // if (value!.isNotEmpty) {
+                        //   isVisitFormValid = true;
+                        //   return null;
+                        // }
+                        return value!.isEmpty ? 'Client Name Required' : null;
+                      },
+                      onChange: (value) {},
+                    );
+                  }),
+                  SizedBox(
+                    height: 10.0,
+                  ),
+                  TextFromFieldWithPrefixSuffix(
+                    controller: addressController,
                     readOnly: true,
-                    onTap: () {
-                      _newVisitshowBottomSheet(context);
-                    },
+                    labelText: 'Address',
+                    onTap: () {},
                     validator: (value) {
                       return null;
                     },
                     onChange: (value) {},
-                  );
-                }),
-                SizedBox(
-                  height: 10.0,
-                ),
-                TextFromFieldWithPrefixSuffix(
-                  controller: addressController,
-                  readOnly: true,
-                  labelText: 'Address',
-                  onTap: () {},
-                  validator: (value) {
-                    return null;
-                  },
-                  onChange: (value) {},
-                ),
-                SizedBox(
-                  height: 10.0,
-                ),
-                TextFromFieldWithPrefixSuffix(
-                  controller: phoneController,
-                  readOnly: true,
-                  labelText: 'Phone',
-                  onTap: () {},
-                  validator: (value) {
-                    return null;
-                  },
-                  onChange: (value) {},
-                ),
-                SizedBox(
-                  height: 10.0,
-                ),
-                TextFromFieldWithPrefixSuffix(
-                  controller: emailController,
-                  readOnly: true,
-                  labelText: 'Email',
-                  onTap: () {},
-                  validator: (value) {
-                    return null;
-                  },
-                  onChange: (value) {},
-                ),
-                SizedBox(
-                  height: 10.0,
-                ),
-                TextFromFieldWithPrefixSuffix(
-                  controller: panController,
-                  readOnly: true,
-                  labelText: 'PAN',
-                  onTap: () {},
-                  validator: (value) {
-                    return null;
-                  },
-                  onChange: (value) {},
-                ),
-                SizedBox(
-                  height: 8.0,
-                ),
-              ],
+                  ),
+                  SizedBox(
+                    height: 10.0,
+                  ),
+                  TextFromFieldWithPrefixSuffix(
+                    controller: phoneController,
+                    readOnly: true,
+                    labelText: 'Phone',
+                    onTap: () {},
+                    validator: (value) {
+                      return null;
+                    },
+                    onChange: (value) {},
+                  ),
+                  SizedBox(
+                    height: 10.0,
+                  ),
+                  TextFromFieldWithPrefixSuffix(
+                    controller: emailController,
+                    readOnly: true,
+                    labelText: 'Email',
+                    onTap: () {},
+                    validator: (value) {
+                      return null;
+                    },
+                    onChange: (value) {},
+                  ),
+                  SizedBox(
+                    height: 10.0,
+                  ),
+                  TextFromFieldWithPrefixSuffix(
+                    controller: panController,
+                    readOnly: true,
+                    labelText: 'PAN',
+                    onTap: () {},
+                    validator: (value) {
+                      return null;
+                    },
+                    onChange: (value) {},
+                  ),
+                  SizedBox(
+                    height: 8.0,
+                  ),
+                ],
+              ),
             ),
           ),
         ],
@@ -976,6 +1001,7 @@ class _VisitScreenState extends State<VisitScreen>
   NepaliDateTime selectedDate = NepaliDateTime.now();
   final followUpNoteController = TextEditingController();
   final followUpDateController = TextEditingController();
+  bool isFollowUpFormValid = false;
 
   Expanded _followUp(context) {
     return Expanded(
@@ -997,6 +1023,14 @@ class _VisitScreenState extends State<VisitScreen>
                     minLine: 4,
                     maxLines: 4,
                     validator: (value) {
+                      // if (value!.isNotEmpty && value.length > 3) {
+                      //   isFollowUpFormValid = true;
+                      //   return null;
+                      // } else {
+                      //   return value.isEmpty
+                      //       ? 'Visit note is required'
+                      //       : 'Enter atleast 3 characters';
+                      // }
                       return value!.isEmpty
                           ? 'Visit note is required'
                           : value.length < 3
