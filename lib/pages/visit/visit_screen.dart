@@ -1099,7 +1099,7 @@ class _VisitScreenState extends State<VisitScreen>
     return date;
   }
 
-// --------------------------- Collection Up Tab --------------------------- //
+// --------------------------- Summary Tab --------------------------- //
 
   Expanded _summaryTab(context) {
     return Expanded(
