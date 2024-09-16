@@ -732,7 +732,7 @@ class _VisitScreenState extends State<VisitScreen>
                               provider.total.toStringAsFixed(2);
                         }
                         if (value == null || value.isEmpty) {
-                          provider.setDiscountRate(0);
+                          provider.setDiscountRate(0.0);
                           provider.setDiscountedPrice();
                           provider.setTotalPrice();
                           netPriceController.text =
@@ -786,7 +786,7 @@ class _VisitScreenState extends State<VisitScreen>
                   Consumer<OrderProvider>(builder: (context, provider, _) {
                     return CustomElevatedButton(
                       onPressed: () {
-                        clearInputFieldValues();
+                        clearOrderInputFieldValues();
                         provider.clearValues();
                         Navigator.pop(context, false); // passing false
                       },
@@ -817,7 +817,7 @@ class _VisitScreenState extends State<VisitScreen>
                           netAmount: provider.discountedPrice,
                           totalPrice: provider.total,
                         ));
-                        clearInputFieldValues();
+                        clearOrderInputFieldValues();
                         provider.clearValues();
                         Navigator.pop(context, false);
                         // SystemNavigator.pop();
@@ -837,8 +837,9 @@ class _VisitScreenState extends State<VisitScreen>
         },
       );
 
-  void clearInputFieldValues() {
+  void clearOrderInputFieldValues() {
     searchProductController.clear();
+    productNameController.clear();
     mrpController.clear();
     totalAmountController.clear();
     discountController.clear();
