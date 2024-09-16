@@ -11,7 +11,7 @@ import 'package:signature/signature.dart';
 import '../../themes/custom_colors.dart';
 import '../../widgets/buttons/elevated_button.dart';
 
-class visitSummary extends StatelessWidget {
+class VisitSummary extends StatelessWidget {
   final String? name;
   final String? itemName;
   final int? quantity;
@@ -26,7 +26,7 @@ class visitSummary extends StatelessWidget {
   final int? receivedAmount;
   final String? followUp;
 
-  visitSummary({
+  VisitSummary({
     super.key,
     this.name = 'Farhan',
     this.itemName = 'HEADPHONES HD001',
@@ -51,13 +51,15 @@ class visitSummary extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: CustomColors.primaryWhite,
-      appBar: _appBar(context),
-      drawer: _customDrawer(context),
-      body: _buildUI(context),
-      bottomNavigationBar: _bottomNavBar(context),
-    );
+
+    return _buildUI(context);
+    //   Scaffold(
+    //   backgroundColor: CustomColors.primaryWhite,
+    //   appBar: _appBar(context),
+    //   drawer: _customDrawer(context),
+    //   body: _buildUI(context),
+    //   bottomNavigationBar: _bottomNavBar(context),
+    // );
   }
 
   PreferredSize _appBar(context) {
@@ -96,13 +98,10 @@ class visitSummary extends StatelessWidget {
         child: CustomContainer(
           verticalPad: 0,
           horizontalPad: 0,
-          verticalMargin: 24,
+          verticalMargin: 0,
           // horizontalMargin: 24,
           child: Column(
             children: [
-              SizedBox(
-                height: 8.0,
-              ),
               Container(
                 width: MediaQuery.of(context).size.width * 1,
                 // color: CustomColors.primaryWhite,
