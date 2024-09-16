@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:deskgoo/pages/visit/summary_Page.dart';
 import 'package:deskgoo/pages/visit/visit_order_screen.dart';
 import 'package:deskgoo/providers/visit_provider/order_items.dart';
 import 'package:deskgoo/providers/visit_provider/order_provider.dart';
@@ -18,6 +19,8 @@ import 'package:nepali_utils/nepali_utils.dart';
 import 'package:provider/provider.dart';
 import 'package:nepali_date_picker/nepali_date_picker.dart' as picker;
 
+import 'colltectionSummary_bottomSheet.dart';
+
 class VisitScreen extends StatefulWidget {
   VisitScreen({super.key});
 
@@ -32,6 +35,7 @@ class _VisitScreenState extends State<VisitScreen>
   NepaliDateTime nepaliDateTime = NepaliDateTime.now();
   NepaliDateFormat nepaliDateFormatter = NepaliDateFormat('yyyy-MM-ddThh:mm');
   String formatedDateTime = '';
+  final String name = 'Shuvam';
 
   List<Map<String, dynamic>> searchResult = [];
   List<String> items = [
@@ -96,7 +100,7 @@ class _VisitScreenState extends State<VisitScreen>
         isVisitActive: true,
       ),
       body: _buildUI(context),
-      floatingActionButton: currentIndex == 1 || currentIndex == 2
+      floatingActionButton: currentIndex == 1 || currentIndex == 2 || currentIndex == 3
           ? AnimatedBuilder(
               animation: _animation,
               builder: (context, child) {
@@ -115,6 +119,12 @@ class _VisitScreenState extends State<VisitScreen>
                         } else if (currentIndex == 2) {
                           print('Current index = $currentIndex 2');
                           openCreateOrderDialog();
+                        }else if (currentIndex == 3){
+                         showModalBottomSheet(
+                             isScrollControlled: false,
+                             useSafeArea: true,
+                             context: context,
+                             builder: (builder) => CollectionsummaryBottomsheet());
                         }
                       },
                       child: Icon(
@@ -963,8 +973,96 @@ class _VisitScreenState extends State<VisitScreen>
         width: double.infinity,
         height: double.infinity,
         margin: EdgeInsets.all(6),
-        child: Center(
-          child: CustomText(text: 'Collection Comming soon'),
+        child: SingleChildScrollView(
+          child: Center(
+            child: CustomContainer(
+              horizontalPad: 1,
+              verticalPad: 3,
+              child: Column(
+                children: [
+                  Container(
+                    width: MediaQuery.of(context).size.width * 1,
+                    child: Center(
+                      child: Text(name,
+                      style: TextStyle(fontWeight: FontWeight.w600,fontSize: 20),),
+                    ),
+                  ),
+                  Container(
+                    width: MediaQuery.of(context).size.width * 1,
+                    color: CustomColors.primaryColor,
+                    child:  Padding(
+                      padding: const EdgeInsets.symmetric(
+                          vertical: 8.0, horizontal: 8.0),
+                      child: CustomText(
+                        text: 'Cash',
+                        fontWeight: FontWeight.w600,
+                        size: 18,
+                      ),
+                    ),
+                  ),
+                  Container(
+                    width: MediaQuery.of(context).size.width * 1,
+                    height: MediaQuery.of(context).size.height * 0.060,
+                    color: CustomColors.primaryWhite,
+                    child: Center(
+                        child: Text(
+                            'Add Cash Here',
+                        style: TextStyle(fontWeight: FontWeight.w600, fontSize: 14),
+                        ),
+                    ),
+                  ),
+                  Container(
+                    width: MediaQuery.of(context).size.width * 1,
+                    color: CustomColors.primaryColor,
+                    child:  Padding(
+                      padding: const EdgeInsets.symmetric(
+                          vertical: 8.0, horizontal: 8.0),
+                      child: CustomText(
+                        text: 'Cheque',
+                        fontWeight: FontWeight.w600,
+                        size: 18,
+                      ),
+                    ),
+                  ),
+                  Container(
+                    width: MediaQuery.of(context).size.width * 1,
+                    height: MediaQuery.of(context).size.height * 0.060,
+                    color: CustomColors.primaryWhite,
+                    child: Center(
+                      child: Text(
+                        'Add Cheque Here',
+                        style: TextStyle(fontWeight: FontWeight.w600, fontSize: 14),
+                      ),
+                    ),
+                  ),
+                  Container(
+                    width: MediaQuery.of(context).size.width * 1,
+                    color: CustomColors.primaryColor,
+                    child:  Padding(
+                      padding: const EdgeInsets.symmetric(
+                          vertical: 8.0, horizontal: 8.0),
+                      child: CustomText(
+                        text: 'Banks',
+                        fontWeight: FontWeight.w600,
+                        size: 18,
+                      ),
+                    ),
+                  ),
+                  Container(
+                    width: MediaQuery.of(context).size.width * 1,
+                    height: MediaQuery.of(context).size.height * 0.060,
+                    color: CustomColors.primaryWhite,
+                    child: Center(
+                      child: Text(
+                        'Add Banks Here',
+                        style: TextStyle(fontWeight: FontWeight.w600, fontSize: 14),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
         ),
       ),
     );
@@ -1107,9 +1205,7 @@ class _VisitScreenState extends State<VisitScreen>
         width: double.infinity,
         height: double.infinity,
         margin: EdgeInsets.all(6),
-        child: Center(
-          child: CustomText(text: 'Summary Comming soon'),
-        ),
+        child: VisitSummary(),
       ),
     );
   }

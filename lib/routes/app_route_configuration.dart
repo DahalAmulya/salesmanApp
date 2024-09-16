@@ -65,7 +65,7 @@ class MyAppRouter {
         name: MyAppRouteConstants.visitSummaryRouteName,
         path: '/visit_summary',
         pageBuilder: (context, state) {
-          return MaterialPage(child: visitSummary());
+          return MaterialPage(child: VisitSummary());
         },
       ),
 
