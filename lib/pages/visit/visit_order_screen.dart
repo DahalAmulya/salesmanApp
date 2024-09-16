@@ -87,11 +87,16 @@ class VisitOrderScreen extends StatelessWidget {
                         Orders orders = provider.items[index];
                         Color cardColor = Colors.white;
                         return ListTile(
+                          onTap: () {
+                            print(
+                                '${orders.productName}, ${orders.quantity}, ${orders.price}, ${orders.discountRate}, ${orders.netAmount}, ${orders.totalPrice}');
+                            // provider.remove(orders);
+                          },
                           minVerticalPadding: 5,
                           contentPadding: EdgeInsets.all(0),
                           onLongPress: () {
                             cardColor = Colors.red;
-                            print('Long Pressed');
+                            provider.remove(orders);
                           },
                           titleAlignment: ListTileTitleAlignment.center,
                           title: Card(
@@ -128,34 +133,12 @@ class VisitOrderScreen extends StatelessWidget {
                                                 text: orders.productName,
                                                 fontWeight: FontWeight.w600,
                                               ),
-                                              // SizedBox(
-                                              //   height: 20,
-                                              //   width: 20,
-                                              //   child: IconButton(
-                                              //     padding: EdgeInsets.all(0),
-                                              //     onPressed: () {},
-                                              //     icon: Center(
-                                              //       child: Icon(
-                                              //         Icons.delete,
-                                              //         size: 20,
-                                              //         color: CustomColors.lightRed,
-                                              //       ),
-                                              //     ),
-                                              //   ),
-                                              // ),
-                                              // Checkbox(
-                                              //     value: false,
-                                              //     onChanged: (value) {})
-                                              // // _showPopupMenu(context),
                                             ],
                                           ),
                                         ),
                                       ),
                                     ],
                                   ),
-                                  // Divider(
-                                  //   color: CustomColors.primaryBlack,
-                                  // ),
                                   IntrinsicHeight(
                                     child: Row(
                                       mainAxisAlignment:
@@ -206,7 +189,13 @@ class VisitOrderScreen extends StatelessWidget {
                                                   color: Colors.grey.shade300,
                                                   child: Center(
                                                     child: IconButton(
-                                                      onPressed: null,
+                                                      onPressed: () {
+                                                        provider
+                                                            .removeOneQuantity(
+                                                                index);
+                                                        print(
+                                                            '${orders.quantity}');
+                                                      },
                                                       padding:
                                                           EdgeInsets.all(0),
                                                       icon: Icon(
@@ -233,7 +222,12 @@ class VisitOrderScreen extends StatelessWidget {
                                                       CustomColors.primaryColor,
                                                   child: Center(
                                                     child: IconButton(
-                                                      onPressed: null,
+                                                      onPressed: () {
+                                                        provider.addOneQuantity(
+                                                            index);
+                                                        print(
+                                                            '${orders.quantity}');
+                                                      },
                                                       padding:
                                                           EdgeInsets.all(0),
                                                       icon: Icon(

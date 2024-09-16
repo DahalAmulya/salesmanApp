@@ -67,7 +67,6 @@ class _VisitClientScreenState extends State<VisitClientScreen> {
   Widget _buidlUI(context) {
     return Expanded(
       child: Column(
-        // mainAxisAlignment: MainAxisAlignment.center,
         children: [
           SizedBox(
             height: 8,
@@ -148,39 +147,6 @@ class _VisitClientScreenState extends State<VisitClientScreen> {
                 SizedBox(
                   height: 8.0,
                 ),
-                // Row(
-                //   mainAxisAlignment: MainAxisAlignment.end,
-                //   children: [
-                //     CustomElevatedButton(
-                //       backgroundColor: CustomColors.lightRed,
-                //       borderColor: CustomColors.primaryBlack,
-                //       onPressed: () {
-                //         GoRouter.of(context).pushReplacementNamed(
-                //             MyAppRouteConstants.visitRouteName);
-                //       },
-                //       widget: CustomText(
-                //         text: 'Back',
-                //         size: 18,
-                //         color: Colors.white,
-                //         fontWeight: FontWeight.w500,
-                //       ),
-                //     ),
-                //     CustomElevatedButton(
-                //       borderColor: CustomColors.primaryBlack,
-                //       backgroundColor: CustomColors.primaryColor,
-                //       onPressed: () {
-                //         GoRouter.of(context).pushReplacementNamed(
-                //             MyAppRouteConstants.visitOrderRouteName);
-                //       },
-                //       widget: CustomText(
-                //         text: 'Next',
-                //         size: 18,
-                //         color: Colors.black,
-                //         fontWeight: FontWeight.w500,
-                //       ),
-                //     ),
-                //   ],
-                // ),
               ],
             ),
           ),
