@@ -100,43 +100,45 @@ class _VisitScreenState extends State<VisitScreen>
         isVisitActive: true,
       ),
       body: _buildUI(context),
-      floatingActionButton: currentIndex == 1 || currentIndex == 2 || currentIndex == 3
-          ? AnimatedBuilder(
-              animation: _animation,
-              builder: (context, child) {
-                return Transform.translate(
-                  offset: Offset(0, -_animation.value * 50),
-                  child: Transform.scale(
-                    scale: 1 + (_animation.value * 0.20),
-                    child: FloatingActionButton(
-                      mini: true,
-                      backgroundColor: CustomColors.primaryColor,
-                      foregroundColor: CustomColors.primaryBlack,
-                      onPressed: () {
-                        if (currentIndex == 1) {
-                          print('Current index = $currentIndex 1');
-                          _newVisitshowBottomSheet(context);
-                        } else if (currentIndex == 2) {
-                          print('Current index = $currentIndex 2');
-                          openCreateOrderDialog();
-                        }else if (currentIndex == 3){
-                         showModalBottomSheet(
-                             isScrollControlled: false,
-                             useSafeArea: true,
-                             context: context,
-                             builder: (builder) => CollectionsummaryBottomsheet());
-                        }
-                      },
-                      child: Icon(
-                        Icons.add,
-                        size: 28 + (_animation.value * 5),
+      floatingActionButton:
+          currentIndex == 1 || currentIndex == 2 || currentIndex == 3
+              ? AnimatedBuilder(
+                  animation: _animation,
+                  builder: (context, child) {
+                    return Transform.translate(
+                      offset: Offset(0, -_animation.value * 50),
+                      child: Transform.scale(
+                        scale: 1 + (_animation.value * 0.20),
+                        child: FloatingActionButton(
+                          mini: true,
+                          backgroundColor: CustomColors.primaryColor,
+                          foregroundColor: CustomColors.primaryBlack,
+                          onPressed: () {
+                            if (currentIndex == 1) {
+                              print('Current index = $currentIndex 1');
+                              _newVisitshowBottomSheet(context);
+                            } else if (currentIndex == 2) {
+                              print('Current index = $currentIndex 2');
+                              openCreateOrderDialog();
+                            } else if (currentIndex == 3) {
+                              showModalBottomSheet(
+                                  isScrollControlled: false,
+                                  useSafeArea: true,
+                                  context: context,
+                                  builder: (builder) =>
+                                      CollectionsummaryBottomsheet());
+                            }
+                          },
+                          child: Icon(
+                            Icons.add,
+                            size: 28 + (_animation.value * 5),
+                          ),
+                        ),
                       ),
-                    ),
-                  ),
-                );
-              },
-            )
-          : null,
+                    );
+                  },
+                )
+              : null,
       // bottomNavigationBar: CustomGNavBar(
       //   onTap: (value) {},
       //   selectedIndex: 0,
@@ -604,6 +606,8 @@ class _VisitScreenState extends State<VisitScreen>
                     return InkWell(
                       onTap: () {
                         print(provider.searchResult[index]);
+                        provider.setClientName(
+                            provider.searchResult[index]['client'].toString());
                         clientNameController.text =
                             provider.searchResult[index]['client'].toString();
                         addressController.text =
@@ -1008,14 +1012,17 @@ class _VisitScreenState extends State<VisitScreen>
                   Container(
                     width: MediaQuery.of(context).size.width * 1,
                     child: Center(
-                      child: Text(name,
-                      style: TextStyle(fontWeight: FontWeight.w600,fontSize: 20),),
+                      child: Text(
+                        name,
+                        style: TextStyle(
+                            fontWeight: FontWeight.w600, fontSize: 20),
+                      ),
                     ),
                   ),
                   Container(
                     width: MediaQuery.of(context).size.width * 1,
                     color: CustomColors.primaryColor,
-                    child:  Padding(
+                    child: Padding(
                       padding: const EdgeInsets.symmetric(
                           vertical: 8.0, horizontal: 8.0),
                       child: CustomText(
@@ -1030,16 +1037,17 @@ class _VisitScreenState extends State<VisitScreen>
                     height: MediaQuery.of(context).size.height * 0.060,
                     color: CustomColors.primaryWhite,
                     child: Center(
-                        child: Text(
-                            'Add Cash Here',
-                        style: TextStyle(fontWeight: FontWeight.w600, fontSize: 14),
-                        ),
+                      child: Text(
+                        'Add Cash Here',
+                        style: TextStyle(
+                            fontWeight: FontWeight.w600, fontSize: 14),
+                      ),
                     ),
                   ),
                   Container(
                     width: MediaQuery.of(context).size.width * 1,
                     color: CustomColors.primaryColor,
-                    child:  Padding(
+                    child: Padding(
                       padding: const EdgeInsets.symmetric(
                           vertical: 8.0, horizontal: 8.0),
                       child: CustomText(
@@ -1056,14 +1064,15 @@ class _VisitScreenState extends State<VisitScreen>
                     child: Center(
                       child: Text(
                         'Add Cheque Here',
-                        style: TextStyle(fontWeight: FontWeight.w600, fontSize: 14),
+                        style: TextStyle(
+                            fontWeight: FontWeight.w600, fontSize: 14),
                       ),
                     ),
                   ),
                   Container(
                     width: MediaQuery.of(context).size.width * 1,
                     color: CustomColors.primaryColor,
-                    child:  Padding(
+                    child: Padding(
                       padding: const EdgeInsets.symmetric(
                           vertical: 8.0, horizontal: 8.0),
                       child: CustomText(
@@ -1080,7 +1089,8 @@ class _VisitScreenState extends State<VisitScreen>
                     child: Center(
                       child: Text(
                         'Add Banks Here',
-                        style: TextStyle(fontWeight: FontWeight.w600, fontSize: 14),
+                        style: TextStyle(
+                            fontWeight: FontWeight.w600, fontSize: 14),
                       ),
                     ),
                   ),

@@ -135,7 +135,10 @@ class VisitScreenProvider extends ChangeNotifier {
       'dateTime': '2081-05-27T09:05:32'
     }
   ];
+  String _clientName = '';
+
   List<Map<String, dynamic>> get visitStatus => _vistiStatus;
+  String get clientName => _clientName;
 
   VisitScreenProvider() {
     // Create a deep copy of _vistiStatus
@@ -145,6 +148,11 @@ class VisitScreenProvider extends ChangeNotifier {
 
   List<Map<String, dynamic>> _searchResults = [];
   List<Map<String, dynamic>> get searchResult => _searchResults;
+
+  void setClientName(name) {
+    _clientName = name;
+    notifyListeners();
+  }
 
   void setSearchResult() {
     _searchResults = _vistiStatus;

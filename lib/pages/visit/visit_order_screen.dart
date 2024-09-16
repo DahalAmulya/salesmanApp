@@ -1,5 +1,5 @@
-import 'package:deskgoo/providers/visit_provider/order_items.dart';
 import 'package:deskgoo/providers/visit_provider/order_provider.dart';
+import 'package:deskgoo/providers/visit_provider/visit_screen_provider.dart';
 import 'package:deskgoo/themes/custom_colors.dart';
 import 'package:deskgoo/widgets/app_bars/custom_app_bars.dart';
 import 'package:deskgoo/widgets/bottom_navigation/gnav_bar.dart';
@@ -69,11 +69,13 @@ class VisitOrderScreen extends StatelessWidget {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                CustomText(
-                  text: 'Anu Yadav',
-                  fontWeight: FontWeight.w600,
-                  size: 20,
-                ),
+                Consumer<VisitScreenProvider>(builder: (context, provider, _) {
+                  return CustomText(
+                    text: provider.clientName,
+                    fontWeight: FontWeight.w600,
+                    size: 20,
+                  );
+                }),
                 // Divider(),
                 // Wrap ListView.builder with Expanded to give it flexible space
                 Expanded(
