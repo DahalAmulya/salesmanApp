@@ -232,13 +232,19 @@ class _VisitScreenState extends State<VisitScreen>
                   ? _newVisitTab(context)
                   : currentIndex == 2
                       ? VisitOrderScreen()
-                      : _followUp(context),
+                      : currentIndex == 3
+                          ? _collectionTab(context)
+                          : currentIndex == 4
+                              ? _followUp(context)
+                              : _summaryTab(context),
         ],
       ),
     );
   }
 
   // --------------------------- Visit History Tab --------------------------- //
+
+  final searchClientHistoryController = TextEditingController();
 
   Expanded _visitHistoryTab(context) {
     return Expanded(
@@ -255,13 +261,13 @@ class _VisitScreenState extends State<VisitScreen>
             child: Consumer<VisitScreenProvider>(
               builder: (context, provider, _) {
                 return TextFromFieldWithPrefixSuffix(
-                  controller: searchController,
+                  controller: searchClientHistoryController,
                   onTap: () {},
                   validator: (value) {
                     return null;
                   },
-                  onChange: (value) =>
-                      provider.runFilter(searchController.value.text),
+                  onChange: (value) => provider
+                      .runFilter(searchClientHistoryController.value.text),
                   labelText: 'Search Client',
                   fillColor: Colors.white,
                   applyPrefix: true,
@@ -397,15 +403,15 @@ class _VisitScreenState extends State<VisitScreen>
   final phoneController = TextEditingController();
   final emailController = TextEditingController();
   final panController = TextEditingController();
-  final searchController = TextEditingController();
+  final searchClientController = TextEditingController();
 
   void clearNewVisitValues() {
+    searchClientController.clear();
     clientNameController.clear();
     addressController.clear();
     phoneController.clear();
     emailController.clear();
     panController.clear();
-    searchController.clear();
   }
 
   Widget _newVisitTab(context) {
@@ -541,7 +547,7 @@ class _VisitScreenState extends State<VisitScreen>
             Consumer<VisitScreenProvider>(
               builder: (context, provider, _) {
                 return TextFromFieldWithPrefixSuffix(
-                  controller: searchController,
+                  controller: searchClientController,
                   labelText: 'Search Client',
                   applyPrefix: true,
                   prefixIcon: Icon(Icons.search),
@@ -549,7 +555,7 @@ class _VisitScreenState extends State<VisitScreen>
                     return null;
                   },
                   onChange: (value) =>
-                      provider.runFilter(searchController.value.text),
+                      provider.runFilter(searchClientController.value.text),
                   onTap: () {},
                 );
               },
@@ -616,6 +622,7 @@ class _VisitScreenState extends State<VisitScreen>
   // --------------------------- Order Tab --------------------------- //
 
   final searchProductController = TextEditingController();
+  final productNameController = TextEditingController();
   final quantityController = TextEditingController();
   final mrpController = TextEditingController();
   final discountController = TextEditingController();
@@ -645,14 +652,14 @@ class _VisitScreenState extends State<VisitScreen>
                     height: 10,
                   ),
                   TextFromFieldWithPrefixSuffix(
-                    controller: searchProductController,
+                    controller: productNameController,
                     labelText: 'Search Product',
                     validator: (value) {
                       return null;
                     },
                     onChange: (value) {
-                      searchProductController.text = value!;
-                      print('${searchProductController.value.text}');
+                      // searchProductController.text = value!;
+                      // print('${searchProductController.value.text}');
                     },
                     onTap: () {
                       print('tapped');
@@ -832,7 +839,6 @@ class _VisitScreenState extends State<VisitScreen>
 
   void clearInputFieldValues() {
     searchProductController.clear();
-    searchController.clear();
     mrpController.clear();
     totalAmountController.clear();
     discountController.clear();
@@ -882,7 +888,7 @@ class _VisitScreenState extends State<VisitScreen>
             Consumer<VisitScreenProvider>(
               builder: (context, provider, _) {
                 return TextFromFieldWithPrefixSuffix(
-                  controller: searchController,
+                  controller: searchProductController,
                   labelText: 'Search Product',
                   applyPrefix: true,
                   prefixIcon: Icon(Icons.search),
@@ -890,7 +896,7 @@ class _VisitScreenState extends State<VisitScreen>
                     return null;
                   },
                   onChange: (value) =>
-                      provider.runFilter(searchController.value.text),
+                      provider.runFilter(searchProductController.value.text),
                   onTap: () {},
                 );
               },
@@ -904,7 +910,7 @@ class _VisitScreenState extends State<VisitScreen>
                     return InkWell(
                       onTap: () {
                         print(product);
-                        searchProductController.text = product.name.toString();
+                        productNameController.text = product.name.toString();
                         mrpController.text = product.price.toString();
                         netPriceController.text = product.price.toString();
                         discountController.text = '0';
@@ -943,6 +949,21 @@ class _VisitScreenState extends State<VisitScreen>
               ],
             ),
           ],
+        ),
+      ),
+    );
+  }
+
+  // --------------------------- Collection Up Tab --------------------------- //
+
+  Expanded _collectionTab(context) {
+    return Expanded(
+      child: Container(
+        width: double.infinity,
+        height: double.infinity,
+        margin: EdgeInsets.all(6),
+        child: Center(
+          child: CustomText(text: 'Collection Comming soon'),
         ),
       ),
     );
@@ -1075,5 +1096,20 @@ class _VisitScreenState extends State<VisitScreen>
       return date;
     }
     return date;
+  }
+
+// --------------------------- Collection Up Tab --------------------------- //
+
+  Expanded _summaryTab(context) {
+    return Expanded(
+      child: Container(
+        width: double.infinity,
+        height: double.infinity,
+        margin: EdgeInsets.all(6),
+        child: Center(
+          child: CustomText(text: 'Summary Comming soon'),
+        ),
+      ),
+    );
   }
 }
