@@ -1,11 +1,9 @@
 import 'dart:async';
 
-import 'package:deskgoo/pages/visit/visit_client_screen.dart';
 import 'package:deskgoo/pages/visit/visit_order_screen.dart';
 import 'package:deskgoo/providers/visit_provider/order_items.dart';
 import 'package:deskgoo/providers/visit_provider/order_provider.dart';
 import 'package:deskgoo/providers/visit_provider/visit_screen_provider.dart';
-// import 'package:deskgoo/routes/app_route_constants.dart';
 import 'package:deskgoo/themes/custom_colors.dart';
 import 'package:deskgoo/widgets/app_bars/custom_app_bars.dart';
 import 'package:deskgoo/widgets/bottom_navigation/gnav_bar.dart';
@@ -16,9 +14,9 @@ import 'package:deskgoo/widgets/text_fields/text_from_field.dart';
 import 'package:deskgoo/widgets/texts/custom_text.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-// import 'package:go_router/go_router.dart';
 import 'package:nepali_utils/nepali_utils.dart';
 import 'package:provider/provider.dart';
+import 'package:nepali_date_picker/nepali_date_picker.dart' as picker;
 
 class VisitScreen extends StatefulWidget {
   VisitScreen({super.key});
@@ -34,13 +32,6 @@ class _VisitScreenState extends State<VisitScreen>
   NepaliDateTime nepaliDateTime = NepaliDateTime.now();
   NepaliDateFormat nepaliDateFormatter = NepaliDateFormat('yyyy-MM-ddThh:mm');
   String formatedDateTime = '';
-  final searchController = TextEditingController();
-  final searchProductController = TextEditingController();
-  final quantityController = TextEditingController();
-  final mrpController = TextEditingController();
-  final discountController = TextEditingController();
-  final netPriceController = TextEditingController();
-  final totalAmountController = TextEditingController();
 
   List<Map<String, dynamic>> searchResult = [];
   List<String> items = [
@@ -49,6 +40,7 @@ class _VisitScreenState extends State<VisitScreen>
     'Order',
     'Collection',
     'Follow Up',
+    'Summary',
   ];
 
   List<IconData> icons = [
@@ -57,6 +49,7 @@ class _VisitScreenState extends State<VisitScreen>
     FontAwesomeIcons.cartPlus,
     FontAwesomeIcons.moneyBillWave,
     FontAwesomeIcons.arrowRightArrowLeft,
+    FontAwesomeIcons.noteSticky,
   ];
   int currentIndex = 0;
 
@@ -116,15 +109,12 @@ class _VisitScreenState extends State<VisitScreen>
                       backgroundColor: CustomColors.primaryColor,
                       foregroundColor: CustomColors.primaryBlack,
                       onPressed: () {
-                        // print('dateTime = $formatedDateTime');
-                        // GoRouter.of(context).pushReplacementNamed(
-                        //     MyAppRouteConstants.visitClientRouteName);
-                        // ++currentIndex;
                         if (currentIndex == 1) {
                           print('Current index = $currentIndex 1');
+                          _newVisitshowBottomSheet(context);
                         } else if (currentIndex == 2) {
                           print('Current index = $currentIndex 2');
-                          openDialog();
+                          openCreateOrderDialog();
                         }
                       },
                       child: Icon(
@@ -183,7 +173,13 @@ class _VisitScreenState extends State<VisitScreen>
                       onTap: () {
                         setState(() {
                           currentIndex = index;
+                          // if (currentIndex == 4 &&
+                          //     _followUpFormKey.currentState!.validate()) {
+                          //   currentIndex = index;
+                          print('_followUpFormKey not valid');
+                          // } else {
                           print('current index: $currentIndex');
+                          // }
                         });
                       },
                       child: AnimatedContainer(
@@ -231,16 +227,20 @@ class _VisitScreenState extends State<VisitScreen>
             ),
           ),
           currentIndex == 0
-              ? _visitHistory(context)
+              ? _visitHistoryTab(context)
               : currentIndex == 1
-                  ? VisitClientScreen()
-                  : VisitOrderScreen(),
+                  ? _newVisitTab(context)
+                  : currentIndex == 2
+                      ? VisitOrderScreen()
+                      : _followUp(context),
         ],
       ),
     );
   }
 
-  Expanded _visitHistory(context) {
+  // --------------------------- Visit History Tab --------------------------- //
+
+  Expanded _visitHistoryTab(context) {
     return Expanded(
       child: Column(
         children: [
@@ -390,7 +390,239 @@ class _VisitScreenState extends State<VisitScreen>
     );
   }
 
-  Future openDialog() => showDialog(
+  // --------------------------- New Visit Tab --------------------------- //
+
+  final clientNameController = TextEditingController();
+  final addressController = TextEditingController();
+  final phoneController = TextEditingController();
+  final emailController = TextEditingController();
+  final panController = TextEditingController();
+  final searchController = TextEditingController();
+
+  void clearNewVisitValues() {
+    clientNameController.clear();
+    addressController.clear();
+    phoneController.clear();
+    emailController.clear();
+    panController.clear();
+    searchController.clear();
+  }
+
+  Widget _newVisitTab(context) {
+    return Expanded(
+      child: Column(
+        children: [
+          SizedBox(
+            height: 8,
+          ),
+          CustomContainer(
+            verticalPad: 24.0,
+            horizontalPad: 16.0,
+            applyShadow: true,
+            child: Column(
+              children: [
+                Builder(builder: (context) {
+                  return TextFromFieldWithPrefixSuffix(
+                    controller: clientNameController,
+                    labelText: 'Select Client Name',
+                    // hintText: 'Select Client Name',
+                    readOnly: true,
+                    onTap: () {
+                      _newVisitshowBottomSheet(context);
+                    },
+                    validator: (value) {
+                      return null;
+                    },
+                    onChange: (value) {},
+                  );
+                }),
+                SizedBox(
+                  height: 10.0,
+                ),
+                TextFromFieldWithPrefixSuffix(
+                  controller: addressController,
+                  readOnly: true,
+                  labelText: 'Address',
+                  onTap: () {},
+                  validator: (value) {
+                    return null;
+                  },
+                  onChange: (value) {},
+                ),
+                SizedBox(
+                  height: 10.0,
+                ),
+                TextFromFieldWithPrefixSuffix(
+                  controller: phoneController,
+                  readOnly: true,
+                  labelText: 'Phone',
+                  onTap: () {},
+                  validator: (value) {
+                    return null;
+                  },
+                  onChange: (value) {},
+                ),
+                SizedBox(
+                  height: 10.0,
+                ),
+                TextFromFieldWithPrefixSuffix(
+                  controller: emailController,
+                  readOnly: true,
+                  labelText: 'Email',
+                  onTap: () {},
+                  validator: (value) {
+                    return null;
+                  },
+                  onChange: (value) {},
+                ),
+                SizedBox(
+                  height: 10.0,
+                ),
+                TextFromFieldWithPrefixSuffix(
+                  controller: panController,
+                  readOnly: true,
+                  labelText: 'PAN',
+                  onTap: () {},
+                  validator: (value) {
+                    return null;
+                  },
+                  onChange: (value) {},
+                ),
+                SizedBox(
+                  height: 8.0,
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Future<void> _newVisitshowBottomSheet(context) async {
+    showModalBottomSheet(
+      isScrollControlled: true,
+      useSafeArea: true,
+      context: context,
+      builder: (context) => ClipRRect(
+        borderRadius: BorderRadius.circular(16.0),
+        child: SizedBox(
+          height: MediaQuery.of(context).size.height * 0.90,
+          child: Scaffold(
+            backgroundColor: Colors.grey.shade200,
+            appBar: _newVisitbottomSheetAppBar(context),
+            body: _newVisitbottomSheetBody(context),
+          ),
+        ),
+      ),
+    );
+  }
+
+  PreferredSize _newVisitbottomSheetAppBar(context) {
+    return PreferredSize(
+      preferredSize: Size.fromHeight(kToolbarHeight),
+      child: CustomAppBar(
+        showLeading: true,
+        leadingIcon: FontAwesomeIcons.arrowLeft,
+        tabName: 'Search Client',
+        onTapLeadingIcon: () {
+          Navigator.pop(context);
+        },
+      ),
+    );
+  }
+
+  Widget _newVisitbottomSheetBody(context) {
+    return Center(
+      child: CustomContainer(
+        verticalMargin: 16.0,
+        child: Column(
+          children: [
+            Consumer<VisitScreenProvider>(
+              builder: (context, provider, _) {
+                return TextFromFieldWithPrefixSuffix(
+                  controller: searchController,
+                  labelText: 'Search Client',
+                  applyPrefix: true,
+                  prefixIcon: Icon(Icons.search),
+                  validator: (value) {
+                    return null;
+                  },
+                  onChange: (value) =>
+                      provider.runFilter(searchController.value.text),
+                  onTap: () {},
+                );
+              },
+            ),
+            Expanded(
+              child: Consumer<VisitScreenProvider>(
+                  builder: (context, provider, _) {
+                return ListView.builder(
+                  itemCount: provider.searchResult.length,
+                  itemBuilder: (context, index) {
+                    return InkWell(
+                      onTap: () {
+                        print(provider.searchResult[index]);
+                        clientNameController.text =
+                            provider.searchResult[index]['client'].toString();
+                        addressController.text =
+                            provider.searchResult[index]['address'].toString();
+                        phoneController.text =
+                            provider.searchResult[index]['phone'].toString();
+                        emailController.text =
+                            provider.searchResult[index]['email'].toString();
+                        panController.text =
+                            provider.searchResult[index]['pan'].toString();
+                        Navigator.pop(context);
+                      },
+                      child: ListTile(
+                        leading: CustomText(
+                            text: provider.searchResult[index]['client']),
+                      ),
+                    );
+                  },
+                );
+              }),
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                CustomElevatedButton(
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
+                  borderColor: CustomColors.lightRed,
+                  widget: CustomText(
+                    text: 'Cancel',
+                    color: CustomColors.lightRed,
+                  ),
+                ),
+                CustomElevatedButton(
+                  onPressed: () {},
+                  borderColor: CustomColors.primaryColor,
+                  widget: CustomText(
+                    text: 'Create',
+                    color: CustomColors.primaryColor,
+                  ),
+                ),
+              ],
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  // --------------------------- Order Tab --------------------------- //
+
+  final searchProductController = TextEditingController();
+  final quantityController = TextEditingController();
+  final mrpController = TextEditingController();
+  final discountController = TextEditingController();
+  final netPriceController = TextEditingController();
+  final totalAmountController = TextEditingController();
+
+  Future openCreateOrderDialog() => showDialog(
         context: context,
         builder: (_) {
           return AlertDialog(
@@ -608,110 +840,6 @@ class _VisitScreenState extends State<VisitScreen>
     netPriceController.clear();
   }
 
-  // showDialog(
-  //       context: context,
-  //       builder: (context) => AlertDialog(
-  //         backgroundColor: Colors.grey.shade200,
-  //         title: CustomText(text: 'Select Product'),
-  //         content: Center(
-  //           child: SingleChildScrollView(
-  //             child: SizedBox(
-  //               width: double.infinity,
-  //               height: 500,
-  //               child: Column(
-  //                 mainAxisAlignment: MainAxisAlignment.center,
-  //                 children: [
-  //                   SizedBox(
-  //                     height: 10,
-  //                   ),
-  //                   TextFromFieldWithPrefixSuffix(
-  //                     autoFocus: true,
-  //                     controller: searchProduct,
-  //                     labelText: 'Search Product',
-  //                     validator: (value) {
-  //                       return null;
-  //                     },
-  //                     onChange: (value) {},
-  //                     onTap: () {},
-  //                   ),
-  //                   SizedBox(
-  //                     height: 10,
-  //                   ),
-  //                   TextFromFieldWithPrefixSuffix(
-  //                     controller: searchProduct,
-  //                     labelText: 'Quantity',
-  //                     validator: (value) {
-  //                       return null;
-  //                     },
-  //                     onChange: (value) {},
-  //                     onTap: () {},
-  //                   ),
-  //                   SizedBox(
-  //                     height: 10,
-  //                   ),
-  //                   TextFromFieldWithPrefixSuffix(
-  //                     controller: searchProduct,
-  //                     labelText: 'MRP',
-  //                     validator: (value) {
-  //                       return null;
-  //                     },
-  //                     onChange: (value) {},
-  //                     onTap: () {},
-  //                   ),
-  //                   SizedBox(
-  //                     height: 10,
-  //                   ),
-  //                   TextFromFieldWithPrefixSuffix(
-  //                     controller: searchProduct,
-  //                     labelText: 'Discount',
-  //                     validator: (value) {
-  //                       return null;
-  //                     },
-  //                     onChange: (value) {},
-  //                     onTap: () {},
-  //                   ),
-  //                   SizedBox(
-  //                     height: 10,
-  //                   ),
-  //                   TextFromFieldWithPrefixSuffix(
-  //                     controller: searchProduct,
-  //                     labelText: 'Net Price',
-  //                     validator: (value) {
-  //                       return null;
-  //                     },
-  //                     onChange: (value) {},
-  //                     onTap: () {},
-  //                   ),
-  //                   SizedBox(
-  //                     height: 10,
-  //                   ),
-  //                   TextFromFieldWithPrefixSuffix(
-  //                     controller: searchProduct,
-  //                     labelText: 'Amount',
-  //                     validator: (value) {
-  //                       return null;
-  //                     },
-  //                     onChange: (value) {},
-  //                     onTap: () {},
-  //                   ),
-  //                 ],
-  //               ),
-  //             ),
-  //           ),
-  //         ),
-  //         actions: [
-  //           CustomElevatedButton(
-  //             onPressed: () {},
-  //             widget: CustomText(text: 'Cancel'),
-  //           ),
-  //           CustomElevatedButton(
-  //             onPressed: () {},
-  //             widget: CustomText(text: 'Add'),
-  //           ),
-  //         ],
-  //       ),
-  //     );
-
   Future<void> _showBottomSheet(context) async {
     showModalBottomSheet(
       isScrollControlled: true,
@@ -781,12 +909,6 @@ class _VisitScreenState extends State<VisitScreen>
                         netPriceController.text = product.price.toString();
                         discountController.text = '0';
                         provider.setPrice(product.price);
-                        // phoneController.text =
-                        //     provider.searchResult[index]['phone'].toString();
-                        // emailController.text =
-                        //     provider.searchResult[index]['email'].toString();
-                        // panController.text =
-                        //     provider.searchResult[index]['pan'].toString();
                         Navigator.pop(context);
                       },
                       child: ListTile(
@@ -824,5 +946,134 @@ class _VisitScreenState extends State<VisitScreen>
         ),
       ),
     );
+  }
+
+  // --------------------------- Follow Up Tab --------------------------- //
+
+  final _followUpFormKey = GlobalKey<FormState>();
+  NepaliDateTime selectedDate = NepaliDateTime.now();
+  final followUpNoteController = TextEditingController();
+  final followUpDateController = TextEditingController();
+
+  Expanded _followUp(context) {
+    return Expanded(
+      child: Column(
+        children: [
+          CustomContainer(
+            verticalMargin: 8,
+            verticalPad: 24,
+            child: Form(
+              key: _followUpFormKey,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  TextFromFieldWithPrefixSuffix(
+                    controller: followUpNoteController,
+                    autoFocus: true,
+                    hintText: 'Visit note*',
+                    labelText: 'Follow up note',
+                    minLine: 4,
+                    maxLines: 4,
+                    validator: (value) {
+                      return value!.isEmpty
+                          ? 'Visit note is required'
+                          : value.length < 3
+                              ? 'Enter atleast 3 characters'
+                              : null;
+                    },
+                    onChange: (value) {},
+                    onTap: () {},
+                  ),
+                  SizedBox(
+                    height: 16,
+                  ),
+                  TextFromFieldWithPrefixSuffix(
+                    controller: followUpDateController,
+                    readOnly: true,
+                    onTap: () {
+                      datePicker();
+                    },
+                    validator: (value) {
+                      return null;
+                    },
+                    onChange: (value) {},
+                    labelText: 'Follow Up Date',
+                    applySuffixIcon: true,
+                    suffixIcon: InkWell(
+                      onTap: () {
+                        // authProvider.toggleObscure();
+                      },
+                      child: Icon(
+                        Icons.calendar_month,
+                        color: Colors.grey.shade600,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Future<String?> datePicker() async {
+    String date = '';
+    NepaliDateTime? _selectedDateTime = await picker.showMaterialDatePicker(
+      context: context,
+      initialDate: selectedDate,
+      firstDate: NepaliDateTime(2000),
+      lastDate: NepaliDateTime(2090),
+      initialDatePickerMode: DatePickerMode.day,
+      builder: (context, child) {
+        return Theme(
+          data: ThemeData.dark().copyWith(
+            colorScheme: ColorScheme.light(
+              surfaceContainerHighest: Colors.white,
+              tertiary: CustomColors.primaryColor,
+              onTertiary: Colors.white,
+              primary: CustomColors.primaryColor, // circle color
+              onPrimary: CustomColors.primaryBlack, // selected text color
+              onSurface: CustomColors.primaryBlack, // default text color
+            ),
+            dialogBackgroundColor: Colors.white,
+            textButtonTheme: TextButtonThemeData(
+              style: TextButton.styleFrom(
+                foregroundColor: CustomColors.primaryBlack,
+                textStyle: TextStyle(
+                  color: CustomColors.primaryColor,
+                  fontWeight: FontWeight.w400,
+                  fontSize: 14,
+                  // fontFamily: 'Quicksand',
+                ), // color of button's letters
+                // backgroundColor: Colors.green, // Background color
+                shape: RoundedRectangleBorder(
+                  side: BorderSide(
+                    color: CustomColors.primaryColor,
+                    width: 1,
+                    style: BorderStyle.solid,
+                  ),
+                  borderRadius: BorderRadius.circular(50),
+                ),
+              ),
+            ),
+          ),
+          child: child!,
+        );
+      },
+    );
+    // selectedDate = _selectedDateTime!;
+    if (_selectedDateTime != null) {
+      setState(() {
+        selectedDate = _selectedDateTime;
+        date = _selectedDateTime.toString().split(' ')[0];
+        debugPrint(
+            'followUpDateController.text = ${followUpDateController.text}');
+        debugPrint('selectedDate = $date');
+      });
+      return date;
+    }
+    return date;
   }
 }

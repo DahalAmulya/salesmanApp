@@ -1,12 +1,12 @@
 import 'package:flutter/foundation.dart';
 
 class Orders {
-  final String productName;
-  final int quantity;
-  final double price;
-  final double discountRate;
-  final double netAmount;
-  final double totalPrice;
+  String productName;
+  int quantity;
+  double price;
+  double discountRate;
+  double netAmount;
+  double totalPrice;
 
   Orders({
     required this.productName,
@@ -35,6 +35,20 @@ class OrderProvider extends ChangeNotifier {
 
   void addItem(Orders item) {
     _items.add(item);
+    notifyListeners();
+  }
+
+  void addOneQuantity(index) {
+    items[index].quantity = items[index].quantity + 1;
+    items[index].totalPrice = items[index].netAmount * items[index].quantity;
+    notifyListeners();
+  }
+
+  void removeOneQuantity(index) {
+    items[index].quantity = items[index].quantity > 1
+        ? items[index].quantity - 1
+        : items[index].quantity;
+    items[index].totalPrice = items[index].netAmount * items[index].quantity;
     notifyListeners();
   }
 
