@@ -17,8 +17,8 @@ class Product {
 final List<Product> PRODUCTS = [
   Product(
     id: 0,
-    name: 'Laptop',
-    price: 999.99,
+    name: 'Lenovo ideapad gaming 13 i5 12600K 16GB RAM',
+    price: 125000.0,
     color: Colors.amber,
   ),
   Product(
