@@ -413,7 +413,6 @@ class _VisitScreenState extends State<VisitScreen>
                     height: 10,
                   ),
                   TextFromFieldWithPrefixSuffix(
-                    autoFocus: true,
                     controller: searchProductController,
                     labelText: 'Search Product',
                     validator: (value) {
@@ -433,17 +432,27 @@ class _VisitScreenState extends State<VisitScreen>
                   ),
                   Consumer<OrderProvider>(builder: (context, provider, _) {
                     return TextFromFieldWithPrefixSuffix(
+                      keyboardType: TextInputType.number,
                       controller: quantityController,
                       labelText: 'Quantity',
                       validator: (value) {
                         return null;
                       },
                       onChange: (value) {
-                        int quantity = int.parse(value!);
-                        provider.setQuantity(quantity);
-                        provider.totalPrice();
-                        totalAmountController.text =
-                            provider.total.toStringAsFixed(2);
+                        if (value != null && value.isNotEmpty) {
+                          int quantity = int.parse(value);
+                          provider.setQuantity(quantity);
+                          provider.totalPrice();
+                          totalAmountController.text =
+                              provider.total.toStringAsFixed(2);
+                        }
+                        if (value == null || value.isEmpty) {
+                          print('Quantity = $value');
+                          provider.setQuantity(0);
+                          provider.setTotalPrice();
+                          totalAmountController.text =
+                              provider.total.toStringAsFixed(2);
+                        }
                       },
                       onTap: () {},
                     );
@@ -467,21 +476,31 @@ class _VisitScreenState extends State<VisitScreen>
                   Consumer<OrderProvider>(builder: (context, provider, _) {
                     return TextFromFieldWithPrefixSuffix(
                       controller: discountController,
+                      keyboardType: TextInputType.number,
                       labelText: 'Discount',
                       // readOnly: true,
                       validator: (value) {
                         return null;
                       },
                       onChange: (value) {
-                        double discountRate = double.parse(value!);
-                        provider.setDiscountRate(discountRate);
-                        provider.setDiscountedPrice();
-                        provider.totalPrice();
-                        netPriceController.text =
-                            provider.discountedPrice.toStringAsFixed(2);
-                        totalAmountController.text =
-                            provider.total.toStringAsFixed(2);
-                        // netPriceController.text = provider.
+                        if (value != null && value.isNotEmpty) {
+                          provider.setDiscountRate(double.parse(value));
+                          provider.setDiscountedPrice();
+                          provider.totalPrice();
+                          netPriceController.text =
+                              provider.discountedPrice.toStringAsFixed(2);
+                          totalAmountController.text =
+                              provider.total.toStringAsFixed(2);
+                        }
+                        if (value == null || value.isEmpty) {
+                          provider.setDiscountRate(0);
+                          provider.setDiscountedPrice();
+                          provider.setTotalPrice();
+                          netPriceController.text =
+                              provider.discountedPrice.toStringAsFixed(2);
+                          totalAmountController.text =
+                              provider.total.toStringAsFixed(2);
+                        }
                       },
                       onTap: () {},
                     );
@@ -580,7 +599,7 @@ class _VisitScreenState extends State<VisitScreen>
       );
 
   void clearInputFieldValues() {
-    searchController.clear();
+    searchProductController.clear();
     searchController.clear();
     mrpController.clear();
     totalAmountController.clear();
@@ -760,6 +779,7 @@ class _VisitScreenState extends State<VisitScreen>
                         searchProductController.text = product.name.toString();
                         mrpController.text = product.price.toString();
                         netPriceController.text = product.price.toString();
+                        discountController.text = '0';
                         provider.setPrice(product.price);
                         // phoneController.text =
                         //     provider.searchResult[index]['phone'].toString();

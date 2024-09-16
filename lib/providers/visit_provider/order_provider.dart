@@ -51,6 +51,7 @@ class OrderProvider extends ChangeNotifier {
 
   void setQuantity(quantity) {
     _quantity = quantity;
+    _discountedPrice == 0 ? _discountedPrice = _price : _discountedPrice;
     _total = _price * _quantity;
     notifyListeners();
   }
@@ -65,8 +66,12 @@ class OrderProvider extends ChangeNotifier {
     notifyListeners();
   }
 
+  void setTotalPrice() {
+    _total = 0;
+    notifyListeners();
+  }
+
   void totalPrice() {
-    _total = 0.0;
     _total = _quantity * _discountedPrice;
     notifyListeners();
   }
