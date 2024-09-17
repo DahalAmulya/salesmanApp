@@ -971,7 +971,10 @@ class _VisitScreenState extends State<VisitScreen>
                         Navigator.pop(context);
                       },
                       child: ListTile(
-                        title: CustomText(text: product.name),
+                        title: CustomText(
+                          text: product.name,
+                          textOverflow: TextOverflow.visible,
+                        ),
                       ),
                     );
                   },
