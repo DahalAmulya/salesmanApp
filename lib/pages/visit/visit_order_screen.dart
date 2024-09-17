@@ -1,8 +1,10 @@
+import 'dart:async';
+
 import 'package:deskgoo/providers/visit_provider/order_provider.dart';
 import 'package:deskgoo/providers/visit_provider/visit_screen_provider.dart';
 import 'package:deskgoo/themes/custom_colors.dart';
 import 'package:deskgoo/widgets/app_bars/custom_app_bars.dart';
-import 'package:deskgoo/widgets/bottom_navigation/gnav_bar.dart';
+import 'package:deskgoo/widgets/buttons/elevated_button.dart';
 import 'package:deskgoo/widgets/containers/custom_container.dart';
 import 'package:deskgoo/widgets/drawers/custom_drawer.dart';
 import 'package:deskgoo/widgets/texts/custom_text.dart';
@@ -98,7 +100,9 @@ class VisitOrderScreen extends StatelessWidget {
                           contentPadding: EdgeInsets.all(0),
                           onLongPress: () {
                             cardColor = Colors.red;
-                            provider.remove(orders);
+                            openDeleteItemDialog(
+                                context, orders.productName, orders);
+                            // provider.remove(orders);
                           },
                           titleAlignment: ListTileTitleAlignment.center,
                           title: Card(
@@ -131,9 +135,11 @@ class VisitOrderScreen extends StatelessWidget {
                                             mainAxisAlignment:
                                                 MainAxisAlignment.spaceBetween,
                                             children: [
-                                              CustomText(
-                                                text: orders.productName,
-                                                fontWeight: FontWeight.w600,
+                                              Expanded(
+                                                child: CustomText(
+                                                  text: orders.productName,
+                                                  fontWeight: FontWeight.w600,
+                                                ),
                                               ),
                                             ],
                                           ),
@@ -327,12 +333,62 @@ class VisitOrderScreen extends StatelessWidget {
     );
   }
 
-  CustomGNavBar _bottomNavBar(context) {
-    return CustomGNavBar(
-      selectedIndex: 0,
-      onTap: (value) {},
-    );
-  }
+  Future openDeleteItemDialog(context, productName, item) => showDialog(
+      context: context,
+      builder: (_) {
+        return AlertDialog(
+          backgroundColor: CustomColors.primaryWhite,
+          elevation: 10,
+          title: CustomText(
+            text: 'Delete Item',
+            fontWeight: FontWeight.bold,
+            size: 22,
+            color: CustomColors.lightRed,
+          ),
+          content: SingleChildScrollView(
+            child: Column(
+              children: [
+                // CustomText(text: 'Are you sure you want to delete?'),
+                CustomText(
+                  text: productName,
+                  textOverflow: TextOverflow.visible,
+                  fontWeight: FontWeight.w500,
+                ),
+              ],
+            ),
+          ),
+          actions: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                CustomElevatedButton(
+                  borderColor: CustomColors.primaryColor,
+                  onPressed: () =>
+                      Navigator.pop(context, false), // passing false
+                  widget: CustomText(
+                    text: 'No',
+                    color: CustomColors.primaryBlack,
+                  ),
+                ),
+                Consumer<OrderProvider>(builder: (context, provider, _) {
+                  return CustomElevatedButton(
+                    borderColor: CustomColors.lightRed,
+                    onPressed: () {
+                      provider.remove(item);
+                      Navigator.pop(context, false);
+                      // SystemNavigator.pop();
+                    }, // passing true
+                    widget: CustomText(
+                      text: 'Yes',
+                      color: CustomColors.lightRed,
+                    ),
+                  );
+                }),
+              ],
+            ),
+          ],
+        );
+      });
 
   PopupMenuButton _showPopupMenu(context) {
     return PopupMenuButton(

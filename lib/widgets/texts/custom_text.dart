@@ -8,6 +8,7 @@ class CustomText extends StatelessWidget {
     this.fontWeight = FontWeight.normal,
     this.size = 16.0,
     this.textDecoration = TextDecoration.none,
+    this.textOverflow = TextOverflow.ellipsis,
     super.key,
   });
 
@@ -16,12 +17,13 @@ class CustomText extends StatelessWidget {
   final FontWeight fontWeight;
   final double size;
   final TextDecoration textDecoration;
+  final TextOverflow textOverflow;
 
   @override
   Widget build(BuildContext context) {
     return Text(
       softWrap: true,
-      overflow: TextOverflow.ellipsis,
+      overflow: textOverflow,
       text,
       style: TextStyle(
         decoration: textDecoration,

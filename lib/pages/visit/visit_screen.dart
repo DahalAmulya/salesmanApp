@@ -119,7 +119,7 @@ class _VisitScreenState extends State<VisitScreen>
                               _newVisitshowBottomSheet(context);
                             } else if (currentIndex == 2) {
                               print('Current index = $currentIndex 2');
-                              openCreateOrderDialog();
+                              openCreateOrderDialog(context);
                             } else if (currentIndex == 3) {
                               showModalBottomSheet(
                                   isScrollControlled: false,
@@ -660,6 +660,7 @@ class _VisitScreenState extends State<VisitScreen>
 
   // --------------------------- Order Tab --------------------------- //
 
+  final _orderFormKey = GlobalKey<FormState>();
   final searchProductController = TextEditingController();
   final productNameController = TextEditingController();
   final quantityController = TextEditingController();
@@ -668,11 +669,11 @@ class _VisitScreenState extends State<VisitScreen>
   final netPriceController = TextEditingController();
   final totalAmountController = TextEditingController();
 
-  Future openCreateOrderDialog() => showDialog(
+  Future openCreateOrderDialog(context) => showDialog(
         context: context,
         builder: (_) {
           return AlertDialog(
-            backgroundColor: Colors.grey.shade200,
+            backgroundColor: CustomColors.primaryWhite,
             elevation: 10,
             // shape: ShapeBorder.lerp(
             //   Border.fromBorderSide(),)
@@ -685,137 +686,147 @@ class _VisitScreenState extends State<VisitScreen>
               ),
             ),
             content: SingleChildScrollView(
-              child: Column(
-                children: [
-                  SizedBox(
-                    height: 10,
-                  ),
-                  TextFromFieldWithPrefixSuffix(
-                    controller: productNameController,
-                    labelText: 'Search Product',
-                    validator: (value) {
-                      return null;
-                    },
-                    onChange: (value) {
-                      // searchProductController.text = value!;
-                      // print('${searchProductController.value.text}');
-                    },
-                    onTap: () {
-                      print('tapped');
-                      _showBottomSheet(context);
-                    },
-                  ),
-                  SizedBox(
-                    height: 10,
-                  ),
-                  Consumer<OrderProvider>(builder: (context, provider, _) {
-                    return TextFromFieldWithPrefixSuffix(
-                      keyboardType: TextInputType.number,
-                      controller: quantityController,
-                      labelText: 'Quantity',
+              child: Form(
+                key: _orderFormKey,
+                child: Column(
+                  children: [
+                    SizedBox(
+                      height: 10,
+                    ),
+                    TextFromFieldWithPrefixSuffix(
+                      controller: productNameController,
+                      labelText: 'Search Product',
                       validator: (value) {
-                        return null;
+                        return value!.isEmpty
+                            ? 'Please select a product'
+                            : null;
                       },
-                      onChange: (value) {
-                        if (value != null && value.isNotEmpty) {
-                          int quantity = int.parse(value);
-                          provider.setQuantity(quantity);
-                          provider.totalPrice();
-                          totalAmountController.text =
-                              provider.total.toStringAsFixed(2);
-                        }
-                        if (value == null || value.isEmpty) {
-                          print('Quantity = $value');
-                          provider.setQuantity(0);
-                          provider.setTotalPrice();
-                          totalAmountController.text =
-                              provider.total.toStringAsFixed(2);
-                        }
+                      onChange: (value) {},
+                      onTap: () {
+                        print('tapped');
+                        _showBottomSheet(context);
                       },
-                      onTap: () {},
-                    );
-                  }),
-                  SizedBox(
-                    height: 10,
-                  ),
-                  TextFromFieldWithPrefixSuffix(
-                    controller: mrpController,
-                    labelText: 'MRP',
-                    readOnly: true,
-                    validator: (value) {
-                      return null;
-                    },
-                    onChange: (value) {},
-                    onTap: () {},
-                  ),
-                  SizedBox(
-                    height: 10,
-                  ),
-                  Consumer<OrderProvider>(builder: (context, provider, _) {
-                    return TextFromFieldWithPrefixSuffix(
-                      controller: discountController,
-                      keyboardType: TextInputType.number,
-                      labelText: 'Discount',
-                      // readOnly: true,
-                      validator: (value) {
-                        return null;
-                      },
-                      onChange: (value) {
-                        if (value != null && value.isNotEmpty) {
-                          provider.setDiscountRate(double.parse(value));
-                          provider.setDiscountedPrice();
-                          provider.totalPrice();
-                          netPriceController.text =
-                              provider.discountedPrice.toStringAsFixed(2);
-                          totalAmountController.text =
-                              provider.total.toStringAsFixed(2);
-                        }
-                        if (value == null || value.isEmpty) {
-                          provider.setDiscountRate(0.0);
-                          provider.setDiscountedPrice();
-                          provider.setTotalPrice();
-                          netPriceController.text =
-                              provider.discountedPrice.toStringAsFixed(2);
-                          totalAmountController.text =
-                              provider.total.toStringAsFixed(2);
-                        }
-                      },
-                      onTap: () {},
-                    );
-                  }),
-                  SizedBox(
-                    height: 10,
-                  ),
-                  TextFromFieldWithPrefixSuffix(
-                    controller: netPriceController,
-                    labelText: 'Net Price',
-                    readOnly: true,
-                    validator: (value) {
-                      return null;
-                    },
-                    onChange: (value) {},
-                    onTap: () {},
-                  ),
-                  SizedBox(
-                    height: 10,
-                  ),
-                  Consumer<OrderProvider>(
-                    builder: (context, provider, _) {
-                      totalAmountController.text =
-                          provider.total.toStringAsFixed(2);
+                    ),
+                    SizedBox(
+                      height: 10,
+                    ),
+                    Consumer<OrderProvider>(builder: (context, provider, _) {
                       return TextFromFieldWithPrefixSuffix(
-                        controller: totalAmountController,
-                        labelText: 'Total Amount',
-                        readOnly: true,
+                        keyboardType: TextInputType.number,
+                        controller: quantityController,
+                        labelText: 'Quantity',
+                        validator: (value) {
+                          return value!.isEmpty
+                              ? 'Please enter quantity'
+                              : null;
+                        },
+                        onChange: (value) {
+                          if (value != null && value.isNotEmpty) {
+                            int quantity = int.parse(value);
+                            provider.setQuantity(quantity);
+                            provider.totalPrice();
+                            totalAmountController.text =
+                                provider.total.toStringAsFixed(2);
+                          }
+                          if (value == null || value.isEmpty) {
+                            print('Quantity = $value');
+                            provider.setQuantity(0);
+                            provider.setTotalPrice();
+                            totalAmountController.text =
+                                provider.total.toStringAsFixed(2);
+                          }
+                        },
+                        onTap: () {},
+                      );
+                    }),
+                    SizedBox(
+                      height: 10,
+                    ),
+                    TextFromFieldWithPrefixSuffix(
+                      controller: mrpController,
+                      labelText: 'MRP',
+                      readOnly: true,
+                      validator: (value) {
+                        return null;
+                      },
+                      onChange: (value) {
+                        // return null;
+                      },
+                      onTap: () {},
+                    ),
+                    SizedBox(
+                      height: 10,
+                    ),
+                    Consumer<OrderProvider>(builder: (context, provider, _) {
+                      return TextFromFieldWithPrefixSuffix(
+                        controller: discountController,
+                        keyboardType: TextInputType.number,
+                        labelText: 'Discount',
+                        // readOnly: true,
                         validator: (value) {
                           return null;
                         },
-                        onChange: (value) {},
+                        onChange: (value) {
+                          if (value != null && value.isNotEmpty) {
+                            provider.setDiscountRate(double.parse(value));
+                            provider.setDiscountedPrice();
+                            provider.totalPrice();
+                            netPriceController.text =
+                                provider.discountedPrice.toStringAsFixed(2);
+                            totalAmountController.text =
+                                provider.total.toStringAsFixed(2);
+                          }
+                          if (value == null || value.isEmpty) {
+                            provider.setDiscountRate(0.0);
+                            provider.setDiscountedPrice();
+                            provider.setTotalPrice();
+                            netPriceController.text =
+                                provider.discountedPrice.toStringAsFixed(2);
+                            totalAmountController.text =
+                                provider.total.toStringAsFixed(2);
+                          }
+                        },
                         onTap: () {},
                       );
-                    },
-                  ),
-                ],
+                    }),
+                    SizedBox(
+                      height: 10,
+                    ),
+                    TextFromFieldWithPrefixSuffix(
+                      controller: netPriceController,
+                      labelText: 'Net Price',
+                      readOnly: true,
+                      validator: (value) {
+                        return null;
+                      },
+                      onChange: (value) {
+                        // return null;
+                      },
+                      onTap: () {},
+                    ),
+                    SizedBox(
+                      height: 10,
+                    ),
+                    Consumer<OrderProvider>(
+                      builder: (context, provider, _) {
+                        totalAmountController.text =
+                            provider.total.toStringAsFixed(2);
+                        return TextFromFieldWithPrefixSuffix(
+                          controller: totalAmountController,
+                          labelText: 'Total Amount',
+                          readOnly: true,
+                          validator: (value) {
+                            return null;
+                          },
+                          onChange: (value) {
+                            // return
+                          },
+                          onTap: () {},
+                        );
+                      },
+                    ),
+                  ],
+                ),
               ),
             ),
             actions: [
@@ -848,17 +859,19 @@ class _VisitScreenState extends State<VisitScreen>
                         //   netAmount: provider.discountedPrice,
                         //   totalPrice: provider.total,
                         // );
-                        provider.addItem(Orders(
-                          productName: searchProductController.text,
-                          quantity: provider.quantity,
-                          price: provider.price,
-                          discountRate: provider.discountRate,
-                          netAmount: provider.discountedPrice,
-                          totalPrice: provider.total,
-                        ));
-                        clearOrderInputFieldValues();
-                        provider.clearValues();
-                        Navigator.pop(context, false);
+                        if (_orderFormKey.currentState!.validate()) {
+                          provider.addItem(Orders(
+                            productName: productNameController.text,
+                            quantity: provider.quantity,
+                            price: provider.price,
+                            discountRate: provider.discountRate,
+                            netAmount: provider.discountedPrice,
+                            totalPrice: provider.total,
+                          ));
+                          clearOrderInputFieldValues();
+                          provider.clearValues();
+                          Navigator.pop(context, false);
+                        }
                         // SystemNavigator.pop();
                       }, // passing true
                       backgroundColor: CustomColors.primaryColor,
