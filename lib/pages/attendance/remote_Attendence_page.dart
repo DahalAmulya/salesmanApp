@@ -1,5 +1,5 @@
+import 'package:deskgoo/providers/attendance_provider/remote_attendance_provider.dart';
 import 'package:deskgoo/widgets/bottom_navigation/gnav_bar.dart';
-import 'package:deskgoo/widgets/buttons/elevated_button.dart';
 import 'package:deskgoo/widgets/containers/custom_container.dart';
 import 'package:deskgoo/widgets/drawers/custom_drawer.dart';
 import 'package:flutter/material.dart';
@@ -12,6 +12,7 @@ import '../../widgets/text_fields/text_from_field.dart';
 import '../../widgets/texts/custom_text.dart';
 import 'package:nepali_utils/nepali_utils.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:local_auth/local_auth.dart';
 
 class RemoteAttendencePage extends StatefulWidget {
   const RemoteAttendencePage({super.key});
@@ -21,6 +22,7 @@ class RemoteAttendencePage extends StatefulWidget {
 }
 
 class _RemoteAttendencePageState extends State<RemoteAttendencePage> {
+  final LocalAuthentication auth = LocalAuthentication();
   double latitude = 0.0;
   double longitude = 0.0;
   bool isSwitched = false;
@@ -29,6 +31,8 @@ class _RemoteAttendencePageState extends State<RemoteAttendencePage> {
   final descriptionTextController = TextEditingController();
   final dateTimeController = TextEditingController();
   final gpsLocationController = TextEditingController();
+  bool _isAuthenticated = false;
+
   @override
   void initState() {
     super.initState();
@@ -78,6 +82,24 @@ class _RemoteAttendencePageState extends State<RemoteAttendencePage> {
         return askPermission();
       }
     }
+  }
+
+  Future<bool> biometricAuthentication() async {
+    bool didAuthenticate = false;
+    if (!_isAuthenticated) {
+      final bool canAuthenticateWithBiometrics = await auth.canCheckBiometrics;
+      if (canAuthenticateWithBiometrics) {
+        try {
+          didAuthenticate = await auth.authenticate(
+              localizedReason: 'Please authenticate for remote attendance');
+          return didAuthenticate;
+        } catch (err) {
+          print('err = $err');
+          return didAuthenticate;
+        }
+      }
+    }
+    return didAuthenticate;
   }
 
   @override
@@ -143,25 +165,54 @@ class _RemoteAttendencePageState extends State<RemoteAttendencePage> {
                     SizedBox(
                       height: 0,
                     ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        CustomText(
-                          text: isSwitched ? 'Check In' : 'Check Out',
-                          color: Colors.black,
-                          size: 16,
+                    Consumer<AttendanceProvider>(
+                        builder: (context, attendanceProvider, _) {
+                      return InkWell(
+                        onTap: () async {
+                          if (_formState.currentState!.validate()) {
+                            bool response = await biometricAuthentication();
+                            if (response) {
+                              attendanceProvider.switchRemoteAttendanceSwitch();
+                            }
+                            print('response = $response');
+                            print('valid form printed');
+                          } else {
+                            print(
+                                '_formState.currentState!.validate() = ${_formState.currentState!.validate()}');
+                          }
+                        },
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            CustomText(
+                              text:
+                                  attendanceProvider.isRemoteAttendanceSwitched
+                                      ? 'Check In'
+                                      : 'Check Out',
+                              color: Colors.black,
+                              size: 18,
+                              fontWeight: FontWeight.w500,
+                            ),
+                            Switch.adaptive(
+                              activeColor: Colors.blue,
+                              value:
+                                  attendanceProvider.isRemoteAttendanceSwitched,
+                              onChanged: (value) {
+                                if (_formState.currentState!.validate()) {
+                                  attendanceProvider
+                                      .switchRemoteAttendanceSwitch();
+                                  print('valid form printed');
+                                } else {
+                                  print(
+                                      '_formState.currentState!.validate() = ${_formState.currentState!.validate()}');
+                                }
+                                print('value = $value');
+                              },
+                            ),
+                          ],
                         ),
-                        Switch.adaptive(
-                          activeColor: Colors.blue,
-                          value: isSwitched,
-                          onChanged: (value) {
-                            setState(() {
-                              isSwitched = value;
-                            });
-                          },
-                        ),
-                      ],
-                    ),
+                      );
+                    }),
                     SizedBox(
                       height: 8,
                     ),
@@ -172,7 +223,7 @@ class _RemoteAttendencePageState extends State<RemoteAttendencePage> {
                       minLine: 4,
                       maxLines: 4,
                       validator: (value) {
-             return value!.isEmpty
+                        return value!.isEmpty
                             ? 'This field is required'
                             : value.length < 3
                                 ? 'Remarks must be more than 3 letters'
@@ -221,26 +272,125 @@ class _RemoteAttendencePageState extends State<RemoteAttendencePage> {
                       height: 16.0,
                     ),
                     Row(
-                      mainAxisAlignment: MainAxisAlignment.end,
+                      mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        CustomElevatedButton(
-                          onPressed: () {
-                            if (_formState.currentState!.validate()) {
-                              print('valid form printed');
-                            } else {
-                              print(
-                                  '_formState.currentState!.validate() = ${_formState.currentState!.validate()}');
-                            }
-                          },
-                          height: 50,
-                          backgroundColor: CustomColors.primaryColor,
-                          widget: CustomText(
-                            text: 'Submit',
-                            fontWeight: FontWeight.w500,
-                          ),
-                        ),
+                        Consumer<AttendanceProvider>(
+                            builder: (context, attendanceProvider, _) {
+                          return Container(
+                            decoration: BoxDecoration(
+                              color: CustomColors.primaryColor,
+                              borderRadius: BorderRadius.circular(100),
+                            ),
+                            child: IconButton(
+                              onPressed: () async {
+                                // if (isSwitched) {
+                                if (_formState.currentState!.validate()) {
+                                  bool response =
+                                      await biometricAuthentication();
+                                  if (response) {
+                                    attendanceProvider
+                                        .switchRemoteAttendanceSwitch();
+                                  }
+                                  print('response = $response');
+                                  print('valid form printed');
+                                } else {
+                                  print(
+                                      '_formState.currentState!.validate() = ${_formState.currentState!.validate()}');
+                                }
+                                // if (!_isAuthenticated) {
+                                //   final bool canAuthenticateWithBiometrics =
+                                //       await auth.canCheckBiometrics;
+                                //   if (canAuthenticateWithBiometrics) {
+                                //     try {
+                                //       print(canAuthenticateWithBiometrics);
+                                //       final bool didAuthenticate =
+                                //           await auth.authenticate(
+                                //         localizedReason:
+                                //             'Please authenticate for remote attendance',
+                                //         options: const AuthenticationOptions(
+                                //           biometricOnly: false,
+                                //         ),
+                                //       );
+                                //       print(
+                                //           'didAuthenticate = $didAuthenticate');
+                                //       setState(() {
+                                //         _isAuthenticated = didAuthenticate;
+                                //       });
+                                //       print(
+                                //           '_isAuthenticated = $_isAuthenticated');
+                                //       print(
+                                //           'didAuthenticate = $didAuthenticate');
+                                //       // _isAuthenticated = false;
+                                //     } catch (err) {
+                                //       print('err = $err');
+                                //       print(
+                                //           '_isAuthenticated = $_isAuthenticated');
+                                //     }
+                                //     print(
+                                //         '_isAuthenticated = $_isAuthenticated');
+                                //     _isAuthenticated = false;
+                                //   }
+                                // } else {
+                                //   print('_isAuthenticated = $_isAuthenticated');
+                                // }
+                                // }
+                                // else {
+                                //   if (!_isAuthenticated) {
+                                //     final bool canAuthenticateWithBiometrics =
+                                //         await auth.canCheckBiometrics;
+                                //     if (canAuthenticateWithBiometrics) {
+                                //       try {
+                                //         print(canAuthenticateWithBiometrics);
+                                //         final bool didAuthenticate =
+                                //             await auth.authenticate(
+                                //           localizedReason:
+                                //               'Please authenticate for remote attendance',
+                                //           options: const AuthenticationOptions(
+                                //             biometricOnly: false,
+                                //           ),
+                                //         );
+                                //         setState(() {
+                                //           _isAuthenticated = didAuthenticate;
+                                //         });
+                                //         // _isAuthenticated = false;
+                                //       } catch (err) {
+                                //         print('err = $err');
+                                //       }
+                                //       _isAuthenticated = false;
+                                //     }
+                                //   }
+                                // }
+                              },
+                              icon: Icon(
+                                Icons.fingerprint,
+                                size: 48,
+                              ),
+                            ),
+                          );
+                        }),
                       ],
-                    )
+                    ),
+                    // Row(
+                    //   mainAxisAlignment: MainAxisAlignment.end,
+                    //   children: [
+                    //     CustomElevatedButton(
+                    //       onPressed: () {
+                    //         if (_formState.currentState!.validate()) {
+                    //           print('valid form printed');
+                    //         } else {
+                    //           print(
+                    //               '_formState.currentState!.validate() = ${_formState.currentState!.validate()}');
+                    //         }
+                    //       },
+                    //       height: 50,
+                    //       backgroundColor: CustomColors.primaryColor,
+                    //       widget: CustomText(
+                    //         text: 'Submit',
+                    //         fontWeight: FontWeight.w500,
+                    //       ),
+                    //     ),
+                    //   ],
+                    // )
                   ],
                 ),
               ),
