@@ -117,15 +117,22 @@ class _VisitScreenState extends State<VisitScreen>
                               _newVisitshowBottomSheet(context);
                             } else if (currentIndex == 2) {
                               print('Current index = $currentIndex 2');
-                              openCreateOrderDialog(context);
+                              openCreateOrderDialog();
                             } else if (currentIndex == 3) {
                               showModalBottomSheet(
-                                  isScrollControlled: false,
-                                  useSafeArea: true,
-                                  context: context,
-                                  builder: (builder) =>
-                                      CollectionsummaryBottomsheet());
-                            }
+                                isScrollControlled: false,
+                                useSafeArea: true,
+                                // shape: RoundedRectangleBorder(
+                                //   borderRadius: BorderRadius.vertical(
+                                //     top: Radius.circular(32),
+                                //   ),
+                                // ),
+                                context: context,
+                                builder: (builder) =>
+                                    CollectionsummaryBottomsheet(),
+                              );
+                              openCreateOrderDialog(context);
+                            } 
                           },
                           child: Icon(
                             Icons.add,
