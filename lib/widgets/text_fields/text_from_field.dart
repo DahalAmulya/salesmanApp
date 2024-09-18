@@ -20,8 +20,8 @@ class TextFromFieldWithPrefixSuffix extends StatelessWidget {
     this.readOnly = false,
     this.minLine = 1,
     this.maxLines = 1,
-    required this.onChange,
-    required this.onTap,
+    this.onChange,
+    this.onTap,
   });
 
   final TextEditingController controller;
@@ -40,8 +40,8 @@ class TextFromFieldWithPrefixSuffix extends StatelessWidget {
   final TextInputType keyboardType;
   final int minLine;
   final int maxLines;
-  final Function(String?) onChange;
-  final Function() onTap;
+  final Function(String?)? onChange;
+  final Function()? onTap;
 
   @override
   Widget build(BuildContext context) {
