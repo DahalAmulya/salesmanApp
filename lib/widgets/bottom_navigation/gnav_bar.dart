@@ -22,7 +22,7 @@ class CustomGNavBar extends StatelessWidget {
       activeColor: CustomColors.primaryBlack,
       tabActiveBorder: Border.all(color: CustomColors.primaryBlack),
       tabBorderRadius: 100,
-      tabMargin: EdgeInsets.symmetric(vertical: 8.0, horizontal: 0.0),
+      tabMargin: EdgeInsets.symmetric(vertical: 8.0, horizontal: 8.0),
       tabs: [
         GButton(
           onPressed: () {
@@ -34,6 +34,9 @@ class CustomGNavBar extends StatelessWidget {
           icon: FontAwesomeIcons.house,
           gap: 12,
           text: 'Home',
+          textStyle: TextStyle(
+            fontWeight: FontWeight.w700,
+          ),
         ),
         GButton(
           // margin: EdgeInsets.symmetric(horizontal: 0, vertical: 0),
@@ -41,6 +44,9 @@ class CustomGNavBar extends StatelessWidget {
           icon: FontAwesomeIcons.solidHeart,
           gap: 12,
           text: 'Favourite',
+          textStyle: TextStyle(
+            fontWeight: FontWeight.w700,
+          ),
         ),
         // GButton(
         //   // margin: EdgeInsets.symmetric(horizontal: 0, vertical: 16),
@@ -51,14 +57,17 @@ class CustomGNavBar extends StatelessWidget {
         // ),
         GButton(
           onPressed: () {
-            GoRouter.of(context).pushReplacementNamed(
-                MyAppRouteConstants.visitSummaryRouteName);
+            GoRouter.of(context)
+                .pushReplacementNamed(MyAppRouteConstants.settingPageRouteName);
           },
           // margin: EdgeInsets.symmetric(horizontal: 0, vertical: 0),
           padding: EdgeInsets.symmetric(vertical: 16, horizontal: 16),
           icon: FontAwesomeIcons.gear,
           gap: 12,
           text: 'Settings',
+          textStyle: TextStyle(
+            fontWeight: FontWeight.w700,
+          ),
         ),
       ],
     );

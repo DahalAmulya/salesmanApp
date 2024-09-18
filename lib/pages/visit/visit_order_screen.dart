@@ -81,186 +81,193 @@ class VisitOrderScreen extends StatelessWidget {
                 // Divider(),
                 // Wrap ListView.builder with Expanded to give it flexible space
                 Expanded(
-                  child:
-                      Consumer<OrderProvider>(builder: (context, provider, _) {
-                    print(provider.items.length);
-                    return ListView.builder(
-                      padding: EdgeInsets.only(bottom: 48, top: 0),
-                      itemCount: provider.items.length,
-                      itemBuilder: (context, index) {
-                        Orders orders = provider.items[index];
-                        Color cardColor = Colors.white;
-                        return ListTile(
-                          onTap: () {
-                            print(
-                                '${orders.productName}, ${orders.quantity}, ${orders.price}, ${orders.discountRate}, ${orders.netAmount}, ${orders.totalPrice}');
-                            // provider.remove(orders);
-                          },
-                          minVerticalPadding: 5,
-                          contentPadding: EdgeInsets.all(0),
-                          onLongPress: () {
-                            cardColor = Colors.red;
-                            openDeleteItemDialog(
-                                context, orders.productName, orders);
-                            // provider.remove(orders);
-                          },
-                          titleAlignment: ListTileTitleAlignment.center,
-                          title: Card(
-                            shape: ShapeBorder.lerp(
-                              Border.all(color: Colors.transparent),
-                              Border.all(),
-                              0,
-                            ),
-                            color: cardColor,
-                            elevation: 2,
-                            margin: EdgeInsets.all(0),
-                            child: CustomContainer(
-                              verticalMargin: 0,
+                  child: Consumer<OrderProvider>(
+                    builder: (context, provider, _) {
+                      print(provider.items.length);
+                      return ListView.builder(
+                        padding: EdgeInsets.only(bottom: 48, top: 0),
+                        itemCount: provider.items.length,
+                        itemBuilder: (context, index) {
+                          Orders orders = provider.items[index];
+                          Color cardColor = Colors.white;
+                          return ListTile(
+                            onTap: () {
+                              print(
+                                  '${orders.productName}, ${orders.quantity}, ${orders.price}, ${orders.discountRate}, ${orders.netAmount}, ${orders.totalPrice}');
+                              // provider.remove(orders);
+                            },
+                            minVerticalPadding: 5,
+                            contentPadding: EdgeInsets.all(0),
+                            onLongPress: () {
+                              cardColor = Colors.red;
+                              openDeleteItemDialog(
+                                  context, orders.productName, orders);
+                              // provider.remove(orders);
+                            },
+                            titleAlignment: ListTileTitleAlignment.center,
+                            title: Card(
+                              shape: ShapeBorder.lerp(
+                                Border.all(color: Colors.transparent),
+                                Border.all(),
+                                0,
+                              ),
                               color: cardColor,
-                              verticalPad: 8,
-                              horizontalPad: 0,
-                              width: 1,
-                              child: Column(
-                                // crossAxisAlignment: CrossAxisAlignment.s,
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Row(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      Expanded(
-                                        child: Padding(
-                                          padding: const EdgeInsets.symmetric(
-                                              horizontal: 8.0),
-                                          child: Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.spaceBetween,
-                                            children: [
-                                              Expanded(
-                                                child: CustomText(
-                                                  text: orders.productName,
-                                                  fontWeight: FontWeight.w600,
-                                                ),
-                                              ),
-                                            ],
-                                          ),
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                  IntrinsicHeight(
-                                    child: Row(
+                              elevation: 2,
+                              margin: EdgeInsets.all(0),
+                              child: CustomContainer(
+                                verticalMargin: 0,
+                                color: cardColor,
+                                verticalPad: 8,
+                                horizontalPad: 0,
+                                width: 1,
+                                child: Column(
+                                  // crossAxisAlignment: CrossAxisAlignment.s,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Row(
                                       mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
+                                          MainAxisAlignment.center,
                                       children: [
-                                        Container(
-                                          width: MediaQuery.of(context)
-                                                  .size
-                                                  .width *
-                                              0.30,
-                                          padding: const EdgeInsets.symmetric(
-                                              horizontal: 8.0),
-                                          child: CustomText(
-                                            text:
-                                                'Rs. ${orders.netAmount.toStringAsFixed(2)}',
-                                            size: 14,
-                                            fontWeight: FontWeight.w500,
-                                          ),
-                                        ),
-                                        Container(
-                                          // width: MediaQuery.of(context).size.width *
-                                          //     0.22,
-                                          padding: const EdgeInsets.symmetric(
-                                              horizontal: 8.0),
-                                          child: CustomText(
-                                            text:
-                                                'Rs. ${(orders.totalPrice).toStringAsFixed(2)}',
-                                            size: 14,
-                                            fontWeight: FontWeight.w500,
-                                          ),
-                                        ),
-                                        Container(
-                                          // width: MediaQuery.of(context).size.width *
-                                          //     0.23,
-                                          width: 100,
-                                          padding: const EdgeInsets.symmetric(
-                                              horizontal: 8.0),
-                                          child: Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.spaceBetween,
-                                            children: [
-                                              ClipRRect(
-                                                borderRadius:
-                                                    BorderRadius.circular(100),
-                                                child: Container(
-                                                  height: 20,
-                                                  width: 20,
-                                                  color: Colors.grey.shade300,
-                                                  child: Center(
-                                                    child: IconButton(
-                                                      onPressed: () {
-                                                        provider
-                                                            .removeOneQuantity(
-                                                                index);
-                                                        print(
-                                                            '${orders.quantity}');
-                                                      },
-                                                      padding:
-                                                          EdgeInsets.all(0),
-                                                      icon: Icon(
-                                                        Icons.remove,
-                                                        size: 16,
-                                                        color: Colors.black,
-                                                      ),
-                                                    ),
+                                        Expanded(
+                                          child: Padding(
+                                            padding: const EdgeInsets.symmetric(
+                                                horizontal: 8.0),
+                                            child: Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment
+                                                      .spaceBetween,
+                                              children: [
+                                                Expanded(
+                                                  child: CustomText(
+                                                    text: orders.productName,
+                                                    fontWeight: FontWeight.w600,
                                                   ),
                                                 ),
-                                              ),
-                                              CustomText(
-                                                text:
-                                                    orders.quantity.toString(),
-                                                size: 14,
-                                              ),
-                                              ClipRRect(
-                                                borderRadius:
-                                                    BorderRadius.circular(100),
-                                                child: Container(
-                                                  height: 20,
-                                                  width: 20,
-                                                  color:
-                                                      CustomColors.primaryColor,
-                                                  child: Center(
-                                                    child: IconButton(
-                                                      onPressed: () {
-                                                        provider.addOneQuantity(
-                                                            index);
-                                                        print(
-                                                            '${orders.quantity}');
-                                                      },
-                                                      padding:
-                                                          EdgeInsets.all(0),
-                                                      icon: Icon(
-                                                        Icons.add,
-                                                        size: 16,
-                                                        color: Colors.black,
-                                                      ),
-                                                    ),
-                                                  ),
-                                                ),
-                                              ),
-                                            ],
+                                              ],
+                                            ),
                                           ),
                                         ),
                                       ],
                                     ),
-                                  ),
-                                ],
+                                    IntrinsicHeight(
+                                      child: Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          Container(
+                                            width: MediaQuery.of(context)
+                                                    .size
+                                                    .width *
+                                                0.30,
+                                            padding: const EdgeInsets.symmetric(
+                                                horizontal: 8.0),
+                                            child: CustomText(
+                                              text:
+                                                  'Rs. ${orders.netAmount.toStringAsFixed(2)}',
+                                              size: 14,
+                                              fontWeight: FontWeight.w500,
+                                            ),
+                                          ),
+                                          Container(
+                                            // width: MediaQuery.of(context).size.width *
+                                            //     0.22,
+                                            padding: const EdgeInsets.symmetric(
+                                                horizontal: 8.0),
+                                            child: CustomText(
+                                              text:
+                                                  'Rs. ${(orders.totalPrice).toStringAsFixed(2)}',
+                                              size: 14,
+                                              fontWeight: FontWeight.w500,
+                                            ),
+                                          ),
+                                          Container(
+                                            // width: MediaQuery.of(context).size.width *
+                                            //     0.23,
+                                            width: 100,
+                                            padding: const EdgeInsets.symmetric(
+                                                horizontal: 8.0),
+                                            child: Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment
+                                                      .spaceBetween,
+                                              children: [
+                                                ClipRRect(
+                                                  borderRadius:
+                                                      BorderRadius.circular(
+                                                          100),
+                                                  child: Container(
+                                                    height: 20,
+                                                    width: 20,
+                                                    color: Colors.grey.shade300,
+                                                    child: Center(
+                                                      child: IconButton(
+                                                        onPressed: () {
+                                                          provider
+                                                              .removeOneQuantity(
+                                                                  index);
+                                                          print(
+                                                              '${orders.quantity}');
+                                                        },
+                                                        padding:
+                                                            EdgeInsets.all(0),
+                                                        icon: Icon(
+                                                          Icons.remove,
+                                                          size: 16,
+                                                          color: Colors.black,
+                                                        ),
+                                                      ),
+                                                    ),
+                                                  ),
+                                                ),
+                                                CustomText(
+                                                  text: orders.quantity
+                                                      .toString(),
+                                                  size: 14,
+                                                ),
+                                                ClipRRect(
+                                                  borderRadius:
+                                                      BorderRadius.circular(
+                                                          100),
+                                                  child: Container(
+                                                    height: 20,
+                                                    width: 20,
+                                                    color: CustomColors
+                                                        .primaryColor,
+                                                    child: Center(
+                                                      child: IconButton(
+                                                        onPressed: () {
+                                                          provider
+                                                              .addOneQuantity(
+                                                                  index);
+                                                          print(
+                                                              '${orders.quantity}');
+                                                        },
+                                                        padding:
+                                                            EdgeInsets.all(0),
+                                                        icon: Icon(
+                                                          Icons.add,
+                                                          size: 16,
+                                                          color: Colors.black,
+                                                        ),
+                                                      ),
+                                                    ),
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  ],
+                                ),
                               ),
                             ),
-                          ),
-                        );
-                      },
-                    );
-                  }),
+                          );
+                        },
+                      );
+                    },
+                  ),
                 ),
                 // Divider(),
                 // CustomElevatedButton(
