@@ -144,22 +144,29 @@ class VisitScreenProvider extends ChangeNotifier {
     // Create a deep copy of _vistiStatus
     _searchResults =
         _vistiStatus.map((map) => Map<String, dynamic>.from(map)).toList();
+    // Create a deep copy of _vistiStatus
+
+    _searchVisitClientResults =
+        _vistiStatus.map((map) => Map<String, dynamic>.from(map)).toList();
   }
 
   List<Map<String, dynamic>> _searchResults = [];
   List<Map<String, dynamic>> get searchResult => _searchResults;
+
+  List<Map<String, dynamic>> _searchVisitClientResults = [];
+  List<Map<String, dynamic>> get searchVistiCleintResults =>
+      _searchVisitClientResults;
 
   void setClientName(name) {
     _clientName = name;
     notifyListeners();
   }
 
-  void setSearchResult() {
-    _searchResults = _vistiStatus;
-    notifyListeners();
+  void resetSearchClientFilter() {
+    _searchVisitClientResults = _vistiStatus;
   }
 
-  void runFilter(String enteredKeyWord) {
+  void runSearchClientHistoryFilter(String enteredKeyWord) {
     List<Map<String, dynamic>> resluts = [];
     if (enteredKeyWord.isEmpty) {
       resluts = _vistiStatus;
@@ -172,6 +179,22 @@ class VisitScreenProvider extends ChangeNotifier {
           .toList();
     }
     _searchResults = resluts;
+    notifyListeners();
+  }
+
+  void runSearchClientFilter(String enteredKeyWord) {
+    List<Map<String, dynamic>> resluts = [];
+    if (enteredKeyWord.isEmpty) {
+      resluts = _vistiStatus;
+    } else {
+      resluts = _vistiStatus
+          .where((client) => client['client']
+              .toString()
+              .toLowerCase()
+              .contains(enteredKeyWord.toLowerCase()))
+          .toList();
+    }
+    _searchVisitClientResults = resluts;
     notifyListeners();
   }
 }

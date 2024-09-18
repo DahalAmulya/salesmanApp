@@ -125,13 +125,13 @@ class _HomeScreenState extends State<HomeScreen> {
             SizedBox(
               height: 8,
             ),
-            FloatingActionButton(
-              backgroundColor: CustomColors.primaryColor,
-              onPressed: () {
-                print('Pressed camera');
-              },
-              child: FaIcon(FontAwesomeIcons.camera),
-            ),
+            // FloatingActionButton(
+            //   backgroundColor: CustomColors.primaryColor,
+            //   onPressed: () {
+            //     print('Pressed camera');
+            //   },
+            //   child: FaIcon(FontAwesomeIcons.camera),
+            // ),
           ],
         ),
         bottomNavigationBar: _bottomNavBar(context),

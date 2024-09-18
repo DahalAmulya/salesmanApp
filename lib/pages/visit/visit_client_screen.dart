@@ -209,8 +209,8 @@ class _VisitClientScreenState extends State<VisitClientScreen> {
                   validator: (value) {
                     return null;
                   },
-                  onChange: (value) =>
-                      provider.runFilter(searchController.value.text),
+                  onChange: (value) => provider
+                      .runSearchClientFilter(searchController.value.text),
                   onTap: () {},
                 );
               },

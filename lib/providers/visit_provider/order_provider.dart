@@ -1,3 +1,4 @@
+import 'package:deskgoo/providers/visit_provider/order_items.dart';
 import 'package:flutter/foundation.dart';
 
 class Orders {
@@ -19,6 +20,8 @@ class Orders {
 }
 
 class OrderProvider extends ChangeNotifier {
+  List<Product> _products = PRODUCTS;
+  List<Product> _productSearchResults = [];
   List<Orders> _items = [];
   double _total = 0.0;
   double _price = 0.0;
@@ -27,6 +30,8 @@ class OrderProvider extends ChangeNotifier {
   int _quantity = 0;
   double _summaryTotalAmount = 0;
 
+  List<Product> get products => _products;
+  List<Product> get productSearchResults => _productSearchResults;
   List<Orders> get items => _items;
   double get total => _total;
   double get price => _price;
@@ -34,6 +39,32 @@ class OrderProvider extends ChangeNotifier {
   double get discountRate => _discountedRate;
   double get discountedPrice => _discountedPrice;
   double get summaryTotalAmount => _summaryTotalAmount;
+
+  OrderProvider() {
+    _productSearchResults = _products;
+    notifyListeners();
+  }
+
+  void resetProductSearchResults() {
+    _productSearchResults = _products;
+    notifyListeners();
+  }
+
+  void runProductsSearchFilter(String enteredKeyWord) {
+    List<Product> resluts = [];
+    if (enteredKeyWord.isEmpty) {
+      resluts = _products;
+    } else {
+      resluts = _products
+          .where((product) => product.name
+              .toString()
+              .toLowerCase()
+              .contains(enteredKeyWord.toLowerCase()))
+          .toList();
+    }
+    _productSearchResults = resluts;
+    notifyListeners();
+  }
 
   void addItem(Orders item) {
     _items.add(item);
@@ -92,9 +123,9 @@ class OrderProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  void setSummaryTotalPrice(){
+  void setSummaryTotalPrice() {
     _summaryTotalAmount = 0.0;
-    for(int i = 0; i < _items.length; i ++){
+    for (int i = 0; i < _items.length; i++) {
       _summaryTotalAmount += _items[i].totalPrice;
     }
     notifyListeners();
