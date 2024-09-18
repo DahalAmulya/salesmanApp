@@ -7,5 +7,6 @@ class MyAppRouteConstants {
   static const String visitSummaryRouteName = 'visit_summary';
   static const String visitClientRouteName = 'client_visit';
   static const String visitOrderRouteName = 'client_visit_order';
+  static const String settingPageRouteName = 'settings';
   static const String notchedBottomNavBarRouteName = 'notched_bottom_nav_bar';
 }
