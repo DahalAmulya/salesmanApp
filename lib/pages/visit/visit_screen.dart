@@ -34,7 +34,6 @@ class _VisitScreenState extends State<VisitScreen>
   NepaliDateFormat nepaliDateFormatter = NepaliDateFormat('yyyy-MM-ddThh:mm');
   String formatedDateTime = '';
 
-
   List<Map<String, dynamic>> searchResult = [];
   List<String> items = [
     'History',
@@ -289,8 +288,8 @@ class _VisitScreenState extends State<VisitScreen>
                   validator: (value) {
                     return null;
                   },
-                  onChange: (value) => provider
-                      .runFilter(searchClientHistoryController.value.text),
+                  onChange: (value) => provider.runSearchClientHistoryFilter(
+                      searchClientHistoryController.value.text),
                   labelText: 'Search Client',
                   fillColor: Colors.white,
                   applyPrefix: true,
@@ -586,8 +585,8 @@ class _VisitScreenState extends State<VisitScreen>
                   validator: (value) {
                     return null;
                   },
-                  onChange: (value) =>
-                      provider.runFilter(searchClientController.value.text),
+                  onChange: (value) => provider
+                      .runSearchClientFilter(searchClientController.value.text),
                   onTap: () {},
                 );
               },
@@ -596,28 +595,36 @@ class _VisitScreenState extends State<VisitScreen>
               child: Consumer<VisitScreenProvider>(
                   builder: (context, provider, _) {
                 return ListView.builder(
-                  itemCount: provider.searchResult.length,
+                  itemCount: provider.searchVistiCleintResults.length,
                   itemBuilder: (context, index) {
                     return InkWell(
                       onTap: () {
-                        print(provider.searchResult[index]);
-                        provider.setClientName(
-                            provider.searchResult[index]['client'].toString());
-                        clientNameController.text =
-                            provider.searchResult[index]['client'].toString();
-                        addressController.text =
-                            provider.searchResult[index]['address'].toString();
-                        phoneController.text =
-                            provider.searchResult[index]['phone'].toString();
-                        emailController.text =
-                            provider.searchResult[index]['email'].toString();
-                        panController.text =
-                            provider.searchResult[index]['pan'].toString();
+                        print(provider.searchVistiCleintResults[index]);
+                        provider.setClientName(provider
+                            .searchVistiCleintResults[index]['client']
+                            .toString());
+                        clientNameController.text = provider
+                            .searchVistiCleintResults[index]['client']
+                            .toString();
+                        addressController.text = provider
+                            .searchVistiCleintResults[index]['address']
+                            .toString();
+                        phoneController.text = provider
+                            .searchVistiCleintResults[index]['phone']
+                            .toString();
+                        emailController.text = provider
+                            .searchVistiCleintResults[index]['email']
+                            .toString();
+                        panController.text = provider
+                            .searchVistiCleintResults[index]['pan']
+                            .toString();
                         Navigator.pop(context);
+                        provider.resetSearchClientFilter();
                       },
                       child: ListTile(
                         leading: CustomText(
-                            text: provider.searchResult[index]['client']),
+                            text: provider.searchVistiCleintResults[index]
+                                ['client']),
                       ),
                     );
                   },
@@ -933,7 +940,7 @@ class _VisitScreenState extends State<VisitScreen>
         verticalMargin: 16.0,
         child: Column(
           children: [
-            Consumer<VisitScreenProvider>(
+            Consumer<OrderProvider>(
               builder: (context, provider, _) {
                 return TextFromFieldWithPrefixSuffix(
                   controller: searchProductController,
@@ -943,8 +950,8 @@ class _VisitScreenState extends State<VisitScreen>
                   validator: (value) {
                     return null;
                   },
-                  onChange: (value) =>
-                      provider.runFilter(searchProductController.value.text),
+                  onChange: (value) => provider.runProductsSearchFilter(
+                      searchProductController.value.text),
                   onTap: () {},
                 );
               },
@@ -953,22 +960,31 @@ class _VisitScreenState extends State<VisitScreen>
               child: Consumer<OrderProvider>(
                 builder: (context, provider, _) {
                   return ListView.builder(
-                    itemCount: PRODUCTS.length,
+                    itemCount: provider.productSearchResults.length,
                     itemBuilder: (context, index) {
                       Product product = PRODUCTS[index];
                       return InkWell(
                         onTap: () {
                           print(product);
-                          productNameController.text = product.name.toString();
-                          mrpController.text = product.price.toString();
-                          netPriceController.text = product.price.toString();
+                          productNameController.text = provider
+                              .productSearchResults[index].name
+                              .toString();
+                          mrpController.text = provider
+                              .productSearchResults[index].price
+                              .toString();
+                          netPriceController.text = provider
+                              .productSearchResults[index].price
+                              .toString();
                           discountController.text = '0';
-                          provider.setPrice(product.price);
+                          provider.setPrice(
+                              provider.productSearchResults[index].price);
                           Navigator.pop(context);
+                          provider.resetProductSearchResults();
                         },
                         child: ListTile(
                           title: CustomText(
-                            text: product.name,
+                            text: provider.productSearchResults[index].name
+                                .toString(),
                             textOverflow: TextOverflow.visible,
                           ),
                         ),
@@ -1026,14 +1042,13 @@ class _VisitScreenState extends State<VisitScreen>
                     width: MediaQuery.of(context).size.width * 1,
                     child: Center(
                       child: Consumer<VisitScreenProvider>(
-                        builder: (context,provider,_) {
-                          return CustomText(
-                             text:   provider.clientName,
-                            size: 18,
-                            fontWeight: FontWeight.w600,
-                          );
-                        }
-                      ),
+                          builder: (context, provider, _) {
+                        return CustomText(
+                          text: provider.clientName,
+                          size: 18,
+                          fontWeight: FontWeight.w600,
+                        );
+                      }),
                     ),
                   ),
                   Container(

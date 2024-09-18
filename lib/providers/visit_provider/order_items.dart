@@ -36,7 +36,7 @@ final List<Product> PRODUCTS = [
   ),
   Product(
     id: 3,
-    name: 'Ultima smartwatch',
+    name: 'Ultima Smartwatch',
     price: 2100.0,
     color: Colors.blue,
   ),
@@ -67,13 +67,13 @@ final List<Product> PRODUCTS = [
   Product(
     id: 8,
     name: 'Camera Drone',
-    price: 299.99,
+    price: 30000,
     color: Colors.lime,
   ),
   Product(
     id: 9,
-    name: 'Fitness Tracker',
-    price: 129.99,
+    name: 'JBL 710B over-ear Headphone',
+    price: 10500,
     color: Colors.cyan,
   ),
 ];
