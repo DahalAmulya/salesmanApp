@@ -14,8 +14,8 @@ import 'package:provider/provider.dart';
 class LoginPage extends StatelessWidget {
   LoginPage({super.key});
   final _formKey = GlobalKey<FormState>();
-  TextEditingController emailController = TextEditingController();
-  TextEditingController passwordController = TextEditingController();
+  TextEditingController emailController = new TextEditingController();
+  TextEditingController passwordController = new TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -84,7 +84,6 @@ class LoginPage extends StatelessWidget {
                           ),
                           TextFromFieldWithPrefixSuffix(
                             keyboardType: TextInputType.emailAddress,
-                            autoFocus: true,
                             controller: emailController,
                             onTap: () {},
                             validator: (value) {

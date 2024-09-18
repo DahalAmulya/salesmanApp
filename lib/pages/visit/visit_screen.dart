@@ -7,7 +7,6 @@ import 'package:deskgoo/providers/visit_provider/order_provider.dart';
 import 'package:deskgoo/providers/visit_provider/visit_screen_provider.dart';
 import 'package:deskgoo/themes/custom_colors.dart';
 import 'package:deskgoo/widgets/app_bars/custom_app_bars.dart';
-import 'package:deskgoo/widgets/bottom_navigation/gnav_bar.dart';
 import 'package:deskgoo/widgets/buttons/elevated_button.dart';
 import 'package:deskgoo/widgets/containers/custom_container.dart';
 import 'package:deskgoo/widgets/drawers/custom_drawer.dart';
@@ -18,7 +17,6 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:nepali_utils/nepali_utils.dart';
 import 'package:provider/provider.dart';
 import 'package:nepali_date_picker/nepali_date_picker.dart' as picker;
-
 import 'colltectionSummary_bottomSheet.dart';
 
 class VisitScreen extends StatefulWidget {
@@ -955,31 +953,33 @@ class _VisitScreenState extends State<VisitScreen>
               },
             ),
             Expanded(
-              child: Consumer<OrderProvider>(builder: (context, provider, _) {
-                return ListView.builder(
-                  itemCount: PRODUCTS.length,
-                  itemBuilder: (context, index) {
-                    Product product = PRODUCTS[index];
-                    return InkWell(
-                      onTap: () {
-                        print(product);
-                        productNameController.text = product.name.toString();
-                        mrpController.text = product.price.toString();
-                        netPriceController.text = product.price.toString();
-                        discountController.text = '0';
-                        provider.setPrice(product.price);
-                        Navigator.pop(context);
-                      },
-                      child: ListTile(
-                        title: CustomText(
-                          text: product.name,
-                          textOverflow: TextOverflow.visible,
+              child: Consumer<OrderProvider>(
+                builder: (context, provider, _) {
+                  return ListView.builder(
+                    itemCount: PRODUCTS.length,
+                    itemBuilder: (context, index) {
+                      Product product = PRODUCTS[index];
+                      return InkWell(
+                        onTap: () {
+                          print(product);
+                          productNameController.text = product.name.toString();
+                          mrpController.text = product.price.toString();
+                          netPriceController.text = product.price.toString();
+                          discountController.text = '0';
+                          provider.setPrice(product.price);
+                          Navigator.pop(context);
+                        },
+                        child: ListTile(
+                          title: CustomText(
+                            text: product.name,
+                            textOverflow: TextOverflow.visible,
+                          ),
                         ),
-                      ),
-                    );
-                  },
-                );
-              }),
+                      );
+                    },
+                  );
+                },
+              ),
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
