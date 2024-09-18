@@ -36,7 +36,7 @@ final List<Product> PRODUCTS = [
   ),
   Product(
     id: 3,
-    name: 'Ultima smartwatch',
+    name: 'Ultima Smartwatch',
     price: 2100.0,
     color: Colors.blue,
   ),

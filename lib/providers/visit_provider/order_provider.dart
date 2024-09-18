@@ -113,6 +113,11 @@ class OrderProvider extends ChangeNotifier {
     notifyListeners();
   }
 
+  void setDiscountRateFromDiscountPrice(sellingPrice) {
+    _discountedPrice = sellingPrice;
+    _discountedRate = ((_price - _discountedPrice) / _price) * 100;
+  }
+
   void setTotalPrice() {
     _total = 0;
     notifyListeners();
