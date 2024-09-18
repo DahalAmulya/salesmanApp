@@ -126,7 +126,7 @@ class _VisitScreenState extends State<VisitScreen>
                                 builder: (builder) =>
                                     CollectionsummaryBottomsheet(),
                               );
-                            } 
+                            }
                           },
                           child: Icon(
                             Icons.add,
@@ -138,10 +138,6 @@ class _VisitScreenState extends State<VisitScreen>
                   },
                 )
               : null,
-      // bottomNavigationBar: CustomGNavBar(
-      //   onTap: (value) {},
-      //   selectedIndex: 0,
-      // ),
     );
   }
 
