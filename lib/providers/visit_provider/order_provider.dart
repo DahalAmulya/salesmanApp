@@ -25,6 +25,7 @@ class OrderProvider extends ChangeNotifier {
   double _discountedRate = 0.0;
   double _discountedPrice = 0.0;
   int _quantity = 0;
+  double _summaryTotalAmount = 0;
 
   List<Orders> get items => _items;
   double get total => _total;
@@ -32,6 +33,7 @@ class OrderProvider extends ChangeNotifier {
   int get quantity => _quantity;
   double get discountRate => _discountedRate;
   double get discountedPrice => _discountedPrice;
+  double get summaryTotalAmount => _summaryTotalAmount;
 
   void addItem(Orders item) {
     _items.add(item);
@@ -87,6 +89,14 @@ class OrderProvider extends ChangeNotifier {
 
   void totalPrice() {
     _total = _quantity * _discountedPrice;
+    notifyListeners();
+  }
+
+  void setSummaryTotalPrice(){
+    _summaryTotalAmount = 0.0;
+    for(int i = 0; i < _items.length; i ++){
+      _summaryTotalAmount += _items[i].totalPrice;
+    }
     notifyListeners();
   }
 

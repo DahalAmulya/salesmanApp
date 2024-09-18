@@ -33,7 +33,7 @@ class _VisitScreenState extends State<VisitScreen>
   NepaliDateTime nepaliDateTime = NepaliDateTime.now();
   NepaliDateFormat nepaliDateFormatter = NepaliDateFormat('yyyy-MM-ddThh:mm');
   String formatedDateTime = '';
-  final String name = 'Shuvam';
+
 
   List<Map<String, dynamic>> searchResult = [];
   List<String> items = [
@@ -138,10 +138,6 @@ class _VisitScreenState extends State<VisitScreen>
                   },
                 )
               : null,
-      // bottomNavigationBar: CustomGNavBar(
-      //   onTap: (value) {},
-      //   selectedIndex: 0,
-      // ),
     );
   }
 
@@ -1012,7 +1008,7 @@ class _VisitScreenState extends State<VisitScreen>
   }
 
   // --------------------------- Collection Up Tab --------------------------- //
-
+  final String name = '';
   Expanded _collectionTab(context) {
     return Expanded(
       child: Container(
@@ -1029,10 +1025,14 @@ class _VisitScreenState extends State<VisitScreen>
                   Container(
                     width: MediaQuery.of(context).size.width * 1,
                     child: Center(
-                      child: Text(
-                        name,
-                        style: TextStyle(
-                            fontWeight: FontWeight.w600, fontSize: 20),
+                      child: Consumer<VisitScreenProvider>(
+                        builder: (context,provider,_) {
+                          return CustomText(
+                             text:   provider.clientName,
+                            size: 18,
+                            fontWeight: FontWeight.w600,
+                          );
+                        }
                       ),
                     ),
                   ),
