@@ -46,7 +46,7 @@ class _BankSummary_BottomSheetState extends State<BankSummary_BottomSheet> {
                 child: Text(
                   'Cheque',
                   style: TextStyle(
-                    fontSize: 18,
+                    fontSize: 24,
                     fontWeight: FontWeight.w600,
                   ),
                 ),
