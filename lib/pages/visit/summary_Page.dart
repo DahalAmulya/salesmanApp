@@ -48,6 +48,7 @@ class VisitSummary extends StatelessWidget {
 
   double totalAmount = 0;
   String productName = '';
+  double containerHeight = 160;
   final SignatureController _controller = SignatureController(
     penStrokeWidth: 5,
     penColor: Colors.red,
@@ -98,6 +99,7 @@ class VisitSummary extends StatelessWidget {
   }
 
   Widget _buildUI(context) {
+    final orderProvider = Provider.of<OrderProvider>(context);
     return SingleChildScrollView(
       child: Column(
         children: [
@@ -149,23 +151,24 @@ class VisitSummary extends StatelessWidget {
                                 padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 8.0),
                                 child: Container(
                                   width: MediaQuery.of(context).size.width * 1,
-                                  height: 200,
+                                  height: orderProvider.items.length == 1
+                                             ? 80
+                                      : orderProvider.items.length == 2
+                                              ? 140
+                                              : 140,
                                   color: Colors.grey.shade400,
                                   child: Consumer<OrderProvider>(
                                     builder: (context, provider, _) {
-                                      // Assuming you have a list of products in your provider
                                       final products = provider.products;
                                       return ListView.builder(
                                         scrollDirection: Axis.vertical,
-                                        // Use this if the ListView is inside another scrollable widget
-                                        // Prevents ListView from interfering with parent scrollable
-                                        itemCount: provider.items.length, // Number of items in the list
+                                        itemCount: provider.items.length,
                                         itemBuilder: (context, index) {
                                           final product = products[index];
                                           return Padding(
                                             padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 8.0),
                                             child: Container(
-                                              padding: EdgeInsets.symmetric(vertical: 8.0, horizontal: 8.0),
+                                              padding: EdgeInsets.symmetric(vertical: 2.0, horizontal: 8.0),
                                               width: MediaQuery.of(context).size.width * 1,
                                               color: Colors.grey.shade400,
                                               child: Column(
@@ -475,48 +478,3 @@ class VisitSummary extends StatelessWidget {
     );
   }
 }
-
-
-
-// Padding(
-// padding: const EdgeInsets.symmetric(
-// vertical: 8.0, horizontal: 8.0),
-// child: Container(
-// padding: EdgeInsets.symmetric(
-// vertical: 8.0, horizontal: 8.0),
-// width: MediaQuery.of(context).size.width * 1,
-// color: Colors.grey.shade400,
-// child: Column(
-// crossAxisAlignment: CrossAxisAlignment.start,
-// children: [
-// Consumer<OrderProvider>(
-// builder: (context,provider,_) {
-// provider.setProductName();
-// return CustomText(
-// text: provider.productName ?? 'Product Name Not Found',
-// fontWeight: FontWeight.w600,
-// );
-// }
-// ),
-// Row(
-// mainAxisAlignment:
-// MainAxisAlignment.spaceBetween,
-// children: [
-// CustomText(
-// text: quantity.toString(),
-// fontWeight: FontWeight.w600,
-// ),
-// CustomText(
-// text: perQuantityPrice.toString(),
-// fontWeight: FontWeight.w600,
-// ),
-// CustomText(
-// text: totalPrice.toString(),
-// fontWeight: FontWeight.w600,
-// ),
-// ],
-// ),
-// ],
-// ),
-// ),
-// ),

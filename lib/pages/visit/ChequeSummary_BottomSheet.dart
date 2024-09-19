@@ -1,15 +1,16 @@
 import 'package:flutter/material.dart';
 import '../../themes/custom_colors.dart';
 import '../../widgets/text_fields/text_from_field.dart';
+import '../../widgets/texts/custom_text.dart';
 
-class BankSummary_BottomSheet extends StatefulWidget {
-  const BankSummary_BottomSheet({super.key});
+class ChequeSummary_BottomSheet extends StatefulWidget {
+  const ChequeSummary_BottomSheet({super.key});
 
   @override
-  State<BankSummary_BottomSheet> createState() => _BankSummary_BottomSheetState();
+  State<ChequeSummary_BottomSheet> createState() => _BankSummary_BottomSheetState();
 }
 
-class _BankSummary_BottomSheetState extends State<BankSummary_BottomSheet> {
+class _BankSummary_BottomSheetState extends State<ChequeSummary_BottomSheet> {
 
   final _formState = GlobalKey<FormState>();
   final ChequeReceiptNoTextController = TextEditingController();
@@ -18,7 +19,7 @@ class _BankSummary_BottomSheetState extends State<BankSummary_BottomSheet> {
   final ChequeNoTextController = TextEditingController();
   final BankTextController = TextEditingController();
   final ChequeDateTextController = TextEditingController();
-  String dropDownValue = 'one';
+  String dropDownValue = 'AC Payee';
 
 
   @override
@@ -68,30 +69,68 @@ class _BankSummary_BottomSheetState extends State<BankSummary_BottomSheet> {
             SizedBox(height: 8,),
             Container(
               width: MediaQuery.of(context).size.width * 0.90,
-              child: TextFromFieldWithPrefixSuffix(
-                applySuffixIcon: true,
-                suffixIcon: IconButton(
-                  onPressed: (){
-                   DropdownButton(
-                     items: [
-                        DropdownMenuItem(child: Text('one'),value: 'one',),
-                        DropdownMenuItem(child: Text('two'),value: 'two',),
-                        DropdownMenuItem(child: Text('three'),value: 'three',),
+              height: MediaQuery.of(context).size.height * 0.060,
+              decoration: BoxDecoration(
+                color: CustomColors.primaryWhite,
+                border:Border.all(color: Colors.grey.shade800,width: 1),
+                borderRadius: BorderRadius.circular(8)
+              ),
+              child: Row(
+                children: [
+                 Padding(
+                   padding: const EdgeInsets.symmetric(vertical: 8.0,horizontal: 8.0),
+                   child: CustomText(
+                     text: dropDownValue.isEmpty ? 'Cheque Type' : dropDownValue,
+                     size: 16,
+                     color: Colors.grey.shade800,
+                   ),
+                 ),
+                  Spacer(),
+                  // Padding(
+                  //   padding: const EdgeInsets.symmetric(vertical: 8.0,horizontal: 2.0),
+                  //   child: CustomText(
+                  //     text:'AC Payee',
+                  //     size: 16,
+                  //     color: Colors.grey.shade800,
+                  //   ),
+                  // ),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                    child: DropdownButton<String>(
+                      underline: Container(
+                        height: 0,
+                      ),
+                      style: const TextStyle(color: Colors.black),
+                      value: dropDownValue,
+                      // icon: Icon(Icons.arrow_drop_down),
+                      items: [
+                        DropdownMenuItem<String>(
+                          child: Text('AC Payee'),
+                          value: 'AC Payee',
+                        ),
+                        DropdownMenuItem<String>(
+                          child: Text('hello'),
+                          value: 'hello',
+                          onTap: (){},
+                        ),
+                        DropdownMenuItem<String>(
+                          child: Text('three'),
+                            value: 'three',
+                            onTap: (){
 
-                   ], onChanged: (value) {
-                     setState(() {
-                       dropDownValue = value!.toString();
-                     });
-                   },);
-                  },
-                    color: Colors.grey.shade800, icon: Icon(Icons.arrow_drop_down),),
-                labelText: 'Cheque Type:',
-                controller: ChequeTypeTextController,
-                validator: (Value) {
-                  return Value!.isEmpty
-                      ? 'Please Enter Cheque Type'
-                      : null;
-                },
+                            },
+                        ),
+                      ],
+                      onChanged: (newValue) {
+                        setState(() {
+                          if (newValue != null) {
+                            dropDownValue = newValue;
+                          }
+                        });
+                      },
+                    ),
+                  ),
+                ],
               ),
             ),
             SizedBox(height: 8,),
@@ -99,7 +138,7 @@ class _BankSummary_BottomSheetState extends State<BankSummary_BottomSheet> {
               width: MediaQuery.of(context).size.width * 0.90,
               child: TextFromFieldWithPrefixSuffix(
                 labelText: 'Cheque Amount*:',
-                controller: ChequeTypeTextController,
+                controller: ChequeAmountTextController,
                 validator: (Value) {
                   return Value!.isEmpty
                       ? 'Please Enter Cheque Amount'
@@ -152,3 +191,5 @@ class _BankSummary_BottomSheetState extends State<BankSummary_BottomSheet> {
     );
   }
 }
+
+
