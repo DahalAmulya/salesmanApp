@@ -30,8 +30,8 @@ class VisitSummary extends StatelessWidget {
 
   VisitSummary({
     super.key,
-    this.name = 'Farhan',
-    this.itemName = 'HEADPHONES HD001',
+    this.name = '',
+    this.itemName = '',
     this.quantity,
     this.perQuantityPrice,
     this.totalPrice,
@@ -47,6 +47,7 @@ class VisitSummary extends StatelessWidget {
 
 
   double totalAmount = 0;
+  String productName = '';
   final SignatureController _controller = SignatureController(
     penStrokeWidth: 5,
     penColor: Colors.red,
@@ -155,9 +156,14 @@ class VisitSummary extends StatelessWidget {
                                   child: Column(
                                     crossAxisAlignment: CrossAxisAlignment.start,
                                     children: [
-                                      CustomText(
-                                        text: itemName!,
-                                        fontWeight: FontWeight.w600,
+                                      Consumer<OrderProvider>(
+                                        builder: (context,provider,_) {
+                                          provider.setProductName();
+                                          return CustomText(
+                                            text: provider.productName ?? 'Product Name Not Found',
+                                            fontWeight: FontWeight.w600,
+                                          );
+                                        }
                                       ),
                                       Row(
                                         mainAxisAlignment:
