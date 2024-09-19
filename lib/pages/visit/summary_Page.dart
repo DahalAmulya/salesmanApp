@@ -146,44 +146,76 @@ class VisitSummary extends StatelessWidget {
                           child: Column(
                             children: [
                               Padding(
-                                padding: const EdgeInsets.symmetric(
-                                    vertical: 8.0, horizontal: 8.0),
+                                padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 8.0),
                                 child: Container(
-                                  padding: EdgeInsets.symmetric(
-                                      vertical: 8.0, horizontal: 8.0),
                                   width: MediaQuery.of(context).size.width * 1,
+                                  height: 200,
                                   color: Colors.grey.shade400,
-                                  child: Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                    children: [
-                                      Consumer<OrderProvider>(
-                                        builder: (context,provider,_) {
-                                          provider.setProductName();
-                                          return CustomText(
-                                            text: provider.productName ?? 'Product Name Not Found',
-                                            fontWeight: FontWeight.w600,
+                                  child: Consumer<OrderProvider>(
+                                    builder: (context, provider, _) {
+                                      // Assuming you have a list of products in your provider
+                                      final products = provider.products;
+                                      return ListView.builder(
+                                        scrollDirection: Axis.vertical,
+                                        // Use this if the ListView is inside another scrollable widget
+                                        // Prevents ListView from interfering with parent scrollable
+                                        itemCount: provider.items.length, // Number of items in the list
+                                        itemBuilder: (context, index) {
+                                          final product = products[index];
+                                          return Padding(
+                                            padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 8.0),
+                                            child: Container(
+                                              padding: EdgeInsets.symmetric(vertical: 8.0, horizontal: 8.0),
+                                              width: MediaQuery.of(context).size.width * 1,
+                                              color: Colors.grey.shade400,
+                                              child: Column(
+                                                crossAxisAlignment: CrossAxisAlignment.start,
+                                                children: [
+                                                  Consumer<OrderProvider>(
+                                                      builder: (context,provider,_) {
+                                                        return CustomText(
+                                                          text: provider.items[index].productName,
+                                                          fontWeight: FontWeight.w600,
+                                                        );
+                                                      }
+                                                  ),
+                                                  Row(
+                                                    mainAxisAlignment:
+                                                    MainAxisAlignment.spaceBetween,
+                                                    children: [
+                                                      Consumer<OrderProvider>(
+                                                        builder: (context,provider,_) {
+                                                          return CustomText(
+                                                            text: provider.items[index].netAmount.toString(),
+                                                            fontWeight: FontWeight.w600,
+                                                          );
+                                                        }
+                                                      ),
+                                                      Consumer<OrderProvider>(
+                                                        builder: (context,provider,_) {
+                                                          return CustomText(
+                                                            text: provider.items[index].quantity.toString(),
+                                                            fontWeight: FontWeight.w600,
+                                                          );
+                                                        }
+                                                      ),
+                                                      Consumer<OrderProvider>(
+                                                        builder: (context,provider,_) {
+                                                          return CustomText(
+                                                            text: provider.items[index].totalPrice.toString(),
+                                                            fontWeight: FontWeight.w600,
+                                                          );
+                                                        }
+                                                      ),
+                                                    ],
+                                                  ),
+                                                ],
+                                              ),
+                                            ),
                                           );
-                                        }
-                                      ),
-                                      Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
-                                        children: [
-                                          CustomText(
-                                            text: quantity.toString(),
-                                            fontWeight: FontWeight.w600,
-                                          ),
-                                          CustomText(
-                                            text: perQuantityPrice.toString(),
-                                            fontWeight: FontWeight.w600,
-                                          ),
-                                          CustomText(
-                                            text: totalPrice.toString(),
-                                            fontWeight: FontWeight.w600,
-                                          ),
-                                        ],
-                                      ),
-                                    ],
+                                        },
+                                      );
+                                    },
                                   ),
                                 ),
                               ),
@@ -446,14 +478,45 @@ class VisitSummary extends StatelessWidget {
 
 
 
-// Center(
-// child: Consumer<VisitScreenProvider>(
+// Padding(
+// padding: const EdgeInsets.symmetric(
+// vertical: 8.0, horizontal: 8.0),
+// child: Container(
+// padding: EdgeInsets.symmetric(
+// vertical: 8.0, horizontal: 8.0),
+// width: MediaQuery.of(context).size.width * 1,
+// color: Colors.grey.shade400,
+// child: Column(
+// crossAxisAlignment: CrossAxisAlignment.start,
+// children: [
+// Consumer<OrderProvider>(
 // builder: (context,provider,_) {
+// provider.setProductName();
 // return CustomText(
-// text:   provider.clientName,
-// size: 18,
+// text: provider.productName ?? 'Product Name Not Found',
 // fontWeight: FontWeight.w600,
 // );
 // }
+// ),
+// Row(
+// mainAxisAlignment:
+// MainAxisAlignment.spaceBetween,
+// children: [
+// CustomText(
+// text: quantity.toString(),
+// fontWeight: FontWeight.w600,
+// ),
+// CustomText(
+// text: perQuantityPrice.toString(),
+// fontWeight: FontWeight.w600,
+// ),
+// CustomText(
+// text: totalPrice.toString(),
+// fontWeight: FontWeight.w600,
+// ),
+// ],
+// ),
+// ],
+// ),
 // ),
 // ),
