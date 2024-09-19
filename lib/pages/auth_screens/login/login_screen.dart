@@ -22,29 +22,7 @@ class LoginPage extends StatelessWidget {
     print('build');
     return Scaffold(
       backgroundColor: CustomColors.primaryColor,
-      // appBar: _appBar(context),
       body: _buildUI(context),
-    );
-  }
-
-  PreferredSize _appBar(context) {
-    print('appbar build');
-    return PreferredSize(
-      preferredSize: Size.fromHeight(60.0),
-      child: Consumer<ThemeChangerProvider>(
-        builder: (context, provider, _) {
-          print('CustomAppBar build');
-          return CustomAppBar(
-            tabName: '',
-            backgroundColor: Colors.grey.shade100,
-            showTrailingIcons: true,
-            showThemeIcon: true,
-            onPressedThemeIcon: () {
-              provider.toogleIsChooseThemePopUp();
-            },
-          );
-        },
-      ),
     );
   }
 
@@ -66,130 +44,127 @@ class LoginPage extends StatelessWidget {
                         : Colors.white,
                     width: 0.90,
                     applyShadow: true,
-                    child: Form(
-                      key: _formKey,
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          Image.asset(
-                            width: 170,
-                            height: 60,
-                            provider.isDarkMode
-                                ? 'assets/images/deskgooWhite.png'
-                                : 'assets/images/deskgooBlack.png',
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Image.asset(
+                          width: 170,
+                          height: 60,
+                          provider.isDarkMode
+                              ? 'assets/images/deskgooWhite.png'
+                              : 'assets/images/deskgooBlack.png',
+                        ),
+                        SizedBox(
+                          height: 8.0,
+                        ),
+                        TextFromFieldWithPrefixSuffix(
+                          keyboardType: TextInputType.emailAddress,
+                          controller: emailController,
+                          autoFocus: true,
+                          onTap: () {},
+                          validator: (value) {
+                            String pattern =
+                                r'^[a-zA-Z]{3,}(?:\.[a-zA-Z]{2,})?@[a-zA-Z]{2,}\.[a-zA-Z]{2,}$';
+                            RegExp regex = RegExp(pattern);
+                            return value!.isEmpty
+                                ? 'Email required'
+                                : !regex.hasMatch(value)
+                                    ? 'Invalid email'
+                                    : null;
+                          },
+                          onChange: (value) {},
+                          hintText: 'jane@example.com',
+                          prefixIcon: Icon(
+                            Icons.email,
+                            color: Colors.grey.shade600,
                           ),
-                          SizedBox(
-                            height: 8.0,
-                          ),
-                          TextFromFieldWithPrefixSuffix(
-                            keyboardType: TextInputType.emailAddress,
-                            controller: emailController,
-                            onTap: () {},
-                            validator: (value) {
-                              String pattern =
-                                  r'^[a-zA-Z]{3,}(?:\.[a-zA-Z]{2,})?@[a-zA-Z]{2,}\.[a-zA-Z]{2,}$';
-                              RegExp regex = RegExp(pattern);
-
-                              return value!.isEmpty
-                                  ? 'Email required'
-                                  : !regex.hasMatch(value)
-                                      ? 'Invalid email'
-                                      : null;
-                            },
-                            onChange: (value) {},
-                            hintText: 'jane@example.com',
-                            prefixIcon: Icon(
-                              Icons.email,
-                              color: Colors.grey.shade600,
-                            ),
-                            applySuffixIcon: false,
-                          ),
-                          SizedBox(
-                            height: 16.0,
-                          ),
-                          Consumer<UserAuthProvider>(
-                            builder: (context, authProvider, _) {
-                              return TextFromFieldWithPrefixSuffix(
-                                controller: passwordController,
-                                obscure: authProvider.obscure,
-                                onTap: () {},
-                                validator: (value) {
-                                  // String pattern =
-                                  //     r'^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[\W_]).{8,}$';
-                                  // RegExp regex = RegExp(pattern);
-                                  return value!.isEmpty
-                                      ? 'Password required'
-                                      : null;
+                          applySuffixIcon: false,
+                        ),
+                        SizedBox(
+                          height: 16.0,
+                        ),
+                        Consumer<UserAuthProvider>(
+                          builder: (context, authProvider, _) {
+                            return TextFromFieldWithPrefixSuffix(
+                              controller: passwordController,
+                              obscure: authProvider.obscure,
+                              onTap: () {},
+                              validator: (value) {
+                                // String pattern =
+                                //     r'^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[\W_]).{8,}$';
+                                // RegExp regex = RegExp(pattern);
+                                return value!.isEmpty
+                                    ? 'Password required'
+                                    : null;
+                              },
+                              onChange: (value) {},
+                              hintText: '••••••',
+                              prefixIcon: Icon(
+                                Icons.lock,
+                                color: Colors.grey.shade600,
+                              ),
+                              applySuffixIcon: true,
+                              suffixIcon: InkWell(
+                                onTap: () {
+                                  authProvider.toggleObscure();
                                 },
-                                onChange: (value) {},
-                                hintText: '••••••',
-                                prefixIcon: Icon(
-                                  Icons.lock,
+                                child: Icon(
+                                  authProvider.obscure
+                                      ? Icons.visibility_off
+                                      : Icons.visibility,
                                   color: Colors.grey.shade600,
                                 ),
-                                applySuffixIcon: true,
-                                suffixIcon: InkWell(
-                                  onTap: () {
-                                    authProvider.toggleObscure();
-                                  },
-                                  child: Icon(
-                                    authProvider.obscure
-                                        ? Icons.visibility_off
-                                        : Icons.visibility,
-                                    color: Colors.grey.shade600,
-                                  ),
-                                ),
-                              );
-                            },
-                          ),
-                          SizedBox(
-                            height: 16.0,
-                          ),
-                          Consumer<ThemeChangerProvider>(
-                              builder: (context, provider, _) {
-                            return CustomElevatedButton(
-                              onPressed: () {
-                                if (_formKey.currentState!.validate()) {
-                                  print('Form is valid');
-                                } else {
-                                  print('Form is not valid');
-                                  GoRouter.of(context).pushReplacementNamed(
-                                      MyAppRouteConstants.homeNavBarRouteName);
-                                }
-                              },
-                              width: 0.90,
-                              height: 50,
-                              backgroundColor: provider.isDarkMode
-                                  ? Colors.white
-                                  : CustomColors.primaryColor,
-                              widget: CustomText(
-                                text: 'Login',
-                                fontWeight: FontWeight.w600,
-                                color: !provider.isDarkMode
-                                    ? CustomColors.primaryBlack
-                                    : CustomColors.primaryBlack,
-                                size: 20.0,
                               ),
                             );
-                          }),
-                          SizedBox(height: 8.0),
-                          CustomElevatedButton(
+                          },
+                        ),
+                        SizedBox(
+                          height: 16.0,
+                        ),
+                        Consumer<ThemeChangerProvider>(
+                            builder: (context, provider, _) {
+                          return CustomElevatedButton(
                             onPressed: () {
-                              print('Pressed');
-                              GoRouter.of(context).pushReplacementNamed(
-                                  MyAppRouteConstants.forgotPasswordRouteName);
+                              if (_formKey.currentState!.validate()) {
+                                print('Form is valid');
+                              } else {
+                                print('Form is not valid');
+                                GoRouter.of(context).pushReplacementNamed(
+                                    MyAppRouteConstants.homeNavBarRouteName);
+                              }
                             },
+                            width: 0.90,
+                            height: 50,
+                            backgroundColor: provider.isDarkMode
+                                ? Colors.white
+                                : CustomColors.primaryColor,
                             widget: CustomText(
-                              text: 'Forgot Password?',
+                              text: 'Login',
                               fontWeight: FontWeight.w600,
-                              color: provider.isDarkMode
-                                  ? Colors.white
+                              color: !provider.isDarkMode
+                                  ? CustomColors.primaryBlack
                                   : CustomColors.primaryBlack,
+                              size: 20.0,
                             ),
+                          );
+                        }),
+                        SizedBox(height: 8.0),
+                        CustomElevatedButton(
+                          onPressed: () {
+                            print('Pressed');
+                            GoRouter.of(context).pushReplacementNamed(
+                                MyAppRouteConstants.forgotPasswordRouteName);
+                          },
+                          widget: CustomText(
+                            text: 'Forgot Password?',
+                            fontWeight: FontWeight.w600,
+                            color: provider.isDarkMode
+                                ? Colors.white
+                                : CustomColors.primaryBlack,
                           ),
-                        ],
-                      ),
+                        ),
+                      ],
                     ),
                   );
                 }),
