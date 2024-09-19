@@ -2,6 +2,7 @@ import 'package:flutter/foundation.dart';
 
 class UserAuthProvider extends ChangeNotifier {
   bool _obscure = true;
+  String _email = 'info@goldenhospital.com.np';
 
   bool get obscure => _obscure;
 

@@ -5,6 +5,7 @@ import 'package:deskgoo/pages/visit/visit_order_screen.dart';
 import 'package:deskgoo/providers/visit_provider/order_items.dart';
 import 'package:deskgoo/providers/visit_provider/order_provider.dart';
 import 'package:deskgoo/providers/visit_provider/visit_screen_provider.dart';
+import 'package:deskgoo/routes/app_route_constants.dart';
 import 'package:deskgoo/themes/custom_colors.dart';
 import 'package:deskgoo/widgets/app_bars/custom_app_bars.dart';
 import 'package:deskgoo/widgets/buttons/elevated_button.dart';
@@ -14,6 +15,7 @@ import 'package:deskgoo/widgets/text_fields/text_from_field.dart';
 import 'package:deskgoo/widgets/texts/custom_text.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:go_router/go_router.dart';
 import 'package:nepali_utils/nepali_utils.dart';
 import 'package:provider/provider.dart';
 import 'package:nepali_date_picker/nepali_date_picker.dart' as picker;
@@ -88,55 +90,64 @@ class _VisitScreenState extends State<VisitScreen>
 
   @override
   Widget build(BuildContext context) {
-    print('build');
-    return Scaffold(
-      backgroundColor: Colors.grey.shade200,
-      // backgroundColor: Colors.amberAccent,
-      appBar: _appBar(context),
-      drawer: CustomDrawer(
-        isVisitActive: true,
-      ),
-      body: _buildUI(context),
-      floatingActionButton:
-          currentIndex == 1 || currentIndex == 2 || currentIndex == 3
-              ? AnimatedBuilder(
-                  animation: _animation,
-                  builder: (context, child) {
-                    return Transform.translate(
-                      offset: Offset(0, -_animation.value * 50),
-                      child: Transform.scale(
-                        scale: 1 + (_animation.value * 0.20),
-                        child: FloatingActionButton(
-                          mini: true,
-                          backgroundColor: CustomColors.primaryColor,
-                          foregroundColor: CustomColors.primaryBlack,
-                          onPressed: () {
-                            if (currentIndex == 1) {
-                              print('Current index = $currentIndex 1');
-                              _newVisitshowBottomSheet(context);
-                            } else if (currentIndex == 2) {
-                              print('Current index = $currentIndex 2');
-                              openCreateOrderDialog(context);
-                            } else if (currentIndex == 3) {
-                              showModalBottomSheet(
-                                isScrollControlled: false,
-                                useSafeArea: true,
-                                context: context,
-                                builder: (builder) =>
-                                    CollectionsummaryBottomsheet(),
-                              );
-                            }
-                          },
-                          child: Icon(
-                            Icons.add,
-                            size: 28 + (_animation.value * 5),
+    return PopScope(
+      canPop: false,
+      onPopInvoked: ((didpop) {
+        if (didpop) {
+          return;
+        }
+        GoRouter.of(context)
+            .pushReplacementNamed(MyAppRouteConstants.homeNavBarRouteName);
+      }),
+      child: Scaffold(
+        backgroundColor: Colors.grey.shade200,
+        // backgroundColor: Colors.amberAccent,
+        appBar: _appBar(context),
+        drawer: CustomDrawer(
+          isVisitActive: true,
+        ),
+        body: _buildUI(context),
+        floatingActionButton:
+            currentIndex == 1 || currentIndex == 2 || currentIndex == 3
+                ? AnimatedBuilder(
+                    animation: _animation,
+                    builder: (context, child) {
+                      return Transform.translate(
+                        offset: Offset(0, -_animation.value * 50),
+                        child: Transform.scale(
+                          scale: 1 + (_animation.value * 0.20),
+                          child: FloatingActionButton(
+                            mini: true,
+                            backgroundColor: CustomColors.primaryColor,
+                            foregroundColor: CustomColors.primaryBlack,
+                            onPressed: () {
+                              if (currentIndex == 1) {
+                                print('Current index = $currentIndex 1');
+                                _newVisitshowBottomSheet(context);
+                              } else if (currentIndex == 2) {
+                                print('Current index = $currentIndex 2');
+                                openCreateOrderDialog(context);
+                              } else if (currentIndex == 3) {
+                                showModalBottomSheet(
+                                  isScrollControlled: false,
+                                  useSafeArea: true,
+                                  context: context,
+                                  builder: (builder) =>
+                                      CollectionsummaryBottomsheet(),
+                                );
+                              }
+                            },
+                            child: Icon(
+                              Icons.add,
+                              size: 28 + (_animation.value * 5),
+                            ),
                           ),
                         ),
-                      ),
-                    );
-                  },
-                )
-              : null,
+                      );
+                    },
+                  )
+                : null,
+      ),
     );
   }
 
@@ -1263,7 +1274,8 @@ class _VisitScreenState extends State<VisitScreen>
     if (_selectedDateTime != null) {
       setState(() {
         selectedDate = _selectedDateTime;
-        date = _selectedDateTime.toString().split(' ')[0];
+        date = _selectedDateTime.toString();
+        followUpDateController.text = selectedDate.toString().split(' ')[0];
         debugPrint(
             'followUpDateController.text = ${followUpDateController.text}');
         debugPrint('selectedDate = $date');

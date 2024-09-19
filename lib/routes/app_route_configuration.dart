@@ -15,11 +15,8 @@ import 'package:go_router/go_router.dart';
 import '../pages/visit/summary_Page.dart';
 
 class MyAppRouter {
-  // static GoRouter returnRouter(bool isAuth) {
   GoRouter router = GoRouter(
     routes: [
-      // ShellRoute(
-      //   routes: [
       GoRoute(
         name: MyAppRouteConstants.loginRouteName,
         path: '/',
@@ -69,7 +66,6 @@ class MyAppRouter {
           return MaterialPage(child: VisitSummary());
         },
       ),
-
       GoRoute(
         name: MyAppRouteConstants.visitClientRouteName,
         path: '/visit_client',
@@ -77,7 +73,6 @@ class MyAppRouter {
           return MaterialPage(child: VisitClientScreen());
         },
       ),
-
       GoRoute(
         name: MyAppRouteConstants.visitOrderRouteName,
         path: '/visit_order',
@@ -85,7 +80,6 @@ class MyAppRouter {
           return MaterialPage(child: VisitOrderScreen());
         },
       ),
-
       GoRoute(
         name: MyAppRouteConstants.settingPageRouteName,
         path: '/settings',
@@ -93,29 +87,6 @@ class MyAppRouter {
           return MaterialPage(child: SettingPage());
         },
       ),
-
-      // GoRoute(
-      //   name: MyAppRouteConstants.productsRouteName,
-      //   path: '/products/:category',
-      //   pageBuilder: (context, state) {
-      //     return MaterialPage(
-      //       child: ProductsPage(
-      //         username: state.pathParameters['category']!,
-      //         userId: state.extra.toString(),
-      //         userEmail: state.extra.toString(),
-      //       ),
-      //     );
-      //   },
-      // ),
-      // GoRoute(
-      //   name: MyAppRouteConstants.cartRouteName,
-      //   path: '/cart',
-      //   pageBuilder: (context, state) {
-      //     return MaterialPage(child: CartPage());
-      //   },
-      // ),
-      //   ],
-      // ),
     ],
     errorPageBuilder: (context, state) {
       return MaterialPage(child: ErrorPage());
