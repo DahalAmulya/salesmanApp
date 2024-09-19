@@ -29,7 +29,7 @@ class OrderProvider extends ChangeNotifier {
   double _discountedPrice = 0.0;
   int _quantity = 0;
   double _summaryTotalAmount = 0;
-  String _productName = '';
+
 
   List<Product> get products => _products;
   List<Product> get productSearchResults => _productSearchResults;
@@ -40,7 +40,8 @@ class OrderProvider extends ChangeNotifier {
   double get discountRate => _discountedRate;
   double get discountedPrice => _discountedPrice;
   double get summaryTotalAmount => _summaryTotalAmount;
-  String get productName => _productName;
+
+
 
 
   OrderProvider() {
@@ -139,13 +140,7 @@ class OrderProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  void setProductName(){
-    _productName = '';
-    for(int i = 0; i < _items.length; i++){
-       _productName +=  _items[i].productName;
-    }
-    notifyListeners();
-  }
+
 
   void clearValues() {
     _total = 0.0;
