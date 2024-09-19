@@ -1,8 +1,7 @@
 import 'package:deskgoo/themes/custom_colors.dart';
 import 'package:flutter/material.dart';
-
-import 'BankSummary_BottomSheet.dart';
 import 'CashSummary_BottomSheet.dart';
+import 'ChequeSummary_BottomSheet.dart';
 
 class CollectionsummaryBottomsheet extends StatelessWidget {
   const CollectionsummaryBottomsheet({super.key});
@@ -53,7 +52,7 @@ class CollectionsummaryBottomsheet extends StatelessWidget {
           ),
           InkWell(
             onTap: () {
-              showModalBottomSheet(context: context, builder: (builder) => BankSummary_BottomSheet());
+              showModalBottomSheet(context: context, builder: (builder) => ChequeSummary_BottomSheet());
             },
             child: Container(
               width: MediaQuery.of(context).size.width * 1,
