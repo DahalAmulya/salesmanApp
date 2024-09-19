@@ -13,86 +13,96 @@ class ForgotPasswordScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: CustomColors.primaryColor,
-      body: SafeArea(
-        child: Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              CustomContainer(
-                width: 0.90,
-                applyShadow: true,
-                color: Colors.white,
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Image.asset(
-                      width: 170,
-                      height: 60,
-                      'assets/images/deskgooBlack.png',
-                    ),
-                    SizedBox(
-                      height: 16.0,
-                    ),
-                    TextFromFieldWithPrefixSuffix(
-                      keyboardType: TextInputType.emailAddress,
-                      autoFocus: false,
-                      controller: emailController,
-                      onTap: () {},
-                      validator: (value) {
-                        String pattern =
-                            r'^[a-zA-Z]{3,}(?:\.[a-zA-Z]{2,})?@[a-zA-Z]{2,}\.[a-zA-Z]{2,}$';
-                        RegExp regex = RegExp(pattern);
+    return PopScope(
+      canPop: false,
+      onPopInvoked: ((didpop) {
+        if (didpop) {
+          return;
+        }
+        GoRouter.of(context)
+            .pushReplacementNamed(MyAppRouteConstants.loginRouteName);
+      }),
+      child: Scaffold(
+        backgroundColor: CustomColors.primaryColor,
+        body: SafeArea(
+          child: Center(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                CustomContainer(
+                  width: 0.90,
+                  applyShadow: true,
+                  color: Colors.white,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Image.asset(
+                        width: 170,
+                        height: 60,
+                        'assets/images/deskgooBlack.png',
+                      ),
+                      SizedBox(
+                        height: 16.0,
+                      ),
+                      TextFromFieldWithPrefixSuffix(
+                        keyboardType: TextInputType.emailAddress,
+                        autoFocus: false,
+                        controller: emailController,
+                        onTap: () {},
+                        validator: (value) {
+                          String pattern =
+                              r'^[a-zA-Z]{3,}(?:\.[a-zA-Z]{2,})?@[a-zA-Z]{2,}\.[a-zA-Z]{2,}$';
+                          RegExp regex = RegExp(pattern);
 
-                        return value!.isEmpty
-                            ? 'email is required'
-                            : !regex.hasMatch(value)
-                                ? 'Invalid email'
-                                : null;
-                      },
-                      onChange: (value) {},
-                      hintText: 'Email Address',
-                      prefixIcon: Icon(
-                        Icons.email,
-                        color: Colors.grey.shade600,
+                          return value!.isEmpty
+                              ? 'email is required'
+                              : !regex.hasMatch(value)
+                                  ? 'Invalid email'
+                                  : null;
+                        },
+                        onChange: (value) {},
+                        hintText: 'Email Address',
+                        prefixIcon: Icon(
+                          Icons.email,
+                          color: Colors.grey.shade600,
+                        ),
+                        applySuffixIcon: false,
                       ),
-                      applySuffixIcon: false,
-                    ),
-                    SizedBox(
-                      height: 16.0,
-                    ),
-                    CustomElevatedButton(
-                      onPressed: () {},
-                      width: 0.90,
-                      height: 50,
-                      backgroundColor: CustomColors.primaryColor,
-                      widget: CustomText(
-                        text: 'Reset Password',
-                        fontWeight: FontWeight.w600,
-                        color: CustomColors.primaryBlack,
-                        size: 20.0,
+                      SizedBox(
+                        height: 16.0,
                       ),
-                    ),
-                    SizedBox(
-                      height: 8.0,
-                    ),
-                    CustomElevatedButton(
-                      onPressed: () {
-                        GoRouter.of(context).pushReplacementNamed(
-                            MyAppRouteConstants.loginRouteName);
-                      },
-                      widget: CustomText(
-                        text: 'Back to Login',
-                        fontWeight: FontWeight.w500,
-                        color: CustomColors.primaryBlack,
+                      CustomElevatedButton(
+                        onPressed: () {},
+                        width: 0.90,
+                        height: 50,
+                        backgroundColor: CustomColors.primaryColor,
+                        widget: CustomText(
+                          text: 'Reset Password',
+                          fontWeight: FontWeight.w600,
+                          color: CustomColors.primaryBlack,
+                          size: 20.0,
+                        ),
                       ),
-                    ),
-                  ],
+                      SizedBox(
+                        height: 8.0,
+                      ),
+                      CustomElevatedButton(
+                        onPressed: () {
+                          GoRouter.of(context).pushReplacementNamed(
+                              MyAppRouteConstants.loginRouteName);
+                        },
+                        widget: CustomText(
+                          text: 'Back to Login',
+                          fontWeight: FontWeight.w500,
+                          color: CustomColors.primaryBlack,
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       ),

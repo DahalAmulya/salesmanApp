@@ -1,9 +1,11 @@
 import 'package:deskgoo/providers/attendance_provider/remote_attendance_provider.dart';
+import 'package:deskgoo/routes/app_route_constants.dart';
 import 'package:deskgoo/widgets/bottom_navigation/gnav_bar.dart';
 import 'package:deskgoo/widgets/containers/custom_container.dart';
 import 'package:deskgoo/widgets/drawers/custom_drawer.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 import '../../providers/themes_provider/theme_changer_provider.dart';
 import '../../themes/custom_colors.dart';
@@ -36,38 +38,40 @@ class _RemoteAttendencePageState extends State<RemoteAttendencePage> {
   @override
   void initState() {
     super.initState();
-    getTime();
-    dateTimeController.text = nepaliTime.toString();
+    // getTime();
+    // dateTimeController.text = nepaliTime.toString();
     // NepaliDateFormat formattedTime = NepaliDateFormat("yyyy-MM-dd HH:mm");
     gpsLocationController.text =
         'Latitude: ${latitude.toString()}, Longitude: ${longitude.toString()}';
     getLocation();
   }
 
-  Future<void> getTime() async {
-    setState(() {
-      var currentNepaliTime = NepaliDateTime.now();
-      String formattedTime = NepaliDateFormat("yyyy-MM-dd HH:mm")
-          .format(currentNepaliTime); // Format the date and time
-      print(nepaliTime);
-      setState(() {
-        final nepaliTime = formattedTime; // Set it to the state variable.
-      });
-    });
-  }
+  // Future<void> getTime() async {
+  //   setState(() {
+  //     var currentNepaliTime = NepaliDateTime.now();
+  //     String formattedTime = NepaliDateFormat("yyyy-MM-dd HH:mm")
+  //         .format(currentNepaliTime); // Format the date and time
+  //     print(nepaliTime);
+  //     setState(() {
+  //       final nepaliTime = formattedTime; // Set it to the state variable.
+  //     });
+  //   });
+  // }
 
   Future<void> getLocation() async {
     try {
-      await askPermission(); // This do not exists
+      await askPermission();
       Position position = await Geolocator.getCurrentPosition(
           desiredAccuracy: LocationAccuracy.medium);
-      setState(() {
-        latitude = position.latitude;
-        longitude = position.longitude;
-        gpsLocationController.text =
-            'Latitude: ${latitude.toString()}, Longitude: ${longitude.toString()}';
-      });
-      print('longitude: $latitude');
+      if (mounted) {
+        setState(() {
+          latitude = position.latitude;
+          longitude = position.longitude;
+          gpsLocationController.text =
+              'Latitude: ${latitude.toString()}, Longitude: ${longitude.toString()}';
+        });
+      }
+      print('latitude: $latitude');
       print('longitude: $longitude');
     } catch (e) {
       print(e);
@@ -85,33 +89,39 @@ class _RemoteAttendencePageState extends State<RemoteAttendencePage> {
   }
 
   Future<bool> biometricAuthentication() async {
-    bool didAuthenticate = false;
-    if (!_isAuthenticated) {
+    if (_isAuthenticated) return true;
+    try {
       final bool canAuthenticateWithBiometrics = await auth.canCheckBiometrics;
       if (canAuthenticateWithBiometrics) {
-        try {
-          didAuthenticate = await auth.authenticate(
-              localizedReason: 'Please authenticate for remote attendance');
-          return didAuthenticate;
-        } catch (err) {
-          print('err = $err');
-          return didAuthenticate;
-        }
+        return await auth.authenticate(
+            localizedReason: 'Please authenticate for remote attendance');
       }
+    } catch (err) {
+      print('Authentication error: $err');
     }
-    return didAuthenticate;
+    return false;
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: CustomColors.primaryWhite,
-      appBar: _appBar(context),
-      drawer: CustomDrawer(
-        isAttendanceActive: true,
+    return PopScope(
+      canPop: false,
+      onPopInvoked: ((didpop) {
+        if (didpop) {
+          return;
+        }
+        GoRouter.of(context)
+            .pushReplacementNamed(MyAppRouteConstants.homeNavBarRouteName);
+      }),
+      child: Scaffold(
+        backgroundColor: CustomColors.primaryWhite,
+        appBar: _appBar(context),
+        drawer: CustomDrawer(
+          isAttendanceActive: true,
+        ),
+        body: _buildUI(context),
+        bottomNavigationBar: _bottomNavBar(context),
       ),
-      body: _buildUI(context),
-      bottomNavigationBar: _bottomNavBar(context),
     );
   }
 
@@ -173,9 +183,14 @@ class _RemoteAttendencePageState extends State<RemoteAttendencePage> {
                             bool response = await biometricAuthentication();
                             if (response) {
                               attendanceProvider.switchRemoteAttendanceSwitch();
+                              if (attendanceProvider
+                                  .isRemoteAttendanceSwitched) {
+                                attendanceProvider.setLoginTime();
+                              } else {
+                                attendanceProvider.setLogoutTime();
+                              }
                             }
                             print('response = $response');
-                            print('valid form printed');
                           } else {
                             print(
                                 '_formState.currentState!.validate() = ${_formState.currentState!.validate()}');
@@ -197,10 +212,15 @@ class _RemoteAttendencePageState extends State<RemoteAttendencePage> {
                               activeColor: Colors.blue,
                               value:
                                   attendanceProvider.isRemoteAttendanceSwitched,
-                              onChanged: (value) {
+                              onChanged: (value) async {
                                 if (_formState.currentState!.validate()) {
-                                  attendanceProvider
-                                      .switchRemoteAttendanceSwitch();
+                                  bool response =
+                                      await biometricAuthentication();
+                                  if (response) {
+                                    attendanceProvider
+                                        .switchRemoteAttendanceSwitch();
+                                  }
+                                  print('response = $response');
                                   print('valid form printed');
                                 } else {
                                   print(
@@ -237,20 +257,32 @@ class _RemoteAttendencePageState extends State<RemoteAttendencePage> {
                     SizedBox(
                       height: 8,
                     ),
-                    CustomText(text: 'Date and Time'),
+                    Consumer<AttendanceProvider>(
+                        builder: (context, attendanceProvider, _) {
+                      return CustomText(
+                          text: attendanceProvider.isRemoteAttendanceSwitched
+                              ? 'Login Time'
+                              : 'Logout Time');
+                    }),
                     SizedBox(
                       height: 4,
                     ),
-                    TextFromFieldWithPrefixSuffix(
-                      controller: dateTimeController,
-                      applyPrefix: false,
-                      readOnly: true,
-                      onTap: () {},
-                      validator: (String) {
-                        return null;
-                      },
-                      onChange: (value) {},
-                    ),
+                    Consumer<AttendanceProvider>(
+                        builder: (context, attendanceProvider, _) {
+                      dateTimeController.text = attendanceProvider.logTime;
+                      print(
+                          'dateTimeController = ${dateTimeController.value.text}');
+                      return TextFromFieldWithPrefixSuffix(
+                        controller: dateTimeController,
+                        applyPrefix: false,
+                        readOnly: true,
+                        onTap: () {},
+                        validator: (String) {
+                          return null;
+                        },
+                        onChange: (value) {},
+                      );
+                    }),
                     SizedBox(
                       height: 16,
                     ),
@@ -297,69 +329,6 @@ class _RemoteAttendencePageState extends State<RemoteAttendencePage> {
                                   print(
                                       '_formState.currentState!.validate() = ${_formState.currentState!.validate()}');
                                 }
-                                // if (!_isAuthenticated) {
-                                //   final bool canAuthenticateWithBiometrics =
-                                //       await auth.canCheckBiometrics;
-                                //   if (canAuthenticateWithBiometrics) {
-                                //     try {
-                                //       print(canAuthenticateWithBiometrics);
-                                //       final bool didAuthenticate =
-                                //           await auth.authenticate(
-                                //         localizedReason:
-                                //             'Please authenticate for remote attendance',
-                                //         options: const AuthenticationOptions(
-                                //           biometricOnly: false,
-                                //         ),
-                                //       );
-                                //       print(
-                                //           'didAuthenticate = $didAuthenticate');
-                                //       setState(() {
-                                //         _isAuthenticated = didAuthenticate;
-                                //       });
-                                //       print(
-                                //           '_isAuthenticated = $_isAuthenticated');
-                                //       print(
-                                //           'didAuthenticate = $didAuthenticate');
-                                //       // _isAuthenticated = false;
-                                //     } catch (err) {
-                                //       print('err = $err');
-                                //       print(
-                                //           '_isAuthenticated = $_isAuthenticated');
-                                //     }
-                                //     print(
-                                //         '_isAuthenticated = $_isAuthenticated');
-                                //     _isAuthenticated = false;
-                                //   }
-                                // } else {
-                                //   print('_isAuthenticated = $_isAuthenticated');
-                                // }
-                                // }
-                                // else {
-                                //   if (!_isAuthenticated) {
-                                //     final bool canAuthenticateWithBiometrics =
-                                //         await auth.canCheckBiometrics;
-                                //     if (canAuthenticateWithBiometrics) {
-                                //       try {
-                                //         print(canAuthenticateWithBiometrics);
-                                //         final bool didAuthenticate =
-                                //             await auth.authenticate(
-                                //           localizedReason:
-                                //               'Please authenticate for remote attendance',
-                                //           options: const AuthenticationOptions(
-                                //             biometricOnly: false,
-                                //           ),
-                                //         );
-                                //         setState(() {
-                                //           _isAuthenticated = didAuthenticate;
-                                //         });
-                                //         // _isAuthenticated = false;
-                                //       } catch (err) {
-                                //         print('err = $err');
-                                //       }
-                                //       _isAuthenticated = false;
-                                //     }
-                                //   }
-                                // }
                               },
                               icon: Icon(
                                 Icons.fingerprint,
@@ -370,27 +339,6 @@ class _RemoteAttendencePageState extends State<RemoteAttendencePage> {
                         }),
                       ],
                     ),
-                    // Row(
-                    //   mainAxisAlignment: MainAxisAlignment.end,
-                    //   children: [
-                    //     CustomElevatedButton(
-                    //       onPressed: () {
-                    //         if (_formState.currentState!.validate()) {
-                    //           print('valid form printed');
-                    //         } else {
-                    //           print(
-                    //               '_formState.currentState!.validate() = ${_formState.currentState!.validate()}');
-                    //         }
-                    //       },
-                    //       height: 50,
-                    //       backgroundColor: CustomColors.primaryColor,
-                    //       widget: CustomText(
-                    //         text: 'Submit',
-                    //         fontWeight: FontWeight.w500,
-                    //       ),
-                    //     ),
-                    //   ],
-                    // )
                   ],
                 ),
               ),

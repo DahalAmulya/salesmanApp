@@ -53,11 +53,11 @@ class _HomeScreenState extends State<HomeScreen> {
                         Navigator.pop(context, false);
                       },
                       // backgroundColor: Colors.green,
-                      borderColor: CustomColors.primaryColor,
+                      borderColor: CustomColors.primaryBlack,
                       widget: CustomText(
                         text: 'No',
                         fontWeight: FontWeight.w500,
-                        color: CustomColors.primaryColor,
+                        color: CustomColors.primaryBlack,
                       ),
                     ),
                     CustomElevatedButton(
@@ -173,7 +173,7 @@ class _HomeScreenState extends State<HomeScreen> {
       margin: EdgeInsets.all(6),
       child: Center(
         child: CustomText(
-          text: _isAuthenticated ? 'Comming soon' : '********',
+          text: _isAuthenticated ? 'Coming soon' : '********',
           fontWeight: FontWeight.w500,
           size: 20,
         ),

@@ -17,11 +17,21 @@ class SettingPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: CustomColors.primaryWhite,
-      appBar: _appBar(context),
-      body: _buildUI(context),
-      bottomNavigationBar: _bottomNavBar(context),
+    return PopScope(
+      canPop: false,
+      onPopInvoked: ((didpop) {
+        if (didpop) {
+          return;
+        }
+        GoRouter.of(context)
+            .pushReplacementNamed(MyAppRouteConstants.homeNavBarRouteName);
+      }),
+      child: Scaffold(
+        backgroundColor: CustomColors.primaryWhite,
+        appBar: _appBar(context),
+        body: _buildUI(context),
+        bottomNavigationBar: _bottomNavBar(context),
+      ),
     );
   }
 
