@@ -1,4 +1,5 @@
 import 'package:deskgoo/providers/attendance_provider/remote_attendance_provider.dart';
+import 'package:deskgoo/providers/deviceInfo_provider/deviceInfo_provider.dart';
 import 'package:deskgoo/providers/visit_provider/order_provider.dart';
 import 'package:deskgoo/providers/visit_provider/visit_screen_provider.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
@@ -50,6 +51,7 @@ class _MyAppState extends State<MyApp> {
         ChangeNotifierProvider(create: (context) => VisitScreenProvider()),
         ChangeNotifierProvider(create: (context) => OrderProvider()),
         ChangeNotifierProvider(create: (context) => AttendanceProvider()),
+        ChangeNotifierProvider(create: (context) => DeviceinfoProvider()),
       ],
       child: MediaQuery(
         data: MediaQuery.of(context).copyWith(
