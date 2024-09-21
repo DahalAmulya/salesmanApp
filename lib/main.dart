@@ -2,13 +2,15 @@ import 'package:deskgoo/providers/attendance_provider/remote_attendance_provider
 import 'package:deskgoo/providers/deviceInfo_provider/deviceInfo_provider.dart';
 import 'package:deskgoo/providers/visit_provider/order_provider.dart';
 import 'package:deskgoo/providers/visit_provider/visit_screen_provider.dart';
+import 'package:deskgoo/routes/route_generator.dart';
+import 'package:deskgoo/routes/route_generator_constants.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:deskgoo/providers/auth_provider/user_auth_provider.dart';
 import 'package:deskgoo/providers/themes_provider/theme_changer_provider.dart';
-import 'package:deskgoo/routes/app_route_configuration.dart';
+// import 'package:deskgoo/routes/app_route_configuration.dart';
 import 'package:device_preview/device_preview.dart';
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
+// import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 // import 'package:flutter_background_service/flutter_background_service.dart';
 
@@ -34,13 +36,13 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  late final GoRouter _router;
+  // late final GoRouter _router;
 
-  @override
-  void initState() {
-    super.initState();
-    _router = MyAppRouter().router;
-  }
+  // @override
+  // void initState() {
+  //   super.initState();
+  //   _router = MyAppRouter().router;
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -61,11 +63,12 @@ class _MyAppState extends State<MyApp> {
           builder: (BuildContext context) {
             final themeChangerProvider =
                 Provider.of<ThemeChangerProvider>(context);
-            return MaterialApp.router(
+            // return MaterialApp.router(
+            return MaterialApp(
               debugShowCheckedModeBanner: false,
-              routeInformationProvider: _router.routeInformationProvider,
-              routeInformationParser: _router.routeInformationParser,
-              routerDelegate: _router.routerDelegate,
+              // routeInformationProvider: _router.routeInformationProvider,
+              // routeInformationParser: _router.routeInformationParser,
+              // routerDelegate: _router.routerDelegate,
               themeMode: themeChangerProvider.themeMode,
               darkTheme: ThemeData(
                 brightness: Brightness.dark,
@@ -76,6 +79,8 @@ class _MyAppState extends State<MyApp> {
                 // colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
                 useMaterial3: true,
               ),
+              initialRoute: RouteGeneratorConstants.indexPage,
+              onGenerateRoute: RouteGenerator.generateRoute,
             );
           },
         ),

@@ -1,8 +1,9 @@
 import 'package:deskgoo/routes/app_route_constants.dart';
+import 'package:deskgoo/routes/route_generator_constants.dart';
 import 'package:deskgoo/themes/custom_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:go_router/go_router.dart';
+// import 'package:go_router/go_router.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
 
 class CustomGNavBar extends StatelessWidget {
@@ -26,8 +27,10 @@ class CustomGNavBar extends StatelessWidget {
       tabs: [
         GButton(
           onPressed: () {
-            GoRouter.of(context)
-                .pushReplacementNamed(MyAppRouteConstants.homeNavBarRouteName);
+            // GoRouter.of(context)
+            //     .pushReplacementNamed(MyAppRouteConstants.homeNavBarRouteName);
+            Navigator.of(context)
+                .pushReplacementNamed(RouteGeneratorConstants.homePage);
           },
           // margin: EdgeInsets.symmetric(horizontal: 8, vertical: 0),
           padding: EdgeInsets.symmetric(vertical: 16, horizontal: 16),
@@ -57,8 +60,10 @@ class CustomGNavBar extends StatelessWidget {
         // ),
         GButton(
           onPressed: () {
-            GoRouter.of(context)
-                .pushReplacementNamed(MyAppRouteConstants.settingPageRouteName);
+            // GoRouter.of(context)
+            //     .pushReplacementNamed(MyAppRouteConstants.settingPageRouteName);
+            Navigator.of(context)
+                .pushReplacementNamed(RouteGeneratorConstants.settingPage);
           },
           // margin: EdgeInsets.symmetric(horizontal: 0, vertical: 0),
           padding: EdgeInsets.symmetric(vertical: 16, horizontal: 16),

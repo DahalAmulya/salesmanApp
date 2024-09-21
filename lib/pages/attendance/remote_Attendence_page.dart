@@ -1,11 +1,12 @@
 import 'package:deskgoo/providers/attendance_provider/remote_attendance_provider.dart';
 import 'package:deskgoo/routes/app_route_constants.dart';
+import 'package:deskgoo/routes/route_generator_constants.dart';
 import 'package:deskgoo/widgets/bottom_navigation/gnav_bar.dart';
 import 'package:deskgoo/widgets/containers/custom_container.dart';
 import 'package:deskgoo/widgets/drawers/custom_drawer.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:go_router/go_router.dart';
+// import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 import '../../providers/themes_provider/theme_changer_provider.dart';
 import '../../themes/custom_colors.dart';
@@ -110,17 +111,25 @@ class _RemoteAttendencePageState extends State<RemoteAttendencePage> {
         if (didpop) {
           return;
         }
-        GoRouter.of(context)
-            .pushReplacementNamed(MyAppRouteConstants.homeNavBarRouteName);
+        // GoRouter.of(context)
+        //     .pushReplacementNamed(MyAppRouteConstants.homeNavBarRouteName);
+        Navigator.of(context)
+            .pushReplacementNamed(RouteGeneratorConstants.homePage);
       }),
-      child: Scaffold(
-        backgroundColor: CustomColors.primaryWhite,
-        appBar: _appBar(context),
-        drawer: CustomDrawer(
-          isAttendanceActive: true,
+      child: GestureDetector(
+        onTap: () {
+          // Dismiss the keyboard when tapping outside TextFormFields
+          FocusScope.of(context).unfocus();
+        },
+        child: Scaffold(
+          backgroundColor: CustomColors.primaryWhite,
+          appBar: _appBar(context),
+          drawer: CustomDrawer(
+            isAttendanceActive: true,
+          ),
+          body: _buildUI(context),
+          bottomNavigationBar: _bottomNavBar(context),
         ),
-        body: _buildUI(context),
-        bottomNavigationBar: _bottomNavBar(context),
       ),
     );
   }
