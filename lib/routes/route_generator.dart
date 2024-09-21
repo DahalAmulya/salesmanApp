@@ -1,7 +1,10 @@
+import 'package:deskgoo/pages/attendance/remote_Attendence_page.dart';
 import 'package:deskgoo/pages/auth_screens/forgot_password/forgot_password_screen.dart';
 import 'package:deskgoo/pages/auth_screens/login/login_screen.dart';
 import 'package:deskgoo/pages/error/error_page.dart';
 import 'package:deskgoo/pages/home/home_screen.dart';
+import 'package:deskgoo/pages/settings/setting.dart';
+import 'package:deskgoo/pages/visit/visit_screen.dart';
 import 'package:deskgoo/routes/route_generator_constants.dart';
 import 'package:flutter/material.dart';
 
@@ -13,13 +16,19 @@ class RouteGenerator {
       case RouteGeneratorConstants.indexPage:
         return MaterialPageRoute(builder: (_) => LoginPage());
       case RouteGeneratorConstants.forgotPage:
-        if (args is String) {
-          return MaterialPageRoute(builder: (_) => ForgotPasswordScreen());
-        } else {
-          return MaterialPageRoute(builder: (_) => ErrorPage());
-        }
+        // if (args is String) {
+        return MaterialPageRoute(builder: (_) => ForgotPasswordScreen());
+      // } else {
+      //   return MaterialPageRoute(builder: (_) => ErrorPage());
+      // }
       case RouteGeneratorConstants.homePage:
         return MaterialPageRoute(builder: (_) => HomeScreen());
+      case RouteGeneratorConstants.visitPage:
+        return MaterialPageRoute(builder: (_) => VisitScreen());
+      case RouteGeneratorConstants.remoteAttendancePage:
+        return MaterialPageRoute(builder: (_) => RemoteAttendencePage());
+      case RouteGeneratorConstants.settingPage:
+        return MaterialPageRoute(builder: (_) => SettingPage());
       default:
         return MaterialPageRoute(builder: (_) => ErrorPage());
     }

@@ -102,26 +102,32 @@ class _HomeScreenState extends State<HomeScreen> {
           },
         );
       }),
-      child: Scaffold(
-        backgroundColor: CustomColors.primaryWhite,
-        appBar: _appBar(context),
-        drawer: _drawer(context),
-        // drawerDragStartBehavior: DragStartBehavior.start,
-        body: _googleMap(context),
-        floatingActionButton: Consumer<DeviceinfoProvider>(
-            builder: (context, deviceinfoProvider, _) {
-          return FloatingActionButton(
-            backgroundColor: CustomColors.primaryColor,
-            onPressed: () {
-              deviceinfoProvider.clearMarkers();
-              deviceinfoProvider.locationReplay();
-            },
-            child: Icon(
-              Icons.rotate_left,
-            ),
-          );
-        }),
-        bottomNavigationBar: _bottomNavBar(context),
+      child: GestureDetector(
+        onTap: () {
+          // Dismiss the keyboard when tapping outside TextFormFields
+          FocusScope.of(context).unfocus();
+        },
+        child: Scaffold(
+          backgroundColor: CustomColors.primaryWhite,
+          appBar: _appBar(context),
+          drawer: _drawer(context),
+          // drawerDragStartBehavior: DragStartBehavior.start,
+          body: _googleMap(context),
+          floatingActionButton: Consumer<DeviceinfoProvider>(
+              builder: (context, deviceinfoProvider, _) {
+            return FloatingActionButton(
+              backgroundColor: CustomColors.primaryColor,
+              onPressed: () {
+                deviceinfoProvider.clearMarkers();
+                deviceinfoProvider.locationReplay();
+              },
+              child: Icon(
+                Icons.rotate_left,
+              ),
+            );
+          }),
+          bottomNavigationBar: _bottomNavBar(context),
+        ),
       ),
     );
   }

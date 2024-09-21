@@ -1,10 +1,11 @@
 import 'package:deskgoo/routes/app_route_constants.dart';
+import 'package:deskgoo/routes/route_generator_constants.dart';
 import 'package:deskgoo/themes/custom_colors.dart';
 import 'package:deskgoo/widgets/drawers/drawers_items/custom_listTile.dart';
 import 'package:deskgoo/widgets/texts/custom_text.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:go_router/go_router.dart';
+// import 'package:go_router/go_router.dart';
 
 class CustomDrawer extends StatelessWidget {
   const CustomDrawer({
@@ -106,8 +107,10 @@ class CustomDrawer extends StatelessWidget {
                   children: [
                     CustomListTile(
                       onTap: () {
-                        GoRouter.of(context).pushReplacementNamed(
-                            MyAppRouteConstants.homeNavBarRouteName);
+                        // GoRouter.of(context).pushReplacementNamed(
+                        //     MyAppRouteConstants.homeNavBarRouteName);
+                        Navigator.of(context).pushReplacementNamed(
+                            RouteGeneratorConstants.homePage);
                       },
                       isTabActive: isHomeActive,
                       icon: FontAwesomeIcons.house,
@@ -130,8 +133,10 @@ class CustomDrawer extends StatelessWidget {
                     // ),
                     CustomListTile(
                       onTap: () {
-                        GoRouter.of(context).pushReplacementNamed(
-                            MyAppRouteConstants.visitRouteName);
+                        // GoRouter.of(context).pushReplacementNamed(
+                        //     MyAppRouteConstants.visitRouteName);
+                        Navigator.of(context).pushReplacementNamed(
+                            RouteGeneratorConstants.visitPage);
                       },
                       isTabActive: isVisitActive,
                       isIcon: false,
@@ -145,8 +150,10 @@ class CustomDrawer extends StatelessWidget {
                     ),
                     CustomListTile(
                       onTap: () {
-                        GoRouter.of(context).pushReplacementNamed(
-                            MyAppRouteConstants.remoteAttendanceRouteName);
+                        // GoRouter.of(context).pushReplacementNamed(
+                        //     MyAppRouteConstants.remoteAttendanceRouteName);
+                        Navigator.of(context).pushReplacementNamed(
+                            RouteGeneratorConstants.remoteAttendancePage);
                       },
                       isTabActive: isAttendanceActive,
                       isIcon: false,
