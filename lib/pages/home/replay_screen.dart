@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:io';
 import 'package:deskgoo/providers/deviceInfo_provider/deviceInfo_provider.dart';
+import 'package:deskgoo/providers/replay_provider/replay_provider.dart';
 import 'package:deskgoo/routes/app_route_constants.dart';
 import 'package:deskgoo/routes/route_generator_constants.dart';
 import 'package:deskgoo/themes/custom_colors.dart';
@@ -10,7 +11,6 @@ import 'package:deskgoo/widgets/buttons/elevated_button.dart';
 import 'package:deskgoo/widgets/drawers/custom_drawer.dart';
 import 'package:deskgoo/widgets/texts/custom_text.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 // import 'package:go_router/go_router.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -92,7 +92,7 @@ class _ReplayScreenState extends State<ReplayScreen> {
           drawer: _drawer(context),
           // drawerDragStartBehavior: DragStartBehavior.start,
           body: _googleMap(context),
-          floatingActionButton: Consumer<DeviceinfoProvider>(
+          floatingActionButton: Consumer<ReplayProvider>(
               builder: (context, deviceinfoProvider, _) {
             return Column(
               mainAxisAlignment: MainAxisAlignment.end,
@@ -176,11 +176,11 @@ class _ReplayScreenState extends State<ReplayScreen> {
   }
 
   Widget _googleMap(context) {
-    return Consumer<DeviceinfoProvider>(
-      builder: (context, deviceInfoProvider, _) {
+    return Consumer<ReplayProvider>(
+      builder: (context, replayProvider, _) {
         // deviceInfoProvider.locationReplay();
-        latitude = deviceInfoProvider.latitude;
-        longitude = deviceInfoProvider.longitude;
+        latitude = replayProvider.latitude;
+        longitude = replayProvider.longitude;
         cameraPosition();
         // deviceInfoProvider.cameraPosition(_controller);
         return GoogleMap(
@@ -201,18 +201,18 @@ class _ReplayScreenState extends State<ReplayScreen> {
           onMapCreated: (GoogleMapController controller) {
             _controller.complete(controller);
           },
-          markers: deviceInfoProvider.positionMarkers,
-          polylines: deviceInfoProvider.polylines,
+          markers: replayProvider.positionMarkers,
+          polylines: replayProvider.polylines,
         );
       },
     );
   }
 
   Widget _osmMap(context) {
-    return Consumer<DeviceinfoProvider>(
-      builder: (context, deviceInfoProvider, _) {
-        latitude = deviceInfoProvider.latitude;
-        longitude = deviceInfoProvider.longitude;
+    return Consumer<ReplayProvider>(
+      builder: (context, replayProvider, _) {
+        latitude = replayProvider.latitude;
+        longitude = replayProvider.longitude;
         cameraPosition();
         // deviceInfoProvider.cameraPosition(_controller);
         return SfMaps(

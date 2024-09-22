@@ -1,5 +1,6 @@
 import 'package:deskgoo/providers/attendance_provider/remote_attendance_provider.dart';
 import 'package:deskgoo/providers/deviceInfo_provider/deviceInfo_provider.dart';
+import 'package:deskgoo/providers/replay_provider/replay_provider.dart';
 import 'package:deskgoo/providers/visit_provider/order_provider.dart';
 import 'package:deskgoo/providers/visit_provider/visit_screen_provider.dart';
 import 'package:deskgoo/routes/route_generator.dart';
@@ -54,6 +55,7 @@ class _MyAppState extends State<MyApp> {
         ChangeNotifierProvider(create: (context) => OrderProvider()),
         ChangeNotifierProvider(create: (context) => AttendanceProvider()),
         ChangeNotifierProvider(create: (context) => DeviceinfoProvider()),
+        ChangeNotifierProvider(create: (context) => ReplayProvider()),
       ],
       child: MediaQuery(
         data: MediaQuery.of(context).copyWith(
