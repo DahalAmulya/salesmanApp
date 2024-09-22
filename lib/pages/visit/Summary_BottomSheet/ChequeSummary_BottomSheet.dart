@@ -29,7 +29,7 @@ class _BankSummary_BottomSheetState extends State<ChequeSummary_BottomSheet> {
   String selectedChequeType = '';
   NepaliDateTime selectedDate = NepaliDateTime.now();
   String dropDownValue = 'AC Payee';
-  String bankDropDownValue = 'Bank 1';
+  String bankDropDownValue = '';
   @override
   void initState() {
     super.initState();
@@ -259,19 +259,7 @@ class _BankSummary_BottomSheetState extends State<ChequeSummary_BottomSheet> {
               child: TextFromFieldWithPrefixSuffix(
                 applySuffixIcon: true,
                 readOnly: true,
-                onTap: (){
-                  bankType();
-                },
-                suffixIcon: InkWell(
-                  onTap: (){
-                    print('bank');
-                    setState(() {
-                      bankType();
-                    });
-
-                  },
-                  child: Icon(Icons.arrow_drop_down),
-                ),
+                suffixIcon: bankType(),
                 labelText: 'Bank*:',
                 controller: BankTextController,
                 validator: (Value) {
