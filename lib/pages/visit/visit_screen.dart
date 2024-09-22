@@ -105,7 +105,10 @@ class _VisitScreenState extends State<VisitScreen>
       child: GestureDetector(
         onTap: () {
           // Dismiss the keyboard when tapping outside TextFormFields
-          FocusScope.of(context).unfocus();
+          FocusScopeNode currentFocus = FocusScope.of(context);
+          if (!currentFocus.hasPrimaryFocus) {
+            FocusScope.of(context).unfocus();
+          }
         },
         child: Scaffold(
           backgroundColor: Colors.grey.shade200,
@@ -930,10 +933,19 @@ class _VisitScreenState extends State<VisitScreen>
         borderRadius: BorderRadius.circular(16.0),
         child: SizedBox(
           height: MediaQuery.of(context).size.height * 0.90,
-          child: Scaffold(
-            backgroundColor: Colors.grey.shade200,
-            appBar: _bottomSheetAppBar(context),
-            body: _bottomSheetBody(context),
+          child: GestureDetector(
+            onTap: () {
+              // Dismiss the keyboard when tapping outside TextFormFields
+              FocusScopeNode currentFocus = FocusScope.of(context);
+              if (!currentFocus.hasPrimaryFocus) {
+                FocusScope.of(context).unfocus();
+              }
+            },
+            child: Scaffold(
+              backgroundColor: Colors.grey.shade200,
+              appBar: _bottomSheetAppBar(context),
+              body: _bottomSheetBody(context),
+            ),
           ),
         ),
       ),

@@ -1,5 +1,8 @@
 import 'dart:async';
+import 'dart:io';
 import 'package:deskgoo/providers/deviceInfo_provider/deviceInfo_provider.dart';
+import 'package:deskgoo/routes/app_route_constants.dart';
+import 'package:deskgoo/routes/route_generator_constants.dart';
 import 'package:deskgoo/themes/custom_colors.dart';
 import 'package:deskgoo/widgets/app_bars/custom_app_bars.dart';
 import 'package:deskgoo/widgets/bottom_navigation/gnav_bar.dart';
@@ -9,6 +12,7 @@ import 'package:deskgoo/widgets/texts/custom_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+// import 'package:go_router/go_router.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:local_auth/local_auth.dart';
 import 'package:provider/provider.dart';
@@ -28,6 +32,7 @@ class _HomeScreenState extends State<HomeScreen> {
   double latitude = 0.0;
   double longitude = 0.0;
   final Completer<GoogleMapController> _controller = Completer();
+  // late DeviceinfoProvider _provider;
 
   Future<void> cameraPosition() async {
     GoogleMapController controller = await _controller.future;
@@ -43,6 +48,22 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
     );
   }
+
+  // @override
+  // void initState() {
+  //   _provider = DeviceinfoProvider();
+  //   // _provider.clearMarkers();
+  //   // _provider.getUniqueIdentifier();
+  //   // _provider.locationReplay();
+  //   super.initState();
+  // }
+
+  // @override
+  // void dispose() {
+  //   _provider.clearMarkers();
+  //   _provider.dispose();
+  //   super.dispose();
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -85,7 +106,11 @@ class _HomeScreenState extends State<HomeScreen> {
                     ),
                     CustomElevatedButton(
                       onPressed: () {
+                        // First navigate to the root page '/' and remove all other pages from the stack.
+                        // Navigate to the root page ('/') using GoRouter
+                        // context.go(MyAppRouteConstants.loginRouteName); // Navigates to the initial page (home)
                         SystemNavigator.pop();
+                        // exit(0);
                       },
                       // backgroundColor: Colors.red,
                       borderColor: Colors.red,
@@ -105,27 +130,68 @@ class _HomeScreenState extends State<HomeScreen> {
       child: GestureDetector(
         onTap: () {
           // Dismiss the keyboard when tapping outside TextFormFields
-          FocusScope.of(context).unfocus();
+          FocusScopeNode currentFocus = FocusScope.of(context);
+          if (!currentFocus.hasPrimaryFocus) {
+            FocusScope.of(context).unfocus();
+          }
         },
         child: Scaffold(
           backgroundColor: CustomColors.primaryWhite,
           appBar: _appBar(context),
           drawer: _drawer(context),
           // drawerDragStartBehavior: DragStartBehavior.start,
-          body: _googleMap(context),
-          floatingActionButton: Consumer<DeviceinfoProvider>(
-              builder: (context, deviceinfoProvider, _) {
-            return FloatingActionButton(
-              backgroundColor: CustomColors.primaryColor,
-              onPressed: () {
-                deviceinfoProvider.clearMarkers();
-                deviceinfoProvider.locationReplay();
-              },
-              child: Icon(
-                Icons.rotate_left,
+          // body: _googleMap(context),
+          floatingActionButton: Column(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: [
+              FloatingActionButton(
+                backgroundColor: CustomColors.primaryColor,
+                onPressed: () {
+                  Navigator.of(context).pushReplacementNamed(
+                      RouteGeneratorConstants.liveTrackingPage);
+                  // if (!deviceinfoProvider.isRestartReplay) {
+                  //   deviceinfoProvider.toggleIsRestartReplay();
+                  // }
+                  // deviceinfoProvider.clearMarkers();
+                  // deviceinfoProvider.updateLocation();
+                },
+                child: Image.asset(
+                  'assets/images/stream.png',
+                  width: 28,
+                  height: 28,
+                ),
               ),
-            );
-          }),
+              SizedBox(height: 8.0),
+              FloatingActionButton(
+                backgroundColor: CustomColors.primaryColor,
+                onPressed: () {
+                  Navigator.of(context)
+                      .pushReplacementNamed(RouteGeneratorConstants.replayPage);
+                  // deviceinfoProvider.toggleIsRestartReplay();
+                  // deviceinfoProvider.clearMarkers();
+                  // if (deviceinfoProvider.isPause) {
+                  //   deviceinfoProvider.toggleIsPause();
+                  // }
+                  // deviceinfoProvider.locationReplay();
+                },
+                child: Image.asset(
+                  'assets/images/replay.png',
+                  width: 28,
+                  height: 28,
+                ),
+              ),
+              // SizedBox(height: 8.0),
+              // FloatingActionButton(
+              //   backgroundColor: CustomColors.primaryColor,
+              //   onPressed: () {
+              //     deviceinfoProvider.toggleIsPause();
+              //   },
+              //   child: Icon(
+              //     deviceinfoProvider.isPause ? Icons.play_arrow : Icons.pause,
+              //   ),
+              // ),
+            ],
+          ),
           bottomNavigationBar: _bottomNavBar(context),
         ),
       ),
@@ -159,55 +225,56 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  Widget _googleMap(context) {
-    return Consumer<DeviceinfoProvider>(
-      builder: (context, deviceInfoProvider, _) {
-        latitude = deviceInfoProvider.latitude;
-        longitude = deviceInfoProvider.longitude;
-        cameraPosition();
-        // deviceInfoProvider.cameraPosition(_controller);
-        return GoogleMap(
-          mapType: MapType.hybrid,
-          initialCameraPosition: const CameraPosition(
-            target: LatLng(26.45845827202604, 87.28699164913807),
-            zoom: 14,
-          ),
-          myLocationEnabled: false,
-          tiltGesturesEnabled: true,
-          compassEnabled: true,
-          scrollGesturesEnabled: true,
-          zoomGesturesEnabled: true,
-          // trafficEnabled: traffic,
-          mapToolbarEnabled: true,
-          zoomControlsEnabled: false,
-          // onMapCreated: _onMapCreated,
-          onMapCreated: (GoogleMapController controller) {
-            _controller.complete(controller);
-          },
-          markers: deviceInfoProvider.positionMarkers,
-          polylines: deviceInfoProvider.polylines,
-        );
-      },
-    );
-  }
+  // Widget _googleMap(context) {
+  //   return Consumer<DeviceinfoProvider>(
+  //     builder: (context, deviceInfoProvider, _) {
+  //       // deviceInfoProvider.locationReplay();
+  //       latitude = deviceInfoProvider.latitude;
+  //       longitude = deviceInfoProvider.longitude;
+  //       cameraPosition();
+  //       // deviceInfoProvider.cameraPosition(_controller);
+  //       return GoogleMap(
+  //         mapType: MapType.hybrid,
+  //         initialCameraPosition: const CameraPosition(
+  //           target: LatLng(26.45845827202604, 87.28699164913807),
+  //           zoom: 14,
+  //         ),
+  //         myLocationEnabled: true,
+  //         tiltGesturesEnabled: true,
+  //         compassEnabled: true,
+  //         scrollGesturesEnabled: true,
+  //         zoomGesturesEnabled: true,
+  //         // trafficEnabled: traffic,
+  //         mapToolbarEnabled: true,
+  //         zoomControlsEnabled: false,
+  //         // onMapCreated: _onMapCreated,
+  //         onMapCreated: (GoogleMapController controller) {
+  //           _controller.complete(controller);
+  //         },
+  //         markers: deviceInfoProvider.positionMarkers,
+  //         polylines: deviceInfoProvider.polylines,
+  //       );
+  //     },
+  //   );
+  // }
 
-  Widget _osmMap(context) {
-    return Consumer<DeviceinfoProvider>(
-      builder: (context, deviceInfoProvider, _) {
-        latitude = deviceInfoProvider.latitude;
-        longitude = deviceInfoProvider.longitude;
-        cameraPosition();
-        // deviceInfoProvider.cameraPosition(_controller);
-        return SfMaps(
-          layers: [
-            MapTileLayer(
-              urlTemplate: 'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
-            ),
-          ],
-        );
-      },
-    );
-  }
+  // Widget _osmMap(context) {
+  //   return Consumer<DeviceinfoProvider>(
+  //     builder: (context, deviceInfoProvider, _) {
+  //       latitude = deviceInfoProvider.latitude;
+  //       longitude = deviceInfoProvider.longitude;
+  //       cameraPosition();
+  //       // deviceInfoProvider.cameraPosition(_controller);
+  //       return SfMaps(
+  //         layers: [
+  //           MapTileLayer(
+  //             urlTemplate: 'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
+  //           ),
+  //         ],
+  //       );
+  //     },
+  //   );
+  // }
 
   CustomGNavBar _bottomNavBar(context) {
     return CustomGNavBar(

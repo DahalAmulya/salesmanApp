@@ -7,7 +7,7 @@ import 'package:deskgoo/routes/route_generator_constants.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:deskgoo/providers/auth_provider/user_auth_provider.dart';
 import 'package:deskgoo/providers/themes_provider/theme_changer_provider.dart';
-// import 'package:deskgoo/routes/app_route_configuration.dart';
+import 'package:deskgoo/routes/app_route_configuration.dart';
 import 'package:device_preview/device_preview.dart';
 import 'package:flutter/material.dart';
 // import 'package:go_router/go_router.dart';
