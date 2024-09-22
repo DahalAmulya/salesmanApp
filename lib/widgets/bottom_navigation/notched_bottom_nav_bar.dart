@@ -4,9 +4,10 @@ import 'package:deskgoo/responsive/responsive_layout.dart';
 import 'package:deskgoo/responsive/tablet_body_landscape.dart';
 import 'package:deskgoo/responsive/tablet_body_potrait.dart';
 import 'package:deskgoo/routes/app_route_constants.dart';
+import 'package:deskgoo/routes/route_generator_constants.dart';
 import 'package:deskgoo/widgets/texts/custom_text.dart';
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
+// import 'package:go_router/go_router.dart';
 
 class NotchedBottomNavBar extends StatefulWidget {
   const NotchedBottomNavBar({super.key});
@@ -105,8 +106,10 @@ class _NotchedBottomNavBarState extends State<NotchedBottomNavBar> {
                       IconButton(
                         onPressed: () {
                           print('Pressed');
-                          GoRouter.of(context).pushReplacementNamed(
-                              MyAppRouteConstants.homeNavBarRouteName);
+                          // GoRouter.of(context).pushReplacementNamed(
+                          //     MyAppRouteConstants.homeNavBarRouteName);
+                          Navigator.of(context).pushReplacementNamed(
+                              RouteGeneratorConstants.homePage);
                         },
                         padding: EdgeInsets.all(0),
                         icon: Icon(Icons.phone),

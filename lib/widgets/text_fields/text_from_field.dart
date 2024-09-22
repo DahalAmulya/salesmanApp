@@ -1,7 +1,7 @@
 import 'package:deskgoo/themes/custom_colors.dart';
 import 'package:flutter/material.dart';
 
-class TextFromFieldWithPrefixSuffix extends StatelessWidget {
+class TextFromFieldWithPrefixSuffix extends StatefulWidget {
   const TextFromFieldWithPrefixSuffix({
     super.key,
     required this.controller,
@@ -22,6 +22,7 @@ class TextFromFieldWithPrefixSuffix extends StatelessWidget {
     this.maxLines = 1,
     this.onChange,
     this.onTap,
+    this.focusNode, // Add FocusNode as an optional parameter
   });
 
   final TextEditingController controller;
@@ -42,34 +43,63 @@ class TextFromFieldWithPrefixSuffix extends StatelessWidget {
   final int maxLines;
   final Function(String?)? onChange;
   final Function()? onTap;
+  final FocusNode? focusNode; // Optional FocusNode
+
+  @override
+  _TextFromFieldWithPrefixSuffixState createState() =>
+      _TextFromFieldWithPrefixSuffixState();
+}
+
+class _TextFromFieldWithPrefixSuffixState
+    extends State<TextFromFieldWithPrefixSuffix> {
+  // Declare a default FocusNode that will be used if none is provided
+  late FocusNode _focusNode;
+
+  @override
+  void initState() {
+    super.initState();
+    // If the user provides a FocusNode, use it, otherwise create a new one
+    _focusNode = widget.focusNode ?? FocusNode();
+  }
+
+  @override
+  void dispose() {
+    // If we created the FocusNode internally, dispose of it
+    if (widget.focusNode == null) {
+      _focusNode.dispose();
+    }
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
     return TextFormField(
-      keyboardType: keyboardType,
-      controller: controller,
-      obscureText: obscure,
-      validator: validator,
-      autofocus: autoFocus,
-      readOnly: readOnly,
-      minLines: minLine,
-      maxLines: maxLines,
+      keyboardType: widget.keyboardType,
+      controller: widget.controller,
+      obscureText: widget.obscure,
+      validator: widget.validator,
+      autofocus: widget.autoFocus,
+      readOnly: widget.readOnly,
+      minLines: widget.minLine,
+      maxLines: widget.maxLines,
+      focusNode: _focusNode, // Use the internal or provided FocusNode
       autovalidateMode: AutovalidateMode.onUserInteraction,
-      onTapOutside: (event) {
-        FocusManager.instance.primaryFocus?.unfocus();
-      },
-      onTap: onTap,
-      onChanged: onChange,
+      onTap: widget.onTap,
+      onChanged: widget.onChange,
+      // onTapOutside: (event) {
+      //   FocusManager.instance.primaryFocus
+      //       ?.unfocus(); // Dismiss the keyboard on outside tap
+      // },
       decoration: InputDecoration(
         filled: true,
-        fillColor: fillColor ?? CustomColors.primaryWhite,
+        fillColor: widget.fillColor ?? CustomColors.primaryWhite,
         focusColor: CustomColors.primaryWhite,
-        labelText: labelText ?? null,
-        hintText: hintText ?? null,
-        prefixIcon: applyPrefix ? prefixIcon : null,
-        suffixIcon: applySuffixIcon ? suffixIcon : null,
+        labelText: widget.labelText,
+        hintText: widget.hintText,
+        prefixIcon: widget.applyPrefix ? widget.prefixIcon : null,
+        suffixIcon: widget.applySuffixIcon ? widget.suffixIcon : null,
         border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(borderRadius),
+          borderRadius: BorderRadius.circular(widget.borderRadius),
         ),
       ),
     );

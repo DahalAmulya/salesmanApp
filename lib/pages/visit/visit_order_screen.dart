@@ -17,7 +17,16 @@ class VisitOrderScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return _buildUI(context);
+    return GestureDetector(
+      onTap: () {
+        // Dismiss the keyboard when tapping outside TextFormFields
+        FocusScopeNode currentFocus = FocusScope.of(context);
+        if (!currentFocus.hasPrimaryFocus) {
+          FocusScope.of(context).unfocus();
+        }
+      },
+      child: _buildUI(context),
+    );
     // Scaffold(
     //   backgroundColor: CustomColors.primaryWhite,
     //   appBar: _appBar(context),

@@ -63,92 +63,101 @@ class _VisitClientScreenState extends State<VisitClientScreen> {
   }
 
   Widget _buidlUI(context) {
-    return Expanded(
-      child: Column(
-        children: [
-          SizedBox(
-            height: 8,
-          ),
-          CustomContainer(
-            verticalPad: 24.0,
-            horizontalPad: 16.0,
-            applyShadow: true,
-            child: Column(
-              children: [
-                Builder(builder: (context) {
-                  return TextFromFieldWithPrefixSuffix(
-                    controller: clientNameController,
-                    labelText: 'Select Client Name',
-                    // hintText: 'Select Client Name',
+    return GestureDetector(
+      onTap: () {
+        // Dismiss the keyboard when tapping outside TextFormFields
+        FocusScopeNode currentFocus = FocusScope.of(context);
+        if (!currentFocus.hasPrimaryFocus) {
+          FocusScope.of(context).unfocus();
+        }
+      },
+      child: Expanded(
+        child: Column(
+          children: [
+            SizedBox(
+              height: 8,
+            ),
+            CustomContainer(
+              verticalPad: 24.0,
+              horizontalPad: 16.0,
+              applyShadow: true,
+              child: Column(
+                children: [
+                  Builder(builder: (context) {
+                    return TextFromFieldWithPrefixSuffix(
+                      controller: clientNameController,
+                      labelText: 'Select Client Name',
+                      // hintText: 'Select Client Name',
+                      readOnly: true,
+                      onTap: () {
+                        _showBottomSheet(context);
+                      },
+                      validator: (value) {
+                        return null;
+                      },
+                      onChange: (value) {},
+                    );
+                  }),
+                  SizedBox(
+                    height: 10.0,
+                  ),
+                  TextFromFieldWithPrefixSuffix(
+                    controller: addressController,
                     readOnly: true,
-                    onTap: () {
-                      _showBottomSheet(context);
-                    },
+                    labelText: 'Address',
+                    onTap: () {},
                     validator: (value) {
                       return null;
                     },
                     onChange: (value) {},
-                  );
-                }),
-                SizedBox(
-                  height: 10.0,
-                ),
-                TextFromFieldWithPrefixSuffix(
-                  controller: addressController,
-                  readOnly: true,
-                  labelText: 'Address',
-                  onTap: () {},
-                  validator: (value) {
-                    return null;
-                  },
-                  onChange: (value) {},
-                ),
-                SizedBox(
-                  height: 10.0,
-                ),
-                TextFromFieldWithPrefixSuffix(
-                  controller: phoneController,
-                  readOnly: true,
-                  labelText: 'Phone',
-                  onTap: () {},
-                  validator: (value) {
-                    return null;
-                  },
-                  onChange: (value) {},
-                ),
-                SizedBox(
-                  height: 10.0,
-                ),
-                TextFromFieldWithPrefixSuffix(
-                  controller: emailController,
-                  readOnly: true,
-                  labelText: 'Email',
-                  onTap: () {},
-                  validator: (value) {
-                    return null;
-                  },
-                  onChange: (value) {},
-                ),
-                SizedBox(
-                  height: 10.0,
-                ),
-                TextFromFieldWithPrefixSuffix(
-                  controller: panController,
-                  readOnly: true,
-                  labelText: 'PAN',
-                  onTap: () {},
-                  validator: (value) {
-                    return null;
-                  },
-                  onChange: (value) {},
-                ),
-                SizedBox(
-                  height: 8.0,
-                ),
-              ],
+                  ),
+                  SizedBox(
+                    height: 10.0,
+                  ),
+                  TextFromFieldWithPrefixSuffix(
+                    controller: phoneController,
+                    readOnly: true,
+                    labelText: 'Phone',
+                    onTap: () {},
+                    validator: (value) {
+                      return null;
+                    },
+                    onChange: (value) {},
+                  ),
+                  SizedBox(
+                    height: 10.0,
+                  ),
+                  TextFromFieldWithPrefixSuffix(
+                    controller: emailController,
+                    readOnly: true,
+                    labelText: 'Email',
+                    onTap: () {},
+                    validator: (value) {
+                      return null;
+                    },
+                    onChange: (value) {},
+                  ),
+                  SizedBox(
+                    height: 10.0,
+                  ),
+                  TextFromFieldWithPrefixSuffix(
+                    controller: panController,
+                    readOnly: true,
+                    labelText: 'PAN',
+                    onTap: () {},
+                    validator: (value) {
+                      return null;
+                    },
+                    onChange: (value) {},
+                  ),
+                  SizedBox(
+                    height: 8.0,
+                  ),
+                ],
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

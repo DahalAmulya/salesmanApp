@@ -6,6 +6,7 @@ import 'package:deskgoo/providers/visit_provider/order_items.dart';
 import 'package:deskgoo/providers/visit_provider/order_provider.dart';
 import 'package:deskgoo/providers/visit_provider/visit_screen_provider.dart';
 import 'package:deskgoo/routes/app_route_constants.dart';
+import 'package:deskgoo/routes/route_generator_constants.dart';
 import 'package:deskgoo/themes/custom_colors.dart';
 import 'package:deskgoo/widgets/app_bars/custom_app_bars.dart';
 import 'package:deskgoo/widgets/buttons/elevated_button.dart';
@@ -15,7 +16,7 @@ import 'package:deskgoo/widgets/text_fields/text_from_field.dart';
 import 'package:deskgoo/widgets/texts/custom_text.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:go_router/go_router.dart';
+// import 'package:go_router/go_router.dart';
 import 'package:nepali_utils/nepali_utils.dart';
 import 'package:provider/provider.dart';
 import 'package:nepali_date_picker/nepali_date_picker.dart' as picker;
@@ -96,57 +97,68 @@ class _VisitScreenState extends State<VisitScreen>
         if (didpop) {
           return;
         }
-        GoRouter.of(context)
-            .pushReplacementNamed(MyAppRouteConstants.homeNavBarRouteName);
+        // GoRouter.of(context)
+        //     .pushReplacementNamed(MyAppRouteConstants.homeNavBarRouteName);
+        Navigator.of(context)
+            .pushReplacementNamed(RouteGeneratorConstants.homePage);
       }),
-      child: Scaffold(
-        backgroundColor: Colors.grey.shade200,
-        // backgroundColor: Colors.amberAccent,
-        appBar: _appBar(context),
-        drawer: CustomDrawer(
-          isVisitActive: true,
-        ),
-        body: _buildUI(context),
-        floatingActionButton:
-            currentIndex == 1 || currentIndex == 2 || currentIndex == 3
-                ? AnimatedBuilder(
-                    animation: _animation,
-                    builder: (context, child) {
-                      return Transform.translate(
-                        offset: Offset(0, -_animation.value * 50),
-                        child: Transform.scale(
-                          scale: 1 + (_animation.value * 0.20),
-                          child: FloatingActionButton(
-                            mini: true,
-                            backgroundColor: CustomColors.primaryColor,
-                            foregroundColor: CustomColors.primaryBlack,
-                            onPressed: () {
-                              if (currentIndex == 1) {
-                                print('Current index = $currentIndex 1');
-                                _newVisitshowBottomSheet(context);
-                              } else if (currentIndex == 2) {
-                                print('Current index = $currentIndex 2');
-                                openCreateOrderDialog(context);
-                              } else if (currentIndex == 3) {
-                                showModalBottomSheet(
-                                  isScrollControlled: false,
-                                  useSafeArea: true,
-                                  context: context,
-                                  builder: (builder) =>
-                                      CollectionsummaryBottomsheet(),
-                                );
-                              }
-                            },
-                            child: Icon(
-                              Icons.add,
-                              size: 28 + (_animation.value * 5),
+      child: GestureDetector(
+        onTap: () {
+          // Dismiss the keyboard when tapping outside TextFormFields
+          FocusScopeNode currentFocus = FocusScope.of(context);
+          if (!currentFocus.hasPrimaryFocus) {
+            FocusScope.of(context).unfocus();
+          }
+        },
+        child: Scaffold(
+          backgroundColor: Colors.grey.shade200,
+          // backgroundColor: Colors.amberAccent,
+          appBar: _appBar(context),
+          drawer: CustomDrawer(
+            isVisitActive: true,
+          ),
+          body: _buildUI(context),
+          floatingActionButton:
+              currentIndex == 1 || currentIndex == 2 || currentIndex == 3
+                  ? AnimatedBuilder(
+                      animation: _animation,
+                      builder: (context, child) {
+                        return Transform.translate(
+                          offset: Offset(0, -_animation.value * 50),
+                          child: Transform.scale(
+                            scale: 1 + (_animation.value * 0.20),
+                            child: FloatingActionButton(
+                              mini: true,
+                              backgroundColor: CustomColors.primaryColor,
+                              foregroundColor: CustomColors.primaryBlack,
+                              onPressed: () {
+                                if (currentIndex == 1) {
+                                  print('Current index = $currentIndex 1');
+                                  _newVisitshowBottomSheet(context);
+                                } else if (currentIndex == 2) {
+                                  print('Current index = $currentIndex 2');
+                                  openCreateOrderDialog(context);
+                                } else if (currentIndex == 3) {
+                                  showModalBottomSheet(
+                                    isScrollControlled: false,
+                                    useSafeArea: true,
+                                    context: context,
+                                    builder: (builder) =>
+                                        CollectionsummaryBottomsheet(),
+                                  );
+                                }
+                              },
+                              child: Icon(
+                                Icons.add,
+                                size: 28 + (_animation.value * 5),
+                              ),
                             ),
                           ),
-                        ),
-                      );
-                    },
-                  )
-                : null,
+                        );
+                      },
+                    )
+                  : null,
+        ),
       ),
     );
   }
@@ -921,10 +933,19 @@ class _VisitScreenState extends State<VisitScreen>
         borderRadius: BorderRadius.circular(16.0),
         child: SizedBox(
           height: MediaQuery.of(context).size.height * 0.90,
-          child: Scaffold(
-            backgroundColor: Colors.grey.shade200,
-            appBar: _bottomSheetAppBar(context),
-            body: _bottomSheetBody(context),
+          child: GestureDetector(
+            onTap: () {
+              // Dismiss the keyboard when tapping outside TextFormFields
+              FocusScopeNode currentFocus = FocusScope.of(context);
+              if (!currentFocus.hasPrimaryFocus) {
+                FocusScope.of(context).unfocus();
+              }
+            },
+            child: Scaffold(
+              backgroundColor: Colors.grey.shade200,
+              appBar: _bottomSheetAppBar(context),
+              body: _bottomSheetBody(context),
+            ),
           ),
         ),
       ),

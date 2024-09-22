@@ -1,4 +1,5 @@
 import 'package:deskgoo/routes/app_route_constants.dart';
+import 'package:deskgoo/routes/route_generator_constants.dart';
 import 'package:deskgoo/themes/custom_colors.dart';
 import 'package:deskgoo/widgets/app_bars/custom_app_bars.dart';
 import 'package:deskgoo/widgets/bottom_navigation/gnav_bar.dart';
@@ -6,7 +7,7 @@ import 'package:deskgoo/widgets/buttons/elevated_button.dart';
 import 'package:deskgoo/widgets/containers/custom_container.dart';
 import 'package:deskgoo/widgets/texts/custom_text.dart';
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
+// import 'package:go_router/go_router.dart';
 
 class SettingPage extends StatelessWidget {
   SettingPage({super.key});
@@ -23,14 +24,25 @@ class SettingPage extends StatelessWidget {
         if (didpop) {
           return;
         }
-        GoRouter.of(context)
-            .pushReplacementNamed(MyAppRouteConstants.homeNavBarRouteName);
+        // GoRouter.of(context)
+        //     .pushReplacementNamed(MyAppRouteConstants.homeNavBarRouteName);
+        Navigator.of(context)
+            .pushReplacementNamed(RouteGeneratorConstants.homePage);
       }),
-      child: Scaffold(
-        backgroundColor: CustomColors.primaryWhite,
-        appBar: _appBar(context),
-        body: _buildUI(context),
-        bottomNavigationBar: _bottomNavBar(context),
+      child: GestureDetector(
+        onTap: () {
+          // Dismiss the keyboard when tapping outside TextFormFields
+          FocusScopeNode currentFocus = FocusScope.of(context);
+          if (!currentFocus.hasPrimaryFocus) {
+            FocusScope.of(context).unfocus();
+          }
+        },
+        child: Scaffold(
+          backgroundColor: CustomColors.primaryWhite,
+          appBar: _appBar(context),
+          body: _buildUI(context),
+          bottomNavigationBar: _bottomNavBar(context),
+        ),
       ),
     );
   }
@@ -98,8 +110,10 @@ class SettingPage extends StatelessWidget {
             width: 1,
             height: 50,
             onPressed: () {
-              GoRouter.of(context)
-                  .pushReplacementNamed(MyAppRouteConstants.loginRouteName);
+              // GoRouter.of(context)
+              //     .pushReplacementNamed(MyAppRouteConstants.loginRouteName);
+              Navigator.of(context)
+                  .pushReplacementNamed(RouteGeneratorConstants.indexPage);
               print('Logout Tapped');
             },
             backgroundColor: Colors.white,
