@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:developer';
 import 'dart:io';
 import 'package:deskgoo/providers/deviceInfo_provider/deviceInfo_provider.dart';
 import 'package:deskgoo/routes/app_route_constants.dart';
@@ -12,6 +13,7 @@ import 'package:deskgoo/widgets/texts/custom_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:geolocator/geolocator.dart';
 // import 'package:go_router/go_router.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:local_auth/local_auth.dart';
@@ -33,6 +35,19 @@ class _HomeScreenState extends State<HomeScreen> {
   double longitude = 0.0;
   final Completer<GoogleMapController> _controller = Completer();
   // late DeviceinfoProvider _provider;
+
+  void getLocationPermission() async {
+    LocationPermission permission = await Geolocator.checkPermission();
+    if (permission == LocationPermission.denied ||
+        permission == LocationPermission.deniedForever) {
+      log('Location Denied');
+      LocationPermission askPermission = await Geolocator.requestPermission();
+    }
+    // else {
+    //   Position currentPosiont = await Geolocator.getCurrentPosition(
+    //       desiredAccuracy: LocationAccuracy.best);
+    // }
+  }
 
   Future<void> cameraPosition() async {
     GoogleMapController controller = await _controller.future;
