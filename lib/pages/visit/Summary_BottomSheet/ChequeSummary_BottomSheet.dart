@@ -151,6 +151,101 @@ class _BankSummary_BottomSheetState extends State<ChequeSummary_BottomSheet> {
             value: 'Bank 2', // Corrected value to match bankDropDownValue
             onTap: () {},
           ),
+          DropdownMenuItem<String>(
+            child: Text('Bank 3'),
+            value: 'Bank 3', // Corrected value to match bankDropDownValue
+            onTap: () {},
+          ),
+          DropdownMenuItem<String>(
+            child: Text('Bank 4'),
+            value: 'Bank 4', // Corrected value to match bankDropDownValue
+            onTap: () {},
+          ),
+          DropdownMenuItem<String>(
+            child: Text('Bank 5'),
+            value: 'Bank 5', // Corrected value to match bankDropDownValue
+            onTap: () {},
+          ),
+          DropdownMenuItem<String>(
+            child: Text('Bank 6'),
+            value: 'Bank 6', // Corrected value to match bankDropDownValue
+            onTap: () {},
+          ),
+          DropdownMenuItem<String>(
+            child: Text('Bank 7 '),
+            value: 'Bank 7', // Corrected value to match bankDropDownValue
+            onTap: () {},
+          ),
+          DropdownMenuItem<String>(
+            child: Text('Bank 8'),
+            value: 'Bank 8', // Corrected value to match bankDropDownValue
+            onTap: () {},
+          ),
+          DropdownMenuItem<String>(
+            child: Text('Bank 9'),
+            value: 'Bank 9', // Corrected value to match bankDropDownValue
+            onTap: () {},
+          ),
+          DropdownMenuItem<String>(
+            child: Text('Bank 3'),
+            value: 'Bank 3', // Corrected value to match bankDropDownValue
+            onTap: () {},
+          ),
+          DropdownMenuItem<String>(
+            child: Text('Bank 3'),
+            value: 'Bank 3', // Corrected value to match bankDropDownValue
+            onTap: () {},
+          ),
+          DropdownMenuItem<String>(
+            child: Text('Bank 3'),
+            value: 'Bank 3', // Corrected value to match bankDropDownValue
+            onTap: () {},
+          ),
+          DropdownMenuItem<String>(
+            child: Text('Bank 3'),
+            value: 'Bank 3', // Corrected value to match bankDropDownValue
+            onTap: () {},
+          ),
+          DropdownMenuItem<String>(
+            child: Text('Bank 3'),
+            value: 'Bank 3', // Corrected value to match bankDropDownValue
+            onTap: () {},
+          ),
+          DropdownMenuItem<String>(
+            child: Text('Bank 3'),
+            value: 'Bank 3', // Corrected value to match bankDropDownValue
+            onTap: () {},
+          ),
+          DropdownMenuItem<String>(
+            child: Text('Bank 3'),
+            value: 'Bank 3', // Corrected value to match bankDropDownValue
+            onTap: () {},
+          ),
+          DropdownMenuItem<String>(
+            child: Text('Bank 3'),
+            value: 'Bank 3', // Corrected value to match bankDropDownValue
+            onTap: () {},
+          ),
+          DropdownMenuItem<String>(
+            child: Text('Bank 3'),
+            value: 'Bank 3', // Corrected value to match bankDropDownValue
+            onTap: () {},
+          ),
+          DropdownMenuItem<String>(
+            child: Text('Bank 3'),
+            value: 'Bank 3', // Corrected value to match bankDropDownValue
+            onTap: () {},
+          ),
+          DropdownMenuItem<String>(
+            child: Text('Bank 3'),
+            value: 'Bank 3', // Corrected value to match bankDropDownValue
+            onTap: () {},
+          ),
+
+
+
+
+
         ],
         onChanged: (newValue) {
           setState(() {
