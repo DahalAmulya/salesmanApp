@@ -28,7 +28,10 @@ class ForgotPasswordScreen extends StatelessWidget {
       child: GestureDetector(
         onTap: () {
           // Dismiss the keyboard when tapping outside TextFormFields
-          FocusScope.of(context).unfocus();
+          FocusScopeNode currentFocus = FocusScope.of(context);
+          if (!currentFocus.hasPrimaryFocus) {
+            FocusScope.of(context).unfocus();
+          }
         },
         child: Scaffold(
           backgroundColor: CustomColors.primaryColor,
