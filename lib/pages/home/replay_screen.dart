@@ -153,7 +153,7 @@ class _ReplayScreenState extends State<ReplayScreen> {
       preferredSize: Size.fromHeight(kToolbarHeight),
       child: Builder(
         builder: (context) => CustomAppBar(
-          tabName: 'Home',
+          tabName: 'Replay',
           titleColor: CustomColors.primaryBlack,
           backgroundColor: CustomColors.primaryColor,
           showLeading: true,

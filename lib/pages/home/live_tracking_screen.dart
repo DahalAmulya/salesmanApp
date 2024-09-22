@@ -110,7 +110,7 @@ class _LiveTrackingScreenState extends State<LiveTrackingScreen> {
       preferredSize: Size.fromHeight(kToolbarHeight),
       child: Builder(
         builder: (context) => CustomAppBar(
-          tabName: 'Home',
+          tabName: 'Live',
           titleColor: CustomColors.primaryBlack,
           backgroundColor: CustomColors.primaryColor,
           showLeading: true,

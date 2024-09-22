@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:date_picker_plus/date_picker_plus.dart';
 import 'package:nepali_date_picker/nepali_date_picker.dart' as picker;
 import 'package:nepali_date_picker/nepali_date_picker.dart';
 import 'package:nepali_utils/nepali_utils.dart';
