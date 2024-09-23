@@ -57,6 +57,7 @@ class DeviceinfoProvider extends ChangeNotifier {
   }
 
   DeviceinfoProvider() {
+    // _locationTimer.cancel();
     clearMarkers();
     getUniqueIdentifier();
     getLocation();
@@ -64,7 +65,7 @@ class DeviceinfoProvider extends ChangeNotifier {
   }
 
   void updateLocation() async {
-    _locationTimer.cancel();
+    // _locationTimer.cancel();
     _locationTimer = Timer.periodic(const Duration(seconds: 1), (timer) {
       if (_seconds == 10) {
         _seconds = 0;
