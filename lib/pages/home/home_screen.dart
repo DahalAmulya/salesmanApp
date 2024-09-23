@@ -64,14 +64,15 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  // @override
-  // void initState() {
-  //   _provider = DeviceinfoProvider();
-  //   // _provider.clearMarkers();
-  //   // _provider.getUniqueIdentifier();
-  //   // _provider.locationReplay();
-  //   super.initState();
-  // }
+  @override
+  void initState() {
+    getLocationPermission();
+    // _provider = DeviceinfoProvider();
+    // _provider.clearMarkers();
+    // _provider.getUniqueIdentifier();
+    // _provider.locationReplay();
+    super.initState();
+  }
 
   // @override
   // void dispose() {
