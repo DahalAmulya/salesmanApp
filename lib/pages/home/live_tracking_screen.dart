@@ -146,7 +146,7 @@ class _LiveTrackingScreenState extends State<LiveTrackingScreen> {
             target: LatLng(26.45845827202604, 87.28699164913807),
             zoom: 14,
           ),
-          myLocationEnabled: false,
+          myLocationEnabled: true,
           tiltGesturesEnabled: true,
           compassEnabled: true,
           scrollGesturesEnabled: true,
