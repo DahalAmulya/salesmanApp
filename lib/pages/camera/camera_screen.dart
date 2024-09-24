@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:camera/camera.dart';
 import 'package:deskgoo/providers/camera_provider/camera_provider.dart';
+import 'package:deskgoo/routes/route_generator_constants.dart';
 import 'package:deskgoo/widgets/app_bars/custom_app_bars.dart';
 import 'package:deskgoo/widgets/drawers/custom_drawer.dart';
 import 'package:flutter/cupertino.dart';
@@ -107,6 +108,8 @@ class _CameraPageState extends State<CameraPage> {
       _cameraController!.setFocusPoint(Offset(x, y));
       XFile picture = await _cameraController!.takePicture();
       _cameraProvider!.addNewVisitPhotos(picture.path);
+      Navigator.of(context)
+          .pushNamed(RouteGeneratorConstants.previewCapturedPhotoPage);
       // setState(() {
       //   photos.add(picture.path);
       // });
@@ -231,6 +234,11 @@ class _CameraPageState extends State<CameraPage> {
                                             children: [
                                               InkWell(
                                                 onTap: () {
+                                                  cameraProvider
+                                                      .setIndex(index);
+                                                  Navigator.of(context).pushNamed(
+                                                      RouteGeneratorConstants
+                                                          .previewCapturedPhotoPage);
                                                   print(
                                                       'Selected photo $index ${cameraProvider.newVisitPhotos[index]}');
                                                 },
