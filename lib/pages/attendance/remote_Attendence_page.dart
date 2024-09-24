@@ -191,18 +191,26 @@ class _RemoteAttendencePageState extends State<RemoteAttendencePage> {
                         builder: (context, attendanceProvider, _) {
                       return InkWell(
                         onTap: () async {
+                          attendanceProvider.getDistance();
                           if (_formState.currentState!.validate()) {
-                            bool response = await biometricAuthentication();
-                            if (response) {
-                              attendanceProvider.switchRemoteAttendanceSwitch();
-                              if (attendanceProvider
-                                  .isRemoteAttendanceSwitched) {
-                                attendanceProvider.setLoginTime();
-                              } else {
-                                attendanceProvider.setLogoutTime();
+                            if (attendanceProvider.distance < 20) {
+                              bool response = await biometricAuthentication();
+                              if (response) {
+                                attendanceProvider
+                                    .switchRemoteAttendanceSwitch();
+                                if (attendanceProvider
+                                    .isRemoteAttendanceSwitched) {
+                                  attendanceProvider.setLoginTime();
+                                } else {
+                                  attendanceProvider.setLogoutTime();
+                                }
                               }
+                              print('response = $response');
+                            } else {
+                              print('Not inside office perimeter');
+                              print(
+                                  'User is ${attendanceProvider.distance} away from office perimeter');
                             }
-                            print('response = $response');
                           } else {
                             print(
                                 '_formState.currentState!.validate() = ${_formState.currentState!.validate()}');
