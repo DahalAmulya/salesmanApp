@@ -15,6 +15,7 @@ class DeviceinfoProvider extends ChangeNotifier {
   int _batteryLevel = 0;
   double _liveLatitude = 0.0;
   double _liveLongitude = 0.0;
+  double _distance = 0.0;
   late Timer _locationTimer;
   int _seconds = 0;
   Set<Marker> _livePositionMarkers = {};
@@ -25,6 +26,7 @@ class DeviceinfoProvider extends ChangeNotifier {
   int get batteryLevel => _batteryLevel;
   double get liveLatitude => _liveLatitude;
   double get liveLongitude => _liveLongitude;
+  double get distance => _distance;
   Timer get locationTimer => _locationTimer;
   int get seconds => _seconds;
   Set<Marker> get livePositionMarkers => _livePositionMarkers;
@@ -128,6 +130,15 @@ class DeviceinfoProvider extends ChangeNotifier {
       ),
       position: LatLng(_liveLatitude, _liveLongitude),
     ));
+
+    _distance = Geolocator.distanceBetween(
+      26.45773716586737,
+      87.27957052288616,
+      _liveLatitude,
+      _liveLongitude,
+    );
+
+    print('Distance = $distance');
 
     notifyListeners();
 

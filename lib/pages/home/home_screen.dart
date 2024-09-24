@@ -182,7 +182,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 backgroundColor: CustomColors.primaryColor,
                 onPressed: () {
                   Navigator.of(context)
-                      .pushReplacementNamed(RouteGeneratorConstants.replayPage);
+                      .pushNamed(RouteGeneratorConstants.cameraPage);
                   // deviceinfoProvider.toggleIsRestartReplay();
                   // deviceinfoProvider.clearMarkers();
                   // if (deviceinfoProvider.isPause) {
@@ -191,7 +191,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   // deviceinfoProvider.locationReplay();
                 },
                 child: Image.asset(
-                  'assets/images/replay.png',
+                  'assets/images/camera.png',
                   width: 28,
                   height: 28,
                 ),

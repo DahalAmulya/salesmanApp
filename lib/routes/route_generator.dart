@@ -1,6 +1,7 @@
 import 'package:deskgoo/pages/attendance/remote_Attendence_page.dart';
 import 'package:deskgoo/pages/auth_screens/forgot_password/forgot_password_screen.dart';
 import 'package:deskgoo/pages/auth_screens/login/login_screen.dart';
+import 'package:deskgoo/pages/camera/camera_screen.dart';
 import 'package:deskgoo/pages/error/error_page.dart';
 import 'package:deskgoo/pages/home/home_screen.dart';
 import 'package:deskgoo/pages/home/live_tracking_screen.dart';
@@ -25,6 +26,8 @@ class RouteGenerator {
       // }
       case RouteGeneratorConstants.homePage:
         return MaterialPageRoute(builder: (_) => HomeScreen());
+      case RouteGeneratorConstants.cameraPage:
+        return MaterialPageRoute(builder: (_) => CameraPage());
       case RouteGeneratorConstants.liveTrackingPage:
         return MaterialPageRoute(builder: (_) => LiveTrackingScreen());
       case RouteGeneratorConstants.replayPage:
