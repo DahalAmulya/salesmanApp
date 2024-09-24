@@ -8,10 +8,13 @@ import 'package:deskgoo/themes/custom_colors.dart';
 import 'package:deskgoo/widgets/app_bars/custom_app_bars.dart';
 import 'package:deskgoo/widgets/bottom_navigation/gnav_bar.dart';
 import 'package:deskgoo/widgets/buttons/elevated_button.dart';
+import 'package:deskgoo/widgets/containers/custom_container.dart';
 import 'package:deskgoo/widgets/drawers/custom_drawer.dart';
 import 'package:deskgoo/widgets/texts/custom_text.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter/widgets.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:geolocator/geolocator.dart';
 // import 'package:go_router/go_router.dart';
@@ -157,6 +160,7 @@ class _HomeScreenState extends State<HomeScreen> {
           drawer: _drawer(context),
           // drawerDragStartBehavior: DragStartBehavior.start,
           // body: _googleMap(context),
+          body: _buildUI(context),
           floatingActionButton: Column(
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
@@ -183,12 +187,6 @@ class _HomeScreenState extends State<HomeScreen> {
                 onPressed: () {
                   Navigator.of(context)
                       .pushNamed(RouteGeneratorConstants.cameraPage);
-                  // deviceinfoProvider.toggleIsRestartReplay();
-                  // deviceinfoProvider.clearMarkers();
-                  // if (deviceinfoProvider.isPause) {
-                  //   deviceinfoProvider.toggleIsPause();
-                  // }
-                  // deviceinfoProvider.locationReplay();
                 },
                 child: Image.asset(
                   'assets/images/camera.png',
@@ -196,16 +194,6 @@ class _HomeScreenState extends State<HomeScreen> {
                   height: 28,
                 ),
               ),
-              // SizedBox(height: 8.0),
-              // FloatingActionButton(
-              //   backgroundColor: CustomColors.primaryColor,
-              //   onPressed: () {
-              //     deviceinfoProvider.toggleIsPause();
-              //   },
-              //   child: Icon(
-              //     deviceinfoProvider.isPause ? Icons.play_arrow : Icons.pause,
-              //   ),
-              // ),
             ],
           ),
           bottomNavigationBar: _bottomNavBar(context),
@@ -219,7 +207,7 @@ class _HomeScreenState extends State<HomeScreen> {
       preferredSize: Size.fromHeight(kToolbarHeight),
       child: Builder(
         builder: (context) => CustomAppBar(
-          tabName: 'Home',
+          tabName: 'DashBoard',
           titleColor: CustomColors.primaryBlack,
           backgroundColor: CustomColors.primaryColor,
           showLeading: true,
@@ -241,56 +229,167 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  // Widget _googleMap(context) {
-  //   return Consumer<DeviceinfoProvider>(
-  //     builder: (context, deviceInfoProvider, _) {
-  //       // deviceInfoProvider.locationReplay();
-  //       latitude = deviceInfoProvider.latitude;
-  //       longitude = deviceInfoProvider.longitude;
-  //       cameraPosition();
-  //       // deviceInfoProvider.cameraPosition(_controller);
-  //       return GoogleMap(
-  //         mapType: MapType.hybrid,
-  //         initialCameraPosition: const CameraPosition(
-  //           target: LatLng(26.45845827202604, 87.28699164913807),
-  //           zoom: 14,
-  //         ),
-  //         myLocationEnabled: true,
-  //         tiltGesturesEnabled: true,
-  //         compassEnabled: true,
-  //         scrollGesturesEnabled: true,
-  //         zoomGesturesEnabled: true,
-  //         // trafficEnabled: traffic,
-  //         mapToolbarEnabled: true,
-  //         zoomControlsEnabled: false,
-  //         // onMapCreated: _onMapCreated,
-  //         onMapCreated: (GoogleMapController controller) {
-  //           _controller.complete(controller);
-  //         },
-  //         markers: deviceInfoProvider.positionMarkers,
-  //         polylines: deviceInfoProvider.polylines,
-  //       );
-  //     },
-  //   );
-  // }
+  Widget _buildUI(context) {
+    List<Map<String, dynamic>> marketingOfficersName = [
+      {
+        "OfficerName": "Rahul",
+        "target": 20,
+        "achieved": 10,
+      },
+      {
+        "OfficerName": "Shuvam",
+        "target": 20,
+        "achieved": 6,
+      },
+      {
+        "OfficerName": "Ram",
+        "target": 20,
+        "achieved": 9,
+      },
+      {
+        "OfficerName": "Hari",
+        "target": 20,
+        "achieved": 4,
+      },
+      {
+        "OfficerName": "Rajan",
+        "target": 20,
+        "achieved": 13,
+      }
+    ];
 
-  // Widget _osmMap(context) {
-  //   return Consumer<DeviceinfoProvider>(
-  //     builder: (context, deviceInfoProvider, _) {
-  //       latitude = deviceInfoProvider.latitude;
-  //       longitude = deviceInfoProvider.longitude;
-  //       cameraPosition();
-  //       // deviceInfoProvider.cameraPosition(_controller);
-  //       return SfMaps(
-  //         layers: [
-  //           MapTileLayer(
-  //             urlTemplate: 'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
-  //           ),
-  //         ],
-  //       );
-  //     },
-  //   );
-  // }
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        Center(
+          child: Container(
+            height: MediaQuery.of(context).size.height * 0.38,
+            // height: double.infinity,
+            width: MediaQuery.of(context).size.width * 0.95,
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(10),
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.black.withOpacity(0.1),
+                  blurRadius: 3,
+                  spreadRadius: 1,
+                  offset: const Offset(3, 3),
+                )
+              ],
+            ),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const SizedBox(
+                  height: 10,
+                ),
+                Row(
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.only(top: 10, bottom: 10),
+                      child: Container(
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(50),
+                          color: CustomColors.primaryColor,
+                        ),
+                        width: 5,
+                        height: 18,
+                      ),
+                    ),
+                    Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 8.0),
+                      child: CustomText(
+                        text: 'Marketing Officers',
+                        size: 18,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    const Spacer(),
+                    const Padding(
+                      padding: EdgeInsets.all(8.0),
+                      child: Icon(Icons.chevron_right),
+                    ),
+                  ],
+                ),
+                const Padding(
+                  padding: EdgeInsets.only(left: 16.0),
+                  child: Divider(
+                    height: 1,
+                    thickness: 1,
+                    indent: 2,
+                    color: Colors.grey,
+                  ),
+                ),
+                // Wrapping the ListView.builder with Expanded
+                Expanded(
+                  child: ListView.builder(
+                    itemCount: marketingOfficersName
+                        .length, // Adjust itemCount as necessary
+                    itemBuilder: (BuildContext context, int index) {
+                      double indicatorValue = marketingOfficersName[index]['achieved'] / marketingOfficersName[index]['target'] ;
+                      print('indicatorValue $index = $indicatorValue');
+                      return Container(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            Padding(
+                              padding:
+                                  const EdgeInsets.only(left: 16.0, top: 13),
+                              child: Text(
+                                marketingOfficersName[index]['OfficerName'],
+                                style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  color: CustomColors.primaryBlack,
+                                  // color: Colors.grey.shade600,
+                                ),
+                              ),
+                            ),
+                            Row(
+                              children: [
+                                Flexible(
+                                  child: Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 16.0),
+                                    child: LinearProgressIndicator(
+                                      value: indicatorValue,
+                                      backgroundColor: CustomColors.primaryWhite,
+                                      color: CustomColors.primaryColor,
+                                      minHeight: 6,
+                                      borderRadius: BorderRadius.circular(10),
+                                    ),
+                                  ),
+                                ),
+                                const SizedBox(
+                                  width: 30,
+                                ),
+                                Padding(
+                                  padding: EdgeInsets.only(right: 16.0),
+                                  child: Text(
+                                    '${marketingOfficersName[index]['achieved']}/${marketingOfficersName[index]['target']}',
+                                    style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      color: Colors.grey.shade600,
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ],
+                        ),
+                      );
+                    },
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+      ],
+    );
+  }
 
   CustomGNavBar _bottomNavBar(context) {
     return CustomGNavBar(
@@ -302,3 +401,227 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 }
+
+// Column(
+// crossAxisAlignment: CrossAxisAlignment.start,
+// mainAxisSize: MainAxisSize.min,
+// children: [
+// Padding(
+// padding: const EdgeInsets.only(left: 16.0, top: 13),
+// child: Text(
+// 'Ramesh',
+// style: TextStyle(
+// fontWeight: FontWeight.bold,
+// color: Colors.grey.shade600,
+// ),
+// ),
+// ),
+// Row(
+// children: [
+// Flexible(
+// child: Padding(
+// padding: const EdgeInsets.symmetric(
+// horizontal: 16.0),
+// child: LinearProgressIndicator(
+// value: 1,
+// backgroundColor: Colors.grey.shade100,
+// color: Colors.grey.shade100,
+// minHeight: 6,
+// borderRadius: BorderRadius.circular(10),
+// ),
+// ),
+// ),
+// const SizedBox(
+// width: 30,
+// ),
+// const Padding(
+// padding: EdgeInsets.only(right: 16.0),
+// child: Text(
+// '0',
+// style: TextStyle(
+// fontWeight: FontWeight.bold,
+// ),
+// ),
+// ),
+// ],
+// ),
+// ],
+// ),
+// Column(
+// crossAxisAlignment: CrossAxisAlignment.start,
+// mainAxisSize: MainAxisSize.min,
+// children: [
+// Padding(
+// padding: const EdgeInsets.only(left: 16.0, top: 13),
+// child: Text(
+// 'Shuvam',
+// style: TextStyle(
+// fontWeight: FontWeight.bold,
+// color: Colors.grey.shade600,
+// ),
+// ),
+// ),
+// Row(
+// children: [
+// Flexible(
+// child: Padding(
+// padding: const EdgeInsets.symmetric(
+// horizontal: 16.0),
+// child: LinearProgressIndicator(
+// value: 1,
+// backgroundColor: Colors.grey.shade100,
+// color: Colors.grey.shade100,
+// minHeight: 6,
+// borderRadius: BorderRadius.circular(10),
+// ),
+// ),
+// ),
+// const SizedBox(
+// width: 30,
+// ),
+// const Padding(
+// padding: EdgeInsets.only(right: 16.0),
+// child: Text(
+// '0',
+// style: TextStyle(
+// fontWeight: FontWeight.bold,
+// ),
+// ),
+// ),
+// ],
+// ),
+// ],
+// ),
+// Column(
+// crossAxisAlignment: CrossAxisAlignment.start,
+// mainAxisSize: MainAxisSize.min,
+// children: [
+// Padding(
+// padding: const EdgeInsets.only(left: 16.0, top: 13),
+// child: Text(
+// 'Rahul',
+// style: TextStyle(
+// fontWeight: FontWeight.bold,
+// color: Colors.grey.shade600,
+// ),
+// ),
+// ),
+// Row(
+// children: [
+// Flexible(
+// child: Padding(
+// padding: const EdgeInsets.symmetric(
+// horizontal: 16.0),
+// child: LinearProgressIndicator(
+// value: 1,
+// backgroundColor: Colors.grey.shade100,
+// color: Colors.grey.shade100,
+// minHeight: 6,
+// borderRadius: BorderRadius.circular(10),
+// ),
+// ),
+// ),
+// const SizedBox(
+// width: 30,
+// ),
+// const Padding(
+// padding: EdgeInsets.only(right: 16.0),
+// child: Text(
+// '0',
+// style: TextStyle(
+// fontWeight: FontWeight.bold,
+// ),
+// ),
+// ),
+// ],
+// ),
+// ],
+// ),
+// Column(
+// crossAxisAlignment: CrossAxisAlignment.start,
+// mainAxisSize: MainAxisSize.min,
+// children: [
+// Padding(
+// padding: const EdgeInsets.only(left: 16.0, top: 13),
+// child: Text(
+// 'Rajan',
+// style: TextStyle(
+// fontWeight: FontWeight.bold,
+// color: Colors.grey.shade600,
+// ),
+// ),
+// ),
+// Row(
+// children: [
+// Flexible(
+// child: Padding(
+// padding: const EdgeInsets.symmetric(
+// horizontal: 16.0),
+// child: LinearProgressIndicator(
+// value: 1,
+// backgroundColor: Colors.grey.shade100,
+// color: Colors.grey.shade100,
+// minHeight: 6,
+// borderRadius: BorderRadius.circular(10),
+// ),
+// ),
+// ),
+// const SizedBox(
+// width: 30,
+// ),
+// const Padding(
+// padding: EdgeInsets.only(right: 16.0),
+// child: Text(
+// '0',
+// style: TextStyle(
+// fontWeight: FontWeight.bold,
+// ),
+// ),
+// ),
+// ],
+// ),
+// ],
+// ),
+// Column(
+// crossAxisAlignment: CrossAxisAlignment.start,
+// mainAxisSize: MainAxisSize.min,
+// children: [
+// Padding(
+// padding: const EdgeInsets.only(left: 16.0, top: 13),
+// child: Text(
+// 'Hemraj',
+// style: TextStyle(
+// fontWeight: FontWeight.bold,
+// color: Colors.grey.shade600,
+// ),
+// ),
+// ),
+// Row(
+// children: [
+// Flexible(
+// child: Padding(
+// padding: const EdgeInsets.symmetric(
+// horizontal: 16.0),
+// child: LinearProgressIndicator(
+// value: 1,
+// backgroundColor: Colors.grey.shade100,
+// color: Colors.grey.shade100,
+// minHeight: 6,
+// borderRadius: BorderRadius.circular(10),
+// ),
+// ),
+// ),
+// const SizedBox(
+// width: 30,
+// ),
+// const Padding(
+// padding: EdgeInsets.only(right: 16.0),
+// child: Text(
+// '0',
+// style: TextStyle(fontWeight: FontWeight.bold),
+// ),
+// ),
+// ],
+// ),
+// ],
+// ),
