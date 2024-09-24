@@ -21,14 +21,14 @@ class CameraPage extends StatefulWidget {
 class _CameraPageState extends State<CameraPage> {
   CameraProvider? _cameraProvider;
   CameraController? _cameraController;
-  List<CameraDescription> cameras = [];
-  bool _isRearCameraSelected = true;
+  // List<CameraDescription> cameras = [];
+  // bool _isRearCameraSelected = true;
   bool showFocusCircle = false;
   double x = 0;
   double y = 0;
-  List<String> photos = [];
-  bool _isFlashOn = false;
-  FlashMode _flashMode = FlashMode.off;
+  // List<String> photos = [];
+  // bool _isFlashOn = false;
+  // FlashMode _flashMode = FlashMode.off;
 
   Future<void> _setupCameraController() async {
     // Obtain a list of the available cameras on the device.
@@ -36,14 +36,16 @@ class _CameraPageState extends State<CameraPage> {
 
     // Check if the list of cameras is not empty before accessing it.
     if (_cameras.isNotEmpty) {
-      setState(() {
-        cameras = _cameras;
-        initCamera(cameras[0]);
-      });
+      _cameraProvider!.setCameras(_cameras);
+      initCamera(_cameraProvider!.cameras[0]);
+      // setState(() {
+      //   cameras = _cameras;
+      //   initCamera(cameras[0]);
+      // });
     } else {
       print('No cameras found');
     }
-    print('cameras = $cameras');
+    print('cameras = ${_cameraProvider!.cameras}');
   }
 
   Future initCamera(CameraDescription cameraDescription) async {
@@ -188,7 +190,7 @@ class _CameraPageState extends State<CameraPage> {
               },
               child: Stack(
                 children: [
-                  _isRearCameraSelected
+                  _cameraProvider!.isRearCameraSelected
                       ? Transform.scale(
                           scale: scale,
                           child: CameraPreview(
@@ -232,7 +234,10 @@ class _CameraPageState extends State<CameraPage> {
                                                   print(
                                                       'Selected photo $index ${cameraProvider.newVisitPhotos[index]}');
                                                 },
-                                                onLongPress: () {},
+                                                onLongPress: () {
+                                                  print(
+                                                      'Long press Selected photo  $index ${cameraProvider.newVisitPhotos[index]}');
+                                                },
                                                 child: Padding(
                                                   padding: const EdgeInsets
                                                       .symmetric(
@@ -273,17 +278,20 @@ class _CameraPageState extends State<CameraPage> {
                                           constraints: const BoxConstraints(),
                                           iconSize: 32,
                                           icon: Icon(
-                                              _isRearCameraSelected
+                                              cameraProvider
+                                                      .isRearCameraSelected
                                                   ? CupertinoIcons.switch_camera
                                                   : CupertinoIcons
                                                       .switch_camera_solid,
                                               color: Colors.white),
                                           onPressed: () {
-                                            setState(() =>
-                                                _isRearCameraSelected =
-                                                    !_isRearCameraSelected);
-                                            initCamera(cameras[
-                                                _isRearCameraSelected ? 0 : 1]);
+                                            cameraProvider
+                                                .toggleIsRearCameraSelected();
+                                            initCamera(cameraProvider.cameras[
+                                                cameraProvider
+                                                        .isRearCameraSelected
+                                                    ? 0
+                                                    : 1]);
                                           },
                                         ),
                                         IconButton(
@@ -297,11 +305,11 @@ class _CameraPageState extends State<CameraPage> {
                                         IconButton(
                                           onPressed: () {
                                             cameraProvider.toggleFlashMode();
-                                            print('FlashMode = $_flashMode');
-                                            print('_isFlashOn = $_isFlashOn');
-                                            print(photos.length);
-                                            print(
-                                                '_isRearCameraSelected = ${_isRearCameraSelected}');
+                                            // print('FlashMode = $_flashMode');
+                                            // print('_isFlashOn = $_isFlashOn');
+                                            // print(photos.length);
+                                            // print(
+                                            // '_isRearCameraSelected = ${_isRearCameraSelected}');
                                           },
                                           iconSize: 32,
                                           padding: EdgeInsets.zero,
