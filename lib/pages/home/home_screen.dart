@@ -22,6 +22,8 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:local_auth/local_auth.dart';
 import 'package:provider/provider.dart';
 import 'package:syncfusion_flutter_maps/maps.dart';
+
+import 'ScreenWIdth.dart';
 // import 'package:platform_device_id_v3/platform_device_id.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -38,6 +40,8 @@ class _HomeScreenState extends State<HomeScreen> {
   double longitude = 0.0;
   final Completer<GoogleMapController> _controller = Completer();
   // late DeviceinfoProvider _provider;
+  double screenHeight = ScreenUtil.getScreenHeight();
+  double screenWidth = ScreenUtil.getScreenWidth();
 
   void getLocationPermission() async {
     LocationPermission permission = await Geolocator.checkPermission();
@@ -230,6 +234,18 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   Widget _buildUI(context) {
+    double marketingContainerHeight = 0.0;
+
+    print('width = $screenWidth');
+
+    if (screenWidth < 375) {
+      marketingContainerHeight = 0.88;
+    }
+    if (screenWidth >= 430) {
+      marketingContainerHeight = 0.78;
+    }
+
+
     List<Map<String, dynamic>> marketingOfficersName = [
       {
         "OfficerName": "Rahul",
@@ -258,12 +274,13 @@ class _HomeScreenState extends State<HomeScreen> {
       }
     ];
 
+
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         Center(
           child: Container(
-            height: MediaQuery.of(context).size.height * 0.38,
+            height: MediaQuery.of(context).size.width * marketingContainerHeight,
             // height: double.infinity,
             width: MediaQuery.of(context).size.width * 0.95,
             decoration: BoxDecoration(
