@@ -7,6 +7,7 @@ class CameraProvider extends ChangeNotifier {
   bool _showFocusCircle = false;
   double _x = 0.0;
   double _y = 0.0;
+  int _index = 0;
   bool _isFlashOn = false;
   FlashMode _flashMode = FlashMode.off;
   List<String> _followPhotos = [];
@@ -19,6 +20,7 @@ class CameraProvider extends ChangeNotifier {
   bool get showFocusCircle => _showFocusCircle;
   double get x => _x;
   double get y => _y;
+  int get index => _index;
   bool get isFlashOn => _isFlashOn;
   FlashMode get flashMode => _flashMode;
   List<String> get followPhotos => _followPhotos;
@@ -28,6 +30,11 @@ class CameraProvider extends ChangeNotifier {
 
   void setCameras(cameras) {
     _cameras = cameras;
+    notifyListeners();
+  }
+
+  void setIndex(int index) {
+    _index = index;
     notifyListeners();
   }
 
