@@ -1,5 +1,5 @@
 import 'package:camera/camera.dart';
-import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
 
 class CameraProvider extends ChangeNotifier {
   List<CameraDescription> _cameras = [];
@@ -26,15 +26,63 @@ class CameraProvider extends ChangeNotifier {
   List<String> get newVisitPhotos => _newVisitPhotos;
   String get newVisitSelectedPhoto => _newVisitSelectedPhoto;
 
+  void setCameras(cameras) {
+    _cameras = cameras;
+    notifyListeners();
+  }
+
+  void offsetXAndY() {
+    _x = _x - 20;
+    _y = _y - 20;
+    notifyListeners();
+  }
+
+  void setShowFocus(bool focusValue) {
+    _showFocusCircle = focusValue;
+    notifyListeners();
+  }
+
+  // void offsetY(double y) {
+  //   notifyListeners();
+  // }
+
+  // Future<void> onTap(CameraController _cameraController, BuildContext context,
+  //     TapUpDetails details) async {
+  //   if (_cameraController.value.isInitialized) {
+  //     Future.microtask(() {
+  //       _showFocusCircle = true;
+  //       _x = details.localPosition.dx;
+  //       _y = details.localPosition.dy;
+  //       notifyListeners();
+  //     });
+
+  //     double fullWidth = MediaQuery.of(context).size.width;
+  //     double cameraHeight = fullWidth * _cameraController.value.aspectRatio;
+
+  //     double xp = _x / fullWidth;
+  //     double yp = _y / cameraHeight;
+
+  //     Offset point = Offset(xp, yp);
+  //     print("point : $point");
+
+  //     // Manually focus
+  //     await _cameraController.setFocusPoint(point);
+
+  //     Future.delayed(const Duration(seconds: 1)).whenComplete(() {
+  //       _showFocusCircle = false;
+  //       notifyListeners();
+  //     });
+  //   }
+  // }
+
+  void toggleIsRearCameraSelected() {
+    _isRearCameraSelected = !_isRearCameraSelected;
+    notifyListeners();
+  }
+
   void toggleFlashMode() {
     _isFlashOn = !_isFlashOn;
-    if (_isFlashOn) {
-      _flashMode = FlashMode.always;
-      notifyListeners();
-    } else {
-      _flashMode = FlashMode.off;
-      notifyListeners();
-    }
+    _flashMode = _isFlashOn ? FlashMode.always : FlashMode.off;
     notifyListeners();
   }
 
