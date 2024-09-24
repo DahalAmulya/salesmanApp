@@ -132,130 +132,137 @@ class _BankSummary_BottomSheetState extends State<ChequeSummary_BottomSheet> {
       ),
     );
   }
-  Container bankType() {
+  SingleChildScrollView bankType() {
     String selectedBankType = '';
     print('dropdown');
-    return Container(
-      child: DropdownButton<String>(// Remove the default underline
-        style: const TextStyle(color: Colors.black),
-        value: bankDropDownValue, // Ensure value matches dropdown items
-        icon: Icon(Icons.arrow_drop_down),
-        items: [
-          DropdownMenuItem<String>(
-            child: Text('Bank 1'),
-            value: 'Bank 1', // Corrected value to match bankDropDownValue
-            onTap: () {},
-          ),
-          DropdownMenuItem<String>(
-            child: Text('Bank 2'),
-            value: 'Bank 2', // Corrected value to match bankDropDownValue
-            onTap: () {},
-          ),
-          DropdownMenuItem<String>(
-            child: Text('Bank 3'),
-            value: 'Bank 3', // Corrected value to match bankDropDownValue
-            onTap: () {},
-          ),
-          DropdownMenuItem<String>(
-            child: Text('Bank 4'),
-            value: 'Bank 4', // Corrected value to match bankDropDownValue
-            onTap: () {},
-          ),
-          DropdownMenuItem<String>(
-            child: Text('Bank 5'),
-            value: 'Bank 5', // Corrected value to match bankDropDownValue
-            onTap: () {},
-          ),
-          DropdownMenuItem<String>(
-            child: Text('Bank 6'),
-            value: 'Bank 6', // Corrected value to match bankDropDownValue
-            onTap: () {},
-          ),
-          DropdownMenuItem<String>(
-            child: Text('Bank 7 '),
-            value: 'Bank 7', // Corrected value to match bankDropDownValue
-            onTap: () {},
-          ),
-          DropdownMenuItem<String>(
-            child: Text('Bank 8'),
-            value: 'Bank 8', // Corrected value to match bankDropDownValue
-            onTap: () {},
-          ),
-          DropdownMenuItem<String>(
-            child: Text('Bank 9'),
-            value: 'Bank 9', // Corrected value to match bankDropDownValue
-            onTap: () {},
-          ),
-          DropdownMenuItem<String>(
-            child: Text('Bank 3'),
-            value: 'Bank 3', // Corrected value to match bankDropDownValue
-            onTap: () {},
-          ),
-          DropdownMenuItem<String>(
-            child: Text('Bank 3'),
-            value: 'Bank 3', // Corrected value to match bankDropDownValue
-            onTap: () {},
-          ),
-          DropdownMenuItem<String>(
-            child: Text('Bank 3'),
-            value: 'Bank 3', // Corrected value to match bankDropDownValue
-            onTap: () {},
-          ),
-          DropdownMenuItem<String>(
-            child: Text('Bank 3'),
-            value: 'Bank 3', // Corrected value to match bankDropDownValue
-            onTap: () {},
-          ),
-          DropdownMenuItem<String>(
-            child: Text('Bank 3'),
-            value: 'Bank 3', // Corrected value to match bankDropDownValue
-            onTap: () {},
-          ),
-          DropdownMenuItem<String>(
-            child: Text('Bank 3'),
-            value: 'Bank 3', // Corrected value to match bankDropDownValue
-            onTap: () {},
-          ),
-          DropdownMenuItem<String>(
-            child: Text('Bank 3'),
-            value: 'Bank 3', // Corrected value to match bankDropDownValue
-            onTap: () {},
-          ),
-          DropdownMenuItem<String>(
-            child: Text('Bank 3'),
-            value: 'Bank 3', // Corrected value to match bankDropDownValue
-            onTap: () {},
-          ),
-          DropdownMenuItem<String>(
-            child: Text('Bank 3'),
-            value: 'Bank 3', // Corrected value to match bankDropDownValue
-            onTap: () {},
-          ),
-          DropdownMenuItem<String>(
-            child: Text('Bank 3'),
-            value: 'Bank 3', // Corrected value to match bankDropDownValue
-            onTap: () {},
-          ),
-          DropdownMenuItem<String>(
-            child: Text('Bank 3'),
-            value: 'Bank 3', // Corrected value to match bankDropDownValue
-            onTap: () {},
-          ),
+    return SingleChildScrollView(
+      child: Container(
+        child: DropdownButton<String>(
+          underline: Container(height: 0,),
+          style: const TextStyle(color: Colors.black),
+          value: bankDropDownValue, // Ensure value matches dropdown items
+          icon: Icon(Icons.arrow_drop_down),
+          items: [
+            DropdownMenuItem<String>(
+              child: Text(''),
+              value: '', // Corrected value to match bankDropDownValue
+              onTap: () {},
+            ),
+            DropdownMenuItem<String>(
+              child: Text('Nepal Bank Ltd.'),
+              value: 'Nepal Bank Ltd.', // Corrected value to match bankDropDownValue
+              onTap: () {},
+            ),
+            DropdownMenuItem<String>(
+              child: Text('Agriculture Development Bank Ltd. '),
+              value: 'Agriculture Development Bank Ltd. ', // Corrected value to match bankDropDownValue
+              onTap: () {},
+            ),
+            DropdownMenuItem<String>(
+              child: Text(' Nabil Bank Ltd. '),
+              value: ' Nabil Bank Ltd. ', // Corrected value to match bankDropDownValue
+              onTap: () {},
+            ),
+            DropdownMenuItem<String>(
+              child: Text('Standard Chartered Bank Nepal Ltd. '),
+              value: ' Standard Chartered Bank Nepal Ltd. ', // Corrected value to match bankDropDownValue
+              onTap: () {},
+            ),
+            DropdownMenuItem<String>(
+              child: Text(' Himalayan Bank Ltd. 	'),
+              value: '  Himalayan Bank Ltd. 	', // Corrected value to match bankDropDownValue
+              onTap: () {},
+            ),
+            DropdownMenuItem<String>(
+              child: Text(' Everest Bank Ltd.   	'),
+              value: ' Everest Bank Ltd.   	', // Corrected value to match bankDropDownValue
+              onTap: () {},
+            ),
+            DropdownMenuItem<String>(
+              child: Text(' Kumari Bank Ltd. 	  	'),
+              value: 'Kumari Bank Ltd. 	 	', // Corrected value to match bankDropDownValue
+              onTap: () {},
+            ),
+            DropdownMenuItem<String>(
+              child: Text('  Laxmi Sunrise Bank Ltd  	'),
+              value: '  Laxmi Sunrise Bank Ltd 	', // Corrected value to match bankDropDownValue
+              onTap: () {},
+            ),
+            DropdownMenuItem<String>(
+              child: Text('Citizens Bank International Ltd.'),
+              value: 'Citizens Bank International Ltd.	 	', // Corrected value to match bankDropDownValue
+              onTap: () {},
+            ),
+            DropdownMenuItem<String>(
+              child: Text(' Prime Commercial Bank Ltd.'),
+              value: 'Prime Commercial Bank Ltd.', // Corrected value to match bankDropDownValue
+              onTap: () {},
+            ),
+            DropdownMenuItem<String>(
+              child: Text(' Sanima Bank Ltd	'),
+              value: ' Sanima Bank Ltd	', // Corrected value to match bankDropDownValue
+              onTap: () {},
+            ),
+            DropdownMenuItem<String>(
+              child: Text('Machhapuchhre Bank Ltd	'),
+              value: 'Machhapuchhre Bank Ltd	', // Corrected value to match bankDropDownValue
+              onTap: () {},
+            ),
+            DropdownMenuItem<String>(
+              child: Text(' NIC Asia Bank Ltd	'),
+              value: 'NIC Asia Bank Ltd	', // Corrected value to match bankDropDownValue
+              onTap: () {},
+            ),
+            DropdownMenuItem<String>(
+              child: Text('Global IME Bank Ltd.	'),
+              value: 'Global IME Bank Ltd.	.', // Corrected value to match bankDropDownValue
+              onTap: () {},
+            ),
+            DropdownMenuItem<String>(
+              child: Text('NMB Bank Ltd'),
+              value: 'NMB Bank Ltd', // Corrected value to match bankDropDownValue
+              onTap: () {},
+            ),
+            DropdownMenuItem<String>(
+              child: Text(' Prabhu Bank Ltd.'),
+              value: ' Prabhu Bank Ltd.', // Corrected value to match bankDropDownValue
+              onTap: () {},
+            ),
+
+            DropdownMenuItem<String>(
+              child: Text(' Siddhartha Bank Ltd.	'),
+              value: ' Siddhartha Bank Ltd.	', // Corrected value to match bankDropDownValue
+              onTap: () {},
+            ),
+
+            DropdownMenuItem<String>(
+              child: Text(' Rastriya Banijya Bank Ltd	'),
+              value: ' Rastriya Banijya Bank Ltd	', // Corrected value to match bankDropDownValue
+              onTap: () {},
+            ),
+
+            // DropdownMenuItem<String>(
+            //   child: Text('NMB Bank Ltd'),
+            //   value: 'NMB Bank Ltd', // Corrected value to match bankDropDownValue
+            //   onTap: () {},
+            // ),
 
 
 
 
 
-        ],
-        onChanged: (newValue) {
-          setState(() {
-            if (newValue != null) {
-              bankDropDownValue = newValue!; // Ensure this value is updated with a valid one
-              newValue = selectedBankType;
-              BankTextController.text = bankDropDownValue;
-            }
-          });
-        },
+
+          ],
+          onChanged: (newValue) {
+            setState(() {
+              if (newValue != null) {
+                bankDropDownValue = newValue!; // Ensure this value is updated with a valid one
+                newValue = selectedBankType;
+                BankTextController.text = bankDropDownValue;
+              }
+            });
+          },
+        ),
       ),
     );
   }
