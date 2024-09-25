@@ -357,55 +357,60 @@ class _HomeScreenState extends State<HomeScreen> {
                               ['achieved'] /
                           marketingOfficersName[index]['target'];
                       print('indicatorValue $index = $indicatorValue');
-                      return Container(
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            Padding(
-                              padding:
-                                  const EdgeInsets.only(left: 16.0, top: 13),
-                              child: Text(
-                                marketingOfficersName[index]['OfficerName'],
-                                style: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  color: CustomColors.primaryBlack,
-                                  // color: Colors.grey.shade600,
+                      return InkWell(
+                        onTap: (){
+                          Navigator.of(context).pushReplacementNamed(RouteGeneratorConstants.officerDescriptionPage);
+                        },
+                        child: Container(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              Padding(
+                                padding:
+                                    const EdgeInsets.only(left: 16.0, top: 13),
+                                child: Text(
+                                  marketingOfficersName[index]['OfficerName'],
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    color: CustomColors.primaryBlack,
+                                    // color: Colors.grey.shade600,
+                                  ),
                                 ),
                               ),
-                            ),
-                            Row(
-                              children: [
-                                Flexible(
-                                  child: Padding(
-                                    padding: const EdgeInsets.symmetric(
-                                        horizontal: 16.0),
-                                    child: LinearProgressIndicator(
-                                      value: indicatorValue,
-                                      backgroundColor:
-                                          CustomColors.primaryWhite,
-                                      color: CustomColors.primaryColor,
-                                      minHeight: 6,
-                                      borderRadius: BorderRadius.circular(10),
+                              Row(
+                                children: [
+                                  Flexible(
+                                    child: Padding(
+                                      padding: const EdgeInsets.symmetric(
+                                          horizontal: 16.0),
+                                      child: LinearProgressIndicator(
+                                        value: indicatorValue,
+                                        backgroundColor:
+                                            CustomColors.primaryWhite,
+                                        color: CustomColors.primaryColor,
+                                        minHeight: 6,
+                                        borderRadius: BorderRadius.circular(10),
+                                      ),
                                     ),
                                   ),
-                                ),
-                                const SizedBox(
-                                  width: 30,
-                                ),
-                                Padding(
-                                  padding: EdgeInsets.only(right: 16.0),
-                                  child: Text(
-                                    '${marketingOfficersName[index]['achieved']}/${marketingOfficersName[index]['target']}',
-                                    style: TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      color: Colors.grey.shade600,
+                                  const SizedBox(
+                                    width: 30,
+                                  ),
+                                  Padding(
+                                    padding: EdgeInsets.only(right: 16.0),
+                                    child: Text(
+                                      '${marketingOfficersName[index]['achieved']}/${marketingOfficersName[index]['target']}',
+                                      style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        color: Colors.grey.shade600,
+                                      ),
                                     ),
                                   ),
-                                ),
-                              ],
-                            ),
-                          ],
+                                ],
+                              ),
+                            ],
+                          ),
                         ),
                       );
                     },
