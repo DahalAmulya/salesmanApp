@@ -169,43 +169,17 @@ class _HomeScreenState extends State<HomeScreen> {
           // drawerDragStartBehavior: DragStartBehavior.start,
           // body: _googleMap(context),
           body: _buildUI(context),
-          floatingActionButton: Column(
-            mainAxisAlignment: MainAxisAlignment.end,
-            children: [
-              Consumer<CameraProvider>(builder: (context, cameraProvider, _) {
-                return FloatingActionButton(
-                  backgroundColor: CustomColors.primaryColor,
-                  onPressed: () {
-                    cameraProvider.setIsNewVisit();
-                    Navigator.of(context).pushReplacementNamed(
-                        RouteGeneratorConstants.liveTrackingPage);
-                    // if (!deviceinfoProvider.isRestartReplay) {
-                    //   deviceinfoProvider.toggleIsRestartReplay();
-                    // }
-                    // deviceinfoProvider.clearMarkers();
-                    // deviceinfoProvider.updateLocation();
-                  },
-                  child: Image.asset(
-                    'assets/images/stream.png',
-                    width: 28,
-                    height: 28,
-                  ),
-                );
-              }),
-              SizedBox(height: 8.0),
-              FloatingActionButton(
-                backgroundColor: CustomColors.primaryColor,
-                onPressed: () {
-                  Navigator.of(context)
-                      .pushNamed(RouteGeneratorConstants.cameraPage);
-                },
-                child: Image.asset(
-                  'assets/images/camera.png',
-                  width: 28,
-                  height: 28,
-                ),
-              ),
-            ],
+          floatingActionButton: FloatingActionButton(
+            backgroundColor: CustomColors.primaryColor,
+            onPressed: () {
+              Navigator.of(context)
+                  .pushNamed(RouteGeneratorConstants.cameraPage);
+            },
+            child: Image.asset(
+              'assets/images/camera.png',
+              width: 28,
+              height: 28,
+            ),
           ),
           bottomNavigationBar: _bottomNavBar(context),
         ),
@@ -442,19 +416,3 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 }
 
-// if (screenWidth < 375) {
-// marketingContainerHeight = 0.88;
-// }
-// if (screenWidth > 384)
-// if (screenWidth >= 430) {
-// marketingContainerHeight = 0.78;
-// }
-// if(screenWidth >= 585 && screenWidth <=550){
-// marketingContainerHeight = 0.86;
-// }
-// if(screenWidth >= 500){
-// marketingContainerHeight = 0.90;
-// }
-// if(screenWidth >= 540 && screenWidth <=805){
-// marketingContainerHeight = 0.88;
-// }

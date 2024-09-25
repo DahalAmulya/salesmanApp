@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:deskgoo/providers/camera_provider/camera_provider.dart';
+import 'package:deskgoo/providers/visit_provider/visit_screen_provider.dart';
 import 'package:deskgoo/routes/route_generator_constants.dart';
 import 'package:deskgoo/themes/custom_colors.dart';
 import 'package:deskgoo/widgets/app_bars/custom_app_bars.dart';
@@ -21,6 +22,15 @@ class PreviewCapturedPhotos extends StatefulWidget {
 }
 
 class _PreviewCapturedPhotosState extends State<PreviewCapturedPhotos> {
+  VisitScreenProvider? _visitScreenProvider;
+
+  @override
+  void initState() {
+    super.initState();
+    _visitScreenProvider =
+        Provider.of<VisitScreenProvider>(context, listen: false);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -222,6 +232,9 @@ class _PreviewCapturedPhotosState extends State<PreviewCapturedPhotos> {
                                 cameraProvider.selectedNewVisitPhotos(
                                     cameraProvider
                                         .photos[cameraProvider.index]);
+                                _visitScreenProvider!.setIndex(4);
+                                Navigator.of(context).pushNamed(
+                                    RouteGeneratorConstants.visitPage);
                               },
                               backgroundColor: CustomColors.primaryColor,
                               widget: CustomText(
