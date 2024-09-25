@@ -24,6 +24,7 @@ import 'package:local_auth/local_auth.dart';
 import 'package:provider/provider.dart';
 import 'package:syncfusion_flutter_maps/maps.dart';
 
+import '../../providers/settings_providers/profile_provider/officerName_provider.dart';
 import 'ScreenWIdth.dart';
 // import 'package:platform_device_id_v3/platform_device_id.dart';
 
@@ -35,6 +36,7 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  MarketingProvider? _marketingProvider;
   final LocalAuthentication auth = LocalAuthentication();
   int index = 0;
   double latitude = 0.0;
@@ -74,6 +76,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   void initState() {
+    _marketingProvider = Provider.of<MarketingProvider>(context, listen: false);
     getLocationPermission();
     // _provider = DeviceinfoProvider();
     // _provider.clearMarkers();
@@ -359,7 +362,9 @@ class _HomeScreenState extends State<HomeScreen> {
                       print('indicatorValue $index = $indicatorValue');
                       return InkWell(
                         onTap: (){
-                          Navigator.of(context).pushReplacementNamed(RouteGeneratorConstants.officerDescriptionPage);
+                          _marketingProvider!.setName(marketingOfficersName[index]['OfficerName']);
+                          // print(marketingOfficersName[index]['OfficerName']);
+                          Navigator.of(context).pushNamed(RouteGeneratorConstants.officerDescriptionPage);
                         },
                         child: Container(
                           child: Column(
@@ -369,13 +374,15 @@ class _HomeScreenState extends State<HomeScreen> {
                               Padding(
                                 padding:
                                     const EdgeInsets.only(left: 16.0, top: 13),
-                                child: Text(
-                                  marketingOfficersName[index]['OfficerName'],
-                                  style: TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                    color: CustomColors.primaryBlack,
-                                    // color: Colors.grey.shade600,
-                                  ),
+                                child: Consumer<MarketingProvider>(
+                                  builder: (context,marketingProvider,_) {
+                                    return CustomText(
+                                      text:marketingOfficersName[index]['OfficerName'],
+                                        fontWeight: FontWeight.bold,
+                                        color: CustomColors.primaryBlack,
+                                        // color: Colors.grey.shade600,
+                                    );
+                                  }
                                 ),
                               ),
                               Row(
