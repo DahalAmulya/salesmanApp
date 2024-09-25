@@ -3,19 +3,35 @@ import 'package:flutter/foundation.dart';
 class ProfileSetter {
 
   ProfileSetter({
-    required this.employee_name,
-    required this.address,
-    required this.date_of_birth,
-    required this.gender,
-    required this.marital_status,
-    required this.prefered_contact_email,
+    // required this.employee_name,
+    // required this.address,
+    // required this.date_of_birth,
+    // required this.gender,
+    // required this.marital_status,
+    // required this.prefered_contact_email,
+    // // required this.AttendanceId,
+    // required this.date_of_joining,
+    // required this.department,
+    // required this.designation,
+    // required this.default_shift,
+    // required this.notice_number_of_days,
+    // required this.date_of_retirement,
+
+    ////////////////////////////////
+
+    this.employee_name = 'Amuly Sharma',
+     this.address = 'biratnagar 12',
+     this.date_of_birth = '1997-01-1',
+     this.gender = 'Male',
+    this.marital_status = 'unmarried',
+    this.prefered_contact_email = 'amulya123@gmial.com',
     // required this.AttendanceId,
-    required this.date_of_joining,
-    required this.department,
-    required this.designation,
-    required this.default_shift,
-    required this.notice_number_of_days,
-    required this.date_of_retirement,
+     this.date_of_joining = '2024-08-17',
+     this.department = 'developer',
+     this.designation = 'Manager',
+     this.default_shift = 'General',
+     this.notice_number_of_days = '0',
+     this.date_of_retirement = '2057-01-16',
   });
 
   final String employee_name;
@@ -62,59 +78,20 @@ class ProfileProvider extends ChangeNotifier{
    String get notice_number_of_days => _notice_number_of_days;
    String get date_of_retirement => _date_of_retirement;
 
-   void setName(String name){
-     _employee_name = employee_name;
+   void setProfileValues(ProfileSetter profile){
+     _employee_name = profile.employee_name;
+     _address = profile.address;
+     _date_of_birth = profile.date_of_birth;
+     _gender = profile.gender;
+     _marital_status = profile.marital_status;
+     _prefered_contact_email = profile.prefered_contact_email;
+     // _AttendanceId = profile.AttendanceId;
+     _date_of_joining = profile.date_of_joining;
+     _department = profile.department;
+     _designation = profile.designation;
+     _default_shift = profile.default_shift;
+     _notice_number_of_days = profile.notice_number_of_days;
+     _date_of_retirement = profile.date_of_retirement;
      notifyListeners();
    }
-
-   void setAddress(String address){
-     _address = address;
-     notifyListeners();
-   }
-
-   void setGender(String gender){
-     _gender = gender;
-     notifyListeners();
-   }
-
-   void setMaritalStatus(String maritalStatus){
-     _marital_status = marital_status;
-     notifyListeners();
-   }
-
-   void setEmail(String email){
-     _prefered_contact_email = prefered_contact_email;
-     notifyListeners();
-   }
-
-   void setJoiningDate(String date){
-     _date_of_joining = date_of_joining;
-     notifyListeners();
-   }
-
-   void setDepartment(String department){
-     _department = department;
-     notifyListeners();
-   }
-
-   void setDesignation(String designation){
-     _designation = designation;
-     notifyListeners();
-   }
-
-   void setDefaultShift(String shift){
-     _default_shift = default_shift;
-     notifyListeners();
-   }
-
-   void setNoticeDays(String days){
-     _notice_number_of_days = notice_number_of_days;
-     notifyListeners();
-   }
-
-   void setRetirementDate(String date){
-     _date_of_retirement = date_of_retirement;
-     notifyListeners();
-   }
-
 }
