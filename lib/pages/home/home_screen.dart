@@ -241,23 +241,18 @@ class _HomeScreenState extends State<HomeScreen> {
     double marketingContainerHeight = 0.0;
 
     print('width = $screenWidth');
-
     if (screenWidth < 375) {
       marketingContainerHeight = 0.88;
     }
-    if (screenWidth >= 430) {
+    if (screenWidth >= 375 && screenWidth <= 393) {
       marketingContainerHeight = 0.78;
     }
-    if (screenWidth >= 585 && screenWidth <= 550) {
-      marketingContainerHeight = 0.86;
+    if (screenWidth >= 414 && screenWidth <= 430) {
+      marketingContainerHeight = 0.80;
     }
-    if (screenWidth >= 500) {
-      marketingContainerHeight = 0.90;
-    }
-    if (screenWidth >= 540 && screenWidth <= 805) {
+    if (screenWidth > 430) {
       marketingContainerHeight = 0.88;
     }
-
     List<Map<String, dynamic>> marketingOfficersName = [
       {
         "OfficerName": "Rahul",
@@ -435,226 +430,19 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 }
 
-// Column(
-// crossAxisAlignment: CrossAxisAlignment.start,
-// mainAxisSize: MainAxisSize.min,
-// children: [
-// Padding(
-// padding: const EdgeInsets.only(left: 16.0, top: 13),
-// child: Text(
-// 'Ramesh',
-// style: TextStyle(
-// fontWeight: FontWeight.bold,
-// color: Colors.grey.shade600,
-// ),
-// ),
-// ),
-// Row(
-// children: [
-// Flexible(
-// child: Padding(
-// padding: const EdgeInsets.symmetric(
-// horizontal: 16.0),
-// child: LinearProgressIndicator(
-// value: 1,
-// backgroundColor: Colors.grey.shade100,
-// color: Colors.grey.shade100,
-// minHeight: 6,
-// borderRadius: BorderRadius.circular(10),
-// ),
-// ),
-// ),
-// const SizedBox(
-// width: 30,
-// ),
-// const Padding(
-// padding: EdgeInsets.only(right: 16.0),
-// child: Text(
-// '0',
-// style: TextStyle(
-// fontWeight: FontWeight.bold,
-// ),
-// ),
-// ),
-// ],
-// ),
-// ],
-// ),
-// Column(
-// crossAxisAlignment: CrossAxisAlignment.start,
-// mainAxisSize: MainAxisSize.min,
-// children: [
-// Padding(
-// padding: const EdgeInsets.only(left: 16.0, top: 13),
-// child: Text(
-// 'Shuvam',
-// style: TextStyle(
-// fontWeight: FontWeight.bold,
-// color: Colors.grey.shade600,
-// ),
-// ),
-// ),
-// Row(
-// children: [
-// Flexible(
-// child: Padding(
-// padding: const EdgeInsets.symmetric(
-// horizontal: 16.0),
-// child: LinearProgressIndicator(
-// value: 1,
-// backgroundColor: Colors.grey.shade100,
-// color: Colors.grey.shade100,
-// minHeight: 6,
-// borderRadius: BorderRadius.circular(10),
-// ),
-// ),
-// ),
-// const SizedBox(
-// width: 30,
-// ),
-// const Padding(
-// padding: EdgeInsets.only(right: 16.0),
-// child: Text(
-// '0',
-// style: TextStyle(
-// fontWeight: FontWeight.bold,
-// ),
-// ),
-// ),
-// ],
-// ),
-// ],
-// ),
-// Column(
-// crossAxisAlignment: CrossAxisAlignment.start,
-// mainAxisSize: MainAxisSize.min,
-// children: [
-// Padding(
-// padding: const EdgeInsets.only(left: 16.0, top: 13),
-// child: Text(
-// 'Rahul',
-// style: TextStyle(
-// fontWeight: FontWeight.bold,
-// color: Colors.grey.shade600,
-// ),
-// ),
-// ),
-// Row(
-// children: [
-// Flexible(
-// child: Padding(
-// padding: const EdgeInsets.symmetric(
-// horizontal: 16.0),
-// child: LinearProgressIndicator(
-// value: 1,
-// backgroundColor: Colors.grey.shade100,
-// color: Colors.grey.shade100,
-// minHeight: 6,
-// borderRadius: BorderRadius.circular(10),
-// ),
-// ),
-// ),
-// const SizedBox(
-// width: 30,
-// ),
-// const Padding(
-// padding: EdgeInsets.only(right: 16.0),
-// child: Text(
-// '0',
-// style: TextStyle(
-// fontWeight: FontWeight.bold,
-// ),
-// ),
-// ),
-// ],
-// ),
-// ],
-// ),
-// Column(
-// crossAxisAlignment: CrossAxisAlignment.start,
-// mainAxisSize: MainAxisSize.min,
-// children: [
-// Padding(
-// padding: const EdgeInsets.only(left: 16.0, top: 13),
-// child: Text(
-// 'Rajan',
-// style: TextStyle(
-// fontWeight: FontWeight.bold,
-// color: Colors.grey.shade600,
-// ),
-// ),
-// ),
-// Row(
-// children: [
-// Flexible(
-// child: Padding(
-// padding: const EdgeInsets.symmetric(
-// horizontal: 16.0),
-// child: LinearProgressIndicator(
-// value: 1,
-// backgroundColor: Colors.grey.shade100,
-// color: Colors.grey.shade100,
-// minHeight: 6,
-// borderRadius: BorderRadius.circular(10),
-// ),
-// ),
-// ),
-// const SizedBox(
-// width: 30,
-// ),
-// const Padding(
-// padding: EdgeInsets.only(right: 16.0),
-// child: Text(
-// '0',
-// style: TextStyle(
-// fontWeight: FontWeight.bold,
-// ),
-// ),
-// ),
-// ],
-// ),
-// ],
-// ),
-// Column(
-// crossAxisAlignment: CrossAxisAlignment.start,
-// mainAxisSize: MainAxisSize.min,
-// children: [
-// Padding(
-// padding: const EdgeInsets.only(left: 16.0, top: 13),
-// child: Text(
-// 'Hemraj',
-// style: TextStyle(
-// fontWeight: FontWeight.bold,
-// color: Colors.grey.shade600,
-// ),
-// ),
-// ),
-// Row(
-// children: [
-// Flexible(
-// child: Padding(
-// padding: const EdgeInsets.symmetric(
-// horizontal: 16.0),
-// child: LinearProgressIndicator(
-// value: 1,
-// backgroundColor: Colors.grey.shade100,
-// color: Colors.grey.shade100,
-// minHeight: 6,
-// borderRadius: BorderRadius.circular(10),
-// ),
-// ),
-// ),
-// const SizedBox(
-// width: 30,
-// ),
-// const Padding(
-// padding: EdgeInsets.only(right: 16.0),
-// child: Text(
-// '0',
-// style: TextStyle(fontWeight: FontWeight.bold),
-// ),
-// ),
-// ],
-// ),
-// ],
-// ),
+// if (screenWidth < 375) {
+// marketingContainerHeight = 0.88;
+// }
+// if (screenWidth > 384)
+// if (screenWidth >= 430) {
+// marketingContainerHeight = 0.78;
+// }
+// if(screenWidth >= 585 && screenWidth <=550){
+// marketingContainerHeight = 0.86;
+// }
+// if(screenWidth >= 500){
+// marketingContainerHeight = 0.90;
+// }
+// if(screenWidth >= 540 && screenWidth <=805){
+// marketingContainerHeight = 0.88;
+// }
