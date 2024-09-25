@@ -28,7 +28,7 @@ class LiveTrackingScreen extends StatefulWidget {
 
 class _LiveTrackingScreenState extends State<LiveTrackingScreen> {
   final LocalAuthentication auth = LocalAuthentication();
-  int index = 0;
+  int index = 1;
   double latitude = 0.0;
   double longitude = 0.0;
   final Completer<GoogleMapController> _controller = Completer();

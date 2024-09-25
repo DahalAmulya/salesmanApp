@@ -2,6 +2,8 @@ import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 
 class CameraProvider extends ChangeNotifier {
+  bool _isNewVisit = false;
+  bool _isFollowUp = false;
   List<CameraDescription> _cameras = [];
   bool _isRearCameraSelected = true;
   bool _showFocusCircle = false;
@@ -15,6 +17,8 @@ class CameraProvider extends ChangeNotifier {
   List<String> _newVisitPhotos = [];
   String _newVisitSelectedPhoto = '';
 
+  bool get isNewVisit => _isNewVisit;
+  bool get isFollowUp => _isFollowUp;
   List<CameraDescription> get cameras => _cameras;
   bool get isRearCameraSelected => _isRearCameraSelected;
   bool get showFocusCircle => _showFocusCircle;
@@ -27,6 +31,18 @@ class CameraProvider extends ChangeNotifier {
   String get followSelectedPhoto => _followSelectedPhoto;
   List<String> get newVisitPhotos => _newVisitPhotos;
   String get newVisitSelectedPhoto => _newVisitSelectedPhoto;
+
+  void setIsNewVisit() {
+    _isNewVisit = true;
+    _isFollowUp = false;
+    notifyListeners();
+  }
+
+  void setIsFollowUp() {
+    _isFollowUp = true;
+    _isNewVisit = false;
+    notifyListeners();
+  }
 
   void setCameras(cameras) {
     _cameras = cameras;
@@ -100,6 +116,16 @@ class CameraProvider extends ChangeNotifier {
 
   void addNewVisitPhotos(String photo) {
     _newVisitPhotos.add(photo);
+    notifyListeners();
+  }
+
+  void selectedNewVisitPhotos(String photo) {
+    _newVisitSelectedPhoto = photo;
+    notifyListeners();
+  }
+
+  void selectedFollowUpPhotos(String photo) {
+    _followSelectedPhoto = photo;
     notifyListeners();
   }
 }

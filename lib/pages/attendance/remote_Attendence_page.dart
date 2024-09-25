@@ -225,11 +225,21 @@ class _RemoteAttendencePageState extends State<RemoteAttendencePage> {
                                       ? 'Check In'
                                       : 'Check Out',
                               color: Colors.black,
-                              size: 18,
+                              size: 20,
                               fontWeight: FontWeight.w500,
                             ),
+                            FaIcon(
+                              attendanceProvider.isRemoteAttendanceSwitched
+                                  ? FontAwesomeIcons.arrowRight
+                                  : FontAwesomeIcons.arrowLeft,
+                              color:
+                                  attendanceProvider.isRemoteAttendanceSwitched
+                                      ? CustomColors.primaryColor
+                                      : CustomColors.primaryBlack,
+                            ),
                             Switch.adaptive(
-                              activeColor: Colors.blue,
+                              activeColor: CustomColors.primaryBlack,
+                              activeTrackColor: CustomColors.primaryColor,
                               value:
                                   attendanceProvider.isRemoteAttendanceSwitched,
                               onChanged: (value) async {

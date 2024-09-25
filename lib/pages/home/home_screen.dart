@@ -211,7 +211,7 @@ class _HomeScreenState extends State<HomeScreen> {
       preferredSize: Size.fromHeight(kToolbarHeight),
       child: Builder(
         builder: (context) => CustomAppBar(
-          tabName: 'DashBoard',
+          tabName: 'Dashboard',
           titleColor: CustomColors.primaryBlack,
           backgroundColor: CustomColors.primaryColor,
           showLeading: true,
@@ -356,7 +356,9 @@ class _HomeScreenState extends State<HomeScreen> {
                     itemCount: marketingOfficersName
                         .length, // Adjust itemCount as necessary
                     itemBuilder: (BuildContext context, int index) {
-                      double indicatorValue = marketingOfficersName[index]['achieved'] / marketingOfficersName[index]['target'] ;
+                      double indicatorValue = marketingOfficersName[index]
+                              ['achieved'] /
+                          marketingOfficersName[index]['target'];
                       print('indicatorValue $index = $indicatorValue');
                       return Container(
                         child: Column(
@@ -383,7 +385,8 @@ class _HomeScreenState extends State<HomeScreen> {
                                         horizontal: 16.0),
                                     child: LinearProgressIndicator(
                                       value: indicatorValue,
-                                      backgroundColor: CustomColors.primaryWhite,
+                                      backgroundColor:
+                                          CustomColors.primaryWhite,
                                       color: CustomColors.primaryColor,
                                       minHeight: 6,
                                       borderRadius: BorderRadius.circular(10),

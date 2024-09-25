@@ -119,7 +119,7 @@ class CustomDrawer extends StatelessWidget {
                       },
                       isTabActive: isHomeActive,
                       icon: FontAwesomeIcons.house,
-                      text: 'Home',
+                      text: 'Dashboard',
                     ),
                     // CustomListTile(
                     //   onTap: () {
