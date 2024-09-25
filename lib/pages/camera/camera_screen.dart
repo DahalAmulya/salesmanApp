@@ -47,6 +47,7 @@ class _CameraPageState extends State<CameraPage> {
       print('No cameras found');
     }
     print('cameras = ${_cameraProvider!.cameras}');
+    _cameraProvider!.setIsNewVisit();
   }
 
   Future initCamera(CameraDescription cameraDescription) async {
@@ -142,7 +143,6 @@ class _CameraPageState extends State<CameraPage> {
   void initState() {
     super.initState();
     _cameraProvider = Provider.of<CameraProvider>(context, listen: false);
-    _cameraProvider!.setIsNewVisit();
     _setupCameraController();
   }
 
