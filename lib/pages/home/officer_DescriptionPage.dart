@@ -4,8 +4,7 @@ import '../../routes/route_generator_constants.dart';
 import '../../widgets/containers/custom_container.dart';
 
 class OfficerDescriptionPage extends StatefulWidget {
-  final String name;
-  const OfficerDescriptionPage({super.key, required this.name});
+  const OfficerDescriptionPage({super.key});
 
   @override
   State<OfficerDescriptionPage> createState() => _OfficerDescriptionPageState();
@@ -28,9 +27,7 @@ class _OfficerDescriptionPageState extends State<OfficerDescriptionPage> {
         children: [
           Container(
             child: Column(
-              children: [
-
-              ],
+              children: [],
             ),
           )
         ],

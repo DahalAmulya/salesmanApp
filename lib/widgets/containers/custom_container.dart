@@ -1,3 +1,4 @@
+import 'package:deskgoo/themes/custom_colors.dart';
 import 'package:flutter/material.dart';
 
 class CustomContainer extends StatelessWidget {
@@ -7,6 +8,7 @@ class CustomContainer extends StatelessWidget {
     this.borderRadius = 16.0,
     this.width = 0.95,
     this.color = Colors.white,
+    this.borderColor,
     this.applyShadow = false,
     this.verticalPad = 16.0,
     this.horizontalPad = 16.0,
@@ -18,6 +20,7 @@ class CustomContainer extends StatelessWidget {
   final double width;
   final double borderRadius;
   final Color color;
+  final Color? borderColor;
   final bool applyShadow;
   final double verticalPad;
   final double horizontalPad;
@@ -35,6 +38,10 @@ class CustomContainer extends StatelessWidget {
       decoration: BoxDecoration(
         color: color,
         borderRadius: BorderRadius.circular(borderRadius),
+        border: Border.all(
+          color: borderColor ?? Colors.transparent,
+          // borderRadius: BorderRadius.circular(borderRadius),
+        ),
         boxShadow: applyShadow
             ? [
                 BoxShadow(

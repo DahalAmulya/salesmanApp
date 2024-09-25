@@ -166,43 +166,17 @@ class _HomeScreenState extends State<HomeScreen> {
           // drawerDragStartBehavior: DragStartBehavior.start,
           // body: _googleMap(context),
           body: _buildUI(context),
-          floatingActionButton: Column(
-            mainAxisAlignment: MainAxisAlignment.end,
-            children: [
-              Consumer<CameraProvider>(builder: (context, cameraProvider, _) {
-                return FloatingActionButton(
-                  backgroundColor: CustomColors.primaryColor,
-                  onPressed: () {
-                    cameraProvider.setIsNewVisit();
-                    Navigator.of(context).pushReplacementNamed(
-                        RouteGeneratorConstants.liveTrackingPage);
-                    // if (!deviceinfoProvider.isRestartReplay) {
-                    //   deviceinfoProvider.toggleIsRestartReplay();
-                    // }
-                    // deviceinfoProvider.clearMarkers();
-                    // deviceinfoProvider.updateLocation();
-                  },
-                  child: Image.asset(
-                    'assets/images/stream.png',
-                    width: 28,
-                    height: 28,
-                  ),
-                );
-              }),
-              SizedBox(height: 8.0),
-              FloatingActionButton(
-                backgroundColor: CustomColors.primaryColor,
-                onPressed: () {
-                  Navigator.of(context)
-                      .pushNamed(RouteGeneratorConstants.cameraPage);
-                },
-                child: Image.asset(
-                  'assets/images/camera.png',
-                  width: 28,
-                  height: 28,
-                ),
-              ),
-            ],
+          floatingActionButton: FloatingActionButton(
+            backgroundColor: CustomColors.primaryColor,
+            onPressed: () {
+              Navigator.of(context)
+                  .pushNamed(RouteGeneratorConstants.cameraPage);
+            },
+            child: Image.asset(
+              'assets/images/camera.png',
+              width: 28,
+              height: 28,
+            ),
           ),
           bottomNavigationBar: _bottomNavBar(context),
         ),
@@ -358,8 +332,9 @@ class _HomeScreenState extends State<HomeScreen> {
                           marketingOfficersName[index]['target'];
                       print('indicatorValue $index = $indicatorValue');
                       return InkWell(
-                        onTap: (){
-                          Navigator.of(context).pushReplacementNamed(RouteGeneratorConstants.officerDescriptionPage);
+                        onTap: () {
+                          Navigator.of(context).pushReplacementNamed(
+                              RouteGeneratorConstants.officerDescriptionPage);
                         },
                         child: Container(
                           child: Column(
