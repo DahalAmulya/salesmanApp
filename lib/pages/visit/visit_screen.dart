@@ -1,7 +1,9 @@
 import 'dart:async';
+import 'dart:io';
 
 import 'package:deskgoo/pages/visit/summary_Page.dart';
 import 'package:deskgoo/pages/visit/visit_order_screen.dart';
+import 'package:deskgoo/providers/camera_provider/camera_provider.dart';
 import 'package:deskgoo/providers/visit_provider/order_items.dart';
 import 'package:deskgoo/providers/visit_provider/order_provider.dart';
 import 'package:deskgoo/providers/visit_provider/visit_screen_provider.dart';
@@ -36,6 +38,7 @@ class _VisitScreenState extends State<VisitScreen>
   NepaliDateTime nepaliDateTime = NepaliDateTime.now();
   NepaliDateFormat nepaliDateFormatter = NepaliDateFormat('yyyy-MM-ddThh:mm');
   String formatedDateTime = '';
+  VisitScreenProvider? _visitScreenProvider;
 
   List<Map<String, dynamic>> searchResult = [];
   List<String> items = [
@@ -55,10 +58,12 @@ class _VisitScreenState extends State<VisitScreen>
     FontAwesomeIcons.arrowRightArrowLeft,
     FontAwesomeIcons.noteSticky,
   ];
-  int currentIndex = 0;
+  // int currentIndex = 0;
 
   @override
   void initState() {
+    _visitScreenProvider =
+        Provider.of<VisitScreenProvider>(context, listen: false);
     // searchResult = visitStats;
 
     // Initialize the animation controller
@@ -119,7 +124,10 @@ class _VisitScreenState extends State<VisitScreen>
           ),
           body: _buildUI(context),
           floatingActionButton:
-              currentIndex == 1 || currentIndex == 2 || currentIndex == 3
+              // currentIndex == 1 || currentIndex == 2 || currentIndex == 3
+              _visitScreenProvider!.index == 1 ||
+                      _visitScreenProvider!.index == 2 ||
+                      _visitScreenProvider!.index == 3
                   ? AnimatedBuilder(
                       animation: _animation,
                       builder: (context, child) {
@@ -132,13 +140,15 @@ class _VisitScreenState extends State<VisitScreen>
                               backgroundColor: CustomColors.primaryColor,
                               foregroundColor: CustomColors.primaryBlack,
                               onPressed: () {
-                                if (currentIndex == 1) {
-                                  print('Current index = $currentIndex 1');
+                                if (_visitScreenProvider!.index == 1) {
+                                  print(
+                                      'Current index = ${_visitScreenProvider!.index} 1');
                                   _newVisitshowBottomSheet(context);
-                                } else if (currentIndex == 2) {
-                                  print('Current index = $currentIndex 2');
+                                } else if (_visitScreenProvider!.index == 2) {
+                                  print(
+                                      'Current index = ${_visitScreenProvider!.index} 2');
                                   openCreateOrderDialog(context);
-                                } else if (currentIndex == 3) {
+                                } else if (_visitScreenProvider!.index == 3) {
                                   showModalBottomSheet(
                                     isScrollControlled: false,
                                     useSafeArea: true,
@@ -184,105 +194,114 @@ class _VisitScreenState extends State<VisitScreen>
       width: double.infinity,
       height: double.infinity,
       margin: EdgeInsets.symmetric(vertical: 8, horizontal: 8),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          SizedBox(
-            height: 50,
-            width: double.infinity,
-            child: ListView.builder(
-              physics: BouncingScrollPhysics(),
-              itemCount: items.length,
-              scrollDirection: Axis.horizontal,
-              itemBuilder: (context, index) {
-                return Column(
-                  children: [
-                    InkWell(
-                      onTap: () {
-                        setState(() {
-                          if (currentIndex == 1 && currentIndex != index) {
-                            if (_newVisitFormKey.currentState!.validate()) {
-                              currentIndex = index;
-                            } else {
-                              currentIndex = 1;
-                              print(
-                                  '_newVisitFormKey valid = ${_newVisitFormKey.currentState!.validate()}');
-                            }
-                          } else if (currentIndex == 4 &&
-                              currentIndex != index) {
-                            if (_followUpFormKey.currentState!.validate()) {
-                              print('Form valid');
-                              currentIndex = index;
-                            } else {
-                              print(
-                                  '_newVisitFormKey = ${!_followUpFormKey.currentState!.validate()}');
-                              currentIndex = 4;
-                            }
-                            print(
-                                '_followUpFormKey valid = $isFollowUpFormValid');
-                          } else {
-                            currentIndex = index;
-                            print('current index: $currentIndex');
-                          }
-                        });
-                      },
-                      child: AnimatedContainer(
-                        duration: const Duration(milliseconds: 300),
-                        margin: EdgeInsets.all(4),
-                        width: 120,
-                        height: 40,
-                        padding: EdgeInsets.all(4),
-                        decoration: BoxDecoration(
-                          color: currentIndex == index
-                              ? CustomColors.primaryColor
-                              : Colors.white,
-                          borderRadius: BorderRadius.circular(8),
-                          // border: Border.all(
-                          //     color: currentIndex == index
-                          //         ? Colors.black
-                          //         : Colors.transparent),
-                        ),
-                        child: Center(
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                            children: [
-                              FaIcon(
-                                icons[index],
-                                size: 14,
-                                color: currentIndex == index
-                                    ? Colors.black
-                                    : Colors.grey,
+      child: Consumer<VisitScreenProvider>(
+        builder: (context, visitScreenProvider, _) {
+          return Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              SizedBox(
+                height: 50,
+                width: double.infinity,
+                child: Consumer<VisitScreenProvider>(
+                    builder: (context, visitScreenProvider, _) {
+                  return ListView.builder(
+                    physics: BouncingScrollPhysics(),
+                    itemCount: items.length,
+                    scrollDirection: Axis.horizontal,
+                    itemBuilder: (context, index) {
+                      return Column(
+                        children: [
+                          InkWell(
+                            onTap: () {
+                              if (visitScreenProvider.index == 1 &&
+                                  visitScreenProvider.index != index) {
+                                if (_newVisitFormKey.currentState!.validate()) {
+                                  visitScreenProvider.setIndex(index);
+                                } else {
+                                  visitScreenProvider.setIndex(1);
+                                  print(
+                                      '_newVisitFormKey valid = ${_newVisitFormKey.currentState!.validate()}');
+                                }
+                              } else if (visitScreenProvider.index == 4 &&
+                                  visitScreenProvider.index != index) {
+                                if (_followUpFormKey.currentState!.validate()) {
+                                  print('Form valid');
+                                  visitScreenProvider.setIndex(index);
+                                } else {
+                                  print(
+                                      '_newVisitFormKey = ${!_followUpFormKey.currentState!.validate()}');
+                                  visitScreenProvider.setIndex(4);
+                                }
+                                print(
+                                    '_followUpFormKey valid = $isFollowUpFormValid');
+                              } else {
+                                visitScreenProvider.setIndex(index);
+                                print(
+                                    'current index: ${visitScreenProvider.index}');
+                              }
+                              // });
+                            },
+                            child: AnimatedContainer(
+                              duration: const Duration(milliseconds: 300),
+                              margin: EdgeInsets.all(4),
+                              width: 120,
+                              height: 40,
+                              padding: EdgeInsets.all(4),
+                              decoration: BoxDecoration(
+                                color: visitScreenProvider.index == index
+                                    ? CustomColors.primaryColor
+                                    : Colors.white,
+                                borderRadius: BorderRadius.circular(8),
+                                // border: Border.all(
+                                //     color: currentIndex == index
+                                //         ? Colors.black
+                                //         : Colors.transparent),
                               ),
-                              CustomText(
-                                text: '${items[index]}',
-                                fontWeight: FontWeight.w500,
-                                color: currentIndex == index
-                                    ? Colors.black
-                                    : Colors.grey,
+                              child: Center(
+                                child: Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceEvenly,
+                                  children: [
+                                    FaIcon(
+                                      icons[index],
+                                      size: 14,
+                                      color: visitScreenProvider.index == index
+                                          ? Colors.black
+                                          : Colors.grey,
+                                    ),
+                                    CustomText(
+                                      text: '${items[index]}',
+                                      fontWeight: FontWeight.w500,
+                                      color: visitScreenProvider.index == index
+                                          ? Colors.black
+                                          : Colors.grey,
+                                    ),
+                                  ],
+                                ),
                               ),
-                            ],
+                            ),
                           ),
-                        ),
-                      ),
-                    ),
-                  ],
-                );
-              },
-            ),
-          ),
-          currentIndex == 0
-              ? _visitHistoryTab(context)
-              : currentIndex == 1
-                  ? _newVisitTab(context)
-                  : currentIndex == 2
-                      ? VisitOrderScreen()
-                      : currentIndex == 3
-                          ? _collectionTab(context)
-                          : currentIndex == 4
-                              ? _followUp(context)
-                              : _summaryTab(context),
-        ],
+                        ],
+                      );
+                    },
+                  );
+                }),
+              ),
+              visitScreenProvider.index == 0
+                  ? _visitHistoryTab(context)
+                  : visitScreenProvider.index == 1
+                      ? _newVisitTab(context)
+                      : visitScreenProvider.index == 2
+                          ? VisitOrderScreen()
+                          : visitScreenProvider.index == 3
+                              ? _collectionTab(context)
+                              : visitScreenProvider.index == 4
+                                  ? _followUp(context)
+                                  : _summaryTab(context),
+            ],
+          );
+        },
       ),
     );
   }
@@ -1177,71 +1196,156 @@ class _VisitScreenState extends State<VisitScreen>
 
   Expanded _followUp(context) {
     return Expanded(
-      child: Column(
-        children: [
-          CustomContainer(
-            verticalMargin: 8,
-            verticalPad: 24,
-            child: Form(
-              key: _followUpFormKey,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  TextFromFieldWithPrefixSuffix(
-                    controller: followUpNoteController,
-                    autoFocus: true,
-                    hintText: 'Visit note*',
-                    labelText: 'Follow up note',
-                    minLine: 4,
-                    maxLines: 4,
-                    validator: (value) {
-                      // if (value!.isNotEmpty && value.length > 3) {
-                      //   isFollowUpFormValid = true;
-                      //   return null;
-                      // } else {
-                      //   return value.isEmpty
-                      //       ? 'Visit note is required'
-                      //       : 'Enter atleast 3 characters';
-                      // }
-                      return value!.isEmpty
-                          ? 'Visit note is required'
-                          : value.length < 3
-                              ? 'Enter atleast 3 characters'
-                              : null;
-                    },
-                    onChange: (value) {},
-                    onTap: () {},
-                  ),
-                  SizedBox(
-                    height: 16,
-                  ),
-                  TextFromFieldWithPrefixSuffix(
-                    controller: followUpDateController,
-                    readOnly: true,
-                    onTap: () {
-                      datePicker();
-                    },
-                    validator: (value) {
-                      return null;
-                    },
-                    onChange: (value) {},
-                    labelText: 'Follow Up Date',
-                    applySuffixIcon: true,
-                    suffixIcon: InkWell(
-                      onTap: () {
-                        // authProvider.toggleObscure();
+      child: SingleChildScrollView(
+        child: Column(
+          children: [
+            CustomContainer(
+              verticalMargin: 8,
+              verticalPad: 24,
+              child: Form(
+                key: _followUpFormKey,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    TextFromFieldWithPrefixSuffix(
+                      controller: followUpNoteController,
+                      autoFocus: false,
+                      // hintText: 'Visit note*',
+                      labelText: 'Follow up note',
+                      minLine: 6,
+                      maxLines: 6,
+                      validator: (value) {
+                        // if (value!.isNotEmpty && value.length > 3) {
+                        //   isFollowUpFormValid = true;
+                        //   return null;
+                        // } else {
+                        //   return value.isEmpty
+                        //       ? 'Visit note is required'
+                        //       : 'Enter atleast 3 characters';
+                        // }
+                        return value!.isEmpty
+                            ? 'Visit note is required'
+                            : value.length < 3
+                                ? 'Enter atleast 3 characters'
+                                : null;
                       },
-                      child: Icon(
-                        Icons.calendar_month,
-                        color: Colors.grey.shade600,
+                      onChange: (value) {},
+                      onTap: () {},
+                    ),
+                    SizedBox(
+                      height: 16,
+                    ),
+                    TextFromFieldWithPrefixSuffix(
+                      controller: followUpDateController,
+                      readOnly: true,
+                      onTap: () {
+                        datePicker();
+                      },
+                      validator: (value) {
+                        return null;
+                      },
+                      onChange: (value) {},
+                      labelText: 'Follow Up Date',
+                      applySuffixIcon: true,
+                      suffixIcon: InkWell(
+                        onTap: () {
+                          // authProvider.toggleObscure();
+                        },
+                        child: Icon(
+                          Icons.calendar_month,
+                          color: Colors.grey.shade600,
+                        ),
                       ),
                     ),
-                  ),
-                ],
+                    SizedBox(
+                      height: 16,
+                    ),
+                    Consumer<CameraProvider>(
+                      builder: (context, cameraProvider, _) {
+                        String photo = '';
+                        if (cameraProvider.isNewVisit) {
+                          photo = cameraProvider.newVisitSelectedPhoto;
+                        }
+                        if (cameraProvider.isFollowUp) {
+                          photo = cameraProvider.followUpSelectedPhoto;
+                        }
+                        return GestureDetector(
+                          onTap: () {
+                            cameraProvider.setIsFollowUp();
+                            Navigator.of(context)
+                                .pushNamed(RouteGeneratorConstants.cameraPage);
+                            print('Tapped on image contaier');
+                          },
+                          child: CustomContainer(
+                            borderRadius: 8,
+                            verticalPad: 12,
+                            borderColor: CustomColors.primaryBlack,
+                            color: CustomColors.primaryWhite,
+                            child: Column(
+                              children: [
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.end,
+                                  children: [
+                                    // CustomText(
+                                    //     text: 'Tap to select click an image'),
+                                    Consumer<CameraProvider>(
+                                        builder: (context, cameraProvider, _) {
+                                      return GestureDetector(
+                                        onTap: () {
+                                          cameraProvider.setIsFollowUp();
+                                          Navigator.of(context).pushNamed(
+                                              RouteGeneratorConstants
+                                                  .cameraPage);
+                                          print('image Icon Tapped');
+                                        },
+                                        child: SizedBox(
+                                          height: 28,
+                                          width: 24,
+                                          child: Image.asset(
+                                            'assets/images/camera.png',
+                                            color: Colors.grey.shade600,
+                                          ),
+                                        ),
+                                      );
+                                    }),
+                                  ],
+                                ),
+                                SizedBox(
+                                  height: photo.isNotEmpty ? 2 : 0,
+                                ),
+                                if (photo.isNotEmpty)
+                                  GestureDetector(
+                                    onTap: () {
+                                      print('Image tapped');
+                                    },
+                                    child: SizedBox(
+                                      height: 275,
+                                      width: double.infinity,
+                                      child: InteractiveViewer(
+                                        panEnabled: true, // Set it to false
+                                        panAxis: PanAxis.free,
+                                        boundaryMargin: EdgeInsets.all(0),
+                                        minScale: 1,
+                                        maxScale: 2.5,
+                                        child: Image.file(
+                                          File(photo),
+                                          fit: BoxFit.fill,
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                              ],
+                            ),
+                          ),
+                        );
+                      },
+                    ),
+                  ],
+                ),
               ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

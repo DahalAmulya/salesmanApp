@@ -136,9 +136,16 @@ class VisitScreenProvider extends ChangeNotifier {
     }
   ];
   String _clientName = '';
+  int _index = 0;
 
   List<Map<String, dynamic>> get visitStatus => _vistiStatus;
   String get clientName => _clientName;
+  int get index => _index;
+
+  void setIndex(int index) {
+    _index = index;
+    notifyListeners();
+  }
 
   VisitScreenProvider() {
     // Create a deep copy of _vistiStatus
