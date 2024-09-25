@@ -97,6 +97,7 @@ class _CameraPageState extends State<CameraPage> {
   }
 
   Future takePicture() async {
+    // _cameraProvider!.isNewVisit ?
     if (!_cameraController!.value.isInitialized) {
       return null;
     }
@@ -107,7 +108,17 @@ class _CameraPageState extends State<CameraPage> {
       await _cameraController!.setFlashMode(_cameraProvider!.flashMode);
       _cameraController!.setFocusPoint(Offset(x, y));
       XFile picture = await _cameraController!.takePicture();
-      _cameraProvider!.addNewVisitPhotos(picture.path);
+      if (_cameraProvider!.isNewVisit) {
+        _cameraProvider!.addNewVisitPhotos(picture.path);
+        // photos = _cameraProvider!.newVisitPhotos;
+      } else if (_cameraProvider!.isFollowUp) {
+        _cameraProvider!.addFollowPhotos(picture.path);
+        // photos = _cameraProvider!.followUpPhotos;
+      }
+      // _cameraProvider!.isNewVisit
+      //     ? _cameraProvider!.addNewVisitPhotos(picture.path)
+      //     : _cameraProvider!.addFollowPhotos(picture.path);
+      _cameraProvider!.setIndex(_cameraProvider!.photos.length - 1);
       Navigator.of(context)
           .pushNamed(RouteGeneratorConstants.previewCapturedPhotoPage);
       // setState(() {
@@ -131,6 +142,7 @@ class _CameraPageState extends State<CameraPage> {
   void initState() {
     super.initState();
     _cameraProvider = Provider.of<CameraProvider>(context, listen: false);
+    _cameraProvider!.setIsNewVisit();
     _setupCameraController();
   }
 
@@ -220,13 +232,12 @@ class _CameraPageState extends State<CameraPage> {
                           return Column(
                             mainAxisAlignment: MainAxisAlignment.end,
                             children: [
-                              cameraProvider.newVisitPhotos.isNotEmpty
+                              cameraProvider.photos.isNotEmpty
                                   ? SizedBox(
                                       height: 125,
                                       width: double.infinity,
                                       child: ListView.builder(
-                                        itemCount: cameraProvider
-                                            .newVisitPhotos.length,
+                                        itemCount: cameraProvider.photos.length,
                                         physics: const BouncingScrollPhysics(),
                                         scrollDirection: Axis.horizontal,
                                         itemBuilder: (context, index) {
@@ -240,11 +251,11 @@ class _CameraPageState extends State<CameraPage> {
                                                       RouteGeneratorConstants
                                                           .previewCapturedPhotoPage);
                                                   print(
-                                                      'Selected photo $index ${cameraProvider.newVisitPhotos[index]}');
+                                                      'Selected photo $index ${cameraProvider.photos[index]}');
                                                 },
                                                 onLongPress: () {
                                                   print(
-                                                      'Long press Selected photo  $index ${cameraProvider.newVisitPhotos[index]}');
+                                                      'Long press Selected photo  $index ${cameraProvider.photos[index]}');
                                                 },
                                                 child: Padding(
                                                   padding: const EdgeInsets
@@ -256,8 +267,7 @@ class _CameraPageState extends State<CameraPage> {
                                                     width: 75,
                                                     child: Image.file(
                                                       File(cameraProvider
-                                                              .newVisitPhotos[
-                                                          index]),
+                                                          .photos[index]),
                                                     ),
                                                   ),
                                                 ),

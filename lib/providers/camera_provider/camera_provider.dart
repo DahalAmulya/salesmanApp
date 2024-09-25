@@ -12,8 +12,9 @@ class CameraProvider extends ChangeNotifier {
   int _index = 0;
   bool _isFlashOn = false;
   FlashMode _flashMode = FlashMode.off;
-  List<String> _followPhotos = [];
-  String _followSelectedPhoto = '';
+  List<String> _photos = [];
+  List<String> _followUpPhotos = [];
+  String _followUpSelectedPhoto = '';
   List<String> _newVisitPhotos = [];
   String _newVisitSelectedPhoto = '';
 
@@ -27,8 +28,9 @@ class CameraProvider extends ChangeNotifier {
   int get index => _index;
   bool get isFlashOn => _isFlashOn;
   FlashMode get flashMode => _flashMode;
-  List<String> get followPhotos => _followPhotos;
-  String get followSelectedPhoto => _followSelectedPhoto;
+  List<String> get photos => _photos;
+  List<String> get followUpPhotos => _followUpPhotos;
+  String get followUpSelectedPhoto => _followUpSelectedPhoto;
   List<String> get newVisitPhotos => _newVisitPhotos;
   String get newVisitSelectedPhoto => _newVisitSelectedPhoto;
 
@@ -110,12 +112,14 @@ class CameraProvider extends ChangeNotifier {
   }
 
   void addFollowPhotos(String photo) {
-    _followPhotos.add(photo);
+    _followUpPhotos.add(photo);
+    _photos = _followUpPhotos;
     notifyListeners();
   }
 
   void addNewVisitPhotos(String photo) {
     _newVisitPhotos.add(photo);
+    _photos = _newVisitPhotos;
     notifyListeners();
   }
 
@@ -125,7 +129,7 @@ class CameraProvider extends ChangeNotifier {
   }
 
   void selectedFollowUpPhotos(String photo) {
-    _followSelectedPhoto = photo;
+    _followUpSelectedPhoto = photo;
     notifyListeners();
   }
 }
