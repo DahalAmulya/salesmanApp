@@ -85,7 +85,7 @@ class _PreviewCapturedPhotosState extends State<PreviewCapturedPhotos> {
                 minScale: 1,
                 maxScale: 2,
                 child: Image.file(
-                  File(cameraProvider.newVisitPhotos[cameraProvider.index]),
+                  File(cameraProvider.photos[cameraProvider.index]),
                   width: mediaSize.width,
                   height: mediaSize.height,
                   fit: BoxFit.cover, // Fit the image to the screen
@@ -152,7 +152,7 @@ class _PreviewCapturedPhotosState extends State<PreviewCapturedPhotos> {
                         child: ListView.builder(
                           physics: BouncingScrollPhysics(),
                           scrollDirection: Axis.horizontal,
-                          itemCount: cameraProvider.newVisitPhotos.length,
+                          itemCount: cameraProvider.photos.length,
                           itemBuilder: (context, index) {
                             return GestureDetector(
                               onTap: () {
@@ -171,8 +171,7 @@ class _PreviewCapturedPhotosState extends State<PreviewCapturedPhotos> {
                                 // Swiping in left direction.
                                 if (details.delta.dx < 0) {
                                   cameraProvider.index <
-                                          cameraProvider.newVisitPhotos.length -
-                                              1
+                                          cameraProvider.photos.length - 1
                                       ? cameraProvider
                                           .setIndex(cameraProvider.index + 1)
                                       : null;
@@ -190,8 +189,7 @@ class _PreviewCapturedPhotosState extends State<PreviewCapturedPhotos> {
                                     height: 100,
                                     width: 75,
                                     child: Image.file(
-                                      File(
-                                          cameraProvider.newVisitPhotos[index]),
+                                      File(cameraProvider.photos[index]),
                                     ),
                                   ),
                                 ),
@@ -223,7 +221,7 @@ class _PreviewCapturedPhotosState extends State<PreviewCapturedPhotos> {
                               onPressed: () {
                                 cameraProvider.selectedNewVisitPhotos(
                                     cameraProvider
-                                        .newVisitPhotos[cameraProvider.index]);
+                                        .photos[cameraProvider.index]);
                               },
                               backgroundColor: CustomColors.primaryColor,
                               widget: CustomText(

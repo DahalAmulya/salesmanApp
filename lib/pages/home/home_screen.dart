@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:developer';
 import 'dart:io';
+import 'package:deskgoo/providers/camera_provider/camera_provider.dart';
 import 'package:deskgoo/providers/deviceInfo_provider/deviceInfo_provider.dart';
 import 'package:deskgoo/routes/app_route_constants.dart';
 import 'package:deskgoo/routes/route_generator_constants.dart';
@@ -168,23 +169,26 @@ class _HomeScreenState extends State<HomeScreen> {
           floatingActionButton: Column(
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
-              FloatingActionButton(
-                backgroundColor: CustomColors.primaryColor,
-                onPressed: () {
-                  Navigator.of(context).pushReplacementNamed(
-                      RouteGeneratorConstants.liveTrackingPage);
-                  // if (!deviceinfoProvider.isRestartReplay) {
-                  //   deviceinfoProvider.toggleIsRestartReplay();
-                  // }
-                  // deviceinfoProvider.clearMarkers();
-                  // deviceinfoProvider.updateLocation();
-                },
-                child: Image.asset(
-                  'assets/images/stream.png',
-                  width: 28,
-                  height: 28,
-                ),
-              ),
+              Consumer<CameraProvider>(builder: (context, cameraProvider, _) {
+                return FloatingActionButton(
+                  backgroundColor: CustomColors.primaryColor,
+                  onPressed: () {
+                    cameraProvider.setIsNewVisit();
+                    Navigator.of(context).pushReplacementNamed(
+                        RouteGeneratorConstants.liveTrackingPage);
+                    // if (!deviceinfoProvider.isRestartReplay) {
+                    //   deviceinfoProvider.toggleIsRestartReplay();
+                    // }
+                    // deviceinfoProvider.clearMarkers();
+                    // deviceinfoProvider.updateLocation();
+                  },
+                  child: Image.asset(
+                    'assets/images/stream.png',
+                    width: 28,
+                    height: 28,
+                  ),
+                );
+              }),
               SizedBox(height: 8.0),
               FloatingActionButton(
                 backgroundColor: CustomColors.primaryColor,
@@ -244,17 +248,15 @@ class _HomeScreenState extends State<HomeScreen> {
     if (screenWidth >= 430) {
       marketingContainerHeight = 0.78;
     }
-    if(screenWidth >= 585 && screenWidth <=550){
+    if (screenWidth >= 585 && screenWidth <= 550) {
       marketingContainerHeight = 0.86;
     }
-    if(screenWidth >= 500){
+    if (screenWidth >= 500) {
       marketingContainerHeight = 0.90;
     }
-    if(screenWidth >= 540 && screenWidth <=805){
+    if (screenWidth >= 540 && screenWidth <= 805) {
       marketingContainerHeight = 0.88;
     }
-
-
 
     List<Map<String, dynamic>> marketingOfficersName = [
       {
@@ -284,14 +286,14 @@ class _HomeScreenState extends State<HomeScreen> {
       }
     ];
 
-
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         Center(
           child: Container(
             padding: EdgeInsets.symmetric(vertical: 8.0),
-            height: MediaQuery.of(context).size.width * marketingContainerHeight,
+            height:
+                MediaQuery.of(context).size.width * marketingContainerHeight,
             // height: double.infinity,
             width: MediaQuery.of(context).size.width * 0.95,
             decoration: BoxDecoration(
