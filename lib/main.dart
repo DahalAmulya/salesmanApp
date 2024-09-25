@@ -2,6 +2,7 @@ import 'package:deskgoo/providers/attendance_provider/remote_attendance_provider
 import 'package:deskgoo/providers/camera_provider/camera_provider.dart';
 import 'package:deskgoo/providers/deviceInfo_provider/deviceInfo_provider.dart';
 import 'package:deskgoo/providers/replay_provider/replay_provider.dart';
+import 'package:deskgoo/providers/settings_providers/profile_provider/profile_provider.dart';
 import 'package:deskgoo/providers/visit_provider/order_provider.dart';
 import 'package:deskgoo/providers/visit_provider/visit_screen_provider.dart';
 import 'package:deskgoo/routes/route_generator.dart';
@@ -58,6 +59,7 @@ class _MyAppState extends State<MyApp> {
         ChangeNotifierProvider(create: (context) => DeviceinfoProvider()),
         ChangeNotifierProvider(create: (context) => ReplayProvider()),
         ChangeNotifierProvider(create: (context) => CameraProvider()),
+        ChangeNotifierProvider(create: (context) => ProfileProvider()),
       ],
       child: MediaQuery(
         data: MediaQuery.of(context).copyWith(
