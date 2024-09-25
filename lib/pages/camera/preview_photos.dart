@@ -181,7 +181,7 @@ class _PreviewCapturedPhotosState extends State<PreviewCapturedPhotos> {
                               },
                               child: Container(
                                 color: cameraProvider.index == index
-                                    ? Colors.white.withOpacity(0.2)
+                                    ? Colors.white.withOpacity(0.3)
                                     : Colors.transparent,
                                 child: Padding(
                                   padding: const EdgeInsets.symmetric(
@@ -221,7 +221,9 @@ class _PreviewCapturedPhotosState extends State<PreviewCapturedPhotos> {
                             ),
                             CustomElevatedButton(
                               onPressed: () {
-                                // cameraProvider.newVisitSelectedPhoto =
+                                cameraProvider.selectedNewVisitPhotos(
+                                    cameraProvider
+                                        .newVisitPhotos[cameraProvider.index]);
                               },
                               backgroundColor: CustomColors.primaryColor,
                               widget: CustomText(

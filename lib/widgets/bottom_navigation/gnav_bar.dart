@@ -1,6 +1,7 @@
 import 'package:deskgoo/routes/app_route_constants.dart';
 import 'package:deskgoo/routes/route_generator_constants.dart';
 import 'package:deskgoo/themes/custom_colors.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 // import 'package:go_router/go_router.dart';
@@ -29,24 +30,31 @@ class CustomGNavBar extends StatelessWidget {
           onPressed: () {
             // GoRouter.of(context)
             //     .pushReplacementNamed(MyAppRouteConstants.homeNavBarRouteName);
-            Navigator.of(context)
-                .pushReplacementNamed(RouteGeneratorConstants.homePage);
+            Navigator.of(context).pushNamed(RouteGeneratorConstants.homePage);
           },
           // margin: EdgeInsets.symmetric(horizontal: 8, vertical: 0),
           padding: EdgeInsets.symmetric(vertical: 16, horizontal: 16),
           icon: FontAwesomeIcons.house,
           gap: 12,
-          text: 'Home',
+          text: 'Dashboard',
           textStyle: TextStyle(
             fontWeight: FontWeight.w700,
           ),
         ),
         GButton(
-          // margin: EdgeInsets.symmetric(horizontal: 0, vertical: 0),
+          onPressed: () {
+            Navigator.of(context)
+                .pushNamed(RouteGeneratorConstants.liveTrackingPage);
+          },
           padding: EdgeInsets.symmetric(vertical: 16, horizontal: 16),
-          icon: FontAwesomeIcons.solidHeart,
+          // icon: CupertinoIcons.location_fill,
+          // icon: Icons.spatial_tracking_rounded,
+          // icon: Icons.track_changes_sharp,
+          icon: FontAwesomeIcons.mapLocationDot,
+          // icon: FontAwesomeIcons.locationArrow,
+          // icon: FontAwesomeIcons.locationCrosshairs,
           gap: 12,
-          text: 'Favourite',
+          text: 'Location',
           textStyle: TextStyle(
             fontWeight: FontWeight.w700,
           ),
