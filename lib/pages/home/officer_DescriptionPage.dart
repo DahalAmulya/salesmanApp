@@ -95,7 +95,7 @@ class _OfficerDescriptionPageState extends State<OfficerDescriptionPage> {
         children: [
           Consumer<MarketingProvider>(
             builder: (context,nameProvider,_) {
-              return CustomText(text: 'Rahul');
+              return CustomText(text: _marketingProvider.name);
             }
           ),
           Expanded(
