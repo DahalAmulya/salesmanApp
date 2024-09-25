@@ -1192,6 +1192,7 @@ class _VisitScreenState extends State<VisitScreen>
   NepaliDateTime selectedDate = NepaliDateTime.now();
   final followUpNoteController = TextEditingController();
   final followUpDateController = TextEditingController();
+  String photo = '';
   bool isFollowUpFormValid = false;
 
   Expanded _followUp(context) {
@@ -1262,7 +1263,6 @@ class _VisitScreenState extends State<VisitScreen>
                     ),
                     Consumer<CameraProvider>(
                       builder: (context, cameraProvider, _) {
-                        String photo = '';
                         if (cameraProvider.isNewVisit) {
                           photo = cameraProvider.newVisitSelectedPhoto;
                         }
@@ -1319,7 +1319,7 @@ class _VisitScreenState extends State<VisitScreen>
                                       print('Image tapped');
                                     },
                                     child: SizedBox(
-                                      height: 275,
+                                      height: 325,
                                       width: double.infinity,
                                       child: InteractiveViewer(
                                         panEnabled: true, // Set it to false
