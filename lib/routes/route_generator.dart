@@ -12,6 +12,8 @@ import 'package:deskgoo/pages/visit/visit_screen.dart';
 import 'package:deskgoo/routes/route_generator_constants.dart';
 import 'package:flutter/material.dart';
 
+import '../pages/home/profile_Page.dart';
+
 class RouteGenerator {
   static Route<dynamic> generateRoute(RouteSettings settings) {
     // getting arguments passed in while calling Navigator.pushNamed
@@ -41,6 +43,8 @@ class RouteGenerator {
         return MaterialPageRoute(builder: (_) => RemoteAttendencePage());
       case RouteGeneratorConstants.settingPage:
         return MaterialPageRoute(builder: (_) => SettingPage());
+      case RouteGeneratorConstants.profilePage:
+        return MaterialPageRoute(builder: (_) => Profile_page());
       default:
         return MaterialPageRoute(builder: (_) => ErrorPage());
     }

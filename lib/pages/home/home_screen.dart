@@ -244,6 +244,16 @@ class _HomeScreenState extends State<HomeScreen> {
     if (screenWidth >= 430) {
       marketingContainerHeight = 0.78;
     }
+    if(screenWidth >= 585 && screenWidth <=550){
+      marketingContainerHeight = 0.86;
+    }
+    if(screenWidth >= 500){
+      marketingContainerHeight = 0.90;
+    }
+    if(screenWidth >= 540 && screenWidth <=805){
+      marketingContainerHeight = 0.88;
+    }
+
 
 
     List<Map<String, dynamic>> marketingOfficersName = [
@@ -280,6 +290,7 @@ class _HomeScreenState extends State<HomeScreen> {
       children: [
         Center(
           child: Container(
+            padding: EdgeInsets.symmetric(vertical: 8.0),
             height: MediaQuery.of(context).size.width * marketingContainerHeight,
             // height: double.infinity,
             width: MediaQuery.of(context).size.width * 0.95,
@@ -299,9 +310,9 @@ class _HomeScreenState extends State<HomeScreen> {
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const SizedBox(
-                  height: 10,
-                ),
+                // const SizedBox(
+                //   height: 10,
+                // ),
                 Row(
                   children: [
                     Padding(

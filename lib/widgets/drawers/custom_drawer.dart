@@ -39,64 +39,69 @@ class CustomDrawer extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Padding(
-                padding: const EdgeInsets.only(
-                  top: 16.0,
-                  left: 16.0,
-                  bottom: 8.0,
-                ),
-                child: Row(
-                  children: [
-                    CircleAvatar(
-                      radius: 34,
-                      backgroundColor: CustomColors.primaryWhite,
-                      child: Padding(
-                        padding: const EdgeInsets.all(2),
-                        child: ClipRRect(
-                          borderRadius: BorderRadius.circular(100),
-                          child: hasImage
-                              ? Image.asset(
-                                  userImg!,
-                                  fit: BoxFit.scaleDown,
-                                )
-                              : Container(
-                                  color: Colors.black,
-                                  width: double.infinity,
-                                  height: double.infinity,
-                                  padding: EdgeInsets.all(4),
-                                  child: Center(
-                                    child: CustomText(
-                                      text:
-                                          '${userName.split(' ')[0][0]} ${userName.split(' ')[1][0]}',
-                                      size: 24,
-                                      color: CustomColors.primaryWhite,
-                                      fontWeight: FontWeight.w600,
+              InkWell(
+                onTap: (){
+                  Navigator.of(context).pushNamed(RouteGeneratorConstants.profilePage);
+                },
+                child: Padding(
+                  padding: const EdgeInsets.only(
+                    top: 16.0,
+                    left: 16.0,
+                    bottom: 8.0,
+                  ),
+                  child: Row(
+                    children: [
+                      CircleAvatar(
+                        radius: 34,
+                        backgroundColor: CustomColors.primaryWhite,
+                        child: Padding(
+                          padding: const EdgeInsets.all(2),
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.circular(100),
+                            child: hasImage
+                                ? Image.asset(
+                                    userImg!,
+                                    fit: BoxFit.scaleDown,
+                                  )
+                                : Container(
+                                    color: Colors.black,
+                                    width: double.infinity,
+                                    height: double.infinity,
+                                    padding: EdgeInsets.all(4),
+                                    child: Center(
+                                      child: CustomText(
+                                        text:
+                                            '${userName.split(' ')[0][0]} ${userName.split(' ')[1][0]}',
+                                        size: 24,
+                                        color: CustomColors.primaryWhite,
+                                        fontWeight: FontWeight.w600,
+                                      ),
                                     ),
                                   ),
-                                ),
+                          ),
                         ),
                       ),
-                    ),
-                    SizedBox(
-                      width: 16.0,
-                    ),
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        CustomText(
-                          text: userName,
-                          color: CustomColors.primaryBlack,
-                          fontWeight: FontWeight.w600,
-                        ),
-                        CustomText(
-                          text: userRole,
-                          color: CustomColors.primaryBlack,
-                          fontWeight: FontWeight.w500,
-                          size: 14,
-                        ),
-                      ],
-                    ),
-                  ],
+                      SizedBox(
+                        width: 16.0,
+                      ),
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          CustomText(
+                            text: userName,
+                            color: CustomColors.primaryBlack,
+                            fontWeight: FontWeight.w600,
+                          ),
+                          CustomText(
+                            text: userRole,
+                            color: CustomColors.primaryBlack,
+                            fontWeight: FontWeight.w500,
+                            size: 14,
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
                 ),
               ),
               Divider(
