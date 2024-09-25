@@ -335,10 +335,12 @@ class _HomeScreenState extends State<HomeScreen> {
                           marketingOfficersName[index]['target'];
                       print('indicatorValue $index = $indicatorValue');
                       return InkWell(
-                        onTap: (){
-                          _marketingProvider!.setName(marketingOfficersName[index]['OfficerName']);
+                        onTap: () {
+                          _marketingProvider!.setName(
+                              marketingOfficersName[index]['OfficerName']);
                           // print(marketingOfficersName[index]['OfficerName']);
-                          Navigator.of(context).pushNamed(RouteGeneratorConstants.officerDescriptionPage);
+                          Navigator.of(context).pushNamed(
+                              RouteGeneratorConstants.officerDescriptionPage);
                         },
                         child: Container(
                           child: Column(
@@ -349,15 +351,15 @@ class _HomeScreenState extends State<HomeScreen> {
                                 padding:
                                     const EdgeInsets.only(left: 16.0, top: 13),
                                 child: Consumer<MarketingProvider>(
-                                  builder: (context,marketingProvider,_) {
-                                    return CustomText(
-                                      text:marketingOfficersName[index]['OfficerName'],
-                                        fontWeight: FontWeight.bold,
-                                        color: CustomColors.primaryBlack,
-                                        // color: Colors.grey.shade600,
-                                    );
-                                  }
-                                ),
+                                    builder: (context, marketingProvider, _) {
+                                  return CustomText(
+                                    text: marketingOfficersName[index]
+                                        ['OfficerName'],
+                                    fontWeight: FontWeight.bold,
+                                    color: CustomColors.primaryBlack,
+                                    // color: Colors.grey.shade600,
+                                  );
+                                }),
                               ),
                               Row(
                                 children: [
@@ -415,4 +417,3 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 }
-

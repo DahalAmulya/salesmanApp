@@ -1199,6 +1199,7 @@ class _VisitScreenState extends State<VisitScreen>
     return Expanded(
       child: SingleChildScrollView(
         child: Column(
+          // crossAxisAlignment: CrossAxisAlignment.end,
           children: [
             CustomContainer(
               verticalMargin: 8,
@@ -1206,7 +1207,7 @@ class _VisitScreenState extends State<VisitScreen>
               child: Form(
                 key: _followUpFormKey,
                 child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.end,
                   children: [
                     TextFromFieldWithPrefixSuffix(
                       controller: followUpNoteController,
@@ -1339,6 +1340,14 @@ class _VisitScreenState extends State<VisitScreen>
                           ),
                         );
                       },
+                    ),
+                    SizedBox(
+                      height: 8.0,
+                    ),
+                    CustomElevatedButton(
+                      onPressed: () {},
+                      backgroundColor: CustomColors.primaryColor,
+                      widget: CustomText(text: 'Submit'),
                     ),
                   ],
                 ),
