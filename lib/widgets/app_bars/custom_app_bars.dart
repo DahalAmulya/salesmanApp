@@ -23,6 +23,7 @@ class CustomAppBar extends StatelessWidget {
       this.applyShadow = false,
       this.showThemeIcon = false,
       this.onPressedThemeIcon,
+      this.automaticallyImplyLeading = false,
       super.key});
 
   final String tabName;
@@ -43,6 +44,7 @@ class CustomAppBar extends StatelessWidget {
   final bool applyShadow;
   final bool showThemeIcon;
   final Function()? onPressedThemeIcon;
+  final bool automaticallyImplyLeading;
 
   @override
   Widget build(BuildContext context) {
@@ -106,7 +108,7 @@ class CustomAppBar extends StatelessWidget {
         //     ),
         //   ],
         // ),
-        automaticallyImplyLeading: false,
+        automaticallyImplyLeading: automaticallyImplyLeading,
         leading: showLeading
             ? isLeadingImage
                 ? InkWell(

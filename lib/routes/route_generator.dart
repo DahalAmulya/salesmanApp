@@ -3,10 +3,11 @@ import 'package:deskgoo/pages/auth_screens/forgot_password/forgot_password_scree
 import 'package:deskgoo/pages/auth_screens/login/login_screen.dart';
 import 'package:deskgoo/pages/camera/camera_screen.dart';
 import 'package:deskgoo/pages/camera/preview_photos.dart';
+import 'package:deskgoo/pages/camera/preview_selected_photo.dart';
 import 'package:deskgoo/pages/error/error_page.dart';
 import 'package:deskgoo/pages/home/home_screen.dart';
-import 'package:deskgoo/pages/home/live_tracking_screen.dart';
-import 'package:deskgoo/pages/home/replay_screen.dart';
+import 'package:deskgoo/pages/location/live_tracking_screen.dart';
+import 'package:deskgoo/pages/location/replay_screen.dart';
 import 'package:deskgoo/pages/settings/setting.dart';
 import 'package:deskgoo/pages/visit/visit_screen.dart';
 import 'package:deskgoo/routes/route_generator_constants.dart';
@@ -35,6 +36,8 @@ class RouteGenerator {
         return MaterialPageRoute(builder: (_) => CameraPage());
       case RouteGeneratorConstants.previewCapturedPhotoPage:
         return MaterialPageRoute(builder: (_) => PreviewCapturedPhotos());
+      case RouteGeneratorConstants.previewSelectedPhotoPage:
+        return MaterialPageRoute(builder: (_) => PreviewSelectedPhoto());
       case RouteGeneratorConstants.liveTrackingPage:
         return MaterialPageRoute(builder: (_) => LiveTrackingScreen());
       case RouteGeneratorConstants.replayPage:
@@ -47,7 +50,7 @@ class RouteGenerator {
         return MaterialPageRoute(builder: (_) => SettingPage());
       case RouteGeneratorConstants.profilePage:
         return MaterialPageRoute(builder: (_) => Profile_page());
-        case RouteGeneratorConstants.officerDescriptionPage:
+      case RouteGeneratorConstants.officerDescriptionPage:
         return MaterialPageRoute(builder: (_) => OfficerDescriptionPage());
         case RouteGeneratorConstants.officerVisitDetailPage:
         return MaterialPageRoute(builder: (_) => OfficerVisitDetailPage());

@@ -1317,6 +1317,9 @@ class _VisitScreenState extends State<VisitScreen>
                                 if (photo.isNotEmpty)
                                   GestureDetector(
                                     onTap: () {
+                                      Navigator.of(context).pushNamed(
+                                          RouteGeneratorConstants
+                                              .previewSelectedPhotoPage);
                                       print('Image tapped');
                                     },
                                     child: SizedBox(
@@ -1330,7 +1333,7 @@ class _VisitScreenState extends State<VisitScreen>
                                         maxScale: 2.5,
                                         child: Image.file(
                                           File(photo),
-                                          fit: BoxFit.fill,
+                                          fit: BoxFit.fitWidth,
                                         ),
                                       ),
                                     ),
@@ -1347,7 +1350,10 @@ class _VisitScreenState extends State<VisitScreen>
                     CustomElevatedButton(
                       onPressed: () {},
                       backgroundColor: CustomColors.primaryColor,
-                      widget: CustomText(text: 'Submit'),
+                      widget: CustomText(
+                        text: 'Submit',
+                        fontWeight: FontWeight.w500,
+                      ),
                     ),
                   ],
                 ),
