@@ -20,6 +20,13 @@ class _OfficerDescriptionPageState extends State<OfficerDescriptionPage> {
   double screenHeight = ScreenUtil.getScreenHeight();
   double screenWidth = ScreenUtil.getScreenWidth();
   double officerDescriptionContainerHeight = 0.0;
+  MarketingProvider? _marketingProvider;
+
+  @override
+  void initState() {
+    _marketingProvider = Provider.of<MarketingProvider>(context, listen: false);
+    super.initState();
+  }
 
   List<Map<String, dynamic>> officerDescription = [
     {
@@ -94,10 +101,11 @@ class _OfficerDescriptionPageState extends State<OfficerDescriptionPage> {
       body: Column(
         children: [
           Consumer<MarketingProvider>(
-            builder: (context,nameProvider,_) {
-              return CustomText(text: _marketingProvider.name);
+            builder: (context,MarketingProvider,_) {
+              return CustomText(text: MarketingProvider.name,size: 24,fontWeight: FontWeight.w600,);
             }
           ),
+          SizedBox(height: 8,),
           Expanded(
             child: ListView.builder(
               itemCount: officerDescription.length,
@@ -124,22 +132,22 @@ class _OfficerDescriptionPageState extends State<OfficerDescriptionPage> {
                           Padding(
                             padding: const EdgeInsets.symmetric(vertical: 8.0,horizontal: 8.0),
                             child: Text(
-                                'Client Name = ${officerDescription[index]['client Name']}'),
+                                '${officerDescription[index]['client Name']}'),
                           ),
                           Padding(
                             padding: const EdgeInsets.symmetric(vertical: 8.0,horizontal: 8.0),
                             child: Text(
-                                'Address = ${officerDescription[index]['Address']}'),
+                                '${officerDescription[index]['Address']}'),
                           ),
                           Padding(
                             padding: const EdgeInsets.symmetric(vertical: 8.0,horizontal: 8.0),
                             child: Text(
-                                'Phone Number = ${officerDescription[index]['Phone Number']}'),
+                                '${officerDescription[index]['Phone Number']}'),
                           ),
                           Padding(
                             padding: const EdgeInsets.symmetric(vertical: 8.0,horizontal: 8.0),
                             child: Text(
-                                'Date Time = ${officerDescription[index]['Date Time']}'),
+                                '${officerDescription[index]['Date Time']}'),
                           ),
                         ],
                       ),
