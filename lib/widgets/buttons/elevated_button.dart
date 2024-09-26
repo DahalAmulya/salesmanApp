@@ -1,14 +1,16 @@
 import 'package:flutter/material.dart';
 
 class CustomElevatedButton extends StatelessWidget {
-  const CustomElevatedButton(
-      {super.key,
-      required this.onPressed,
-      required this.widget,
-      this.backgroundColor,
-      this.borderColor,
-      this.width = 0.25,
-      this.height = 40});
+  const CustomElevatedButton({
+    super.key,
+    required this.onPressed,
+    required this.widget,
+    this.backgroundColor,
+    this.borderColor,
+    this.width = 0.25,
+    this.height = 40,
+    this.borderRadius,
+  });
 
   final Function() onPressed;
   final Widget widget;
@@ -16,6 +18,8 @@ class CustomElevatedButton extends StatelessWidget {
   final Color? borderColor;
   final double width;
   final double height;
+  final double? borderRadius;
+  // final double? width;
 
   @override
   Widget build(BuildContext context) {
@@ -29,9 +33,9 @@ class CustomElevatedButton extends StatelessWidget {
           MediaQuery.of(context).size.width * width,
           height,
         ),
-        shape: const RoundedRectangleBorder(
+        shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.all(
-            Radius.circular(8.0),
+            Radius.circular(borderRadius ?? 8.0),
           ),
         ),
         side: BorderSide(

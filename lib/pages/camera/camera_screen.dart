@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:camera/camera.dart';
 import 'package:deskgoo/providers/camera_provider/camera_provider.dart';
 import 'package:deskgoo/routes/route_generator_constants.dart';
+import 'package:deskgoo/themes/custom_colors.dart';
 import 'package:deskgoo/widgets/app_bars/custom_app_bars.dart';
 import 'package:deskgoo/widgets/drawers/custom_drawer.dart';
 import 'package:flutter/cupertino.dart';
@@ -113,7 +114,7 @@ class _CameraPageState extends State<CameraPage> {
         _cameraProvider!.addNewVisitPhotos(picture.path);
         // photos = _cameraProvider!.newVisitPhotos;
       } else if (_cameraProvider!.isFollowUp) {
-        _cameraProvider!.addFollowPhotos(picture.path);
+        _cameraProvider!.addFollowUpPhotos(picture.path);
         // photos = _cameraProvider!.followUpPhotos;
       }
       // _cameraProvider!.isNewVisit
@@ -223,126 +224,198 @@ class _CameraPageState extends State<CameraPage> {
                           ),
                         ),
                   Positioned(
+                    top: 4,
+                    right: 4,
+                    child: Consumer<CameraProvider>(
+                        builder: (context, cameraProvider, _) {
+                      return IconButton(
+                        onPressed: () {
+                          cameraProvider.toggleFlashMode();
+                          // print('FlashMode = $_flashMode');
+                          // print('_isFlashOn = $_isFlashOn');
+                          // print(photos.length);
+                          // print(
+                          // '_isRearCameraSelected = ${_isRearCameraSelected}');
+                        },
+                        iconSize: 32,
+                        padding: EdgeInsets.zero,
+                        constraints: const BoxConstraints(),
+                        icon: Icon(
+                            cameraProvider.isFlashOn
+                                ? Icons.flash_on
+                                : Icons.flash_off,
+                            color: Colors.white),
+                      );
+                    }),
+                  ),
+                  Positioned(
                     bottom: 0,
                     child: Container(
                       width: MediaQuery.of(context).size.width * 1,
-                      color: Colors.black.withOpacity(0.5),
+                      color: Colors.black.withOpacity(0.7),
                       child: Consumer<CameraProvider>(
                         builder: (context, cameraProvider, _) {
                           return Column(
                             mainAxisAlignment: MainAxisAlignment.end,
                             children: [
-                              cameraProvider.photos.isNotEmpty
-                                  ? SizedBox(
-                                      height: 125,
-                                      width: double.infinity,
-                                      child: ListView.builder(
-                                        itemCount: cameraProvider.photos.length,
-                                        physics: const BouncingScrollPhysics(),
-                                        scrollDirection: Axis.horizontal,
-                                        itemBuilder: (context, index) {
-                                          return Column(
-                                            children: [
-                                              InkWell(
-                                                onTap: () {
-                                                  cameraProvider
-                                                      .setIndex(index);
-                                                  Navigator.of(context).pushNamed(
-                                                      RouteGeneratorConstants
-                                                          .previewCapturedPhotoPage);
-                                                  print(
-                                                      'Selected photo $index ${cameraProvider.photos[index]}');
-                                                },
-                                                onLongPress: () {
-                                                  print(
-                                                      'Long press Selected photo  $index ${cameraProvider.photos[index]}');
-                                                },
-                                                child: Padding(
-                                                  padding: const EdgeInsets
-                                                      .symmetric(
-                                                    horizontal: 8.0,
-                                                  ),
-                                                  child: SizedBox(
-                                                    height: 125,
-                                                    width: 75,
-                                                    child: Image.file(
-                                                      File(cameraProvider
-                                                          .photos[index]),
-                                                    ),
+                              // cameraProvider.photos.isNotEmpty
+                              // ? SizedBox(
+                              //     height: 125,
+                              //     width: double.infinity,
+                              //     child: ListView.builder(
+                              //       itemCount: cameraProvider.photos.length,
+                              //       physics: const BouncingScrollPhysics(),
+                              //       scrollDirection: Axis.horizontal,
+                              //       itemBuilder: (context, index) {
+                              //         return Column(
+                              //           children: [
+                              //             InkWell(
+                              //               onTap: () {
+                              //                 cameraProvider
+                              //                     .setIndex(index);
+                              //                 Navigator.of(context).pushNamed(
+                              //                     RouteGeneratorConstants
+                              //                         .previewCapturedPhotoPage);
+                              //                 print(
+                              //                     'Selected photo $index ${cameraProvider.photos[index]}');
+                              //               },
+                              //               onLongPress: () {
+                              //                 print(
+                              //                     'Long press Selected photo  $index ${cameraProvider.photos[index]}');
+                              //               },
+                              //               child: Padding(
+                              //                 padding: const EdgeInsets
+                              //                     .symmetric(
+                              //                   horizontal: 8.0,
+                              //                 ),
+                              //                 child: SizedBox(
+                              //                   height: 125,
+                              //                   width: 75,
+                              //                   child: Image.file(
+                              //                     File(cameraProvider
+                              //                         .photos[index]),
+                              //                   ),
+                              //                 ),
+                              //               ),
+                              //             ),
+                              //           ],
+                              //         );
+                              //       },
+                              //     ),
+                              //   )
+                              // : Container(),
+                              Consumer<CameraProvider>(
+                                  builder: (context, cameraProvider, _) {
+                                return Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceAround,
+                                  crossAxisAlignment: CrossAxisAlignment.end,
+                                  children: [
+                                    Container(
+                                      padding: EdgeInsets.symmetric(
+                                          horizontal: 16, vertical: 4),
+                                      width:
+                                          MediaQuery.of(context).size.width * 1,
+                                      // color: Colors.black.withOpacity(0.5),
+                                      child: Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          // IconButton(
+                                          //   onPressed: () {
+                                          //     cameraProvider.toggleFlashMode();
+                                          //     // print('FlashMode = $_flashMode');
+                                          //     // print('_isFlashOn = $_isFlashOn');
+                                          //     // print(photos.length);
+                                          //     // print(
+                                          //     // '_isRearCameraSelected = ${_isRearCameraSelected}');
+                                          //   },
+                                          //   iconSize: 32,
+                                          //   padding: EdgeInsets.zero,
+                                          //   constraints: const BoxConstraints(),
+                                          //   icon: Icon(
+                                          //       cameraProvider.isFlashOn
+                                          //           ? Icons.flash_on
+                                          //           : Icons.flash_off,
+                                          //       color: Colors.white),
+                                          // ),
+                                          // if (cameraProvider.photos.isNotEmpty)
+                                          GestureDetector(
+                                            onTap: () {
+                                              // print(
+                                              //     'Pressed ${cameraProvider.photos.length - 1}');
+                                              cameraProvider.setIndex(
+                                                  cameraProvider.photos.length -
+                                                      1);
+                                              Navigator.of(context).pushNamed(
+                                                  RouteGeneratorConstants
+                                                      .previewCapturedPhotoPage);
+                                            },
+                                            child: ClipRRect(
+                                              borderRadius:
+                                                  BorderRadius.circular(100),
+                                              child: SizedBox(
+                                                height: 52,
+                                                width: 52,
+                                                child: Container(
+                                                  padding: EdgeInsets.all(1),
+                                                  color: Colors.white,
+                                                  child: ClipRRect(
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            100),
+                                                    child: cameraProvider
+                                                            .photos.isNotEmpty
+                                                        ? Image.file(
+                                                            File(cameraProvider
+                                                                .photos.last),
+                                                            fit: BoxFit.cover,
+                                                          )
+                                                        : Container(
+                                                            color: Colors.black,
+                                                          ),
                                                   ),
                                                 ),
                                               ),
-                                            ],
-                                          );
-                                        },
-                                      ),
-                                    )
-                                  : Container(),
-                              Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceAround,
-                                crossAxisAlignment: CrossAxisAlignment.end,
-                                children: [
-                                  SizedBox(
-                                    width:
-                                        MediaQuery.of(context).size.width * 1,
-                                    // color: Colors.black.withOpacity(0.5),
-                                    child: Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
-                                      children: [
-                                        IconButton(
-                                          padding: EdgeInsets.zero,
-                                          constraints: const BoxConstraints(),
-                                          iconSize: 32,
-                                          icon: Icon(
-                                              cameraProvider
-                                                      .isRearCameraSelected
-                                                  ? CupertinoIcons.switch_camera
-                                                  : CupertinoIcons
-                                                      .switch_camera_solid,
-                                              color: Colors.white),
-                                          onPressed: () {
-                                            cameraProvider
-                                                .toggleIsRearCameraSelected();
-                                            initCamera(cameraProvider.cameras[
+                                            ),
+                                          ),
+
+                                          IconButton(
+                                            onPressed: takePicture,
+                                            iconSize: 72,
+                                            padding: EdgeInsets.zero,
+                                            constraints: const BoxConstraints(),
+                                            icon: const Icon(Icons.circle,
+                                                color: Colors.white),
+                                          ),
+                                          IconButton(
+                                            padding: EdgeInsets.zero,
+                                            constraints: const BoxConstraints(),
+                                            iconSize: 32,
+                                            icon: Icon(
                                                 cameraProvider
                                                         .isRearCameraSelected
-                                                    ? 0
-                                                    : 1]);
-                                          },
-                                        ),
-                                        IconButton(
-                                          onPressed: takePicture,
-                                          iconSize: 72,
-                                          padding: EdgeInsets.zero,
-                                          constraints: const BoxConstraints(),
-                                          icon: const Icon(Icons.circle,
-                                              color: Colors.white),
-                                        ),
-                                        IconButton(
-                                          onPressed: () {
-                                            cameraProvider.toggleFlashMode();
-                                            // print('FlashMode = $_flashMode');
-                                            // print('_isFlashOn = $_isFlashOn');
-                                            // print(photos.length);
-                                            // print(
-                                            // '_isRearCameraSelected = ${_isRearCameraSelected}');
-                                          },
-                                          iconSize: 32,
-                                          padding: EdgeInsets.zero,
-                                          constraints: const BoxConstraints(),
-                                          icon: Icon(
-                                              cameraProvider.isFlashOn
-                                                  ? Icons.flash_on
-                                                  : Icons.flash_off,
-                                              color: Colors.white),
-                                        ),
-                                      ],
+                                                    ? CupertinoIcons
+                                                        .switch_camera
+                                                    : CupertinoIcons
+                                                        .switch_camera_solid,
+                                                color: Colors.white),
+                                            onPressed: () {
+                                              cameraProvider
+                                                  .toggleIsRearCameraSelected();
+                                              initCamera(cameraProvider.cameras[
+                                                  cameraProvider
+                                                          .isRearCameraSelected
+                                                      ? 0
+                                                      : 1]);
+                                            },
+                                          ),
+                                        ],
+                                      ),
                                     ),
-                                  ),
-                                ],
-                              ),
+                                  ],
+                                );
+                              }),
                             ],
                           );
                         },

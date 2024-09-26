@@ -111,7 +111,7 @@ class CameraProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  void addFollowPhotos(String photo) {
+  void addFollowUpPhotos(String photo) {
     _followUpPhotos.add(photo);
     _photos = _followUpPhotos;
     notifyListeners();

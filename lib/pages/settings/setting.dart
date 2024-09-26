@@ -84,12 +84,23 @@ class SettingPage extends StatelessWidget {
                 ),
               ),
               Divider(),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                child: CustomText(
-                  text: 'Account',
-                  fontWeight: labelFontWeight,
-                  size: labelSize,
+              GestureDetector(
+                onTap: () {
+                  Navigator.of(context)
+                      .pushNamed(RouteGeneratorConstants.profilePage);
+                },
+                child: CustomContainer(
+                  verticalPad: 0,
+                  horizontalMargin: 0,
+                  verticalMargin: 0,
+                  horizontalPad: 8,
+                  width: 1,
+                  // color: Colors.red,
+                  child: CustomText(
+                    text: 'Account',
+                    fontWeight: labelFontWeight,
+                    size: labelSize,
+                  ),
                 ),
               ),
               Divider(),

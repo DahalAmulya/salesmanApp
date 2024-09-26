@@ -35,7 +35,7 @@ class _PreviewCapturedPhotosState extends State<PreviewCapturedPhotos> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: _appBar(context),
-      drawer: _drawer(context),
+      // drawer: _drawer(context),
       body: _buildUI(context),
     );
   }
@@ -45,11 +45,13 @@ class _PreviewCapturedPhotosState extends State<PreviewCapturedPhotos> {
       preferredSize: Size.fromHeight(kToolbarHeight),
       child: Builder(builder: (context) {
         return CustomAppBar(
-          tabName: 'Camera',
+          tabName: 'Preview Photos',
+          // automaticallyImplyLeading: true,
           showLeading: true,
-          leadingIcon: FontAwesomeIcons.bars,
+          leadingIcon: FontAwesomeIcons.arrowLeft,
           onTapLeadingIcon: () {
-            Scaffold.of(context).openDrawer();
+            // Scaffold.of(context).openDrawer();
+            Navigator.of(context).pop(RouteGeneratorConstants.cameraPage);
           },
         );
       }),
@@ -221,27 +223,46 @@ class _PreviewCapturedPhotosState extends State<PreviewCapturedPhotos> {
                                     .pop(RouteGeneratorConstants.cameraPage);
                               },
                               backgroundColor: CustomColors.primaryColor,
-                              widget: CustomText(
-                                text: 'Retake',
-                                fontWeight: FontWeight.w600,
-                                size: 18,
+                              widget: FaIcon(
+                                FontAwesomeIcons.rotate,
+                                color: CustomColors.primaryBlack,
+                                size: 28,
                               ),
+                              //     CustomText(
+                              //   text: 'Retake',
+                              //   fontWeight: FontWeight.w600,
+                              //   size: 18,
+                              // ),
                             ),
                             CustomElevatedButton(
                               onPressed: () {
-                                cameraProvider.selectedNewVisitPhotos(
-                                    cameraProvider
-                                        .photos[cameraProvider.index]);
+                                if (cameraProvider.isNewVisit) {
+                                  cameraProvider.selectedNewVisitPhotos(
+                                      cameraProvider
+                                          .photos[cameraProvider.index]);
+                                } else if (cameraProvider.isFollowUp) {
+                                  cameraProvider.selectedFollowUpPhotos(
+                                      cameraProvider
+                                          .photos[cameraProvider.index]);
+                                }
+                                // cameraProvider.selectedNewVisitPhotos(
+                                //     cameraProvider
+                                //         .photos[cameraProvider.index]);
                                 _visitScreenProvider!.setIndex(4);
                                 Navigator.of(context).pushNamed(
                                     RouteGeneratorConstants.visitPage);
                               },
                               backgroundColor: CustomColors.primaryColor,
-                              widget: CustomText(
-                                text: 'Select',
-                                fontWeight: FontWeight.w600,
-                                size: 18,
+                              widget: FaIcon(
+                                FontAwesomeIcons.check,
+                                color: CustomColors.primaryBlack,
+                                size: 28,
                               ),
+                              //     CustomText(
+                              //   text: 'Select',
+                              //   fontWeight: FontWeight.w600,
+                              //   size: 18,
+                              // ),
                             ),
                           ],
                         ),
