@@ -12,7 +12,9 @@ class VisitScreenProvider extends ChangeNotifier {
       'paidAmt': 0.0,
       'dueAmt': 0.0,
       'salesRepresentative': 'John Cena',
-      'dateTime': '2081-05-27T09:05:32'
+      'dateTime': '2081-05-27T09:05:32',
+      'visited_person': '',
+      'relation': '',
     },
     {
       'client': 'Raj Patel',
@@ -24,7 +26,9 @@ class VisitScreenProvider extends ChangeNotifier {
       'paidAmt': 100.0,
       'dueAmt': 50.0,
       'salesRepresentative': 'John Cena',
-      'dateTime': '2081-05-27T09:05:32'
+      'dateTime': '2081-05-27T09:05:32',
+      'visited_person': '',
+      'relation': '',
     },
     {
       'client': 'Sita Rai',
@@ -36,7 +40,9 @@ class VisitScreenProvider extends ChangeNotifier {
       'paidAmt': 200.0,
       'dueAmt': 0.0,
       'salesRepresentative': 'John Cena',
-      'dateTime': '2081-05-27T09:05:32'
+      'dateTime': '2081-05-27T09:05:32',
+      'visited_person': '',
+      'relation': '',
     },
     {
       'client': 'Ram Sharma',
@@ -48,7 +54,9 @@ class VisitScreenProvider extends ChangeNotifier {
       'paidAmt': 150.0,
       'dueAmt': 150.0,
       'salesRepresentative': 'John Cena',
-      'dateTime': '2081-05-27T09:05:32'
+      'dateTime': '2081-05-27T09:05:32',
+      'visited_person': '',
+      'relation': '',
     },
     {
       'client': 'Gita Shrestha',
@@ -60,7 +68,9 @@ class VisitScreenProvider extends ChangeNotifier {
       'paidAmt': 300.0,
       'dueAmt': 100.0,
       'salesRepresentative': 'John Cena',
-      'dateTime': '2081-05-27T09:05:32'
+      'dateTime': '2081-05-27T09:05:32',
+      'visited_person': '',
+      'relation': '',
     },
     {
       'client': 'Hari Singh',
@@ -72,7 +82,9 @@ class VisitScreenProvider extends ChangeNotifier {
       'paidAmt': 100.0,
       'dueAmt': 0.0,
       'salesRepresentative': 'John Cena',
-      'dateTime': '2081-05-27T09:05:32'
+      'dateTime': '2081-05-27T09:05:32',
+      'visited_person': '',
+      'relation': '',
     },
     {
       'client': 'Kiran Thapa',
@@ -84,7 +96,9 @@ class VisitScreenProvider extends ChangeNotifier {
       'paidAmt': 200.0,
       'dueAmt': 50.0,
       'salesRepresentative': 'John Cena',
-      'dateTime': '2081-05-27T09:05:32'
+      'dateTime': '2081-05-27T09:05:32',
+      'visited_person': '',
+      'relation': '',
     },
     {
       'client': 'Meena Karki',
@@ -96,7 +110,9 @@ class VisitScreenProvider extends ChangeNotifier {
       'paidAmt': 400.0,
       'dueAmt': 100.0,
       'salesRepresentative': 'John Cena',
-      'dateTime': '2081-05-27T09:05:32'
+      'dateTime': '2081-05-27T09:05:32',
+      'visited_person': '',
+      'relation': '',
     },
     {
       'client': 'Sunil Joshi',
@@ -108,7 +124,9 @@ class VisitScreenProvider extends ChangeNotifier {
       'paidAmt': 300.0,
       'dueAmt': 300.0,
       'salesRepresentative': 'John Cena',
-      'dateTime': '2081-05-27T09:05:32'
+      'dateTime': '2081-05-27T09:05:32',
+      'visited_person': '',
+      'relation': '',
     },
     {
       'client': 'Nina Maharjan',
@@ -120,7 +138,9 @@ class VisitScreenProvider extends ChangeNotifier {
       'paidAmt': 350.0,
       'dueAmt': 0.0,
       'salesRepresentative': 'John Cena',
-      'dateTime': '2081-05-27T09:05:32'
+      'dateTime': '2081-05-27T09:05:32',
+      'visited_person': '',
+      'relation': '',
     },
     {
       'client': 'Manish kumar Rajbanshi',
@@ -132,7 +152,9 @@ class VisitScreenProvider extends ChangeNotifier {
       'paidAmt': 350.0,
       'dueAmt': 0.0,
       'salesRepresentative': 'John Cena',
-      'dateTime': '2081-05-27T09:05:32'
+      'dateTime': '2081-05-27T09:05:32',
+      'visited_person': '',
+      'relation': '',
     }
   ];
   String _clientName = '';
