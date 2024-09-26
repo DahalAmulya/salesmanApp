@@ -27,9 +27,9 @@ class FollowUpVisitProvider extends ChangeNotifier {
     _followUpClientEmail.text = client.clientEmail;
     _followUpClientAddress.text = client.clientAddress;
     _followUpClientWhatsApp.text = client.clientWhatsApp;
-    _followUpClientVisitedPerson.text = client.clientVisitedPerson ?? '';
-    _followUpClientVisitedPersonRelation.text =
-        client.clientVisitedPersonRelation ?? '';
+    // _followUpClientVisitedPerson.text = client.clientVisitedPerson ?? '';
+    // _followUpClientVisitedPersonRelation.text =
+    //     client.clientVisitedPersonRelation ?? '';
     notifyListeners();
   }
 
