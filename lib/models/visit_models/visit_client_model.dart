@@ -1,17 +1,33 @@
 class VisitDetails {
-  // final Map<String, dynamic>? visitDetails;
+  final int? visitCount; // Allow null values by making it nullable
   final String visitedDate;
+  final String? clientVisitedPerson;
+  final String? clientVisitedPersonRelation;
   final String note;
   final bool isFollowUp;
-  final newFollowUpdate;
+  final String newFollowUpdate;
+  final String? image;
 
   VisitDetails({
-    // this.visitDetails,
+    this.visitCount, // Not required anymore
     required this.visitedDate,
+    this.clientVisitedPerson,
+    this.clientVisitedPersonRelation,
     required this.note,
     required this.isFollowUp,
     required this.newFollowUpdate,
+    this.image,
   });
+
+  Map<String, dynamic> toMap() {
+    return {
+      'visitCount': visitCount, // Can now be null
+      'visitedDate': visitedDate,
+      'note': note,
+      'isFollowUp': isFollowUp,
+      'newFollowUpdate': newFollowUpdate,
+    };
+  }
 }
 
 class VisitClientModel {
@@ -20,8 +36,6 @@ class VisitClientModel {
   final String clientEmail;
   final String clientAddress;
   final String clientWhatsApp;
-  final String? clientVisitedPerson;
-  final String? clientVisitedPersonRelation;
   final List<VisitDetails>? visitDetails;
 
   VisitClientModel({
@@ -30,8 +44,17 @@ class VisitClientModel {
     required this.clientEmail,
     required this.clientAddress,
     required this.clientWhatsApp,
-    this.clientVisitedPerson = '',
-    this.clientVisitedPersonRelation = '',
     this.visitDetails,
   });
+
+  Map<String, dynamic> toMap() {
+    return {
+      'clientName': clientName,
+      'clientPhoneNumber': clientPhoneNumber,
+      'clientEmail': clientEmail,
+      'clientAddress': clientAddress,
+      'clientWhatsApp': clientWhatsApp,
+      'visitDetails': visitDetails?.map((visit) => visit.toMap()).toList(),
+    };
+  }
 }

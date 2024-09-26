@@ -1,6 +1,8 @@
 import 'dart:async';
 import 'dart:developer';
 import 'dart:io';
+import 'package:deskgoo/models/visit_models/clients.dart';
+import 'package:deskgoo/models/visit_models/visit_client_model.dart';
 import 'package:deskgoo/providers/camera_provider/camera_provider.dart';
 import 'package:deskgoo/providers/deviceInfo_provider/deviceInfo_provider.dart';
 import 'package:deskgoo/routes/app_route_constants.dart';
@@ -20,6 +22,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:geolocator/geolocator.dart';
 // import 'package:go_router/go_router.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:http/http.dart';
 import 'package:local_auth/local_auth.dart';
 import 'package:provider/provider.dart';
 import 'package:syncfusion_flutter_maps/maps.dart';
@@ -172,8 +175,58 @@ class _HomeScreenState extends State<HomeScreen> {
           floatingActionButton: FloatingActionButton(
             backgroundColor: CustomColors.primaryColor,
             onPressed: () {
-              Navigator.of(context)
-                  .pushNamed(RouteGeneratorConstants.cameraPage);
+              // Create visit details
+              VisitDetails visit1 = VisitDetails(
+                visitCount: 0,
+                clientVisitedPerson: 'Rita Sharma',
+                clientVisitedPersonRelation: 'Wife',
+                visitedDate: '2024-09-26 05:29:32',
+                note: 'Person was not at home. Please visit again',
+                isFollowUp: true,
+                newFollowUpdate: '2024-09-28',
+              );
+
+              VisitClientModel client1 = VisitClientModel(
+                clientName: 'Ram Sharma',
+                clientPhoneNumber: '9812345678',
+                clientEmail: 'ramsharma@gmail.com',
+                clientAddress: 'biratnagar,mahendra chowk',
+                clientWhatsApp: '9812345678',
+                // visitDetails: [visit1],
+              );
+
+              // Add the client to the list
+              // ClientsList.addClient(client1);
+
+              ClientsList.addVisitDetails(
+                0,
+                VisitDetails(
+                  visitedDate: '${DateTime.now().toString().split('.')[0]}',
+                  note: 'Visited Person',
+                  isFollowUp: false,
+                  newFollowUpdate: '',
+                ),
+              );
+
+              // ClientsList.clients[0].visitDetails!.add(
+              //   VisitDetails(
+              //       visitCount:
+              //           ClientsList.clients[0].visitDetails!.last.visitCount! +
+              //               1,
+              //       visitedDate: '2024-09-28',
+              //       note: 'Hello World',
+              //       isFollowUp: false,
+              //       newFollowUpdate: ''),
+              // );
+              // print('${ClientsList.clients[0].visitDetails!.last.visitCount}');
+              // print(
+              //     '${ClientsList.clients[0].visitDetails!.last.visitCount.runtimeType}');
+
+              // Print all clients
+              // ClientsList.getClientsList();
+
+              // Navigator.of(context)
+              //     .pushNamed(RouteGeneratorConstants.cameraPage);
             },
             child: Image.asset(
               'assets/images/camera.png',

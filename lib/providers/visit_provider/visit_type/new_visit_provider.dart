@@ -27,9 +27,9 @@ class NewVisitProvider extends ChangeNotifier {
     _newVisitClientEmail.text = client.clientEmail;
     _newVisitClientAddress.text = client.clientAddress;
     _newVisitClientWhatsApp.text = client.clientWhatsApp;
-    _newVisitClientVisitedPerson.text = client.clientVisitedPerson ?? '';
-    _newVisitClientVisitedPersonRelation.text =
-        client.clientVisitedPersonRelation ?? '';
+    // _newVisitClientVisitedPerson.text = client.clientVisitedPerson ?? '';
+    // _newVisitClientVisitedPersonRelation.text =
+    //     client.clientVisitedPersonRelation ?? '';
     notifyListeners();
   }
 
