@@ -26,7 +26,7 @@ class _OfficerVisitDetailPageState extends State<OfficerVisitDetailPage> {
       ),
       body: Column(
         children: [
-
+          
         ],
       ),
     );
