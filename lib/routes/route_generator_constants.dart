@@ -13,4 +13,5 @@ class RouteGeneratorConstants {
   static const String settingPage = '/setting';
   static const String profilePage = '/profile';
   static const String officerDescriptionPage = '/officerDescriptionPage';
+  static const String officerVisitDetailPage = '/officerVisitDetailPage';
 }
