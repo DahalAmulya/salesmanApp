@@ -20,14 +20,14 @@ class ProfileSetter {
     ////////////////////////////////
 
     this.employee_name = 'Amuly Sharma',
-     this.address = 'biratnagar 12',
+     this.address = 'Biratnagar-12',
      this.date_of_birth = '1997-01-1',
      this.gender = 'Male',
     this.marital_status = 'unmarried',
     this.prefered_contact_email = 'amulya123@gmial.com',
     // required this.AttendanceId,
      this.date_of_joining = '2024-08-17',
-     this.department = 'developer',
+     this.department = 'Developer',
      this.designation = 'Manager',
      this.default_shift = 'General',
      this.notice_number_of_days = '0',

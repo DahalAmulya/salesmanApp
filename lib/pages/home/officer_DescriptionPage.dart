@@ -7,6 +7,7 @@ import 'package:provider/provider.dart';
 import '../../routes/route_generator_constants.dart';
 import '../../widgets/containers/custom_container.dart';
 import 'ScreenWIdth.dart';
+import 'officer_VisitDetailPage.dart';
 
 class OfficerDescriptionPage extends StatefulWidget {
   const OfficerDescriptionPage({super.key});
@@ -21,6 +22,7 @@ class _OfficerDescriptionPageState extends State<OfficerDescriptionPage> {
   double screenWidth = ScreenUtil.getScreenWidth();
   double officerDescriptionContainerHeight = 0.0;
   MarketingProvider? _marketingProvider;
+  bool isChecked = false;
 
   @override
   void initState() {
@@ -80,11 +82,11 @@ class _OfficerDescriptionPageState extends State<OfficerDescriptionPage> {
       officerDescriptionContainerHeight = 0.80;
     }
     if (screenWidth >= 430) {
-      officerDescriptionContainerHeight = 0.18;
-    }
-    if (screenWidth > 430) {
       officerDescriptionContainerHeight = 0.24;
     }
+    // if (screenWidth > 430) {
+    //   officerDescriptionContainerHeight = 0.24;
+    // }
     if(screenWidth > 500 && screenWidth>=500){
       officerDescriptionContainerHeight = 0.18;
     }
@@ -113,43 +115,64 @@ class _OfficerDescriptionPageState extends State<OfficerDescriptionPage> {
               itemBuilder: (context, index) {
                 return Column(
                   children: [
-                    Container(
-                      height: MediaQuery.of(context).size.height * officerDescriptionContainerHeight,
-                      width: MediaQuery.of(context).size.width * 0.90,
-                      decoration: BoxDecoration(
-                        color: CustomColors.primaryWhite,
-                        borderRadius: BorderRadius.all(
-                          Radius.circular(10),
+                    InkWell(
+                      onTap: () {
+                        Navigator.of(context).pushNamed(RouteGeneratorConstants.officerVisitDetailPage);
+                      },
+                      child: Container(
+                        height: MediaQuery.of(context).size.height * officerDescriptionContainerHeight,
+                        width: MediaQuery.of(context).size.width * 0.90,
+                        decoration: BoxDecoration(
+                          color: isChecked ? Color(0xfff7fb069) : CustomColors.primaryWhite ,
+                          borderRadius: BorderRadius.all(
+                            Radius.circular(10),
+                          ),
+                          border: Border.all(
+                            color: Colors.black,
+                            width: 1,
+                          ),
                         ),
-                        border: Border.all(
-                          color: Colors.black,
-                          width: 1,
+                        child: Container(
+                          padding: EdgeInsets.symmetric(horizontal: 16,vertical: 8),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Padding(
+                                padding: const EdgeInsets.symmetric(vertical: 8.0,horizontal: 8.0),
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    CustomText(
+                                       text: '${officerDescription[index]['client Name']}',fontWeight: FontWeight.w400),
+                                    Checkbox(
+                                        activeColor: Colors.blue,
+                                        value: isChecked,
+                                        onChanged: (value){
+                                          setState(() {
+                                            isChecked = value!;
+                                          });
+                                        })
+                                  ],
+                                ),
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.symmetric(vertical: 8.0,horizontal: 8.0),
+                                child: CustomText(
+                                    text:'${officerDescription[index]['Address']}',fontWeight: FontWeight.w400),
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.symmetric(vertical: 8.0,horizontal: 8.0),
+                                child: CustomText(
+                                    text: '${officerDescription[index]['Phone Number']}',fontWeight: FontWeight.w400),
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.symmetric(vertical: 8.0,horizontal: 8.0),
+                                child: CustomText(
+                                    text:  '${officerDescription[index]['Date Time']}',fontWeight: FontWeight.w400,),
+                              ),
+                            ],
+                          ),
                         ),
-                      ),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Padding(
-                            padding: const EdgeInsets.symmetric(vertical: 8.0,horizontal: 8.0),
-                            child: Text(
-                                '${officerDescription[index]['client Name']}'),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.symmetric(vertical: 8.0,horizontal: 8.0),
-                            child: Text(
-                                '${officerDescription[index]['Address']}'),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.symmetric(vertical: 8.0,horizontal: 8.0),
-                            child: Text(
-                                '${officerDescription[index]['Phone Number']}'),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.symmetric(vertical: 8.0,horizontal: 8.0),
-                            child: Text(
-                                '${officerDescription[index]['Date Time']}'),
-                          ),
-                        ],
                       ),
                     ),
                     SizedBox(height: 8,),

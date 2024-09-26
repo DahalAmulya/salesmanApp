@@ -227,8 +227,8 @@ class _HomeScreenState extends State<HomeScreen> {
     if (screenWidth >= 414 && screenWidth <= 430) {
       marketingContainerHeight = 0.80;
     }
-    if (screenWidth > 430) {
-      marketingContainerHeight = 0.88;
+    if (screenWidth >= 430) {
+      marketingContainerHeight = 0.92;
     }
     List<Map<String, dynamic>> marketingOfficersName = [
       {

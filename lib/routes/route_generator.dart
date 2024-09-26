@@ -13,6 +13,7 @@ import 'package:deskgoo/routes/route_generator_constants.dart';
 import 'package:flutter/material.dart';
 
 import '../pages/home/officer_DescriptionPage.dart';
+import '../pages/home/officer_VisitDetailPage.dart';
 import '../pages/home/profile_Page.dart';
 
 class RouteGenerator {
@@ -48,6 +49,8 @@ class RouteGenerator {
         return MaterialPageRoute(builder: (_) => Profile_page());
         case RouteGeneratorConstants.officerDescriptionPage:
         return MaterialPageRoute(builder: (_) => OfficerDescriptionPage());
+        case RouteGeneratorConstants.officerVisitDetailPage:
+        return MaterialPageRoute(builder: (_) => OfficerVisitDetailPage());
       default:
         return MaterialPageRoute(builder: (_) => ErrorPage());
     }
