@@ -2,6 +2,11 @@
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
     <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION" />
     <uses-permission android:name="android.permission.USE_BIOMETRIC"/>
+     <uses-feature
+        android:name="android.hardware.camera"
+        android:required="false" />
+    <uses-permission android:name="android.permission.CAMERA" />
+     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
     <!-- <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/> -->
     <application
         android:label="Deskgoo"
@@ -9,6 +14,8 @@
         android:icon="@mipmap/launcher_icon">
         <meta-data android:name="com.google.android.geo.API_KEY"
             android:value="AIzaSyDOq5UlrICMQ9rATXRmfMGXkXZPCJEoxgM"/>
+        <!-- <meta-data android:name="com.google.android.geo.API_KEY"
+            android:value=google_api_key/> -->
         android:enableOnBackInvokedCallback="true"
         <!-- android:requestLegacyExternalStorage="true" -->
         <activity

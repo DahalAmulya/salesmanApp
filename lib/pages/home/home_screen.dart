@@ -7,6 +7,7 @@ import 'package:deskgoo/providers/camera_provider/camera_provider.dart';
 import 'package:deskgoo/providers/deviceInfo_provider/deviceInfo_provider.dart';
 import 'package:deskgoo/routes/app_route_constants.dart';
 import 'package:deskgoo/routes/route_generator_constants.dart';
+import 'package:deskgoo/services/erp_services.dart';
 import 'package:deskgoo/themes/custom_colors.dart';
 import 'package:deskgoo/widgets/app_bars/custom_app_bars.dart';
 import 'package:deskgoo/widgets/bottom_navigation/gnav_bar.dart';
@@ -26,6 +27,9 @@ import 'package:http/http.dart';
 import 'package:local_auth/local_auth.dart';
 import 'package:provider/provider.dart';
 import 'package:syncfusion_flutter_maps/maps.dart';
+import 'dart:convert';
+
+import 'package:http/http.dart' as http;
 
 import '../../providers/settings_providers/profile_provider/officerName_provider.dart';
 import 'ScreenWIdth.dart';
@@ -39,6 +43,7 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  DeviceinfoProvider? _deviceinfoProvider;
   MarketingProvider? _marketingProvider;
   final LocalAuthentication auth = LocalAuthentication();
   int index = 0;
@@ -79,7 +84,10 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   void initState() {
+    _deviceinfoProvider =
+        Provider.of<DeviceinfoProvider>(context, listen: false);
     _marketingProvider = Provider.of<MarketingProvider>(context, listen: false);
+    // _marketingProvider!.name
     getLocationPermission();
     // _provider = DeviceinfoProvider();
     // _provider.clearMarkers();
@@ -174,7 +182,7 @@ class _HomeScreenState extends State<HomeScreen> {
           body: _buildUI(context),
           floatingActionButton: FloatingActionButton(
             backgroundColor: CustomColors.primaryColor,
-            onPressed: () {
+            onPressed: () async {
               // Create visit details
               VisitDetails visit1 = VisitDetails(
                 visitCount: 0,
@@ -198,15 +206,15 @@ class _HomeScreenState extends State<HomeScreen> {
               // Add the client to the list
               // ClientsList.addClient(client1);
 
-              ClientsList.addVisitDetails(
-                0,
-                VisitDetails(
-                  visitedDate: '${DateTime.now().toString().split('.')[0]}',
-                  note: 'Visited Person',
-                  isFollowUp: false,
-                  newFollowUpdate: '',
-                ),
-              );
+              // ClientsList.addVisitDetails(
+              //   0,
+              //   VisitDetails(
+              //     visitedDate: '${DateTime.now().toString().split('.')[0]}',
+              //     note: 'Visited Person',
+              //     isFollowUp: false,
+              //     newFollowUpdate: '',
+              //   ),
+              // );
 
               // ClientsList.clients[0].visitDetails!.add(
               //   VisitDetails(
@@ -227,6 +235,13 @@ class _HomeScreenState extends State<HomeScreen> {
 
               // Navigator.of(context)
               //     .pushNamed(RouteGeneratorConstants.cameraPage);
+              ERPResponse response = await ERPServicer.getRequest('device');
+              print(response.statusCode);
+              Map<String, dynamic> body = jsonDecode(response.body);
+              List<dynamic> latestData = body['latestData'];
+              for (int i = 0; i < latestData.length; i++) {
+                print(latestData[i]);
+              }
             },
             child: Image.asset(
               'assets/images/camera.png',
