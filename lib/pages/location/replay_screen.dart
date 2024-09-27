@@ -116,13 +116,13 @@ class _ReplayScreenState extends State<ReplayScreen> {
                 FloatingActionButton(
                   backgroundColor: CustomColors.primaryColor,
                   onPressed: () {
-                    replayProvider.getEmployeeLocationById();
-                    // deviceinfoProvider.toggleIsRestartReplay();
-                    // deviceinfoProvider.clearMarkers();
-                    // if (deviceinfoProvider.isPause) {
-                    //   deviceinfoProvider.toggleIsPause();
-                    // }
-                    // deviceinfoProvider.locationReplay();
+                    // replayProvider.getEmployeeLocationById();
+                    replayProvider.toggleIsRestartReplay();
+                    replayProvider.clearMarkers();
+                    if (replayProvider.isPause) {
+                      replayProvider.toggleIsPause();
+                    }
+                    replayProvider.locationReplay();
                   },
                   child: Image.asset(
                     'assets/images/replay.png',
