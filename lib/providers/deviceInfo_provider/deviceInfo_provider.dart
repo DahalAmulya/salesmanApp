@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:convert';
+import 'dart:io';
 import 'package:http/http.dart' as http;
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
@@ -8,15 +9,16 @@ import 'package:battery_plus/battery_plus.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'dart:ui' as ui;
 import 'package:flutter_udid/flutter_udid.dart';
-import 'package:http/http.dart';
+import 'package:device_info_plus/device_info_plus.dart';
 
 class DeviceinfoProvider extends ChangeNotifier {
   Battery _battery = Battery();
+  DeviceInfoPlugin deviceInfo = DeviceInfoPlugin();
   String _uniqueIdentifier = '';
   String _name = 'Nimesh';
   String _consistentUdid = '';
   String _accuracy = '';
-  String _deviceTime = '2024-09-26: 04-37';
+  String _deviceTime = '';
   int _batteryLevel = 0;
   double _liveLatitude = 0.0;
   double _liveLongitude = 0.0;
@@ -40,9 +42,22 @@ class DeviceinfoProvider extends ChangeNotifier {
   int get seconds => _seconds;
   Set<Marker> get livePositionMarkers => _livePositionMarkers;
 
-
-
   void getUniqueIdentifier() async {
+    if (Platform.isAndroid) {
+      AndroidDeviceInfo androidInfo = await deviceInfo.androidInfo;
+      _name = '${androidInfo.brand} ${androidInfo.model}';
+      // print(androidInfo.model);
+      // print(androidInfo.brand);
+      // print(androidInfo.device);
+      // print(androidInfo.host);
+      // print(androidInfo.model);
+    }
+    if (Platform.isIOS) {
+      IosDeviceInfo iosInfo = await deviceInfo.iosInfo;
+      _name = '${iosInfo.utsname.machine} ${iosInfo.model}';
+      // print(iosInfo.utsname.machine);
+      // print(iosInfo);
+    }
     String udid;
     String consistentUdid;
     try {
@@ -73,16 +88,20 @@ class DeviceinfoProvider extends ChangeNotifier {
     // _locationTimer.cancel();
     clearMarkers();
     getUniqueIdentifier();
+    getBatteryLevel();
     getLocation();
     updateLocation();
   }
 
   void updateLocation() async {
+    clearMarkers();
     // _locationTimer.cancel();
     _locationTimer = Timer.periodic(const Duration(seconds: 1), (timer) {
       if (_seconds == 10) {
         _seconds = 0;
+        getUniqueIdentifier();
         getLocation();
+        getBatteryLevel();
         postData();
       } else {
         _seconds++;
@@ -111,35 +130,37 @@ class DeviceinfoProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-   void postData() async{
-      Uri url = Uri.parse(baseApi);
-      Map<String, dynamic> data = {
-        // 'mobile_id': _uniqueIdentifier,
-        // 'mobile_id': 2,
-        'employee_name': _name,
-        'latitude': _liveLatitude,
-        'longitude': _liveLongitude,
-        'battery_percentage': _batteryLevel,
-        'accuracy': _accuracy,
-        'deviceTime': _deviceTime,
-      };
+  void postData() async {
+    Uri url = Uri.parse(baseApi);
+    Map<String, dynamic> data = {
+      'mobileIdentifier': _uniqueIdentifier,
+      // 'mobile_id': 2,
+      'employeeName': _name,
+      'latitude': _liveLatitude,
+      'longitude': _liveLongitude,
+      'battery_percentage': _batteryLevel,
+      'accuracy': _accuracy,
+      'deviceTime': DateTime.now().toString().split('.')[0],
+    };
 
-      try {
-        print('Inside try block');
-        var post = await http.post(url, headers:{ 'Content-Type': 'application/json'}, body: jsonEncode(data));
-        print('after posting');
-        if (post.statusCode == 200) {
-          print('Inside if block');
-          var data = json.decode(post.body);
-          print('hello');
-        }else{
-          print('${post.statusCode}');
-          print('Inside else block');
-        }
-        print('Outside if block');
-      }catch (e) {
-        print('Error: $e');
+    try {
+      print('Inside try block');
+      var post = await http.post(url,
+          headers: {'Content-Type': 'application/json'},
+          body: jsonEncode(data));
+      print('after posting');
+      if (post.statusCode == 200) {
+        print('Inside if block');
+        var data = json.decode(post.body);
+        print('hello');
+      } else {
+        print('${post.statusCode}');
+        print('Inside else block');
       }
+      print('Outside if block');
+    } catch (e) {
+      print('Error: $e');
+    }
   }
 
   // print('mobileIdentifier: ${_uniqueIdentifier}');
@@ -150,12 +171,6 @@ class DeviceinfoProvider extends ChangeNotifier {
   // print('accuracy: ${_accuracy}');
   // print('deviceTime: ${_deviceTime}');
   void getLocation() async {
-    if (_livePositionMarkers.isNotEmpty) {
-      Marker marker = _livePositionMarkers
-          .firstWhere((marker) => marker.markerId.value == "Hello");
-      _livePositionMarkers.remove(marker);
-      _livePositionMarkers.clear();
-    }
     var iconPath = 'assets/images/location.png';
     final Uint8List? icon = await getBytesFromAsset(iconPath, 100);
     Position position = await Geolocator.getCurrentPosition(
@@ -167,7 +182,12 @@ class DeviceinfoProvider extends ChangeNotifier {
 
     LocationAccuracyStatus accuracyStatus =
         await Geolocator.getLocationAccuracy();
-
+    if (_livePositionMarkers.isNotEmpty) {
+      Marker marker = _livePositionMarkers
+          .firstWhere((marker) => marker.markerId.value == "Hello");
+      _livePositionMarkers.remove(marker);
+      _livePositionMarkers.clear();
+    }
     // positionStream.listen((Position position) {
     _liveLatitude = position.latitude;
     _liveLongitude = position.longitude;
@@ -217,8 +237,4 @@ class DeviceinfoProvider extends ChangeNotifier {
       return null;
     }
   }
-
-
 }
-
-
