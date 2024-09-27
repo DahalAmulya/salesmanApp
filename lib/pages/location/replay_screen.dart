@@ -92,8 +92,8 @@ class _ReplayScreenState extends State<ReplayScreen> {
           drawer: _drawer(context),
           // drawerDragStartBehavior: DragStartBehavior.start,
           body: _googleMap(context),
-          floatingActionButton: Consumer<ReplayProvider>(
-              builder: (context, deviceinfoProvider, _) {
+          floatingActionButton:
+              Consumer<ReplayProvider>(builder: (context, replayProvider, _) {
             return Column(
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
@@ -116,12 +116,13 @@ class _ReplayScreenState extends State<ReplayScreen> {
                 FloatingActionButton(
                   backgroundColor: CustomColors.primaryColor,
                   onPressed: () {
-                    deviceinfoProvider.toggleIsRestartReplay();
-                    deviceinfoProvider.clearMarkers();
-                    if (deviceinfoProvider.isPause) {
-                      deviceinfoProvider.toggleIsPause();
-                    }
-                    deviceinfoProvider.locationReplay();
+                    replayProvider.getEmployeeLocationById();
+                    // deviceinfoProvider.toggleIsRestartReplay();
+                    // deviceinfoProvider.clearMarkers();
+                    // if (deviceinfoProvider.isPause) {
+                    //   deviceinfoProvider.toggleIsPause();
+                    // }
+                    // deviceinfoProvider.locationReplay();
                   },
                   child: Image.asset(
                     'assets/images/replay.png',
@@ -133,10 +134,10 @@ class _ReplayScreenState extends State<ReplayScreen> {
                 FloatingActionButton(
                   backgroundColor: CustomColors.primaryColor,
                   onPressed: () {
-                    deviceinfoProvider.toggleIsPause();
+                    replayProvider.toggleIsPause();
                   },
                   child: Icon(
-                    deviceinfoProvider.isPause ? Icons.play_arrow : Icons.pause,
+                    replayProvider.isPause ? Icons.play_arrow : Icons.pause,
                   ),
                 ),
               ],

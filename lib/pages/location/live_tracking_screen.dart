@@ -1,6 +1,8 @@
 import 'dart:async';
 import 'dart:io';
+import 'package:custom_info_window/custom_info_window.dart';
 import 'package:deskgoo/providers/deviceInfo_provider/deviceInfo_provider.dart';
+import 'package:deskgoo/providers/live_tracking_provider/live_tracking_provider.dart';
 import 'package:deskgoo/routes/app_route_constants.dart';
 import 'package:deskgoo/routes/route_generator_constants.dart';
 import 'package:deskgoo/themes/custom_colors.dart';
@@ -10,7 +12,6 @@ import 'package:deskgoo/widgets/buttons/elevated_button.dart';
 import 'package:deskgoo/widgets/drawers/custom_drawer.dart';
 import 'package:deskgoo/widgets/texts/custom_text.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 // import 'package:go_router/go_router.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -27,7 +28,6 @@ class LiveTrackingScreen extends StatefulWidget {
 }
 
 class _LiveTrackingScreenState extends State<LiveTrackingScreen> {
-  final LocalAuthentication auth = LocalAuthentication();
   int index = 1;
   double latitude = 0.0;
   double longitude = 0.0;
@@ -49,22 +49,6 @@ class _LiveTrackingScreenState extends State<LiveTrackingScreen> {
     );
   }
 
-  // @override
-  // void initState() {
-  //   _provider = DeviceinfoProvider();
-  //   // _provider.clearMarkers();
-  //   // _provider.getUniqueIdentifier();
-  //   // _provider.locationReplay();
-  //   super.initState();
-  // }
-
-  // @override
-  // void dispose() {
-  //   _provider.clearMarkers();
-  //   _provider.dispose();
-  //   super.dispose();
-  // }
-
   @override
   Widget build(BuildContext context) {
     return PopScope(
@@ -73,8 +57,6 @@ class _LiveTrackingScreenState extends State<LiveTrackingScreen> {
         if (didpop) {
           return;
         }
-        // GoRouter.of(context)
-        //     .pushReplacementNamed(MyAppRouteConstants.loginRouteName);
         Navigator.of(context)
             .pushReplacementNamed(RouteGeneratorConstants.homePage);
       }),
@@ -92,13 +74,6 @@ class _LiveTrackingScreenState extends State<LiveTrackingScreen> {
           drawer: _drawer(context),
           // drawerDragStartBehavior: DragStartBehavior.start,
           body: _googleMap(context),
-          // floatingActionButton: Consumer<DeviceinfoProvider>(
-          //     builder: (context, deviceinfoProvider, _) {
-          //   return Column(
-          //     mainAxisAlignment: MainAxisAlignment.end,
-          //     children: [],
-          //   );
-          // }),
           bottomNavigationBar: _bottomNavBar(context),
         ),
       ),
@@ -133,33 +108,50 @@ class _LiveTrackingScreenState extends State<LiveTrackingScreen> {
   }
 
   Widget _googleMap(context) {
-    return Consumer<DeviceinfoProvider>(
-      builder: (context, deviceInfoProvider, _) {
-        // deviceInfoProvider.locationReplay();
-        latitude = deviceInfoProvider.liveLatitude;
-        longitude = deviceInfoProvider.liveLongitude;
-        cameraPosition();
-        // deviceInfoProvider.cameraPosition(_controller);
-        return GoogleMap(
-          mapType: MapType.hybrid,
-          initialCameraPosition: const CameraPosition(
-            target: LatLng(26.45845827202604, 87.28699164913807),
-            zoom: 14,
-          ),
-          myLocationEnabled: false,
-          tiltGesturesEnabled: true,
-          compassEnabled: true,
-          scrollGesturesEnabled: true,
-          zoomGesturesEnabled: true,
-          // trafficEnabled: traffic,
-          mapToolbarEnabled: true,
-          zoomControlsEnabled: false,
-          // onMapCreated: _onMapCreated,
-          onMapCreated: (GoogleMapController controller) {
-            _controller.complete(controller);
-          },
-          markers: deviceInfoProvider.livePositionMarkers,
-          // polylines: deviceInfoProvider.polylines,
+    return Consumer<LiveTrackingProvider>(
+      builder: (context, liveTrackingProvider, _) {
+        return Stack(
+          children: [
+            GoogleMap(
+              mapType: MapType.hybrid,
+              initialCameraPosition: const CameraPosition(
+                target: LatLng(26.45845827202604, 87.28699164913807),
+                zoom: 14,
+              ),
+              myLocationEnabled: false,
+              tiltGesturesEnabled: true,
+              compassEnabled: true,
+              scrollGesturesEnabled: true,
+              zoomGesturesEnabled: true,
+              // trafficEnabled: traffic,
+              mapToolbarEnabled: false,
+              zoomControlsEnabled: false,
+              // onMapCreated: _onMapCreated,
+              onMapCreated: (GoogleMapController controller) {
+                _controller.complete(controller);
+                // customInfoWindow(controller);
+                liveTrackingProvider.latitude;
+                liveTrackingProvider.customInfoWindowController
+                    .googleMapController = controller;
+                // _customInfoWindowController.googleMapController = controller;
+              },
+              markers: liveTrackingProvider.liveTrackingMarkers,
+              onTap: (location) {
+                liveTrackingProvider
+                    .customInfoWindowController.hideInfoWindow!();
+              },
+              onCameraMove: (position) {
+                liveTrackingProvider.customInfoWindowController.onCameraMove!();
+              },
+              // polylines: deviceInfoProvider.polylines,
+            ),
+            CustomInfoWindow(
+              controller: liveTrackingProvider.customInfoWindowController,
+              height: 200,
+              width: 250,
+              offset: 50,
+            ),
+          ],
         );
       },
     );
