@@ -1,4 +1,5 @@
 import 'package:deskgoo/providers/settings_providers/profile_provider/officerName_provider.dart';
+import 'package:deskgoo/providers/settings_providers/profile_provider/officerdetail_provider.dart';
 import 'package:deskgoo/themes/custom_colors.dart';
 import 'package:deskgoo/widgets/texts/custom_text.dart';
 import 'package:flutter/material.dart';
@@ -23,10 +24,12 @@ class _OfficerDescriptionPageState extends State<OfficerDescriptionPage> {
   double officerDescriptionContainerHeight = 0.0;
   MarketingProvider? _marketingProvider;
   bool isChecked = false;
+  OfficerDetailProvider? _officerDetailProvider;
 
   @override
   void initState() {
     _marketingProvider = Provider.of<MarketingProvider>(context, listen: false);
+    _officerDetailProvider = Provider.of<OfficerDetailProvider>(context, listen: false);
     super.initState();
   }
 
@@ -117,13 +120,23 @@ class _OfficerDescriptionPageState extends State<OfficerDescriptionPage> {
                   children: [
                     InkWell(
                       onTap: () {
+                        if (_officerDetailProvider != null) {
+                          _officerDetailProvider!.setName(officerDescription[index]['client Name']);
+                          _officerDetailProvider!.setAddress(officerDescription[index]['Address']);
+                          _officerDetailProvider!.setPhoneNumber(officerDescription[index]['Phone Number'].toString());
+                          _officerDetailProvider!.setDateTime(officerDescription[index]['Date Time']);
+                        }
+                        print(officerDescription[index]['client Name']);
+                        print(officerDescription[index]['Address']);
+                        print(officerDescription[index]['Phone Number']);
+                        print(officerDescription[index]['Date Time']);
                         Navigator.of(context).pushNamed(RouteGeneratorConstants.officerVisitDetailPage);
                       },
                       child: Container(
                         height: MediaQuery.of(context).size.height * officerDescriptionContainerHeight,
                         width: MediaQuery.of(context).size.width * 0.90,
                         decoration: BoxDecoration(
-                          color: isChecked ? Color(0xfff7fb069) : CustomColors.primaryWhite ,
+                          color: isChecked ? Color(0xfff7fb069) : CustomColors.primaryWhite,
                           borderRadius: BorderRadius.all(
                             Radius.circular(10),
                           ),
