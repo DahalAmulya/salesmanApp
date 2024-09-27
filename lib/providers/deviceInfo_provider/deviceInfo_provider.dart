@@ -106,7 +106,7 @@ class DeviceinfoProvider extends ChangeNotifier {
       } else {
         _seconds++;
       }
-      print('Seconds = $seconds');
+      // print('Seconds = $seconds');
     });
   }
 
@@ -140,24 +140,20 @@ class DeviceinfoProvider extends ChangeNotifier {
       'longitude': _liveLongitude,
       'battery_percentage': _batteryLevel,
       'accuracy': _accuracy,
-      'deviceTime': DateTime.now().toString().split('.')[0],
+      'deviceTime': _deviceTime,
     };
 
     try {
-      print('Inside try block');
-      var post = await http.post(url,
-          headers: {'Content-Type': 'application/json'},
-          body: jsonEncode(data));
-      print('after posting');
+      var post = await http.post(
+        url,
+        headers: {'Content-Type': 'application/json'},
+        body: jsonEncode(data),
+      );
       if (post.statusCode == 200) {
-        print('Inside if block');
         var data = json.decode(post.body);
-        print('hello');
       } else {
         print('${post.statusCode}');
-        print('Inside else block');
       }
-      print('Outside if block');
     } catch (e) {
       print('Error: $e');
     }
@@ -202,6 +198,8 @@ class DeviceinfoProvider extends ChangeNotifier {
       position: LatLng(_liveLatitude, _liveLongitude),
     ));
 
+    _deviceTime = DateTime.now().toString().split('.')[0];
+
     _distance = Geolocator.distanceBetween(
       26.45773716586737,
       87.27957052288616,
@@ -210,17 +208,17 @@ class DeviceinfoProvider extends ChangeNotifier {
     );
 
     // getBatteryLevel();
-
-    print('Distance = $distance');
-
     notifyListeners();
 
-    print('LatLong = $_liveLatitude, $_liveLongitude');
-    print('Accuracy = $_accuracy');
-    print('_uniqueIdentifier = $_uniqueIdentifier');
-    print('_consistentUdid = $_consistentUdid');
-    print('_batterylevel = $_batteryLevel');
-    notifyListeners();
+    // print('Distance = $distance');
+
+    // print('LatLong = $_liveLatitude, $_liveLongitude');
+    // print('Accuracy = $_accuracy');
+    // print('_uniqueIdentifier = $_uniqueIdentifier');
+    // print('_consistentUdid = $_consistentUdid');
+    // print('_batterylevel = $_batteryLevel');
+    // print('_deviecTime = $_deviceTime');
+    // notifyListeners();
     // });
   }
 

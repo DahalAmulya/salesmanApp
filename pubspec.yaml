@@ -59,6 +59,7 @@ dependencies:
   google_maps_flutter: ^2.9.0
   connectivity_plus: ^6.0.5
   syncfusion_flutter_maps: ^27.1.48
+  custom_info_window: ^1.0.1
   # platform_device_id_v3: ^1.0.0
   camera: ^0.11.0+2
   http: ^1.2.2

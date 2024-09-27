@@ -5,6 +5,7 @@ import 'package:deskgoo/models/visit_models/clients.dart';
 import 'package:deskgoo/models/visit_models/visit_client_model.dart';
 import 'package:deskgoo/providers/camera_provider/camera_provider.dart';
 import 'package:deskgoo/providers/deviceInfo_provider/deviceInfo_provider.dart';
+import 'package:deskgoo/providers/live_tracking_provider/live_tracking_provider.dart';
 import 'package:deskgoo/routes/app_route_constants.dart';
 import 'package:deskgoo/routes/route_generator_constants.dart';
 import 'package:deskgoo/services/erp_services.dart';
@@ -235,13 +236,18 @@ class _HomeScreenState extends State<HomeScreen> {
 
               // Navigator.of(context)
               //     .pushNamed(RouteGeneratorConstants.cameraPage);
-              ERPResponse response = await ERPServicer.getRequest('device');
-              print(response.statusCode);
-              Map<String, dynamic> body = jsonDecode(response.body);
-              List<dynamic> latestData = body['latestData'];
-              for (int i = 0; i < latestData.length; i++) {
-                print(latestData[i]);
-              }
+              // ERPResponse response = await ERPServicer.getRequest('device');
+              // print(response.statusCode);
+              // Map<String, dynamic> body = jsonDecode(response.body);
+              // List<dynamic> latestData = body['latestData'];
+              // for (int i = 0; i < latestData.length; i++) {
+              //   print(latestData[i]);
+              // }
+              // LiveTrackingProvider liveTrackingProvider =
+              //     Provider.of<LiveTrackingProvider>(context, listen: false);
+              // liveTrackingProvider.getAllEmployeesLocation();
+              Navigator.of(context)
+                  .pushNamed(RouteGeneratorConstants.replayPage);
             },
             child: Image.asset(
               'assets/images/camera.png',
