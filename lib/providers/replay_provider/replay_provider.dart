@@ -16,6 +16,10 @@ class ReplayProvider extends ChangeNotifier {
   bool _isRestartReplay = false;
   bool _isPause = false;
 
+  Uint8List? _tempMarkerIcon;
+  Uint8List? _startMarkerIcon;
+  Uint8List? _endMarkerIcon;
+
   double get latitude => _latitude;
   double get longitude => _longitude;
   Set<Marker> get positionMarkers => _positionMarkers;
@@ -27,8 +31,29 @@ class ReplayProvider extends ChangeNotifier {
   bool get isPause => _isPause;
 
   ReplayProvider() {
+    cacheIcons(); // Pre-cache marker icons
     getEmployeeLocationById();
-    // locationReplay();
+  }
+
+  void resetValues() {
+    _positionMarkers = {};
+    _polylines = {};
+    _coordinates = [];
+    _polylineCoordinates = [];
+    _positionMarkers.clear();
+    _polylines.clear();
+    _coordinates.clear();
+    _polylineCoordinates.clear();
+  }
+
+  void cacheIcons() async {
+    DeviceinfoProvider _provider = DeviceinfoProvider();
+    _tempMarkerIcon =
+        await _provider.getBytesFromAsset('assets/images/location.png', 80);
+    _startMarkerIcon =
+        await _provider.getBytesFromAsset('assets/images/start.png', 100);
+    _endMarkerIcon =
+        await _provider.getBytesFromAsset('assets/images/finish.png', 100);
   }
 
   void getEmployeeLocationById() async {
@@ -51,39 +76,25 @@ class ReplayProvider extends ChangeNotifier {
   }
 
   void clearMarkers() {
-    _positionMarkers
-        .removeWhere((marker) => marker.markerId.value == 'start_marker');
-    _positionMarkers
-        .removeWhere((marker) => marker.markerId.value == 'end_marker');
-    _positionMarkers
-        .removeWhere((marker) => marker.markerId.value == 'temp_marker');
-
-    // Clear the list of position markers
     _positionMarkers.clear();
-
-    // Optionally, clear polyline coordinates if needed
     _polylineCoordinates.clear();
-
-    // Notify listeners to update the UI
     notifyListeners();
   }
 
+  void trimLocationData() {
+    if (_locations.length > 1000) {
+      _locations.removeRange(0, 500); // Trim the first 500 locations
+    }
+  }
+
   void locationReplay() async {
-    DeviceinfoProvider _provider = DeviceinfoProvider();
-    var iconPath = 'assets/images/location.png'; // For temporary markers
-    var iconPath1 = 'assets/images/start.png'; // For permanent start marker
-    var iconPath2 = 'assets/images/finish.png'; // For permanent end marker
-
-    final Uint8List? icon = await _provider.getBytesFromAsset(iconPath, 80);
-    final Uint8List? icon1 = await _provider.getBytesFromAsset(iconPath1, 100);
-    final Uint8List? icon2 = await _provider.getBytesFromAsset(iconPath2, 100);
-
+    resetValues();
     // Add start marker (index 0) as permanent
     _positionMarkers.add(
       Marker(
         markerId: const MarkerId('start_marker'),
         icon: BitmapDescriptor.bytes(
-          icon1!,
+          _startMarkerIcon!,
           bitmapScaling: MapBitmapScaling.auto,
           imagePixelRatio: 2.3,
         ),
@@ -96,7 +107,7 @@ class ReplayProvider extends ChangeNotifier {
       Marker(
         markerId: const MarkerId('end_marker'),
         icon: BitmapDescriptor.bytes(
-          icon2!,
+          _endMarkerIcon!,
           bitmapScaling: MapBitmapScaling.auto,
           imagePixelRatio: 2.3,
         ),
@@ -107,7 +118,6 @@ class ReplayProvider extends ChangeNotifier {
 
     notifyListeners(); // Update UI with permanent start and end markers
 
-    // Loop to update the temporary marker
     for (int i = 0; i < _locations.length; i++) {
       if (_isRestartReplay) {
         break;
@@ -116,20 +126,28 @@ class ReplayProvider extends ChangeNotifier {
       // Pause loop execution if _isPause is true
       while (_isPause) {
         if (_isRestartReplay) {
-          break; // Exit while loop if _isRestartReplay becomes true
+          break;
         }
         await Future.delayed(
             const Duration(milliseconds: 100)); // Small delay while paused
       }
 
       if (_isRestartReplay) {
-        break; // Break out of the for loop if needed
+        break;
       }
 
       _latitude = _locations[i]['latitude'];
       _longitude = _locations[i]['longitude'];
 
+      // Add to polyline coordinates
       _polylineCoordinates.add(LatLng(_latitude, _longitude));
+
+      // Limit the size of polyline coordinates to avoid memory issues
+      if (_polylineCoordinates.length > 500) {
+        _polylineCoordinates.removeAt(0);
+      }
+
+      // Update polylines
       _polylines.add(
         Polyline(
           polylineId: const PolylineId('route_polyline'),
@@ -139,32 +157,30 @@ class ReplayProvider extends ChangeNotifier {
         ),
       );
 
-      // Remove previous temporary marker, if any
-      _positionMarkers
-          .removeWhere((marker) => marker.markerId.value == 'temp_marker');
-
-      // Add new temporary marker for the current position
+      // Find and update the temp marker instead of recreating it
+      Marker tempMarker = _positionMarkers.firstWhere(
+        (marker) => marker.markerId.value == 'temp_marker',
+        orElse: () => Marker(markerId: const MarkerId('temp_marker')),
+      );
+      _positionMarkers.remove(tempMarker);
       _positionMarkers.add(
-        Marker(
-          markerId: const MarkerId('temp_marker'),
-          icon: BitmapDescriptor.bytes(
-            icon!,
+        tempMarker.copyWith(
+          iconParam: BitmapDescriptor.bytes(
+            _tempMarkerIcon!,
             bitmapScaling: MapBitmapScaling.auto,
             imagePixelRatio: 2.3,
           ),
-          position: LatLng(_latitude, _longitude),
+          positionParam: LatLng(_latitude, _longitude),
         ),
       );
 
-      notifyListeners(); // Update UI with the temporary marker and updated polyline
-      await Future.delayed(const Duration(milliseconds: 100));
+      // Throttle UI updates (notify every 10 iterations)
+      if (i % 10 == 0) {
+        notifyListeners();
+      }
 
-      print('latlong $i = $_latitude,$_longitude');
+      await Future.delayed(
+          const Duration(milliseconds: 100)); // Simulate location replay delay
     }
-
-    print('LatLong = $_latitude, $_longitude');
-    // _isPause = false;
-    // _isRestartReplay = false;
-    // notifyListeners();
   }
 }
