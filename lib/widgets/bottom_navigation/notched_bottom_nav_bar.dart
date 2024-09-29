@@ -3,7 +3,6 @@ import 'package:deskgoo/responsive/moblie_body.dart';
 import 'package:deskgoo/responsive/responsive_layout.dart';
 import 'package:deskgoo/responsive/tablet_body_landscape.dart';
 import 'package:deskgoo/responsive/tablet_body_potrait.dart';
-import 'package:deskgoo/routes/app_route_constants.dart';
 import 'package:deskgoo/routes/route_generator_constants.dart';
 import 'package:deskgoo/widgets/texts/custom_text.dart';
 import 'package:flutter/material.dart';

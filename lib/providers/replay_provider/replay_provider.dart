@@ -64,6 +64,8 @@ class ReplayProvider extends ChangeNotifier {
     _battery = 0;
     _mobileDate = '';
     _mobileTime = '';
+    _isRestartReplay = false;
+    _isPause = false;
     notifyListeners();
   }
 

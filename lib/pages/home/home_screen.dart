@@ -197,6 +197,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         // First navigate to the root page '/' and remove all other pages from the stack.
                         // Navigate to the root page ('/') using GoRouter
                         // context.go(MyAppRouteConstants.loginRouteName); // Navigates to the initial page (home)
+                        Navigator.pop(context, false);
                         SystemNavigator.pop();
                         // exit(0);
                       },
@@ -417,8 +418,7 @@ class _HomeScreenState extends State<HomeScreen> {
     if (screenWidth >= 430) {
       marketingContainerHeight = 0.92;
     }
-    return Consumer<DetailsProvider>(
-        builder: (context, marketingProvider, _) {
+    return Consumer<DetailsProvider>(builder: (context, marketingProvider, _) {
       return Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
@@ -487,81 +487,91 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                   // Wrapping the ListView.builder with Expanded
                   Consumer<DetailsProvider>(
-                    builder: (context,marketingProvider,_){
-                      double indicatorValue = marketingProvider.marketingOfficersDetails[index]['achieved'] / marketingProvider.marketingOfficersDetails[index]['target'];
-                      return Expanded(
-                        child: ListView.builder(
-                          itemCount:  marketingProvider.marketingOfficersDetails.length, // Adjust itemCount as necessary
-                          itemBuilder: (BuildContext context, int index) {
-                            double indicatorValue = marketingProvider.marketingOfficersDetails[index]['achieved'] / marketingProvider.marketingOfficersDetails[index]['target'];
-                            print('indicatorValue $index = $indicatorValue');
-                            return InkWell(
-                              onTap: () {
-                                _marketingProvider!.setName(
-                                    marketingProvider.marketingOfficersDetails[index]['OfficerName']);
-                                // print(marketingOfficersName[index]['OfficerName']);
-                                Navigator.of(context).pushNamed(
-                                    RouteGeneratorConstants.officerDescriptionPage);
-                              },
-                              child: Container(
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  mainAxisSize: MainAxisSize.min,
-                                  children: [
-                                    Padding(
-                                      padding: const EdgeInsets.only(
-                                          left: 16.0, top: 13),
-                                      child: Consumer<DetailsProvider>(
-                                          builder: (context, marketingProvider, _) {
-                                        return CustomText(
-                                          text: marketingProvider.marketingOfficersDetails[index]['OfficerName'],
-                                          fontWeight: FontWeight.bold,
-                                          color: CustomColors.primaryBlack,
-                                          // color: Colors.grey.shade600,
-                                        );
-                                      }),
-                                    ),
-                                    Row(
-                                      children: [
-                                        Flexible(
-                                          child: Padding(
-                                            padding: const EdgeInsets.symmetric(
-                                                horizontal: 16.0),
-                                            child: LinearProgressIndicator(
-                                              value: indicatorValue,
-                                              backgroundColor:
-                                                  CustomColors.primaryWhite,
-                                              color: CustomColors.primaryColor,
-                                              minHeight: 6,
-                                              borderRadius:
-                                                  BorderRadius.circular(10),
-                                            ),
+                      builder: (context, marketingProvider, _) {
+                    double indicatorValue = marketingProvider
+                            .marketingOfficersDetails[index]['achieved'] /
+                        marketingProvider.marketingOfficersDetails[index]
+                            ['target'];
+                    return Expanded(
+                      child: ListView.builder(
+                        itemCount: marketingProvider.marketingOfficersDetails
+                            .length, // Adjust itemCount as necessary
+                        itemBuilder: (BuildContext context, int index) {
+                          double indicatorValue = marketingProvider
+                                  .marketingOfficersDetails[index]['achieved'] /
+                              marketingProvider.marketingOfficersDetails[index]
+                                  ['target'];
+                          print('indicatorValue $index = $indicatorValue');
+                          return InkWell(
+                            onTap: () {
+                              _marketingProvider!.setName(marketingProvider
+                                      .marketingOfficersDetails[index]
+                                  ['OfficerName']);
+                              // print(marketingOfficersName[index]['OfficerName']);
+                              Navigator.of(context).pushNamed(
+                                  RouteGeneratorConstants
+                                      .officerDescriptionPage);
+                            },
+                            child: Container(
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  Padding(
+                                    padding: const EdgeInsets.only(
+                                        left: 16.0, top: 13),
+                                    child: Consumer<DetailsProvider>(builder:
+                                        (context, marketingProvider, _) {
+                                      return CustomText(
+                                        text: marketingProvider
+                                                .marketingOfficersDetails[index]
+                                            ['OfficerName'],
+                                        fontWeight: FontWeight.bold,
+                                        color: CustomColors.primaryBlack,
+                                        // color: Colors.grey.shade600,
+                                      );
+                                    }),
+                                  ),
+                                  Row(
+                                    children: [
+                                      Flexible(
+                                        child: Padding(
+                                          padding: const EdgeInsets.symmetric(
+                                              horizontal: 16.0),
+                                          child: LinearProgressIndicator(
+                                            value: indicatorValue,
+                                            backgroundColor:
+                                                CustomColors.primaryWhite,
+                                            color: CustomColors.primaryColor,
+                                            minHeight: 6,
+                                            borderRadius:
+                                                BorderRadius.circular(10),
                                           ),
                                         ),
-                                        const SizedBox(
-                                          width: 30,
-                                        ),
-                                        Padding(
-                                          padding: EdgeInsets.only(right: 16.0),
-                                          child: Text(
-                                            '${marketingProvider.marketingOfficersDetails[index]['achieved']}/${marketingProvider.marketingOfficersDetails[index]['target']}',
-                                            style: TextStyle(
-                                              fontWeight: FontWeight.bold,
-                                              color: Colors.grey.shade600,
-                                            ),
+                                      ),
+                                      const SizedBox(
+                                        width: 30,
+                                      ),
+                                      Padding(
+                                        padding: EdgeInsets.only(right: 16.0),
+                                        child: Text(
+                                          '${marketingProvider.marketingOfficersDetails[index]['achieved']}/${marketingProvider.marketingOfficersDetails[index]['target']}',
+                                          style: TextStyle(
+                                            fontWeight: FontWeight.bold,
+                                            color: Colors.grey.shade600,
                                           ),
                                         ),
-                                      ],
-                                    ),
-                                  ],
-                                ),
+                                      ),
+                                    ],
+                                  ),
+                                ],
                               ),
-                            );
-                          },
-                        ),
-                      );
-                    }
-                  ),
+                            ),
+                          );
+                        },
+                      ),
+                    );
+                  }),
                 ],
               ),
             ),
