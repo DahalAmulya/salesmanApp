@@ -1,3 +1,4 @@
+
 import 'package:flutter/foundation.dart';
 
 class MarketingProvider extends ChangeNotifier{
@@ -6,7 +7,7 @@ class MarketingProvider extends ChangeNotifier{
   String get name => _name;
 
   void setName(String name) {
-      _name = name;
+    _name = name;
       notifyListeners();
   }
 }

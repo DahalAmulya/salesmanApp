@@ -1,8 +1,6 @@
 import 'package:flutter/foundation.dart';
 
 class OfficerDetailProvider extends ChangeNotifier{
-
-
   String _image = '';
   String _name = '';
   String _address = '';

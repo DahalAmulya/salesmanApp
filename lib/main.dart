@@ -13,6 +13,7 @@ import 'package:deskgoo/providers/live_tracking_provider/live_tracking_provider.
 import 'package:deskgoo/providers/replay_provider/replay_provider.dart';
 import 'package:deskgoo/providers/settings_providers/profile_provider/officerName_provider.dart';
 import 'package:deskgoo/providers/settings_providers/profile_provider/officerdetail_provider.dart';
+import 'package:deskgoo/providers/settings_providers/profile_provider/officersDescription_provider.dart';
 import 'package:deskgoo/providers/settings_providers/profile_provider/profile_provider.dart';
 import 'package:deskgoo/providers/visit_provider/order_provider.dart';
 import 'package:deskgoo/providers/visit_provider/visit_screen_provider.dart';
@@ -258,6 +259,7 @@ class _MyAppState extends State<MyApp> {
         ChangeNotifierProvider(create: (context) => MarketingProvider()),
         ChangeNotifierProvider(create: (context) => OfficerDetailProvider()),
         ChangeNotifierProvider(create: (context) => LiveTrackingProvider()),
+        ChangeNotifierProvider(create: (context) => DetailsProvider()),
       ],
       child: MediaQuery(
         data: MediaQuery.of(context).copyWith(

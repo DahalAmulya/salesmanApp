@@ -36,7 +36,8 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 
 import '../../providers/settings_providers/profile_provider/officerName_provider.dart';
-import 'ScreenWIdth.dart';
+import '../../providers/settings_providers/profile_provider/officersDescription_provider.dart';
+import '../../utils/ScreenWIdth.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:connectivity_plus/connectivity_plus.dart';
 // import 'package:platform_device_id_v3/platform_device_id.dart';
@@ -367,231 +368,208 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  Widget _buildUI(context) {
-    return SingleChildScrollView(
-      child: Center(
-        child: ListView.builder(
-          itemCount: 2, // Outer ListView
-          shrinkWrap: true, // This allows it to take only the required height
-          physics:
-              NeverScrollableScrollPhysics(), // Disables scrolling for outer ListView, so the inner ListViews can handle scrolling
-          itemBuilder: (context, index) {
-            return Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text('Outer List Item $index'), // Title for outer item
-                ListView.builder(
-                  itemCount: 5, // Inner ListView
-                  shrinkWrap:
-                      true, // This allows it to take only the required height
-                  physics:
-                      NeverScrollableScrollPhysics(), // Prevents nested scrolling conflict
-                  itemBuilder: (context, innerIndex) {
-                    return ListTile(
-                      title: CustomText(text: 'Inner item $innerIndex'),
-                    );
-                  },
-                ),
-              ],
-            );
-          },
-        ),
-      ),
-    );
-  }
-
   // Widget _buildUI(context) {
-  //   double marketingContainerHeight = 0.0;
-
-  //   print('width = $screenWidth');
-  //   if (screenWidth < 375) {
-  //     marketingContainerHeight = 0.88;
-  //   }
-  //   if (screenWidth >= 375 && screenWidth <= 393) {
-  //     marketingContainerHeight = 0.78;
-  //   }
-  //   if (screenWidth >= 414 && screenWidth <= 430) {
-  //     marketingContainerHeight = 0.80;
-  //   }
-  //   if (screenWidth >= 430) {
-  //     marketingContainerHeight = 0.92;
-  //   }
-  //   List<Map<String, dynamic>> marketingOfficersName = [
-  //     {
-  //       "OfficerName": "Rahul",
-  //       "target": 20,
-  //       "achieved": 10,
-  //     },
-  //     {
-  //       "OfficerName": "Shuvam",
-  //       "target": 20,
-  //       "achieved": 6,
-  //     },
-  //     {
-  //       "OfficerName": "Ram",
-  //       "target": 20,
-  //       "achieved": 9,
-  //     },
-  //     {
-  //       "OfficerName": "Hari",
-  //       "target": 20,
-  //       "achieved": 4,
-  //     },
-  //     {
-  //       "OfficerName": "Rajan",
-  //       "target": 20,
-  //       "achieved": 13,
-  //     }
-  //   ];
-
-  //   return Column(
-  //     mainAxisAlignment: MainAxisAlignment.center,
-  //     children: [
-  //       Center(
-  //         child: Container(
-  //           padding: EdgeInsets.symmetric(vertical: 8.0),
-  //           height:
-  //               MediaQuery.of(context).size.width * marketingContainerHeight,
-  //           // height: double.infinity,
-  //           width: MediaQuery.of(context).size.width * 0.95,
-  //           decoration: BoxDecoration(
-  //             color: Colors.white,
-  //             borderRadius: BorderRadius.circular(10),
-  //             boxShadow: [
-  //               BoxShadow(
-  //                 color: Colors.black.withOpacity(0.1),
-  //                 blurRadius: 3,
-  //                 spreadRadius: 1,
-  //                 offset: const Offset(3, 3),
-  //               )
-  //             ],
-  //           ),
-  //           child: Column(
-  //             mainAxisAlignment: MainAxisAlignment.start,
+  //   return SingleChildScrollView(
+  //     child: Center(
+  //       child: ListView.builder(
+  //         itemCount: 2, // Outer ListView
+  //         shrinkWrap: true, // This allows it to take only the required height
+  //         physics:
+  //             NeverScrollableScrollPhysics(), // Disables scrolling for outer ListView, so the inner ListViews can handle scrolling
+  //         itemBuilder: (context, index) {
+  //           return Column(
   //             crossAxisAlignment: CrossAxisAlignment.start,
   //             children: [
-  //               // const SizedBox(
-  //               //   height: 10,
-  //               // ),
-  //               Row(
-  //                 children: [
-  //                   Padding(
-  //                     padding: const EdgeInsets.only(top: 10, bottom: 10),
-  //                     child: Container(
-  //                       decoration: BoxDecoration(
-  //                         borderRadius: BorderRadius.circular(50),
-  //                         color: CustomColors.primaryColor,
-  //                       ),
-  //                       width: 5,
-  //                       height: 18,
-  //                     ),
-  //                   ),
-  //                   Padding(
-  //                     padding: EdgeInsets.symmetric(horizontal: 8.0),
-  //                     child: CustomText(
-  //                       text: 'Marketing Officers',
-  //                       size: 18,
-  //                       fontWeight: FontWeight.bold,
-  //                     ),
-  //                   ),
-  //                   const Spacer(),
-  //                   const Padding(
-  //                     padding: EdgeInsets.all(8.0),
-  //                     child: Icon(Icons.chevron_right),
-  //                   ),
-  //                 ],
-  //               ),
-  //               const Padding(
-  //                 padding: EdgeInsets.only(left: 16.0),
-  //                 child: Divider(
-  //                   height: 1,
-  //                   thickness: 1,
-  //                   indent: 2,
-  //                   color: Colors.grey,
-  //                 ),
-  //               ),
-  //               // Wrapping the ListView.builder with Expanded
-  //               Expanded(
-  //                 child: ListView.builder(
-  //                   itemCount: marketingOfficersName
-  //                       .length, // Adjust itemCount as necessary
-  //                   itemBuilder: (BuildContext context, int index) {
-  //                     double indicatorValue = marketingOfficersName[index]
-  //                             ['achieved'] /
-  //                         marketingOfficersName[index]['target'];
-  //                     print('indicatorValue $index = $indicatorValue');
-  //                     return InkWell(
-  //                       onTap: () {
-  //                         _marketingProvider!.setName(
-  //                             marketingOfficersName[index]['OfficerName']);
-  //                         // print(marketingOfficersName[index]['OfficerName']);
-  //                         Navigator.of(context).pushNamed(
-  //                             RouteGeneratorConstants.officerDescriptionPage);
-  //                       },
-  //                       child: Container(
-  //                         child: Column(
-  //                           crossAxisAlignment: CrossAxisAlignment.start,
-  //                           mainAxisSize: MainAxisSize.min,
-  //                           children: [
-  //                             Padding(
-  //                               padding:
-  //                                   const EdgeInsets.only(left: 16.0, top: 13),
-  //                               child: Consumer<MarketingProvider>(
-  //                                   builder: (context, marketingProvider, _) {
-  //                                 return CustomText(
-  //                                   text: marketingOfficersName[index]
-  //                                       ['OfficerName'],
-  //                                   fontWeight: FontWeight.bold,
-  //                                   color: CustomColors.primaryBlack,
-  //                                   // color: Colors.grey.shade600,
-  //                                 );
-  //                               }),
-  //                             ),
-  //                             Row(
-  //                               children: [
-  //                                 Flexible(
-  //                                   child: Padding(
-  //                                     padding: const EdgeInsets.symmetric(
-  //                                         horizontal: 16.0),
-  //                                     child: LinearProgressIndicator(
-  //                                       value: indicatorValue,
-  //                                       backgroundColor:
-  //                                           CustomColors.primaryWhite,
-  //                                       color: CustomColors.primaryColor,
-  //                                       minHeight: 6,
-  //                                       borderRadius: BorderRadius.circular(10),
-  //                                     ),
-  //                                   ),
-  //                                 ),
-  //                                 const SizedBox(
-  //                                   width: 30,
-  //                                 ),
-  //                                 Padding(
-  //                                   padding: EdgeInsets.only(right: 16.0),
-  //                                   child: Text(
-  //                                     '${marketingOfficersName[index]['achieved']}/${marketingOfficersName[index]['target']}',
-  //                                     style: TextStyle(
-  //                                       fontWeight: FontWeight.bold,
-  //                                       color: Colors.grey.shade600,
-  //                                     ),
-  //                                   ),
-  //                                 ),
-  //                               ],
-  //                             ),
-  //                           ],
-  //                         ),
-  //                       ),
-  //                     );
-  //                   },
-  //                 ),
+  //               Text('Outer List Item $index'), // Title for outer item
+  //               ListView.builder(
+  //                 itemCount: 5, // Inner ListView
+  //                 shrinkWrap:
+  //                     true, // This allows it to take only the required height
+  //                 physics:
+  //                     NeverScrollableScrollPhysics(), // Prevents nested scrolling conflict
+  //                 itemBuilder: (context, innerIndex) {
+  //                   return ListTile(
+  //                     title: CustomText(text: 'Inner item $innerIndex'),
+  //                   );
+  //                 },
   //               ),
   //             ],
-  //           ),
-  //         ),
+  //           );
+  //         },
   //       ),
-  //     ],
+  //     ),
   //   );
   // }
+
+  Widget _buildUI(context) {
+    double marketingContainerHeight = 0.0;
+
+    print('width = $screenWidth');
+    if (screenWidth < 375) {
+      marketingContainerHeight = 0.88;
+    }
+    if (screenWidth >= 375 && screenWidth <= 393) {
+      marketingContainerHeight = 0.78;
+    }
+    if (screenWidth >= 414 && screenWidth <= 430) {
+      marketingContainerHeight = 0.80;
+    }
+    if (screenWidth >= 430) {
+      marketingContainerHeight = 0.92;
+    }
+    return Consumer<DetailsProvider>(
+        builder: (context, marketingProvider, _) {
+      return Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Center(
+            child: Container(
+              padding: EdgeInsets.symmetric(vertical: 8.0),
+              height:
+                  MediaQuery.of(context).size.width * marketingContainerHeight,
+              // height: double.infinity,
+              width: MediaQuery.of(context).size.width * 0.95,
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(10),
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.black.withOpacity(0.1),
+                    blurRadius: 3,
+                    spreadRadius: 1,
+                    offset: const Offset(3, 3),
+                  )
+                ],
+              ),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  // const SizedBox(
+                  //   height: 10,
+                  // ),
+                  Row(
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.only(top: 10, bottom: 10),
+                        child: Container(
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(50),
+                            color: CustomColors.primaryColor,
+                          ),
+                          width: 5,
+                          height: 18,
+                        ),
+                      ),
+                      Padding(
+                        padding: EdgeInsets.symmetric(horizontal: 8.0),
+                        child: CustomText(
+                          text: 'Marketing Officers',
+                          size: 18,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      const Spacer(),
+                      const Padding(
+                        padding: EdgeInsets.all(8.0),
+                        child: Icon(Icons.chevron_right),
+                      ),
+                    ],
+                  ),
+                  const Padding(
+                    padding: EdgeInsets.only(left: 16.0),
+                    child: Divider(
+                      height: 1,
+                      thickness: 1,
+                      indent: 2,
+                      color: Colors.grey,
+                    ),
+                  ),
+                  // Wrapping the ListView.builder with Expanded
+                  Consumer<DetailsProvider>(
+                    builder: (context,marketingProvider,_){
+                      double indicatorValue = marketingProvider.marketingOfficersDetails[index]['achieved'] / marketingProvider.marketingOfficersDetails[index]['target'];
+                      return Expanded(
+                        child: ListView.builder(
+                          itemCount:  marketingProvider.marketingOfficersDetails.length, // Adjust itemCount as necessary
+                          itemBuilder: (BuildContext context, int index) {
+                            double indicatorValue = marketingProvider.marketingOfficersDetails[index]['achieved'] / marketingProvider.marketingOfficersDetails[index]['target'];
+                            print('indicatorValue $index = $indicatorValue');
+                            return InkWell(
+                              onTap: () {
+                                _marketingProvider!.setName(
+                                    marketingProvider.marketingOfficersDetails[index]['OfficerName']);
+                                // print(marketingOfficersName[index]['OfficerName']);
+                                Navigator.of(context).pushNamed(
+                                    RouteGeneratorConstants.officerDescriptionPage);
+                              },
+                              child: Container(
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: [
+                                    Padding(
+                                      padding: const EdgeInsets.only(
+                                          left: 16.0, top: 13),
+                                      child: Consumer<DetailsProvider>(
+                                          builder: (context, marketingProvider, _) {
+                                        return CustomText(
+                                          text: marketingProvider.marketingOfficersDetails[index]['OfficerName'],
+                                          fontWeight: FontWeight.bold,
+                                          color: CustomColors.primaryBlack,
+                                          // color: Colors.grey.shade600,
+                                        );
+                                      }),
+                                    ),
+                                    Row(
+                                      children: [
+                                        Flexible(
+                                          child: Padding(
+                                            padding: const EdgeInsets.symmetric(
+                                                horizontal: 16.0),
+                                            child: LinearProgressIndicator(
+                                              value: indicatorValue,
+                                              backgroundColor:
+                                                  CustomColors.primaryWhite,
+                                              color: CustomColors.primaryColor,
+                                              minHeight: 6,
+                                              borderRadius:
+                                                  BorderRadius.circular(10),
+                                            ),
+                                          ),
+                                        ),
+                                        const SizedBox(
+                                          width: 30,
+                                        ),
+                                        Padding(
+                                          padding: EdgeInsets.only(right: 16.0),
+                                          child: Text(
+                                            '${marketingProvider.marketingOfficersDetails[index]['achieved']}/${marketingProvider.marketingOfficersDetails[index]['target']}',
+                                            style: TextStyle(
+                                              fontWeight: FontWeight.bold,
+                                              color: Colors.grey.shade600,
+                                            ),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            );
+                          },
+                        ),
+                      );
+                    }
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ],
+      );
+    });
+  }
 
   CustomGNavBar _bottomNavBar(context) {
     return CustomGNavBar(
