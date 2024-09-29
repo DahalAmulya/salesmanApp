@@ -84,6 +84,7 @@ class _OfficerDescriptionPageState extends State<OfficerDescriptionPage> {
 
   @override
   Widget build(BuildContext context) {
+    Color containerColor;
     print('width1 = $screenWidth');
     if (screenWidth < 375) {
       officerDescriptionContainerHeight = 0.88;
@@ -143,19 +144,18 @@ class _OfficerDescriptionPageState extends State<OfficerDescriptionPage> {
                   scrollDirection: Axis.vertical,
                   itemBuilder: (context, index) {
                     Color containerColor;
-                    if (detailsProvider.marketingOfficersDetails[index]['Visit Status'] == VisitStatus[index][0]) {
+                    String visitStatus = detailsProvider.marketingOfficersDetails[index]['Visit Status'];
+                    if (visitStatus == VisitStatus[0]) {
                       containerColor = CustomColors.lightGreen;
-                    } else if (detailsProvider.marketingOfficersDetails[index]['Visit Status'] == VisitStatus[index][1]) {
+                    } else if (visitStatus == VisitStatus[1]) {
                       containerColor = CustomColors.lightYellow;
-                    } else if (detailsProvider.marketingOfficersDetails[index]['Visit Status'] == VisitStatus[index][2]) {
+                    } else if (visitStatus == VisitStatus[2]) {
                       containerColor = CustomColors.lightGrey;
-                    } else if (detailsProvider.marketingOfficersDetails[index]['Visit Status'] == VisitStatus[index][3]) {
+                    } else if (visitStatus == VisitStatus[3]) {
                       containerColor = CustomColors.lightRed;
-                    } else if (detailsProvider.marketingOfficersDetails[index]['Visit Status'] == VisitStatus[index][4]) {
-                      containerColor =CustomColors.lightBlue;
-                    } else{
-                      containerColor = CustomColors.lightGreen;
-                    }
+                    } else {
+                      containerColor = CustomColors.lightBlue;
+                    };
                     return Column(
                       children: [
                         InkWell(
