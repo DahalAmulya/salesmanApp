@@ -105,7 +105,7 @@ class DeviceinfoProvider extends ChangeNotifier {
     clearMarkers();
     // _locationTimer.cancel();
     _locationTimer = Timer.periodic(const Duration(seconds: 1), (timer) {
-      if (_seconds == 10) {
+      if (_seconds == 3) {
         _seconds = 0;
         getLocation();
       } else {
@@ -237,9 +237,9 @@ class DeviceinfoProvider extends ChangeNotifier {
       _liveLongitude,
     );
 
-    if (_connectivityType != 'none' && _distance > 1.5) {
+    if (_connectivityType != 'none' && _distance > 5) {
       _connectivityStatus = 'connected';
-      postDeviceInfo();
+      // postDeviceInfo();
       notifyListeners();
     }
     print('distance = $_distance');

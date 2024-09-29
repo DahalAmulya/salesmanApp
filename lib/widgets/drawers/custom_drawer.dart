@@ -40,8 +40,9 @@ class CustomDrawer extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               InkWell(
-                onTap: (){
-                  Navigator.of(context).pushNamed(RouteGeneratorConstants.profilePage);
+                onTap: () {
+                  Navigator.of(context)
+                      .pushNamed(RouteGeneratorConstants.profilePage);
                 },
                 child: Padding(
                   padding: const EdgeInsets.only(
@@ -114,8 +115,8 @@ class CustomDrawer extends StatelessWidget {
                       onTap: () {
                         // GoRouter.of(context).pushReplacementNamed(
                         //     MyAppRouteConstants.homeNavBarRouteName);
-                        Navigator.of(context).pushReplacementNamed(
-                            RouteGeneratorConstants.homePage);
+                        Navigator.of(context)
+                            .pushNamed(RouteGeneratorConstants.homePage);
                       },
                       isTabActive: isHomeActive,
                       icon: FontAwesomeIcons.house,
@@ -140,8 +141,8 @@ class CustomDrawer extends StatelessWidget {
                       onTap: () {
                         // GoRouter.of(context).pushReplacementNamed(
                         //     MyAppRouteConstants.visitRouteName);
-                        Navigator.of(context).pushReplacementNamed(
-                            RouteGeneratorConstants.visitPage);
+                        Navigator.of(context)
+                            .pushNamed(RouteGeneratorConstants.visitPage);
                       },
                       isTabActive: isVisitActive,
                       isIcon: false,
@@ -157,7 +158,7 @@ class CustomDrawer extends StatelessWidget {
                       onTap: () {
                         // GoRouter.of(context).pushReplacementNamed(
                         //     MyAppRouteConstants.remoteAttendanceRouteName);
-                        Navigator.of(context).pushReplacementNamed(
+                        Navigator.of(context).pushNamed(
                             RouteGeneratorConstants.remoteAttendancePage);
                       },
                       isTabActive: isAttendanceActive,

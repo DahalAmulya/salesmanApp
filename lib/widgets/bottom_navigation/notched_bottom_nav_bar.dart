@@ -108,8 +108,8 @@ class _NotchedBottomNavBarState extends State<NotchedBottomNavBar> {
                           print('Pressed');
                           // GoRouter.of(context).pushReplacementNamed(
                           //     MyAppRouteConstants.homeNavBarRouteName);
-                          Navigator.of(context).pushReplacementNamed(
-                              RouteGeneratorConstants.homePage);
+                          Navigator.of(context)
+                              .pushNamed(RouteGeneratorConstants.homePage);
                         },
                         padding: EdgeInsets.all(0),
                         icon: Icon(Icons.phone),

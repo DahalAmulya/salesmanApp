@@ -158,8 +158,8 @@ class _LoginPageState extends State<LoginPage> {
                           print('Form is valid');
                         } else {
                           print('Form is not valid');
-                          Navigator.of(context).pushReplacementNamed(
-                              RouteGeneratorConstants.homePage);
+                          Navigator.of(context)
+                              .pushNamed(RouteGeneratorConstants.homePage);
                         }
                       },
                       width: 0.90,
@@ -176,8 +176,8 @@ class _LoginPageState extends State<LoginPage> {
                     CustomElevatedButton(
                       onPressed: () {
                         print('Pressed');
-                        Navigator.of(context).pushReplacementNamed(
-                            RouteGeneratorConstants.forgotPage);
+                        Navigator.of(context)
+                            .pushNamed(RouteGeneratorConstants.forgotPage);
                       },
                       widget: CustomText(
                         text: 'Forgot Password?',

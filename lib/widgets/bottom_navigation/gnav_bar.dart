@@ -73,7 +73,7 @@ class CustomGNavBar extends StatelessWidget {
             // GoRouter.of(context)
             //     .pushReplacementNamed(MyAppRouteConstants.settingPageRouteName);
             Navigator.of(context)
-                .pushReplacementNamed(RouteGeneratorConstants.settingPage);
+                .pushNamed(RouteGeneratorConstants.settingPage);
           },
           // margin: EdgeInsets.symmetric(horizontal: 0, vertical: 0),
           padding: EdgeInsets.symmetric(vertical: 16, horizontal: 16),
