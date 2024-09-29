@@ -1,6 +1,8 @@
 import 'dart:async';
 import 'dart:developer';
 import 'dart:io';
+import 'package:awesome_notifications/awesome_notifications.dart';
+import 'package:deskgoo/classes/notification_controller.dart';
 import 'package:deskgoo/models/visit_models/clients.dart';
 import 'package:deskgoo/models/visit_models/visit_client_model.dart';
 import 'package:deskgoo/providers/camera_provider/camera_provider.dart';
@@ -10,6 +12,7 @@ import 'package:deskgoo/routes/app_route_constants.dart';
 import 'package:deskgoo/routes/route_generator_constants.dart';
 import 'package:deskgoo/services/erp_services.dart';
 import 'package:deskgoo/themes/custom_colors.dart';
+import 'package:deskgoo/utils/notification.dart';
 import 'package:deskgoo/widgets/app_bars/custom_app_bars.dart';
 import 'package:deskgoo/widgets/bottom_navigation/gnav_bar.dart';
 import 'package:deskgoo/widgets/buttons/elevated_button.dart';
@@ -34,6 +37,8 @@ import 'package:http/http.dart' as http;
 
 import '../../providers/settings_providers/profile_provider/officerName_provider.dart';
 import 'ScreenWIdth.dart';
+import 'package:path_provider/path_provider.dart';
+import 'package:connectivity_plus/connectivity_plus.dart';
 // import 'package:platform_device_id_v3/platform_device_id.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -47,6 +52,9 @@ class _HomeScreenState extends State<HomeScreen> {
   DeviceinfoProvider? _deviceinfoProvider;
   MarketingProvider? _marketingProvider;
   final LocalAuthentication auth = LocalAuthentication();
+  List<ConnectivityResult> _connectionStatus = [ConnectivityResult.none];
+  final Connectivity _connectivity = Connectivity();
+  late StreamSubscription<List<ConnectivityResult>> _connectivitySubscription;
   int index = 0;
   double latitude = 0.0;
   double longitude = 0.0;
@@ -54,6 +62,34 @@ class _HomeScreenState extends State<HomeScreen> {
   // late DeviceinfoProvider _provider;
   double screenHeight = ScreenUtil.getScreenHeight();
   double screenWidth = ScreenUtil.getScreenWidth();
+
+  Future<void> initConnectivity() async {
+    late List<ConnectivityResult> result;
+    // Platform messages may fail, so we use a try/catch PlatformException.
+    try {
+      result = await _connectivity.checkConnectivity();
+    } on PlatformException catch (e) {
+      print('Couldn\'t check connectivity status error $e');
+      return;
+    }
+
+    // If the widget was removed from the tree while the asynchronous platform
+    // message was in flight, we want to discard the reply rather than calling
+    // setState to update our non-existent appearance.
+    if (!mounted) {
+      return Future.value(null);
+    }
+
+    return _updateConnectionStatus(result);
+  }
+
+  Future<void> _updateConnectionStatus(List<ConnectivityResult> result) async {
+    setState(() {
+      _connectionStatus = result;
+    });
+    // ignore: avoid_print
+    print('Connectivity changed: $_connectionStatus');
+  }
 
   void getLocationPermission() async {
     LocationPermission permission = await Geolocator.checkPermission();
@@ -94,6 +130,18 @@ class _HomeScreenState extends State<HomeScreen> {
     // _provider.clearMarkers();
     // _provider.getUniqueIdentifier();
     // _provider.locationReplay();
+
+    NotificationController.getPermissions();
+    AwesomeNotifications().setListeners(
+      onActionReceivedMethod: NotificationController.onActionReceivedMethod,
+      onNotificationCreatedMethod:
+          NotificationController.onNotificationCreatedMethod,
+      onNotificationDisplayedMethod:
+          NotificationController.onNotificationDisplayedMethod,
+      onDismissActionReceivedMethod:
+          NotificationController.onDismissActionReceivedMethod,
+    );
+    NotificationUtils.sendNotification(2, 'Home', 'You are on home screen');
     super.initState();
   }
 
@@ -246,8 +294,39 @@ class _HomeScreenState extends State<HomeScreen> {
               // LiveTrackingProvider liveTrackingProvider =
               //     Provider.of<LiveTrackingProvider>(context, listen: false);
               // liveTrackingProvider.getAllEmployeesLocation();
-              Navigator.of(context)
-                  .pushNamed(RouteGeneratorConstants.replayPage);
+              // Navigator.of(context)
+              //     .pushNamed(RouteGeneratorConstants.replayPage);
+
+              // final appDocDir = await getApplicationDocumentsDirectory();
+              // final appDocPath = appDocDir.path;
+              // print('App Documents Directory: $appDocPath');
+              // final filePath = '${appDocPath}fileName';
+              // final file = File(filePath);
+              // await file.writeAsString('Thie is the content of the file...');
+              // print(file.path);
+              // print(await file.readAsString());
+
+              // final tempDir = await getTemporaryDirectory();
+              // final tempPath = tempDir.path;
+              // print('App Documents Directory: $tempPath');
+              // final appCacheDir = await getApplicationCacheDirectory();
+              // print('app Cache Directory: ${appCacheDir.path}');
+              // final appCacheDires = await getExternalCacheDirectories();
+              // print('app Cache Directories: ${appCacheDires}');
+              // final appSupportDir = await getApplicationSupportDirectory();
+              // print('app Support Directory: ${appSupportDir.path}');
+              // // final appLibraryDir = await getLibraryDirectory();
+              // // print('app Library Directories: ${appLibraryDir.path}');
+              // final appExternalStorageDires =
+              //     await getExternalStorageDirectories(
+              //         type: StorageDirectory.downloads);
+              // print('app External Directories: ${appExternalStorageDires}');
+              // final appExternalStorageDir = await getExternalStorageDirectory();
+              // print('app External Directory: ${appExternalStorageDir!.path}');
+              // final appDownloadDir = await getDownloadsDirectory();
+              // print('app Download Directory: ${appDownloadDir!.path}');
+              NotificationUtils.sendNotification(
+                  1, 'Test', 'This is test notification');
             },
             child: Image.asset(
               'assets/images/camera.png',
@@ -289,197 +368,230 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   Widget _buildUI(context) {
-    double marketingContainerHeight = 0.0;
-
-    print('width = $screenWidth');
-    if (screenWidth < 375) {
-      marketingContainerHeight = 0.88;
-    }
-    if (screenWidth >= 375 && screenWidth <= 393) {
-      marketingContainerHeight = 0.78;
-    }
-    if (screenWidth >= 414 && screenWidth <= 430) {
-      marketingContainerHeight = 0.80;
-    }
-    if (screenWidth >= 430) {
-      marketingContainerHeight = 0.92;
-    }
-    List<Map<String, dynamic>> marketingOfficersName = [
-      {
-        "OfficerName": "Rahul",
-        "target": 20,
-        "achieved": 10,
-      },
-      {
-        "OfficerName": "Shuvam",
-        "target": 20,
-        "achieved": 6,
-      },
-      {
-        "OfficerName": "Ram",
-        "target": 20,
-        "achieved": 9,
-      },
-      {
-        "OfficerName": "Hari",
-        "target": 20,
-        "achieved": 4,
-      },
-      {
-        "OfficerName": "Rajan",
-        "target": 20,
-        "achieved": 13,
-      }
-    ];
-
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        Center(
-          child: Container(
-            padding: EdgeInsets.symmetric(vertical: 8.0),
-            height:
-                MediaQuery.of(context).size.width * marketingContainerHeight,
-            // height: double.infinity,
-            width: MediaQuery.of(context).size.width * 0.95,
-            decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.circular(10),
-              boxShadow: [
-                BoxShadow(
-                  color: Colors.black.withOpacity(0.1),
-                  blurRadius: 3,
-                  spreadRadius: 1,
-                  offset: const Offset(3, 3),
-                )
-              ],
-            ),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.start,
+    return SingleChildScrollView(
+      child: Center(
+        child: ListView.builder(
+          itemCount: 2, // Outer ListView
+          shrinkWrap: true, // This allows it to take only the required height
+          physics:
+              NeverScrollableScrollPhysics(), // Disables scrolling for outer ListView, so the inner ListViews can handle scrolling
+          itemBuilder: (context, index) {
+            return Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                // const SizedBox(
-                //   height: 10,
-                // ),
-                Row(
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.only(top: 10, bottom: 10),
-                      child: Container(
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(50),
-                          color: CustomColors.primaryColor,
-                        ),
-                        width: 5,
-                        height: 18,
-                      ),
-                    ),
-                    Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 8.0),
-                      child: CustomText(
-                        text: 'Marketing Officers',
-                        size: 18,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    const Spacer(),
-                    const Padding(
-                      padding: EdgeInsets.all(8.0),
-                      child: Icon(Icons.chevron_right),
-                    ),
-                  ],
-                ),
-                const Padding(
-                  padding: EdgeInsets.only(left: 16.0),
-                  child: Divider(
-                    height: 1,
-                    thickness: 1,
-                    indent: 2,
-                    color: Colors.grey,
-                  ),
-                ),
-                // Wrapping the ListView.builder with Expanded
-                Expanded(
-                  child: ListView.builder(
-                    itemCount: marketingOfficersName
-                        .length, // Adjust itemCount as necessary
-                    itemBuilder: (BuildContext context, int index) {
-                      double indicatorValue = marketingOfficersName[index]
-                              ['achieved'] /
-                          marketingOfficersName[index]['target'];
-                      print('indicatorValue $index = $indicatorValue');
-                      return InkWell(
-                        onTap: () {
-                          _marketingProvider!.setName(
-                              marketingOfficersName[index]['OfficerName']);
-                          // print(marketingOfficersName[index]['OfficerName']);
-                          Navigator.of(context).pushNamed(
-                              RouteGeneratorConstants.officerDescriptionPage);
-                        },
-                        child: Container(
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              Padding(
-                                padding:
-                                    const EdgeInsets.only(left: 16.0, top: 13),
-                                child: Consumer<MarketingProvider>(
-                                    builder: (context, marketingProvider, _) {
-                                  return CustomText(
-                                    text: marketingOfficersName[index]
-                                        ['OfficerName'],
-                                    fontWeight: FontWeight.bold,
-                                    color: CustomColors.primaryBlack,
-                                    // color: Colors.grey.shade600,
-                                  );
-                                }),
-                              ),
-                              Row(
-                                children: [
-                                  Flexible(
-                                    child: Padding(
-                                      padding: const EdgeInsets.symmetric(
-                                          horizontal: 16.0),
-                                      child: LinearProgressIndicator(
-                                        value: indicatorValue,
-                                        backgroundColor:
-                                            CustomColors.primaryWhite,
-                                        color: CustomColors.primaryColor,
-                                        minHeight: 6,
-                                        borderRadius: BorderRadius.circular(10),
-                                      ),
-                                    ),
-                                  ),
-                                  const SizedBox(
-                                    width: 30,
-                                  ),
-                                  Padding(
-                                    padding: EdgeInsets.only(right: 16.0),
-                                    child: Text(
-                                      '${marketingOfficersName[index]['achieved']}/${marketingOfficersName[index]['target']}',
-                                      style: TextStyle(
-                                        fontWeight: FontWeight.bold,
-                                        color: Colors.grey.shade600,
-                                      ),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ],
-                          ),
-                        ),
-                      );
-                    },
-                  ),
+                Text('Outer List Item $index'), // Title for outer item
+                ListView.builder(
+                  itemCount: 5, // Inner ListView
+                  shrinkWrap:
+                      true, // This allows it to take only the required height
+                  physics:
+                      NeverScrollableScrollPhysics(), // Prevents nested scrolling conflict
+                  itemBuilder: (context, innerIndex) {
+                    return ListTile(
+                      title: CustomText(text: 'Inner item $innerIndex'),
+                    );
+                  },
                 ),
               ],
-            ),
-          ),
+            );
+          },
         ),
-      ],
+      ),
     );
   }
+
+  // Widget _buildUI(context) {
+  //   double marketingContainerHeight = 0.0;
+
+  //   print('width = $screenWidth');
+  //   if (screenWidth < 375) {
+  //     marketingContainerHeight = 0.88;
+  //   }
+  //   if (screenWidth >= 375 && screenWidth <= 393) {
+  //     marketingContainerHeight = 0.78;
+  //   }
+  //   if (screenWidth >= 414 && screenWidth <= 430) {
+  //     marketingContainerHeight = 0.80;
+  //   }
+  //   if (screenWidth >= 430) {
+  //     marketingContainerHeight = 0.92;
+  //   }
+  //   List<Map<String, dynamic>> marketingOfficersName = [
+  //     {
+  //       "OfficerName": "Rahul",
+  //       "target": 20,
+  //       "achieved": 10,
+  //     },
+  //     {
+  //       "OfficerName": "Shuvam",
+  //       "target": 20,
+  //       "achieved": 6,
+  //     },
+  //     {
+  //       "OfficerName": "Ram",
+  //       "target": 20,
+  //       "achieved": 9,
+  //     },
+  //     {
+  //       "OfficerName": "Hari",
+  //       "target": 20,
+  //       "achieved": 4,
+  //     },
+  //     {
+  //       "OfficerName": "Rajan",
+  //       "target": 20,
+  //       "achieved": 13,
+  //     }
+  //   ];
+
+  //   return Column(
+  //     mainAxisAlignment: MainAxisAlignment.center,
+  //     children: [
+  //       Center(
+  //         child: Container(
+  //           padding: EdgeInsets.symmetric(vertical: 8.0),
+  //           height:
+  //               MediaQuery.of(context).size.width * marketingContainerHeight,
+  //           // height: double.infinity,
+  //           width: MediaQuery.of(context).size.width * 0.95,
+  //           decoration: BoxDecoration(
+  //             color: Colors.white,
+  //             borderRadius: BorderRadius.circular(10),
+  //             boxShadow: [
+  //               BoxShadow(
+  //                 color: Colors.black.withOpacity(0.1),
+  //                 blurRadius: 3,
+  //                 spreadRadius: 1,
+  //                 offset: const Offset(3, 3),
+  //               )
+  //             ],
+  //           ),
+  //           child: Column(
+  //             mainAxisAlignment: MainAxisAlignment.start,
+  //             crossAxisAlignment: CrossAxisAlignment.start,
+  //             children: [
+  //               // const SizedBox(
+  //               //   height: 10,
+  //               // ),
+  //               Row(
+  //                 children: [
+  //                   Padding(
+  //                     padding: const EdgeInsets.only(top: 10, bottom: 10),
+  //                     child: Container(
+  //                       decoration: BoxDecoration(
+  //                         borderRadius: BorderRadius.circular(50),
+  //                         color: CustomColors.primaryColor,
+  //                       ),
+  //                       width: 5,
+  //                       height: 18,
+  //                     ),
+  //                   ),
+  //                   Padding(
+  //                     padding: EdgeInsets.symmetric(horizontal: 8.0),
+  //                     child: CustomText(
+  //                       text: 'Marketing Officers',
+  //                       size: 18,
+  //                       fontWeight: FontWeight.bold,
+  //                     ),
+  //                   ),
+  //                   const Spacer(),
+  //                   const Padding(
+  //                     padding: EdgeInsets.all(8.0),
+  //                     child: Icon(Icons.chevron_right),
+  //                   ),
+  //                 ],
+  //               ),
+  //               const Padding(
+  //                 padding: EdgeInsets.only(left: 16.0),
+  //                 child: Divider(
+  //                   height: 1,
+  //                   thickness: 1,
+  //                   indent: 2,
+  //                   color: Colors.grey,
+  //                 ),
+  //               ),
+  //               // Wrapping the ListView.builder with Expanded
+  //               Expanded(
+  //                 child: ListView.builder(
+  //                   itemCount: marketingOfficersName
+  //                       .length, // Adjust itemCount as necessary
+  //                   itemBuilder: (BuildContext context, int index) {
+  //                     double indicatorValue = marketingOfficersName[index]
+  //                             ['achieved'] /
+  //                         marketingOfficersName[index]['target'];
+  //                     print('indicatorValue $index = $indicatorValue');
+  //                     return InkWell(
+  //                       onTap: () {
+  //                         _marketingProvider!.setName(
+  //                             marketingOfficersName[index]['OfficerName']);
+  //                         // print(marketingOfficersName[index]['OfficerName']);
+  //                         Navigator.of(context).pushNamed(
+  //                             RouteGeneratorConstants.officerDescriptionPage);
+  //                       },
+  //                       child: Container(
+  //                         child: Column(
+  //                           crossAxisAlignment: CrossAxisAlignment.start,
+  //                           mainAxisSize: MainAxisSize.min,
+  //                           children: [
+  //                             Padding(
+  //                               padding:
+  //                                   const EdgeInsets.only(left: 16.0, top: 13),
+  //                               child: Consumer<MarketingProvider>(
+  //                                   builder: (context, marketingProvider, _) {
+  //                                 return CustomText(
+  //                                   text: marketingOfficersName[index]
+  //                                       ['OfficerName'],
+  //                                   fontWeight: FontWeight.bold,
+  //                                   color: CustomColors.primaryBlack,
+  //                                   // color: Colors.grey.shade600,
+  //                                 );
+  //                               }),
+  //                             ),
+  //                             Row(
+  //                               children: [
+  //                                 Flexible(
+  //                                   child: Padding(
+  //                                     padding: const EdgeInsets.symmetric(
+  //                                         horizontal: 16.0),
+  //                                     child: LinearProgressIndicator(
+  //                                       value: indicatorValue,
+  //                                       backgroundColor:
+  //                                           CustomColors.primaryWhite,
+  //                                       color: CustomColors.primaryColor,
+  //                                       minHeight: 6,
+  //                                       borderRadius: BorderRadius.circular(10),
+  //                                     ),
+  //                                   ),
+  //                                 ),
+  //                                 const SizedBox(
+  //                                   width: 30,
+  //                                 ),
+  //                                 Padding(
+  //                                   padding: EdgeInsets.only(right: 16.0),
+  //                                   child: Text(
+  //                                     '${marketingOfficersName[index]['achieved']}/${marketingOfficersName[index]['target']}',
+  //                                     style: TextStyle(
+  //                                       fontWeight: FontWeight.bold,
+  //                                       color: Colors.grey.shade600,
+  //                                     ),
+  //                                   ),
+  //                                 ),
+  //                               ],
+  //                             ),
+  //                           ],
+  //                         ),
+  //                       ),
+  //                     );
+  //                   },
+  //                 ),
+  //               ),
+  //             ],
+  //           ),
+  //         ),
+  //       ),
+  //     ],
+  //   );
+  // }
 
   CustomGNavBar _bottomNavBar(context) {
     return CustomGNavBar(

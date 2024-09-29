@@ -34,36 +34,17 @@ class _ReplayScreenState extends State<ReplayScreen> {
   final Completer<GoogleMapController> _controller = Completer();
   // late DeviceinfoProvider _provider;
 
-  Future<void> cameraPosition() async {
-    GoogleMapController controller = await _controller.future;
+  Future<void> _moveCamera(double latitude, double longitude) async {
+    final GoogleMapController controller = await _controller.future;
     controller.animateCamera(
       CameraUpdate.newCameraPosition(
         CameraPosition(
-          target: LatLng(
-            latitude,
-            longitude,
-          ),
+          target: LatLng(latitude, longitude),
           zoom: 17,
         ),
       ),
     );
   }
-
-  // @override
-  // void initState() {
-  //   _provider = DeviceinfoProvider();
-  //   // _provider.clearMarkers();
-  //   // _provider.getUniqueIdentifier();
-  //   // _provider.locationReplay();
-  //   super.initState();
-  // }
-
-  // @override
-  // void dispose() {
-  //   _provider.clearMarkers();
-  //   _provider.dispose();
-  //   super.dispose();
-  // }
 
   @override
   Widget build(BuildContext context) {
@@ -179,11 +160,9 @@ class _ReplayScreenState extends State<ReplayScreen> {
   Widget _googleMap(context) {
     return Consumer<ReplayProvider>(
       builder: (context, replayProvider, _) {
-        // deviceInfoProvider.locationReplay();
-        latitude = replayProvider.latitude;
-        longitude = replayProvider.longitude;
-        cameraPosition();
-        // deviceInfoProvider.cameraPosition(_controller);
+        if (replayProvider.latitude != 0.0 && replayProvider.longitude != 0.0) {
+          _moveCamera(replayProvider.latitude, replayProvider.longitude);
+        }
         return GoogleMap(
           mapType: MapType.hybrid,
           initialCameraPosition: const CameraPosition(
@@ -191,14 +170,8 @@ class _ReplayScreenState extends State<ReplayScreen> {
             zoom: 14,
           ),
           myLocationEnabled: false,
-          tiltGesturesEnabled: true,
           compassEnabled: true,
-          scrollGesturesEnabled: true,
-          zoomGesturesEnabled: true,
-          // trafficEnabled: traffic,
-          mapToolbarEnabled: true,
           zoomControlsEnabled: false,
-          // onMapCreated: _onMapCreated,
           onMapCreated: (GoogleMapController controller) {
             _controller.complete(controller);
           },
@@ -214,7 +187,7 @@ class _ReplayScreenState extends State<ReplayScreen> {
       builder: (context, replayProvider, _) {
         latitude = replayProvider.latitude;
         longitude = replayProvider.longitude;
-        cameraPosition();
+        // cameraPosition();
         // deviceInfoProvider.cameraPosition(_controller);
         return SfMaps(
           layers: [

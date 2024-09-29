@@ -10,6 +10,7 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'dart:ui' as ui;
 import 'package:flutter_udid/flutter_udid.dart';
 import 'package:device_info_plus/device_info_plus.dart';
+import 'package:connectivity_plus/connectivity_plus.dart';
 
 class DeviceinfoProvider extends ChangeNotifier {
   Battery _battery = Battery();
@@ -27,6 +28,9 @@ class DeviceinfoProvider extends ChangeNotifier {
   int _seconds = 0;
   Set<Marker> _livePositionMarkers = {};
   var baseApi = 'http://108.181.195.185:5000/api/device';
+  List<ConnectivityResult> _connectionStatus = [ConnectivityResult.none];
+  Connectivity _connectivity = Connectivity();
+  late StreamSubscription<List<ConnectivityResult>> _connectivitySubscription;
 
   Battery get battery => _battery;
   String get uniqueIdentifier => _uniqueIdentifier;
@@ -41,6 +45,8 @@ class DeviceinfoProvider extends ChangeNotifier {
   Timer get locationTimer => _locationTimer;
   int get seconds => _seconds;
   Set<Marker> get livePositionMarkers => _livePositionMarkers;
+  List<ConnectivityResult> get connectionStatus => _connectionStatus;
+  Connectivity get connectivity => _connectivity;
 
   void getUniqueIdentifier() async {
     if (Platform.isAndroid) {
@@ -99,10 +105,11 @@ class DeviceinfoProvider extends ChangeNotifier {
     _locationTimer = Timer.periodic(const Duration(seconds: 1), (timer) {
       if (_seconds == 10) {
         _seconds = 0;
-        getUniqueIdentifier();
-        getLocation();
-        getBatteryLevel();
+        // getUniqueIdentifier();
+        // getLocation();
+        // getBatteryLevel();
         postData();
+        initConnectivity();
       } else {
         _seconds++;
       }
@@ -118,6 +125,47 @@ class DeviceinfoProvider extends ChangeNotifier {
           15, // Minimum distance (in meters) before an update is triggered
     ),
   );
+
+  Future<void> initConnectivity() async {
+    late List<ConnectivityResult> result;
+    // Platform messages may fail, so we use a try/catch PlatformException.
+    try {
+      result = await _connectivity.checkConnectivity();
+      print('connection type = ${result[0].toString().split('.')[1]}');
+      try {
+        final response = await http.get(
+          Uri.parse('https://www.google.com'),
+        );
+        if (response.statusCode == 200) {
+          print('Connected');
+        } else {
+          print('No internet');
+        }
+      } catch (err) {
+        print('Connnected to none');
+      }
+    } on PlatformException catch (e) {
+      print('Couldn\'t check connectivity status error');
+      return;
+    }
+
+    // If the widget was removed from the tree while the asynchronous platform
+    // message was in flight, we want to discard the reply rather than calling
+    // setState to update our non-existent appearance.
+    // if (!mounted) {
+    //   return Future.value(null);
+    // }
+
+    return _updateConnectionStatus(result);
+  }
+
+  Future<void> _updateConnectionStatus(List<ConnectivityResult> result) async {
+    // setState(() {
+    _connectionStatus = result;
+    // });
+    // ignore: avoid_print
+    print('Connectivity changed: $_connectionStatus');
+  }
 
   void clearMarkers() {
     _livePositionMarkers
