@@ -4,6 +4,7 @@ import 'dart:convert';
 import 'dart:ui' as ui;
 import 'package:custom_info_window/custom_info_window.dart';
 import 'package:deskgoo/services/erp_services.dart';
+import 'package:deskgoo/widgets/texts/custom_text.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -53,7 +54,7 @@ class LiveTrackingProvider extends ChangeNotifier {
   }
 
   void getAllEmployeesLocation() async {
-    ERPResponse response = await ERPServicer.getRequest('device');
+    ERPResponse response = await ERPServicer.getRequest('location');
     // print(response.statusCode);
     Map<String, dynamic> body = jsonDecode(response.body);
     _employeeLiveData = body['latestData'];
@@ -68,8 +69,10 @@ class LiveTrackingProvider extends ChangeNotifier {
       _employeeName = _employeeLiveData[i]['employee_name'];
       _latitude = latestLocation['latitude'];
       _longitude = latestLocation['longitude'];
-      _batteryPercentage = latestLocation['battery_percentage'];
+      _batteryPercentage = latestLocation['batteryPercentage'];
       _mobileTime = latestLocation['deviceTime'];
+
+      print('_employeeName = $_employeeName');
 
       final Uint8List? icon =
           await getBytesFromAsset('assets/images/location.png', 100);
@@ -96,9 +99,45 @@ class LiveTrackingProvider extends ChangeNotifier {
                     color: Colors.white,
                     borderRadius: BorderRadius.circular(24),
                   ),
-                  child: Image.asset(
-                    'assets/images/johnCena.jpg',
-                    fit: BoxFit.cover,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      SizedBox(
+                        height: 150,
+                        width: double.infinity,
+                        child: Image.asset(
+                          'assets/images/johnCena.jpg',
+                          fit: BoxFit.cover,
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            CustomText(
+                              text: '${_employeeLiveData[i]['employee_name']}',
+                              fontWeight: ui.FontWeight.w500,
+                            ),
+                            CustomText(
+                              text: '${latestLocation['connectivityType']}',
+                              fontWeight: ui.FontWeight.w500,
+                            ),
+                            CustomText(
+                              text: '${latestLocation['batteryPercentage']} %',
+                              fontWeight: ui.FontWeight.w500,
+                            ),
+                            CustomText(
+                              text:
+                                  '${_employeeLiveData[i]['mobileIdentifier']}',
+                              fontWeight: ui.FontWeight.w500,
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
                   ),
                 ),
                 LatLng(

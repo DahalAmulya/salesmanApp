@@ -31,6 +31,7 @@ class NotificationController {
 
   static Future<void> getPermissions() async {
     await AwesomeNotifications().initialize(
+      // 'assets/icons/icon.png',
       null,
       [
         NotificationChannel(

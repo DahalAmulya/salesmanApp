@@ -23,13 +23,15 @@ class DeviceinfoProvider extends ChangeNotifier {
   String _connectivityType = '';
   String _connectivityStatus = '';
   int _batteryLevel = 0;
+  double _previousLatitude = 0.0;
+  double _previousLongitude = 0.0;
   double _liveLatitude = 0.0;
   double _liveLongitude = 0.0;
   double _distance = 0.0;
   late Timer _locationTimer;
   int _seconds = 0;
   Set<Marker> _livePositionMarkers = {};
-  var baseApi = 'http://108.181.195.185:5000/api/device';
+  var baseApi = 'http://108.181.195.185:5000/api/location';
   List<ConnectivityResult> _connectionStatus = [ConnectivityResult.none];
   Connectivity _connectivity = Connectivity();
   // late StreamSubscription<List<ConnectivityResult>> _connectivitySubscription;
@@ -43,6 +45,8 @@ class DeviceinfoProvider extends ChangeNotifier {
   String get connectivityType => _connectivityType;
   String get connectivityStatus => _connectivityStatus;
   int get batteryLevel => _batteryLevel;
+  double get previousLatitude => _previousLatitude;
+  double get previousLongitude => _previousLongitude;
   double get liveLatitude => _liveLatitude;
   double get liveLongitude => _liveLongitude;
   double get distance => _distance;
@@ -80,8 +84,10 @@ class DeviceinfoProvider extends ChangeNotifier {
   }
 
   void getBatteryLevel() {
-    battery.onBatteryStateChanged.listen((BatteryState state) async {
-      _batteryLevel = await battery.batteryLevel;
+    _battery.onBatteryStateChanged.listen((BatteryState state) async {
+      _batteryLevel = await _battery.batteryLevel;
+      // print('battery status = ${await _battery.batteryState}');
+      // print('battery save mode = ${await _battery.isInBatterySaveMode}');
       print('batteryLevel = $_batteryLevel');
       notifyListeners();
     });
@@ -102,7 +108,6 @@ class DeviceinfoProvider extends ChangeNotifier {
       if (_seconds == 10) {
         _seconds = 0;
         getLocation();
-        initConnectivity();
       } else {
         _seconds++;
       }
@@ -125,7 +130,7 @@ class DeviceinfoProvider extends ChangeNotifier {
     try {
       result = await _connectivity.checkConnectivity();
       _connectivityType = result[0].toString().split('.')[1];
-      print('connection type = ${result[0].toString().split('.')[1]}');
+      print('connection type = $_connectivityType');
       notifyListeners();
     } on PlatformException catch (e) {
       print('Couldn\'t check connectivity status error');
@@ -136,7 +141,7 @@ class DeviceinfoProvider extends ChangeNotifier {
 
   Future<void> _updateConnectionStatus(List<ConnectivityResult> result) async {
     _connectionStatus = result;
-    print('Connectivity changed: $_connectionStatus');
+    // print('Connectivity changed: $_connectionStatus');
   }
 
   void clearMarkers() {
@@ -157,24 +162,26 @@ class DeviceinfoProvider extends ChangeNotifier {
       'employeeName': _name,
       'latitude': _liveLatitude,
       'longitude': _liveLongitude,
-      'battery_percentage': _batteryLevel,
+      'batteryPercentage': _batteryLevel,
       'accuracy': _accuracy,
       'deviceTime': _deviceTime,
+      'connectivityType': _connectivityType,
+      'connectivityStatus': _connectivityStatus,
+      'distance': _distance,
     };
 
     try {
-      var post = await http.post(
+      final response = await http.post(
         url,
         headers: {'Content-Type': 'application/json'},
         body: jsonEncode(data),
       );
-      if (post.statusCode == 200) {
+      if (response.statusCode == 200 || response.statusCode == 201) {
         _connectivityStatus = 'connected';
+        print('Data Post succcessfull');
         notifyListeners();
-        // var data = json.decode(post.body);
-        print('Data Post scuuceefull');
       } else {
-        print('${post.statusCode}');
+        print(response.statusCode);
       }
     } catch (e) {
       _connectivityStatus = 'no internet';
@@ -218,20 +225,29 @@ class DeviceinfoProvider extends ChangeNotifier {
 
     _deviceTime = DateTime.now().toString().split('.')[0];
 
+    if (_previousLatitude == 0 && _previousLongitude == 0) {
+      _previousLatitude = _liveLatitude;
+      _previousLongitude = _liveLongitude;
+    }
+
     _distance = Geolocator.distanceBetween(
-      26.45773716586737,
-      87.27957052288616,
+      _previousLatitude,
+      _previousLongitude,
       _liveLatitude,
       _liveLongitude,
     );
 
-    // getBatteryLevel();
-    notifyListeners();
-
-    if (_distance < 1.5) {
+    if (_connectivityType != 'none' && _distance > 1.5) {
+      _connectivityStatus = 'connected';
       postDeviceInfo();
       notifyListeners();
     }
+    print('distance = $_distance');
+
+    _previousLatitude = _liveLatitude;
+    _previousLongitude = _liveLongitude;
+
+    notifyListeners();
   }
 
   Future<Uint8List?> getBytesFromAsset(String path, int width) async {

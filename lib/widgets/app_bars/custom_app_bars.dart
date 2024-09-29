@@ -24,6 +24,8 @@ class CustomAppBar extends StatelessWidget {
       this.showThemeIcon = false,
       this.onPressedThemeIcon,
       this.automaticallyImplyLeading = false,
+      this.trailingSearchIcon = false,
+      this.onTapTrailingSearchIcon,
       super.key});
 
   final String tabName;
@@ -45,6 +47,8 @@ class CustomAppBar extends StatelessWidget {
   final bool showThemeIcon;
   final Function()? onPressedThemeIcon;
   final bool automaticallyImplyLeading;
+  final bool trailingSearchIcon;
+  final Function()? onTapTrailingSearchIcon;
 
   @override
   Widget build(BuildContext context) {
@@ -162,6 +166,15 @@ class CustomAppBar extends StatelessWidget {
                     ? IconButton(
                         onPressed: onPressedThemeIcon,
                         icon: Icon(Icons.dark_mode),
+                      )
+                    : Container(),
+                trailingSearchIcon
+                    ? IconButton(
+                        onPressed: onTapTrailingSearchIcon,
+                        icon: FaIcon(
+                          FontAwesomeIcons.magnifyingGlass,
+                          color: CustomColors.primaryBlack,
+                        ),
                       )
                     : Container(),
               ]

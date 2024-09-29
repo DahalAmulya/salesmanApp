@@ -8,9 +8,11 @@ import 'package:deskgoo/routes/route_generator_constants.dart';
 import 'package:deskgoo/themes/custom_colors.dart';
 import 'package:deskgoo/widgets/app_bars/custom_app_bars.dart';
 import 'package:deskgoo/widgets/bottom_navigation/gnav_bar.dart';
+import 'package:deskgoo/widgets/bottom_sheets/custom_buttom_sheet.dart';
 import 'package:deskgoo/widgets/buttons/elevated_button.dart';
 import 'package:deskgoo/widgets/drawers/custom_drawer.dart';
 import 'package:deskgoo/widgets/texts/custom_text.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 // import 'package:go_router/go_router.dart';
@@ -31,6 +33,7 @@ class _LiveTrackingScreenState extends State<LiveTrackingScreen> {
   int index = 1;
   double latitude = 0.0;
   double longitude = 0.0;
+  bool isAdmin = true;
   final Completer<GoogleMapController> _controller = Completer();
   // late DeviceinfoProvider _provider;
 
@@ -71,12 +74,48 @@ class _LiveTrackingScreenState extends State<LiveTrackingScreen> {
         child: Scaffold(
           backgroundColor: CustomColors.primaryWhite,
           appBar: _appBar(context),
+          // appBar: _searchAppBar(context),
           drawer: _drawer(context),
           // drawerDragStartBehavior: DragStartBehavior.start,
-          body: _googleMap(context),
+          // body: _googleMap(context),
+          body: isAdmin ? _googleMap(context) : _ownGoogleMap(context),
+          floatingActionButton: FloatingActionButton.small(
+            backgroundColor: CustomColors.primaryColor,
+            onPressed: () {
+              Navigator.of(context)
+                  .pushNamed(RouteGeneratorConstants.replayPage);
+            },
+            // shape: ShapeBorder.lerp(a, b, t),
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(100),
+              child: Container(
+                child: Icon(
+                  CupertinoIcons.play_fill,
+                  color: CustomColors.primaryBlack,
+                ),
+              ),
+            ),
+          ),
           bottomNavigationBar: _bottomNavBar(context),
         ),
       ),
+    );
+  }
+
+  AppBar _searchAppBar(context) {
+    return AppBar(
+      title: CustomText(text: 'Live Tracking'),
+      actions: [
+        IconButton(
+          onPressed: () {
+            showSearch(
+              context: context,
+              delegate: CustomSearchDelegate(),
+            );
+          },
+          icon: FaIcon(FontAwesomeIcons.magnifyingGlass),
+        ),
+      ],
     );
   }
 
@@ -95,6 +134,15 @@ class _LiveTrackingScreenState extends State<LiveTrackingScreen> {
             // Use the context under the Scaffold
             Scaffold.of(context).openDrawer();
           },
+          showTrailingIcons: true,
+          trailingSearchIcon: true,
+          onTapTrailingSearchIcon: () {
+            CustomBottomSheet.showBottomSheetForm(context);
+            // showSearch(
+            //   context: context,
+            //   delegate: CustomSearchDelegate(),
+            // );
+          },
         ),
       ),
     );
@@ -107,6 +155,39 @@ class _LiveTrackingScreenState extends State<LiveTrackingScreen> {
     );
   }
 
+  Widget _ownGoogleMap(context) {
+    return Consumer<DeviceinfoProvider>(
+      builder: (context, deviceInfoProvider, _) {
+        // deviceInfoProvider.locationReplay();
+        latitude = deviceInfoProvider.liveLatitude;
+        longitude = deviceInfoProvider.liveLongitude;
+        cameraPosition();
+        // deviceInfoProvider.cameraPosition(_controller);
+        return GoogleMap(
+          mapType: MapType.hybrid,
+          initialCameraPosition: const CameraPosition(
+            target: LatLng(26.45845827202604, 87.28699164913807),
+            zoom: 14,
+          ),
+          myLocationEnabled: false,
+          tiltGesturesEnabled: true,
+          compassEnabled: true,
+          scrollGesturesEnabled: true,
+          zoomGesturesEnabled: true,
+          // trafficEnabled: traffic,
+          mapToolbarEnabled: true,
+          zoomControlsEnabled: false,
+          // onMapCreated: _onMapCreated,
+          onMapCreated: (GoogleMapController controller) {
+            _controller.complete(controller);
+          },
+          markers: deviceInfoProvider.livePositionMarkers,
+          // polylines: deviceInfoProvider.polylines,
+        );
+      },
+    );
+  }
+
   Widget _googleMap(context) {
     return Consumer<LiveTrackingProvider>(
       builder: (context, liveTrackingProvider, _) {
@@ -115,8 +196,8 @@ class _LiveTrackingScreenState extends State<LiveTrackingScreen> {
             GoogleMap(
               mapType: MapType.hybrid,
               initialCameraPosition: const CameraPosition(
-                target: LatLng(26.45845827202604, 87.28699164913807),
-                zoom: 14,
+                target: LatLng(26.753945732907727, 87.52088961681855),
+                zoom: 9,
               ),
               myLocationEnabled: false,
               tiltGesturesEnabled: true,
@@ -147,7 +228,7 @@ class _LiveTrackingScreenState extends State<LiveTrackingScreen> {
             ),
             CustomInfoWindow(
               controller: liveTrackingProvider.customInfoWindowController,
-              height: 200,
+              height: 260,
               width: 250,
               offset: 50,
             ),
@@ -181,6 +262,84 @@ class _LiveTrackingScreenState extends State<LiveTrackingScreen> {
       onTap: (value) {
         index = value;
         print(index);
+      },
+    );
+  }
+}
+
+class CustomSearchDelegate extends SearchDelegate {
+  // LiveTrackingProvider _liveTrackingProvider =
+  //     Provider.of<LiveTrackingProvider>(context,listen: false);
+  List<String> searchTerms = [
+    'samsung SM-G980F',
+    'Redmi M2006C3MII',
+    'iQOO I2301',
+    'Redmi M2006C3MII',
+    'samsung SM-E225F'
+  ];
+  @override
+  List<Widget> buildActions(BuildContext context) {
+    return [
+      IconButton(
+        onPressed: () {
+          query = '';
+        },
+        icon: Icon(Icons.clear),
+      ),
+    ];
+  }
+
+  @override
+  Widget buildLeading(BuildContext context) {
+    return IconButton(
+      onPressed: () {
+        close(context, null);
+      },
+      icon: Icon(Icons.arrow_back),
+    );
+  }
+
+  @override
+  Widget buildResults(BuildContext context) {
+    List<String> matchQuery = [];
+    for (var names in searchTerms) {
+      if (names.toLowerCase().contains(query.toLowerCase())) {
+        matchQuery.add(names);
+      }
+    }
+    return ListView.builder(
+      itemCount: matchQuery.length,
+      itemBuilder: (context, index) {
+        var result = matchQuery[index];
+        return ListTile(
+          title: Text(result),
+          //     onTap: () {
+          // },
+        );
+      },
+    );
+  }
+
+  @override
+  Widget buildSuggestions(BuildContext context) {
+    List<String> matchQuery = [];
+    for (var names in searchTerms) {
+      if (names.toLowerCase().contains(query.toLowerCase())) {
+        matchQuery.add(names);
+      }
+    }
+    return ListView.builder(
+      itemCount: matchQuery.length,
+      itemBuilder: (context, index) {
+        var result = matchQuery[index];
+        return ListTile(
+          title: Text(result),
+          // onTap: () {
+          //   // update the search bar with the selected suggestion
+          //   updateSearch(context, result);
+          //   close(context, null);
+          // },
+        );
       },
     );
   }
