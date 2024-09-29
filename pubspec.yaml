@@ -63,6 +63,10 @@ dependencies:
   # platform_device_id_v3: ^1.0.0
   camera: ^0.11.0+2
   http: ^1.2.2
+  path_provider: ^2.1.4
+  # flutter_local_notifications: ^17.2.3
+  awesome_notifications: ^0.9.3+1
+  fluttertoast: ^8.2.8
   # gal: ^2.3.0
 
 
