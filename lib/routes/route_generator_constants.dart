@@ -6,6 +6,7 @@ class RouteGeneratorConstants {
   static const String previewCapturedPhotoPage = '/preview_photos';
   static const String previewSelectedPhotoPage = '/selected_photo';
   static const String liveTrackingPage = '/live_tracking';
+  static const String ownliveLocationPage = '/onw_live_location';
   static const String replayPage = '/replay';
   static const String visitPage = '/visit';
   static const String visitOrderScreen = '/order';

@@ -56,8 +56,7 @@ class _ReplayScreenState extends State<ReplayScreen> {
         }
         // GoRouter.of(context)
         //     .pushReplacementNamed(MyAppRouteConstants.loginRouteName);
-        Navigator.of(context)
-            .pushReplacementNamed(RouteGeneratorConstants.homePage);
+        Navigator.of(context).pop(RouteGeneratorConstants.liveTrackingPage);
       }),
       child: GestureDetector(
         onTap: () {
@@ -70,7 +69,7 @@ class _ReplayScreenState extends State<ReplayScreen> {
         child: Scaffold(
           backgroundColor: CustomColors.primaryWhite,
           appBar: _appBar(context),
-          drawer: _drawer(context),
+          // drawer: _drawer(context),
           // drawerDragStartBehavior: DragStartBehavior.start,
           body: _googleMap(context),
           floatingActionButton:
@@ -139,11 +138,12 @@ class _ReplayScreenState extends State<ReplayScreen> {
           titleColor: CustomColors.primaryBlack,
           backgroundColor: CustomColors.primaryColor,
           showLeading: true,
-          leadingIcon: FontAwesomeIcons.bars,
+          leadingIcon: FontAwesomeIcons.arrowLeft,
           leadingIconColor: CustomColors.primaryBlack,
           onTapLeadingIcon: () {
             // Use the context under the Scaffold
-            Scaffold.of(context).openDrawer();
+            // Scaffold.of(context).openDrawer();
+            Navigator.of(context).pop(RouteGeneratorConstants.liveTrackingPage);
           },
         ),
       ),

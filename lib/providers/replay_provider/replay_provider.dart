@@ -57,7 +57,7 @@ class ReplayProvider extends ChangeNotifier {
   }
 
   void getEmployeeLocationById() async {
-    ERPResponse response = await ERPServicer.getRequest('location', '/1');
+    ERPResponse response = await ERPServicer.getRequest('location', '/8');
     print(response.statusCode);
     Map<String, dynamic> body = jsonDecode(response.body);
     _locations = body['locations'];
@@ -143,9 +143,9 @@ class ReplayProvider extends ChangeNotifier {
       _polylineCoordinates.add(LatLng(_latitude, _longitude));
 
       // Limit the size of polyline coordinates to avoid memory issues
-      if (_polylineCoordinates.length > 500) {
-        _polylineCoordinates.removeAt(0);
-      }
+      // if (_polylineCoordinates.length > 500) {
+      //   _polylineCoordinates.removeAt(0);
+      // }
 
       // Update polylines
       _polylines.add(
@@ -175,12 +175,12 @@ class ReplayProvider extends ChangeNotifier {
       );
 
       // Throttle UI updates (notify every 10 iterations)
-      if (i % 10 == 0) {
+      if (i % 5 == 0) {
         notifyListeners();
       }
 
       await Future.delayed(
-          const Duration(milliseconds: 100)); // Simulate location replay delay
+          const Duration(milliseconds: 250)); // Simulate location replay delay
     }
   }
 }

@@ -45,6 +45,8 @@ class CustomGNavBar extends StatelessWidget {
           onPressed: () {
             Navigator.of(context)
                 .pushNamed(RouteGeneratorConstants.liveTrackingPage);
+            // Navigator.of(context)
+            //     .pushNamed(RouteGeneratorConstants.ownliveLocationPage);
           },
           padding: EdgeInsets.symmetric(vertical: 16, horizontal: 16),
           // icon: CupertinoIcons.location_fill,
