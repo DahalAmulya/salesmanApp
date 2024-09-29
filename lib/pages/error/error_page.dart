@@ -15,8 +15,7 @@ class ErrorPage extends StatelessWidget {
         }
         // GoRouter.of(context)
         //     .pushReplacementNamed(MyAppRouteConstants.loginRouteName);
-        Navigator.of(context)
-            .pushReplacementNamed(RouteGeneratorConstants.indexPage);
+        Navigator.of(context).pushNamed(RouteGeneratorConstants.indexPage);
       }),
       child: Scaffold(
         appBar: AppBar(

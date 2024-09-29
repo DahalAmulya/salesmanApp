@@ -11,10 +11,13 @@ import 'package:flutter/services.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 class LiveTrackingProvider extends ChangeNotifier {
+  TextEditingController _searchController = TextEditingController();
   CustomInfoWindowController _customInfoWindowController =
       CustomInfoWindowController();
   double _latitude = 0;
   double _longitude = 0;
+  double? _selectedEmpLatitude;
+  double? _selectedEmpLongitude;
   int _batteryPercentage = 0;
   String _employeeName = '';
   String _mobileTime = '';
@@ -23,10 +26,13 @@ class LiveTrackingProvider extends ChangeNotifier {
   late Timer _liveLocationTimer;
   int _seconds = 0;
 
+  TextEditingController get searchController => _searchController;
   CustomInfoWindowController get customInfoWindowController =>
       _customInfoWindowController;
   double get latitude => _latitude;
   double get longitude => _longitude;
+  double? get selectedEmpLatitude => _selectedEmpLatitude;
+  double? get selectedEmpLongitude => _selectedEmpLongitude;
   int get batteryPercentage => _batteryPercentage;
   String get employeeName => _employeeName;
   String get mobileTime => _mobileTime;
@@ -38,6 +44,12 @@ class LiveTrackingProvider extends ChangeNotifier {
   LiveTrackingProvider() {
     _liveTrakingMarkers.clear();
     updateLocation();
+  }
+
+  void setSelectedEmpLatLong(double? lat, double? long) {
+    _selectedEmpLatitude = lat;
+    _selectedEmpLongitude = long;
+    notifyListeners();
   }
 
   void updateLocation() async {

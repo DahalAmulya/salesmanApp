@@ -6,8 +6,16 @@ import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 class ReplayProvider extends ChangeNotifier {
+  int _employee_id = 0;
+  String _name = '';
   double _latitude = 0.0;
   double _longitude = 0.0;
+  String _mobileDate = '';
+  String _mobileTime = '';
+  int _battery = 0;
+  double _distance = 0.0;
+  double _totalDistance = 0.0;
+  String _connectionType = '';
   Set<Marker> _positionMarkers = {};
   Set<Polyline> _polylines = {};
   List<dynamic> _locations = [];
@@ -20,8 +28,16 @@ class ReplayProvider extends ChangeNotifier {
   Uint8List? _startMarkerIcon;
   Uint8List? _endMarkerIcon;
 
+  int get employee_id => _employee_id;
+  String get name => _name;
   double get latitude => _latitude;
   double get longitude => _longitude;
+  String get mobileDate => _mobileDate;
+  String get mobileTime => _mobileTime;
+  int get battery => _battery;
+  double get distance => _distance;
+  double get totalDistance => _totalDistance;
+  String get connectionType => _connectionType;
   Set<Marker> get positionMarkers => _positionMarkers;
   Set<Polyline> get polylines => _polylines;
   List<dynamic> get locations => _locations;
@@ -32,7 +48,6 @@ class ReplayProvider extends ChangeNotifier {
 
   ReplayProvider() {
     cacheIcons(); // Pre-cache marker icons
-    getEmployeeLocationById();
   }
 
   void resetValues() {
@@ -44,6 +59,17 @@ class ReplayProvider extends ChangeNotifier {
     _polylines.clear();
     _coordinates.clear();
     _polylineCoordinates.clear();
+    _totalDistance = 0.0;
+    _distance = 0.0;
+    _battery = 0;
+    _mobileDate = '';
+    _mobileTime = '';
+    notifyListeners();
+  }
+
+  void setEmployeeId(int id) {
+    _employee_id = id;
+    notifyListeners();
   }
 
   void cacheIcons() async {
@@ -56,11 +82,13 @@ class ReplayProvider extends ChangeNotifier {
         await _provider.getBytesFromAsset('assets/images/finish.png', 100);
   }
 
-  void getEmployeeLocationById() async {
-    ERPResponse response = await ERPServicer.getRequest('location', '/8');
+  void getEmployeeLocationById(int id) async {
+    ERPResponse response = await ERPServicer.getRequest('location', '/$id');
     print(response.statusCode);
     Map<String, dynamic> body = jsonDecode(response.body);
+    _name = body['employee_name'];
     _locations = body['locations'];
+    notifyListeners();
     print(locations);
     locationReplay();
   }
@@ -129,7 +157,7 @@ class ReplayProvider extends ChangeNotifier {
           break;
         }
         await Future.delayed(
-            const Duration(milliseconds: 100)); // Small delay while paused
+            const Duration(milliseconds: 500)); // Small delay while paused
       }
 
       if (_isRestartReplay) {
@@ -138,6 +166,13 @@ class ReplayProvider extends ChangeNotifier {
 
       _latitude = _locations[i]['latitude'];
       _longitude = _locations[i]['longitude'];
+      _distance = _locations[i]['distance'];
+      _totalDistance += _distance;
+      List<String> splitByMillisecond =
+          locations[i]['deviceTime'].toString().split('.');
+      List<String> splitDateTime = splitByMillisecond[0].split('T');
+      _mobileDate = splitDateTime[0];
+      _mobileTime = splitDateTime[1];
 
       // Add to polyline coordinates
       _polylineCoordinates.add(LatLng(_latitude, _longitude));
@@ -175,12 +210,12 @@ class ReplayProvider extends ChangeNotifier {
       );
 
       // Throttle UI updates (notify every 10 iterations)
-      if (i % 5 == 0) {
-        notifyListeners();
-      }
+      // if (i % 5 == 0) {
+      notifyListeners();
+      // }
 
       await Future.delayed(
-          const Duration(milliseconds: 250)); // Simulate location replay delay
+          const Duration(milliseconds: 500)); // Simulate location replay delay
     }
   }
 }

@@ -113,8 +113,7 @@ class _RemoteAttendencePageState extends State<RemoteAttendencePage> {
         }
         // GoRouter.of(context)
         //     .pushReplacementNamed(MyAppRouteConstants.homeNavBarRouteName);
-        Navigator.of(context)
-            .pushReplacementNamed(RouteGeneratorConstants.homePage);
+        Navigator.of(context).pushNamed(RouteGeneratorConstants.homePage);
       }),
       child: GestureDetector(
         onTap: () {

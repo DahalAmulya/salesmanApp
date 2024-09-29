@@ -7,7 +7,6 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
 
 class CustomBottomSheet {
-  static TextEditingController searchController = TextEditingController();
   static void showBottomSheetForm(context) {
     showModalBottomSheet(
       isScrollControlled: true,
@@ -26,11 +25,12 @@ class CustomBottomSheet {
           child: Scaffold(
             backgroundColor: CustomColors.primaryWhite,
             appBar: AppBar(
+              centerTitle: true,
               automaticallyImplyLeading: false,
               backgroundColor: CustomColors.primaryColor,
               title: CustomText(
-                text: 'Geofence Bottom Sheet',
-                size: 20.0,
+                text: 'Search Employee Location',
+                size: 22.0,
                 fontWeight: FontWeight.bold,
               ),
               leading: IconButton(
@@ -66,7 +66,7 @@ class CustomBottomSheet {
                     children: [
                       TextFromFieldWithPrefixSuffix(
                         autoFocus: true,
-                        controller: searchController,
+                        controller: liveTrackingProvider.searchController,
                         validator: (String? value) {
                           return null;
                         },
@@ -81,20 +81,35 @@ class CustomBottomSheet {
                           itemCount:
                               liveTrackingProvider.employeeLiveData.length,
                           itemBuilder: (context, index) {
-                            print(
-                                '${liveTrackingProvider.employeeLiveData.length}');
-                            // String name =
-                            //     liveTrackingProvider.employeeLiveData[index]
-                            //         ['latestData']['employee_name'];s
-                            // print(
-                            //     '${liveTrackingProvider.employeeLiveData[0]['latestData'][0]['employee_name']}');
-                            Map<String, dynamic> datas = liveTrackingProvider
-                                .employeeLiveData[index]['latestLocation'];
+                            String capitalize(String s) {
+                              if (s.isEmpty) return s;
+                              return s[0].toUpperCase() + s.substring(1);
+                            }
+
                             String name = liveTrackingProvider
                                 .employeeLiveData[index]['employee_name'];
                             return ListTile(
-                              title: CustomText(text: 'Item $name'),
-                              onTap: () {},
+                              title: CustomText(
+                                text: capitalize(name),
+                                fontWeight: FontWeight.w500,
+                              ),
+                              onTap: () {
+                                print(
+                                    liveTrackingProvider.employeeLiveData[index]
+                                        ['latestLocation']['latitude']);
+                                print(
+                                    liveTrackingProvider.employeeLiveData[index]
+                                        ['latestLocation']['longitude']);
+                                double? lat =
+                                    liveTrackingProvider.employeeLiveData[index]
+                                        ['latestLocation']['latitude'];
+                                double? long =
+                                    liveTrackingProvider.employeeLiveData[index]
+                                        ['latestLocation']['longitude'];
+                                liveTrackingProvider.setSelectedEmpLatLong(
+                                    lat, long);
+                                Navigator.pop(context);
+                              },
                             );
                           },
                         ),

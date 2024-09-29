@@ -58,8 +58,7 @@ class _OwnLiveLocationScreenState extends State<OwnLiveLocationScreen> {
         if (didpop) {
           return;
         }
-        Navigator.of(context)
-            .pushReplacementNamed(RouteGeneratorConstants.homePage);
+        Navigator.of(context).pushNamed(RouteGeneratorConstants.homePage);
       }),
       child: GestureDetector(
         onTap: () {

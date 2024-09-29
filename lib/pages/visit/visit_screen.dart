@@ -104,8 +104,7 @@ class _VisitScreenState extends State<VisitScreen>
         }
         // GoRouter.of(context)
         //     .pushReplacementNamed(MyAppRouteConstants.homeNavBarRouteName);
-        Navigator.of(context)
-            .pushReplacementNamed(RouteGeneratorConstants.homePage);
+        Navigator.of(context).pushNamed(RouteGeneratorConstants.homePage);
       }),
       child: GestureDetector(
         onTap: () {

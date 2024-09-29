@@ -26,8 +26,7 @@ class SettingPage extends StatelessWidget {
         }
         // GoRouter.of(context)
         //     .pushReplacementNamed(MyAppRouteConstants.homeNavBarRouteName);
-        Navigator.of(context)
-            .pushReplacementNamed(RouteGeneratorConstants.homePage);
+        Navigator.of(context).pushNamed(RouteGeneratorConstants.homePage);
       }),
       child: GestureDetector(
         onTap: () {
@@ -124,7 +123,7 @@ class SettingPage extends StatelessWidget {
               // GoRouter.of(context)
               //     .pushReplacementNamed(MyAppRouteConstants.loginRouteName);
               Navigator.of(context)
-                  .pushReplacementNamed(RouteGeneratorConstants.indexPage);
+                  .pushNamed(RouteGeneratorConstants.indexPage);
               print('Logout Tapped');
             },
             backgroundColor: Colors.white,
