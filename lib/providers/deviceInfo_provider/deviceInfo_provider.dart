@@ -20,6 +20,8 @@ class DeviceinfoProvider extends ChangeNotifier {
   String _consistentUdid = '';
   String _accuracy = '';
   String _deviceTime = '';
+  String _connectivityType = '';
+  String _connectivityStatus = '';
   int _batteryLevel = 0;
   double _liveLatitude = 0.0;
   double _liveLongitude = 0.0;
@@ -30,7 +32,7 @@ class DeviceinfoProvider extends ChangeNotifier {
   var baseApi = 'http://108.181.195.185:5000/api/device';
   List<ConnectivityResult> _connectionStatus = [ConnectivityResult.none];
   Connectivity _connectivity = Connectivity();
-  late StreamSubscription<List<ConnectivityResult>> _connectivitySubscription;
+  // late StreamSubscription<List<ConnectivityResult>> _connectivitySubscription;
 
   Battery get battery => _battery;
   String get uniqueIdentifier => _uniqueIdentifier;
@@ -38,6 +40,8 @@ class DeviceinfoProvider extends ChangeNotifier {
   String get consistentUdid => _consistentUdid;
   String get accuracy => _accuracy;
   String get deviceTime => _deviceTime;
+  String get connectivityType => _connectivityType;
+  String get connectivityStatus => _connectivityStatus;
   int get batteryLevel => _batteryLevel;
   double get liveLatitude => _liveLatitude;
   double get liveLongitude => _liveLongitude;
@@ -52,17 +56,10 @@ class DeviceinfoProvider extends ChangeNotifier {
     if (Platform.isAndroid) {
       AndroidDeviceInfo androidInfo = await deviceInfo.androidInfo;
       _name = '${androidInfo.brand} ${androidInfo.model}';
-      // print(androidInfo.model);
-      // print(androidInfo.brand);
-      // print(androidInfo.device);
-      // print(androidInfo.host);
-      // print(androidInfo.model);
     }
     if (Platform.isIOS) {
       IosDeviceInfo iosInfo = await deviceInfo.iosInfo;
       _name = '${iosInfo.utsname.machine} ${iosInfo.model}';
-      // print(iosInfo.utsname.machine);
-      // print(iosInfo);
     }
     String udid;
     String consistentUdid;
@@ -91,7 +88,6 @@ class DeviceinfoProvider extends ChangeNotifier {
   }
 
   DeviceinfoProvider() {
-    // _locationTimer.cancel();
     clearMarkers();
     getUniqueIdentifier();
     getBatteryLevel();
@@ -105,10 +101,7 @@ class DeviceinfoProvider extends ChangeNotifier {
     _locationTimer = Timer.periodic(const Duration(seconds: 1), (timer) {
       if (_seconds == 10) {
         _seconds = 0;
-        // getUniqueIdentifier();
-        // getLocation();
-        // getBatteryLevel();
-        postData();
+        getLocation();
         initConnectivity();
       } else {
         _seconds++;
@@ -131,39 +124,18 @@ class DeviceinfoProvider extends ChangeNotifier {
     // Platform messages may fail, so we use a try/catch PlatformException.
     try {
       result = await _connectivity.checkConnectivity();
+      _connectivityType = result[0].toString().split('.')[1];
       print('connection type = ${result[0].toString().split('.')[1]}');
-      try {
-        final response = await http.get(
-          Uri.parse('https://www.google.com'),
-        );
-        if (response.statusCode == 200) {
-          print('Connected');
-        } else {
-          print('No internet');
-        }
-      } catch (err) {
-        print('Connnected to none');
-      }
+      notifyListeners();
     } on PlatformException catch (e) {
       print('Couldn\'t check connectivity status error');
       return;
     }
-
-    // If the widget was removed from the tree while the asynchronous platform
-    // message was in flight, we want to discard the reply rather than calling
-    // setState to update our non-existent appearance.
-    // if (!mounted) {
-    //   return Future.value(null);
-    // }
-
     return _updateConnectionStatus(result);
   }
 
   Future<void> _updateConnectionStatus(List<ConnectivityResult> result) async {
-    // setState(() {
     _connectionStatus = result;
-    // });
-    // ignore: avoid_print
     print('Connectivity changed: $_connectionStatus');
   }
 
@@ -178,11 +150,10 @@ class DeviceinfoProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  void postData() async {
+  void postDeviceInfo() async {
     Uri url = Uri.parse(baseApi);
     Map<String, dynamic> data = {
       'mobileIdentifier': _uniqueIdentifier,
-      // 'mobile_id': 2,
       'employeeName': _name,
       'latitude': _liveLatitude,
       'longitude': _liveLongitude,
@@ -198,23 +169,22 @@ class DeviceinfoProvider extends ChangeNotifier {
         body: jsonEncode(data),
       );
       if (post.statusCode == 200) {
-        var data = json.decode(post.body);
+        _connectivityStatus = 'connected';
+        notifyListeners();
+        // var data = json.decode(post.body);
+        print('Data Post scuuceefull');
       } else {
         print('${post.statusCode}');
       }
     } catch (e) {
+      _connectivityStatus = 'no internet';
+      notifyListeners();
       print('Error: $e');
     }
   }
 
-  // print('mobileIdentifier: ${_uniqueIdentifier}');
-  // print('employeeName:${_name}');
-  // print('Lat: ${_liveLatitude}');
-  // print('Long: ${_liveLongitude}');
-  // print('battery_Percentage: ${_batteryLevel}');
-  // print('accuracy: ${_accuracy}');
-  // print('deviceTime: ${_deviceTime}');
   void getLocation() async {
+    initConnectivity();
     var iconPath = 'assets/images/location.png';
     final Uint8List? icon = await getBytesFromAsset(iconPath, 100);
     Position position = await Geolocator.getCurrentPosition(
@@ -258,16 +228,10 @@ class DeviceinfoProvider extends ChangeNotifier {
     // getBatteryLevel();
     notifyListeners();
 
-    // print('Distance = $distance');
-
-    // print('LatLong = $_liveLatitude, $_liveLongitude');
-    // print('Accuracy = $_accuracy');
-    // print('_uniqueIdentifier = $_uniqueIdentifier');
-    // print('_consistentUdid = $_consistentUdid');
-    // print('_batterylevel = $_batteryLevel');
-    // print('_deviecTime = $_deviceTime');
-    // notifyListeners();
-    // });
+    if (_distance < 1.5) {
+      postDeviceInfo();
+      notifyListeners();
+    }
   }
 
   Future<Uint8List?> getBytesFromAsset(String path, int width) async {
