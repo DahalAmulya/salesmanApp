@@ -85,7 +85,7 @@ class DeviceinfoProvider extends ChangeNotifier {
   }
 
   void getBatteryLevel() {
-    _battery.onBatteryStateChanged.listn((BatteryState state) async {
+    _battery.onBatteryStateChanged.listen((BatteryState state) async {
       _batteryLevel = await _battery.batteryLevel;
       // print('battery status = ${await _battery.batteryState}');
       // print('battery save mode = ${await _battery.isInBatterySaveMode}');
@@ -102,9 +102,9 @@ class DeviceinfoProvider extends ChangeNotifier {
     updateLocation();
   }
 
-  void backgroundLocation() async{
-    bg.Location location = await
-  }
+  // void backgroundLocation() async{
+  //   bg.Location location = await
+  // }
 
   void updateLocation() async {
     clearMarkers();

@@ -15,8 +15,8 @@ import 'package:deskgoo/pages/visit/visit_screen.dart';
 import 'package:deskgoo/routes/route_generator_constants.dart';
 import 'package:flutter/material.dart';
 
-import '../pages/home/officer_DescriptionPage.dart';
-import '../pages/home/officer_VisitDetailPage.dart';
+import '../pages/home/DescriptionPage/officer_DescriptionPage.dart';
+import '../pages/home/DescriptionPage/officer_VisitDetailPage.dart';
 import '../pages/settings/profile/profile_Page.dart';
 
 class RouteGenerator {
