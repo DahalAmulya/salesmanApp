@@ -27,6 +27,7 @@ class _OfficerDescriptionPageState extends State<OfficerDescriptionPage> {
   bool isChecked = false;
   OfficerDetailProvider? _officerDetailProvider;
   int? selectedIndex = 0;
+  FontWeight textFontWeight = FontWeight.w500;
 
   List<bool> isCheckedList = [];
 
@@ -44,37 +45,37 @@ class _OfficerDescriptionPageState extends State<OfficerDescriptionPage> {
       "client Name": "Ram Shah",
       "Address": "Biratnagar, Airport-Road",
       "Phone Number": 9819022062,
-      "Date Time": "2022-01-15 10:30:00",
+      "Date Time": "2022-01-15 / 10:30 PM",
     },
     {
       "client Name": "Rajesh Biswakarma",
       "Address": "Kathmandu, New Baneshwor",
       "Phone Number": 9845678901,
-      "Date Time": "2022-01-16 11:45:00",
+      "Date Time": "2022-01-16 / 11:45 AM",
     },
     {
       "client Name": "Abhijeet Yadav ",
       "Address": "Lalitpur, Jhansi Road",
       "Phone Number": 9876543210,
-      "Date Time": "2022-01-17 12:30:00",
+      "Date Time": "2022-01-17 / 12:30 PM",
     },
     {
       "client Name": "Rohan Bhattrai",
       "Address": "Lakeside Rd, Pokhara",
       "Phone Number": 9898989898,
-      "Date Time": "2022-01-18 13:15:00",
+      "Date Time": "2022-01-18 / 1:15 PM",
     },
     {
       "client Name": "Milan Biswas",
       "Address": "NGO Rd, Bharatpur",
       "Phone Number": 9874563210,
-      "Date Time": "2022-01-19 14:00:00",
+      "Date Time": "2022-01-19 / 2:00 PM",
     },
     {
       "client Name": "Siman Malla",
       "Address": ": Milanchwok,Butwal",
       "Phone Number": 9854321098,
-      "Date Time": "2022-01-20 14:45:00",
+      "Date Time": "2022-01-20 / 2:45 PM",
     }
   ];
 
@@ -102,10 +103,10 @@ class _OfficerDescriptionPageState extends State<OfficerDescriptionPage> {
     if (screenWidth >= 430) {
       officerDescriptionContainerHeight = 0.24;
     }
-    // if (screenWidth > 430) {
-    //   officerDescriptionContainerHeight = 0.24;
-    // }
-    if (screenWidth > 500 && screenWidth >= 500) {
+    if (screenWidth >= 500) {
+      officerDescriptionContainerHeight = 0.28;
+    }
+    if (screenWidth > 500 ) {
       officerDescriptionContainerHeight = 0.18;
     }
 
@@ -134,11 +135,11 @@ class _OfficerDescriptionPageState extends State<OfficerDescriptionPage> {
             return CustomText(
               text: MarketingProvider.name,
               size: 18,
-              fontWeight: FontWeight.w600,
+              fontWeight:textFontWeight,
             );
           }),
           SizedBox(
-            height: 8,
+            height: 16,
           ),
           Consumer<DetailsProvider>(
             builder: (context,detailsProvider, _) {
@@ -178,88 +179,87 @@ class _OfficerDescriptionPageState extends State<OfficerDescriptionPage> {
                             Navigator.of(context).pushNamed(
                                 RouteGeneratorConstants.officerVisitDetailPage);
                           },
-                          child: Container(
-                            height: MediaQuery.of(context).size.height *
-                                officerDescriptionContainerHeight,
-                            width: MediaQuery.of(context).size.width * 0.90,
-                            decoration: BoxDecoration(
-                              color: containerColor,
-                              borderRadius: BorderRadius.all(
-                                Radius.circular(10),
-                              ),
-                            ),
+                          child: Flexible(
                             child: Container(
-                              padding:
-                                  EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  SizedBox(
-                                    height: 16,
-                                  ),
-                                  Row(
-                                    children: [
-                                      Icon(Icons.person,),
-                                      Padding(
-                                        padding: const EdgeInsets.symmetric(
-                                            vertical: 8.0, horizontal: 8.0),
-                                        child: CustomText(
-                                            text:
-                                                '${officerDescription[index]['client Name']}',
-                                            fontWeight: FontWeight.w400),
-                                      ),
-                                      Spacer(),
-                                      Checkbox(
-                                          activeColor: Colors.blue,
-                                          value: isCheckedList[index],
-                                          onChanged: (value) {
-                                            setState(() {
-                                              isCheckedList[index] = value!;
-                                            });
-                                          })
-                                    ],
-                                  ),
-                                  Row(
-                                    children: [
-                                      Icon(FontAwesomeIcons.locationArrow,size: 20,),
-                                      Padding(
-                                        padding: const EdgeInsets.symmetric(
-                                            vertical: 8.0, horizontal: 8.0),
-                                        child: CustomText(
-                                            text:
-                                                '${officerDescription[index]['Address']}',
-                                            fontWeight: FontWeight.w400),
-                                      ),
-                                    ],
-                                  ),
-                                  Row(
-                                    children: [
-                                      Icon(FontAwesomeIcons.phone,size: 20,),
-                                      Padding(
-                                        padding: const EdgeInsets.symmetric(
-                                            vertical: 8.0, horizontal: 8.0),
-                                        child: CustomText(
-                                            text:
-                                                '${officerDescription[index]['Phone Number']}',
-                                            fontWeight: FontWeight.w400),
-                                      ),
-                                    ],
-                                  ),
-                                  Row(
-                                    children: [
-                                      Icon(FontAwesomeIcons.calendar,size: 20),
-                                      Padding(
-                                        padding: const EdgeInsets.symmetric(
-                                            vertical: 8.0, horizontal: 8.0),
-                                        child: CustomText(
-                                          text:
-                                              '${officerDescription[index]['Date Time']}',
-                                          fontWeight: FontWeight.w400,
+                              height: MediaQuery.of(context).size.height *
+                                  officerDescriptionContainerHeight,
+                              width: MediaQuery.of(context).size.width * 0.90,
+                              decoration: BoxDecoration(
+                                color: containerColor,
+                                borderRadius: BorderRadius.all(
+                                  Radius.circular(10),
+                                ),
+                              ),
+                              child: Container(
+                                padding:
+                                    EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Row(
+                                      children: [
+                                        Icon(Icons.person,),
+                                        Padding(
+                                          padding: const EdgeInsets.symmetric(
+                                              vertical: 8.0, horizontal: 8.0),
+                                          child: CustomText(
+                                              text:
+                                                  '${officerDescription[index]['client Name']}',
+                                              fontWeight: textFontWeight),
                                         ),
-                                      ),
-                                    ],
-                                  ),
-                                ],
+                                        Spacer(),
+                                        Checkbox(
+                                            activeColor: Colors.blue,
+                                            value: isCheckedList[index],
+                                            onChanged: (value) {
+                                              setState(() {
+                                                isCheckedList[index] = value!;
+                                              });
+                                            })
+                                      ],
+                                    ),
+                                    Row(
+                                      children: [
+                                        Icon(FontAwesomeIcons.locationArrow,size: 20,),
+                                        Padding(
+                                          padding: const EdgeInsets.symmetric(
+                                              vertical: 8.0, horizontal: 8.0),
+                                          child: CustomText(
+                                              text:
+                                                  '${officerDescription[index]['Address']}',
+                                              fontWeight: textFontWeight),
+                                        ),
+                                      ],
+                                    ),
+                                    Row(
+                                      children: [
+                                        Icon(FontAwesomeIcons.phone,size: 20,),
+                                        Padding(
+                                          padding: const EdgeInsets.symmetric(
+                                              vertical: 8.0, horizontal: 8.0),
+                                          child: CustomText(
+                                              text:
+                                                  '${officerDescription[index]['Phone Number']}',
+                                              fontWeight:textFontWeight),
+                                        ),
+                                      ],
+                                    ),
+                                    Row(
+                                      children: [
+                                        Icon(FontAwesomeIcons.calendar,size: 20),
+                                        Padding(
+                                          padding: const EdgeInsets.symmetric(
+                                              vertical: 8.0, horizontal: 8.0),
+                                          child: CustomText(
+                                            text:
+                                                '${officerDescription[index]['Date Time']}',
+                                            fontWeight: textFontWeight,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ],
+                                ),
                               ),
                             ),
                           ),
