@@ -4,6 +4,7 @@ import 'package:deskgoo/providers/settings_providers/profile_provider/officersDe
 import 'package:deskgoo/themes/custom_colors.dart';
 import 'package:deskgoo/widgets/texts/custom_text.dart';
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
 
 import '../../routes/route_generator_constants.dart';
@@ -171,10 +172,6 @@ class _OfficerDescriptionPageState extends State<OfficerDescriptionPage> {
                               _officerDetailProvider!.setDateTime(
                                   officerDescription[index]['Date Time']);
                             }
-                            print(officerDescription[index]['client Name']);
-                            print(officerDescription[index]['Address']);
-                            print(officerDescription[index]['Phone Number']);
-                            print(officerDescription[index]['Date Time']);
                             Navigator.of(context).pushNamed(
                                 RouteGeneratorConstants.officerVisitDetailPage);
                           },
@@ -224,21 +221,31 @@ class _OfficerDescriptionPageState extends State<OfficerDescriptionPage> {
                                       ],
                                     ),
                                   ),
-                                  Padding(
-                                    padding: const EdgeInsets.symmetric(
-                                        vertical: 8.0, horizontal: 8.0),
-                                    child: CustomText(
-                                        text:
-                                            '${officerDescription[index]['Address']}',
-                                        fontWeight: FontWeight.w400),
+                                  Row(
+                                    children: [
+                                      Icon(FontAwesomeIcons.user),
+                                      Padding(
+                                        padding: const EdgeInsets.symmetric(
+                                            vertical: 8.0, horizontal: 8.0),
+                                        child: CustomText(
+                                            text:
+                                                '${officerDescription[index]['Address']}',
+                                            fontWeight: FontWeight.w400),
+                                      ),
+                                    ],
                                   ),
-                                  Padding(
-                                    padding: const EdgeInsets.symmetric(
-                                        vertical: 8.0, horizontal: 8.0),
-                                    child: CustomText(
-                                        text:
-                                            '${officerDescription[index]['Phone Number']}',
-                                        fontWeight: FontWeight.w400),
+                                  Row(
+                                    children: [
+                                      Padding(
+
+                                        padding: const EdgeInsets.symmetric(
+                                            vertical: 8.0, horizontal: 8.0),
+                                        child: CustomText(
+                                            text:
+                                                '${officerDescription[index]['Phone Number']}',
+                                            fontWeight: FontWeight.w400),
+                                      ),
+                                    ],
                                   ),
                                   Padding(
                                     padding: const EdgeInsets.symmetric(
