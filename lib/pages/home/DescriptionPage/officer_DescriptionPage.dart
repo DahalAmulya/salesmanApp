@@ -1,13 +1,13 @@
-import 'package:deskgoo/providers/settings_providers/profile_provider/officerName_provider.dart';
-import 'package:deskgoo/providers/settings_providers/profile_provider/officerdetail_provider.dart';
-import 'package:deskgoo/providers/settings_providers/profile_provider/officersDescription_provider.dart';
+import 'package:deskgoo/providers/marketing_provider/officerName_provider.dart';
+import 'package:deskgoo/providers/marketing_provider/officerdetail_provider.dart';
+import 'package:deskgoo/providers/marketing_provider/officersDescription_provider.dart';
 import 'package:deskgoo/themes/custom_colors.dart';
 import 'package:deskgoo/widgets/texts/custom_text.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
-import '../../../providers/settings_providers/profile_provider/officerName_provider.dart';
-import '../../../providers/settings_providers/profile_provider/officerName_provider.dart';
+import '../../../providers/marketing_provider/officerName_provider.dart';
+import '../../../providers/marketing_provider/officerName_provider.dart';
 import '../../../routes/route_generator_constants.dart';
 import '../../../utils/ScreenWIdth.dart';
 import '../../../widgets/app_bars/custom_app_bars.dart';
@@ -142,6 +142,8 @@ class _OfficerDescriptionPageState extends State<OfficerDescriptionPage> {
             Consumer<DetailsProvider>(
               builder: (context, detailsProvider, _) {
                 return ListView.builder(
+                  physics: const AlwaysScrollableScrollPhysics(),
+                  scrollDirection: Axis.vertical,
                   shrinkWrap: true,
                   itemCount: officerDescription.length,
                   itemBuilder: (BuildContext context, int index) {
@@ -180,17 +182,19 @@ class _OfficerDescriptionPageState extends State<OfficerDescriptionPage> {
                           child: CustomContainer(
                             horizontalMargin: 16,
                             verticalMargin: 4,
-                            // width:
-                            // MediaQuery.of(context).size.width * 0.90,
                             color: containerColor, // Assigned based on status
                             child: Column(
                               children: [
                                 Row(
                                   children: [
                                     Icon(Icons.person),
-                                    CustomText(
-                                        text:
-                                            '${officerDescription[index]['client Name']}'),
+                                    Padding(
+                                      padding: const EdgeInsets.symmetric(
+                                          vertical: 8.0, horizontal: 8.0),
+                                      child: CustomText(
+                                          text:
+                                              '${officerDescription[index]['client Name']}'),
+                                    ),
                                     Spacer(),
                                     Checkbox(
                                       activeColor: Colors.blue,
