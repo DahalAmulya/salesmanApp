@@ -23,6 +23,7 @@ class ReplayProvider extends ChangeNotifier {
   List<LatLng> _polylineCoordinates = [];
   bool _isRestartReplay = false;
   bool _isPause = false;
+  bool _isLeavePage = false;
 
   Uint8List? _tempMarkerIcon;
   Uint8List? _startMarkerIcon;
@@ -45,9 +46,11 @@ class ReplayProvider extends ChangeNotifier {
   List<LatLng> get polylineCoordinates => _polylineCoordinates;
   bool get isRestartReplay => _isRestartReplay;
   bool get isPause => _isPause;
+  bool get isLeavePage => _isLeavePage;
 
   ReplayProvider() {
     cacheIcons(); // Pre-cache marker icons
+    _isLeavePage = false;
   }
 
   void resetValues() {
@@ -66,6 +69,12 @@ class ReplayProvider extends ChangeNotifier {
     _mobileTime = '';
     _isRestartReplay = false;
     _isPause = false;
+    // _isLeavePage = false;
+    notifyListeners();
+  }
+
+  void setLeavePage(bool isLeave) {
+    _isLeavePage = isLeave;
     notifyListeners();
   }
 
@@ -148,22 +157,25 @@ class ReplayProvider extends ChangeNotifier {
 
     notifyListeners(); // Update UI with permanent start and end markers
 
+    outerLoop:
     for (int i = 0; i < _locations.length; i++) {
-      if (_isRestartReplay) {
-        break;
+      if (_isLeavePage || _isRestartReplay) {
+        break outerLoop;
       }
 
       // Pause loop execution if _isPause is true
       while (_isPause) {
         if (_isRestartReplay) {
           break;
+        } else if (_isLeavePage) {
+          break outerLoop;
         }
         await Future.delayed(
             const Duration(milliseconds: 500)); // Small delay while paused
       }
 
-      if (_isRestartReplay) {
-        break;
+      if (_isLeavePage || _isRestartReplay) {
+        break outerLoop;
       }
 
       _latitude = _locations[i]['latitude'];
@@ -210,6 +222,8 @@ class ReplayProvider extends ChangeNotifier {
           positionParam: LatLng(_latitude, _longitude),
         ),
       );
+      print('LatLong = $_latitude, $_longitude');
+      print('isLeavePage = $_isLeavePage');
 
       // Throttle UI updates (notify every 10 iterations)
       // if (i % 5 == 0) {

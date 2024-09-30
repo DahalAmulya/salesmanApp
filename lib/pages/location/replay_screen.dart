@@ -63,6 +63,7 @@ class _ReplayScreenState extends State<ReplayScreen> {
         }
         // GoRouter.of(context)
         //     .pushReplacementNamed(MyAppRouteConstants.loginRouteName);
+        _replayProvider!.setLeavePage(true);
         _replayProvider!.resetValues();
         Navigator.of(context).pop(RouteGeneratorConstants.liveTrackingPage);
       }),
@@ -151,6 +152,7 @@ class _ReplayScreenState extends State<ReplayScreen> {
           onTapLeadingIcon: () {
             // Use the context under the Scaffold
             // Scaffold.of(context).openDrawer();
+            _replayProvider!.setLeavePage(true);
             _replayProvider!.resetValues();
             Navigator.of(context).pop(RouteGeneratorConstants.liveTrackingPage);
           },
