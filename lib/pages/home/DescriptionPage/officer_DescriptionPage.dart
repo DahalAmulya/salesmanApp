@@ -76,7 +76,6 @@ class _OfficerDescriptionPageState extends State<OfficerDescriptionPage> {
     "Not Visited",
   ];
 
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -116,162 +115,156 @@ class _OfficerDescriptionPageState extends State<OfficerDescriptionPage> {
   }
 
   Widget _buildUI(context) {
-    return Consumer(builder: (context, marketingProvider, _) {
-      return ListView(
-        children: [
-          Column(
-            children: [
-              Container(
-                child: Column(
+    return Consumer(
+      builder: (context, marketingProvider, _) {
+        return ListView(
+          children: [
+            SizedBox(
+              height: 8,
+            ),
+            Consumer<MarketingProvider>(
+              builder: (context, marketingProvider, _) {
+                return Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    SizedBox(height: 8,),
-                    Consumer<MarketingProvider>(
-                      builder: (context, marketingProvider, _) {
-                        return Container(
-                          child: CustomText(
-                            text: marketingProvider.name,
-                            size: 18,
-                            fontWeight:textFontWeight,
-                          ),
-                        );
-                      }
-                    ),
-                    SizedBox(height: 8,),
-                    Consumer<DetailsProvider>(
-                      builder: (context, detailsProvider, _) {
-                        return ListView.builder(
-                          shrinkWrap: true,
-                          itemCount: officerDescription.length,
-                          itemBuilder: (BuildContext context, int index) {
-                            Color containerColor;
-                            String visitStatus = detailsProvider
-                                .marketingOfficersDetails[index]['Visit Status'];
-                            if (visitStatus == VisitStatus[0]) {
-                              containerColor = CustomColors.lightGreen;
-                            } else if (visitStatus == VisitStatus[1]) {
-                              containerColor = CustomColors.lightYellow;
-                            } else if (visitStatus == VisitStatus[2]) {
-                              containerColor = CustomColors.lightGrey;
-                            } else if (visitStatus == VisitStatus[3]) {
-                              containerColor = CustomColors.lightRed;
-                            } else {
-                              containerColor = CustomColors.lightBlue;
-                            }
-                            return Column(
-                              children: [
-                                InkWell(
-                                  onTap: () {
-                                    if (_officerDetailProvider != null) {
-                                      _officerDetailProvider!.setName(
-                                          officerDescription[index]
-                                          ['client Name']);
-                                      _officerDetailProvider!.setAddress(
-                                          officerDescription[index]['Address']);
-                                      _officerDetailProvider!.setPhoneNumber(
-                                          officerDescription[index]
-                                          ['Phone Number']
-                                              .toString());
-                                      _officerDetailProvider!.setDateTime(
-                                          officerDescription[index]['Date Time']);
-                                    }
-                                    Navigator.of(context).pushNamed(
-                                        RouteGeneratorConstants
-                                            .officerVisitDetailPage);
-                                  },
-                                  child: CustomContainer(
-                                    horizontalMargin: 16,
-                                    verticalMargin: 4,
-                                    // width:
-                                    // MediaQuery.of(context).size.width * 0.90,
-                                    color: containerColor, // Assigned based on status
-                                    child: Column(
-                                      children: [
-                                        Row(
-                                          children: [
-                                            Icon(Icons.person),
-                                            CustomText(
-                                                text:
-                                                '${officerDescription[index]['client Name']}'),
-                                            Spacer(),
-                                            Checkbox(
-                                                activeColor: Colors.blue,
-                                                value: isCheckedList[index],
-                                                onChanged: (value) {
-                                                  setState(() {
-                                                    isCheckedList[index] =
-                                                    value!;
-                                                  });
-                                                })
-                                          ],
-                                        ),
-                                        Row(
-                                          children: [
-                                            Icon(
-                                              FontAwesomeIcons.locationArrow,
-                                              size: 20,
-                                            ),
-                                            Padding(
-                                              padding: const EdgeInsets.symmetric(
-                                                  vertical: 8.0,
-                                                  horizontal: 8.0),
-                                              child: CustomText(
-                                                  text:
-                                                  '${officerDescription[index]['Address']}',
-                                                  fontWeight: textFontWeight),
-                                            ),
-                                          ],
-                                        ),
-                                        Row(
-                                          children: [
-                                            Icon(
-                                              FontAwesomeIcons.phone,
-                                              size: 20,
-                                            ),
-                                            Padding(
-                                              padding: const EdgeInsets.symmetric(
-                                                  vertical: 8.0,
-                                                  horizontal: 8.0),
-                                              child: CustomText(
-                                                  text:
-                                                  '${officerDescription[index]['Phone Number']}',
-                                                  fontWeight: textFontWeight),
-                                            ),
-                                          ],
-                                        ),
-                                        Row(
-                                          children: [
-                                            Icon(FontAwesomeIcons.calendar,
-                                                size: 20),
-                                            Padding(
-                                              padding: const EdgeInsets.symmetric(
-                                                  vertical: 8.0,
-                                                  horizontal: 8.0),
-                                              child: CustomText(
-                                                text:
-                                                '${officerDescription[index]['Date Time']}',
-                                                fontWeight: textFontWeight,
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                ),
-                                // SizedBox(height: 8), // Adds gap between containers
-                              ],
-                            );
-                          },
-                        );
-                      },
+                    CustomText(
+                      text: marketingProvider.name,
+                      size: 18,
+                      fontWeight: FontWeight.bold,
                     ),
                   ],
-                ),
-              )
-            ],
-          ),
-        ],
-      );
-    });
+                );
+              },
+            ),
+            SizedBox(
+              height: 8,
+            ),
+            Consumer<DetailsProvider>(
+              builder: (context, detailsProvider, _) {
+                return ListView.builder(
+                  shrinkWrap: true,
+                  itemCount: officerDescription.length,
+                  itemBuilder: (BuildContext context, int index) {
+                    Color containerColor;
+                    String visitStatus = detailsProvider
+                        .marketingOfficersDetails[index]['Visit Status'];
+                    if (visitStatus == VisitStatus[0]) {
+                      containerColor = CustomColors.lightGreen;
+                    } else if (visitStatus == VisitStatus[1]) {
+                      containerColor = CustomColors.lightYellow;
+                    } else if (visitStatus == VisitStatus[2]) {
+                      containerColor = CustomColors.lightGrey;
+                    } else if (visitStatus == VisitStatus[3]) {
+                      containerColor = CustomColors.lightRed;
+                    } else {
+                      containerColor = CustomColors.lightBlue;
+                    }
+                    return Column(
+                      children: [
+                        InkWell(
+                          onTap: () {
+                            if (_officerDetailProvider != null) {
+                              _officerDetailProvider!.setName(
+                                  officerDescription[index]['client Name']);
+                              _officerDetailProvider!.setAddress(
+                                  officerDescription[index]['Address']);
+                              _officerDetailProvider!.setPhoneNumber(
+                                  officerDescription[index]['Phone Number']
+                                      .toString());
+                              _officerDetailProvider!.setDateTime(
+                                  officerDescription[index]['Date Time']);
+                            }
+                            Navigator.of(context).pushNamed(
+                                RouteGeneratorConstants.officerVisitDetailPage);
+                          },
+                          child: CustomContainer(
+                            horizontalMargin: 16,
+                            verticalMargin: 4,
+                            // width:
+                            // MediaQuery.of(context).size.width * 0.90,
+                            color: containerColor, // Assigned based on status
+                            child: Column(
+                              children: [
+                                Row(
+                                  children: [
+                                    Icon(Icons.person),
+                                    CustomText(
+                                        text:
+                                            '${officerDescription[index]['client Name']}'),
+                                    Spacer(),
+                                    Checkbox(
+                                      activeColor: Colors.blue,
+                                      value: isCheckedList[index],
+                                      onChanged: (value) {
+                                        setState(
+                                          () {
+                                            isCheckedList[index] = value!;
+                                          },
+                                        );
+                                      },
+                                    )
+                                  ],
+                                ),
+                                Row(
+                                  children: [
+                                    Icon(
+                                      FontAwesomeIcons.locationArrow,
+                                      size: 20,
+                                    ),
+                                    Padding(
+                                      padding: const EdgeInsets.symmetric(
+                                          vertical: 8.0, horizontal: 8.0),
+                                      child: CustomText(
+                                          text:
+                                              '${officerDescription[index]['Address']}',
+                                          fontWeight: textFontWeight),
+                                    ),
+                                  ],
+                                ),
+                                Row(
+                                  children: [
+                                    Icon(
+                                      FontAwesomeIcons.phone,
+                                      size: 20,
+                                    ),
+                                    Padding(
+                                      padding: const EdgeInsets.symmetric(
+                                          vertical: 8.0, horizontal: 8.0),
+                                      child: CustomText(
+                                          text:
+                                              '${officerDescription[index]['Phone Number']}',
+                                          fontWeight: textFontWeight),
+                                    ),
+                                  ],
+                                ),
+                                Row(
+                                  children: [
+                                    Icon(FontAwesomeIcons.calendar, size: 20),
+                                    Padding(
+                                      padding: const EdgeInsets.symmetric(
+                                          vertical: 8.0, horizontal: 8.0),
+                                      child: CustomText(
+                                        text:
+                                            '${officerDescription[index]['Date Time']}',
+                                        fontWeight: textFontWeight,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                        // SizedBox(height: 8), // Adds gap between containers
+                      ],
+                    );
+                  },
+                );
+              },
+            ),
+          ],
+        );
+      },
+    );
   }
 }
