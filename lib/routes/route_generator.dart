@@ -1,6 +1,7 @@
 import 'package:deskgoo/pages/attendance/remote_Attendence_page.dart';
 import 'package:deskgoo/pages/auth_screens/forgot_password/forgot_password_screen.dart';
 import 'package:deskgoo/pages/auth_screens/login/login_screen.dart';
+import 'package:deskgoo/pages/background_location_screen/background_location_screen.dart';
 import 'package:deskgoo/pages/camera/camera_screen.dart';
 import 'package:deskgoo/pages/camera/preview_photos.dart';
 import 'package:deskgoo/pages/camera/preview_selected_photo.dart';
@@ -60,6 +61,8 @@ class RouteGenerator {
         return MaterialPageRoute(builder: (_) => MarketingOfficersScreen());
       case RouteGeneratorConstants.officerVisitDetailPage:
         return MaterialPageRoute(builder: (_) => OfficerVisitDetailPage());
+      // case RouteGeneratorConstants.backgroundLocationScreen:
+      //   return MaterialPageRoute(builder: (_) => BackgroundLocationScreen());
       default:
         return MaterialPageRoute(builder: (_) => ErrorPage());
     }

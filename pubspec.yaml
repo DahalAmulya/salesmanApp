@@ -47,7 +47,6 @@ dependencies:
   flutter_switch: ^0.3.2
   nepali_utils: ^3.0.6
   geolocator: ^13.0.1
-  flutter_background_geolocation: ^4.16.0
   geocoding: ^3.0.0
   signature: ^5.5.0
   flutter_background_service: ^5.0.10
@@ -68,6 +67,9 @@ dependencies:
   # flutter_local_notifications: ^17.2.3
   awesome_notifications: ^0.9.3+1
   fluttertoast: ^8.2.8
+  # background_locator_2: ^2.0.6
+  # location: ^6.0.2
+  # location_permissions: ^4.0.1
   # gal: ^2.3.0
 
 
