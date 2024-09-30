@@ -11,6 +11,7 @@ import 'dart:ui' as ui;
 import 'package:flutter_udid/flutter_udid.dart';
 import 'package:device_info_plus/device_info_plus.dart';
 import 'package:connectivity_plus/connectivity_plus.dart';
+import 'package:flutter_background_geolocation/flutter_background_geolocation.dart' as bg;
 
 class DeviceinfoProvider extends ChangeNotifier {
   Battery _battery = Battery();
@@ -84,7 +85,7 @@ class DeviceinfoProvider extends ChangeNotifier {
   }
 
   void getBatteryLevel() {
-    _battery.onBatteryStateChanged.listen((BatteryState state) async {
+    _battery.onBatteryStateChanged.listn((BatteryState state) async {
       _batteryLevel = await _battery.batteryLevel;
       // print('battery status = ${await _battery.batteryState}');
       // print('battery save mode = ${await _battery.isInBatterySaveMode}');
@@ -99,6 +100,10 @@ class DeviceinfoProvider extends ChangeNotifier {
     getBatteryLevel();
     getLocation();
     updateLocation();
+  }
+
+  void backgroundLocation() async{
+    bg.Location location = await
   }
 
   void updateLocation() async {
