@@ -1,6 +1,13 @@
 import Flutter
 import UIKit
 import GoogleMaps
+// import background_locator_2
+
+// func registerPlugins(registry: FlutterPluginRegistry) -> () {
+//     if (!registry.hasPlugin("BackgroundLocatorPlugin")) {
+//         GeneratedPluginRegistrant.register(with: registry)
+//     } 
+// }
 
 @UIApplicationMain
 @objc class AppDelegate: FlutterAppDelegate {
@@ -10,6 +17,7 @@ import GoogleMaps
   ) -> Bool {
     GMSServices.provideAPIKey("AIzaSyDOq5UlrICMQ9rATXRmfMGXkXZPCJEoxgM")
     GeneratedPluginRegistrant.register(with: self)
+    // BackgroundLocatorPlugin.setPluginRegistrantCallback(registerPlugins)
     return super.application(application, didFinishLaunchingWithOptions: launchOptions)
   }
 }

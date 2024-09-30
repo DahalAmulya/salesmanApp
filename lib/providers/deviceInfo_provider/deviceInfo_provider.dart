@@ -11,7 +11,8 @@ import 'dart:ui' as ui;
 import 'package:flutter_udid/flutter_udid.dart';
 import 'package:device_info_plus/device_info_plus.dart';
 import 'package:connectivity_plus/connectivity_plus.dart';
-import 'package:flutter_background_geolocation/flutter_background_geolocation.dart' as bg;
+// import 'package:flutter_background_geolocation/flutter_background_geolocation.dart'
+//     as bg;
 
 class DeviceinfoProvider extends ChangeNotifier {
   Battery _battery = Battery();
@@ -85,7 +86,7 @@ class DeviceinfoProvider extends ChangeNotifier {
   }
 
   void getBatteryLevel() {
-    _battery.onBatteryStateChanged.listn((BatteryState state) async {
+    _battery.onBatteryStateChanged.listen((BatteryState state) async {
       _batteryLevel = await _battery.batteryLevel;
       // print('battery status = ${await _battery.batteryState}');
       // print('battery save mode = ${await _battery.isInBatterySaveMode}');
@@ -102,9 +103,17 @@ class DeviceinfoProvider extends ChangeNotifier {
     updateLocation();
   }
 
-  void backgroundLocation() async{
-    bg.Location location = await
-  }
+  // void backgroundLocation() async {
+  //   try {
+  //     bg.Location location = await bg.BackgroundGeolocation.getCurrentPosition(
+  //         samples: 1,
+  //         persist: true,
+  //         extras: {"event": "terminate", "headless": true});
+  //     print("[getCurrentPosition] Headless: ${location}");
+  //   } catch (error) {
+  //     print("[getCurrentPosition] Headless ERROR: $error");
+  //   }
+  // }
 
   void updateLocation() async {
     clearMarkers();
@@ -113,6 +122,7 @@ class DeviceinfoProvider extends ChangeNotifier {
       if (_seconds == 3) {
         _seconds = 0;
         getLocation();
+        // backgroundLocation();
       } else {
         _seconds++;
       }

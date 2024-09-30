@@ -17,4 +17,5 @@ class RouteGeneratorConstants {
   static const String marketingOfficers = '/marketing_officers';
   static const String officerDescriptionPage = '/officerDescriptionPage';
   static const String officerVisitDetailPage = '/officerVisitDetailPage';
+  static const String backgroundLocationScreen = '/background_location_screen';
 }
