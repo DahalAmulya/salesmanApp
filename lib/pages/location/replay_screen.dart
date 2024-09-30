@@ -27,7 +27,7 @@ class ReplayScreen extends StatefulWidget {
 class _ReplayScreenState extends State<ReplayScreen> {
   ReplayProvider? _replayProvider;
   final LocalAuthentication auth = LocalAuthentication();
-  int index = 0;
+  int index = 1;
   final Completer<GoogleMapController> _controller = Completer();
   // late DeviceinfoProvider _provider;
 
@@ -131,7 +131,7 @@ class _ReplayScreenState extends State<ReplayScreen> {
           //     ],
           //   );
           // }),
-          bottomNavigationBar: _bottomNavBar(context),
+          // bottomNavigationBar: _bottomNavBar(context),
         ),
       ),
     );

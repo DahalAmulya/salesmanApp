@@ -1,7 +1,6 @@
 import 'package:flutter/foundation.dart';
 
 class ProfileSetter {
-
   ProfileSetter({
     // required this.employee_name,
     // required this.address,
@@ -20,18 +19,18 @@ class ProfileSetter {
     ////////////////////////////////
 
     this.employee_name = 'Amuly Sharma',
-     this.address = 'Biratnagar-12',
-     this.date_of_birth = '1997-01-1',
-     this.gender = 'Male',
+    this.address = 'Biratnagar-12',
+    this.date_of_birth = '1997-01-1',
+    this.gender = 'Male',
     this.marital_status = 'unmarried',
     this.prefered_contact_email = 'amulya123@gmial.com',
     // required this.AttendanceId,
-     this.date_of_joining = '2024-08-17',
-     this.department = 'Developer',
-     this.designation = 'Manager',
-     this.default_shift = 'General',
-     this.notice_number_of_days = '0',
-     this.date_of_retirement = '2057-01-16',
+    this.date_of_joining = '2024-08-17',
+    this.department = 'Developer',
+    this.designation = 'Manager',
+    this.default_shift = 'General',
+    this.notice_number_of_days = '0',
+    this.date_of_retirement = '2057-01-16',
   });
 
   final String employee_name;
@@ -49,8 +48,7 @@ class ProfileSetter {
   final String date_of_retirement;
 }
 
-class ProfileProvider extends ChangeNotifier{
-
+class ProfileProvider extends ChangeNotifier {
   String _employee_name = '';
   String _address = '';
   String _date_of_birth = '';
@@ -59,39 +57,42 @@ class ProfileProvider extends ChangeNotifier{
   String _prefered_contact_email = '';
   String _date_of_joining = '';
   String _department = '';
-  String _designation ='';
+  String _designation = '';
   String _default_shift = '';
   String _notice_number_of_days = '';
   String _date_of_retirement = '';
 
+  String get employee_name => _employee_name;
+  String get address => _address;
+  String get date_of_birth => _date_of_birth;
+  String get gender => _gender;
+  String get marital_status => _marital_status;
+  String get prefered_contact_email => _prefered_contact_email;
+  String get date_of_joining => _date_of_joining;
+  String get department => _department;
+  String get designation => _designation;
+  String get default_shift => _default_shift;
+  String get notice_number_of_days => _notice_number_of_days;
+  String get date_of_retirement => _date_of_retirement;
 
-   String get employee_name => _employee_name;
-   String get address => _address;
-   String get date_of_birth => _date_of_birth;
-   String get gender => _gender;
-   String get marital_status => _marital_status;
-   String get prefered_contact_email => _prefered_contact_email;
-   String get date_of_joining => _date_of_joining;
-   String get department => _department;
-   String get designation => _designation;
-   String get default_shift => _default_shift;
-   String get notice_number_of_days => _notice_number_of_days;
-   String get date_of_retirement => _date_of_retirement;
+  ProfileProvider() {
+    setProfileValues(ProfileSetter());
+  }
 
-   void setProfileValues(ProfileSetter profile){
-     _employee_name = profile.employee_name;
-     _address = profile.address;
-     _date_of_birth = profile.date_of_birth;
-     _gender = profile.gender;
-     _marital_status = profile.marital_status;
-     _prefered_contact_email = profile.prefered_contact_email;
-     // _AttendanceId = profile.AttendanceId;
-     _date_of_joining = profile.date_of_joining;
-     _department = profile.department;
-     _designation = profile.designation;
-     _default_shift = profile.default_shift;
-     _notice_number_of_days = profile.notice_number_of_days;
-     _date_of_retirement = profile.date_of_retirement;
-     notifyListeners();
-   }
+  void setProfileValues(ProfileSetter profile) {
+    _employee_name = profile.employee_name;
+    _address = profile.address;
+    _date_of_birth = profile.date_of_birth;
+    _gender = profile.gender;
+    _marital_status = profile.marital_status;
+    _prefered_contact_email = profile.prefered_contact_email;
+    // _AttendanceId = profile.AttendanceId;
+    _date_of_joining = profile.date_of_joining;
+    _department = profile.department;
+    _designation = profile.designation;
+    _default_shift = profile.default_shift;
+    _notice_number_of_days = profile.notice_number_of_days;
+    _date_of_retirement = profile.date_of_retirement;
+    notifyListeners();
+  }
 }
