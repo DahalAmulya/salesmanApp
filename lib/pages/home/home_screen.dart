@@ -142,7 +142,7 @@ class _HomeScreenState extends State<HomeScreen> {
       onDismissActionReceivedMethod:
           NotificationController.onDismissActionReceivedMethod,
     );
-    NotificationUtils.sendNotification(2, 'Home', 'You are on home screen');
+    // NotificationUtils.sendNotification(2, 'Home', 'You are on home screen');
     super.initState();
   }
 
@@ -231,111 +231,111 @@ class _HomeScreenState extends State<HomeScreen> {
           // drawerDragStartBehavior: DragStartBehavior.start,
           // body: _googleMap(context),
           body: _buildUI(context),
-          floatingActionButton: FloatingActionButton(
-            backgroundColor: CustomColors.primaryColor,
-            onPressed: () async {
-              // Create visit details
-              VisitDetails visit1 = VisitDetails(
-                visitCount: 0,
-                clientVisitedPerson: 'Rita Sharma',
-                clientVisitedPersonRelation: 'Wife',
-                visitedDate: '2024-09-26 05:29:32',
-                note: 'Person was not at home. Please visit again',
-                isFollowUp: true,
-                newFollowUpdate: '2024-09-28',
-              );
+          // floatingActionButton: FloatingActionButton(
+          //   backgroundColor: CustomColors.primaryColor,
+          //   onPressed: () async {
+          //     // Create visit details
+          //     VisitDetails visit1 = VisitDetails(
+          //       visitCount: 0,
+          //       clientVisitedPerson: 'Rita Sharma',
+          //       clientVisitedPersonRelation: 'Wife',
+          //       visitedDate: '2024-09-26 05:29:32',
+          //       note: 'Person was not at home. Please visit again',
+          //       isFollowUp: true,
+          //       newFollowUpdate: '2024-09-28',
+          //     );
 
-              VisitClientModel client1 = VisitClientModel(
-                clientName: 'Ram Sharma',
-                clientPhoneNumber: '9812345678',
-                clientEmail: 'ramsharma@gmail.com',
-                clientAddress: 'biratnagar,mahendra chowk',
-                clientWhatsApp: '9812345678',
-                // visitDetails: [visit1],
-              );
+          // VisitClientModel client1 = VisitClientModel(
+          //   clientName: 'Ram Sharma',
+          //   clientPhoneNumber: '9812345678',
+          //   clientEmail: 'ramsharma@gmail.com',
+          //   clientAddress: 'biratnagar,mahendra chowk',
+          //   clientWhatsApp: '9812345678',
+          //   // visitDetails: [visit1],
+          // );
 
-              // Add the client to the list
-              // ClientsList.addClient(client1);
+          // Add the client to the list
+          // ClientsList.addClient(client1);
 
-              // ClientsList.addVisitDetails(
-              //   0,
-              //   VisitDetails(
-              //     visitedDate: '${DateTime.now().toString().split('.')[0]}',
-              //     note: 'Visited Person',
-              //     isFollowUp: false,
-              //     newFollowUpdate: '',
-              //   ),
-              // );
+          // ClientsList.addVisitDetails(
+          //   0,
+          //   VisitDetails(
+          //     visitedDate: '${DateTime.now().toString().split('.')[0]}',
+          //     note: 'Visited Person',
+          //     isFollowUp: false,
+          //     newFollowUpdate: '',
+          //   ),
+          // );
 
-              // ClientsList.clients[0].visitDetails!.add(
-              //   VisitDetails(
-              //       visitCount:
-              //           ClientsList.clients[0].visitDetails!.last.visitCount! +
-              //               1,
-              //       visitedDate: '2024-09-28',
-              //       note: 'Hello World',
-              //       isFollowUp: false,
-              //       newFollowUpdate: ''),
-              // );
-              // print('${ClientsList.clients[0].visitDetails!.last.visitCount}');
-              // print(
-              //     '${ClientsList.clients[0].visitDetails!.last.visitCount.runtimeType}');
+          // ClientsList.clients[0].visitDetails!.add(
+          //   VisitDetails(
+          //       visitCount:
+          //           ClientsList.clients[0].visitDetails!.last.visitCount! +
+          //               1,
+          //       visitedDate: '2024-09-28',
+          //       note: 'Hello World',
+          //       isFollowUp: false,
+          //       newFollowUpdate: ''),
+          // );
+          // print('${ClientsList.clients[0].visitDetails!.last.visitCount}');
+          // print(
+          //     '${ClientsList.clients[0].visitDetails!.last.visitCount.runtimeType}');
 
-              // Print all clients
-              // ClientsList.getClientsList();
+          // Print all clients
+          // ClientsList.getClientsList();
 
-              // Navigator.of(context)
-              //     .pushNamed(RouteGeneratorConstants.cameraPage);
-              // ERPResponse response = await ERPServicer.getRequest('device');
-              // print(response.statusCode);
-              // Map<String, dynamic> body = jsonDecode(response.body);
-              // List<dynamic> latestData = body['latestData'];
-              // for (int i = 0; i < latestData.length; i++) {
-              //   print(latestData[i]);
-              // }
-              // LiveTrackingProvider liveTrackingProvider =
-              //     Provider.of<LiveTrackingProvider>(context, listen: false);
-              // liveTrackingProvider.getAllEmployeesLocation();
-              // Navigator.of(context)
-              //     .pushNamed(RouteGeneratorConstants.replayPage);
+          // Navigator.of(context)
+          //     .pushNamed(RouteGeneratorConstants.cameraPage);
+          // ERPResponse response = await ERPServicer.getRequest('device');
+          // print(response.statusCode);
+          // Map<String, dynamic> body = jsonDecode(response.body);
+          // List<dynamic> latestData = body['latestData'];
+          // for (int i = 0; i < latestData.length; i++) {
+          //   print(latestData[i]);
+          // }
+          // LiveTrackingProvider liveTrackingProvider =
+          //     Provider.of<LiveTrackingProvider>(context, listen: false);
+          // liveTrackingProvider.getAllEmployeesLocation();
+          // Navigator.of(context)
+          //     .pushNamed(RouteGeneratorConstants.replayPage);
 
-              // final appDocDir = await getApplicationDocumentsDirectory();
-              // final appDocPath = appDocDir.path;
-              // print('App Documents Directory: $appDocPath');
-              // final filePath = '${appDocPath}fileName';
-              // final file = File(filePath);
-              // await file.writeAsString('Thie is the content of the file...');
-              // print(file.path);
-              // print(await file.readAsString());
+          // final appDocDir = await getApplicationDocumentsDirectory();
+          // final appDocPath = appDocDir.path;
+          // print('App Documents Directory: $appDocPath');
+          // final filePath = '${appDocPath}fileName';
+          // final file = File(filePath);
+          // await file.writeAsString('Thie is the content of the file...');
+          // print(file.path);
+          // print(await file.readAsString());
 
-              // final tempDir = await getTemporaryDirectory();
-              // final tempPath = tempDir.path;
-              // print('App Documents Directory: $tempPath');
-              // final appCacheDir = await getApplicationCacheDirectory();
-              // print('app Cache Directory: ${appCacheDir.path}');
-              // final appCacheDires = await getExternalCacheDirectories();
-              // print('app Cache Directories: ${appCacheDires}');
-              // final appSupportDir = await getApplicationSupportDirectory();
-              // print('app Support Directory: ${appSupportDir.path}');
-              // // final appLibraryDir = await getLibraryDirectory();
-              // // print('app Library Directories: ${appLibraryDir.path}');
-              // final appExternalStorageDires =
-              //     await getExternalStorageDirectories(
-              //         type: StorageDirectory.downloads);
-              // print('app External Directories: ${appExternalStorageDires}');
-              // final appExternalStorageDir = await getExternalStorageDirectory();
-              // print('app External Directory: ${appExternalStorageDir!.path}');
-              // final appDownloadDir = await getDownloadsDirectory();
-              // print('app Download Directory: ${appDownloadDir!.path}');
-              NotificationUtils.sendNotification(
-                  1, 'Test', 'This is test notification');
-            },
-            child: Image.asset(
-              'assets/images/camera.png',
-              width: 28,
-              height: 28,
-            ),
-          ),
+          // final tempDir = await getTemporaryDirectory();
+          // final tempPath = tempDir.path;
+          // print('App Documents Directory: $tempPath');
+          // final appCacheDir = await getApplicationCacheDirectory();
+          // print('app Cache Directory: ${appCacheDir.path}');
+          // final appCacheDires = await getExternalCacheDirectories();
+          // print('app Cache Directories: ${appCacheDires}');
+          // final appSupportDir = await getApplicationSupportDirectory();
+          // print('app Support Directory: ${appSupportDir.path}');
+          // // final appLibraryDir = await getLibraryDirectory();
+          // // print('app Library Directories: ${appLibraryDir.path}');
+          // final appExternalStorageDires =
+          //     await getExternalStorageDirectories(
+          //         type: StorageDirectory.downloads);
+          // print('app External Directories: ${appExternalStorageDires}');
+          // final appExternalStorageDir = await getExternalStorageDirectory();
+          // print('app External Directory: ${appExternalStorageDir!.path}');
+          // final appDownloadDir = await getDownloadsDirectory();
+          // print('app Download Directory: ${appDownloadDir!.path}');
+          //   NotificationUtils.sendNotification(
+          //       1, 'Test', 'This is test notification');
+          // },
+          //   child: Image.asset(
+          //     'assets/images/camera.png',
+          //     width: 28,
+          //     height: 28,
+          //   ),
+          // ),
           bottomNavigationBar: _bottomNavBar(context),
         ),
       ),
@@ -411,6 +411,9 @@ class _HomeScreenState extends State<HomeScreen> {
     }
     if (screenWidth >= 375 && screenWidth <= 393) {
       marketingContainerHeight = 0.78;
+    }
+    if (screenWidth > 393 && screenWidth < 414) {
+      marketingContainerHeight = 0.84;
     }
     if (screenWidth >= 414 && screenWidth <= 430) {
       marketingContainerHeight = 0.80;

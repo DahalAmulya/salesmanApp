@@ -16,7 +16,7 @@ import 'package:flutter/material.dart';
 
 import '../pages/home/officer_DescriptionPage.dart';
 import '../pages/home/officer_VisitDetailPage.dart';
-import '../pages/home/profile_Page.dart';
+import '../pages/settings/profile/profile_Page.dart';
 
 class RouteGenerator {
   static Route<dynamic> generateRoute(RouteSettings settings) {

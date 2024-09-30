@@ -14,7 +14,7 @@ class SettingPage extends StatelessWidget {
 
   int index = 2;
   FontWeight labelFontWeight = FontWeight.w500;
-  double labelSize = 18;
+  double labelSize = 20;
 
   @override
   Widget build(BuildContext context) {
@@ -75,7 +75,10 @@ class SettingPage extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 16.0,
+                  vertical: 2,
+                ),
                 child: CustomText(
                   text: 'Theme',
                   fontWeight: labelFontWeight,
@@ -89,10 +92,10 @@ class SettingPage extends StatelessWidget {
                       .pushNamed(RouteGeneratorConstants.profilePage);
                 },
                 child: CustomContainer(
-                  verticalPad: 0,
+                  verticalPad: 2,
                   horizontalMargin: 0,
                   verticalMargin: 0,
-                  horizontalPad: 8,
+                  horizontalPad: 16,
                   width: 1,
                   // color: Colors.red,
                   child: CustomText(
@@ -104,7 +107,10 @@ class SettingPage extends StatelessWidget {
               ),
               Divider(),
               Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 16.0,
+                  vertical: 2,
+                ),
                 child: CustomText(
                   text: 'About us',
                   fontWeight: labelFontWeight,

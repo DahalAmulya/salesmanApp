@@ -1,11 +1,14 @@
 import 'package:deskgoo/providers/settings_providers/profile_provider/profile_provider.dart';
 import 'package:deskgoo/themes/custom_colors.dart';
+import 'package:deskgoo/widgets/app_bars/custom_app_bars.dart';
+import 'package:deskgoo/widgets/bottom_navigation/gnav_bar.dart';
 import 'package:deskgoo/widgets/texts/custom_text.dart';
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
 
-import '../../routes/route_generator_constants.dart';
-import '../../widgets/containers/custom_container.dart';
+import '../../../routes/route_generator_constants.dart';
+import '../../../widgets/containers/custom_container.dart';
 
 class Profile_page extends StatefulWidget {
   const Profile_page({super.key});
@@ -17,35 +20,42 @@ class Profile_page extends StatefulWidget {
 class _Profile_pageState extends State<Profile_page> {
   double textFontSize = 16.0;
   FontWeight fontWeight = FontWeight.w600;
+  int index = 2;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: CustomColors.primaryWhite,
-      appBar: AppBar(
-        backgroundColor: CustomColors.primaryColor,
-        title: CustomText(
-          text: 'Details',
-          size: 30,
-          fontWeight: FontWeight.w600,
-        ),
-        leading: InkWell(
-          onTap: () {
-            Navigator.of(context)
-                .pushNamed(RouteGeneratorConstants.settingPage);
+      appBar: _appBar(context),
+      body: _buildUI(context),
+      bottomNavigationBar: _bottomNavBar(context),
+      // body:
+    );
+  }
+
+  PreferredSize _appBar(context) {
+    return PreferredSize(
+      preferredSize: Size.fromHeight(kToolbarHeight),
+      child: Builder(
+        builder: (context) => CustomAppBar(
+          tabName: 'Account',
+          titleColor: CustomColors.primaryBlack,
+          backgroundColor: CustomColors.primaryColor,
+          showLeading: true,
+          leadingIcon: FontAwesomeIcons.arrowLeft,
+          leadingIconColor: CustomColors.primaryBlack,
+          onTapLeadingIcon: () {
+            Navigator.of(context).pop(RouteGeneratorConstants.settingPage);
           },
-          child: Icon(
-            Icons.arrow_back,
-            size: 30,
-          ),
         ),
       ),
-      body: SafeArea(
-        child:
-            Consumer<ProfileProvider>(builder: (context, profileProvider, _) {
-          profileProvider.setProfileValues(ProfileSetter());
-          // profileProvider.setProfileValues(ProfileSetter(
-          //     employee_name: employee_name, address: address, date_of_birth: date_of_birth, gender: gender, marital_status: marital_status, prefered_contact_email: prefered_contact_email, date_of_joining: date_of_joining, department: department, designation: designation, default_shift: default_shift, notice_number_of_days: notice_number_of_days, date_of_retirement: date_of_retirement));
+    );
+  }
+
+  Widget _buildUI(context) {
+    return SafeArea(
+      child: Consumer<ProfileProvider>(
+        builder: (context, profileProvider, _) {
           return SingleChildScrollView(
             child: Container(
               child: Column(
@@ -183,8 +193,18 @@ class _Profile_pageState extends State<Profile_page> {
               ),
             ),
           );
-        }),
+        },
       ),
+    );
+  }
+
+  CustomGNavBar _bottomNavBar(context) {
+    return CustomGNavBar(
+      selectedIndex: index,
+      onTap: (value) {
+        index = value;
+        print(index);
+      },
     );
   }
 }
