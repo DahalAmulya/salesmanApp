@@ -252,7 +252,7 @@ class DeviceinfoProvider extends ChangeNotifier {
       _liveLongitude,
     );
 
-    if (_connectivityType != 'none' && _distance > 5) {
+    if (_connectivityType != 'none' && _distance > 3) {
       _connectivityStatus = 'connected';
       postDeviceInfo();
       notifyListeners();
