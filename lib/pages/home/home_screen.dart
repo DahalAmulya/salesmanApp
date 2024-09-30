@@ -16,8 +16,8 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:local_auth/local_auth.dart';
 import 'package:provider/provider.dart';
-import '../../providers/settings_providers/profile_provider/officerName_provider.dart';
-import '../../providers/settings_providers/profile_provider/officersDescription_provider.dart';
+import '../../providers/marketing_provider/officerName_provider.dart';
+import '../../providers/marketing_provider/officersDescription_provider.dart';
 import '../../utils/ScreenWIdth.dart';
 
 class HomeScreen extends StatefulWidget {

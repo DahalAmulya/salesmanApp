@@ -1,5 +1,5 @@
-import 'package:deskgoo/providers/settings_providers/profile_provider/officerName_provider.dart';
-import 'package:deskgoo/providers/settings_providers/profile_provider/officersDescription_provider.dart';
+import 'package:deskgoo/providers/marketing_provider/officerName_provider.dart';
+import 'package:deskgoo/providers/marketing_provider/officersDescription_provider.dart';
 import 'package:deskgoo/routes/route_generator_constants.dart';
 import 'package:deskgoo/themes/custom_colors.dart';
 import 'package:deskgoo/widgets/app_bars/custom_app_bars.dart';

@@ -1,4 +1,4 @@
-import 'package:deskgoo/providers/settings_providers/profile_provider/officerdetail_provider.dart';
+import 'package:deskgoo/providers/marketing_provider/officerdetail_provider.dart';
 import 'package:deskgoo/themes/custom_colors.dart';
 import 'package:deskgoo/widgets/texts/custom_text.dart';
 import 'package:flutter/material.dart';
@@ -32,81 +32,85 @@ class _OfficerVisitDetailPageState extends State<OfficerVisitDetailPage> {
       ),
       body: Column(
         children: [
-         // CircleAvatar(
-         //   backgroundImage: AssetImage('assets/images/johnCena.jpg'),
-         //   radius: 50,
-         // ),
           SizedBox(height: 16,),
-          Center(
-            child: Container(
-              decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.circular(8),
-              ),
-              width: MediaQuery.of(context).size.width * 0.94,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  SizedBox(height: 8,),
-                  Row(
-                    children: [
-                      Container(
-                        height: 24,
-                        width: 10,
-                        decoration: BoxDecoration(
-                          color: CustomColors.primaryColor,
-                          borderRadius: BorderRadius.circular(16),
-                        ),
+          CustomContainer(
+            color: Colors.white,
+            verticalMargin: 0,
+            verticalPad: 12,
+            horizontalMargin: 8,
+            horizontalPad: 0,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Row(
+                  children: [
+                    Container(
+                      height: 24,
+                      width: 5,
+                      decoration: BoxDecoration(
+                        color: CustomColors.primaryColor,
+                        borderRadius: BorderRadius.circular(50),
                       ),
-                      SizedBox(width: 8,),
-                      CustomText(text: 'Visit Details',fontWeight: FontWeight.w600,size: 20,)
+                    ),
+                    SizedBox(width: 16,),
+                    CustomText(text: 'Visit Details',fontWeight: FontWeight.w600,size: 20,)
+                  ],
+                ),
+                Divider(
+                  height: 8,
+                  thickness: 1,
+                  indent: 24,
+                  color: Colors.grey,
+                ),
+                Container(
+                  padding: EdgeInsets.symmetric(horizontal: 16,vertical: 8),
+                  child: Column(
+                   crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Consumer<OfficerDetailProvider>(
+                          builder: (context,OfficerDetailProvider,_) {
+                            return Padding(
+                              padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                              child: CustomText(
+                                text: 'Name: ${OfficerDetailProvider.name}',
+                              ),
+                            );
+                          }
+                      ),
+                      Consumer<OfficerDetailProvider>(
+                          builder: (context,OfficerDetailProvider,_) {
+                            return Padding(
+                              padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                              child: CustomText(
+                                text: 'Address: ${OfficerDetailProvider.address}',
+                              ),
+                            );
+                          }
+                      ),
+                      Consumer<OfficerDetailProvider>(
+                          builder: (context,OfficerDetailProvider,_) {
+                            return Padding(
+                              padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                              child: CustomText(
+                                text: 'Phone Number: ${OfficerDetailProvider.phoneNumber}',
+                              ),
+                            );
+                          }
+                      ),
+                      Consumer<OfficerDetailProvider>(
+                          builder: (context,OfficerDetailProvider,_) {
+                            return Padding(
+                              padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                              child: CustomText(
+                                text: 'Date and Time: ${OfficerDetailProvider.dateTime}',
+                              ),
+                            );
+                          }
+                      ),
                     ],
                   ),
-                  Divider(
-                    height: 1,
-                    thickness: 1,
-                    indent: 20,
-                    color: Colors.grey,
-                  ),
-                  Container(
-                    padding: EdgeInsets.symmetric(horizontal: 16,vertical: 8),
-                    child: Column(
-                     crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Consumer<OfficerDetailProvider>(
-                            builder: (context,OfficerDetailProvider,_) {
-                              return CustomText(
-                                text: 'Name: ${OfficerDetailProvider.name}',
-                              );
-                            }
-                        ),
-                        Consumer<OfficerDetailProvider>(
-                            builder: (context,OfficerDetailProvider,_) {
-                              return CustomText(
-
-                                text: 'Address: ${OfficerDetailProvider.address}',
-                              );
-                            }
-                        ),
-                        Consumer<OfficerDetailProvider>(
-                            builder: (context,OfficerDetailProvider,_) {
-                              return CustomText(
-                                text: 'Phone Number: ${OfficerDetailProvider.phoneNumber}',
-                              );
-                            }
-                        ),
-                        Consumer<OfficerDetailProvider>(
-                            builder: (context,OfficerDetailProvider,_) {
-                              return CustomText(
-                                text: 'Date and Time: ${OfficerDetailProvider.dateTime}',
-                              );
-                            }
-                        ),
-                      ],
-                    ),
-                  ),
-                ],
-              ),
+                ),
+              ],
             ),
           ),
         ],
