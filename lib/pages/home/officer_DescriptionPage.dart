@@ -28,11 +28,14 @@ class _OfficerDescriptionPageState extends State<OfficerDescriptionPage> {
   OfficerDetailProvider? _officerDetailProvider;
   int? selectedIndex = 0;
 
+  List<bool> isCheckedList = [];
+
   @override
   void initState() {
     _marketingProvider = Provider.of<MarketingProvider>(context, listen: false);
     _officerDetailProvider =
         Provider.of<OfficerDetailProvider>(context, listen: false);
+    isCheckedList = List<bool>.filled(officerDescription.length, false);
     super.initState();
   }
 
@@ -57,7 +60,7 @@ class _OfficerDescriptionPageState extends State<OfficerDescriptionPage> {
     },
     {
       "client Name": "Rohan Bhattrai",
-      "Address": "Shiva Mandir Marg, Lakeside Rd, Pokhara",
+      "Address": "Lakeside Rd, Pokhara",
       "Phone Number": 9898989898,
       "Date Time": "2022-01-18 13:15:00",
     },
@@ -184,10 +187,6 @@ class _OfficerDescriptionPageState extends State<OfficerDescriptionPage> {
                               borderRadius: BorderRadius.all(
                                 Radius.circular(10),
                               ),
-                              border: Border.all(
-                                color: Colors.black,
-                                width: 1,
-                              ),
                             ),
                             child: Container(
                               padding:
@@ -198,32 +197,31 @@ class _OfficerDescriptionPageState extends State<OfficerDescriptionPage> {
                                   SizedBox(
                                     height: 16,
                                   ),
-                                  Padding(
-                                    padding: const EdgeInsets.symmetric(
-                                      horizontal: 6.0,
-                                    ),
-                                    child: Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
-                                      children: [
-                                        CustomText(
+                                  Row(
+                                    children: [
+                                      Icon(Icons.person,),
+                                      Padding(
+                                        padding: const EdgeInsets.symmetric(
+                                            vertical: 8.0, horizontal: 8.0),
+                                        child: CustomText(
                                             text:
                                                 '${officerDescription[index]['client Name']}',
                                             fontWeight: FontWeight.w400),
-                                        Checkbox(
-                                            activeColor: Colors.blue,
-                                            value: isChecked,
-                                            onChanged: (value) {
-                                              setState(() {
-                                                isChecked = value!;
-                                              });
-                                            })
-                                      ],
-                                    ),
+                                      ),
+                                      Spacer(),
+                                      Checkbox(
+                                          activeColor: Colors.blue,
+                                          value: isCheckedList[index],
+                                          onChanged: (value) {
+                                            setState(() {
+                                              isCheckedList[index] = value!;
+                                            });
+                                          })
+                                    ],
                                   ),
                                   Row(
                                     children: [
-                                      Icon(FontAwesomeIcons.user),
+                                      Icon(FontAwesomeIcons.locationArrow,size: 20,),
                                       Padding(
                                         padding: const EdgeInsets.symmetric(
                                             vertical: 8.0, horizontal: 8.0),
@@ -236,8 +234,8 @@ class _OfficerDescriptionPageState extends State<OfficerDescriptionPage> {
                                   ),
                                   Row(
                                     children: [
+                                      Icon(FontAwesomeIcons.phone,size: 20,),
                                       Padding(
-
                                         padding: const EdgeInsets.symmetric(
                                             vertical: 8.0, horizontal: 8.0),
                                         child: CustomText(
@@ -247,14 +245,19 @@ class _OfficerDescriptionPageState extends State<OfficerDescriptionPage> {
                                       ),
                                     ],
                                   ),
-                                  Padding(
-                                    padding: const EdgeInsets.symmetric(
-                                        vertical: 8.0, horizontal: 8.0),
-                                    child: CustomText(
-                                      text:
-                                          '${officerDescription[index]['Date Time']}',
-                                      fontWeight: FontWeight.w400,
-                                    ),
+                                  Row(
+                                    children: [
+                                      Icon(FontAwesomeIcons.calendar,size: 20),
+                                      Padding(
+                                        padding: const EdgeInsets.symmetric(
+                                            vertical: 8.0, horizontal: 8.0),
+                                        child: CustomText(
+                                          text:
+                                              '${officerDescription[index]['Date Time']}',
+                                          fontWeight: FontWeight.w400,
+                                        ),
+                                      ),
+                                    ],
                                   ),
                                 ],
                               ),
