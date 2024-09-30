@@ -65,6 +65,7 @@ class ReplayProvider extends ChangeNotifier {
     _totalDistance = 0.0;
     _distance = 0.0;
     _battery = 0;
+    _name = '';
     _mobileDate = '';
     _mobileTime = '';
     _isRestartReplay = false;
@@ -75,6 +76,7 @@ class ReplayProvider extends ChangeNotifier {
 
   void setLeavePage(bool isLeave) {
     _isLeavePage = isLeave;
+    _name = '';
     notifyListeners();
   }
 
@@ -94,6 +96,7 @@ class ReplayProvider extends ChangeNotifier {
   }
 
   void getEmployeeLocationById(int id) async {
+    resetValues();
     ERPResponse response = await ERPServicer.getRequest('location', '/$id');
     print(response.statusCode);
     Map<String, dynamic> body = jsonDecode(response.body);
@@ -127,7 +130,8 @@ class ReplayProvider extends ChangeNotifier {
   }
 
   void locationReplay() async {
-    resetValues();
+    // resetValues();
+    _isLeavePage = false;
     // Add start marker (index 0) as permanent
     _positionMarkers.add(
       Marker(

@@ -9,6 +9,7 @@ import 'package:deskgoo/pages/home/home_screen.dart';
 import 'package:deskgoo/pages/location/live_tracking_screen.dart';
 import 'package:deskgoo/pages/location/replay_screen.dart';
 import 'package:deskgoo/pages/location/show_own_location_screen.dart';
+import 'package:deskgoo/pages/marketing_officers/marketing_officers_screen.dart';
 import 'package:deskgoo/pages/settings/setting.dart';
 import 'package:deskgoo/pages/visit/visit_screen.dart';
 import 'package:deskgoo/routes/route_generator_constants.dart';
@@ -55,6 +56,8 @@ class RouteGenerator {
         return MaterialPageRoute(builder: (_) => Profile_page());
       case RouteGeneratorConstants.officerDescriptionPage:
         return MaterialPageRoute(builder: (_) => OfficerDescriptionPage());
+      case RouteGeneratorConstants.marketingOfficers:
+        return MaterialPageRoute(builder: (_) => MarketingOfficersScreen());
       case RouteGeneratorConstants.officerVisitDetailPage:
         return MaterialPageRoute(builder: (_) => OfficerVisitDetailPage());
       default:

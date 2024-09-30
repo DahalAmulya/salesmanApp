@@ -1,46 +1,24 @@
-import 'dart:async';
 import 'dart:developer';
-import 'dart:io';
 import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:deskgoo/classes/notification_controller.dart';
-import 'package:deskgoo/models/visit_models/clients.dart';
-import 'package:deskgoo/models/visit_models/visit_client_model.dart';
-import 'package:deskgoo/providers/camera_provider/camera_provider.dart';
 import 'package:deskgoo/providers/deviceInfo_provider/deviceInfo_provider.dart';
-import 'package:deskgoo/providers/live_tracking_provider/live_tracking_provider.dart';
-import 'package:deskgoo/routes/app_route_constants.dart';
 import 'package:deskgoo/routes/route_generator_constants.dart';
-import 'package:deskgoo/services/erp_services.dart';
 import 'package:deskgoo/themes/custom_colors.dart';
-import 'package:deskgoo/utils/notification.dart';
 import 'package:deskgoo/widgets/app_bars/custom_app_bars.dart';
 import 'package:deskgoo/widgets/bottom_navigation/gnav_bar.dart';
 import 'package:deskgoo/widgets/buttons/elevated_button.dart';
 import 'package:deskgoo/widgets/containers/custom_container.dart';
 import 'package:deskgoo/widgets/drawers/custom_drawer.dart';
 import 'package:deskgoo/widgets/texts/custom_text.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter/widgets.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:geolocator/geolocator.dart';
-// import 'package:go_router/go_router.dart';
-import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:http/http.dart';
 import 'package:local_auth/local_auth.dart';
 import 'package:provider/provider.dart';
-import 'package:syncfusion_flutter_maps/maps.dart';
-import 'dart:convert';
-
-import 'package:http/http.dart' as http;
-
 import '../../providers/settings_providers/profile_provider/officerName_provider.dart';
 import '../../providers/settings_providers/profile_provider/officersDescription_provider.dart';
 import '../../utils/ScreenWIdth.dart';
-import 'package:path_provider/path_provider.dart';
-import 'package:connectivity_plus/connectivity_plus.dart';
-// import 'package:platform_device_id_v3/platform_device_id.dart';
 
 class HomeScreen extends StatefulWidget {
   HomeScreen({super.key});
@@ -53,44 +31,10 @@ class _HomeScreenState extends State<HomeScreen> {
   DeviceinfoProvider? _deviceinfoProvider;
   MarketingProvider? _marketingProvider;
   final LocalAuthentication auth = LocalAuthentication();
-  List<ConnectivityResult> _connectionStatus = [ConnectivityResult.none];
-  final Connectivity _connectivity = Connectivity();
-  late StreamSubscription<List<ConnectivityResult>> _connectivitySubscription;
   int index = 0;
-  double latitude = 0.0;
-  double longitude = 0.0;
-  final Completer<GoogleMapController> _controller = Completer();
   // late DeviceinfoProvider _provider;
   double screenHeight = ScreenUtil.getScreenHeight();
   double screenWidth = ScreenUtil.getScreenWidth();
-
-  Future<void> initConnectivity() async {
-    late List<ConnectivityResult> result;
-    // Platform messages may fail, so we use a try/catch PlatformException.
-    try {
-      result = await _connectivity.checkConnectivity();
-    } on PlatformException catch (e) {
-      print('Couldn\'t check connectivity status error $e');
-      return;
-    }
-
-    // If the widget was removed from the tree while the asynchronous platform
-    // message was in flight, we want to discard the reply rather than calling
-    // setState to update our non-existent appearance.
-    if (!mounted) {
-      return Future.value(null);
-    }
-
-    return _updateConnectionStatus(result);
-  }
-
-  Future<void> _updateConnectionStatus(List<ConnectivityResult> result) async {
-    setState(() {
-      _connectionStatus = result;
-    });
-    // ignore: avoid_print
-    print('Connectivity changed: $_connectionStatus');
-  }
 
   void getLocationPermission() async {
     LocationPermission permission = await Geolocator.checkPermission();
@@ -103,21 +47,6 @@ class _HomeScreenState extends State<HomeScreen> {
     //   Position currentPosiont = await Geolocator.getCurrentPosition(
     //       desiredAccuracy: LocationAccuracy.best);
     // }
-  }
-
-  Future<void> cameraPosition() async {
-    GoogleMapController controller = await _controller.future;
-    controller.animateCamera(
-      CameraUpdate.newCameraPosition(
-        CameraPosition(
-          target: LatLng(
-            latitude,
-            longitude,
-          ),
-          zoom: 17,
-        ),
-      ),
-    );
   }
 
   @override
@@ -228,9 +157,6 @@ class _HomeScreenState extends State<HomeScreen> {
           backgroundColor: CustomColors.primaryWhite,
           appBar: _appBar(context),
           drawer: _drawer(context),
-          // drawerDragStartBehavior: DragStartBehavior.start,
-          // body: _googleMap(context),
-          // body: _buildUI(context),
           body: _testListViewUI(context),
           // floatingActionButton: FloatingActionButton(
           //   backgroundColor: CustomColors.primaryColor,
@@ -377,25 +303,6 @@ class _HomeScreenState extends State<HomeScreen> {
           SizedBox(
             height: 16,
           ),
-          // Container(
-          //   width: MediaQuery.of(context).size.width * 0.90,
-          //   color: Colors.white,
-          //   child: ListView.builder(
-          //     itemCount: 10, // Outer ListView
-          //     shrinkWrap:
-          //         true, // This allows it to take only the required height
-          //     physics:
-          //         NeverScrollableScrollPhysics(), // Disables scrolling for outer ListView, so the inner ListViews can handle scrolling
-          //     itemBuilder: (context, index) {
-          //       return ListTile(
-          //         title: CustomText(text: 'ListView 1st = $index'),
-          //       );
-          //     },
-          //   ),
-          // ),
-          // SizedBox(
-          //   height: 16,
-          // ),
           CustomContainer(
             color: Colors.white,
             verticalMargin: 0,
@@ -404,33 +311,47 @@ class _HomeScreenState extends State<HomeScreen> {
             horizontalPad: 0,
             child: Column(
               children: [
-                Row(
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.only(top: 10, bottom: 10),
-                      child: Container(
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(50),
-                          color: CustomColors.primaryColor,
+                InkWell(
+                  onTap: () {
+                    Navigator.of(context)
+                        .pushNamed(RouteGeneratorConstants.marketingOfficers);
+                    // print('Tapped on Label');
+                  },
+                  child: Row(
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.only(top: 0, bottom: 0),
+                        child: Container(
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(50),
+                            color: CustomColors.primaryColor,
+                          ),
+                          width: 5,
+                          height: 24,
                         ),
-                        width: 5,
-                        height: 18,
                       ),
-                    ),
-                    Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 8.0),
-                      child: CustomText(
-                        text: 'Marketing Officers',
-                        size: 18,
-                        fontWeight: FontWeight.bold,
+                      Padding(
+                        padding: EdgeInsets.symmetric(horizontal: 8.0),
+                        child: CustomText(
+                          text: 'Marketing Officers',
+                          size: 20,
+                          fontWeight: FontWeight.bold,
+                        ),
                       ),
-                    ),
-                    const Spacer(),
-                    const Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 8.0),
-                      child: Icon(Icons.chevron_right),
-                    ),
-                  ],
+                      const Spacer(),
+                      const Padding(
+                        padding: EdgeInsets.symmetric(horizontal: 12.0),
+                        child: Icon(
+                          FontAwesomeIcons.chevronRight,
+                          size: 18,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(left: 16.0),
+                  child: Divider(),
                 ),
                 ListView.builder(
                   itemCount: marketingProvider.marketingOfficersDetails.length -
@@ -439,6 +360,8 @@ class _HomeScreenState extends State<HomeScreen> {
                       true, // This allows it to take only the required height
                   physics:
                       NeverScrollableScrollPhysics(), // Disables scrolling for outer ListView, so the inner ListViews can handle scrolling
+                  padding: EdgeInsets.all(0),
+                  // itemExtent: 60,
                   itemBuilder: (context, index) {
                     double indicatorValue = marketingProvider
                             .marketingOfficersDetails[index]['achieved'] /
@@ -459,7 +382,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           children: [
                             Padding(
                               padding:
-                                  const EdgeInsets.only(left: 16.0, top: 13),
+                                  const EdgeInsets.only(left: 16.0, top: 4),
                               child: Consumer<DetailsProvider>(
                                   builder: (context, marketingProvider, _) {
                                 return CustomText(
