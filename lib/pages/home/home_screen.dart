@@ -1,6 +1,5 @@
 import 'dart:async';
 import 'dart:developer';
-import 'dart:io';
 import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:deskgoo/classes/notification_controller.dart';
 import 'package:deskgoo/models/visit_models/clients.dart';
@@ -420,6 +419,9 @@ class _HomeScreenState extends State<HomeScreen> {
     }
     if (screenWidth >= 430) {
       marketingContainerHeight = 0.92;
+    }
+    if(screenWidth >= 500){
+      marketingContainerHeight = 0.88;
     }
     return Consumer<DetailsProvider>(builder: (context, marketingProvider, _) {
       return Column(
