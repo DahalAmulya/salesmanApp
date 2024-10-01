@@ -123,8 +123,8 @@ class _OfficerDescriptionPageState extends State<OfficerDescriptionPage> {
           showApproveButton: true,
           onTapTrailingApproveIcon: () {
             print(isCheckedList.length);
-            // Navigator.of(context)
-            //     .pushNamed(RouteGeneratorConstants.marketingOfficers);
+            Navigator.of(context)
+                .pushNamed(RouteGeneratorConstants.marketingOfficers);
           },
           onTapLeadingIcon: () {
             // Use the context under the Scaffold
