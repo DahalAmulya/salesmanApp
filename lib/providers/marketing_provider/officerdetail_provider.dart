@@ -6,12 +6,14 @@ class OfficerDetailProvider extends ChangeNotifier{
   String _address = '';
   String _phoneNumber = '';
   String _dateTime = '';
+  String _notes = '';
 
   String get image => _image;
   String get name => _name;
   String get address => _address;
   String get phoneNumber => _phoneNumber;
   String get dateTime => _dateTime;
+  String get notes => _notes;
 
 
   void setImage(String image){
@@ -32,6 +34,11 @@ class OfficerDetailProvider extends ChangeNotifier{
   }
   void setDateTime(String dateTime){
     _dateTime = dateTime;
+    notifyListeners();
+  }
+
+  void setNotes(String notes){
+    _notes = notes;
     notifyListeners();
   }
 }

@@ -2,8 +2,10 @@ import 'package:deskgoo/providers/marketing_provider/officerdetail_provider.dart
 import 'package:deskgoo/themes/custom_colors.dart';
 import 'package:deskgoo/widgets/texts/custom_text.dart';
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
-
+import '../../../routes/route_generator_constants.dart';
+import '../../../widgets/app_bars/custom_app_bars.dart';
 import '../../../widgets/containers/custom_container.dart';
 import '../../../utils/ScreenWIdth.dart';
 
@@ -19,102 +21,168 @@ class _OfficerVisitDetailPageState extends State<OfficerVisitDetailPage> {
   double screenWidth = ScreenUtil.getScreenWidth();
   double officerVisitDetailContainerHeight = 0.0;
   OfficerDetailProvider? _officerDetailProvider;
+  FontWeight textFontWeight = FontWeight.w600;
+  double textSize = 18;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: CustomColors.primaryColor,
-        title: CustomText(
-          text: 'Details',
-          size: 30,
-          fontWeight: FontWeight.w600,
+      backgroundColor: CustomColors.primaryWhite,
+      appBar: _appBar(context),
+      body: _buildUI(context),
+    );
+  }
+
+  PreferredSize _appBar(context) {
+    return PreferredSize(
+      preferredSize: Size.fromHeight(kToolbarHeight),
+      child: Builder(
+        builder: (context) => CustomAppBar(
+          tabName: 'Details',
+          titleColor: CustomColors.primaryBlack,
+          backgroundColor: CustomColors.primaryColor,
+          showLeading: true,
+          leadingIcon: FontAwesomeIcons.arrowLeft,
+          leadingIconColor: CustomColors.primaryBlack,
+          onTapLeadingIcon: () {
+            // Use the context under the Scaffold
+            Navigator.of(context)
+                .pop(RouteGeneratorConstants.officerDescriptionPage);
+            Scaffold.of(context).openDrawer();
+          },
         ),
       ),
-      body: Column(
-        children: [
-          SizedBox(height: 16,),
-          CustomContainer(
-            color: Colors.white,
-            verticalMargin: 0,
-            verticalPad: 12,
-            horizontalMargin: 8,
-            horizontalPad: 0,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Row(
-                  children: [
-                    Container(
-                      height: 24,
-                      width: 5,
-                      decoration: BoxDecoration(
-                        color: CustomColors.primaryColor,
-                        borderRadius: BorderRadius.circular(50),
-                      ),
+    );
+  }
+
+  Widget _buildUI(context) {
+    return ListView(
+      children: [
+        SizedBox(height: 16,),
+        CustomContainer(
+          color: Colors.white,
+          verticalMargin: 0,
+          verticalPad: 16,
+          horizontalMargin: 12,
+          horizontalPad: 0,
+          // width: 0.90,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Row(
+                children: [
+                  Container(
+                    height: 24,
+                    width: 5,
+                    decoration: BoxDecoration(
+                      color: CustomColors.primaryColor,
+                      borderRadius: BorderRadius.circular(50),
                     ),
-                    SizedBox(width: 16,),
-                    CustomText(text: 'Visit Details',fontWeight: FontWeight.w600,size: 20,)
+                  ),
+                  SizedBox(
+                    width: 16,
+                  ),
+                  CustomText(
+                    text: 'Visit Details',
+                    fontWeight: FontWeight.w600,
+                    size: 22,
+                  )
+                ],
+              ),
+              Divider(
+                height: 8,
+                thickness: 1,
+                indent: 24,
+                color: Colors.grey,
+              ),
+              Container(
+                width: MediaQuery.of(context).size.width * 1,
+                height: MediaQuery.of(context).size.height * 0.20,
+                padding: EdgeInsets.symmetric(horizontal: 16),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Consumer<OfficerDetailProvider>(
+                        builder: (context, OfficerDetailProvider, _) {
+                      return Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                        child: CustomText(
+                          text: 'Name: ${OfficerDetailProvider.name}',
+                          fontWeight: textFontWeight,
+                          size: textSize,
+                        ),
+                      );
+                    }),
+                    Consumer<OfficerDetailProvider>(
+                        builder: (context, OfficerDetailProvider, _) {
+                      return Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                        child: CustomText(
+                          text: 'Address: ${OfficerDetailProvider.address}',
+                          fontWeight: textFontWeight,
+                          size: textSize,
+                        ),
+                      );
+                    }),
+                    Consumer<OfficerDetailProvider>(
+                        builder: (context, OfficerDetailProvider, _) {
+                      return Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                        child: CustomText(
+                          text:
+                              'Phone Number: ${OfficerDetailProvider.phoneNumber}',
+                          fontWeight: textFontWeight,
+                          size: textSize,
+                        ),
+                      );
+                    }),
+                    Consumer<OfficerDetailProvider>(
+                        builder: (context, OfficerDetailProvider, _) {
+                      return Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                        child: CustomText(
+                          text:
+                              'Date and Time: ${OfficerDetailProvider.dateTime}',
+                          fontWeight: textFontWeight,
+                          size: textSize,
+                        ),
+                      );
+                    }),
+                    Consumer<OfficerDetailProvider>(
+                        builder: (context, OfficerDetailProvider, _) {
+                          return Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                CustomText(
+                                  text:
+                                  'Note: ',
+                                  fontWeight: textFontWeight,
+                                  size: textSize,
+                                ),
+                                Expanded(
+                                  child: CustomText(
+                                    textOverflow: TextOverflow.visible,
+                                    text:
+                                    '${OfficerDetailProvider.notes}',
+                                    fontWeight: textFontWeight,
+                                    size: textSize,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          );
+                        }),
                   ],
                 ),
-                Divider(
-                  height: 8,
-                  thickness: 1,
-                  indent: 24,
-                  color: Colors.grey,
-                ),
-                Container(
-                  padding: EdgeInsets.symmetric(horizontal: 16,vertical: 8),
-                  child: Column(
-                   crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Consumer<OfficerDetailProvider>(
-                          builder: (context,OfficerDetailProvider,_) {
-                            return Padding(
-                              padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                              child: CustomText(
-                                text: 'Name: ${OfficerDetailProvider.name}',
-                              ),
-                            );
-                          }
-                      ),
-                      Consumer<OfficerDetailProvider>(
-                          builder: (context,OfficerDetailProvider,_) {
-                            return Padding(
-                              padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                              child: CustomText(
-                                text: 'Address: ${OfficerDetailProvider.address}',
-                              ),
-                            );
-                          }
-                      ),
-                      Consumer<OfficerDetailProvider>(
-                          builder: (context,OfficerDetailProvider,_) {
-                            return Padding(
-                              padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                              child: CustomText(
-                                text: 'Phone Number: ${OfficerDetailProvider.phoneNumber}',
-                              ),
-                            );
-                          }
-                      ),
-                      Consumer<OfficerDetailProvider>(
-                          builder: (context,OfficerDetailProvider,_) {
-                            return Padding(
-                              padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                              child: CustomText(
-                                text: 'Date and Time: ${OfficerDetailProvider.dateTime}',
-                              ),
-                            );
-                          }
-                      ),
-                    ],
-                  ),
-                ),
-              ],
-            ),
+              ),
+            ],
           ),
-        ],
-      ),
+        ),
+      ],
     );
   }
 }

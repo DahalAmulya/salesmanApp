@@ -40,6 +40,7 @@ class _OfficerDescriptionPageState extends State<OfficerDescriptionPage> {
       'phoneNumber': 9819022062,
       'dateTime': '2022-01-15 / 10:30 PM',
       'visitStatus': 'visited',
+      'notes': 'I visited Mr Ram Shah in the morning and he was suffering from fever.',
     },
     {
       'clientName': 'Rajesh Biswakarma',
@@ -47,6 +48,7 @@ class _OfficerDescriptionPageState extends State<OfficerDescriptionPage> {
       'phoneNumber': 9845678901,
       'dateTime': '2022-01-16 / 11:45 AM',
       'visitStatus': 'visited',
+      'notes': 'I visited Mr Rajesh Biswakarma\'s house in the morning and he was not available',
     },
     {
       'clientName': 'Abhijeet Yadav ',
@@ -54,6 +56,7 @@ class _OfficerDescriptionPageState extends State<OfficerDescriptionPage> {
       'phoneNumber': 9876543210,
       'dateTime': '2022-01-17 / 12:30 PM',
       'visitStatus': 'visitedOthers',
+      'notes': 'I visited Mr Abhijeet Yadav house in the afternoon and he was not available in the house his wife said me to come back tomorrow',
     },
     {
       'clientName': 'Rohan Bhattrai',
@@ -61,6 +64,7 @@ class _OfficerDescriptionPageState extends State<OfficerDescriptionPage> {
       'phoneNumber': 9898989898,
       'dateTime': '2022-01-18 / 1:15 PM',
       'visitStatus': 'visitedOthers',
+      'notes': 'I visited Mr Abhijeet Yadav house in the afternoon and he was not available in the house his wife said me to come back tomorrow',
     },
     {
       'clientName': 'Milan Biswas',
@@ -68,6 +72,7 @@ class _OfficerDescriptionPageState extends State<OfficerDescriptionPage> {
       'phoneNumber': 9874563210,
       'dateTime': '2022-01-19 / 2:00 PM',
       'visitStatus': 'visitOnProgress',
+      'notes': 'I visited Mr Milan Biswas house in the afternoon and he was available in the house he will be visiting hospital tomorrow',
     },
     {
       'clientName': 'Siman Malla',
@@ -75,6 +80,7 @@ class _OfficerDescriptionPageState extends State<OfficerDescriptionPage> {
       'phoneNumber': 9854321098,
       'dateTime': '2022-01-20 / 2:45 PM',
       'visitStatus': 'notVisited',
+      'notes': 'I visited Mr Siman Malla house in the afternoon and he was not available in the house.',
     }
   ];
   List<String> VisitStatus = [
@@ -170,6 +176,8 @@ class _OfficerDescriptionPageState extends State<OfficerDescriptionPage> {
                                       .toString());
                               _officerDetailProvider!.setDateTime(
                                   officerDescription[index]['dateTime']);
+                              _officerDetailProvider!.setNotes(
+                                  officerDescription[index]['notes']);
                             }
                             Navigator.of(context).pushNamed(
                                 RouteGeneratorConstants.officerVisitDetailPage);
