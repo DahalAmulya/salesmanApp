@@ -29,7 +29,7 @@ class _OfficerDescriptionPageState extends State<OfficerDescriptionPage> {
   bool isChecked = false;
   OfficerDetailProvider? _officerDetailProvider;
   int? selectedIndex = 0;
-  FontWeight textFontWeight = FontWeight.w500;
+  FontWeight textFontWeight = FontWeight.w600;
   List<bool> isCheckedList = [];
   List<Color> containerColors = [];
   List<Color> initialContainerColors = [];
@@ -110,6 +110,11 @@ class _OfficerDescriptionPageState extends State<OfficerDescriptionPage> {
           showLeading: true,
           leadingIcon: FontAwesomeIcons.arrowLeft,
           leadingIconColor: CustomColors.primaryBlack,
+          showTrailingIcons: true,
+          showApproveButton: true,
+          onTapTrailingApproveIcon: () {
+            print('Pressed');
+          },
           onTapLeadingIcon: () {
             // Use the context under the Scaffold
             Navigator.of(context).pop(RouteGeneratorConstants.homePage);
@@ -161,7 +166,6 @@ class _OfficerDescriptionPageState extends State<OfficerDescriptionPage> {
                   itemCount: officerDescription.length,
                   itemBuilder: (BuildContext context, int index) {
                     // Color containerColor;
-                    String visitStatus = officerDescription[index]['visitStatus'];
                     return Column(
                       children: [
                         InkWell(
@@ -185,85 +189,120 @@ class _OfficerDescriptionPageState extends State<OfficerDescriptionPage> {
                           child: CustomContainer(
                             horizontalMargin: 16,
                             verticalMargin: 4,
-                            color: containerColors[index], // Assigned based on status
-                            child: Column(
+                            color: containerColors[
+                                index], // Assigned based on status
+                            child: Stack(
                               children: [
-                                Row(
+                                Column(
                                   children: [
-                                    Icon(Icons.person),
-                                    Padding(
-                                      padding: const EdgeInsets.symmetric(
-                                          vertical: 8.0, horizontal: 8.0),
-                                      child: CustomText(
-                                          text:
-                                              '${officerDescription[index]['clientName']}',
-                                          fontWeight: textFontWeight),
+                                    Row(
+                                      // mainAxisAlignment:
+                                      //     MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Icon(Icons.person),
+                                        Padding(
+                                          padding: const EdgeInsets.symmetric(
+                                              vertical: 4.0, horizontal: 8.0),
+                                          child: CustomText(
+                                            text:
+                                                '${officerDescription[index]['clientName']}',
+                                            fontWeight: FontWeight.w600,
+                                            size: 18,
+                                          ),
+                                        ),
+                                        // Spacer(),
+                                        // Checkbox(
+                                        //   activeColor: Colors.blue,
+                                        //   value: isCheckedList[index],
+                                        //   onChanged: (value) {
+                                        //     setState(
+                                        //       () {
+                                        //         isCheckedList[index] = value!;
+                                        //         if (isCheckedList[index]) {
+                                        //           containerColors[index] =
+                                        //               CustomColors.lightGreen;
+                                        //         } else {
+                                        //           containerColors[index] =
+                                        //               initialContainerColors[
+                                        //                   index];
+                                        //         }
+                                        //       },
+                                        //     );
+                                        //   },
+                                        // )
+                                      ],
                                     ),
-                                    Spacer(),
-                                    Checkbox(
-                                      activeColor: Colors.blue,
-                                      value: isCheckedList[index],
-                                      onChanged: (value) {
-                                        setState(
-                                          () {
-                                            isCheckedList[index] = value!;
-                                            if (isCheckedList[index]) {
-                                              containerColors[index] = CustomColors.lightGreen;
-                                            } else {
-                                              containerColors[index] = initialContainerColors[index];
-                                            }
-                                          },
-                                        );
-                                      },
-                                    )
+                                    Row(
+                                      children: [
+                                        Icon(
+                                          FontAwesomeIcons.locationArrow,
+                                          size: 20,
+                                        ),
+                                        Padding(
+                                          padding: const EdgeInsets.symmetric(
+                                              vertical: 4.0, horizontal: 8.0),
+                                          child: CustomText(
+                                              text:
+                                                  '${officerDescription[index]['address']}',
+                                              fontWeight: textFontWeight),
+                                        ),
+                                      ],
+                                    ),
+                                    Row(
+                                      children: [
+                                        Icon(
+                                          FontAwesomeIcons.phone,
+                                          size: 20,
+                                        ),
+                                        Padding(
+                                          padding: const EdgeInsets.symmetric(
+                                              vertical: 4.0, horizontal: 8.0),
+                                          child: CustomText(
+                                              text:
+                                                  '${officerDescription[index]['phoneNumber']}',
+                                              fontWeight: textFontWeight),
+                                        ),
+                                      ],
+                                    ),
+                                    Row(
+                                      children: [
+                                        Icon(FontAwesomeIcons.calendar,
+                                            size: 20),
+                                        Padding(
+                                          padding: const EdgeInsets.symmetric(
+                                              vertical: 4.0, horizontal: 8.0),
+                                          child: CustomText(
+                                            text:
+                                                '${officerDescription[index]['dateTime']}',
+                                            fontWeight: textFontWeight,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
                                   ],
                                 ),
-                                Row(
-                                  children: [
-                                    Icon(
-                                      FontAwesomeIcons.locationArrow,
-                                      size: 20,
-                                    ),
-                                    Padding(
-                                      padding: const EdgeInsets.symmetric(
-                                          vertical: 8.0, horizontal: 8.0),
-                                      child: CustomText(
-                                          text:
-                                              '${officerDescription[index]['address']}',
-                                          fontWeight: textFontWeight),
-                                    ),
-                                  ],
-                                ),
-                                Row(
-                                  children: [
-                                    Icon(
-                                      FontAwesomeIcons.phone,
-                                      size: 20,
-                                    ),
-                                    Padding(
-                                      padding: const EdgeInsets.symmetric(
-                                          vertical: 8.0, horizontal: 8.0),
-                                      child: CustomText(
-                                          text:
-                                              '${officerDescription[index]['phoneNumber']}',
-                                          fontWeight: textFontWeight),
-                                    ),
-                                  ],
-                                ),
-                                Row(
-                                  children: [
-                                    Icon(FontAwesomeIcons.calendar, size: 20),
-                                    Padding(
-                                      padding: const EdgeInsets.symmetric(
-                                          vertical: 8.0, horizontal: 8.0),
-                                      child: CustomText(
-                                        text:
-                                            '${officerDescription[index]['dateTime']}',
-                                        fontWeight: textFontWeight,
-                                      ),
-                                    ),
-                                  ],
-                                ),
+                                Positioned(
+                                  top: 0,
+                                  right: 0,
+                                  child: Checkbox(
+                                    activeColor: Colors.blue,
+                                    value: isCheckedList[index],
+                                    onChanged: (value) {
+                                      setState(
+                                        () {
+                                          isCheckedList[index] = value!;
+                                          if (isCheckedList[index]) {
+                                            containerColors[index] =
+                                                CustomColors.lightGreen;
+                                          } else {
+                                            containerColors[index] =
+                                                initialContainerColors[index];
+                                          }
+                                        },
+                                      );
+                                    },
+                                  ),
+                                )
                               ],
                             ),
                           ),

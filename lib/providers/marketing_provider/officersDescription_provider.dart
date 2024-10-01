@@ -14,7 +14,7 @@ class DetailsProvider extends ChangeNotifier {
       'totalTravel': 30,
     },
     {
-      "OfficerName": "Sudip kumar jha",
+      "OfficerName": "Sudip Kumar Jha",
       "target": 20,
       "achieved": 6,
       "Visit Status": "Visited",
