@@ -26,6 +26,8 @@ class CustomAppBar extends StatelessWidget {
       this.automaticallyImplyLeading = false,
       this.trailingSearchIcon = false,
       this.onTapTrailingSearchIcon,
+      this.showApproveButton = false,
+      this.onTapTrailingApproveIcon,
       super.key});
 
   final String tabName;
@@ -49,6 +51,8 @@ class CustomAppBar extends StatelessWidget {
   final bool automaticallyImplyLeading;
   final bool trailingSearchIcon;
   final Function()? onTapTrailingSearchIcon;
+  bool showApproveButton;
+  final Function()? onTapTrailingApproveIcon;
 
   @override
   Widget build(BuildContext context) {
@@ -174,6 +178,21 @@ class CustomAppBar extends StatelessWidget {
                         icon: FaIcon(
                           FontAwesomeIcons.magnifyingGlass,
                           color: CustomColors.primaryBlack,
+                        ),
+                      )
+                    : Container(),
+                showApproveButton
+                    ? InkWell(
+                        onTap: onTapTrailingApproveIcon,
+                        child: Padding(
+                          padding: const EdgeInsets.only(right: 12.0),
+                          child: SizedBox(
+                            height: 48,
+                            width: 48,
+                            child: Image.asset(
+                              'assets/images/approval.png',
+                            ),
+                          ),
                         ),
                       )
                     : Container(),

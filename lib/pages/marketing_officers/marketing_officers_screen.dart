@@ -127,8 +127,8 @@ class _MarketingOfficersScreenState extends State<MarketingOfficersScreen> {
                       color: Colors.white,
                       verticalPad: 8,
                       horizontalPad: 8,
-                      verticalMargin: 4,
-                      horizontalMargin: 8,
+                      verticalMargin: 8,
+                      horizontalMargin: 12,
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         mainAxisSize: MainAxisSize.min,
