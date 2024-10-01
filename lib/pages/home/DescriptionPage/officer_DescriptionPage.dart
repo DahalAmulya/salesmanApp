@@ -155,7 +155,8 @@ class _OfficerDescriptionPageState extends State<OfficerDescriptionPage> {
                   itemCount: officerDescription.length,
                   itemBuilder: (BuildContext context, int index) {
                     // Color containerColor;
-                    String visitStatus = officerDescription[index]['visitStatus'];
+                    String visitStatus =
+                        officerDescription[index]['visitStatus'];
                     return Column(
                       children: [
                         InkWell(
@@ -177,7 +178,8 @@ class _OfficerDescriptionPageState extends State<OfficerDescriptionPage> {
                           child: CustomContainer(
                             horizontalMargin: 16,
                             verticalMargin: 4,
-                            color: containerColors[index], // Assigned based on status
+                            color: containerColors[
+                                index], // Assigned based on status
                             child: Column(
                               children: [
                                 Row(
@@ -200,9 +202,11 @@ class _OfficerDescriptionPageState extends State<OfficerDescriptionPage> {
                                           () {
                                             isCheckedList[index] = value!;
                                             if (isCheckedList[index]) {
-                                              containerColors[index] = CustomColors.lightGreen;
+                                              containerColors[index] =
+                                                  CustomColors.lightGreen;
                                             } else {
-                                              containerColors[index] = initialContainerColors[index];
+                                              containerColors[index] =
+                                                  initialContainerColors[index];
                                             }
                                           },
                                         );
