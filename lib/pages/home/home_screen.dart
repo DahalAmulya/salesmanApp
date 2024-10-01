@@ -372,17 +372,17 @@ class _HomeScreenState extends State<HomeScreen> {
                     physics:
                         NeverScrollableScrollPhysics(), // Disables scrolling for outer ListView, so the inner ListViews can handle scrolling
                     padding: EdgeInsets.all(0),
-                    // itemExtent: 60,
                     itemBuilder: (context, index) {
-                      double indicatorValue = marketingProvider
-                              .marketingOfficersDetails[index]['achieved'] /
-                          marketingProvider.marketingOfficersDetails[index]
-                              ['target'];
+                      String name = marketingProvider
+                          .marketingOfficersDetails[index]['OfficerName'];
+                      int target = marketingProvider
+                          .marketingOfficersDetails[index]['target'];
+                      int achived = marketingProvider
+                          .marketingOfficersDetails[index]['achieved'];
+                      double indicatorValue = achived / target;
                       return InkWell(
                         onTap: () {
-                          _marketingProvider!.setName(marketingProvider
-                              .marketingOfficersDetails[index]['OfficerName']);
-                          // print(marketingOfficersName[index]['OfficerName']);
+                          _marketingProvider!.setName(name);
                           Navigator.of(context).pushNamed(
                               RouteGeneratorConstants.officerDescriptionPage);
                         },
@@ -395,16 +395,15 @@ class _HomeScreenState extends State<HomeScreen> {
                                 padding:
                                     const EdgeInsets.only(left: 16.0, top: 4),
                                 child: Consumer<DetailsProvider>(
-                                    builder: (context, marketingProvider, _) {
-                                  return CustomText(
-                                    text: marketingProvider
-                                            .marketingOfficersDetails[index]
-                                        ['OfficerName'],
-                                    fontWeight: FontWeight.bold,
-                                    color: CustomColors.primaryBlack,
-                                    // color: Colors.grey.shade600,
-                                  );
-                                }),
+                                  builder: (context, marketingProvider, _) {
+                                    return CustomText(
+                                      text: name,
+                                      fontWeight: FontWeight.bold,
+                                      color: CustomColors.primaryBlack,
+                                      // color: Colors.grey.shade600,
+                                    );
+                                  },
+                                ),
                               ),
                               Row(
                                 children: [
@@ -414,8 +413,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                           horizontal: 16.0),
                                       child: LinearProgressIndicator(
                                         value: indicatorValue,
-                                        backgroundColor:
-                                            CustomColors.primaryWhite,
+                                        backgroundColor: Colors.grey.shade300,
                                         color: CustomColors.primaryColor,
                                         minHeight: 6,
                                         borderRadius: BorderRadius.circular(10),
@@ -428,10 +426,10 @@ class _HomeScreenState extends State<HomeScreen> {
                                   Padding(
                                     padding: EdgeInsets.only(right: 16.0),
                                     child: Text(
-                                      '${marketingProvider.marketingOfficersDetails[index]['achieved']}/${marketingProvider.marketingOfficersDetails[index]['target']}',
+                                      '$achived/$target',
                                       style: TextStyle(
                                         fontWeight: FontWeight.bold,
-                                        color: Colors.grey.shade600,
+                                        color: Colors.black,
                                       ),
                                     ),
                                   ),
