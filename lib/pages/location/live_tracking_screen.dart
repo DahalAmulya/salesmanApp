@@ -198,6 +198,7 @@ class _LiveTrackingScreenState extends State<LiveTrackingScreen> {
           // latitude = liveTrackingProvider.selectedEmpLongitude!;
           cameraPosition(liveTrackingProvider.selectedEmpLatitude!,
               liveTrackingProvider.selectedEmpLongitude!);
+          liveTrackingProvider.setSelectedEmpLatLong(null, null);
         }
         return liveTrackingProvider.employeeLiveData.isNotEmpty
             ? Stack(

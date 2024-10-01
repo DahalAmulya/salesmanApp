@@ -65,6 +65,13 @@ class LiveTrackingProvider extends ChangeNotifier {
     });
   }
 
+  List<String> images = [
+    'assets/images/johnCena.jpg',
+    'assets/images/theRock.jpg',
+    'assets/images/rdj.jpg',
+    'assets/images/keanu.jpg',
+  ];
+
   void getAllEmployeesLocation() async {
     ERPResponse response = await ERPServicer.getRequest('location');
     // print(response.statusCode);
@@ -86,8 +93,7 @@ class LiveTrackingProvider extends ChangeNotifier {
 
       print('_employeeName = $_employeeName');
 
-      final Uint8List? icon =
-          await getBytesFromAsset('assets/images/location.png', 100);
+      final Uint8List? icon = await getBytesFromAsset('${images[i]}', 120);
 
       // Create a unique marker ID using the employee name or another identifier
       String markerId = 'marker_${_employeeLiveData[i]['employee_name']}';
@@ -119,7 +125,7 @@ class LiveTrackingProvider extends ChangeNotifier {
                         height: 150,
                         width: double.infinity,
                         child: Image.asset(
-                          'assets/images/johnCena.jpg',
+                          '${images[i]}',
                           fit: BoxFit.cover,
                         ),
                       ),
@@ -153,8 +159,8 @@ class LiveTrackingProvider extends ChangeNotifier {
                   ),
                 ),
                 LatLng(
-                  _latitude,
-                  _longitude,
+                  latestLocation['latitude'],
+                  latestLocation['longitude'],
                 ),
               );
             }
@@ -168,17 +174,54 @@ class LiveTrackingProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  Future<Uint8List?> getBytesFromAsset(String path, int width) async {
+  Future<Uint8List?> getBytesFromAsset(String path, int size) async {
     if (path.isNotEmpty) {
       ByteData data = await rootBundle.load(path);
       ui.Codec codec = await ui.instantiateImageCodec(data.buffer.asUint8List(),
-          targetWidth: width);
+          targetWidth: size, targetHeight: size);
       ui.FrameInfo fi = await codec.getNextFrame();
-      return (await fi.image.toByteData(format: ui.ImageByteFormat.png))!
-          .buffer
-          .asUint8List();
+
+      ui.PictureRecorder recorder = ui.PictureRecorder();
+      Canvas canvas = Canvas(recorder);
+
+      // Paint a circular path
+      Paint paint = Paint()..isAntiAlias = true;
+      double radius = size / 2;
+      canvas.drawCircle(Offset(radius, radius), radius, paint);
+
+      // Clip the canvas to a circle
+      canvas.clipPath(Path()
+        ..addOval(
+            Rect.fromCircle(center: Offset(radius, radius), radius: radius)));
+
+      // Draw the image
+      paintImage(
+        canvas: canvas,
+        rect: Rect.fromCircle(center: Offset(radius, radius), radius: radius),
+        image: fi.image,
+        fit: BoxFit.fill,
+      );
+
+      final img = await recorder.endRecording().toImage(size, size);
+      final dataBytes = await img.toByteData(format: ui.ImageByteFormat.png);
+
+      return dataBytes?.buffer.asUint8List();
     } else {
       return null;
     }
   }
+
+  // Future<Uint8List?> getBytesFromAsset(String path, int width) async {
+  //   if (path.isNotEmpty) {
+  //     ByteData data = await rootBundle.load(path);
+  //     ui.Codec codec = await ui.instantiateImageCodec(data.buffer.asUint8List(),
+  //         targetWidth: width);
+  //     ui.FrameInfo fi = await codec.getNextFrame();
+  //     return (await fi.image.toByteData(format: ui.ImageByteFormat.png))!
+  //         .buffer
+  //         .asUint8List();
+  //   } else {
+  //     return null;
+  //   }
+  // }
 }
