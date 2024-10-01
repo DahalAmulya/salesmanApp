@@ -115,26 +115,22 @@ class _OfficerDescriptionPageState extends State<OfficerDescriptionPage> {
   }
 
   Widget _buildUI(context) {
-    return Consumer(
+    return Consumer<MarketingProvider>(
       builder: (context, marketingProvider, _) {
         return ListView(
           children: [
             SizedBox(
               height: 8,
             ),
-            Consumer<MarketingProvider>(
-              builder: (context, marketingProvider, _) {
-                return Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    CustomText(
-                      text: marketingProvider.name,
-                      size: 18,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ],
-                );
-              },
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                CustomText(
+                  text: marketingProvider.name,
+                  size: 18,
+                  fontWeight: FontWeight.bold,
+                ),
+              ],
             ),
             SizedBox(
               height: 8,
@@ -142,9 +138,10 @@ class _OfficerDescriptionPageState extends State<OfficerDescriptionPage> {
             Consumer<DetailsProvider>(
               builder: (context, detailsProvider, _) {
                 return ListView.builder(
-                  physics: const AlwaysScrollableScrollPhysics(),
-                  scrollDirection: Axis.vertical,
+                  // physics: const AlwaysScrollableScrollPhysics(),
+                  // scrollDirection: Axis.vertical,
                   shrinkWrap: true,
+                  primary: false,
                   itemCount: officerDescription.length,
                   itemBuilder: (BuildContext context, int index) {
                     Color containerColor;
