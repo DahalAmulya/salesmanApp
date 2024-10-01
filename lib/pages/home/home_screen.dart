@@ -308,146 +308,154 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget _testListViewUI(context) {
     return Consumer<DetailsProvider>(
       builder: (context, marketingProvider, _) {
-        return ListView(
-          children: [
-            SizedBox(
-              height: 16,
-            ),
-            CustomContainer(
-              color: Colors.white,
-              verticalMargin: 0,
-              verticalPad: 12,
-              horizontalMargin: 8,
-              horizontalPad: 0,
-              child: Column(
-                children: [
-                  InkWell(
-                    onTap: () {
-                      Navigator.of(context)
-                          .pushNamed(RouteGeneratorConstants.marketingOfficers);
-                      // print('Tapped on Label');
-                    },
-                    child: Row(
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.only(top: 0, bottom: 0),
-                          child: Container(
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(50),
-                              color: CustomColors.primaryColor,
-                            ),
-                            width: 5,
-                            height: 24,
-                          ),
-                        ),
-                        Padding(
-                          padding: EdgeInsets.symmetric(horizontal: 8.0),
-                          child: CustomText(
-                            text: 'Marketing Officers',
-                            size: 20,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                        const Spacer(),
-                        const Padding(
-                          padding: EdgeInsets.symmetric(horizontal: 12.0),
-                          child: Icon(
-                            FontAwesomeIcons.chevronRight,
-                            size: 18,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(left: 16.0),
-                    child: Divider(),
-                  ),
-                  ListView.builder(
-                    itemCount:
-                        marketingProvider.marketingOfficersDetails.length -
-                            2, // Outer ListView
-                    shrinkWrap:
-                        true, // This allows it to take only the required height
-                    physics:
-                        NeverScrollableScrollPhysics(), // Disables scrolling for outer ListView, so the inner ListViews can handle scrolling
-                    padding: EdgeInsets.all(0),
-                    itemBuilder: (context, index) {
-                      String name = marketingProvider
-                          .marketingOfficersDetails[index]['OfficerName'];
-                      int target = marketingProvider
-                          .marketingOfficersDetails[index]['target'];
-                      int achived = marketingProvider
-                          .marketingOfficersDetails[index]['achieved'];
-                      double indicatorValue = achived / target;
-                      return InkWell(
-                        onTap: () {
-                          _marketingProvider!.setName(name);
-                          Navigator.of(context).pushNamed(
-                              RouteGeneratorConstants.officerDescriptionPage);
-                        },
-                        child: Container(
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              Padding(
-                                padding:
-                                    const EdgeInsets.only(left: 16.0, top: 4),
-                                child: Consumer<DetailsProvider>(
-                                  builder: (context, marketingProvider, _) {
-                                    return CustomText(
-                                      text: name,
-                                      fontWeight: FontWeight.bold,
-                                      color: CustomColors.primaryBlack,
-                                      // color: Colors.grey.shade600,
-                                    );
-                                  },
-                                ),
-                              ),
-                              Row(
-                                children: [
-                                  Flexible(
-                                    child: Padding(
-                                      padding: const EdgeInsets.symmetric(
-                                          horizontal: 16.0),
-                                      child: LinearProgressIndicator(
-                                        value: indicatorValue,
-                                        backgroundColor: Colors.grey.shade300,
-                                        color: CustomColors.primaryColor,
-                                        minHeight: 6,
-                                        borderRadius: BorderRadius.circular(10),
-                                      ),
-                                    ),
-                                  ),
-                                  const SizedBox(
-                                    width: 30,
-                                  ),
-                                  Padding(
-                                    padding: EdgeInsets.only(right: 16.0),
-                                    child: Text(
-                                      '$achived/$target',
-                                      style: TextStyle(
-                                        fontWeight: FontWeight.bold,
-                                        color: Colors.black,
-                                      ),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ],
-                          ),
-                        ),
-                      );
-                    },
-                  ),
-                ],
+        return RefreshIndicator(
+          onRefresh: () async {
+            await Future.delayed(const Duration(seconds: 1));
+          },
+          color: CustomColors.primaryColor,
+          backgroundColor: Colors.white,
+          child: ListView(
+            children: [
+              SizedBox(
+                height: 16,
               ),
-            ),
-            SizedBox(
-              height: 16,
-            ),
-          ],
+              CustomContainer(
+                color: Colors.white,
+                verticalMargin: 0,
+                verticalPad: 12,
+                horizontalMargin: 8,
+                horizontalPad: 0,
+                child: Column(
+                  children: [
+                    InkWell(
+                      onTap: () {
+                        Navigator.of(context).pushNamed(
+                            RouteGeneratorConstants.marketingOfficers);
+                        // print('Tapped on Label');
+                      },
+                      child: Row(
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.only(top: 0, bottom: 0),
+                            child: Container(
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(50),
+                                color: CustomColors.primaryColor,
+                              ),
+                              width: 5,
+                              height: 24,
+                            ),
+                          ),
+                          Padding(
+                            padding: EdgeInsets.symmetric(horizontal: 8.0),
+                            child: CustomText(
+                              text: 'Marketing Officers',
+                              size: 20,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                          const Spacer(),
+                          const Padding(
+                            padding: EdgeInsets.symmetric(horizontal: 12.0),
+                            child: Icon(
+                              FontAwesomeIcons.chevronRight,
+                              size: 18,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(left: 16.0),
+                      child: Divider(),
+                    ),
+                    ListView.builder(
+                      itemCount:
+                          marketingProvider.marketingOfficersDetails.length -
+                              2, // Outer ListView
+                      shrinkWrap:
+                          true, // This allows it to take only the required height
+                      physics:
+                          NeverScrollableScrollPhysics(), // Disables scrolling for outer ListView, so the inner ListViews can handle scrolling
+                      padding: EdgeInsets.all(0),
+                      itemBuilder: (context, index) {
+                        String name = marketingProvider
+                            .marketingOfficersDetails[index]['OfficerName'];
+                        int target = marketingProvider
+                            .marketingOfficersDetails[index]['target'];
+                        int achived = marketingProvider
+                            .marketingOfficersDetails[index]['achieved'];
+                        double indicatorValue = achived / target;
+                        return InkWell(
+                          onTap: () {
+                            _marketingProvider!.setName(name);
+                            Navigator.of(context).pushNamed(
+                                RouteGeneratorConstants.officerDescriptionPage);
+                          },
+                          child: Container(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                Padding(
+                                  padding:
+                                      const EdgeInsets.only(left: 16.0, top: 4),
+                                  child: Consumer<DetailsProvider>(
+                                    builder: (context, marketingProvider, _) {
+                                      return CustomText(
+                                        text: name,
+                                        fontWeight: FontWeight.bold,
+                                        color: CustomColors.primaryBlack,
+                                        // color: Colors.grey.shade600,
+                                      );
+                                    },
+                                  ),
+                                ),
+                                Row(
+                                  children: [
+                                    Flexible(
+                                      child: Padding(
+                                        padding: const EdgeInsets.symmetric(
+                                            horizontal: 16.0),
+                                        child: LinearProgressIndicator(
+                                          value: indicatorValue,
+                                          backgroundColor: Colors.grey.shade300,
+                                          color: CustomColors.primaryColor,
+                                          minHeight: 6,
+                                          borderRadius:
+                                              BorderRadius.circular(10),
+                                        ),
+                                      ),
+                                    ),
+                                    const SizedBox(
+                                      width: 30,
+                                    ),
+                                    Padding(
+                                      padding: EdgeInsets.only(right: 16.0),
+                                      child: Text(
+                                        '$achived/$target',
+                                        style: TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                          color: Colors.black,
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ],
+                            ),
+                          ),
+                        );
+                      },
+                    ),
+                  ],
+                ),
+              ),
+              SizedBox(
+                height: 16,
+              ),
+            ],
+          ),
         );
       },
     );

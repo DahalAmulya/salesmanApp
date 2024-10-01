@@ -282,13 +282,13 @@ class _ReplayScreenState extends State<ReplayScreen> {
                         child: Container(
                           // height: 24,
                           // width: 24,
-                          color: CustomColors.primaryColor,
+                          color: CustomColors.lightRed,
                           padding: EdgeInsets.all(8),
                           child: Icon(
                             replayProvider.isPause
                                 ? FontAwesomeIcons.play
                                 : FontAwesomeIcons.pause,
-                            color: CustomColors.primaryBlack,
+                            color: Colors.white,
                           ),
                         ),
                       ),

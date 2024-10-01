@@ -82,6 +82,7 @@ class _OfficerDescriptionPageState extends State<OfficerDescriptionPage> {
     'visitOnProgress',
     'notVisited',
   ];
+  bool? isCheck = false;
 
   @override
   Widget build(BuildContext context) {
@@ -100,6 +101,7 @@ class _OfficerDescriptionPageState extends State<OfficerDescriptionPage> {
           titleColor: CustomColors.primaryBlack,
           backgroundColor: CustomColors.primaryColor,
           showLeading: true,
+          size: 24,
           leadingIcon: FontAwesomeIcons.arrowLeft,
           leadingIconColor: CustomColors.primaryBlack,
           onTapLeadingIcon: () {
@@ -118,7 +120,8 @@ class _OfficerDescriptionPageState extends State<OfficerDescriptionPage> {
     _officerDetailProvider =
         Provider.of<OfficerDetailProvider>(context, listen: false);
     isCheckedList = List<bool>.filled(officerDescription.length, false);
-    containerColors = List<Color>.filled(officerDescription.length,CustomColors.lightBlue);
+    containerColors =
+        List<Color>.filled(officerDescription.length, CustomColors.lightBlue);
     super.initState();
   }
 
@@ -152,8 +155,15 @@ class _OfficerDescriptionPageState extends State<OfficerDescriptionPage> {
                   primary: false,
                   itemCount: officerDescription.length,
                   itemBuilder: (BuildContext context, int index) {
-                    Color containerColor;
-                    String visitStatus = officerDescription[index]['visitStatus'];
+                    String visitStatus =
+                        officerDescription[index]['visitStatus'];
+                    Color containerColor = visitStatus == 'visited'
+                        ? CustomColors.lightBlue
+                        : visitStatus == 'visitedOthers'
+                            ? CustomColors.lightYellow
+                            : visitStatus == 'visitOnProgress'
+                                ? CustomColors.lightGrey
+                                : CustomColors.lightRed;
                     if (visitStatus == VisitStatus[0]) {
                       containerColor = CustomColors.lightBlue;
                     } else if (visitStatus == VisitStatus[1]) {
@@ -186,7 +196,7 @@ class _OfficerDescriptionPageState extends State<OfficerDescriptionPage> {
                           child: CustomContainer(
                             horizontalMargin: 16,
                             verticalMargin: 4,
-                            color: containerColors[index], // Assigned based on status
+                            color: containerColors[index],
                             child: Column(
                               children: [
                                 Row(
@@ -209,9 +219,11 @@ class _OfficerDescriptionPageState extends State<OfficerDescriptionPage> {
                                           () {
                                             isCheckedList[index] = value!;
                                             if (isCheckedList[index]) {
-                                              containerColors[index] = CustomColors.lightGreen;
+                                              containerColors[index] =
+                                                  CustomColors.lightGreen;
                                             } else {
-                                              containerColors[index] = containerColor;
+                                              containerColors[index] =
+                                                  containerColor;
                                             }
                                           },
                                         );
