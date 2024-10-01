@@ -104,52 +104,81 @@ class _OfficerVisitDetailPageState extends State<OfficerVisitDetailPage> {
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
+                    SizedBox(height: 8,),
                     Consumer<OfficerDetailProvider>(
                         builder: (context, OfficerDetailProvider, _) {
                       return Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                        child: CustomText(
-                          text: 'Name: ${OfficerDetailProvider.name}',
-                          fontWeight: textFontWeight,
-                          size: textSize,
+                        child: Row(
+                          children: [
+                            Icon(Icons.person),
+                            SizedBox(width: 12,),
+                            CustomText(
+                              text: '${OfficerDetailProvider.name}',
+                              fontWeight: textFontWeight,
+                              size: textSize,
+                            ),
+                          ],
                         ),
                       );
                     }),
+                    SizedBox(height: 8,),
                     Consumer<OfficerDetailProvider>(
                         builder: (context, OfficerDetailProvider, _) {
                       return Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                        child: CustomText(
-                          text: 'Address: ${OfficerDetailProvider.address}',
-                          fontWeight: textFontWeight,
-                          size: textSize,
+                        child: Row(
+                          children: [
+                              Icon(Icons.location_on),
+                            SizedBox(width: 12,),
+                            CustomText(
+                              text: '${OfficerDetailProvider.address}',
+                              fontWeight: textFontWeight,
+                              size: textSize,
+                            ),
+                          ],
                         ),
                       );
                     }),
+                    SizedBox(height: 8,),
                     Consumer<OfficerDetailProvider>(
                         builder: (context, OfficerDetailProvider, _) {
                       return Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                        child: CustomText(
-                          text:
-                              'Phone Number: ${OfficerDetailProvider.phoneNumber}',
-                          fontWeight: textFontWeight,
-                          size: textSize,
+                        child: Row(
+                          children: [
+                            Icon(Icons.phone),
+                            SizedBox(width: 12,),
+                            CustomText(
+                              text:
+                                  '${OfficerDetailProvider.phoneNumber}',
+                              fontWeight: textFontWeight,
+                              size: textSize,
+                            ),
+                          ],
                         ),
                       );
                     }),
+                    SizedBox(height: 8,),
                     Consumer<OfficerDetailProvider>(
                         builder: (context, OfficerDetailProvider, _) {
                       return Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                        child: CustomText(
-                          text:
-                              'Date and Time: ${OfficerDetailProvider.dateTime}',
-                          fontWeight: textFontWeight,
-                          size: textSize,
+                        child: Row(
+                          children: [
+                            Icon(FontAwesomeIcons.calendarAlt),
+                            SizedBox(width: 12,),
+                            CustomText(
+                              text:
+                                  '${OfficerDetailProvider.dateTime}',
+                              fontWeight: textFontWeight,
+                              size: textSize,
+                            ),
+                          ],
                         ),
                       );
                     }),
+                    SizedBox(height: 8,),
                     Consumer<OfficerDetailProvider>(
                         builder: (context, OfficerDetailProvider, _) {
                       return Padding(
@@ -158,11 +187,8 @@ class _OfficerVisitDetailPageState extends State<OfficerVisitDetailPage> {
                           mainAxisAlignment: MainAxisAlignment.start,
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            CustomText(
-                              text: 'Note: ',
-                              fontWeight: textFontWeight,
-                              size: textSize,
-                            ),
+                          Icon(Icons.note),
+                            SizedBox(width: 12,),
                             Expanded(
                               child: CustomText(
                                 textOverflow: TextOverflow.visible,
