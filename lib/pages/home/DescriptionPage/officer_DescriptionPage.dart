@@ -92,9 +92,18 @@ class _OfficerDescriptionPageState extends State<OfficerDescriptionPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: _appBar(context),
-      body: _buildUI(context),
+    return PopScope(
+      canPop: false,
+      onPopInvoked: ((didpop) {
+        if (didpop) {
+          return;
+        }
+        Navigator.of(context).pop(RouteGeneratorConstants.marketingOfficers);
+      }),
+      child: Scaffold(
+        appBar: _appBar(context),
+        body: _buildUI(context),
+      ),
     );
   }
 
@@ -113,7 +122,9 @@ class _OfficerDescriptionPageState extends State<OfficerDescriptionPage> {
           showTrailingIcons: true,
           showApproveButton: true,
           onTapTrailingApproveIcon: () {
-            print('Pressed');
+            print(isCheckedList.length);
+            // Navigator.of(context)
+            //     .pushNamed(RouteGeneratorConstants.marketingOfficers);
           },
           onTapLeadingIcon: () {
             // Use the context under the Scaffold

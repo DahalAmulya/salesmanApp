@@ -37,8 +37,6 @@ class _MarketingOfficersScreenState extends State<MarketingOfficersScreen> {
         if (didpop) {
           return;
         }
-        // GoRouter.of(context)
-        //     .pushReplacementNamed(MyAppRouteConstants.loginRouteName);
         Navigator.of(context).pop(RouteGeneratorConstants.homePage);
       }),
       child: Scaffold(
