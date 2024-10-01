@@ -25,6 +25,13 @@ class LiveTrackingProvider extends ChangeNotifier {
   Set<Marker> _liveTrakingMarkers = {};
   late Timer _liveLocationTimer;
   int _seconds = 0;
+  String _selectedImg = '';
+  List<String> _images = [
+    'assets/images/johnCena.jpg',
+    'assets/images/theRock.jpg',
+    'assets/images/rdj.jpg',
+    'assets/images/keanu.jpg',
+  ];
 
   TextEditingController get searchController => _searchController;
   CustomInfoWindowController get customInfoWindowController =>
@@ -40,10 +47,17 @@ class LiveTrackingProvider extends ChangeNotifier {
   Set<Marker> get liveTrackingMarkers => _liveTrakingMarkers;
   Timer get liveLocationTimer => _liveLocationTimer;
   int get seconds => _seconds;
+  List<String> get images => _images;
+  String get selecetedImg => _selectedImg;
 
   LiveTrackingProvider() {
     _liveTrakingMarkers.clear();
     updateLocation();
+  }
+
+  void setSelectedImage(String img) {
+    _selectedImg = img;
+    notifyListeners();
   }
 
   void setSelectedEmpLatLong(double? lat, double? long) {
@@ -64,13 +78,6 @@ class LiveTrackingProvider extends ChangeNotifier {
       // print('Seconds = $seconds');
     });
   }
-
-  List<String> images = [
-    'assets/images/johnCena.jpg',
-    'assets/images/theRock.jpg',
-    'assets/images/rdj.jpg',
-    'assets/images/keanu.jpg',
-  ];
 
   void getAllEmployeesLocation() async {
     ERPResponse response = await ERPServicer.getRequest('location');
@@ -93,7 +100,7 @@ class LiveTrackingProvider extends ChangeNotifier {
 
       print('_employeeName = $_employeeName');
 
-      final Uint8List? icon = await getBytesFromAsset('${images[i]}', 120);
+      final Uint8List? icon = await getBytesFromAsset('${_images[i]}', 120);
 
       // Create a unique marker ID using the employee name or another identifier
       String markerId = 'marker_${_employeeLiveData[i]['employee_name']}';
@@ -125,7 +132,7 @@ class LiveTrackingProvider extends ChangeNotifier {
                         height: 150,
                         width: double.infinity,
                         child: Image.asset(
-                          '${images[i]}',
+                          '${_images[i]}',
                           fit: BoxFit.cover,
                         ),
                       ),

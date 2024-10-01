@@ -474,7 +474,7 @@ class _HomeScreenState extends State<HomeScreen> {
     if (screenWidth >= 430) {
       marketingContainerHeight = 0.92;
     }
-    if(screenWidth >= 500){
+    if (screenWidth >= 500) {
       marketingContainerHeight = 0.88;
     }
     return Consumer<DetailsProvider>(builder: (context, marketingProvider, _) {

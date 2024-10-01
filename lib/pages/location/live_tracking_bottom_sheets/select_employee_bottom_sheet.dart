@@ -80,6 +80,11 @@ class SelectEmployeeBottomSheet {
                               Navigator.pop(context);
                               print(liveTrackingProvider.employeeLiveData[index]
                                   ['mobile_id']);
+                              liveTrackingProvider.setSelectedImage(
+                                  liveTrackingProvider.images[index]);
+                              _replayProvider.cacheIcons(
+                                  liveTrackingProvider.images[index]);
+                              print(liveTrackingProvider.selecetedImg);
                               _replayProvider.getEmployeeLocationById(
                                   liveTrackingProvider.employeeLiveData[index]
                                       ['mobile_id']);

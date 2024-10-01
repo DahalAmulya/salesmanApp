@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:typed_data';
 import 'package:deskgoo/providers/deviceInfo_provider/deviceInfo_provider.dart';
+import 'package:deskgoo/providers/live_tracking_provider/live_tracking_provider.dart';
 import 'package:deskgoo/services/erp_services.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -24,6 +25,7 @@ class ReplayProvider extends ChangeNotifier {
   bool _isRestartReplay = false;
   bool _isPause = false;
   bool _isLeavePage = false;
+  String _selectedImage = '';
 
   Uint8List? _tempMarkerIcon;
   Uint8List? _startMarkerIcon;
@@ -47,9 +49,10 @@ class ReplayProvider extends ChangeNotifier {
   bool get isRestartReplay => _isRestartReplay;
   bool get isPause => _isPause;
   bool get isLeavePage => _isLeavePage;
+  String get selectedImage => _selectedImage;
 
   ReplayProvider() {
-    cacheIcons(); // Pre-cache marker icons
+    cacheIcons(_selectedImage); // Pre-cache marker icons
     _isLeavePage = false;
   }
 
@@ -80,15 +83,18 @@ class ReplayProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  void setEmployeeId(int id) {
-    _employee_id = id;
+  void setEmployeeImage(String img) {
+    _selectedImage = img;
     notifyListeners();
   }
 
-  void cacheIcons() async {
+  void cacheIcons(String img) async {
+    LiveTrackingProvider _imgprovider = LiveTrackingProvider();
     DeviceinfoProvider _provider = DeviceinfoProvider();
-    _tempMarkerIcon =
-        await _provider.getBytesFromAsset('assets/images/location.png', 80);
+    String tempMarkerImg = img.isEmpty ? 'assets/images/location.png' : img;
+    _tempMarkerIcon = img.isEmpty
+        ? await _provider.getBytesFromAsset(tempMarkerImg, 80)
+        : await _imgprovider.getBytesFromAsset(tempMarkerImg, 100);
     _startMarkerIcon =
         await _provider.getBytesFromAsset('assets/images/start.png', 100);
     _endMarkerIcon =
