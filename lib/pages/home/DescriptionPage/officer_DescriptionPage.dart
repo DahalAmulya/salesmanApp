@@ -31,49 +31,56 @@ class _OfficerDescriptionPageState extends State<OfficerDescriptionPage> {
   int? selectedIndex = 0;
   FontWeight textFontWeight = FontWeight.w500;
   List<bool> isCheckedList = [];
+  List<Color> containerColors = [];
   List<Map<String, dynamic>> officerDescription = [
     {
-      "client Name": "Ram Shah",
-      "Address": "Biratnagar, Airport-Road",
-      "Phone Number": 9819022062,
-      "Date Time": "2022-01-15 / 10:30 PM",
+      'clientName': 'Ram Shah',
+      'address': 'Biratnagar, Airport-Road',
+      'phoneNumber': 9819022062,
+      'dateTime': '2022-01-15 / 10:30 PM',
+      'visitStatus': 'visited',
     },
     {
-      "client Name": "Rajesh Biswakarma",
-      "Address": "Kathmandu, New Baneshwor",
-      "Phone Number": 9845678901,
-      "Date Time": "2022-01-16 / 11:45 AM",
+      'clientName': 'Rajesh Biswakarma',
+      'address': 'Kathmandu, New Baneshwor',
+      'phoneNumber': 9845678901,
+      'dateTime': '2022-01-16 / 11:45 AM',
+      'visitStatus': 'visited',
     },
     {
-      "client Name": "Abhijeet Yadav ",
-      "Address": "Lalitpur, Jhansi Road",
-      "Phone Number": 9876543210,
-      "Date Time": "2022-01-17 / 12:30 PM",
+      'clientName': 'Abhijeet Yadav ',
+      'address': 'Lalitpur, Jhansi Road',
+      'phoneNumber': 9876543210,
+      'dateTime': '2022-01-17 / 12:30 PM',
+      'visitStatus': 'visitedOthers',
     },
     {
-      "client Name": "Rohan Bhattrai",
-      "Address": "Lakeside Rd, Pokhara",
-      "Phone Number": 9898989898,
-      "Date Time": "2022-01-18 / 1:15 PM",
+      'clientName': 'Rohan Bhattrai',
+      'address': 'Lakeside Rd, Pokhara',
+      'phoneNumber': 9898989898,
+      'dateTime': '2022-01-18 / 1:15 PM',
+      'visitStatus': 'visitedOthers',
     },
     {
-      "client Name": "Milan Biswas",
-      "Address": "NGO Rd, Bharatpur",
-      "Phone Number": 9874563210,
-      "Date Time": "2022-01-19 / 2:00 PM",
+      'clientName': 'Milan Biswas',
+      'address': 'NGO Rd, Bharatpur',
+      'phoneNumber': 9874563210,
+      'dateTime': '2022-01-19 / 2:00 PM',
+      'visitStatus': 'visitOnProgress',
     },
     {
-      "client Name": "Siman Malla",
-      "Address": ": Milanchwok,Butwal",
-      "Phone Number": 9854321098,
-      "Date Time": "2022-01-20 / 2:45 PM",
+      'clientName': 'Siman Malla',
+      'address': 'Milanchwok,Butwal',
+      'phoneNumber': 9854321098,
+      'dateTime': '2022-01-20 / 2:45 PM',
+      'visitStatus': 'notVisited',
     }
   ];
   List<String> VisitStatus = [
-    "Visited",
-    "Visited Other",
-    "Visit On Progress",
-    "Not Visited",
+    'visited',
+    'visitedOthers',
+    'visitOnProgress',
+    'notVisited',
   ];
 
   @override
@@ -111,6 +118,7 @@ class _OfficerDescriptionPageState extends State<OfficerDescriptionPage> {
     _officerDetailProvider =
         Provider.of<OfficerDetailProvider>(context, listen: false);
     isCheckedList = List<bool>.filled(officerDescription.length, false);
+    containerColors = List<Color>.filled(officerDescription.length,CustomColors.lightBlue);
     super.initState();
   }
 
@@ -145,10 +153,9 @@ class _OfficerDescriptionPageState extends State<OfficerDescriptionPage> {
                   itemCount: officerDescription.length,
                   itemBuilder: (BuildContext context, int index) {
                     Color containerColor;
-                    String visitStatus = detailsProvider
-                        .marketingOfficersDetails[index]['Visit Status'];
+                    String visitStatus = officerDescription[index]['visitStatus'];
                     if (visitStatus == VisitStatus[0]) {
-                      containerColor = CustomColors.lightGreen;
+                      containerColor = CustomColors.lightBlue;
                     } else if (visitStatus == VisitStatus[1]) {
                       containerColor = CustomColors.lightYellow;
                     } else if (visitStatus == VisitStatus[2]) {
@@ -164,14 +171,14 @@ class _OfficerDescriptionPageState extends State<OfficerDescriptionPage> {
                           onTap: () {
                             if (_officerDetailProvider != null) {
                               _officerDetailProvider!.setName(
-                                  officerDescription[index]['client Name']);
+                                  officerDescription[index]['clientName']);
                               _officerDetailProvider!.setAddress(
-                                  officerDescription[index]['Address']);
+                                  officerDescription[index]['address']);
                               _officerDetailProvider!.setPhoneNumber(
-                                  officerDescription[index]['Phone Number']
+                                  officerDescription[index]['phoneNumber']
                                       .toString());
                               _officerDetailProvider!.setDateTime(
-                                  officerDescription[index]['Date Time']);
+                                  officerDescription[index]['dateTime']);
                             }
                             Navigator.of(context).pushNamed(
                                 RouteGeneratorConstants.officerVisitDetailPage);
@@ -179,7 +186,7 @@ class _OfficerDescriptionPageState extends State<OfficerDescriptionPage> {
                           child: CustomContainer(
                             horizontalMargin: 16,
                             verticalMargin: 4,
-                            color: containerColor, // Assigned based on status
+                            color: containerColors[index], // Assigned based on status
                             child: Column(
                               children: [
                                 Row(
@@ -190,7 +197,8 @@ class _OfficerDescriptionPageState extends State<OfficerDescriptionPage> {
                                           vertical: 8.0, horizontal: 8.0),
                                       child: CustomText(
                                           text:
-                                              '${officerDescription[index]['client Name']}'),
+                                              '${officerDescription[index]['clientName']}',
+                                          fontWeight: textFontWeight),
                                     ),
                                     Spacer(),
                                     Checkbox(
@@ -200,6 +208,11 @@ class _OfficerDescriptionPageState extends State<OfficerDescriptionPage> {
                                         setState(
                                           () {
                                             isCheckedList[index] = value!;
+                                            if (isCheckedList[index]) {
+                                              containerColors[index] = CustomColors.lightGreen;
+                                            } else {
+                                              containerColors[index] = containerColor;
+                                            }
                                           },
                                         );
                                       },
@@ -217,7 +230,7 @@ class _OfficerDescriptionPageState extends State<OfficerDescriptionPage> {
                                           vertical: 8.0, horizontal: 8.0),
                                       child: CustomText(
                                           text:
-                                              '${officerDescription[index]['Address']}',
+                                              '${officerDescription[index]['address']}',
                                           fontWeight: textFontWeight),
                                     ),
                                   ],
@@ -233,7 +246,7 @@ class _OfficerDescriptionPageState extends State<OfficerDescriptionPage> {
                                           vertical: 8.0, horizontal: 8.0),
                                       child: CustomText(
                                           text:
-                                              '${officerDescription[index]['Phone Number']}',
+                                              '${officerDescription[index]['phoneNumber']}',
                                           fontWeight: textFontWeight),
                                     ),
                                   ],
@@ -246,7 +259,7 @@ class _OfficerDescriptionPageState extends State<OfficerDescriptionPage> {
                                           vertical: 8.0, horizontal: 8.0),
                                       child: CustomText(
                                         text:
-                                            '${officerDescription[index]['Date Time']}',
+                                            '${officerDescription[index]['dateTime']}',
                                         fontWeight: textFontWeight,
                                       ),
                                     ),
