@@ -32,6 +32,7 @@ class _OfficerDescriptionPageState extends State<OfficerDescriptionPage> {
   FontWeight textFontWeight = FontWeight.w500;
   List<bool> isCheckedList = [];
   List<Color> containerColors = [];
+  List<Color> initialContainerColors = [];
   List<Map<String, dynamic>> officerDescription = [
     {
       'clientName': 'Ram Shah',
@@ -94,17 +95,17 @@ class _OfficerDescriptionPageState extends State<OfficerDescriptionPage> {
   PreferredSize _appBar(context) {
     return PreferredSize(
       preferredSize: Size.fromHeight(kToolbarHeight),
-      child: Builder(
-        builder: (context) => CustomAppBar(
-          tabName: 'Visit Summary',
+      child: Consumer<MarketingProvider>(
+        builder: (context, marketingProvider, _) => CustomAppBar(
+          tabName: '${marketingProvider.name}',
           titleColor: CustomColors.primaryBlack,
+          size: 24,
           backgroundColor: CustomColors.primaryColor,
           showLeading: true,
           leadingIcon: FontAwesomeIcons.arrowLeft,
           leadingIconColor: CustomColors.primaryBlack,
           onTapLeadingIcon: () {
             // Use the context under the Scaffold
-            print('hello');
             Navigator.of(context).pop(RouteGeneratorConstants.homePage);
           },
         ),
@@ -118,7 +119,21 @@ class _OfficerDescriptionPageState extends State<OfficerDescriptionPage> {
     _officerDetailProvider =
         Provider.of<OfficerDetailProvider>(context, listen: false);
     isCheckedList = List<bool>.filled(officerDescription.length, false);
-    containerColors = List<Color>.filled(officerDescription.length,CustomColors.lightBlue);
+    initialContainerColors = officerDescription.map((officer) {
+      String visitStatus = officer['visitStatus'];
+      if (visitStatus == VisitStatus[0]) {
+        return CustomColors.lightBlue;
+      } else if (visitStatus == VisitStatus[1]) {
+        return CustomColors.lightYellow;
+      } else if (visitStatus == VisitStatus[2]) {
+        return CustomColors.lightGrey;
+      } else if (visitStatus == VisitStatus[3]) {
+        return CustomColors.lightRed;
+      } else {
+        return CustomColors.lightBlue;
+      }
+    }).toList();
+    containerColors = List.from(initialContainerColors);
     super.initState();
   }
 
@@ -127,19 +142,6 @@ class _OfficerDescriptionPageState extends State<OfficerDescriptionPage> {
       builder: (context, marketingProvider, _) {
         return ListView(
           children: [
-            SizedBox(
-              height: 8,
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                CustomText(
-                  text: marketingProvider.name,
-                  size: 18,
-                  fontWeight: FontWeight.bold,
-                ),
-              ],
-            ),
             SizedBox(
               height: 8,
             ),
@@ -152,19 +154,8 @@ class _OfficerDescriptionPageState extends State<OfficerDescriptionPage> {
                   primary: false,
                   itemCount: officerDescription.length,
                   itemBuilder: (BuildContext context, int index) {
-                    Color containerColor;
+                    // Color containerColor;
                     String visitStatus = officerDescription[index]['visitStatus'];
-                    if (visitStatus == VisitStatus[0]) {
-                      containerColor = CustomColors.lightBlue;
-                    } else if (visitStatus == VisitStatus[1]) {
-                      containerColor = CustomColors.lightYellow;
-                    } else if (visitStatus == VisitStatus[2]) {
-                      containerColor = CustomColors.lightGrey;
-                    } else if (visitStatus == VisitStatus[3]) {
-                      containerColor = CustomColors.lightRed;
-                    } else {
-                      containerColor = CustomColors.lightBlue;
-                    }
                     return Column(
                       children: [
                         InkWell(
@@ -211,7 +202,7 @@ class _OfficerDescriptionPageState extends State<OfficerDescriptionPage> {
                                             if (isCheckedList[index]) {
                                               containerColors[index] = CustomColors.lightGreen;
                                             } else {
-                                              containerColors[index] = containerColor;
+                                              containerColors[index] = initialContainerColors[index];
                                             }
                                           },
                                         );
@@ -269,7 +260,6 @@ class _OfficerDescriptionPageState extends State<OfficerDescriptionPage> {
                             ),
                           ),
                         ),
-                        // SizedBox(height: 8), // Adds gap between containers
                       ],
                     );
                   },
