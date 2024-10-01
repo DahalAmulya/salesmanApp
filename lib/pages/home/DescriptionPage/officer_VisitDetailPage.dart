@@ -58,11 +58,13 @@ class _OfficerVisitDetailPageState extends State<OfficerVisitDetailPage> {
   Widget _buildUI(context) {
     return ListView(
       children: [
-        SizedBox(height: 16,),
+        SizedBox(
+          height: 16,
+        ),
         CustomContainer(
           color: Colors.white,
           verticalMargin: 0,
-          verticalPad: 16,
+          verticalPad: 12,
           horizontalMargin: 12,
           horizontalPad: 0,
           // width: 0.90,
@@ -97,7 +99,6 @@ class _OfficerVisitDetailPageState extends State<OfficerVisitDetailPage> {
               ),
               Container(
                 width: MediaQuery.of(context).size.width * 1,
-                height: MediaQuery.of(context).size.height * 0.20,
                 padding: EdgeInsets.symmetric(horizontal: 16),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -151,31 +152,29 @@ class _OfficerVisitDetailPageState extends State<OfficerVisitDetailPage> {
                     }),
                     Consumer<OfficerDetailProvider>(
                         builder: (context, OfficerDetailProvider, _) {
-                          return Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                CustomText(
-                                  text:
-                                  'Note: ',
-                                  fontWeight: textFontWeight,
-                                  size: textSize,
-                                ),
-                                Expanded(
-                                  child: CustomText(
-                                    textOverflow: TextOverflow.visible,
-                                    text:
-                                    '${OfficerDetailProvider.notes}',
-                                    fontWeight: textFontWeight,
-                                    size: textSize,
-                                  ),
-                                ),
-                              ],
+                      return Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            CustomText(
+                              text: 'Note: ',
+                              fontWeight: textFontWeight,
+                              size: textSize,
                             ),
-                          );
-                        }),
+                            Expanded(
+                              child: CustomText(
+                                textOverflow: TextOverflow.visible,
+                                text: '${OfficerDetailProvider.notes}',
+                                fontWeight: textFontWeight,
+                                size: textSize,
+                              ),
+                            ),
+                          ],
+                        ),
+                      );
+                    }),
                   ],
                 ),
               ),
