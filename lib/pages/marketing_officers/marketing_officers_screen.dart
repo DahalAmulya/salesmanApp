@@ -4,10 +4,12 @@ import 'package:deskgoo/routes/route_generator_constants.dart';
 import 'package:deskgoo/themes/custom_colors.dart';
 import 'package:deskgoo/widgets/app_bars/custom_app_bars.dart';
 import 'package:deskgoo/widgets/bottom_navigation/gnav_bar.dart';
+import 'package:deskgoo/widgets/containers/custom_container.dart';
 import 'package:deskgoo/widgets/texts/custom_text.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
+import 'dart:math' as math;
 
 class MarketingOfficersScreen extends StatefulWidget {
   const MarketingOfficersScreen({super.key});
@@ -29,11 +31,22 @@ class _MarketingOfficersScreenState extends State<MarketingOfficersScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: CustomColors.primaryWhite,
-      appBar: _appBar(context),
-      body: _buildUI(context),
-      bottomNavigationBar: _bottomNavBar(context),
+    return PopScope(
+      canPop: false,
+      onPopInvoked: ((didpop) {
+        if (didpop) {
+          return;
+        }
+        // GoRouter.of(context)
+        //     .pushReplacementNamed(MyAppRouteConstants.loginRouteName);
+        Navigator.of(context).pop(RouteGeneratorConstants.homePage);
+      }),
+      child: Scaffold(
+        backgroundColor: CustomColors.primaryWhite,
+        appBar: _appBar(context),
+        body: _buildUI(context),
+        // bottomNavigationBar: _bottomNavBar(context),
+      ),
     );
   }
 
@@ -55,6 +68,7 @@ class _MarketingOfficersScreenState extends State<MarketingOfficersScreen> {
           tabName: 'Marketing Officers',
           titleColor: CustomColors.primaryBlack,
           backgroundColor: CustomColors.primaryColor,
+          size: 24,
           showLeading: true,
           leadingIcon: FontAwesomeIcons.arrowLeft,
           leadingIconColor: CustomColors.primaryBlack,
@@ -67,85 +81,161 @@ class _MarketingOfficersScreenState extends State<MarketingOfficersScreen> {
   }
 
   Widget _buildUI(context) {
-    return Consumer<DetailsProvider>(builder: (context, marketingProvider, _) {
-      return ListView(
-        children: [
-          SizedBox(
-            height: 16,
-          ),
-          ListView.builder(
-            itemCount: marketingProvider.marketingOfficersDetails.length,
-            shrinkWrap: true, // This allows it to take only the required height
-            physics:
-                NeverScrollableScrollPhysics(), // Disables scrolling for outer ListView, so the inner ListViews can handle scrolling
-            itemBuilder: (context, index) {
-              double indicatorValue = marketingProvider
-                      .marketingOfficersDetails[index]['achieved'] /
-                  marketingProvider.marketingOfficersDetails[index]['target'];
-              return InkWell(
-                onTap: () {
-                  _marketingProvider!.setName(marketingProvider
-                      .marketingOfficersDetails[index]['OfficerName']);
-                  // print(marketingOfficersName[index]['OfficerName']);
-                  Navigator.of(context).pushNamed(
-                      RouteGeneratorConstants.officerDescriptionPage);
-                },
-                child: Container(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.only(left: 16.0, top: 4),
-                        child: Consumer<DetailsProvider>(
+    return Consumer<DetailsProvider>(
+      builder: (context, marketingProvider, _) {
+        return ListView(
+          children: [
+            SizedBox(
+              height: 8,
+            ),
+            ListView.builder(
+              itemCount: marketingProvider.marketingOfficersDetails.length,
+              shrinkWrap:
+                  true, // This allows it to take only the required height
+              physics:
+                  NeverScrollableScrollPhysics(), // Disables scrolling for outer ListView, so the inner ListViews can handle scrolling
+              itemBuilder: (context, index) {
+                double indicatorValue = marketingProvider
+                        .marketingOfficersDetails[index]['achieved'] /
+                    marketingProvider.marketingOfficersDetails[index]['target'];
+                int target =
+                    marketingProvider.marketingOfficersDetails[index]['target'];
+                int achived = marketingProvider.marketingOfficersDetails[index]
+                    ['achieved'];
+                String name = marketingProvider.marketingOfficersDetails[index]
+                    ['OfficerName'];
+                int battery = marketingProvider.marketingOfficersDetails[index]
+                    ['batteryLevel'];
+                String connectivityType = marketingProvider
+                    .marketingOfficersDetails[index]['connectivityType'];
+                int travelled = marketingProvider
+                    .marketingOfficersDetails[index]['totalTravel'];
+                return InkWell(
+                  onTap: () {
+                    _marketingProvider!.setName(name);
+                    Navigator.of(context).pushNamed(
+                        RouteGeneratorConstants.officerDescriptionPage);
+                  },
+                  child: CustomContainer(
+                    color: Colors.white,
+                    verticalPad: 8,
+                    horizontalPad: 8,
+                    verticalMargin: 4,
+                    horizontalMargin: 8,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                          child: Consumer<DetailsProvider>(
                             builder: (context, marketingProvider, _) {
-                          return CustomText(
-                            text: marketingProvider
-                                .marketingOfficersDetails[index]['OfficerName'],
-                            fontWeight: FontWeight.bold,
-                            color: CustomColors.primaryBlack,
-                            // color: Colors.grey.shade600,
-                          );
-                        }),
-                      ),
-                      Row(
-                        children: [
-                          Flexible(
-                            child: Padding(
-                              padding:
-                                  const EdgeInsets.symmetric(horizontal: 16.0),
-                              child: LinearProgressIndicator(
-                                value: indicatorValue,
-                                backgroundColor: Colors.white,
-                                color: CustomColors.primaryColor,
-                                minHeight: 6,
-                                borderRadius: BorderRadius.circular(10),
+                              return CustomText(
+                                text: name,
+                                fontWeight: FontWeight.w600,
+                                color: CustomColors.primaryBlack,
+                                size: 18,
+                                // color: Colors.grey.shade600,
+                              );
+                            },
+                          ),
+                        ),
+                        SizedBox(
+                          height: 4,
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Row(
+                                children: [
+                                  Transform.rotate(
+                                    angle: 180 * math.pi / 90,
+                                    child: FaIcon(
+                                      battery > 85
+                                          ? FontAwesomeIcons.batteryFull
+                                          : battery > 65
+                                              ? FontAwesomeIcons
+                                                  .batteryThreeQuarters
+                                              : battery > 40
+                                                  ? FontAwesomeIcons.batteryHalf
+                                                  : battery > 15
+                                                      ? FontAwesomeIcons
+                                                          .batteryQuarter
+                                                      : FontAwesomeIcons
+                                                          .batteryEmpty,
+                                      color: battery > 65
+                                          ? Colors.green
+                                          : battery > 40
+                                              ? Colors.lightGreen
+                                              : battery > 10
+                                                  ? Colors.deepOrange
+                                                  : battery < 10
+                                                      ? Colors.red
+                                                      : Colors.blue,
+                                    ),
+                                  ),
+                                  CustomText(
+                                    text: ' $battery %',
+                                    fontWeight: FontWeight.w600,
+                                    color: CustomColors.primaryBlack,
+                                  ),
+                                ],
                               ),
-                            ),
-                          ),
-                          const SizedBox(
-                            width: 30,
-                          ),
-                          Padding(
-                            padding: EdgeInsets.only(right: 16.0),
-                            child: Text(
-                              '${marketingProvider.marketingOfficersDetails[index]['achieved']}/${marketingProvider.marketingOfficersDetails[index]['target']}',
-                              style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                                color: Colors.grey.shade600,
+                              CustomText(
+                                text: '$travelled km',
+                                fontWeight: FontWeight.w600,
                               ),
-                            ),
+                              Icon(
+                                connectivityType == 'mobile'
+                                    ? Icons.network_cell
+                                    : Icons.wifi,
+                                color: Colors.green,
+                              ),
+                            ],
                           ),
-                        ],
-                      ),
-                    ],
+                        ),
+                        SizedBox(
+                          height: 4,
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                          child: Row(
+                            children: [
+                              Flexible(
+                                child: LinearProgressIndicator(
+                                  value: indicatorValue,
+                                  backgroundColor: Colors.grey.shade300,
+                                  color: CustomColors.primaryColor,
+                                  minHeight: 6,
+                                  borderRadius: BorderRadius.circular(10),
+                                ),
+                              ),
+                              const SizedBox(
+                                width: 16,
+                              ),
+                              CustomText(
+                                text: '$achived/$target',
+                                fontWeight: FontWeight.w600,
+                                color: CustomColors.primaryBlack,
+                                size: 14,
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
-                ),
-              );
-            },
-          ),
-        ],
-      );
-    });
+                );
+              },
+            ),
+            SizedBox(
+              height: 24,
+            ),
+          ],
+        );
+      },
+    );
   }
 }
