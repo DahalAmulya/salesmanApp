@@ -3,6 +3,7 @@ import 'package:deskgoo/providers/marketing_provider/officersDescription_provide
 import 'package:deskgoo/routes/route_generator_constants.dart';
 import 'package:deskgoo/themes/custom_colors.dart';
 import 'package:deskgoo/widgets/app_bars/custom_app_bars.dart';
+import 'package:deskgoo/widgets/bottom_navigation/gnav_bar.dart';
 import 'package:deskgoo/widgets/texts/custom_text.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -18,6 +19,7 @@ class MarketingOfficersScreen extends StatefulWidget {
 
 class _MarketingOfficersScreenState extends State<MarketingOfficersScreen> {
   MarketingProvider? _marketingProvider;
+  int index = 0;
 
   @override
   void initState() {
@@ -31,6 +33,17 @@ class _MarketingOfficersScreenState extends State<MarketingOfficersScreen> {
       backgroundColor: CustomColors.primaryWhite,
       appBar: _appBar(context),
       body: _buildUI(context),
+      bottomNavigationBar: _bottomNavBar(context),
+    );
+  }
+
+  CustomGNavBar _bottomNavBar(context) {
+    return CustomGNavBar(
+      selectedIndex: index,
+      onTap: (value) {
+        index = value;
+        print(index);
+      },
     );
   }
 
@@ -57,6 +70,9 @@ class _MarketingOfficersScreenState extends State<MarketingOfficersScreen> {
     return Consumer<DetailsProvider>(builder: (context, marketingProvider, _) {
       return ListView(
         children: [
+          SizedBox(
+            height: 16,
+          ),
           ListView.builder(
             itemCount: marketingProvider.marketingOfficersDetails.length,
             shrinkWrap: true, // This allows it to take only the required height
