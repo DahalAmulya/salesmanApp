@@ -83,7 +83,6 @@ class _OfficerDescriptionPageState extends State<OfficerDescriptionPage> {
     'visitOnProgress',
     'notVisited',
   ];
-  bool? isCheck = false;
 
   @override
   Widget build(BuildContext context) {
@@ -103,7 +102,6 @@ class _OfficerDescriptionPageState extends State<OfficerDescriptionPage> {
           size: 24,
           backgroundColor: CustomColors.primaryColor,
           showLeading: true,
-          size: 24,
           leadingIcon: FontAwesomeIcons.arrowLeft,
           leadingIconColor: CustomColors.primaryBlack,
           onTapLeadingIcon: () {
@@ -121,10 +119,6 @@ class _OfficerDescriptionPageState extends State<OfficerDescriptionPage> {
     _officerDetailProvider =
         Provider.of<OfficerDetailProvider>(context, listen: false);
     isCheckedList = List<bool>.filled(officerDescription.length, false);
-<<<<<<< HEAD
-    containerColors =
-        List<Color>.filled(officerDescription.length, CustomColors.lightBlue);
-=======
     initialContainerColors = officerDescription.map((officer) {
       String visitStatus = officer['visitStatus'];
       if (visitStatus == VisitStatus[0]) {
@@ -140,7 +134,6 @@ class _OfficerDescriptionPageState extends State<OfficerDescriptionPage> {
       }
     }).toList();
     containerColors = List.from(initialContainerColors);
->>>>>>> e3b4e93873c7e5c292ac51de81467c5736ea011d
     super.initState();
   }
 
@@ -161,31 +154,9 @@ class _OfficerDescriptionPageState extends State<OfficerDescriptionPage> {
                   primary: false,
                   itemCount: officerDescription.length,
                   itemBuilder: (BuildContext context, int index) {
-<<<<<<< HEAD
+                    // Color containerColor;
                     String visitStatus =
                         officerDescription[index]['visitStatus'];
-                    Color containerColor = visitStatus == 'visited'
-                        ? CustomColors.lightBlue
-                        : visitStatus == 'visitedOthers'
-                            ? CustomColors.lightYellow
-                            : visitStatus == 'visitOnProgress'
-                                ? CustomColors.lightGrey
-                                : CustomColors.lightRed;
-                    if (visitStatus == VisitStatus[0]) {
-                      containerColor = CustomColors.lightBlue;
-                    } else if (visitStatus == VisitStatus[1]) {
-                      containerColor = CustomColors.lightYellow;
-                    } else if (visitStatus == VisitStatus[2]) {
-                      containerColor = CustomColors.lightGrey;
-                    } else if (visitStatus == VisitStatus[3]) {
-                      containerColor = CustomColors.lightRed;
-                    } else {
-                      containerColor = CustomColors.lightBlue;
-                    }
-=======
-                    // Color containerColor;
-                    String visitStatus = officerDescription[index]['visitStatus'];
->>>>>>> e3b4e93873c7e5c292ac51de81467c5736ea011d
                     return Column(
                       children: [
                         InkWell(
@@ -207,7 +178,8 @@ class _OfficerDescriptionPageState extends State<OfficerDescriptionPage> {
                           child: CustomContainer(
                             horizontalMargin: 16,
                             verticalMargin: 4,
-                            color: containerColors[index],
+                            color: containerColors[
+                                index], // Assigned based on status
                             child: Column(
                               children: [
                                 Row(
@@ -233,12 +205,8 @@ class _OfficerDescriptionPageState extends State<OfficerDescriptionPage> {
                                               containerColors[index] =
                                                   CustomColors.lightGreen;
                                             } else {
-<<<<<<< HEAD
                                               containerColors[index] =
-                                                  containerColor;
-=======
-                                              containerColors[index] = initialContainerColors[index];
->>>>>>> e3b4e93873c7e5c292ac51de81467c5736ea011d
+                                                  initialContainerColors[index];
                                             }
                                           },
                                         );
