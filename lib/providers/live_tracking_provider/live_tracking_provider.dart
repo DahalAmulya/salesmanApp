@@ -23,7 +23,7 @@ class LiveTrackingProvider extends ChangeNotifier {
   String _mobileTime = '';
   List<dynamic> _employeeLiveData = [];
   List<dynamic> _employeesNameList = [];
-  List<Map<String, dynamic>> _employeeSearchResults = [];
+  List<dynamic> _employeeSearchResults = [];
   Set<Marker> _liveTrakingMarkers = {};
   late Timer _liveLocationTimer;
   int _seconds = 0;
@@ -48,8 +48,7 @@ class LiveTrackingProvider extends ChangeNotifier {
   String get mobileTime => _mobileTime;
   List<dynamic> get employeeLiveData => _employeeLiveData;
   List<dynamic> get employeesNameList => _employeesNameList;
-  List<Map<String, dynamic>> get employeeSearchResults =>
-      _employeeSearchResults;
+  List<dynamic> get employeeSearchResults => _employeeSearchResults;
   Set<Marker> get liveTrackingMarkers => _liveTrakingMarkers;
   Timer get liveLocationTimer => _liveLocationTimer;
   int get seconds => _seconds;
@@ -91,6 +90,7 @@ class LiveTrackingProvider extends ChangeNotifier {
     // print(response.statusCode);
     Map<String, dynamic> body = jsonDecode(response.body);
     _employeeLiveData = body['latestData'];
+    _employeeSearchResults = _employeeLiveData;
 
     // Clear the markers set before adding new markers
     _liveTrakingMarkers.clear();
@@ -195,6 +195,28 @@ class LiveTrackingProvider extends ChangeNotifier {
     }
 
     // Notify listeners to update the map
+    notifyListeners();
+  }
+
+  void runSearchEmployeeLiveLocationFilter(String enteredKeyWord) {
+    List<dynamic> results = [];
+    if (enteredKeyWord.isEmpty) {
+      results = _employeeLiveData;
+    } else {
+      results = _employeeLiveData
+          .where((emp) => emp['employee_name']
+              .toString()
+              .toLowerCase()
+              .contains(enteredKeyWord.toLowerCase()))
+          .toList();
+    }
+    _employeeSearchResults = results;
+    notifyListeners();
+  }
+
+  void clearEmployeeSearchField() {
+    searchController.clear();
+    _employeeSearchResults = _employeeLiveData;
     notifyListeners();
   }
 

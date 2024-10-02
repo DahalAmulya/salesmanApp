@@ -33,13 +33,17 @@ class CustomBottomSheet {
                 size: 22.0,
                 fontWeight: FontWeight.bold,
               ),
-              leading: IconButton(
-                onPressed: () {
-                  Navigator.pop(context);
-                  // clearMap();
-                },
-                icon: FaIcon(FontAwesomeIcons.arrowLeft),
-              ),
+              leading: Consumer<LiveTrackingProvider>(
+                  builder: (context, liveTrackingProvider, _) {
+                return IconButton(
+                  onPressed: () {
+                    liveTrackingProvider.clearEmployeeSearchField();
+                    Navigator.pop(context);
+                    // clearMap();
+                  },
+                  icon: FaIcon(FontAwesomeIcons.arrowLeft),
+                );
+              }),
             ),
             body: Center(
               child: Container(
@@ -70,6 +74,10 @@ class CustomBottomSheet {
                         validator: (String? value) {
                           return null;
                         },
+                        onChange: (value) => liveTrackingProvider
+                            .runSearchEmployeeLiveLocationFilter(
+                                liveTrackingProvider
+                                    .searchController.value.text),
                         applyPrefix: true,
                         prefixIcon: Icon(FontAwesomeIcons.magnifyingGlass),
                       ),
@@ -79,7 +87,7 @@ class CustomBottomSheet {
                       Expanded(
                         child: ListView.builder(
                           itemCount:
-                              liveTrackingProvider.employeeLiveData.length,
+                              liveTrackingProvider.employeeSearchResults.length,
                           itemBuilder: (context, index) {
                             String capitalize(String s) {
                               if (s.isEmpty) return s;
@@ -88,8 +96,26 @@ class CustomBottomSheet {
 
                             String image = liveTrackingProvider.images[index];
                             String name = liveTrackingProvider
-                                .employeeLiveData[index]['employee_name'];
+                                .employeeSearchResults[index]['employee_name'];
                             return ListTile(
+                              onTap: () {
+                                print(liveTrackingProvider
+                                        .employeeSearchResults[index]
+                                    ['latestLocation']['latitude']);
+                                print(liveTrackingProvider
+                                        .employeeSearchResults[index]
+                                    ['latestLocation']['longitude']);
+                                double? lat = liveTrackingProvider
+                                        .employeeSearchResults[index]
+                                    ['latestLocation']['latitude'];
+                                double? long = liveTrackingProvider
+                                        .employeeSearchResults[index]
+                                    ['latestLocation']['longitude'];
+                                liveTrackingProvider.setSelectedEmpLatLong(
+                                    lat, long);
+                                liveTrackingProvider.clearEmployeeSearchField();
+                                Navigator.pop(context);
+                              },
                               title: Row(
                                 children: [
                                   ClipRRect(
@@ -112,23 +138,6 @@ class CustomBottomSheet {
                                   ),
                                 ],
                               ),
-                              onTap: () {
-                                print(
-                                    liveTrackingProvider.employeeLiveData[index]
-                                        ['latestLocation']['latitude']);
-                                print(
-                                    liveTrackingProvider.employeeLiveData[index]
-                                        ['latestLocation']['longitude']);
-                                double? lat =
-                                    liveTrackingProvider.employeeLiveData[index]
-                                        ['latestLocation']['latitude'];
-                                double? long =
-                                    liveTrackingProvider.employeeLiveData[index]
-                                        ['latestLocation']['longitude'];
-                                liveTrackingProvider.setSelectedEmpLatLong(
-                                    lat, long);
-                                Navigator.pop(context);
-                              },
                             );
                           },
                         ),
