@@ -65,6 +65,7 @@ class SelectEmployeeBottomSheet {
 
                           String name = liveTrackingProvider
                               .employeeLiveData[index]['employee_name'];
+                          String image = liveTrackingProvider.images[index];
                           return InkWell(
                             onTap: () {
                               Navigator.pop(context);
@@ -92,9 +93,27 @@ class SelectEmployeeBottomSheet {
                               verticalMargin: 4,
                               horizontalMargin: 8,
                               horizontalPad: 8,
-                              child: CustomText(
-                                text: capitalize(name),
-                                fontWeight: FontWeight.w500,
+                              child: Row(
+                                children: [
+                                  ClipRRect(
+                                    borderRadius: BorderRadius.circular(100),
+                                    child: SizedBox(
+                                      height: 36,
+                                      width: 36,
+                                      child: Image.asset(
+                                        image,
+                                        fit: BoxFit.cover,
+                                      ),
+                                    ),
+                                  ),
+                                  SizedBox(
+                                    width: 12,
+                                  ),
+                                  CustomText(
+                                    text: capitalize(name),
+                                    fontWeight: FontWeight.w500,
+                                  ),
+                                ],
                               ),
                             ),
                           );
