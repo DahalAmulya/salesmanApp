@@ -1,7 +1,6 @@
 import 'dart:async';
 import 'dart:io';
 
-import 'package:deskgoo/pages/home/DescriptionPage/officer_DescriptionPage.dart';
 import 'package:deskgoo/pages/visit/summary_Page.dart';
 import 'package:deskgoo/pages/visit/visit_order_screen.dart';
 import 'package:deskgoo/providers/camera_provider/camera_provider.dart';
@@ -9,7 +8,6 @@ import 'package:deskgoo/providers/marketing_provider/officersDescription_provide
 import 'package:deskgoo/providers/visit_provider/order_items.dart';
 import 'package:deskgoo/providers/visit_provider/order_provider.dart';
 import 'package:deskgoo/providers/visit_provider/visit_screen_provider.dart';
-import 'package:deskgoo/routes/app_route_constants.dart';
 import 'package:deskgoo/routes/route_generator_constants.dart';
 import 'package:deskgoo/themes/custom_colors.dart';
 import 'package:deskgoo/widgets/app_bars/custom_app_bars.dart';
@@ -215,6 +213,18 @@ class _VisitScreenState extends State<VisitScreen>
                         children: [
                           InkWell(
                             onTap: () {
+                              if (visitScreenProvider.clientName.isNotEmpty) {
+                                clientNameController.text =
+                                    visitScreenProvider.clientName;
+                                addressController.text =
+                                    visitScreenProvider.clientAddress;
+                                phoneController.text =
+                                    visitScreenProvider.clientPhone;
+                                emailController.text =
+                                    visitScreenProvider.clientEmail;
+                                panController.text =
+                                    visitScreenProvider.clientPan;
+                              }
                               if (visitScreenProvider.index == 1 &&
                                   visitScreenProvider.index != index) {
                                 if (_newVisitFormKey.currentState!.validate()) {
@@ -226,8 +236,15 @@ class _VisitScreenState extends State<VisitScreen>
                                 }
                               } else if (visitScreenProvider.index == 4 &&
                                   visitScreenProvider.index != index) {
+                                if (clientNameController
+                                    .value.text.isNotEmpty) {}
                                 if (_followUpFormKey.currentState!.validate()) {
                                   print('Form valid');
+                                  if (visitScreenProvider
+                                      .followUpNote.isEmpty) {
+                                    visitScreenProvider.setFollowUpNote(
+                                        followUpNoteController.value.text);
+                                  }
                                   visitScreenProvider.setIndex(index);
                                 } else {
                                   print(
@@ -653,6 +670,8 @@ class _VisitScreenState extends State<VisitScreen>
                             provider.searchVistiCleintResults[index]['phone']
                                 .toString(),
                             '${DateTime.now().toString().split('.')[0]}',
+                            provider.searchVistiCleintResults[index]['email'],
+                            provider.searchVistiCleintResults[index]['pan'],
                           );
                           clientNameController.text = provider
                               .searchVistiCleintResults[index]['client']
@@ -1211,6 +1230,9 @@ class _VisitScreenState extends State<VisitScreen>
     DetailsProvider detailsProvider = Provider.of<DetailsProvider>(context);
     VisitScreenProvider visitScreenProvider =
         Provider.of<VisitScreenProvider>(context);
+    if (visitScreenProvider.followUpNote.isNotEmpty) {
+      followUpNoteController.text = visitScreenProvider.followUpNote;
+    }
     return Expanded(
       child: SingleChildScrollView(
         child: Column(
@@ -1232,9 +1254,7 @@ class _VisitScreenState extends State<VisitScreen>
                       minLine: 6,
                       maxLines: 6,
                       validator: (value) {
-                        visitScreenProvider.setFollowUpNote(value!);
-                        print(value);
-                        print(visitScreenProvider.followUpNote);
+                        // print(visitScreenProvider.followUpNote);
                         return value!.isEmpty
                             ? 'Visit note is required'
                             : value.length < 3
@@ -1242,7 +1262,7 @@ class _VisitScreenState extends State<VisitScreen>
                                 : null;
                       },
                       onChange: (value) {
-                        visitScreenProvider.setFollowUpNote(value!);
+                        // visitScreenProvider.setFollowUpNote(value!);
                       },
                       onTap: () {},
                     ),
@@ -1285,6 +1305,10 @@ class _VisitScreenState extends State<VisitScreen>
                         }
                         return GestureDetector(
                           onTap: () {
+                            if (visitScreenProvider.followUpNote.isEmpty) {
+                              visitScreenProvider.setFollowUpNote(
+                                  followUpNoteController.value.text);
+                            }
                             cameraProvider.setIsFollowUp();
                             Navigator.of(context)
                                 .pushNamed(RouteGeneratorConstants.cameraPage);
@@ -1303,25 +1327,33 @@ class _VisitScreenState extends State<VisitScreen>
                                     // CustomText(
                                     //     text: 'Tap to select click an image'),
                                     Consumer<CameraProvider>(
-                                        builder: (context, cameraProvider, _) {
-                                      return GestureDetector(
-                                        onTap: () {
-                                          cameraProvider.setIsFollowUp();
-                                          Navigator.of(context).pushNamed(
-                                              RouteGeneratorConstants
-                                                  .cameraPage);
-                                          print('image Icon Tapped');
-                                        },
-                                        child: SizedBox(
-                                          height: 28,
-                                          width: 24,
-                                          child: Image.asset(
-                                            'assets/images/camera.png',
-                                            color: Colors.grey.shade600,
+                                      builder: (context, cameraProvider, _) {
+                                        return GestureDetector(
+                                          onTap: () {
+                                            if (visitScreenProvider
+                                                .followUpNote.isEmpty) {
+                                              visitScreenProvider
+                                                  .setFollowUpNote(
+                                                      followUpNoteController
+                                                          .value.text);
+                                            }
+                                            cameraProvider.setIsFollowUp();
+                                            Navigator.of(context).pushNamed(
+                                                RouteGeneratorConstants
+                                                    .cameraPage);
+                                            print('image Icon Tapped');
+                                          },
+                                          child: SizedBox(
+                                            height: 28,
+                                            width: 24,
+                                            child: Image.asset(
+                                              'assets/images/camera.png',
+                                              color: Colors.grey.shade600,
+                                            ),
                                           ),
-                                        ),
-                                      );
-                                    }),
+                                        );
+                                      },
+                                    ),
                                   ],
                                 ),
                                 SizedBox(
@@ -1375,9 +1407,9 @@ class _VisitScreenState extends State<VisitScreen>
                           );
                           visitScreenProvider.setIndex(1);
                           cameraProvider.resetCameraStroredPhotos();
-
-                          // followUpDateController.value.text;
-                          // photo;
+                          visitScreenProvider.resetClientDetailsValues();
+                          clearNewVisitValues();
+                          followUpNoteController.clear();
                         },
                         backgroundColor: CustomColors.primaryColor,
                         widget: CustomText(

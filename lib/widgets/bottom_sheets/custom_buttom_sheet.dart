@@ -86,12 +86,31 @@ class CustomBottomSheet {
                               return s[0].toUpperCase() + s.substring(1);
                             }
 
+                            String image = liveTrackingProvider.images[index];
                             String name = liveTrackingProvider
                                 .employeeLiveData[index]['employee_name'];
                             return ListTile(
-                              title: CustomText(
-                                text: capitalize(name),
-                                fontWeight: FontWeight.w500,
+                              title: Row(
+                                children: [
+                                  ClipRRect(
+                                    borderRadius: BorderRadius.circular(100),
+                                    child: SizedBox(
+                                      height: 36,
+                                      width: 36,
+                                      child: Image.asset(
+                                        image,
+                                        fit: BoxFit.cover,
+                                      ),
+                                    ),
+                                  ),
+                                  SizedBox(
+                                    width: 12,
+                                  ),
+                                  CustomText(
+                                    text: capitalize(name),
+                                    fontWeight: FontWeight.w500,
+                                  ),
+                                ],
                               ),
                               onTap: () {
                                 print(

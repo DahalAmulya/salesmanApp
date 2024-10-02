@@ -22,6 +22,8 @@ class LiveTrackingProvider extends ChangeNotifier {
   String _employeeName = '';
   String _mobileTime = '';
   List<dynamic> _employeeLiveData = [];
+  List<dynamic> _employeesNameList = [];
+  List<Map<String, dynamic>> _employeeSearchResults = [];
   Set<Marker> _liveTrakingMarkers = {};
   late Timer _liveLocationTimer;
   int _seconds = 0;
@@ -29,7 +31,7 @@ class LiveTrackingProvider extends ChangeNotifier {
   String _img = '';
   List<String> _images = [
     'assets/images/johnCena.jpg',
-    'assets/images/theRock.jpg',
+    'assets/images/willSmith.jpeg',
     'assets/images/rdj.jpg',
     'assets/images/keanu.jpg',
   ];
@@ -45,6 +47,9 @@ class LiveTrackingProvider extends ChangeNotifier {
   String get employeeName => _employeeName;
   String get mobileTime => _mobileTime;
   List<dynamic> get employeeLiveData => _employeeLiveData;
+  List<dynamic> get employeesNameList => _employeesNameList;
+  List<Map<String, dynamic>> get employeeSearchResults =>
+      _employeeSearchResults;
   Set<Marker> get liveTrackingMarkers => _liveTrakingMarkers;
   Timer get liveLocationTimer => _liveLocationTimer;
   int get seconds => _seconds;
@@ -103,14 +108,16 @@ class LiveTrackingProvider extends ChangeNotifier {
       print('_employeeName = $_employeeName');
 
       if (i < _images.length) {
-        _img = images[i];
+        // _img = images[i];
+        // _img = images[i];
         print('inside if = ${i < _images.length}');
       } else {
-        _img = 'assets/images/location.png';
+        _images.add('assets/images/userLocation.png');
+        // _img = 'assets/images/location.png';
         print('outside if = ${i < _images.length}');
       }
 
-      final Uint8List? icon = await getBytesFromAsset('$_img', 120);
+      final Uint8List? icon = await getBytesFromAsset('${_images[i]}', 120);
 
       // Create a unique marker ID using the employee name or another identifier
       String markerId = 'marker_${_employeeLiveData[i]['employee_name']}';
@@ -166,7 +173,7 @@ class LiveTrackingProvider extends ChangeNotifier {
                             ),
                             CustomText(
                               text:
-                                  '${_employeeLiveData[i]['mobileIdentifier']}',
+                                  '${latestLocation['deviceTime'].toString().split('.')[0].split('T')[1]}',
                               fontWeight: ui.FontWeight.w500,
                             ),
                           ],

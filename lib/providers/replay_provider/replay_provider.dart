@@ -91,10 +91,11 @@ class ReplayProvider extends ChangeNotifier {
   void cacheIcons(String img) async {
     LiveTrackingProvider _imgprovider = LiveTrackingProvider();
     DeviceinfoProvider _provider = DeviceinfoProvider();
-    String tempMarkerImg = img.isEmpty ? 'assets/images/location.png' : img;
-    _tempMarkerIcon = img.isEmpty
-        ? await _provider.getBytesFromAsset(tempMarkerImg, 80)
-        : await _imgprovider.getBytesFromAsset(tempMarkerImg, 100);
+    String tempMarkerImg = img.isEmpty ? 'assets/images/userLocation.png' : img;
+    _tempMarkerIcon = await _imgprovider.getBytesFromAsset(tempMarkerImg, 100);
+    // img.isEmpty
+    //     ? await _provider.getBytesFromAsset(tempMarkerImg, 80)
+    // :
     _startMarkerIcon =
         await _provider.getBytesFromAsset('assets/images/start.png', 100);
     _endMarkerIcon =

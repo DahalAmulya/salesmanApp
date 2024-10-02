@@ -254,7 +254,7 @@ class DeviceinfoProvider extends ChangeNotifier {
 
     if (_connectivityType != 'none' && _distance > 3) {
       _connectivityStatus = 'connected';
-      // postDeviceInfo();
+      postDeviceInfo();
       notifyListeners();
     }
     print('distance = $_distance');
