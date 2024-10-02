@@ -388,7 +388,8 @@ class _HomeScreenState extends State<HomeScreen> {
                         double indicatorValue = achived / target;
                         return InkWell(
                           onTap: () {
-                            _marketingProvider!.setName(name);
+                            marketingProvider
+                                .setSelectedOfficerVisitDetails(index);
                             Navigator.of(context).pushNamed(
                                 RouteGeneratorConstants.officerDescriptionPage);
                           },
@@ -412,6 +413,8 @@ class _HomeScreenState extends State<HomeScreen> {
                                   ),
                                 ),
                                 Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
                                   children: [
                                     Flexible(
                                       child: Padding(
@@ -433,7 +436,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                     Padding(
                                       padding: EdgeInsets.only(right: 16.0),
                                       child: Text(
-                                        '$achived/$target',
+                                        '${achived < 10 ? '0$achived' : achived}/$target',
                                         style: TextStyle(
                                           fontWeight: FontWeight.bold,
                                           color: Colors.black,

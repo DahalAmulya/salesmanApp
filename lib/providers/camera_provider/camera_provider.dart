@@ -67,6 +67,14 @@ class CameraProvider extends ChangeNotifier {
     notifyListeners();
   }
 
+  void resetCameraStroredPhotos() {
+    _photos = [];
+    _followUpPhotos = [];
+    _followUpSelectedPhoto = '';
+    _newVisitPhotos = [];
+    _newVisitSelectedPhoto = '';
+  }
+
   // void offsetY(double y) {
   //   notifyListeners();
   // }

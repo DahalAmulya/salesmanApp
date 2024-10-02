@@ -4,7 +4,6 @@ import 'package:deskgoo/routes/route_generator_constants.dart';
 import 'package:deskgoo/themes/custom_colors.dart';
 import 'package:deskgoo/widgets/buttons/elevated_button.dart';
 import 'package:deskgoo/widgets/containers/custom_container.dart';
-import 'package:deskgoo/widgets/text_fields/text_from_field.dart';
 import 'package:deskgoo/widgets/texts/custom_text.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -52,15 +51,6 @@ class SelectEmployeeBottomSheet {
                   builder: (context, liveTrackingProvider, _) {
                 return Column(
                   children: [
-                    // TextFromFieldWithPrefixSuffix(
-                    //   autoFocus: true,
-                    //   controller: liveTrackingProvider.searchController,
-                    //   validator: (String? value) {
-                    //     return null;
-                    //   },
-                    //   applyPrefix: true,
-                    //   prefixIcon: Icon(FontAwesomeIcons.magnifyingGlass),
-                    // ),
                     const SizedBox(
                       height: 12.0,
                     ),
@@ -80,10 +70,15 @@ class SelectEmployeeBottomSheet {
                               Navigator.pop(context);
                               print(liveTrackingProvider.employeeLiveData[index]
                                   ['mobile_id']);
-                              liveTrackingProvider.setSelectedImage(
-                                  liveTrackingProvider.images[index]);
-                              _replayProvider.cacheIcons(
-                                  liveTrackingProvider.images[index]);
+                              try {
+                                liveTrackingProvider.setSelectedImage(
+                                    liveTrackingProvider.images[index]);
+                                _replayProvider.cacheIcons(
+                                    liveTrackingProvider.images[index]);
+                              } catch (err) {
+                                liveTrackingProvider.setSelectedImage('');
+                                _replayProvider.cacheIcons('');
+                              }
                               print(liveTrackingProvider.selecetedImg);
                               _replayProvider.getEmployeeLocationById(
                                   liveTrackingProvider.employeeLiveData[index]
@@ -106,39 +101,24 @@ class SelectEmployeeBottomSheet {
                         },
                       ),
                     ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      children: [
-                        CustomElevatedButton(
-                          onPressed: () {
-                            Navigator.pop(context);
-                            // clearMap();
-                          },
-                          borderColor: CustomColors.lightRed,
-                          widget: CustomText(
-                            text: 'Cancel',
-                            color: CustomColors.lightRed,
+                    Padding(
+                      padding: const EdgeInsets.all(16.0),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: [
+                          CustomElevatedButton(
+                            onPressed: () {
+                              Navigator.pop(context);
+                              // clearMap();
+                            },
+                            borderColor: CustomColors.lightRed,
+                            widget: CustomText(
+                              text: 'Cancel',
+                              color: CustomColors.lightRed,
+                            ),
                           ),
-                        ),
-                        // CustomElevatedButton(
-                        //   onPressed: () {
-                        //     // if (_formKey.currentState!.validate()) {
-                        //     //   postGeofence();
-                        //     //   if (isPostSuccess) {
-                        //     //     Navigator.pop(context);
-                        //     //     getGeofenceList();
-                        //     //   }
-                        //     // } else {
-                        //     //   print('False');
-                        //     // }
-                        //   },
-                        //   borderColor: CustomColors.primaryColor,
-                        //   widget: CustomText(
-                        //     text: 'Create',
-                        //     color: CustomColors.primaryBlack,
-                        //   ),
-                        // ),
-                      ],
+                        ],
+                      ),
                     ),
                   ],
                 );

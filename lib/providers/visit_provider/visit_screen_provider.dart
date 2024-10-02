@@ -158,10 +158,18 @@ class VisitScreenProvider extends ChangeNotifier {
     }
   ];
   String _clientName = '';
+  String _cleintAddress = '';
+  String _clientPhone = '';
+  String _clientVisitedDateTime = '';
+  String _followUpNote = '';
   int _index = 0;
 
   List<Map<String, dynamic>> get visitStatus => _vistiStatus;
   String get clientName => _clientName;
+  String get clientAddress => _cleintAddress;
+  String get clientPhone => _clientPhone;
+  String get clientVisitedDateTime => _clientVisitedDateTime;
+  String get followUpNote => _followUpNote;
   int get index => _index;
 
   void setIndex(int index) {
@@ -186,8 +194,18 @@ class VisitScreenProvider extends ChangeNotifier {
   List<Map<String, dynamic>> get searchVistiCleintResults =>
       _searchVisitClientResults;
 
-  void setClientName(name) {
+  void setClientName(name, address, phone, dateTime) {
     _clientName = name;
+    _cleintAddress = address;
+    _clientPhone = phone;
+    _clientVisitedDateTime = dateTime;
+    print(
+        '$_clientName, $_cleintAddress, $_clientPhone, $_clientVisitedDateTime');
+    notifyListeners();
+  }
+
+  void setFollowUpNote(String note) {
+    _followUpNote = note;
     notifyListeners();
   }
 

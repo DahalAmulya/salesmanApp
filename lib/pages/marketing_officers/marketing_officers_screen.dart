@@ -80,7 +80,7 @@ class _MarketingOfficersScreenState extends State<MarketingOfficersScreen> {
 
   Widget _buildUI(context) {
     return Consumer<DetailsProvider>(
-      builder: (context, marketingProvider, _) {
+      builder: (context, detailsProvider, _) {
         return RefreshIndicator(
           onRefresh: () async {
             await Future.delayed(const Duration(seconds: 1));
@@ -93,31 +93,34 @@ class _MarketingOfficersScreenState extends State<MarketingOfficersScreen> {
                 height: 8,
               ),
               ListView.builder(
-                itemCount: marketingProvider.marketingOfficersDetails.length,
+                itemCount: detailsProvider.marketingOfficersDetails.length,
                 shrinkWrap:
                     true, // This allows it to take only the required height
                 physics:
                     NeverScrollableScrollPhysics(), // Disables scrolling for outer ListView, so the inner ListViews can handle scrolling
                 itemBuilder: (context, index) {
-                  double indicatorValue = marketingProvider
+                  double indicatorValue = detailsProvider
                           .marketingOfficersDetails[index]['achieved'] /
-                      marketingProvider.marketingOfficersDetails[index]
-                          ['target'];
-                  int target = marketingProvider.marketingOfficersDetails[index]
-                      ['target'];
-                  int achived = marketingProvider
-                      .marketingOfficersDetails[index]['achieved'];
-                  String name = marketingProvider
-                      .marketingOfficersDetails[index]['OfficerName'];
-                  int battery = marketingProvider
-                      .marketingOfficersDetails[index]['batteryLevel'];
-                  String connectivityType = marketingProvider
+                      detailsProvider.marketingOfficersDetails[index]['target'];
+                  int target =
+                      detailsProvider.marketingOfficersDetails[index]['target'];
+                  int achived = detailsProvider.marketingOfficersDetails[index]
+                      ['achieved'];
+                  String name = detailsProvider.marketingOfficersDetails[index]
+                      ['OfficerName'];
+                  int battery = detailsProvider.marketingOfficersDetails[index]
+                      ['batteryLevel'];
+                  String connectivityType = detailsProvider
                       .marketingOfficersDetails[index]['connectivityType'];
-                  int travelled = marketingProvider
+                  int travelled = detailsProvider
                       .marketingOfficersDetails[index]['totalTravel'];
+                  bool isApproved = detailsProvider
+                      .marketingOfficersDetails[index]['isApproved'];
                   return InkWell(
                     onTap: () {
                       _marketingProvider!.setName(name);
+                      detailsProvider.setSelectedOfficerVisitDetails(index);
+                      print(detailsProvider.visitDetails);
                       Navigator.of(context).pushNamed(
                           RouteGeneratorConstants.officerDescriptionPage);
                     },
@@ -127,110 +130,137 @@ class _MarketingOfficersScreenState extends State<MarketingOfficersScreen> {
                       horizontalPad: 8,
                       verticalMargin: 8,
                       horizontalMargin: 12,
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        mainAxisSize: MainAxisSize.min,
+                      child: Stack(
                         children: [
-                          Padding(
-                            padding:
-                                const EdgeInsets.symmetric(horizontal: 8.0),
-                            child: Consumer<DetailsProvider>(
-                              builder: (context, marketingProvider, _) {
-                                return CustomText(
-                                  text: name,
-                                  fontWeight: FontWeight.w600,
-                                  color: CustomColors.primaryBlack,
-                                  size: 18,
-                                  // color: Colors.grey.shade600,
-                                );
-                              },
-                            ),
-                          ),
-                          SizedBox(
-                            height: 4,
-                          ),
-                          Padding(
-                            padding:
-                                const EdgeInsets.symmetric(horizontal: 8.0),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Row(
-                                  children: [
-                                    Transform.rotate(
-                                      angle: 180 * math.pi / 90,
-                                      child: FaIcon(
-                                        battery > 85
-                                            ? FontAwesomeIcons.batteryFull
-                                            : battery > 65
-                                                ? FontAwesomeIcons
-                                                    .batteryThreeQuarters
-                                                : battery > 40
-                                                    ? FontAwesomeIcons
-                                                        .batteryHalf
-                                                    : battery > 15
-                                                        ? FontAwesomeIcons
-                                                            .batteryQuarter
-                                                        : FontAwesomeIcons
-                                                            .batteryEmpty,
-                                        color: battery > 65
-                                            ? Colors.green
-                                            : battery > 40
-                                                ? Colors.lightGreen
-                                                : battery > 10
-                                                    ? Colors.deepOrange
-                                                    : battery < 10
-                                                        ? Colors.red
-                                                        : Colors.blue,
-                                      ),
-                                    ),
-                                    CustomText(
-                                      text: ' $battery %',
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              Padding(
+                                padding:
+                                    const EdgeInsets.symmetric(horizontal: 8.0),
+                                child: Consumer<DetailsProvider>(
+                                  builder: (context, marketingProvider, _) {
+                                    return CustomText(
+                                      text: name,
                                       fontWeight: FontWeight.w600,
                                       color: CustomColors.primaryBlack,
+                                      size: 18,
+                                      // color: Colors.grey.shade600,
+                                    );
+                                  },
+                                ),
+                              ),
+                              SizedBox(
+                                height: 4,
+                              ),
+                              Padding(
+                                padding:
+                                    const EdgeInsets.symmetric(horizontal: 8.0),
+                                child: Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Row(
+                                      children: [
+                                        Transform.rotate(
+                                          angle: 180 * math.pi / 90,
+                                          child: FaIcon(
+                                            battery > 85
+                                                ? FontAwesomeIcons.batteryFull
+                                                : battery > 65
+                                                    ? FontAwesomeIcons
+                                                        .batteryThreeQuarters
+                                                    : battery > 40
+                                                        ? FontAwesomeIcons
+                                                            .batteryHalf
+                                                        : battery > 15
+                                                            ? FontAwesomeIcons
+                                                                .batteryQuarter
+                                                            : FontAwesomeIcons
+                                                                .batteryEmpty,
+                                            color: battery > 65
+                                                ? Colors.green
+                                                : battery > 40
+                                                    ? Colors.lightGreen
+                                                    : battery > 10
+                                                        ? Colors.deepOrange
+                                                        : battery < 10
+                                                            ? Colors.red
+                                                            : Colors.blue,
+                                          ),
+                                        ),
+                                        CustomText(
+                                          text: ' $battery %',
+                                          fontWeight: FontWeight.w600,
+                                          color: CustomColors.primaryBlack,
+                                        ),
+                                      ],
+                                    ),
+                                    Icon(
+                                      connectivityType == 'mobile'
+                                          ? Icons.network_cell
+                                          : Icons.wifi,
+                                      color: Colors.green,
+                                    ),
+                                    CustomText(
+                                      text: '$travelled km',
+                                      fontWeight: FontWeight.w600,
                                     ),
                                   ],
                                 ),
-                                CustomText(
-                                  text: '$travelled km',
-                                  fontWeight: FontWeight.w600,
+                              ),
+                              SizedBox(
+                                height: 4,
+                              ),
+                              Padding(
+                                padding:
+                                    const EdgeInsets.symmetric(horizontal: 8.0),
+                                child: Row(
+                                  children: [
+                                    Flexible(
+                                      child: LinearProgressIndicator(
+                                        value: indicatorValue,
+                                        backgroundColor: Colors.grey.shade300,
+                                        color: CustomColors.primaryColor,
+                                        minHeight: 6,
+                                        borderRadius: BorderRadius.circular(10),
+                                      ),
+                                    ),
+                                    const SizedBox(
+                                      width: 16,
+                                    ),
+                                    CustomText(
+                                      text:
+                                          '${achived < 10 ? '0$achived' : achived}/$target',
+                                      fontWeight: FontWeight.w600,
+                                      color: CustomColors.primaryBlack,
+                                      size: 14,
+                                    ),
+                                  ],
                                 ),
-                                Icon(
-                                  connectivityType == 'mobile'
-                                      ? Icons.network_cell
-                                      : Icons.wifi,
-                                  color: Colors.green,
-                                ),
-                              ],
-                            ),
+                              ),
+                            ],
                           ),
-                          SizedBox(
-                            height: 4,
-                          ),
-                          Padding(
-                            padding:
-                                const EdgeInsets.symmetric(horizontal: 8.0),
-                            child: Row(
-                              children: [
-                                Flexible(
-                                  child: LinearProgressIndicator(
-                                    value: indicatorValue,
-                                    backgroundColor: Colors.grey.shade300,
-                                    color: CustomColors.primaryColor,
-                                    minHeight: 6,
-                                    borderRadius: BorderRadius.circular(10),
-                                  ),
+                          Positioned(
+                            right: 8,
+                            top: 0,
+                            child: InkWell(
+                              onTap: () {
+                                print(index);
+                                detailsProvider
+                                    .setSelectedOfficerVisitDetails(index);
+                                detailsProvider.setOfficerVisitApprovals(false);
+                              },
+                              child: SizedBox(
+                                height: 22,
+                                width: 22,
+                                child: Image.asset(
+                                  isApproved
+                                      ? 'assets/images/badgeApproved.png'
+                                      : 'assets/images/badgeUnapproved.png',
                                 ),
-                                const SizedBox(
-                                  width: 16,
-                                ),
-                                CustomText(
-                                  text: '$achived/$target',
-                                  fontWeight: FontWeight.w600,
-                                  color: CustomColors.primaryBlack,
-                                  size: 14,
-                                ),
-                              ],
+                              ),
                             ),
                           ),
                         ],

@@ -26,6 +26,7 @@ class LiveTrackingProvider extends ChangeNotifier {
   late Timer _liveLocationTimer;
   int _seconds = 0;
   String _selectedImg = '';
+  String _img = '';
   List<String> _images = [
     'assets/images/johnCena.jpg',
     'assets/images/theRock.jpg',
@@ -47,8 +48,9 @@ class LiveTrackingProvider extends ChangeNotifier {
   Set<Marker> get liveTrackingMarkers => _liveTrakingMarkers;
   Timer get liveLocationTimer => _liveLocationTimer;
   int get seconds => _seconds;
-  List<String> get images => _images;
   String get selecetedImg => _selectedImg;
+  String get img => _img;
+  List<String> get images => _images;
 
   LiveTrackingProvider() {
     _liveTrakingMarkers.clear();
@@ -100,7 +102,15 @@ class LiveTrackingProvider extends ChangeNotifier {
 
       print('_employeeName = $_employeeName');
 
-      final Uint8List? icon = await getBytesFromAsset('${_images[i]}', 120);
+      if (i < _images.length) {
+        _img = images[i];
+        print('inside if = ${i < _images.length}');
+      } else {
+        _img = 'assets/images/location.png';
+        print('outside if = ${i < _images.length}');
+      }
+
+      final Uint8List? icon = await getBytesFromAsset('$_img', 120);
 
       // Create a unique marker ID using the employee name or another identifier
       String markerId = 'marker_${_employeeLiveData[i]['employee_name']}';
