@@ -1,9 +1,11 @@
 import 'dart:async';
 import 'dart:io';
 
+import 'package:deskgoo/pages/home/DescriptionPage/officer_DescriptionPage.dart';
 import 'package:deskgoo/pages/visit/summary_Page.dart';
 import 'package:deskgoo/pages/visit/visit_order_screen.dart';
 import 'package:deskgoo/providers/camera_provider/camera_provider.dart';
+import 'package:deskgoo/providers/marketing_provider/officersDescription_provider.dart';
 import 'package:deskgoo/providers/visit_provider/order_items.dart';
 import 'package:deskgoo/providers/visit_provider/order_provider.dart';
 import 'package:deskgoo/providers/visit_provider/visit_screen_provider.dart';
@@ -611,6 +613,8 @@ class _VisitScreenState extends State<VisitScreen>
   }
 
   Widget _newVisitbottomSheetBody(context) {
+    DetailsProvider detailsProvider =
+        Provider.of<DetailsProvider>(context, listen: true);
     return Center(
       child: CustomContainer(
         verticalMargin: 16.0,
@@ -634,43 +638,50 @@ class _VisitScreenState extends State<VisitScreen>
             ),
             Expanded(
               child: Consumer<VisitScreenProvider>(
-                  builder: (context, provider, _) {
-                return ListView.builder(
-                  itemCount: provider.searchVistiCleintResults.length,
-                  itemBuilder: (context, index) {
-                    return InkWell(
-                      onTap: () {
-                        print(provider.searchVistiCleintResults[index]);
-                        provider.setClientName(provider
-                            .searchVistiCleintResults[index]['client']
-                            .toString());
-                        clientNameController.text = provider
-                            .searchVistiCleintResults[index]['client']
-                            .toString();
-                        addressController.text = provider
-                            .searchVistiCleintResults[index]['address']
-                            .toString();
-                        phoneController.text = provider
-                            .searchVistiCleintResults[index]['phone']
-                            .toString();
-                        emailController.text = provider
-                            .searchVistiCleintResults[index]['email']
-                            .toString();
-                        panController.text = provider
-                            .searchVistiCleintResults[index]['pan']
-                            .toString();
-                        Navigator.pop(context);
-                        provider.resetSearchClientFilter();
-                      },
-                      child: ListTile(
-                        leading: CustomText(
-                            text: provider.searchVistiCleintResults[index]
-                                ['client']),
-                      ),
-                    );
-                  },
-                );
-              }),
+                builder: (context, provider, _) {
+                  return ListView.builder(
+                    itemCount: provider.searchVistiCleintResults.length,
+                    itemBuilder: (context, index) {
+                      return InkWell(
+                        onTap: () {
+                          print(provider.searchVistiCleintResults[index]);
+                          provider.setClientName(
+                            provider.searchVistiCleintResults[index]['client']
+                                .toString(),
+                            provider.searchVistiCleintResults[index]['address']
+                                .toString(),
+                            provider.searchVistiCleintResults[index]['phone']
+                                .toString(),
+                            '${DateTime.now().toString().split('.')[0]}',
+                          );
+                          clientNameController.text = provider
+                              .searchVistiCleintResults[index]['client']
+                              .toString();
+                          addressController.text = provider
+                              .searchVistiCleintResults[index]['address']
+                              .toString();
+                          phoneController.text = provider
+                              .searchVistiCleintResults[index]['phone']
+                              .toString();
+                          emailController.text = provider
+                              .searchVistiCleintResults[index]['email']
+                              .toString();
+                          panController.text = provider
+                              .searchVistiCleintResults[index]['pan']
+                              .toString();
+                          Navigator.pop(context);
+                          provider.resetSearchClientFilter();
+                        },
+                        child: ListTile(
+                          leading: CustomText(
+                              text: provider.searchVistiCleintResults[index]
+                                  ['client']),
+                        ),
+                      );
+                    },
+                  );
+                },
+              ),
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -685,14 +696,16 @@ class _VisitScreenState extends State<VisitScreen>
                     color: CustomColors.lightRed,
                   ),
                 ),
-                CustomElevatedButton(
-                  onPressed: () {},
-                  borderColor: CustomColors.primaryColor,
-                  widget: CustomText(
-                    text: 'Create',
-                    color: CustomColors.primaryColor,
-                  ),
-                ),
+                // CustomElevatedButton(
+                //   onPressed: () {
+                //     Navigator.pop(context);
+                //   },
+                //   borderColor: CustomColors.primaryColor,
+                //   widget: CustomText(
+                //     text: 'Create',
+                //     color: CustomColors.primaryColor,
+                //   ),
+                // ),
               ],
             ),
           ],
@@ -1195,6 +1208,9 @@ class _VisitScreenState extends State<VisitScreen>
   bool isFollowUpFormValid = false;
 
   Expanded _followUp(context) {
+    DetailsProvider detailsProvider = Provider.of<DetailsProvider>(context);
+    VisitScreenProvider visitScreenProvider =
+        Provider.of<VisitScreenProvider>(context);
     return Expanded(
       child: SingleChildScrollView(
         child: Column(
@@ -1216,21 +1232,18 @@ class _VisitScreenState extends State<VisitScreen>
                       minLine: 6,
                       maxLines: 6,
                       validator: (value) {
-                        // if (value!.isNotEmpty && value.length > 3) {
-                        //   isFollowUpFormValid = true;
-                        //   return null;
-                        // } else {
-                        //   return value.isEmpty
-                        //       ? 'Visit note is required'
-                        //       : 'Enter atleast 3 characters';
-                        // }
+                        visitScreenProvider.setFollowUpNote(value!);
+                        print(value);
+                        print(visitScreenProvider.followUpNote);
                         return value!.isEmpty
                             ? 'Visit note is required'
                             : value.length < 3
                                 ? 'Enter atleast 3 characters'
                                 : null;
                       },
-                      onChange: (value) {},
+                      onChange: (value) {
+                        visitScreenProvider.setFollowUpNote(value!);
+                      },
                       onTap: () {},
                     ),
                     SizedBox(
@@ -1250,6 +1263,7 @@ class _VisitScreenState extends State<VisitScreen>
                       applySuffixIcon: true,
                       suffixIcon: InkWell(
                         onTap: () {
+                          datePicker();
                           // authProvider.toggleObscure();
                         },
                         child: Icon(
@@ -1346,14 +1360,32 @@ class _VisitScreenState extends State<VisitScreen>
                     SizedBox(
                       height: 8.0,
                     ),
-                    CustomElevatedButton(
-                      onPressed: () {},
-                      backgroundColor: CustomColors.primaryColor,
-                      widget: CustomText(
-                        text: 'Submit',
-                        fontWeight: FontWeight.w500,
-                      ),
-                    ),
+                    Consumer<CameraProvider>(
+                        builder: (context, cameraProvider, _) {
+                      return CustomElevatedButton(
+                        onPressed: () {
+                          print(followUpNoteController.value.text);
+                          detailsProvider.addFollowUpVisitDetails(
+                            visitScreenProvider.clientName,
+                            visitScreenProvider.clientAddress,
+                            visitScreenProvider.clientPhone,
+                            visitScreenProvider.clientVisitedDateTime,
+                            followUpNoteController.value.text,
+                            photo,
+                          );
+                          visitScreenProvider.setIndex(1);
+                          cameraProvider.resetCameraStroredPhotos();
+
+                          // followUpDateController.value.text;
+                          // photo;
+                        },
+                        backgroundColor: CustomColors.primaryColor,
+                        widget: CustomText(
+                          text: 'Submit',
+                          fontWeight: FontWeight.w500,
+                        ),
+                      );
+                    }),
                   ],
                 ),
               ),

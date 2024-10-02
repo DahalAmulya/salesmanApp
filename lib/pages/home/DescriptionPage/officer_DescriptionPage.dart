@@ -29,10 +29,11 @@ class _OfficerDescriptionPageState extends State<OfficerDescriptionPage> {
   bool isChecked = false;
   OfficerDetailProvider? _officerDetailProvider;
   int? selectedIndex = 0;
-  FontWeight textFontWeight = FontWeight.w600;
+  FontWeight textFontWeight = FontWeight.w500;
   List<bool> isCheckedList = [];
   List<Color> containerColors = [];
   List<Color> initialContainerColors = [];
+  bool isApproved = false;
   List<Map<String, dynamic>> officerDescription = [
     {
       'clientName': 'Ram Shah',
@@ -96,6 +97,8 @@ class _OfficerDescriptionPageState extends State<OfficerDescriptionPage> {
     'notVisited',
   ];
 
+  Color? colorContainer;
+
   @override
   Widget build(BuildContext context) {
     return PopScope(
@@ -108,7 +111,8 @@ class _OfficerDescriptionPageState extends State<OfficerDescriptionPage> {
       }),
       child: Scaffold(
         appBar: _appBar(context),
-        body: _buildUI(context),
+        // body: _buildUI(context),
+        body: _testBuildUI(context),
       ),
     );
   }
@@ -116,9 +120,9 @@ class _OfficerDescriptionPageState extends State<OfficerDescriptionPage> {
   PreferredSize _appBar(context) {
     return PreferredSize(
       preferredSize: Size.fromHeight(kToolbarHeight),
-      child: Consumer<MarketingProvider>(
-        builder: (context, marketingProvider, _) => CustomAppBar(
-          tabName: '${marketingProvider.name}',
+      child: Consumer<DetailsProvider>(
+        builder: (context, detailsProvider, _) => CustomAppBar(
+          tabName: '${detailsProvider.selectedOfficerName}',
           titleColor: CustomColors.primaryBlack,
           size: 24,
           backgroundColor: CustomColors.primaryColor,
@@ -128,9 +132,11 @@ class _OfficerDescriptionPageState extends State<OfficerDescriptionPage> {
           showTrailingIcons: true,
           showApproveButton: true,
           onTapTrailingApproveIcon: () {
-            print(isCheckedList.length);
-            Navigator.of(context)
-                .pushNamed(RouteGeneratorConstants.marketingOfficers);
+            if (isApproved) {
+              detailsProvider.setIsApproved(true);
+              Navigator.of(context)
+                  .pop(RouteGeneratorConstants.marketingOfficers);
+            }
           },
           onTapLeadingIcon: () {
             // Use the context under the Scaffold
@@ -143,6 +149,7 @@ class _OfficerDescriptionPageState extends State<OfficerDescriptionPage> {
 
   @override
   void initState() {
+    isApproved = false;
     _marketingProvider = Provider.of<MarketingProvider>(context, listen: false);
     _officerDetailProvider =
         Provider.of<OfficerDetailProvider>(context, listen: false);
@@ -305,18 +312,18 @@ class _OfficerDescriptionPageState extends State<OfficerDescriptionPage> {
                                     activeColor: Colors.blue,
                                     value: isCheckedList[index],
                                     onChanged: (value) {
-                                      setState(
-                                        () {
-                                          isCheckedList[index] = value!;
-                                          if (isCheckedList[index]) {
-                                            containerColors[index] =
-                                                CustomColors.lightGreen;
-                                          } else {
-                                            containerColors[index] =
-                                                initialContainerColors[index];
-                                          }
-                                        },
-                                      );
+                                      // setState(
+                                      //   () {
+                                      //     isCheckedList[index] = value!;
+                                      //     if (isCheckedList[index]) {
+                                      //       containerColors[index] =
+                                      //           CustomColors.lightGreen;
+                                      //     } else {
+                                      //       containerColors[index] =
+                                      //           initialContainerColors[index];
+                                      //     }
+                                      //   },
+                                      // );
                                     },
                                   ),
                                 )
@@ -333,6 +340,172 @@ class _OfficerDescriptionPageState extends State<OfficerDescriptionPage> {
           ],
         );
       },
+    );
+  }
+
+  Widget _testBuildUI(context) {
+    return ListView(
+      children: [
+        SizedBox(
+          height: 8,
+        ),
+        Consumer<DetailsProvider>(
+          builder: (context, detailsProvider, _) {
+            return ListView.builder(
+              // physics: const AlwaysScrollableScrollPhysics(),
+              // scrollDirection: Axis.vertical,
+              shrinkWrap: true,
+              primary: false,
+              itemCount: detailsProvider.visitDetails.length,
+              itemBuilder: (BuildContext context, int index) {
+                // Color containerColor;
+                String name = detailsProvider.visitDetails[index]['clientName'];
+                String address = detailsProvider.visitDetails[index]['address'];
+                String phoneNumber =
+                    detailsProvider.visitDetails[index]['phoneNumber'];
+                String dateTime =
+                    detailsProvider.visitDetails[index]['dateTime'];
+                String visitStatus =
+                    detailsProvider.visitDetails[index]['visitStatus'];
+                bool visitApprovalStatus =
+                    detailsProvider.visitDetails[index]['visitApprovalStatus'];
+                colorContainer = visitApprovalStatus
+                    ? CustomColors.lightGreen
+                    : visitStatus == 'visited'
+                        ? CustomColors.lightBlue
+                        : visitStatus == 'visitedOthers'
+                            ? CustomColors.lightYellow
+                            : visitStatus == 'visitOnProgress'
+                                ? CustomColors.lightGrey
+                                : CustomColors.lightRed;
+                return Column(
+                  children: [
+                    InkWell(
+                      onTap: () {
+                        detailsProvider.setSelectedShowDetail(index);
+                        // if (_officerDetailProvider != null) {
+                        //   _officerDetailProvider!
+                        //       .setName(officerDescription[index]['clientName']);
+                        //   _officerDetailProvider!
+                        //       .setAddress(officerDescription[index]['address']);
+                        //   _officerDetailProvider!.setPhoneNumber(
+                        //       officerDescription[index]['phoneNumber']
+                        //           .toString());
+                        //   _officerDetailProvider!.setDateTime(
+                        //       officerDescription[index]['dateTime']);
+                        //   _officerDetailProvider!
+                        //       .setNotes(officerDescription[index]['notes']);
+                        // }
+                        print(detailsProvider.selectedShowDetails);
+                        Navigator.of(context).pushNamed(
+                            RouteGeneratorConstants.officerVisitDetailPage);
+                      },
+                      child: CustomContainer(
+                        horizontalMargin: 16,
+                        verticalMargin: 4,
+                        color: colorContainer!, // Assigned based on status
+                        child: Stack(
+                          children: [
+                            Column(
+                              children: [
+                                Row(
+                                  // mainAxisAlignment:
+                                  //     MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Icon(Icons.person),
+                                    Padding(
+                                      padding: const EdgeInsets.symmetric(
+                                          vertical: 4.0, horizontal: 8.0),
+                                      child: CustomText(
+                                        text: name,
+                                        fontWeight: FontWeight.w600,
+                                        size: 18,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                                Row(
+                                  children: [
+                                    Icon(
+                                      FontAwesomeIcons.locationArrow,
+                                      size: 20,
+                                    ),
+                                    Padding(
+                                      padding: const EdgeInsets.symmetric(
+                                          vertical: 4.0, horizontal: 8.0),
+                                      child: CustomText(
+                                        text: address,
+                                        fontWeight: textFontWeight,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                                Row(
+                                  children: [
+                                    Icon(
+                                      FontAwesomeIcons.phone,
+                                      size: 20,
+                                    ),
+                                    Padding(
+                                      padding: const EdgeInsets.symmetric(
+                                          vertical: 4.0, horizontal: 8.0),
+                                      child: CustomText(
+                                        text: phoneNumber,
+                                        fontWeight: textFontWeight,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                                Row(
+                                  children: [
+                                    Icon(FontAwesomeIcons.calendarAlt,
+                                        size: 20),
+                                    Padding(
+                                      padding: const EdgeInsets.symmetric(
+                                          vertical: 4.0, horizontal: 8.0),
+                                      child: CustomText(
+                                        text: dateTime,
+                                        fontWeight: textFontWeight,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ],
+                            ),
+                            Positioned(
+                              top: 0,
+                              right: 0,
+                              child: Checkbox(
+                                activeColor: Colors.blue,
+                                value: visitApprovalStatus,
+                                onChanged: (value) {
+                                  visitApprovalStatus = !visitApprovalStatus;
+                                  detailsProvider.setVisitDetailsApprovalStatus(
+                                      index, value!);
+                                  print('value = $value');
+                                  print(
+                                      'visitApprovalStatus = $visitApprovalStatus');
+                                  isApproved = true;
+                                },
+                              ),
+                            )
+                          ],
+                        ),
+                      ),
+                    ),
+                    SizedBox(
+                      height: 4,
+                    ),
+                  ],
+                );
+              },
+            );
+          },
+        ),
+        SizedBox(
+          height: 16,
+        ),
+      ],
     );
   }
 }
