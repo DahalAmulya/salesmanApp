@@ -12,8 +12,6 @@ PODS:
   - device_info_plus (0.0.1):
     - Flutter
   - Flutter (1.0.0)
-  - flutter_background_service_ios (0.0.3):
-    - Flutter
   - flutter_secure_storage (6.0.0):
     - Flutter
   - flutter_udid (0.0.1):
@@ -57,7 +55,6 @@ DEPENDENCIES:
   - connectivity_plus (from `.symlinks/plugins/connectivity_plus/darwin`)
   - device_info_plus (from `.symlinks/plugins/device_info_plus/ios`)
   - Flutter (from `Flutter`)
-  - flutter_background_service_ios (from `.symlinks/plugins/flutter_background_service_ios/ios`)
   - flutter_secure_storage (from `.symlinks/plugins/flutter_secure_storage/ios`)
   - flutter_udid (from `.symlinks/plugins/flutter_udid/ios`)
   - fluttertoast (from `.symlinks/plugins/fluttertoast/ios`)
@@ -91,8 +88,6 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/device_info_plus/ios"
   Flutter:
     :path: Flutter
-  flutter_background_service_ios:
-    :path: ".symlinks/plugins/flutter_background_service_ios/ios"
   flutter_secure_storage:
     :path: ".symlinks/plugins/flutter_secure_storage/ios"
   flutter_udid:
@@ -119,7 +114,6 @@ SPEC CHECKSUMS:
   connectivity_plus: ddd7f30999e1faaef5967c23d5b6d503d10434db
   device_info_plus: 97af1d7e84681a90d0693e63169a5d50e0839a0d
   Flutter: e0871f40cf51350855a761d2e70bf5af5b9b5de7
-  flutter_background_service_ios: e30e0d3ee69e4cee66272d0c78eacd48c2e94aac
   flutter_secure_storage: d33dac7ae2ea08509be337e775f6b59f1ff45f12
   flutter_udid: a2482c67a61b9c806ef59dd82ed8d007f1b7ac04
   fluttertoast: e9a18c7be5413da53898f660530c56f35edfba9c
