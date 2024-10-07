@@ -1,6 +1,6 @@
 import 'dart:async';
 import 'package:deskgoo/classes/notification_controller.dart';
-// import 'package:deskgoo/pages/home/officer_DescriptionPage.dart';
+import 'package:deskgoo/models/enviroment.dart';
 import 'package:deskgoo/providers/attendance_provider/remote_attendance_provider.dart';
 import 'package:deskgoo/providers/camera_provider/camera_provider.dart';
 import 'package:deskgoo/providers/deviceInfo_provider/deviceInfo_provider.dart';
@@ -19,9 +19,13 @@ import 'package:deskgoo/providers/auth_provider/user_auth_provider.dart';
 import 'package:deskgoo/providers/themes_provider/theme_changer_provider.dart';
 import 'package:device_preview/device_preview.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:provider/provider.dart';
 
 Future<void> main() async {
+  await dotenv.load(
+    fileName: Enviroment.fileName,
+  ); // fileName: '.env', is default fileName so no need to specify it
   // NotificationController.getPermissions();
   if (kIsWeb) {
     print('Running on browser');
