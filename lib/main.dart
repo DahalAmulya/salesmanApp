@@ -1,5 +1,8 @@
 import 'dart:async';
+import 'package:background_task/background_task.dart';
+import 'package:deskgoo/classes/background_task_handler.dart';
 import 'package:deskgoo/classes/notification_controller.dart';
+import 'package:deskgoo/consts.dart';
 import 'package:deskgoo/models/enviroment.dart';
 import 'package:deskgoo/providers/attendance_provider/remote_attendance_provider.dart';
 import 'package:deskgoo/providers/camera_provider/camera_provider.dart';
@@ -26,7 +29,6 @@ Future<void> main() async {
   await dotenv.load(
     fileName: Enviroment.fileName,
   ); // fileName: '.env', is default fileName so no need to specify it
-  // NotificationController.getPermissions();
   if (kIsWeb) {
     print('Running on browser');
     runApp(
@@ -36,8 +38,13 @@ Future<void> main() async {
     NotificationController.getPermissions();
     print('Not Running on browser');
     WidgetsFlutterBinding.ensureInitialized();
-    // await initializeService();
-    // FlutterBackgroundService();
+    BackgroundTask.instance.setAndroidNotification(
+      title: 'Deskgoo',
+      message: 'Running in the background',
+      // icon: 'assets/icons/deskgoo.png',
+    );
+    BackgroundTask.instance
+        .setBackgroundHandler(backgroundHandler); // 👈 Set callback handler.
     runApp(const MyApp());
   }
 }
@@ -49,14 +56,52 @@ class MyApp extends StatefulWidget {
   State<MyApp> createState() => _MyAppState();
 }
 
-class _MyAppState extends State<MyApp> {
-  // late final GoRouter _router;
+class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addObserver(this);
+    stopBackgroundServices();
+  }
 
-  // @override
-  // void initState() {
-  //   super.initState();
-  //   _router = MyAppRouter().router;
-  // }
+  void stopBackgroundServices() async {
+    await BackgroundTask.instance.stop();
+  }
+
+  @override
+  void dispose() {
+    WidgetsBinding.instance.removeObserver(this);
+    super.dispose();
+  }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) async {
+    super.didChangeAppLifecycleState(state);
+
+    if (state == AppLifecycleState.inactive ||
+        state == AppLifecycleState.detached) return;
+
+    if (state == AppLifecycleState.paused) {
+      getBackgroundLocation();
+      print('----------------------------------------------------------------');
+      print('\t\tApp is in background');
+      isBackground = true;
+      print('----------------------------------------------------------------');
+    } else if (state == AppLifecycleState.resumed) {
+      print('----------------------------------------------------------------');
+      await BackgroundTask.instance.stop();
+      isBackground = false;
+      print('\t\tApp is in Foreground');
+      print('----------------------------------------------------------------');
+    }
+
+    // final isBackground = state == AppLifecycleState.paused;
+    // if (isBackground) {
+    //   getBackgroundLocation();
+    // } else {
+    //   await BackgroundTask.instance.stop();
+    // }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -84,12 +129,8 @@ class _MyAppState extends State<MyApp> {
           builder: (BuildContext context) {
             final themeChangerProvider =
                 Provider.of<ThemeChangerProvider>(context);
-            // return MaterialApp.router(
             return MaterialApp(
               debugShowCheckedModeBanner: false,
-              // routeInformationProvider: _router.routeInformationProvider,
-              // routeInformationParser: _router.routeInformationParser,
-              // routerDelegate: _router.routerDelegate,
               themeMode: themeChangerProvider.themeMode,
               darkTheme: ThemeData(
                 brightness: Brightness.dark,
@@ -97,7 +138,6 @@ class _MyAppState extends State<MyApp> {
               theme: ThemeData(
                 brightness: Brightness.light,
                 primarySwatch: Colors.blue,
-                // colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
                 useMaterial3: true,
               ),
               initialRoute: RouteGeneratorConstants.indexPage,
