@@ -82,7 +82,7 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
         state == AppLifecycleState.detached) return;
 
     if (state == AppLifecycleState.paused) {
-      getBackgroundLocation();
+      // getBackgroundLocation();
       print('----------------------------------------------------------------');
       print('\t\tApp is in background');
       isBackground = true;
