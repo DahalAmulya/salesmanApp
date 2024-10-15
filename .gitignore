@@ -16,3 +16,6 @@ web
 analysis_options.yaml
 pubspec.lock
 json.iml.DS_Store
+.env
+.env.development
+.env.production
