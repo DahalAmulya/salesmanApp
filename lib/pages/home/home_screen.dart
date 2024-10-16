@@ -284,11 +284,12 @@ class _HomeScreenState extends State<HomeScreen> {
       child: Builder(
         builder: (context) => CustomAppBar(
           tabName: 'Dashboard',
-          titleColor: CustomColors.primaryBlack,
+          // titleColor: CustomColors.primaryBlack,
+          titleColor: Colors.white,
           backgroundColor: CustomColors.primaryColor,
           showLeading: true,
           leadingIcon: FontAwesomeIcons.bars,
-          leadingIconColor: CustomColors.primaryBlack,
+          leadingIconColor: Colors.white,
           onTapLeadingIcon: () {
             // Use the context under the Scaffold
             Scaffold.of(context).openDrawer();
