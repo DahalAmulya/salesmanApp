@@ -2,6 +2,7 @@ import 'dart:developer';
 import 'package:awesome_notifications/awesome_notifications.dart';
 // import 'package:deskgoo/classes/background_task_handler.dart';
 import 'package:deskgoo/classes/notification_controller.dart';
+import 'package:deskgoo/pages/mr_officers/mr_officers_pages/mr_officers_visits/mr_officers_visits.dart';
 import 'package:deskgoo/providers/deviceInfo_provider/deviceInfo_provider.dart';
 import 'package:deskgoo/routes/route_generator_constants.dart';
 import 'package:deskgoo/themes/custom_colors.dart';
@@ -160,15 +161,16 @@ class _HomeScreenState extends State<HomeScreen> {
           appBar: _appBar(context),
           drawer: _drawer(context),
           body: _testListViewUI(context),
-          // floatingActionButton: FloatingActionButton(
-          //   onPressed: () {
-          //     Navigator.of(context)
-          //         .pushNamed(RouteGeneratorConstants.backgroundLocationScreen);
-          //   },
-          //   child: Icon(
-          //     Icons.gps_fixed,
-          //   ),
-          // ),
+          floatingActionButton: FloatingActionButton(
+            backgroundColor: CustomColors.primaryColor,
+            onPressed: () {
+              Navigator.of(context).push(MaterialPageRoute(
+                  builder: (context) => MROfficersVisitsScreen()));
+            },
+            child: Icon(
+              Icons.gps_fixed,
+            ),
+          ),
           // floatingActionButton: FloatingActionButton(
           //   backgroundColor: CustomColors.primaryColor,
           //   onPressed: () async {
