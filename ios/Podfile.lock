@@ -2,6 +2,8 @@ PODS:
   - awesome_notifications (0.9.3):
     - Flutter
     - IosAwnCore (~> 0.9.3)
+  - background_task (0.0.1):
+    - Flutter
   - battery_plus (1.0.0):
     - Flutter
   - camera_avfoundation (0.0.1):
@@ -42,6 +44,8 @@ PODS:
   - path_provider_foundation (0.0.1):
     - Flutter
     - FlutterMacOS
+  - permission_handler_apple (9.3.0):
+    - Flutter
   - SAMKeychain (1.5.3)
   - shared_preferences_foundation (0.0.1):
     - Flutter
@@ -50,6 +54,7 @@ PODS:
 
 DEPENDENCIES:
   - awesome_notifications (from `.symlinks/plugins/awesome_notifications/ios`)
+  - background_task (from `.symlinks/plugins/background_task/ios`)
   - battery_plus (from `.symlinks/plugins/battery_plus/ios`)
   - camera_avfoundation (from `.symlinks/plugins/camera_avfoundation/ios`)
   - connectivity_plus (from `.symlinks/plugins/connectivity_plus/darwin`)
@@ -65,6 +70,7 @@ DEPENDENCIES:
   - GoogleMaps
   - local_auth_darwin (from `.symlinks/plugins/local_auth_darwin/darwin`)
   - path_provider_foundation (from `.symlinks/plugins/path_provider_foundation/darwin`)
+  - permission_handler_apple (from `.symlinks/plugins/permission_handler_apple/ios`)
   - shared_preferences_foundation (from `.symlinks/plugins/shared_preferences_foundation/darwin`)
 
 SPEC REPOS:
@@ -78,6 +84,8 @@ SPEC REPOS:
 EXTERNAL SOURCES:
   awesome_notifications:
     :path: ".symlinks/plugins/awesome_notifications/ios"
+  background_task:
+    :path: ".symlinks/plugins/background_task/ios"
   battery_plus:
     :path: ".symlinks/plugins/battery_plus/ios"
   camera_avfoundation:
@@ -104,11 +112,14 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/local_auth_darwin/darwin"
   path_provider_foundation:
     :path: ".symlinks/plugins/path_provider_foundation/darwin"
+  permission_handler_apple:
+    :path: ".symlinks/plugins/permission_handler_apple/ios"
   shared_preferences_foundation:
     :path: ".symlinks/plugins/shared_preferences_foundation/darwin"
 
 SPEC CHECKSUMS:
   awesome_notifications: 66d28ab7174ca2823b04d275cb043e0a4a3eb9cf
+  background_task: a584ba6e093a60641252e89f7cd404ec92a30c8d
   battery_plus: 1ff2e16ba75af2a78387f65476057a390b47885e
   camera_avfoundation: dd002b0330f4981e1bbcb46ae9b62829237459a4
   connectivity_plus: ddd7f30999e1faaef5967c23d5b6d503d10434db
@@ -125,6 +136,7 @@ SPEC CHECKSUMS:
   IosAwnCore: b8601fbb37f7b3560f31b84ebf55a72f65812e05
   local_auth_darwin: 66e40372f1c29f383a314c738c7446e2f7fdadc3
   path_provider_foundation: 2b6b4c569c0fb62ec74538f866245ac84301af46
+  permission_handler_apple: 9878588469a2b0d0fc1e048d9f43605f92e6cec2
   SAMKeychain: 483e1c9f32984d50ca961e26818a534283b4cd5c
   shared_preferences_foundation: fcdcbc04712aee1108ac7fda236f363274528f78
   Toast: 1f5ea13423a1e6674c4abdac5be53587ae481c4e
