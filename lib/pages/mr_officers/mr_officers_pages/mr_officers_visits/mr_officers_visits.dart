@@ -90,6 +90,8 @@ class _MROfficersVisitsScreenState extends State<MROfficersVisitsScreen>
                     radioGroupValue: visitProvider.radioGroupValue,
                     radioValue: visitProvider.vistTypeList[1],
                     radioTitle: visitProvider.vistTypeList[1],
+                    showTrailingWidget: true,
+                    trailingWidgetTitle: '15',
                     onChange: (value) {
                       visitProvider.selectVisitType(value);
                     },
@@ -98,6 +100,8 @@ class _MROfficersVisitsScreenState extends State<MROfficersVisitsScreen>
                     radioGroupValue: visitProvider.radioGroupValue,
                     radioValue: visitProvider.vistTypeList[2],
                     radioTitle: visitProvider.vistTypeList[2],
+                    showTrailingWidget: true,
+                    trailingWidgetTitle: '5',
                     onChange: (value) {
                       visitProvider.selectVisitType(value);
                     },
@@ -115,10 +119,10 @@ class _MROfficersVisitsScreenState extends State<MROfficersVisitsScreen>
                               .pop(RouteGeneratorConstants.homePage);
                         },
                         // backgroundColor: ,
-                        borderColor: CustomColors.lightRed,
+                        backgroundColor: CustomColors.lightRed,
                         widget: CustomText(
                           text: 'Cancel',
-                          color: CustomColors.lightRed,
+                          color: CustomColors.primaryBlack,
                           fontWeight: FontWeight.w500,
                         ),
                       ),
@@ -126,10 +130,10 @@ class _MROfficersVisitsScreenState extends State<MROfficersVisitsScreen>
                         onPressed: () {
                           visitProvider.setSelectedVisitType();
                         },
-                        borderColor: CustomColors.primaryColor,
+                        backgroundColor: CustomColors.primaryColor,
                         widget: CustomText(
                           text: 'Next',
-                          color: CustomColors.primaryColor,
+                          color: CustomColors.primaryBlack,
                           fontWeight: FontWeight.w500,
                         ),
                       ),

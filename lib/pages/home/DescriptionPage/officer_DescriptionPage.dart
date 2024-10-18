@@ -413,13 +413,15 @@ class _OfficerDescriptionPageState extends State<OfficerDescriptionPage> {
                                   //     MainAxisAlignment.spaceBetween,
                                   children: [
                                     Icon(Icons.person),
-                                    Padding(
-                                      padding: const EdgeInsets.symmetric(
-                                          vertical: 4.0, horizontal: 8.0),
-                                      child: CustomText(
-                                        text: name,
-                                        fontWeight: FontWeight.w600,
-                                        size: 18,
+                                    Expanded(
+                                      child: Padding(
+                                        padding: const EdgeInsets.symmetric(
+                                            vertical: 4.0, horizontal: 8.0),
+                                        child: CustomText(
+                                          text: name,
+                                          fontWeight: FontWeight.w600,
+                                          size: 18,
+                                        ),
                                       ),
                                     ),
                                   ],
@@ -430,12 +432,14 @@ class _OfficerDescriptionPageState extends State<OfficerDescriptionPage> {
                                       FontAwesomeIcons.locationArrow,
                                       size: 20,
                                     ),
-                                    Padding(
-                                      padding: const EdgeInsets.symmetric(
-                                          vertical: 4.0, horizontal: 8.0),
-                                      child: CustomText(
-                                        text: address,
-                                        fontWeight: textFontWeight,
+                                    Expanded(
+                                      child: Padding(
+                                        padding: const EdgeInsets.symmetric(
+                                            vertical: 4.0, horizontal: 8.0),
+                                        child: CustomText(
+                                          text: address,
+                                          fontWeight: textFontWeight,
+                                        ),
                                       ),
                                     ),
                                   ],
@@ -458,14 +462,18 @@ class _OfficerDescriptionPageState extends State<OfficerDescriptionPage> {
                                 ),
                                 Row(
                                   children: [
-                                    Icon(FontAwesomeIcons.calendarAlt,
-                                        size: 20),
-                                    Padding(
-                                      padding: const EdgeInsets.symmetric(
-                                          vertical: 4.0, horizontal: 8.0),
-                                      child: CustomText(
-                                        text: dateTime,
-                                        fontWeight: textFontWeight,
+                                    Icon(
+                                      FontAwesomeIcons.calendarAlt,
+                                      size: 20,
+                                    ),
+                                    Expanded(
+                                      child: Padding(
+                                        padding: const EdgeInsets.symmetric(
+                                            vertical: 4.0, horizontal: 8.0),
+                                        child: CustomText(
+                                          text: dateTime,
+                                          fontWeight: textFontWeight,
+                                        ),
                                       ),
                                     ),
                                   ],

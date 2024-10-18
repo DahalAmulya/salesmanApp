@@ -289,11 +289,11 @@ class _HomeScreenState extends State<HomeScreen> {
         builder: (context) => CustomAppBar(
           tabName: 'Dashboard',
           // titleColor: CustomColors.primaryBlack,
-          titleColor: Colors.white,
+          titleColor: CustomColors.primaryBlack,
           backgroundColor: CustomColors.primaryColor,
           showLeading: true,
           leadingIcon: FontAwesomeIcons.bars,
-          leadingIconColor: Colors.white,
+          leadingIconColor: CustomColors.primaryBlack,
           onTapLeadingIcon: () {
             // Use the context under the Scaffold
             Scaffold.of(context).openDrawer();
@@ -351,12 +351,14 @@ class _HomeScreenState extends State<HomeScreen> {
                               height: 24,
                             ),
                           ),
-                          Padding(
-                            padding: EdgeInsets.symmetric(horizontal: 8.0),
-                            child: CustomText(
-                              text: 'Marketing Officers',
-                              size: 20,
-                              fontWeight: FontWeight.bold,
+                          Expanded(
+                            child: Padding(
+                              padding: EdgeInsets.symmetric(horizontal: 8.0),
+                              child: CustomText(
+                                text: 'Marketing Officers',
+                                size: 20,
+                                fontWeight: FontWeight.bold,
+                              ),
                             ),
                           ),
                           const Spacer(),

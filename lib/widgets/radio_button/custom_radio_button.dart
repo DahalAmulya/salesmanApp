@@ -9,12 +9,16 @@ class CustomRadioButton extends StatelessWidget {
     required this.radioValue,
     required this.radioTitle,
     required this.onChange,
+    this.showTrailingWidget = false,
+    this.trailingWidgetTitle = '0',
   });
 
   final String radioGroupValue;
   final String radioValue;
   final String radioTitle;
   final Function(String? value) onChange;
+  final bool showTrailingWidget;
+  final String trailingWidgetTitle;
 
   @override
   Widget build(BuildContext context) {
@@ -39,6 +43,12 @@ class CustomRadioButton extends StatelessWidget {
         text: radioTitle,
         fontWeight: FontWeight.w500,
       ),
+      trailingIcon: showTrailingWidget
+          ? CustomText(
+              text: trailingWidgetTitle,
+              fontWeight: FontWeight.w500,
+            )
+          : null,
     );
   }
 }

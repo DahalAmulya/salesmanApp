@@ -1,3 +1,4 @@
+import 'package:deskgoo/utils/toast_message.dart';
 import 'package:flutter/material.dart';
 
 class MrOfficerVisitProvider extends ChangeNotifier {
@@ -20,6 +21,9 @@ class MrOfficerVisitProvider extends ChangeNotifier {
 
   void setSelectedVisitType() {
     _selectedVisitType = _radioGroupValue;
+    if (_selectedVisitType.isEmpty) {
+      ToastMessageUtils().showToastMessage('Please select visit type');
+    }
     notifyListeners();
   }
 

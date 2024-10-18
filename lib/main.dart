@@ -123,30 +123,25 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
         ChangeNotifierProvider(create: (context) => DetailsProvider()),
         ChangeNotifierProvider(create: (context) => MrOfficerVisitProvider()),
       ],
-      child: MediaQuery(
-        data: MediaQuery.of(context).copyWith(
-          textScaler: const TextScaler.linear(1.0),
-        ),
-        child: Builder(
-          builder: (BuildContext context) {
-            final themeChangerProvider =
-                Provider.of<ThemeChangerProvider>(context);
-            return MaterialApp(
-              debugShowCheckedModeBanner: false,
-              themeMode: themeChangerProvider.themeMode,
-              darkTheme: ThemeData(
-                brightness: Brightness.dark,
-              ),
-              theme: ThemeData(
-                brightness: Brightness.light,
-                primarySwatch: Colors.blue,
-                useMaterial3: true,
-              ),
-              initialRoute: RouteGeneratorConstants.indexPage,
-              onGenerateRoute: RouteGenerator.generateRoute,
-            );
-          },
-        ),
+      child: Builder(
+        builder: (BuildContext context) {
+          final themeChangerProvider =
+              Provider.of<ThemeChangerProvider>(context);
+          return MaterialApp(
+            debugShowCheckedModeBanner: false,
+            themeMode: themeChangerProvider.themeMode,
+            darkTheme: ThemeData(
+              brightness: Brightness.dark,
+            ),
+            theme: ThemeData(
+              brightness: Brightness.light,
+              primarySwatch: Colors.blue,
+              useMaterial3: true,
+            ),
+            initialRoute: RouteGeneratorConstants.indexPage,
+            onGenerateRoute: RouteGenerator.generateRoute,
+          );
+        },
       ),
     );
   }
