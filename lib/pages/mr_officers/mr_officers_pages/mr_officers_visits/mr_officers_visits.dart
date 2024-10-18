@@ -1,6 +1,13 @@
+import 'package:deskgoo/pages/mr_officers/mr_officers_providers/mr_officer_visit_provider.dart';
+import 'package:deskgoo/routes/route_generator_constants.dart';
+import 'package:deskgoo/themes/custom_colors.dart';
 import 'package:deskgoo/widgets/app_bars/custom_app_bars.dart';
+import 'package:deskgoo/widgets/buttons/elevated_button.dart';
+import 'package:deskgoo/widgets/containers/custom_container.dart';
+import 'package:deskgoo/widgets/radio_button/custom_radio_button.dart';
 import 'package:deskgoo/widgets/texts/custom_text.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class MROfficersVisitsScreen extends StatefulWidget {
   const MROfficersVisitsScreen({super.key});
@@ -11,16 +18,6 @@ class MROfficersVisitsScreen extends StatefulWidget {
 
 class _MROfficersVisitsScreenState extends State<MROfficersVisitsScreen>
     with SingleTickerProviderStateMixin {
-  // late final AnimationController _controller = AnimationController(
-  //   vsync: this,
-  //   duration: const Duration(milliseconds: 750),
-  // );
-  // late final Animation<Offset> _offsetAnimation = Tween<Offset>(
-  //   begin: Offset(-10000, 0),
-  //   end: Offset.zero,
-  // ).animate(
-  //   CurvedAnimation(parent: _controller, curve: Curves.easeInOut),
-  // );
   int tabIndex = 0;
   List<String> tabs = [
     'New Visit',
@@ -33,12 +30,10 @@ class _MROfficersVisitsScreenState extends State<MROfficersVisitsScreen>
   @override
   void initState() {
     super.initState();
-    // _controller;
   }
 
   @override
   void dispose() {
-    // _controller.dispose();
     super.dispose();
   }
 
@@ -47,7 +42,8 @@ class _MROfficersVisitsScreenState extends State<MROfficersVisitsScreen>
     return Scaffold(
       backgroundColor: Colors.grey.shade200,
       appBar: _appBar(context),
-      body: _buildUI(context),
+      // body: _buildUI(context),
+      body: _chooseVisitType(context),
     );
   }
 
@@ -55,6 +51,89 @@ class _MROfficersVisitsScreenState extends State<MROfficersVisitsScreen>
     return PreferredSize(
       preferredSize: Size.fromHeight(kToolbarHeight),
       child: CustomAppBar(tabName: 'MROfficersVisitsScreen'),
+    );
+  }
+
+  Widget _chooseVisitType(context) {
+    return Center(
+      child: Consumer<MrOfficerVisitProvider>(
+          builder: (context, visitProvider, _) {
+        return Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            CustomContainer(
+              child: Column(
+                children: [
+                  CustomText(
+                    text: 'Select Visit Type',
+                    fontWeight: FontWeight.w600,
+                    size: 22,
+                  ),
+                  SizedBox(
+                    height: 8,
+                  ),
+                  CustomRadioButton(
+                    radioGroupValue: visitProvider.radioGroupValue,
+                    radioValue: 'Create Visit',
+                    radioTitle: 'Create Visit',
+                    onChange: (value) {
+                      visitProvider.selectVisitType(value);
+                    },
+                  ),
+                  CustomRadioButton(
+                    radioGroupValue: visitProvider.radioGroupValue,
+                    radioValue: 'New Visit',
+                    radioTitle: 'New Visit',
+                    onChange: (value) {
+                      visitProvider.selectVisitType(value);
+                    },
+                  ),
+                  CustomRadioButton(
+                    radioGroupValue: visitProvider.radioGroupValue,
+                    radioValue: 'FollowUp Visit',
+                    radioTitle: 'FollowUp Visit',
+                    onChange: (value) {
+                      visitProvider.selectVisitType(value);
+                    },
+                  ),
+                  SizedBox(
+                    height: 8,
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      CustomElevatedButton(
+                        onPressed: () {
+                          visitProvider.unSelectVisitType();
+                          Navigator.of(context)
+                              .pop(RouteGeneratorConstants.homePage);
+                        },
+                        // backgroundColor: ,
+                        borderColor: CustomColors.lightRed,
+                        widget: CustomText(
+                          text: 'Cancel',
+                          color: CustomColors.lightRed,
+                          fontWeight: FontWeight.w500,
+                        ),
+                      ),
+                      CustomElevatedButton(
+                        onPressed: () {},
+                        borderColor: CustomColors.primaryColor,
+                        widget: CustomText(
+                          text: 'Next',
+                          color: CustomColors.primaryColor,
+                          fontWeight: FontWeight.w500,
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+            ),
+          ],
+        );
+      }),
     );
   }
 

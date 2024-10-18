@@ -4,6 +4,7 @@ import 'package:deskgoo/classes/background_task_handler.dart';
 import 'package:deskgoo/classes/notification_controller.dart';
 import 'package:deskgoo/consts.dart';
 import 'package:deskgoo/models/enviroment.dart';
+import 'package:deskgoo/pages/mr_officers/mr_officers_providers/mr_officer_visit_provider.dart';
 import 'package:deskgoo/providers/attendance_provider/remote_attendance_provider.dart';
 import 'package:deskgoo/providers/camera_provider/camera_provider.dart';
 import 'package:deskgoo/providers/deviceInfo_provider/deviceInfo_provider.dart';
@@ -120,6 +121,7 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
         ChangeNotifierProvider(create: (context) => OfficerDetailProvider()),
         ChangeNotifierProvider(create: (context) => LiveTrackingProvider()),
         ChangeNotifierProvider(create: (context) => DetailsProvider()),
+        ChangeNotifierProvider(create: (context) => MrOfficerVisitProvider()),
       ],
       child: MediaQuery(
         data: MediaQuery.of(context).copyWith(
