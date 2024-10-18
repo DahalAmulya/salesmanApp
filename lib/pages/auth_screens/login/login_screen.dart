@@ -168,7 +168,7 @@ class _LoginPageState extends State<LoginPage> {
                       widget: CustomText(
                         text: 'Login',
                         fontWeight: FontWeight.w600,
-                        color: Colors.white,
+                        color: CustomColors.primaryBlack,
                         size: 20.0,
                       ),
                     ),
