@@ -43,14 +43,19 @@ class _MROfficersVisitsScreenState extends State<MROfficersVisitsScreen>
       backgroundColor: Colors.grey.shade200,
       appBar: _appBar(context),
       // body: _buildUI(context),
-      body: _chooseVisitType(context),
+      body: Consumer<MrOfficerVisitProvider>(
+          builder: (context, visitProvider, _) {
+        return visitProvider.selectedVisitType.isEmpty
+            ? _chooseVisitType(context)
+            : _buildUI(context);
+      }),
     );
   }
 
   PreferredSize _appBar(context) {
     return PreferredSize(
       preferredSize: Size.fromHeight(kToolbarHeight),
-      child: CustomAppBar(tabName: 'MROfficersVisitsScreen'),
+      child: CustomAppBar(tabName: 'Visit'),
     );
   }
 
@@ -75,24 +80,24 @@ class _MROfficersVisitsScreenState extends State<MROfficersVisitsScreen>
                   ),
                   CustomRadioButton(
                     radioGroupValue: visitProvider.radioGroupValue,
-                    radioValue: 'Create Visit',
-                    radioTitle: 'Create Visit',
+                    radioValue: visitProvider.vistTypeList[0],
+                    radioTitle: visitProvider.vistTypeList[0],
                     onChange: (value) {
                       visitProvider.selectVisitType(value);
                     },
                   ),
                   CustomRadioButton(
                     radioGroupValue: visitProvider.radioGroupValue,
-                    radioValue: 'New Visit',
-                    radioTitle: 'New Visit',
+                    radioValue: visitProvider.vistTypeList[1],
+                    radioTitle: visitProvider.vistTypeList[1],
                     onChange: (value) {
                       visitProvider.selectVisitType(value);
                     },
                   ),
                   CustomRadioButton(
                     radioGroupValue: visitProvider.radioGroupValue,
-                    radioValue: 'FollowUp Visit',
-                    radioTitle: 'FollowUp Visit',
+                    radioValue: visitProvider.vistTypeList[2],
+                    radioTitle: visitProvider.vistTypeList[2],
                     onChange: (value) {
                       visitProvider.selectVisitType(value);
                     },
@@ -118,7 +123,9 @@ class _MROfficersVisitsScreenState extends State<MROfficersVisitsScreen>
                         ),
                       ),
                       CustomElevatedButton(
-                        onPressed: () {},
+                        onPressed: () {
+                          visitProvider.setSelectedVisitType();
+                        },
                         borderColor: CustomColors.primaryColor,
                         widget: CustomText(
                           text: 'Next',
