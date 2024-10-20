@@ -2,6 +2,7 @@ import 'dart:developer';
 import 'package:awesome_notifications/awesome_notifications.dart';
 // import 'package:deskgoo/classes/background_task_handler.dart';
 import 'package:deskgoo/classes/notification_controller.dart';
+import 'package:deskgoo/pages/mr_officers/mr_officers_pages/mr_officers_visits/mr_officers_visit_type_screen.dart';
 import 'package:deskgoo/pages/mr_officers/mr_officers_pages/mr_officers_visits/mr_officers_visits.dart';
 import 'package:deskgoo/providers/deviceInfo_provider/deviceInfo_provider.dart';
 import 'package:deskgoo/routes/route_generator_constants.dart';
@@ -165,7 +166,9 @@ class _HomeScreenState extends State<HomeScreen> {
             backgroundColor: CustomColors.primaryColor,
             onPressed: () {
               Navigator.of(context).push(MaterialPageRoute(
-                  builder: (context) => MROfficersVisitsScreen()));
+                  builder: (context) => MrOfficersVisitTypeScreen()));
+              // Navigator.of(context).push(MaterialPageRoute(
+              //     builder: (context) => MROfficersVisitsScreen()));
             },
             child: Icon(
               Icons.gps_fixed,
