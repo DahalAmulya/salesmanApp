@@ -35,11 +35,11 @@ class _MROfficersVisitsScreenState extends State<MROfficersVisitsScreen>
 
   final _newVisitFormKey = GlobalKey<FormState>();
   final clientNameController = TextEditingController();
-  final addressController = TextEditingController();
-  final phoneController = TextEditingController();
-  final emailController = TextEditingController();
-  final whatsAppController = TextEditingController();
-  final ageTextController = TextEditingController();
+  final clientAddressController = TextEditingController();
+  final clientPhoneController = TextEditingController();
+  final clientEmailController = TextEditingController();
+  final clientWhatsAppController = TextEditingController();
+  final clientAgeTextController = TextEditingController();
   final searchClientController = TextEditingController();
   bool isVisitFormValid = false;
   bool isSwitched = false;
@@ -47,10 +47,10 @@ class _MROfficersVisitsScreenState extends State<MROfficersVisitsScreen>
   void clearNewVisitValues() {
     searchClientController.clear();
     clientNameController.clear();
-    addressController.clear();
-    phoneController.clear();
-    emailController.clear();
-    whatsAppController.clear();
+    clientAddressController.clear();
+    clientPhoneController.clear();
+    clientEmailController.clear();
+    clientWhatsAppController.clear();
   }
 
   @override
@@ -114,6 +114,7 @@ class _MROfficersVisitsScreenState extends State<MROfficersVisitsScreen>
         leadingIconColor: CustomColors.primaryBlack,
         onTapLeadingIcon: () {
           Navigator.of(context).pop(RouteGeneratorConstants.homePage);
+          _mrOfficerVisitProvider!.resetSelectedVisitType();
         },
       ),
     );
@@ -305,8 +306,9 @@ class _MROfficersVisitsScreenState extends State<MROfficersVisitsScreen>
   }
 
   Widget _newVisit(context) {
+    double screenWidth = MediaQuery.of(context).size.width;
     return AnimatedContainer(
-      height: MediaQuery.of(context).size.height * 0.53,
+      height: MediaQuery.of(context).size.height * 0.55,
       duration: const Duration(milliseconds: 250),
       width: double.infinity,
       child: Form(
@@ -319,7 +321,6 @@ class _MROfficersVisitsScreenState extends State<MROfficersVisitsScreen>
                 controller: clientNameController,
                 labelText: 'Select Client Name',
                 // hintText: 'Select Client Name',
-                readOnly: true,
                 onTap: () {},
                 validator: (value) {
                   // if (value!.isNotEmpty) {
@@ -335,8 +336,7 @@ class _MROfficersVisitsScreenState extends State<MROfficersVisitsScreen>
               height: 10.0,
             ),
             TextFromFieldWithPrefixSuffix(
-              controller: ageTextController,
-              readOnly: true,
+              controller: clientAgeTextController,
               labelText: 'Age',
               onTap: () {},
               validator: (value) {
@@ -348,8 +348,7 @@ class _MROfficersVisitsScreenState extends State<MROfficersVisitsScreen>
               height: 10.0,
             ),
             TextFromFieldWithPrefixSuffix(
-              controller: addressController,
-              readOnly: true,
+              controller: clientAddressController,
               labelText: 'Address',
               onTap: () {},
               validator: (value) {
@@ -361,8 +360,7 @@ class _MROfficersVisitsScreenState extends State<MROfficersVisitsScreen>
               height: 10.0,
             ),
             TextFromFieldWithPrefixSuffix(
-              controller: phoneController,
-              readOnly: true,
+              controller: clientPhoneController,
               labelText: 'Phone',
               onTap: () {},
               validator: (value) {
@@ -374,8 +372,7 @@ class _MROfficersVisitsScreenState extends State<MROfficersVisitsScreen>
               height: 10.0,
             ),
             TextFromFieldWithPrefixSuffix(
-              controller: emailController,
-              readOnly: true,
+              controller: clientAddressController,
               labelText: 'Email',
               onTap: () {},
               validator: (value) {
@@ -389,10 +386,9 @@ class _MROfficersVisitsScreenState extends State<MROfficersVisitsScreen>
             Row(
               children: [
                 Container(
-                  width: MediaQuery.of(context).size.width * 0.86,
+                  width: screenWidth * 0.85,
                   child: TextFromFieldWithPrefixSuffix(
-                    controller: whatsAppController,
-                    readOnly: true,
+                    controller: clientWhatsAppController,
                     applySuffixIcon: true,
                     labelText: 'WhatsApp No',
                     onTap: () {},
@@ -407,6 +403,11 @@ class _MROfficersVisitsScreenState extends State<MROfficersVisitsScreen>
                     onChanged: (value) {
                       setState(() {
                         isSwitched = value;
+                        if (isSwitched) {
+                          clientWhatsAppController.text = clientPhoneController.text;
+                        } else {
+                          clientWhatsAppController.clear();
+                        }
                       });
                     }),
               ],
@@ -417,6 +418,12 @@ class _MROfficersVisitsScreenState extends State<MROfficersVisitsScreen>
             InkWell(
               onTap: () {
                 _newVisitFormKey.currentState!.validate();
+                print('name = $clientNameController');
+                print('age = $clientAgeTextController');
+                print('address = $clientAddressController');
+                print('phone = $clientPhoneController');
+                print('email = $clientEmailController');
+                print('whatsapp = $clientWhatsAppController');
               },
               child: Container(
                 width: MediaQuery.of(context).size.width * 0.18,
