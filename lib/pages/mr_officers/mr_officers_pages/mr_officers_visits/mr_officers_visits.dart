@@ -1,3 +1,4 @@
+import 'package:deskgoo/pages/home/home_screen.dart';
 import 'package:deskgoo/pages/mr_officers/mr_officers_providers/mr_officer_visit_provider.dart';
 import 'package:deskgoo/routes/route_generator_constants.dart';
 import 'package:deskgoo/themes/custom_colors.dart';
@@ -73,12 +74,9 @@ class _MROfficersVisitsScreenState extends State<MROfficersVisitsScreen>
         if (didpop) {
           return;
         }
-        // GoRouter.of(context)
-        //     .pushReplacementNamed(MyAppRouteConstants.loginRouteName);
-        // _replayProvider!.setLeavePage(true);
-        // _replayProvider!.resetValues();
-        Navigator.of(context).pop(RouteGeneratorConstants.homePage);
-        _mrOfficerVisitProvider!.resetSelectedVisitType();
+        Navigator.of(context)
+            .pushReplacementNamed(RouteGeneratorConstants.homePage);
+        // _mrOfficerVisitProvider!.resetSelectedVisitType();
       }),
       child: GestureDetector(
         onTap: () {
@@ -91,13 +89,13 @@ class _MROfficersVisitsScreenState extends State<MROfficersVisitsScreen>
         child: Scaffold(
           backgroundColor: Colors.grey.shade200,
           appBar: _appBar(context),
-          // body: _buildUI(context),
-          body: Consumer<MrOfficerVisitProvider>(
-              builder: (context, visitProvider, _) {
-            return visitProvider.selectedVisitType.isEmpty
-                ? _chooseVisitType(context)
-                : _buildUI(context);
-          }),
+          body: _buildUI(context),
+          // body: Consumer<MrOfficerVisitProvider>(
+          //     builder: (context, visitProvider, _) {
+          //   return visitProvider.selectedVisitType.isEmpty
+          //       ? _chooseVisitType(context)
+          //       : _buildUI(context);
+          // }),
         ),
       ),
     );
@@ -113,8 +111,9 @@ class _MROfficersVisitsScreenState extends State<MROfficersVisitsScreen>
         leadingIcon: FontAwesomeIcons.arrowLeft,
         leadingIconColor: CustomColors.primaryBlack,
         onTapLeadingIcon: () {
-          Navigator.of(context).pop(RouteGeneratorConstants.homePage);
-          _mrOfficerVisitProvider!.resetSelectedVisitType();
+          Navigator.of(context)
+              .pushReplacementNamed(RouteGeneratorConstants.homePage);
+          // _mrOfficerVisitProvider!.resetSelectedVisitType();
         },
       ),
     );

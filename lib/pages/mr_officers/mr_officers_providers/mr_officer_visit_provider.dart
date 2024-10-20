@@ -19,12 +19,16 @@ class MrOfficerVisitProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  void setSelectedVisitType() {
+  bool setSelectedVisitType() {
     _selectedVisitType = _radioGroupValue;
     if (_selectedVisitType.isEmpty) {
       ToastMessageUtils().showToastMessage('Please select visit type');
+      notifyListeners();
+      return false;
+    } else {
+      notifyListeners();
+      return true;
     }
-    notifyListeners();
   }
 
   void unSelectVisitType() {
