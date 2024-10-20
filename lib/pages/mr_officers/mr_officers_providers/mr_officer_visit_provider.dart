@@ -32,4 +32,9 @@ class MrOfficerVisitProvider extends ChangeNotifier {
     _selectedVisitType = '';
     notifyListeners();
   }
+
+  void resetSelectedVisitType() {
+    _selectedVisitType = '';
+    notifyListeners();
+  }
 }
