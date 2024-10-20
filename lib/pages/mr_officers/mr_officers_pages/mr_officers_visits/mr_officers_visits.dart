@@ -1,18 +1,11 @@
-import 'package:deskgoo/pages/home/home_screen.dart';
 import 'package:deskgoo/pages/mr_officers/mr_officers_providers/mr_officer_visit_provider.dart';
 import 'package:deskgoo/routes/route_generator_constants.dart';
 import 'package:deskgoo/themes/custom_colors.dart';
 import 'package:deskgoo/widgets/app_bars/custom_app_bars.dart';
-import 'package:deskgoo/widgets/buttons/elevated_button.dart';
-import 'package:deskgoo/widgets/containers/custom_container.dart';
-import 'package:deskgoo/widgets/radio_button/custom_radio_button.dart';
 import 'package:deskgoo/widgets/texts/custom_text.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
-
-import '../../../../providers/marketing_provider/officersDescription_provider.dart';
-import '../../../../providers/visit_provider/visit_screen_provider.dart';
 import '../../../../widgets/text_fields/text_from_field.dart';
 
 class MROfficersVisitsScreen extends StatefulWidget {
@@ -90,12 +83,6 @@ class _MROfficersVisitsScreenState extends State<MROfficersVisitsScreen>
           backgroundColor: Colors.grey.shade200,
           appBar: _appBar(context),
           body: _buildUI(context),
-          // body: Consumer<MrOfficerVisitProvider>(
-          //     builder: (context, visitProvider, _) {
-          //   return visitProvider.selectedVisitType.isEmpty
-          //       ? _chooseVisitType(context)
-          //       : _buildUI(context);
-          // }),
         ),
       ),
     );
@@ -116,95 +103,6 @@ class _MROfficersVisitsScreenState extends State<MROfficersVisitsScreen>
           // _mrOfficerVisitProvider!.resetSelectedVisitType();
         },
       ),
-    );
-  }
-
-  Widget _chooseVisitType(context) {
-    return Center(
-      child: Consumer<MrOfficerVisitProvider>(
-          builder: (context, visitProvider, _) {
-        return Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            CustomContainer(
-              child: Column(
-                children: [
-                  CustomText(
-                    text: 'Select Visit Type',
-                    fontWeight: FontWeight.w600,
-                    size: 22,
-                  ),
-                  SizedBox(
-                    height: 8,
-                  ),
-                  CustomRadioButton(
-                    radioGroupValue: visitProvider.radioGroupValue,
-                    radioValue: visitProvider.vistTypeList[0],
-                    radioTitle: visitProvider.vistTypeList[0],
-                    onChange: (value) {
-                      visitProvider.selectVisitType(value);
-                    },
-                  ),
-                  CustomRadioButton(
-                    radioGroupValue: visitProvider.radioGroupValue,
-                    radioValue: visitProvider.vistTypeList[1],
-                    radioTitle: visitProvider.vistTypeList[1],
-                    showTrailingWidget: true,
-                    trailingWidgetTitle: '15',
-                    onChange: (value) {
-                      visitProvider.selectVisitType(value);
-                    },
-                  ),
-                  CustomRadioButton(
-                    radioGroupValue: visitProvider.radioGroupValue,
-                    radioValue: visitProvider.vistTypeList[2],
-                    radioTitle: visitProvider.vistTypeList[2],
-                    showTrailingWidget: true,
-                    trailingWidgetTitle: '5',
-                    onChange: (value) {
-                      visitProvider.selectVisitType(value);
-                    },
-                  ),
-                  SizedBox(
-                    height: 8,
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      CustomElevatedButton(
-                        onPressed: () {
-                          visitProvider.unSelectVisitType();
-                          Navigator.of(context)
-                              .pop(RouteGeneratorConstants.homePage);
-                        },
-                        // backgroundColor: ,
-                        backgroundColor: CustomColors.lightRed,
-                        widget: CustomText(
-                          text: 'Cancel',
-                          color: CustomColors.primaryBlack,
-                          fontWeight: FontWeight.w500,
-                        ),
-                      ),
-                      CustomElevatedButton(
-                        onPressed: () {
-                          visitProvider.setSelectedVisitType();
-                        },
-                        backgroundColor: CustomColors.primaryColor,
-                        widget: CustomText(
-                          text: 'Next',
-                          color: CustomColors.primaryBlack,
-                          fontWeight: FontWeight.w500,
-                        ),
-                      ),
-                    ],
-                  ),
-                ],
-              ),
-            ),
-          ],
-        );
-      }),
     );
   }
 
