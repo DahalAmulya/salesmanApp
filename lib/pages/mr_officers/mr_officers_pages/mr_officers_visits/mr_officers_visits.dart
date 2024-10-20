@@ -18,6 +18,7 @@ class MROfficersVisitsScreen extends StatefulWidget {
 
 class _MROfficersVisitsScreenState extends State<MROfficersVisitsScreen>
     with SingleTickerProviderStateMixin {
+  MrOfficerVisitProvider? _mrOfficerVisitProvider;
   int tabIndex = 0;
   List<String> tabs = [
     'New Visit',
@@ -29,6 +30,8 @@ class _MROfficersVisitsScreenState extends State<MROfficersVisitsScreen>
 
   @override
   void initState() {
+    _mrOfficerVisitProvider =
+        Provider.of<MrOfficerVisitProvider>(context, listen: false);
     super.initState();
   }
 
@@ -39,16 +42,39 @@ class _MROfficersVisitsScreenState extends State<MROfficersVisitsScreen>
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Colors.grey.shade200,
-      appBar: _appBar(context),
-      // body: _buildUI(context),
-      body: Consumer<MrOfficerVisitProvider>(
-          builder: (context, visitProvider, _) {
-        return visitProvider.selectedVisitType.isEmpty
-            ? _chooseVisitType(context)
-            : _buildUI(context);
+    return PopScope(
+      canPop: false,
+      onPopInvoked: ((didpop) {
+        if (didpop) {
+          return;
+        }
+        // GoRouter.of(context)
+        //     .pushReplacementNamed(MyAppRouteConstants.loginRouteName);
+        // _replayProvider!.setLeavePage(true);
+        // _replayProvider!.resetValues();
+        Navigator.of(context).pop(RouteGeneratorConstants.homePage);
+        _mrOfficerVisitProvider!.resetSelectedVisitType();
       }),
+      child: GestureDetector(
+        onTap: () {
+          // Dismiss the keyboard when tapping outside TextFormFields
+          FocusScopeNode currentFocus = FocusScope.of(context);
+          if (!currentFocus.hasPrimaryFocus) {
+            FocusScope.of(context).unfocus();
+          }
+        },
+        child: Scaffold(
+          backgroundColor: Colors.grey.shade200,
+          appBar: _appBar(context),
+          // body: _buildUI(context),
+          body: Consumer<MrOfficerVisitProvider>(
+              builder: (context, visitProvider, _) {
+            return visitProvider.selectedVisitType.isEmpty
+                ? _chooseVisitType(context)
+                : _buildUI(context);
+          }),
+        ),
+      ),
     );
   }
 
