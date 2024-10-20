@@ -2,6 +2,7 @@ import 'package:deskgoo/pages/mr_officers/mr_officers_providers/mr_officer_visit
 import 'package:deskgoo/routes/route_generator_constants.dart';
 import 'package:deskgoo/themes/custom_colors.dart';
 import 'package:deskgoo/widgets/app_bars/custom_app_bars.dart';
+import 'package:deskgoo/widgets/containers/custom_container.dart';
 import 'package:deskgoo/widgets/texts/custom_text.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -107,109 +108,119 @@ class _MROfficersVisitsScreenState extends State<MROfficersVisitsScreen>
   }
 
   Widget _buildUI(context) {
-    return GestureDetector(
-      onTap: () {
-        print('Tapepd on body');
-      },
-      onHorizontalDragEnd: (details) {
-        // Swiping in right direction.
-        if (details.primaryVelocity! > 0) {
-          setState(() {
-            if (tabIndex > 0) {
-              tabIndex -= 1;
-              scrollOffset = 100;
-            }
-          });
-          // print('${details.delta.dx}');
-          print('Swipped right $tabIndex ${tabIndex > 0}');
-        }
+    return Consumer<MrOfficerVisitProvider>(
+        builder: (context, mrOfficerVisitProvider, _) {
+      return GestureDetector(
+        onTap: () {
+          print('Tapepd on body');
+        },
+        onHorizontalDragEnd: (details) {
+          // Swiping in right direction.
+          if (details.primaryVelocity! > 0) {
+            setState(() {
+              if (tabIndex > 0) {
+                tabIndex -= 1;
+                scrollOffset = 100;
+              }
+            });
+            // print('${details.delta.dx}');
+            print('Swipped right $tabIndex ${tabIndex > 0}');
+          }
 
-        // Swiping in left direction.
-        if (details.primaryVelocity! < 0) {
-          setState(() {
-            if (tabIndex < tabs.length - 1) {
-              tabIndex += 1;
-              scrollOffset = 200;
-            }
-            // tabIndex < tabs.length ? tabIndex + 1 : null;
-          });
-          print('Swipped left $tabIndex ${tabIndex < tabs.length}');
-          // print('${details.delta.dx}');
-        }
-      },
-      child: AnimatedContainer(
-        duration: const Duration(seconds: 1),
-        height: double.infinity,
-        color: Colors.grey.shade200,
-        child: ListView(
-          children: [
-            SizedBox(
-              height: 60,
-              width: double.infinity,
-              child: ListView.builder(
-                shrinkWrap: true,
-                physics: BouncingScrollPhysics(),
-                scrollDirection: Axis.horizontal,
-                itemCount: tabs.length,
-                itemBuilder: (context, index) {
-                  return InkWell(
-                    onTap: () {
-                      print('Pressed ${tabs[index]}');
-                      setState(() {
-                        tabIndex = index;
-                      });
-                    },
-                    child: AnimatedContainer(
-                      color: (tabIndex == 0 && index == 0)
-                          ? Colors.red
-                          : (tabIndex == 1 && index == 1)
-                              ? Colors.yellow
-                              : (tabIndex == 2 && index == 2)
-                                  ? Colors.purpleAccent
-                                  : (tabIndex == 3 && index == 3)
-                                      ? Colors.lightGreenAccent
-                                      : Colors.white,
-                      duration: const Duration(milliseconds: 250),
-                      curve: Curves.easeInOut,
-                      margin: EdgeInsets.all(8),
-                      width: 120,
-                      height: 40,
-                      child: Center(
-                        child: CustomText(
-                          text: '${tabs[index]}',
+          // Swiping in left direction.
+          if (details.primaryVelocity! < 0) {
+            setState(() {
+              if (tabIndex < tabs.length - 1) {
+                tabIndex += 1;
+                scrollOffset = 200;
+              }
+              // tabIndex < tabs.length ? tabIndex + 1 : null;
+            });
+            print('Swipped left $tabIndex ${tabIndex < tabs.length}');
+            // print('${details.delta.dx}');
+          }
+        },
+        child: AnimatedContainer(
+          duration: const Duration(seconds: 1),
+          height: double.infinity,
+          color: Colors.grey.shade200,
+          child: ListView(
+            children: [
+              SizedBox(
+                height: 60,
+                width: double.infinity,
+                child: ListView.builder(
+                  shrinkWrap: true,
+                  physics: BouncingScrollPhysics(),
+                  scrollDirection: Axis.horizontal,
+                  itemCount:
+                      mrOfficerVisitProvider.selectedVisitTypeList.length,
+                  itemBuilder: (context, index) {
+                    String tabName =
+                        mrOfficerVisitProvider.selectedVisitTypeList[index];
+                    return InkWell(
+                      onTap: () {
+                        print('Pressed $tabName');
+                        setState(() {
+                          tabIndex = index;
+                        });
+                      },
+                      child: AnimatedContainer(
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(8),
+                          color: (tabIndex == 0 && index == 0)
+                              ? CustomColors.primaryColor
+                              : (tabIndex == 1 && index == 1)
+                                  ? Colors.yellow
+                                  : (tabIndex == 2 && index == 2)
+                                      ? Colors.purpleAccent
+                                      : (tabIndex == 3 && index == 3)
+                                          ? Colors.lightGreenAccent
+                                          : Colors.white,
+                        ),
+                        duration: const Duration(milliseconds: 250),
+                        curve: Curves.easeInOut,
+                        margin: EdgeInsets.all(8),
+                        width: 120,
+                        height: 40,
+                        child: Center(
+                          child: CustomText(
+                            text: tabName,
+                            fontWeight: FontWeight.w500,
+                          ),
                         ),
                       ),
-                    ),
-                  );
-                },
+                    );
+                  },
+                ),
               ),
-            ),
-            GestureDetector(
-              // position: _offsetAnimation,
-              child: tabIndex == 0
-                  ? _newVisit(context)
-                  : tabIndex == 1
-                      ? _createVisit(context)
-                      : tabIndex == 2
-                          ? _followUpVisit(context)
-                          : tabIndex == 3
-                              ? _visitDetails(context)
-                              : Container(),
-            ),
-          ],
+              GestureDetector(
+                // position: _offsetAnimation,
+                child: tabIndex == 0
+                    ? _newVisit(context)
+                    : tabIndex == 1
+                        ? _createVisit(context)
+                        : tabIndex == 2
+                            ? _followUpVisit(context)
+                            : tabIndex == 3
+                                ? _visitDetails(context)
+                                : Container(),
+              ),
+            ],
+          ),
         ),
-      ),
-    );
+      );
+    });
   }
 
   Widget _newVisit(context) {
     double screenWidth = MediaQuery.of(context).size.width;
     return AnimatedContainer(
-      height: MediaQuery.of(context).size.height * 0.55,
+      // height: MediaQuery.of(context).size.height * 0.55,
       duration: const Duration(milliseconds: 250),
       width: double.infinity,
       child: CustomContainer(
-       horizontalMargin: 8,
+        horizontalMargin: 8,
         verticalMargin: 8,
         child: Form(
           key: _newVisitFormKey,
@@ -285,8 +296,7 @@ class _MROfficersVisitsScreenState extends State<MROfficersVisitsScreen>
               ),
               Row(
                 children: [
-                  Container(
-                    width: screenWidth * 0.75,
+                  Expanded(
                     child: TextFromFieldWithPrefixSuffix(
                       controller: clientWhatsAppController,
                       applySuffixIcon: true,
@@ -304,7 +314,8 @@ class _MROfficersVisitsScreenState extends State<MROfficersVisitsScreen>
                         setState(() {
                           isSwitched = value;
                           if (isSwitched) {
-                            clientWhatsAppController.text = clientPhoneController.text;
+                            clientWhatsAppController.text =
+                                clientPhoneController.text;
                           } else {
                             clientWhatsAppController.clear();
                           }
@@ -348,147 +359,10 @@ class _MROfficersVisitsScreenState extends State<MROfficersVisitsScreen>
     );
   }
 
-  // Future<void> _newVisitshowBottomSheet(context) async {
-  //   showModalBottomSheet(
-  //     isScrollControlled: true,
-  //     useSafeArea: true,
-  //     context: context,
-  //     builder: (context) => ClipRRect(
-  //       borderRadius: BorderRadius.circular(16.0),
-  //       child: SizedBox(
-  //         height: MediaQuery.of(context).size.height * 0.90,
-  //         child: Scaffold(
-  //           backgroundColor: Colors.grey.shade200,
-  //           appBar: _newVisitbottomSheetAppBar(context),
-  //           body: _newVisitbottomSheetBody(context),
-  //         ),
-  //       ),
-  //     ),
-  //   );
-  // }
-
-  // PreferredSize _newVisitbottomSheetAppBar(context) {
-  //   return PreferredSize(
-  //     preferredSize: Size.fromHeight(kToolbarHeight),
-  //     child: CustomAppBar(
-  //       showLeading: true,
-  //       leadingIcon: FontAwesomeIcons.arrowLeft,
-  //       tabName: 'Search Client',
-  //       onTapLeadingIcon: () {
-  //         Navigator.pop(context);
-  //       },
-  //     ),
-  //   );
-  // }
-
-  // Widget _newVisitbottomSheetBody(context) {
-  //   DetailsProvider detailsProvider =
-  //   Provider.of<DetailsProvider>(context, listen: true);
-  //   return Center(
-  //     child: CustomContainer(
-  //       verticalMargin: 16.0,
-  //       child: Column(
-  //         children: [
-  //           Consumer<VisitScreenProvider>(
-  //             builder: (context, provider, _) {
-  //               return TextFromFieldWithPrefixSuffix(
-  //                 controller: searchClientController,
-  //                 labelText: 'Search Client',
-  //                 applyPrefix: true,
-  //                 prefixIcon: Icon(Icons.search),
-  //                 validator: (value) {
-  //                   return null;
-  //                 },
-  //                 onChange: (value) => provider
-  //                     .runSearchClientFilter(searchClientController.value.text),
-  //                 onTap: () {},
-  //               );
-  //             },
-  //           ),
-  //           Expanded(
-  //             child: Consumer<VisitScreenProvider>(
-  //               builder: (context, provider, _) {
-  //                 return ListView.builder(
-  //                   itemCount: provider.searchVistiCleintResults.length,
-  //                   itemBuilder: (context, index) {
-  //                     return InkWell(
-  //                       onTap: () {
-  //                         print(provider.searchVistiCleintResults[index]);
-  //                         provider.setClientName(
-  //                           provider.searchVistiCleintResults[index]['client']
-  //                               .toString(),
-  //                           provider.searchVistiCleintResults[index]['address']
-  //                               .toString(),
-  //                           provider.searchVistiCleintResults[index]['phone']
-  //                               .toString(),
-  //                           '${DateTime.now().toString().split('.')[0]}',
-  //                           provider.searchVistiCleintResults[index]['email'],
-  //                           provider.searchVistiCleintResults[index]['pan'],
-  //                         );
-  //                         clientNameController.text = provider
-  //                             .searchVistiCleintResults[index]['client']
-  //                             .toString();
-  //                         addressController.text = provider
-  //                             .searchVistiCleintResults[index]['address']
-  //                             .toString();
-  //                         phoneController.text = provider
-  //                             .searchVistiCleintResults[index]['phone']
-  //                             .toString();
-  //                         emailController.text = provider
-  //                             .searchVistiCleintResults[index]['email']
-  //                             .toString();
-  //                         panController.text = provider
-  //                             .searchVistiCleintResults[index]['pan']
-  //                             .toString();
-  //                         Navigator.pop(context);
-  //                         provider.resetSearchClientFilter();
-  //                       },
-  //                       child: ListTile(
-  //                         leading: CustomText(
-  //                             text: provider.searchVistiCleintResults[index]
-  //                             ['client']),
-  //                       ),
-  //                     );
-  //                   },
-  //                 );
-  //               },
-  //             ),
-  //           ),
-  //           Row(
-  //             mainAxisAlignment: MainAxisAlignment.spaceBetween,
-  //             children: [
-  //               CustomElevatedButton(
-  //                 onPressed: () {
-  //                   Navigator.pop(context);
-  //                 },
-  //                 borderColor: CustomColors.lightRed,
-  //                 widget: CustomText(
-  //                   text: 'Cancel',
-  //                   color: CustomColors.lightRed,
-  //                 ),
-  //               ),
-  //               // CustomElevatedButton(
-  //               //   onPressed: () {
-  //               //     Navigator.pop(context);
-  //               //   },
-  //               //   borderColor: CustomColors.primaryColor,
-  //               //   widget: CustomText(
-  //               //     text: 'Create',
-  //               //     color: CustomColors.primaryColor,
-  //               //   ),
-  //               // ),
-  //             ],
-  //           ),
-  //         ],
-  //       ),
-  //     ),
-  //   );
-  // }
-
   Widget _createVisit(context) {
     return AnimatedContainer(
       duration: const Duration(milliseconds: 250),
-      height: 400,
+      // height: 400,
       width: double.infinity,
       color: Colors.yellow,
       child: Center(
