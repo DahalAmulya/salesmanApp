@@ -106,7 +106,16 @@ class _MROfficersVisitsScreenState extends State<MROfficersVisitsScreen>
   PreferredSize _appBar(context) {
     return PreferredSize(
       preferredSize: Size.fromHeight(kToolbarHeight),
-      child: CustomAppBar(tabName: 'Visit'),
+      child: CustomAppBar(
+        tabName: 'Visit',
+        size: 24,
+        showLeading: true,
+        leadingIcon: FontAwesomeIcons.arrowLeft,
+        leadingIconColor: CustomColors.primaryBlack,
+        onTapLeadingIcon: () {
+          Navigator.of(context).pop(RouteGeneratorConstants.homePage);
+        },
+      ),
     );
   }
 
