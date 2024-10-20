@@ -7,7 +7,12 @@ import 'package:deskgoo/widgets/containers/custom_container.dart';
 import 'package:deskgoo/widgets/radio_button/custom_radio_button.dart';
 import 'package:deskgoo/widgets/texts/custom_text.dart';
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
+
+import '../../../../providers/marketing_provider/officersDescription_provider.dart';
+import '../../../../providers/visit_provider/visit_screen_provider.dart';
+import '../../../../widgets/text_fields/text_from_field.dart';
 
 class MROfficersVisitsScreen extends StatefulWidget {
   const MROfficersVisitsScreen({super.key});
@@ -27,6 +32,26 @@ class _MROfficersVisitsScreenState extends State<MROfficersVisitsScreen>
     'Visit Details',
   ];
   double scrollOffset = 0;
+
+  final _newVisitFormKey = GlobalKey<FormState>();
+  final clientNameController = TextEditingController();
+  final addressController = TextEditingController();
+  final phoneController = TextEditingController();
+  final emailController = TextEditingController();
+  final whatsAppController = TextEditingController();
+  final ageTextController = TextEditingController();
+  final searchClientController = TextEditingController();
+  bool isVisitFormValid = false;
+  bool isSwitched = false;
+
+  void clearNewVisitValues() {
+    searchClientController.clear();
+    clientNameController.clear();
+    addressController.clear();
+    phoneController.clear();
+    emailController.clear();
+    whatsAppController.clear();
+  }
 
   @override
   void initState() {
@@ -272,15 +297,275 @@ class _MROfficersVisitsScreenState extends State<MROfficersVisitsScreen>
 
   Widget _newVisit(context) {
     return AnimatedContainer(
+      height: MediaQuery.of(context).size.height * 0.53,
       duration: const Duration(milliseconds: 250),
-      height: 400,
       width: double.infinity,
-      color: Colors.red,
-      child: Center(
-        child: CustomText(text: 'New Visit'),
+      child: Form(
+        key: _newVisitFormKey,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.end,
+          children: [
+            Builder(builder: (context) {
+              return TextFromFieldWithPrefixSuffix(
+                controller: clientNameController,
+                labelText: 'Select Client Name',
+                // hintText: 'Select Client Name',
+                readOnly: true,
+                onTap: () {},
+                validator: (value) {
+                  // if (value!.isNotEmpty) {
+                  //   isVisitFormValid = true;
+                  //   return null;
+                  // }
+                  return value!.isEmpty ? 'Client Name Required' : null;
+                },
+                onChange: (value) {},
+              );
+            }),
+            SizedBox(
+              height: 10.0,
+            ),
+            TextFromFieldWithPrefixSuffix(
+              controller: ageTextController,
+              readOnly: true,
+              labelText: 'Age',
+              onTap: () {},
+              validator: (value) {
+                return null;
+              },
+              onChange: (value) {},
+            ),
+            SizedBox(
+              height: 10.0,
+            ),
+            TextFromFieldWithPrefixSuffix(
+              controller: addressController,
+              readOnly: true,
+              labelText: 'Address',
+              onTap: () {},
+              validator: (value) {
+                return value!.isEmpty ? 'Client Address Required' : null;
+              },
+              onChange: (value) {},
+            ),
+            SizedBox(
+              height: 10.0,
+            ),
+            TextFromFieldWithPrefixSuffix(
+              controller: phoneController,
+              readOnly: true,
+              labelText: 'Phone',
+              onTap: () {},
+              validator: (value) {
+                return value!.isEmpty ? 'Phone number Required' : null;
+              },
+              onChange: (value) {},
+            ),
+            SizedBox(
+              height: 10.0,
+            ),
+            TextFromFieldWithPrefixSuffix(
+              controller: emailController,
+              readOnly: true,
+              labelText: 'Email',
+              onTap: () {},
+              validator: (value) {
+                return null;
+              },
+              onChange: (value) {},
+            ),
+            SizedBox(
+              height: 10.0,
+            ),
+            Row(
+              children: [
+                Container(
+                  width: MediaQuery.of(context).size.width * 0.86,
+                  child: TextFromFieldWithPrefixSuffix(
+                    controller: whatsAppController,
+                    readOnly: true,
+                    applySuffixIcon: true,
+                    labelText: 'WhatsApp No',
+                    onTap: () {},
+                    validator: (value) {
+                      return null;
+                    },
+                    onChange: (value) {},
+                  ),
+                ),
+                Switch(
+                    value: isSwitched,
+                    onChanged: (value) {
+                      setState(() {
+                        isSwitched = value;
+                      });
+                    }),
+              ],
+            ),
+            SizedBox(
+              height: 8.0,
+            ),
+            InkWell(
+              onTap: () {
+                _newVisitFormKey.currentState!.validate();
+              },
+              child: Container(
+                width: MediaQuery.of(context).size.width * 0.18,
+                decoration: BoxDecoration(
+                  color: CustomColors.primaryColor,
+                  borderRadius: BorderRadius.circular(8),
+                ),
+                child: Center(
+                  child: CustomText(
+                    text: 'Submit',
+                    size: 18,
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
+
+  // Future<void> _newVisitshowBottomSheet(context) async {
+  //   showModalBottomSheet(
+  //     isScrollControlled: true,
+  //     useSafeArea: true,
+  //     context: context,
+  //     builder: (context) => ClipRRect(
+  //       borderRadius: BorderRadius.circular(16.0),
+  //       child: SizedBox(
+  //         height: MediaQuery.of(context).size.height * 0.90,
+  //         child: Scaffold(
+  //           backgroundColor: Colors.grey.shade200,
+  //           appBar: _newVisitbottomSheetAppBar(context),
+  //           body: _newVisitbottomSheetBody(context),
+  //         ),
+  //       ),
+  //     ),
+  //   );
+  // }
+
+  // PreferredSize _newVisitbottomSheetAppBar(context) {
+  //   return PreferredSize(
+  //     preferredSize: Size.fromHeight(kToolbarHeight),
+  //     child: CustomAppBar(
+  //       showLeading: true,
+  //       leadingIcon: FontAwesomeIcons.arrowLeft,
+  //       tabName: 'Search Client',
+  //       onTapLeadingIcon: () {
+  //         Navigator.pop(context);
+  //       },
+  //     ),
+  //   );
+  // }
+
+  // Widget _newVisitbottomSheetBody(context) {
+  //   DetailsProvider detailsProvider =
+  //   Provider.of<DetailsProvider>(context, listen: true);
+  //   return Center(
+  //     child: CustomContainer(
+  //       verticalMargin: 16.0,
+  //       child: Column(
+  //         children: [
+  //           Consumer<VisitScreenProvider>(
+  //             builder: (context, provider, _) {
+  //               return TextFromFieldWithPrefixSuffix(
+  //                 controller: searchClientController,
+  //                 labelText: 'Search Client',
+  //                 applyPrefix: true,
+  //                 prefixIcon: Icon(Icons.search),
+  //                 validator: (value) {
+  //                   return null;
+  //                 },
+  //                 onChange: (value) => provider
+  //                     .runSearchClientFilter(searchClientController.value.text),
+  //                 onTap: () {},
+  //               );
+  //             },
+  //           ),
+  //           Expanded(
+  //             child: Consumer<VisitScreenProvider>(
+  //               builder: (context, provider, _) {
+  //                 return ListView.builder(
+  //                   itemCount: provider.searchVistiCleintResults.length,
+  //                   itemBuilder: (context, index) {
+  //                     return InkWell(
+  //                       onTap: () {
+  //                         print(provider.searchVistiCleintResults[index]);
+  //                         provider.setClientName(
+  //                           provider.searchVistiCleintResults[index]['client']
+  //                               .toString(),
+  //                           provider.searchVistiCleintResults[index]['address']
+  //                               .toString(),
+  //                           provider.searchVistiCleintResults[index]['phone']
+  //                               .toString(),
+  //                           '${DateTime.now().toString().split('.')[0]}',
+  //                           provider.searchVistiCleintResults[index]['email'],
+  //                           provider.searchVistiCleintResults[index]['pan'],
+  //                         );
+  //                         clientNameController.text = provider
+  //                             .searchVistiCleintResults[index]['client']
+  //                             .toString();
+  //                         addressController.text = provider
+  //                             .searchVistiCleintResults[index]['address']
+  //                             .toString();
+  //                         phoneController.text = provider
+  //                             .searchVistiCleintResults[index]['phone']
+  //                             .toString();
+  //                         emailController.text = provider
+  //                             .searchVistiCleintResults[index]['email']
+  //                             .toString();
+  //                         panController.text = provider
+  //                             .searchVistiCleintResults[index]['pan']
+  //                             .toString();
+  //                         Navigator.pop(context);
+  //                         provider.resetSearchClientFilter();
+  //                       },
+  //                       child: ListTile(
+  //                         leading: CustomText(
+  //                             text: provider.searchVistiCleintResults[index]
+  //                             ['client']),
+  //                       ),
+  //                     );
+  //                   },
+  //                 );
+  //               },
+  //             ),
+  //           ),
+  //           Row(
+  //             mainAxisAlignment: MainAxisAlignment.spaceBetween,
+  //             children: [
+  //               CustomElevatedButton(
+  //                 onPressed: () {
+  //                   Navigator.pop(context);
+  //                 },
+  //                 borderColor: CustomColors.lightRed,
+  //                 widget: CustomText(
+  //                   text: 'Cancel',
+  //                   color: CustomColors.lightRed,
+  //                 ),
+  //               ),
+  //               // CustomElevatedButton(
+  //               //   onPressed: () {
+  //               //     Navigator.pop(context);
+  //               //   },
+  //               //   borderColor: CustomColors.primaryColor,
+  //               //   widget: CustomText(
+  //               //     text: 'Create',
+  //               //     color: CustomColors.primaryColor,
+  //               //   ),
+  //               // ),
+  //             ],
+  //           ),
+  //         ],
+  //       ),
+  //     ),
+  //   );
+  // }
 
   Widget _createVisit(context) {
     return AnimatedContainer(
