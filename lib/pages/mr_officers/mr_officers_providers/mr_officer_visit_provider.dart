@@ -2,13 +2,12 @@ import 'package:deskgoo/utils/toast_message.dart';
 import 'package:flutter/material.dart';
 
 class MrOfficerVisitProvider extends ChangeNotifier {
-
   List<String> _vistTypeList = [
     'Create Visit',
     'New Visit',
     'FollowUp Visit',
   ];
-  List<String> _selectedVisitTypeList = ['none', 'Visit Details'];
+  List<String> _selectedVisitTypeList = ['none', 'More Detail'];
   String _selectedVisitType = '';
   String _radioGroupValue = '';
   int _tabIndex = 0;

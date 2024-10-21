@@ -34,15 +34,6 @@ class _MROfficersVisitsScreenState extends State<MROfficersVisitsScreen>
   final weightController = TextEditingController();
   final diseasesController = TextEditingController();
 
-  void clearNewVisitValues() {
-    searchClientController.clear();
-    clientNameController.clear();
-    clientAddressController.clear();
-    clientPhoneController.clear();
-    clientEmailController.clear();
-    clientWhatsAppController.clear();
-  }
-
   @override
   void initState() {
     _mrOfficerVisitProvider =
@@ -125,10 +116,12 @@ class _MROfficersVisitsScreenState extends State<MROfficersVisitsScreen>
 
             // Swiping in left direction.
             if (details.primaryVelocity! < 0) {
-              if (mrOfficerVisitProvider.tabIndex <
-                  mrOfficerVisitProvider.selectedVisitTypeList.length - 1) {
-                mrOfficerVisitProvider
-                    .setTabIndex(mrOfficerVisitProvider.tabIndex + 1);
+              if (_createVisitFormKey.currentState!.validate()) {
+                if (mrOfficerVisitProvider.tabIndex <
+                    mrOfficerVisitProvider.selectedVisitTypeList.length - 1) {
+                  mrOfficerVisitProvider
+                      .setTabIndex(mrOfficerVisitProvider.tabIndex + 1);
+                }
               }
             }
           },
@@ -139,7 +132,7 @@ class _MROfficersVisitsScreenState extends State<MROfficersVisitsScreen>
             child: ListView(
               children: [
                 SizedBox(
-                  height: 60,
+                  height: 50,
                   width: double.infinity,
                   child: ListView.builder(
                     shrinkWrap: true,
@@ -153,7 +146,9 @@ class _MROfficersVisitsScreenState extends State<MROfficersVisitsScreen>
                       return InkWell(
                         onTap: () {
                           print('Pressed $tabName');
-                          mrOfficerVisitProvider.setTabIndex(index);
+                          if (_createVisitFormKey.currentState!.validate()) {
+                            mrOfficerVisitProvider.setTabIndex(index);
+                          }
                         },
                         child: AnimatedContainer(
                           decoration: BoxDecoration(
@@ -164,7 +159,7 @@ class _MROfficersVisitsScreenState extends State<MROfficersVisitsScreen>
                           ),
                           duration: const Duration(milliseconds: 250),
                           curve: Curves.easeInOut,
-                          margin: EdgeInsets.all(8),
+                          margin: EdgeInsets.all(4),
                           width: 120,
                           height: 40,
                           child: Center(
@@ -205,150 +200,150 @@ class _MROfficersVisitsScreenState extends State<MROfficersVisitsScreen>
   Widget _createVisit(context) {
     return Consumer<MrOfficerCreateVisitProvider>(
       builder: (context, createVisitProvider, _) {
-        return AnimatedContainer(
-          duration: const Duration(milliseconds: 250),
-          // height: 400,
-          width: double.infinity,
-          child: CustomContainer(
-            horizontalMargin: 8,
-            verticalMargin: 8,
-            child: Form(
-              key: _createVisitFormKey,
-              child: Column(
-                // crossAxisAlignment: CrossAxisAlignment.end,
-                children: [
-                  CustomText(
-                    text: 'Enter Client Details',
-                    fontWeight: FontWeight.w500,
-                    size: 20,
-                  ),
-                  SizedBox(
-                    height: 12,
-                  ),
-                  TextFromFieldWithPrefixSuffix(
-                    controller: createVisitProvider.createNameController,
-                    labelText: 'Name *',
-                    onTap: () {},
-                    validator: (value) {
-                      return value!.isEmpty ? 'Name Required' : null;
-                    },
-                    onChange: (value) {},
-                  ),
-                  SizedBox(
-                    height: 10.0,
-                  ),
-                  TextFromFieldWithPrefixSuffix(
-                    controller: createVisitProvider.createAgeController,
-                    labelText: 'Age',
-                    onTap: () {},
-                    validator: (value) {
-                      return null;
-                    },
-                    onChange: (value) {},
-                  ),
-                  SizedBox(
-                    height: 10.0,
-                  ),
-                  TextFromFieldWithPrefixSuffix(
-                    controller: createVisitProvider.createAddressController,
-                    labelText: 'Address *',
-                    onTap: () {},
-                    validator: (value) {
-                      return value!.isEmpty ? 'Address Required' : null;
-                    },
-                    onChange: (value) {},
-                  ),
-                  SizedBox(
-                    height: 10.0,
-                  ),
-                  TextFromFieldWithPrefixSuffix(
-                    controller: createVisitProvider.createPhoneNoController,
-                    labelText: 'Phone *',
-                    onTap: () {},
-                    validator: (value) {
-                      return value!.isEmpty ? 'Phone number Required' : null;
-                    },
-                    onChange: (value) {},
-                  ),
-                  SizedBox(
-                    height: 10.0,
-                  ),
-                  TextFromFieldWithPrefixSuffix(
-                    controller: createVisitProvider.createEmailController,
-                    labelText: 'Email',
-                    onTap: () {},
-                    validator: (value) {
-                      return null;
-                    },
-                    onChange: (value) {},
-                  ),
-                  SizedBox(
-                    height: 10.0,
-                  ),
-                  Row(
-                    children: [
-                      Expanded(
-                        child: TextFromFieldWithPrefixSuffix(
-                          controller:
-                              createVisitProvider.createWhatsAppController,
-                          applySuffixIcon: true,
-                          labelText: 'WhatsApp No.',
-                          onTap: () {},
-                          validator: (value) {
-                            return null;
+        return Column(
+          children: [
+            CustomContainer(
+              verticalMargin: 4,
+              child: Form(
+                key: _createVisitFormKey,
+                child: Column(
+                  // crossAxisAlignment: CrossAxisAlignment.end,
+                  children: [
+                    CustomText(
+                      text: 'Enter Client Details',
+                      fontWeight: FontWeight.w500,
+                      size: 20,
+                    ),
+                    SizedBox(
+                      height: 12,
+                    ),
+                    TextFromFieldWithPrefixSuffix(
+                      controller: createVisitProvider.createNameController,
+                      labelText: 'Name *',
+                      onTap: () {},
+                      validator: (value) {
+                        return value!.isEmpty ? 'Name Required' : null;
+                      },
+                      onChange: (value) {},
+                    ),
+                    SizedBox(
+                      height: 10.0,
+                    ),
+                    TextFromFieldWithPrefixSuffix(
+                      controller: createVisitProvider.createAgeController,
+                      labelText: 'Age',
+                      onTap: () {},
+                      validator: (value) {
+                        return null;
+                      },
+                      onChange: (value) {},
+                    ),
+                    SizedBox(
+                      height: 10.0,
+                    ),
+                    TextFromFieldWithPrefixSuffix(
+                      controller: createVisitProvider.createAddressController,
+                      labelText: 'Address *',
+                      onTap: () {},
+                      validator: (value) {
+                        return value!.isEmpty ? 'Address Required' : null;
+                      },
+                      onChange: (value) {},
+                    ),
+                    SizedBox(
+                      height: 10.0,
+                    ),
+                    TextFromFieldWithPrefixSuffix(
+                      controller: createVisitProvider.createPhoneNoController,
+                      labelText: 'Phone *',
+                      onTap: () {},
+                      validator: (value) {
+                        return value!.isEmpty ? 'Phone number Required' : null;
+                      },
+                      onChange: (value) {},
+                    ),
+                    SizedBox(
+                      height: 10.0,
+                    ),
+                    Row(
+                      children: [
+                        Expanded(
+                          child: TextFromFieldWithPrefixSuffix(
+                            controller:
+                                createVisitProvider.createWhatsAppController,
+                            applySuffixIcon: true,
+                            labelText: 'WhatsApp No.',
+                            onTap: () {},
+                            validator: (value) {
+                              return null;
+                            },
+                            onChange: (value) => createVisitProvider
+                                .checkWhatsappAndPhoneNo(value),
+                          ),
+                        ),
+                        Switch(
+                          activeColor: CustomColors.primaryBlack,
+                          activeTrackColor: CustomColors.primaryColor,
+                          inactiveTrackColor: CustomColors.primaryWhite,
+                          inactiveThumbColor: CustomColors.primaryBlack,
+                          value: createVisitProvider.isSwitched,
+                          onChanged: (value) {
+                            createVisitProvider.setWhatsAppNumber(value);
                           },
-                          onChange: (value) => createVisitProvider
-                              .checkWhatsappAndPhoneNo(value),
                         ),
-                      ),
-                      Switch(
-                        activeColor: CustomColors.primaryBlack,
-                        activeTrackColor: CustomColors.primaryColor,
-                        inactiveTrackColor: CustomColors.primaryWhite,
-                        inactiveThumbColor: CustomColors.primaryBlack,
-                        value: createVisitProvider.isSwitched,
-                        onChanged: (value) {
-                          createVisitProvider.setWhatsAppNumber(value);
-                        },
-                      ),
-                    ],
-                  ),
-                  SizedBox(
-                    height: 8.0,
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      CustomElevatedButton(
-                        onPressed: () {
-                          Navigator.of(context).pop(MaterialPageRoute(
-                              builder: (context) =>
-                                  MrOfficersVisitTypeScreen()));
-                        },
-                        backgroundColor: CustomColors.lightRed,
-                        widget: CustomText(
-                          text: 'Back',
-                          color: CustomColors.primaryBlack,
-                          fontWeight: FontWeight.w500,
+                      ],
+                    ),
+                    SizedBox(
+                      height: 10.0,
+                    ),
+                    TextFromFieldWithPrefixSuffix(
+                      controller: createVisitProvider.createEmailController,
+                      labelText: 'Email',
+                      onTap: () {},
+                      validator: (value) {
+                        return null;
+                      },
+                      onChange: (value) {},
+                    ),
+                    SizedBox(
+                      height: 8.0,
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        CustomElevatedButton(
+                          onPressed: () {
+                            Navigator.of(context).pop(MaterialPageRoute(
+                                builder: (context) =>
+                                    MrOfficersVisitTypeScreen()));
+                          },
+                          backgroundColor: CustomColors.lightRed,
+                          widget: CustomText(
+                            text: 'Back',
+                            color: CustomColors.primaryBlack,
+                            fontWeight: FontWeight.w500,
+                          ),
                         ),
-                      ),
-                      CustomElevatedButton(
-                        onPressed: () {
-                          _mrOfficerVisitProvider!.setTabIndex(1);
-                        },
-                        backgroundColor: CustomColors.primaryColor,
-                        widget: CustomText(
-                          text: 'Next',
-                          color: CustomColors.primaryBlack,
-                          fontWeight: FontWeight.w500,
+                        CustomElevatedButton(
+                          onPressed: () {
+                            if (_createVisitFormKey.currentState!.validate()) {
+                              _mrOfficerVisitProvider!.setTabIndex(1);
+                            }
+                          },
+                          backgroundColor: CustomColors.primaryColor,
+                          widget: CustomText(
+                            text: 'Next',
+                            color: CustomColors.primaryBlack,
+                            fontWeight: FontWeight.w500,
+                          ),
                         ),
-                      ),
-                    ],
-                  ),
-                ],
+                      ],
+                    ),
+                  ],
+                ),
               ),
             ),
-          ),
+          ],
         );
       },
     );
@@ -381,43 +376,47 @@ class _MROfficersVisitsScreenState extends State<MROfficersVisitsScreen>
               title: Text('Visit Detail'),
               children: [
                 TextFromFieldWithPrefixSuffix(
-                  labelText: 'Name',
+                    labelText: 'Name',
                     controller: nameController,
-                    validator: (value){
+                    validator: (value) {
                       return null;
-                    }
+                    }),
+                SizedBox(
+                  height: 8,
                 ),
-                SizedBox(height: 8,),
                 TextFromFieldWithPrefixSuffix(
                     labelText: 'Age',
                     controller: ageController,
-                    validator: (value){
+                    validator: (value) {
                       return null;
-                    }
+                    }),
+                SizedBox(
+                  height: 8,
                 ),
-                SizedBox(height: 8,),
                 TextFromFieldWithPrefixSuffix(
                     labelText: 'Address',
                     controller: addressController,
-                    validator: (value){
+                    validator: (value) {
                       return null;
-                    }
+                    }),
+                SizedBox(
+                  height: 8,
                 ),
-                SizedBox(height: 8,),
                 TextFromFieldWithPrefixSuffix(
                     labelText: 'Email',
                     controller: emailController,
-                    validator: (value){
+                    validator: (value) {
                       return null;
-                    }
-                ),
+                    }),
               ],
-              onExpansionChanged: (bool value){
+              onExpansionChanged: (bool value) {
                 setState(() => _customIcon = value);
               },
             ),
           ),
-          SizedBox(height: 8,),
+          SizedBox(
+            height: 8,
+          ),
           Theme(
             data: ThemeData().copyWith(dividerColor: Colors.transparent),
             child: ExpansionTile(
@@ -426,41 +425,45 @@ class _MROfficersVisitsScreenState extends State<MROfficersVisitsScreen>
                 TextFromFieldWithPrefixSuffix(
                     labelText: 'Name',
                     controller: nameController,
-                    validator: (value){
+                    validator: (value) {
                       return null;
-                    }
+                    }),
+                SizedBox(
+                  height: 8,
                 ),
-                SizedBox(height: 8,),
                 TextFromFieldWithPrefixSuffix(
                     labelText: 'Age',
                     controller: ageController,
-                    validator: (value){
+                    validator: (value) {
                       return null;
-                    }
+                    }),
+                SizedBox(
+                  height: 8,
                 ),
-                SizedBox(height: 8,),
                 TextFromFieldWithPrefixSuffix(
                     labelText: 'Weight',
                     controller: weightController,
-                    validator: (value){
+                    validator: (value) {
                       return null;
-                    }
+                    }),
+                SizedBox(
+                  height: 8,
                 ),
-                SizedBox(height: 8,),
                 TextFromFieldWithPrefixSuffix(
                     labelText: 'Diseases',
                     controller: diseasesController,
-                    validator: (value){
+                    validator: (value) {
                       return null;
-                    }
-                ),
+                    }),
               ],
-              onExpansionChanged: (bool value){
+              onExpansionChanged: (bool value) {
                 setState(() => _customIcon = value);
               },
             ),
           ),
-          SizedBox(height: 8,),
+          SizedBox(
+            height: 8,
+          ),
           Theme(
             data: ThemeData().copyWith(dividerColor: Colors.transparent),
             child: ExpansionTile(
@@ -476,7 +479,7 @@ class _MROfficersVisitsScreenState extends State<MROfficersVisitsScreen>
                   title: Text('title 3'),
                 ),
               ],
-              onExpansionChanged: (bool value){
+              onExpansionChanged: (bool value) {
                 setState(() => _customIcon = value);
               },
             ),
