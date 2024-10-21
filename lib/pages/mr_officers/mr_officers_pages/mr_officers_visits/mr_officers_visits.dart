@@ -24,6 +24,7 @@ class _MROfficersVisitsScreenState extends State<MROfficersVisitsScreen>
   Widget? _selectedVisit;
 
   final _newVisitFormKey = GlobalKey<FormState>();
+  final _newVisitDetailFormKey = GlobalKey<FormState>();
   final clientNameController = TextEditingController();
   final clientAddressController = TextEditingController();
   final clientPhoneController = TextEditingController();
@@ -33,6 +34,7 @@ class _MROfficersVisitsScreenState extends State<MROfficersVisitsScreen>
   final searchClientController = TextEditingController();
   bool isVisitFormValid = false;
   bool isSwitched = false;
+  bool _customIcon = false;
 
   void clearNewVisitValues() {
     searchClientController.clear();
@@ -353,13 +355,33 @@ class _MROfficersVisitsScreenState extends State<MROfficersVisitsScreen>
   }
 
   Widget _visitDetails(context) {
+
     return AnimatedContainer(
       duration: const Duration(milliseconds: 250),
       // height: 400,
       width: double.infinity,
-      color: CustomColors.primaryColor,
-      child: Center(
-        child: CustomText(text: 'Visit Details'),
+      color: Colors.white,
+      child: Column(
+        children: <Widget>[
+          ExpansionTile(
+            title: Text('Family Details'),
+            trailing: Icon(Icons.arrow_drop_down),
+            children: [
+              ListTile(
+                title: Text('title 1'),
+              ),
+              ListTile(
+                title: Text('title 2'),
+              ),
+              ListTile(
+                title: Text('title 3'),
+              ),
+            ],
+            onExpansionChanged: (bool value){
+              setState(() => _customIcon = value);
+            },
+          )
+        ],
       ),
     );
   }
