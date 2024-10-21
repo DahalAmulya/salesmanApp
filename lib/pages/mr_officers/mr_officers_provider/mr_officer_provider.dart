@@ -29,8 +29,6 @@ class MrOfficerCreateVisitProvider with ChangeNotifier {
     _isSwitched = isToggled;
     if (_isSwitched) {
       _createWhatsappController.text = _createPhoneNoController.text;
-    } else {
-      _createWhatsappController.text = '';
     }
     notifyListeners();
   }
