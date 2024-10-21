@@ -57,13 +57,7 @@ class _HomeScreenState extends State<HomeScreen> {
     _deviceinfoProvider =
         Provider.of<DeviceinfoProvider>(context, listen: false);
     _marketingProvider = Provider.of<MarketingProvider>(context, listen: false);
-    // _marketingProvider!.name
     getLocationPermission();
-    // getBackgroundLocation();
-    // _provider = DeviceinfoProvider();
-    // _provider.clearMarkers();
-    // _provider.getUniqueIdentifier();
-    // _provider.locationReplay();
 
     NotificationController.getPermissions();
     AwesomeNotifications().setListeners(
