@@ -120,9 +120,9 @@ EXTERNAL SOURCES:
 SPEC CHECKSUMS:
   awesome_notifications: 66d28ab7174ca2823b04d275cb043e0a4a3eb9cf
   background_task: a584ba6e093a60641252e89f7cd404ec92a30c8d
-  battery_plus: 1ff2e16ba75af2a78387f65476057a390b47885e
+  battery_plus: 34f72fa2afeeea83bbae306c72a25828d3ec727a
   camera_avfoundation: dd002b0330f4981e1bbcb46ae9b62829237459a4
-  connectivity_plus: ddd7f30999e1faaef5967c23d5b6d503d10434db
+  connectivity_plus: 4c41c08fc6d7c91f63bc7aec70ffe3730b04f563
   device_info_plus: 97af1d7e84681a90d0693e63169a5d50e0839a0d
   Flutter: e0871f40cf51350855a761d2e70bf5af5b9b5de7
   flutter_secure_storage: d33dac7ae2ea08509be337e775f6b59f1ff45f12
