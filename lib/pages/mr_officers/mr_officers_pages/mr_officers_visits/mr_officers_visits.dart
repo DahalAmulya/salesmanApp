@@ -330,10 +330,10 @@ class _MROfficersVisitsScreenState extends State<MROfficersVisitsScreen>
               InkWell(
                 onTap: () {
                   _newVisitFormKey.currentState!.validate();
-                  print('name = $clientNameController');
-                  print('age = $clientAgeTextController');
-                  print('address = $clientAddressController');
-                  print('phone = $clientPhoneController');
+                  print('name = ${clientNameController.value.text}');
+                  print('age = ${clientAgeTextController.value.text}');
+                  print('address = ${clientAddressController.value.text}');
+                  print('phone = ${clientPhoneController.value.text}');
                   print('email = $clientEmailController');
                   print('whatsapp = $clientWhatsAppController');
                 },
