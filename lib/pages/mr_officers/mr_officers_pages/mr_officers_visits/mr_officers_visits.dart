@@ -282,7 +282,7 @@ class _MROfficersVisitsScreenState extends State<MROfficersVisitsScreen>
                 height: 10.0,
               ),
               TextFromFieldWithPrefixSuffix(
-                controller: clientAddressController,
+                controller: clientEmailController,
                 labelText: 'Email',
                 onTap: () {},
                 validator: (value) {
@@ -334,8 +334,8 @@ class _MROfficersVisitsScreenState extends State<MROfficersVisitsScreen>
                   print('age = ${clientAgeTextController.value.text}');
                   print('address = ${clientAddressController.value.text}');
                   print('phone = ${clientPhoneController.value.text}');
-                  print('email = $clientEmailController');
-                  print('whatsapp = $clientWhatsAppController');
+                  print('email = ${clientEmailController.value.text}');
+                  print('whatsapp = ${clientWhatsAppController.value.text}');
                 },
                 child: Container(
                   width: MediaQuery.of(context).size.width * 0.24,
