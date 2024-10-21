@@ -20,13 +20,8 @@ class _MROfficersVisitsScreenState extends State<MROfficersVisitsScreen>
     with SingleTickerProviderStateMixin {
   MrOfficerVisitProvider? _mrOfficerVisitProvider;
   int tabIndex = 0;
-  List<String> tabs = [
-    'New Visit',
-    'Create Visit',
-    'FollowUp Visit',
-    'Visit Details',
-  ];
   double scrollOffset = 0;
+  Widget? _selectedVisit;
 
   final _newVisitFormKey = GlobalKey<FormState>();
   final clientNameController = TextEditingController();
@@ -110,6 +105,13 @@ class _MROfficersVisitsScreenState extends State<MROfficersVisitsScreen>
   Widget _buildUI(context) {
     return Consumer<MrOfficerVisitProvider>(
       builder: (context, mrOfficerVisitProvider, _) {
+        if (mrOfficerVisitProvider.selectedVisitType == 'Create Visit') {
+          _selectedVisit = _createVisit(context);
+        } else if (mrOfficerVisitProvider.selectedVisitType == 'New Visit') {
+          _selectedVisit = _newVisit(context);
+        } else {
+          _selectedVisit = _followUpVisit(context);
+        }
         return GestureDetector(
           onTap: () {
             print('Tapepd on body');
@@ -130,13 +132,13 @@ class _MROfficersVisitsScreenState extends State<MROfficersVisitsScreen>
             // Swiping in left direction.
             if (details.primaryVelocity! < 0) {
               setState(() {
-                if (tabIndex < tabs.length - 1) {
+                if (tabIndex <
+                    mrOfficerVisitProvider.selectedVisitTypeList.length - 1) {
                   tabIndex += 1;
                   scrollOffset = 200;
                 }
                 // tabIndex < tabs.length ? tabIndex + 1 : null;
               });
-              print('Swipped left $tabIndex ${tabIndex < tabs.length}');
               // print('${details.delta.dx}');
             }
           },
@@ -168,15 +170,9 @@ class _MROfficersVisitsScreenState extends State<MROfficersVisitsScreen>
                         child: AnimatedContainer(
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(8),
-                            color: (tabIndex == 0 && index == 0)
+                            color: tabIndex == index
                                 ? CustomColors.primaryColor
-                                : (tabIndex == 1 && index == 1)
-                                    ? Colors.yellow
-                                    : (tabIndex == 2 && index == 2)
-                                        ? Colors.purpleAccent
-                                        : (tabIndex == 3 && index == 3)
-                                            ? Colors.lightGreenAccent
-                                            : Colors.white,
+                                : Colors.white,
                           ),
                           duration: const Duration(milliseconds: 250),
                           curve: Curves.easeInOut,
@@ -194,17 +190,7 @@ class _MROfficersVisitsScreenState extends State<MROfficersVisitsScreen>
                     },
                   ),
                 ),
-                GestureDetector(
-                  child: tabIndex == 0
-                      ? _newVisit(context)
-                      : tabIndex == 1
-                          ? _createVisit(context)
-                          : tabIndex == 2
-                              ? _followUpVisit(context)
-                              : tabIndex == 3
-                                  ? _visitDetails(context)
-                                  : Container(),
-                ),
+                tabIndex == 0 ? _selectedVisit! : _visitDetails(context),
               ],
             ),
           ),
@@ -219,8 +205,8 @@ class _MROfficersVisitsScreenState extends State<MROfficersVisitsScreen>
       // height: MediaQuery.of(context).size.height * 0.55,
       duration: const Duration(milliseconds: 250),
       width: double.infinity,
-      height: 200,
-      color:  Colors.red,
+      // height: 200,
+      color: Colors.red,
       child: Container(
         child: Text('coming soon '),
       ),
@@ -232,156 +218,144 @@ class _MROfficersVisitsScreenState extends State<MROfficersVisitsScreen>
       duration: const Duration(milliseconds: 250),
       // height: 400,
       width: double.infinity,
-      child:  CustomContainer(
+      child: CustomContainer(
         horizontalMargin: 8,
         verticalMargin: 8,
         child: Form(
-        key: _newVisitFormKey,
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.end,
-          children: [
-            Builder(builder: (context) {
-              return TextFromFieldWithPrefixSuffix(
-                controller: clientNameController,
-                labelText: 'Name*',
-                // hintText: 'Select Client Name',
+          key: _newVisitFormKey,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.end,
+            children: [
+              Builder(builder: (context) {
+                return TextFromFieldWithPrefixSuffix(
+                  controller: clientNameController,
+                  labelText: 'Name*',
+                  // hintText: 'Select Client Name',
+                  onTap: () {},
+                  validator: (value) {
+                    // if (value!.isNotEmpty) {
+                    //   isVisitFormValid = true;
+                    //   return null;
+                    // }
+                    return value!.isEmpty ? 'Client Name Required' : null;
+                  },
+                  onChange: (value) {},
+                );
+              }),
+              SizedBox(
+                height: 10.0,
+              ),
+              TextFromFieldWithPrefixSuffix(
+                controller: clientAgeTextController,
+                labelText: 'Age',
                 onTap: () {},
                 validator: (value) {
-                  // if (value!.isNotEmpty) {
-                  //   isVisitFormValid = true;
-                  //   return null;
-                  // }
-                  return value!.isEmpty ? 'Client Name Required' : null;
+                  return null;
                 },
                 onChange: (value) {},
-              );
-            }),
-            SizedBox(
-              height: 10.0,
-            ),
-            TextFromFieldWithPrefixSuffix(
-              controller: clientAgeTextController,
-              labelText: 'Age',
-              onTap: () {},
-              validator: (value) {
-                return null;
-              },
-              onChange: (value) {},
-            ),
-            SizedBox(
-              height: 10.0,
-            ),
-            TextFromFieldWithPrefixSuffix(
-              controller: clientAddressController,
-              labelText: 'Address*',
-              onTap: () {},
-              validator: (value) {
-                return value!.isEmpty ? 'Client Address Required' : null;
-              },
-              onChange: (value) {},
-            ),
-            SizedBox(
-              height: 10.0,
-            ),
-            TextFromFieldWithPrefixSuffix(
-              controller: clientPhoneController,
-              labelText: 'Phone*',
-              onTap: () {},
-              validator: (value) {
-                return value!.isEmpty ? 'Phone number Required' : null;
-              },
-              onChange: (value) {},
-            ),
-            SizedBox(
-              height: 10.0,
-            ),
-            TextFromFieldWithPrefixSuffix(
-              controller: clientAddressController,
-              labelText: 'Email',
-              onTap: () {},
-              validator: (value) {
-                return null;
-              },
-              onChange: (value) {},
-            ),
-            SizedBox(
-              height: 10.0,
-            ),
-            Row(
-              children: [
-                Expanded(
-                  child: TextFromFieldWithPrefixSuffix(
-                    controller: clientWhatsAppController,
-                    applySuffixIcon: true,
-                    labelText: 'WhatsApp No',
-                    onTap: () {},
-                    validator: (value) {
-                      return null;
-                    },
-                    onChange: (value) {},
+              ),
+              SizedBox(
+                height: 10.0,
+              ),
+              TextFromFieldWithPrefixSuffix(
+                controller: clientAddressController,
+                labelText: 'Address*',
+                onTap: () {},
+                validator: (value) {
+                  return value!.isEmpty ? 'Client Address Required' : null;
+                },
+                onChange: (value) {},
+              ),
+              SizedBox(
+                height: 10.0,
+              ),
+              TextFromFieldWithPrefixSuffix(
+                controller: clientPhoneController,
+                labelText: 'Phone*',
+                onTap: () {},
+                validator: (value) {
+                  return value!.isEmpty ? 'Phone number Required' : null;
+                },
+                onChange: (value) {},
+              ),
+              SizedBox(
+                height: 10.0,
+              ),
+              TextFromFieldWithPrefixSuffix(
+                controller: clientAddressController,
+                labelText: 'Email',
+                onTap: () {},
+                validator: (value) {
+                  return null;
+                },
+                onChange: (value) {},
+              ),
+              SizedBox(
+                height: 10.0,
+              ),
+              Row(
+                children: [
+                  Expanded(
+                    child: TextFromFieldWithPrefixSuffix(
+                      controller: clientWhatsAppController,
+                      applySuffixIcon: true,
+                      labelText: 'WhatsApp No',
+                      onTap: () {},
+                      validator: (value) {
+                        return null;
+                      },
+                      onChange: (value) {},
+                    ),
                   ),
-                ),
-                Switch(
-                    activeColor: CustomColors.primaryBlack,
-                    activeTrackColor: CustomColors.primaryColor,
-                    value: isSwitched,
-                    onChanged: (value) {
-                      setState(() {
-                        isSwitched = value;
-                        if (isSwitched) {
-                          clientWhatsAppController.text =
-                              clientPhoneController.text;
-                        } else {
-                          clientWhatsAppController.clear();
-                        }
-                      });
-                    }),
-              ],
-            ),
-            SizedBox(
-              height: 8.0,
-            ),
-            InkWell(
-              onTap: () {
-                _newVisitFormKey.currentState!.validate();
-                print('name = $clientNameController');
-                print('age = $clientAgeTextController');
-                print('address = $clientAddressController');
-                print('phone = $clientPhoneController');
-                print('email = $clientEmailController');
-                print('whatsapp = $clientWhatsAppController');
-              },
-              child: Container(
-                width: MediaQuery.of(context).size.width * 0.24,
-                height: MediaQuery.of(context).size.height * 0.048,
-                decoration: BoxDecoration(
-                  color: CustomColors.primaryColor,
-                  borderRadius: BorderRadius.circular(8),
-                ),
-                child: Center(
-                  child: CustomText(
-                    text: 'Submit',
-                    size: 18,
-                    fontWeight: FontWeight.w600,
+                  Switch(
+                      activeColor: CustomColors.primaryBlack,
+                      activeTrackColor: CustomColors.primaryColor,
+                      value: isSwitched,
+                      onChanged: (value) {
+                        setState(() {
+                          isSwitched = value;
+                          if (isSwitched) {
+                            clientWhatsAppController.text =
+                                clientPhoneController.text;
+                          } else {
+                            clientWhatsAppController.clear();
+                          }
+                        });
+                      }),
+                ],
+              ),
+              SizedBox(
+                height: 8.0,
+              ),
+              InkWell(
+                onTap: () {
+                  _newVisitFormKey.currentState!.validate();
+                  print('name = $clientNameController');
+                  print('age = $clientAgeTextController');
+                  print('address = $clientAddressController');
+                  print('phone = $clientPhoneController');
+                  print('email = $clientEmailController');
+                  print('whatsapp = $clientWhatsAppController');
+                },
+                child: Container(
+                  width: MediaQuery.of(context).size.width * 0.24,
+                  height: MediaQuery.of(context).size.height * 0.048,
+                  decoration: BoxDecoration(
+                    color: CustomColors.primaryColor,
+                    borderRadius: BorderRadius.circular(8),
+                  ),
+                  child: Center(
+                    child: CustomText(
+                      text: 'Submit',
+                      size: 18,
+                      fontWeight: FontWeight.w600,
+                    ),
                   ),
                 ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
-            ),
-      ),
-    );
-  }
-
-  Widget _visitDetails(context) {
-    return AnimatedContainer(
-      duration: const Duration(milliseconds: 250),
-      // height: 400,
-      width: double.infinity,
-      color: Colors.lightGreenAccent,
-      child: Center(
-        child: CustomText(text: 'Visit Details'),
       ),
     );
   }
@@ -394,6 +368,18 @@ class _MROfficersVisitsScreenState extends State<MROfficersVisitsScreen>
       color: Colors.purpleAccent,
       child: Center(
         child: CustomText(text: 'FollowUp Visit'),
+      ),
+    );
+  }
+
+  Widget _visitDetails(context) {
+    return AnimatedContainer(
+      duration: const Duration(milliseconds: 250),
+      // height: 400,
+      width: double.infinity,
+      color: CustomColors.primaryColor,
+      child: Center(
+        child: CustomText(text: 'Visit Details'),
       ),
     );
   }
