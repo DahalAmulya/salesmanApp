@@ -18,7 +18,6 @@ class MROfficersVisitsScreen extends StatefulWidget {
 
 class _MROfficersVisitsScreenState extends State<MROfficersVisitsScreen>
     with SingleTickerProviderStateMixin {
-  MrOfficerVisitProvider? _mrOfficerVisitProvider;
   int tabIndex = 0;
   double scrollOffset = 0;
   Widget? _selectedVisit;
@@ -45,8 +44,6 @@ class _MROfficersVisitsScreenState extends State<MROfficersVisitsScreen>
 
   @override
   void initState() {
-    _mrOfficerVisitProvider =
-        Provider.of<MrOfficerVisitProvider>(context, listen: false);
     super.initState();
   }
 
@@ -65,7 +62,6 @@ class _MROfficersVisitsScreenState extends State<MROfficersVisitsScreen>
         }
         Navigator.of(context)
             .pushReplacementNamed(RouteGeneratorConstants.homePage);
-        // _mrOfficerVisitProvider!.resetSelectedVisitType();
       }),
       child: GestureDetector(
         onTap: () {
@@ -96,7 +92,6 @@ class _MROfficersVisitsScreenState extends State<MROfficersVisitsScreen>
         onTapLeadingIcon: () {
           Navigator.of(context)
               .pushReplacementNamed(RouteGeneratorConstants.homePage);
-          // _mrOfficerVisitProvider!.resetSelectedVisitType();
         },
       ),
     );
@@ -193,7 +188,6 @@ class _MROfficersVisitsScreenState extends State<MROfficersVisitsScreen>
   }
 
   Widget _newVisit(context) {
-    double screenWidth = MediaQuery.of(context).size.width;
     return AnimatedContainer(
       // height: MediaQuery.of(context).size.height * 0.55,
       duration: const Duration(milliseconds: 250),
