@@ -34,15 +34,6 @@ class _MROfficersVisitsScreenState extends State<MROfficersVisitsScreen>
   final weightController = TextEditingController();
   final diseasesController = TextEditingController();
 
-  void clearNewVisitValues() {
-    searchClientController.clear();
-    clientNameController.clear();
-    clientAddressController.clear();
-    clientPhoneController.clear();
-    clientEmailController.clear();
-    clientWhatsAppController.clear();
-  }
-
   @override
   void initState() {
     _mrOfficerVisitProvider =
@@ -210,6 +201,7 @@ class _MROfficersVisitsScreenState extends State<MROfficersVisitsScreen>
           // height: 400,
           width: double.infinity,
           child: CustomContainer(
+            applyShadow: true,
             horizontalMargin: 8,
             verticalMargin: 8,
             child: Form(
@@ -367,11 +359,10 @@ class _MROfficersVisitsScreenState extends State<MROfficersVisitsScreen>
   }
 
   Widget _visitDetails(context) {
-    return AnimatedContainer(
-      duration: const Duration(milliseconds: 250),
-      // height: 400,
-      width: double.infinity,
-      color: Colors.white.withOpacity(0.8),
+    return CustomContainer(
+      applyShadow: true,
+      horizontalMargin: 8,
+      verticalMargin: 8,
       child: Column(
         children: <Widget>[
           Theme(
