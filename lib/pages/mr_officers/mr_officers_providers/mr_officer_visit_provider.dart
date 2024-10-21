@@ -10,16 +10,23 @@ class MrOfficerVisitProvider extends ChangeNotifier {
   List<String> _selectedVisitTypeList = ['none', 'Visit Details'];
   String _selectedVisitType = '';
   String _radioGroupValue = '';
+  int _tabIndex = 0;
   Widget _selectedVisit = Container();
 
   List<String> get vistTypeList => _vistTypeList;
   List<String> get selectedVisitTypeList => _selectedVisitTypeList;
   String get selectedVisitType => _selectedVisitType;
   String get radioGroupValue => _radioGroupValue;
+  int get tabIndex => _tabIndex;
   Widget get selectedVisit => _selectedVisit;
 
   void selectVisitType(value) {
     _radioGroupValue = value;
+    notifyListeners();
+  }
+
+  void setTabIndex(int index) {
+    _tabIndex = index;
     notifyListeners();
   }
 

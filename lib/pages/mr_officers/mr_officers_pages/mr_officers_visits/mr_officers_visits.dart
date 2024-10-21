@@ -113,33 +113,26 @@ class _MROfficersVisitsScreenState extends State<MROfficersVisitsScreen>
           _selectedVisit = _followUpVisit(context);
         }
         return GestureDetector(
-          onTap: () {
-            print('Tapepd on body');
-          },
+          // onTap: () {
+          //   print('Tapepd on body');
+          // },
           onHorizontalDragEnd: (details) {
             // Swiping in right direction.
             if (details.primaryVelocity! > 0) {
-              setState(() {
-                if (tabIndex > 0) {
-                  tabIndex -= 1;
-                  scrollOffset = 100;
-                }
-              });
-              // print('${details.delta.dx}');
+              if (mrOfficerVisitProvider.tabIndex > 0) {
+                mrOfficerVisitProvider
+                    .setTabIndex(mrOfficerVisitProvider.tabIndex - 1);
+              }
               print('Swipped right $tabIndex ${tabIndex > 0}');
             }
 
             // Swiping in left direction.
             if (details.primaryVelocity! < 0) {
-              setState(() {
-                if (tabIndex <
-                    mrOfficerVisitProvider.selectedVisitTypeList.length - 1) {
-                  tabIndex += 1;
-                  scrollOffset = 200;
-                }
-                // tabIndex < tabs.length ? tabIndex + 1 : null;
-              });
-              // print('${details.delta.dx}');
+              if (mrOfficerVisitProvider.tabIndex <
+                  mrOfficerVisitProvider.selectedVisitTypeList.length - 1) {
+                mrOfficerVisitProvider
+                    .setTabIndex(mrOfficerVisitProvider.tabIndex + 1);
+              }
             }
           },
           child: AnimatedContainer(
@@ -163,14 +156,12 @@ class _MROfficersVisitsScreenState extends State<MROfficersVisitsScreen>
                       return InkWell(
                         onTap: () {
                           print('Pressed $tabName');
-                          setState(() {
-                            tabIndex = index;
-                          });
+                          mrOfficerVisitProvider.setTabIndex(index);
                         },
                         child: AnimatedContainer(
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(8),
-                            color: tabIndex == index
+                            color: mrOfficerVisitProvider.tabIndex == index
                                 ? CustomColors.primaryColor
                                 : Colors.white,
                           ),
@@ -190,7 +181,9 @@ class _MROfficersVisitsScreenState extends State<MROfficersVisitsScreen>
                     },
                   ),
                 ),
-                tabIndex == 0 ? _selectedVisit! : _visitDetails(context),
+                mrOfficerVisitProvider.tabIndex == 0
+                    ? _selectedVisit!
+                    : _visitDetails(context),
               ],
             ),
           ),
@@ -230,13 +223,8 @@ class _MROfficersVisitsScreenState extends State<MROfficersVisitsScreen>
                 return TextFromFieldWithPrefixSuffix(
                   controller: clientNameController,
                   labelText: 'Name*',
-                  // hintText: 'Select Client Name',
                   onTap: () {},
                   validator: (value) {
-                    // if (value!.isNotEmpty) {
-                    //   isVisitFormValid = true;
-                    //   return null;
-                    // }
                     return value!.isEmpty ? 'Client Name Required' : null;
                   },
                   onChange: (value) {},
@@ -299,7 +287,7 @@ class _MROfficersVisitsScreenState extends State<MROfficersVisitsScreen>
                     child: TextFromFieldWithPrefixSuffix(
                       controller: clientWhatsAppController,
                       applySuffixIcon: true,
-                      labelText: 'WhatsApp No',
+                      labelText: 'WhatsApp No.',
                       onTap: () {},
                       validator: (value) {
                         return null;
