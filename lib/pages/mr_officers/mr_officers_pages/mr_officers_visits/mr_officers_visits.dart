@@ -109,108 +109,108 @@ class _MROfficersVisitsScreenState extends State<MROfficersVisitsScreen>
 
   Widget _buildUI(context) {
     return Consumer<MrOfficerVisitProvider>(
-        builder: (context, mrOfficerVisitProvider, _) {
-      return GestureDetector(
-        onTap: () {
-          print('Tapepd on body');
-        },
-        onHorizontalDragEnd: (details) {
-          // Swiping in right direction.
-          if (details.primaryVelocity! > 0) {
-            setState(() {
-              if (tabIndex > 0) {
-                tabIndex -= 1;
-                scrollOffset = 100;
-              }
-            });
-            // print('${details.delta.dx}');
-            print('Swipped right $tabIndex ${tabIndex > 0}');
-          }
+      builder: (context, mrOfficerVisitProvider, _) {
+        return GestureDetector(
+          onTap: () {
+            print('Tapepd on body');
+          },
+          onHorizontalDragEnd: (details) {
+            // Swiping in right direction.
+            if (details.primaryVelocity! > 0) {
+              setState(() {
+                if (tabIndex > 0) {
+                  tabIndex -= 1;
+                  scrollOffset = 100;
+                }
+              });
+              // print('${details.delta.dx}');
+              print('Swipped right $tabIndex ${tabIndex > 0}');
+            }
 
-          // Swiping in left direction.
-          if (details.primaryVelocity! < 0) {
-            setState(() {
-              if (tabIndex < tabs.length - 1) {
-                tabIndex += 1;
-                scrollOffset = 200;
-              }
-              // tabIndex < tabs.length ? tabIndex + 1 : null;
-            });
-            print('Swipped left $tabIndex ${tabIndex < tabs.length}');
-            // print('${details.delta.dx}');
-          }
-        },
-        child: AnimatedContainer(
-          duration: const Duration(seconds: 1),
-          height: double.infinity,
-          color: Colors.grey.shade200,
-          child: ListView(
-            children: [
-              SizedBox(
-                height: 60,
-                width: double.infinity,
-                child: ListView.builder(
-                  shrinkWrap: true,
-                  physics: BouncingScrollPhysics(),
-                  scrollDirection: Axis.horizontal,
-                  itemCount:
-                      mrOfficerVisitProvider.selectedVisitTypeList.length,
-                  itemBuilder: (context, index) {
-                    String tabName =
-                        mrOfficerVisitProvider.selectedVisitTypeList[index];
-                    return InkWell(
-                      onTap: () {
-                        print('Pressed $tabName');
-                        setState(() {
-                          tabIndex = index;
-                        });
-                      },
-                      child: AnimatedContainer(
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(8),
-                          color: (tabIndex == 0 && index == 0)
-                              ? CustomColors.primaryColor
-                              : (tabIndex == 1 && index == 1)
-                                  ? Colors.yellow
-                                  : (tabIndex == 2 && index == 2)
-                                      ? Colors.purpleAccent
-                                      : (tabIndex == 3 && index == 3)
-                                          ? Colors.lightGreenAccent
-                                          : Colors.white,
-                        ),
-                        duration: const Duration(milliseconds: 250),
-                        curve: Curves.easeInOut,
-                        margin: EdgeInsets.all(8),
-                        width: 120,
-                        height: 40,
-                        child: Center(
-                          child: CustomText(
-                            text: tabName,
-                            fontWeight: FontWeight.w500,
+            // Swiping in left direction.
+            if (details.primaryVelocity! < 0) {
+              setState(() {
+                if (tabIndex < tabs.length - 1) {
+                  tabIndex += 1;
+                  scrollOffset = 200;
+                }
+                // tabIndex < tabs.length ? tabIndex + 1 : null;
+              });
+              print('Swipped left $tabIndex ${tabIndex < tabs.length}');
+              // print('${details.delta.dx}');
+            }
+          },
+          child: AnimatedContainer(
+            duration: const Duration(seconds: 1),
+            height: double.infinity,
+            color: Colors.grey.shade200,
+            child: ListView(
+              children: [
+                SizedBox(
+                  height: 60,
+                  width: double.infinity,
+                  child: ListView.builder(
+                    shrinkWrap: true,
+                    physics: BouncingScrollPhysics(),
+                    scrollDirection: Axis.horizontal,
+                    itemCount:
+                        mrOfficerVisitProvider.selectedVisitTypeList.length,
+                    itemBuilder: (context, index) {
+                      String tabName =
+                          mrOfficerVisitProvider.selectedVisitTypeList[index];
+                      return InkWell(
+                        onTap: () {
+                          print('Pressed $tabName');
+                          setState(() {
+                            tabIndex = index;
+                          });
+                        },
+                        child: AnimatedContainer(
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(8),
+                            color: (tabIndex == 0 && index == 0)
+                                ? CustomColors.primaryColor
+                                : (tabIndex == 1 && index == 1)
+                                    ? Colors.yellow
+                                    : (tabIndex == 2 && index == 2)
+                                        ? Colors.purpleAccent
+                                        : (tabIndex == 3 && index == 3)
+                                            ? Colors.lightGreenAccent
+                                            : Colors.white,
+                          ),
+                          duration: const Duration(milliseconds: 250),
+                          curve: Curves.easeInOut,
+                          margin: EdgeInsets.all(8),
+                          width: 120,
+                          height: 40,
+                          child: Center(
+                            child: CustomText(
+                              text: tabName,
+                              fontWeight: FontWeight.w500,
+                            ),
                           ),
                         ),
-                      ),
-                    );
-                  },
+                      );
+                    },
+                  ),
                 ),
-              ),
-              GestureDetector(
-                // position: _offsetAnimation,
-                child: tabIndex == 0
-                    ? _newVisit(context)
-                    : tabIndex == 1
-                        ? _createVisit(context)
-                        : tabIndex == 2
-                            ? _followUpVisit(context)
-                            : tabIndex == 3
-                                ? _visitDetails(context)
-                                : Container(),
-              ),
-            ],
+                GestureDetector(
+                  child: tabIndex == 0
+                      ? _newVisit(context)
+                      : tabIndex == 1
+                          ? _createVisit(context)
+                          : tabIndex == 2
+                              ? _followUpVisit(context)
+                              : tabIndex == 3
+                                  ? _visitDetails(context)
+                                  : Container(),
+                ),
+              ],
+            ),
           ),
-        ),
-      );
-    });
+        );
+      },
+    );
   }
 
   Widget _newVisit(context) {
@@ -374,7 +374,7 @@ class _MROfficersVisitsScreenState extends State<MROfficersVisitsScreen>
   Widget _visitDetails(context) {
     return AnimatedContainer(
       duration: const Duration(milliseconds: 250),
-      height: 400,
+      // height: 400,
       width: double.infinity,
       color: Colors.lightGreenAccent,
       child: Center(
@@ -386,7 +386,7 @@ class _MROfficersVisitsScreenState extends State<MROfficersVisitsScreen>
   Widget _followUpVisit(context) {
     return AnimatedContainer(
       duration: const Duration(milliseconds: 250),
-      height: 400,
+      // height: 400,
       width: double.infinity,
       color: Colors.purpleAccent,
       child: Center(
