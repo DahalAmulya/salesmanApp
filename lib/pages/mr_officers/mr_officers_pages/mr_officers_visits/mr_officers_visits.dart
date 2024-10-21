@@ -1,3 +1,4 @@
+import 'package:deskgoo/pages/mr_officers/mr_officers_provider/mr_officer_provider.dart';
 import 'package:deskgoo/pages/mr_officers/mr_officers_providers/mr_officer_visit_provider.dart';
 import 'package:deskgoo/routes/route_generator_constants.dart';
 import 'package:deskgoo/themes/custom_colors.dart';
@@ -203,145 +204,142 @@ class _MROfficersVisitsScreenState extends State<MROfficersVisitsScreen>
   }
 
   Widget _createVisit(context) {
-    return AnimatedContainer(
-      duration: const Duration(milliseconds: 250),
-      // height: 400,
-      width: double.infinity,
-      child: CustomContainer(
-        horizontalMargin: 8,
-        verticalMargin: 8,
-        child: Form(
-          key: _newVisitFormKey,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.end,
-            children: [
-              Builder(builder: (context) {
-                return TextFromFieldWithPrefixSuffix(
-                  controller: clientNameController,
-                  labelText: 'Name*',
+    return Consumer<MrOfficerCreateVisitProvider>(
+        builder: (context, createVisitProvider, _) {
+      return AnimatedContainer(
+        duration: const Duration(milliseconds: 250),
+        // height: 400,
+        width: double.infinity,
+        child: CustomContainer(
+          horizontalMargin: 8,
+          verticalMargin: 8,
+          child: Form(
+            key: _newVisitFormKey,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.end,
+              children: [
+                Builder(builder: (context) {
+                  return TextFromFieldWithPrefixSuffix(
+                    controller: createVisitProvider.createNameController,
+                    labelText: 'Name *',
+                    onTap: () {},
+                    validator: (value) {
+                      return value!.isEmpty ? 'Name Required' : null;
+                    },
+                    onChange: (value) {},
+                  );
+                }),
+                SizedBox(
+                  height: 10.0,
+                ),
+                TextFromFieldWithPrefixSuffix(
+                  controller: createVisitProvider.createAgeController,
+                  labelText: 'Age',
                   onTap: () {},
                   validator: (value) {
-                    return value!.isEmpty ? 'Client Name Required' : null;
+                    return null;
                   },
                   onChange: (value) {},
-                );
-              }),
-              SizedBox(
-                height: 10.0,
-              ),
-              TextFromFieldWithPrefixSuffix(
-                controller: clientAgeTextController,
-                labelText: 'Age',
-                onTap: () {},
-                validator: (value) {
-                  return null;
-                },
-                onChange: (value) {},
-              ),
-              SizedBox(
-                height: 10.0,
-              ),
-              TextFromFieldWithPrefixSuffix(
-                controller: clientAddressController,
-                labelText: 'Address*',
-                onTap: () {},
-                validator: (value) {
-                  return value!.isEmpty ? 'Client Address Required' : null;
-                },
-                onChange: (value) {},
-              ),
-              SizedBox(
-                height: 10.0,
-              ),
-              TextFromFieldWithPrefixSuffix(
-                controller: clientPhoneController,
-                labelText: 'Phone*',
-                onTap: () {},
-                validator: (value) {
-                  return value!.isEmpty ? 'Phone number Required' : null;
-                },
-                onChange: (value) {},
-              ),
-              SizedBox(
-                height: 10.0,
-              ),
-              TextFromFieldWithPrefixSuffix(
-                controller: clientEmailController,
-                labelText: 'Email',
-                onTap: () {},
-                validator: (value) {
-                  return null;
-                },
-                onChange: (value) {},
-              ),
-              SizedBox(
-                height: 10.0,
-              ),
-              Row(
-                children: [
-                  Expanded(
-                    child: TextFromFieldWithPrefixSuffix(
-                      controller: clientWhatsAppController,
-                      applySuffixIcon: true,
-                      labelText: 'WhatsApp No.',
-                      onTap: () {},
-                      validator: (value) {
-                        return null;
-                      },
-                      onChange: (value) {},
+                ),
+                SizedBox(
+                  height: 10.0,
+                ),
+                TextFromFieldWithPrefixSuffix(
+                  controller: createVisitProvider.createAddressController,
+                  labelText: 'Address *',
+                  onTap: () {},
+                  validator: (value) {
+                    return value!.isEmpty ? 'Address Required' : null;
+                  },
+                  onChange: (value) {},
+                ),
+                SizedBox(
+                  height: 10.0,
+                ),
+                TextFromFieldWithPrefixSuffix(
+                  controller: createVisitProvider.createPhoneNoController,
+                  labelText: 'Phone *',
+                  onTap: () {},
+                  validator: (value) {
+                    return value!.isEmpty ? 'Phone number Required' : null;
+                  },
+                  onChange: (value) {},
+                ),
+                SizedBox(
+                  height: 10.0,
+                ),
+                TextFromFieldWithPrefixSuffix(
+                  controller: createVisitProvider.createEmailController,
+                  labelText: 'Email',
+                  onTap: () {},
+                  validator: (value) {
+                    return null;
+                  },
+                  onChange: (value) {},
+                ),
+                SizedBox(
+                  height: 10.0,
+                ),
+                Row(
+                  children: [
+                    Expanded(
+                      child: TextFromFieldWithPrefixSuffix(
+                        controller:
+                            createVisitProvider.createWhatsAppController,
+                        applySuffixIcon: true,
+                        labelText: 'WhatsApp No.',
+                        onTap: () {},
+                        validator: (value) {
+                          return null;
+                        },
+                        onChange: (value) =>
+                            createVisitProvider.checkWhatsappAndPhoneNo(value),
+                      ),
                     ),
-                  ),
-                  Switch(
-                      activeColor: CustomColors.primaryBlack,
-                      activeTrackColor: CustomColors.primaryColor,
-                      value: isSwitched,
-                      onChanged: (value) {
-                        setState(() {
-                          isSwitched = value;
-                          if (isSwitched) {
-                            clientWhatsAppController.text =
-                                clientPhoneController.text;
-                          } else {
-                            clientWhatsAppController.clear();
-                          }
-                        });
-                      }),
-                ],
-              ),
-              SizedBox(
-                height: 8.0,
-              ),
-              InkWell(
-                onTap: () {
-                  _newVisitFormKey.currentState!.validate();
-                  print('name = ${clientNameController.value.text}');
-                  print('age = ${clientAgeTextController.value.text}');
-                  print('address = ${clientAddressController.value.text}');
-                  print('phone = ${clientPhoneController.value.text}');
-                  print('email = ${clientEmailController.value.text}');
-                  print('whatsapp = ${clientWhatsAppController.value.text}');
-                },
-                child: Container(
-                  width: MediaQuery.of(context).size.width * 0.24,
-                  height: MediaQuery.of(context).size.height * 0.048,
-                  decoration: BoxDecoration(
-                    color: CustomColors.primaryColor,
-                    borderRadius: BorderRadius.circular(8),
-                  ),
-                  child: Center(
-                    child: CustomText(
-                      text: 'Submit',
-                      size: 18,
-                      fontWeight: FontWeight.w600,
+                    Switch(
+                        activeColor: CustomColors.primaryBlack,
+                        activeTrackColor: CustomColors.primaryColor,
+                        value: createVisitProvider.isSwitched,
+                        onChanged: (value) {
+                          createVisitProvider.setWhatsAppNumber(value);
+                        }),
+                  ],
+                ),
+                SizedBox(
+                  height: 8.0,
+                ),
+                InkWell(
+                  onTap: () {
+                    _newVisitFormKey.currentState!.validate();
+                    print('name = $clientNameController');
+                    print('age = $clientAgeTextController');
+                    print('address = $clientAddressController');
+                    print('phone = $clientPhoneController');
+                    print('email = $clientEmailController');
+                    print('whatsapp = $clientWhatsAppController');
+                  },
+                  child: Container(
+                    width: MediaQuery.of(context).size.width * 0.24,
+                    height: MediaQuery.of(context).size.height * 0.048,
+                    decoration: BoxDecoration(
+                      color: CustomColors.primaryColor,
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                    child: Center(
+                      child: CustomText(
+                        text: 'Submit',
+                        size: 18,
+                        fontWeight: FontWeight.w600,
+                      ),
                     ),
                   ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
-      ),
-    );
+      );
+    });
   }
 
   Widget _followUpVisit(context) {
