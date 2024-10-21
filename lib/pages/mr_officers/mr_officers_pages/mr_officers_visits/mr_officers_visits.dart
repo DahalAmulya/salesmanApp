@@ -36,6 +36,15 @@ class _MROfficersVisitsScreenState extends State<MROfficersVisitsScreen>
   bool isSwitched = false;
   bool _customIcon = false;
 
+
+  final nameController = TextEditingController();
+  final addressController = TextEditingController();
+  final phoneController = TextEditingController();
+  final emailController = TextEditingController();
+  final ageController = TextEditingController();
+  final weightController = TextEditingController();
+  final diseasesController = TextEditingController();
+
   void clearNewVisitValues() {
     searchClientController.clear();
     clientNameController.clear();
@@ -355,31 +364,119 @@ class _MROfficersVisitsScreenState extends State<MROfficersVisitsScreen>
   }
 
   Widget _visitDetails(context) {
-
     return AnimatedContainer(
       duration: const Duration(milliseconds: 250),
       // height: 400,
       width: double.infinity,
-      color: Colors.white,
+      color: Colors.white.withOpacity(0.8),
       child: Column(
         children: <Widget>[
-          ExpansionTile(
-            title: Text('Family Details'),
-            trailing: Icon(Icons.arrow_drop_down),
-            children: [
-              ListTile(
-                title: Text('title 1'),
-              ),
-              ListTile(
-                title: Text('title 2'),
-              ),
-              ListTile(
-                title: Text('title 3'),
-              ),
-            ],
-            onExpansionChanged: (bool value){
-              setState(() => _customIcon = value);
-            },
+          Theme(
+            data: ThemeData().copyWith(dividerColor: Colors.transparent),
+            child: ExpansionTile(
+              initiallyExpanded: true,
+              title: Text('Visit Detail'),
+              children: [
+                TextFromFieldWithPrefixSuffix(
+                  labelText: 'Name',
+                    controller: nameController,
+                    validator: (value){
+                      return null;
+                    }
+                ),
+                SizedBox(height: 8,),
+                TextFromFieldWithPrefixSuffix(
+                    labelText: 'Age',
+                    controller: ageController,
+                    validator: (value){
+                      return null;
+                    }
+                ),
+                SizedBox(height: 8,),
+                TextFromFieldWithPrefixSuffix(
+                    labelText: 'Address',
+                    controller: addressController,
+                    validator: (value){
+                      return null;
+                    }
+                ),
+                SizedBox(height: 8,),
+                TextFromFieldWithPrefixSuffix(
+                    labelText: 'Email',
+                    controller: emailController,
+                    validator: (value){
+                      return null;
+                    }
+                ),
+              ],
+              onExpansionChanged: (bool value){
+                setState(() => _customIcon = value);
+              },
+            ),
+          ),
+          SizedBox(height: 8,),
+          Theme(
+            data: ThemeData().copyWith(dividerColor: Colors.transparent),
+            child: ExpansionTile(
+              title: Text('Health Details'),
+              children: [
+                TextFromFieldWithPrefixSuffix(
+                    labelText: 'Name',
+                    controller: nameController,
+                    validator: (value){
+                      return null;
+                    }
+                ),
+                SizedBox(height: 8,),
+                TextFromFieldWithPrefixSuffix(
+                    labelText: 'Age',
+                    controller: ageController,
+                    validator: (value){
+                      return null;
+                    }
+                ),
+                SizedBox(height: 8,),
+                TextFromFieldWithPrefixSuffix(
+                    labelText: 'Weight',
+                    controller: weightController,
+                    validator: (value){
+                      return null;
+                    }
+                ),
+                SizedBox(height: 8,),
+                TextFromFieldWithPrefixSuffix(
+                    labelText: 'Diseases',
+                    controller: diseasesController,
+                    validator: (value){
+                      return null;
+                    }
+                ),
+              ],
+              onExpansionChanged: (bool value){
+                setState(() => _customIcon = value);
+              },
+            ),
+          ),
+          SizedBox(height: 8,),
+          Theme(
+            data: ThemeData().copyWith(dividerColor: Colors.transparent),
+            child: ExpansionTile(
+              title: Text('Family Details'),
+              children: [
+                ListTile(
+                  title: Text('title 1'),
+                ),
+                ListTile(
+                  title: Text('title 2'),
+                ),
+                ListTile(
+                  title: Text('title 3'),
+                ),
+              ],
+              onExpansionChanged: (bool value){
+                setState(() => _customIcon = value);
+              },
+            ),
           )
         ],
       ),
