@@ -102,9 +102,6 @@ class _MROfficersVisitsScreenState extends State<MROfficersVisitsScreen>
           _selectedVisit = _followUpVisit(context);
         }
         return GestureDetector(
-          // onTap: () {
-          //   print('Tapepd on body');
-          // },
           onHorizontalDragEnd: (details) {
             // Swiping in right direction.
             if (details.primaryVelocity! > 0) {
@@ -115,10 +112,20 @@ class _MROfficersVisitsScreenState extends State<MROfficersVisitsScreen>
             }
 
             // Swiping in left direction.
+            String selectedVisitType =
+                mrOfficerVisitProvider.selectedVisitTypeList[0];
             if (details.primaryVelocity! < 0) {
-              if (_createVisitFormKey.currentState!.validate()) {
-                if (mrOfficerVisitProvider.tabIndex <
-                    mrOfficerVisitProvider.selectedVisitTypeList.length - 1) {
+              if (mrOfficerVisitProvider.tabIndex <
+                  mrOfficerVisitProvider.selectedVisitTypeList.length - 1) {
+                if (selectedVisitType == 'Create Visit') {
+                  if (_createVisitFormKey.currentState!.validate()) {
+                    mrOfficerVisitProvider
+                        .setTabIndex(mrOfficerVisitProvider.tabIndex + 1);
+                  }
+                } else if (selectedVisitType == 'New Visit') {
+                  mrOfficerVisitProvider
+                      .setTabIndex(mrOfficerVisitProvider.tabIndex + 1);
+                } else {
                   mrOfficerVisitProvider
                       .setTabIndex(mrOfficerVisitProvider.tabIndex + 1);
                 }
@@ -146,7 +153,22 @@ class _MROfficersVisitsScreenState extends State<MROfficersVisitsScreen>
                       return InkWell(
                         onTap: () {
                           print('Pressed $tabName');
-                          if (_createVisitFormKey.currentState!.validate()) {
+                          if (tabName == 'More Detail') {
+                            if (mrOfficerVisitProvider
+                                    .selectedVisitTypeList[0] ==
+                                'Create Visit') {
+                              if (_createVisitFormKey.currentState!
+                                  .validate()) {
+                                mrOfficerVisitProvider.setTabIndex(index);
+                              }
+                            } else if (mrOfficerVisitProvider
+                                    .selectedVisitTypeList[0] ==
+                                'New Visit') {
+                              mrOfficerVisitProvider.setTabIndex(index);
+                            } else {
+                              mrOfficerVisitProvider.setTabIndex(index);
+                            }
+                          } else {
                             mrOfficerVisitProvider.setTabIndex(index);
                           }
                         },
