@@ -25,6 +25,8 @@ class _MROfficersVisitsScreenState extends State<MROfficersVisitsScreen>
   Widget? _selectedVisit;
   final _createVisitFormKey = GlobalKey<FormState>();
   bool _customIcon = false;
+  bool isVisible = false;
+  String dropDOwnValue = 'Referred By:';
 
   final nameController = TextEditingController();
   final addressController = TextEditingController();
@@ -33,6 +35,7 @@ class _MROfficersVisitsScreenState extends State<MROfficersVisitsScreen>
   final ageController = TextEditingController();
   final weightController = TextEditingController();
   final diseasesController = TextEditingController();
+  final referenceController = TextEditingController();
 
   @override
   void initState() {
@@ -482,7 +485,69 @@ class _MROfficersVisitsScreenState extends State<MROfficersVisitsScreen>
                 setState(() => _customIcon = value);
               },
             ),
-          )
+          ),
+          Theme(
+            data: ThemeData().copyWith(dividerColor: Colors.transparent),
+            child: ExpansionTile(
+              initiallyExpanded: false,
+              title: Text('Referred By:'),
+              children: [
+                ListTile(
+                  title: Text('Self'),
+                ),
+                InkWell(
+                  onTap: () {
+                    setState(() {
+                      isVisible = !isVisible;
+                    });
+                  },
+                  child: ListTile(
+                    title: Text('Others'),
+                  ),
+                ),
+                Visibility(
+                  visible: isVisible,
+                  child: TextFromFieldWithPrefixSuffix(
+                      labelText: 'Name',
+                      controller: nameController,
+                      validator: (value) {
+                        return null;
+                      }),
+                ),
+              ],
+              onExpansionChanged: (bool value) {
+                setState(() => _customIcon = value);
+              },
+            ),
+          ),
+          Container(
+            decoration: BoxDecoration(
+              border: Border.all(color: Colors.black,width: 0.8),
+              borderRadius: BorderRadius.circular(8),
+            ),
+            width: MediaQuery.of(context).size.width * 1,
+            child: DropdownButton(
+              value: dropDOwnValue,
+                items: [
+                  DropdownMenuItem(value: 'Referred By:', child: Text('Referred By:')),
+                  DropdownMenuItem(value: 'Self', child: Text('Self')),
+                  DropdownMenuItem(value: 'Others', child: Text('Others')),
+                ],
+                onChanged: (value){
+
+            }),
+          ),
+          SizedBox(height: 8,),
+          TextFromFieldWithPrefixSuffix(
+            controller: referenceController,
+            labelText: 'Referred To:',
+            onTap: () {},
+            validator: (value) {
+              return null;
+            },
+            onChange: (value) {},
+          ),
+          SizedBox(width: 8,),
         ],
       ),
     );
