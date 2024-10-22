@@ -393,8 +393,19 @@ class _MROfficersVisitsScreenState extends State<MROfficersVisitsScreen>
       verticalMargin: 8,
       child: Column(
         children: <Widget>[
-          Theme(
-            data: ThemeData().copyWith(dividerColor: Colors.transparent),
+          Container(
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(8),
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.black.withOpacity(0.2),
+                  spreadRadius: 1.0,
+                  blurRadius: 5,
+                  offset: const Offset(3.0, 3.0),
+                ),
+              ],
+            ),
             child: ExpansionTile(
               initiallyExpanded: true,
               title: Text('Visit Detail'),
@@ -441,8 +452,19 @@ class _MROfficersVisitsScreenState extends State<MROfficersVisitsScreen>
           SizedBox(
             height: 8,
           ),
-          Theme(
-            data: ThemeData().copyWith(dividerColor: Colors.transparent),
+          Container(
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(8),
+              color: Colors.white,
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.black.withOpacity(0.2),
+                  spreadRadius: 1.0,
+                  blurRadius: 5,
+                  offset: const Offset(3.0, 3.0),
+                ),
+              ],
+            ),
             child: ExpansionTile(
               title: Text('Health Details'),
               children: [
@@ -488,8 +510,19 @@ class _MROfficersVisitsScreenState extends State<MROfficersVisitsScreen>
           SizedBox(
             height: 8,
           ),
-          Theme(
-            data: ThemeData().copyWith(dividerColor: Colors.transparent),
+          Container(
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(8),
+              color: Colors.white,
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.black.withOpacity(0.2),
+                  spreadRadius: 1.0,
+                  blurRadius: 5,
+                  offset: const Offset(3.0, 3.0),
+                ),
+              ],
+            ),
             child: ExpansionTile(
               title: Text('Family Details'),
               children: [
@@ -508,40 +541,40 @@ class _MROfficersVisitsScreenState extends State<MROfficersVisitsScreen>
               },
             ),
           ),
-          Theme(
-            data: ThemeData().copyWith(dividerColor: Colors.transparent),
-            child: ExpansionTile(
-              initiallyExpanded: false,
-              title: Text('Referred By:'),
-              children: [
-                ListTile(
-                  title: Text('Self'),
-                ),
-                InkWell(
-                  onTap: () {
-                    setState(() {
-                      isVisible = !isVisible;
-                    });
-                  },
-                  child: ListTile(
-                    title: Text('Others'),
-                  ),
-                ),
-                Visibility(
-                  visible: isVisible,
-                  child: TextFromFieldWithPrefixSuffix(
-                      labelText: 'Name',
-                      controller: nameController,
-                      validator: (value) {
-                        return null;
-                      }),
-                ),
-              ],
-              onExpansionChanged: (bool value) {
-                setState(() => _customIcon = value);
-              },
-            ),
-          ),
+          // Theme(
+          //   data: ThemeData().copyWith(dividerColor: Colors.transparent),
+          //   child: ExpansionTile(
+          //     initiallyExpanded: false,
+          //     title: Text('Referred By:'),
+          //     children: [
+          //       ListTile(
+          //         title: Text('Self'),
+          //       ),
+          //       InkWell(
+          //         onTap: () {
+          //           setState(() {
+          //             isVisible = !isVisible;
+          //           });
+          //         },
+          //         child: ListTile(
+          //           title: Text('Others'),
+          //         ),
+          //       ),
+          //       Visibility(
+          //         visible: isVisible,
+          //         child: TextFromFieldWithPrefixSuffix(
+          //             labelText: 'Name',
+          //             controller: nameController,
+          //             validator: (value) {
+          //               return null;
+          //             }),
+          //       ),
+          //     ],
+          //     onExpansionChanged: (bool value) {
+          //       setState(() => _customIcon = value);
+          //     },
+          //   ),
+          // ),
           Container(
             decoration: BoxDecoration(
               border: Border.all(color: Colors.black,width: 0.8),
