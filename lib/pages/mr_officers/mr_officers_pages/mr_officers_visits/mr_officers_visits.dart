@@ -6,6 +6,7 @@ import 'package:deskgoo/themes/custom_colors.dart';
 import 'package:deskgoo/widgets/app_bars/custom_app_bars.dart';
 import 'package:deskgoo/widgets/buttons/elevated_button.dart';
 import 'package:deskgoo/widgets/containers/custom_container.dart';
+import 'package:deskgoo/widgets/drop_downs/custom_dropdown.dart';
 import 'package:deskgoo/widgets/texts/custom_text.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -252,10 +253,11 @@ class _MROfficersVisitsScreenState extends State<MROfficersVisitsScreen>
                       onChange: (value) {},
                     ),
                     SizedBox(
-                      height: 10.0,
+                      height: 12.0,
                     ),
                     TextFromFieldWithPrefixSuffix(
                       controller: createVisitProvider.createAgeController,
+                      keyboardType: TextInputType.number,
                       labelText: 'Age',
                       onTap: () {},
                       validator: (value) {
@@ -264,7 +266,7 @@ class _MROfficersVisitsScreenState extends State<MROfficersVisitsScreen>
                       onChange: (value) {},
                     ),
                     SizedBox(
-                      height: 10.0,
+                      height: 12.0,
                     ),
                     TextFromFieldWithPrefixSuffix(
                       controller: createVisitProvider.createAddressController,
@@ -276,19 +278,44 @@ class _MROfficersVisitsScreenState extends State<MROfficersVisitsScreen>
                       onChange: (value) {},
                     ),
                     SizedBox(
-                      height: 10.0,
+                      height: 12.0,
                     ),
-                    TextFromFieldWithPrefixSuffix(
-                      controller: createVisitProvider.createPhoneNoController,
-                      labelText: 'Phone *',
-                      onTap: () {},
-                      validator: (value) {
-                        return value!.isEmpty ? 'Phone number Required' : null;
-                      },
-                      onChange: (value) {},
+                    Row(
+                      children: [
+                        SizedBox(
+                          width: 125,
+                          child: CustomDropdown(
+                            withPrefixIcon: true,
+                            labelText: 'Country Code',
+                            items: createVisitProvider.countryCode,
+                            value: createVisitProvider.selectedCountryCode,
+                            onChanged: (newValue) {
+                              createVisitProvider.setCountryCode(newValue);
+                            },
+                          ),
+                        ),
+                        SizedBox(
+                          width: 8,
+                        ),
+                        Expanded(
+                          child: TextFromFieldWithPrefixSuffix(
+                            controller:
+                                createVisitProvider.createPhoneNoController,
+                            keyboardType: TextInputType.number,
+                            labelText: 'Phone *',
+                            onTap: () {},
+                            validator: (value) {
+                              return value!.isEmpty
+                                  ? 'Phone number Required'
+                                  : null;
+                            },
+                            onChange: (value) {},
+                          ),
+                        ),
+                      ],
                     ),
                     SizedBox(
-                      height: 10.0,
+                      height: 12.0,
                     ),
                     Row(
                       children: [
@@ -296,6 +323,7 @@ class _MROfficersVisitsScreenState extends State<MROfficersVisitsScreen>
                           child: TextFromFieldWithPrefixSuffix(
                             controller:
                                 createVisitProvider.createWhatsAppController,
+                            keyboardType: TextInputType.number,
                             applySuffixIcon: true,
                             labelText: 'WhatsApp No.',
                             onTap: () {},
@@ -319,10 +347,11 @@ class _MROfficersVisitsScreenState extends State<MROfficersVisitsScreen>
                       ],
                     ),
                     SizedBox(
-                      height: 10.0,
+                      height: 12.0,
                     ),
                     TextFromFieldWithPrefixSuffix(
                       controller: createVisitProvider.createEmailController,
+                      keyboardType: TextInputType.emailAddress,
                       labelText: 'Email',
                       onTap: () {},
                       validator: (value) {
@@ -331,7 +360,7 @@ class _MROfficersVisitsScreenState extends State<MROfficersVisitsScreen>
                       onChange: (value) {},
                     ),
                     SizedBox(
-                      height: 8.0,
+                      height: 12.0,
                     ),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -577,22 +606,23 @@ class _MROfficersVisitsScreenState extends State<MROfficersVisitsScreen>
           // ),
           Container(
             decoration: BoxDecoration(
-              border: Border.all(color: Colors.black,width: 0.8),
+              border: Border.all(color: Colors.black, width: 0.8),
               borderRadius: BorderRadius.circular(8),
             ),
             width: MediaQuery.of(context).size.width * 1,
             child: DropdownButton(
-              value: dropDOwnValue,
+                value: dropDOwnValue,
                 items: [
-                  DropdownMenuItem(value: 'Referred By:', child: Text('Referred By:')),
+                  DropdownMenuItem(
+                      value: 'Referred By:', child: Text('Referred By:')),
                   DropdownMenuItem(value: 'Self', child: Text('Self')),
                   DropdownMenuItem(value: 'Others', child: Text('Others')),
                 ],
-                onChanged: (value){
-
-            }),
+                onChanged: (value) {}),
           ),
-          SizedBox(height: 8,),
+          SizedBox(
+            height: 8,
+          ),
           TextFromFieldWithPrefixSuffix(
             controller: referenceController,
             labelText: 'Referred To:',
@@ -602,7 +632,9 @@ class _MROfficersVisitsScreenState extends State<MROfficersVisitsScreen>
             },
             onChange: (value) {},
           ),
-          SizedBox(width: 8,),
+          SizedBox(
+            width: 8,
+          ),
         ],
       ),
     );
