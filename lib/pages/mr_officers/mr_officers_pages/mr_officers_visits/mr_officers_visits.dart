@@ -235,6 +235,7 @@ class _MROfficersVisitsScreenState extends State<MROfficersVisitsScreen>
           children: [
             CustomContainer(
               verticalMargin: 4,
+              applyShadow: true,
               child: Form(
                 key: _createVisitFormKey,
                 child: Column(
@@ -314,7 +315,8 @@ class _MROfficersVisitsScreenState extends State<MROfficersVisitsScreen>
                                   ? 'Phone number Required'
                                   : null;
                             },
-                            onChange: (value) {},
+                            onChange: (value) => createVisitProvider
+                                .setWhatsAppNumberOnChange(value),
                           ),
                         ),
                       ],
