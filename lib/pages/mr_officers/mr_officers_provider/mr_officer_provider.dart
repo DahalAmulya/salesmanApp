@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class MrOfficerCreateVisitProvider with ChangeNotifier {
-  final _newVisitFormKey = GlobalKey<FormState>();
+  // final _createVisitFormKey = GlobalKey<FormState>();
   final _createNameController = TextEditingController();
   final _createAddressController = TextEditingController();
   final _createPhoneNoController = TextEditingController();
@@ -23,7 +23,7 @@ class MrOfficerCreateVisitProvider with ChangeNotifier {
       _createWhatsappController;
   TextEditingController get createAgeController => _createAgeController;
   TextEditingController get searchClientController => _searchClientController;
-  GlobalKey<FormState> get newVisitFormKey => _newVisitFormKey;
+  // GlobalKey<FormState> get createVisitFormKey => _createVisitFormKey;
   bool get isVisitFormValid => _isVisitFormValid;
   bool get isSwitched => _isSwitched;
   List<String> get countryCode => _countryCode;
@@ -31,21 +31,33 @@ class MrOfficerCreateVisitProvider with ChangeNotifier {
 
   void setCountryCode(value) {
     _selectedCountryCode = value;
+    if (_isSwitched) {
+      _createWhatsappController.text =
+          '$_selectedCountryCode-${_createPhoneNoController.text}';
+    }
     notifyListeners();
   }
 
   void setWhatsAppNumber(bool isToggled) {
     _isSwitched = isToggled;
     if (_isSwitched) {
-      _createWhatsappController.text = _createPhoneNoController.text;
+      _createWhatsappController.text =
+          '$_selectedCountryCode-${_createPhoneNoController.text}';
+    }
+    notifyListeners();
+  }
+
+  void setWhatsAppNumberOnChange(value) {
+    if (_isSwitched) {
+      _createWhatsappController.text =
+          '$_selectedCountryCode-${_createPhoneNoController.text}';
     }
     notifyListeners();
   }
 
   void checkWhatsappAndPhoneNo(value) {
-    print(value);
-    _createWhatsappController.text = value;
-    if (_createWhatsappController.text == _createPhoneNoController.text) {
+    if (_createWhatsappController.text.split('-')[1] ==
+        _createPhoneNoController.text) {
       _isSwitched = true;
     } else {
       _isSwitched = false;

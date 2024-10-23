@@ -234,6 +234,7 @@ class _MROfficersVisitsScreenState extends State<MROfficersVisitsScreen>
           children: [
             CustomContainer(
               verticalMargin: 4,
+              applyShadow: true,
               child: Form(
                 key: _createVisitFormKey,
                 child: Column(
@@ -313,7 +314,8 @@ class _MROfficersVisitsScreenState extends State<MROfficersVisitsScreen>
                                   ? 'Phone number Required'
                                   : null;
                             },
-                            onChange: (value) {},
+                            onChange: (value) => createVisitProvider
+                                .setWhatsAppNumberOnChange(value),
                           ),
                         ),
                       ],
@@ -621,7 +623,6 @@ class _MROfficersVisitsScreenState extends State<MROfficersVisitsScreen>
                     ),
                   ),
                 ),
-
               ],
             ),
           ),
@@ -632,40 +633,40 @@ class _MROfficersVisitsScreenState extends State<MROfficersVisitsScreen>
               children: dropDownOptions
                   .map(
                     (e) => Container(
-                  height: MediaQuery.of(context).size.height * 0.060,
-                  decoration: BoxDecoration(
-                    // borderRadius: BorderRadius.circular(8),
-                    color: Colors.white,
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colors.black.withOpacity(0.2),
-                        spreadRadius: 1.0,
-                        blurRadius: 5,
-                        offset: const Offset(3.0, 3.0),
+                      height: MediaQuery.of(context).size.height * 0.060,
+                      decoration: BoxDecoration(
+                        // borderRadius: BorderRadius.circular(8),
+                        color: Colors.white,
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.black.withOpacity(0.2),
+                            spreadRadius: 1.0,
+                            blurRadius: 5,
+                            offset: const Offset(3.0, 3.0),
+                          ),
+                        ],
                       ),
-                    ],
-                  ),
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: 16, vertical: 16),
-                    child: InkWell(
-                      onTap: () {
-                        setState(() {
-                          selectedOption = e;
-                          isOpen = false;
-                          isVisible = !isVisible;
-                        });
-                      },
-                      child: Text(
-                        e,
-                        style: TextStyle(fontSize: 16),
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 16, vertical: 16),
+                        child: InkWell(
+                          onTap: () {
+                            setState(() {
+                              selectedOption = e;
+                              isOpen = false;
+                              isVisible = !isVisible;
+                            });
+                          },
+                          child: Text(
+                            e,
+                            style: TextStyle(fontSize: 16),
+                          ),
+                        ),
                       ),
                     ),
-                  ),
-                ),
-              ).toList(),
+                  )
+                  .toList(),
             ),
-
           Visibility(
             visible: isVisible,
             child: TextFromFieldWithPrefixSuffix(
