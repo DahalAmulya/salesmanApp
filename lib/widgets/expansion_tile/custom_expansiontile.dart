@@ -1,49 +1,51 @@
 import 'package:flutter/material.dart';
 
-class CustomExpansionTile extends StatefulWidget {
+class CustomExpansionTile extends StatelessWidget {
 
-  // final String title;
+  final String title;
   // final Icon icon;
+  final List<Widget> children;
+  final double verticalPad;
+  final double horizontalPad;
+  final bool applyShadow;
+  // final Function onExpansionChanged;
 
   const CustomExpansionTile({
     super.key,
-    // required this.title,
-    // required this.icon,
+    required this.title,
+    required this.children,
+    this.applyShadow = true,
+    // this.onExpansionChanged,
+    this.horizontalPad = 16,
+    this.verticalPad = 0,
   });
 
   @override
-  State<CustomExpansionTile> createState() => _CustomExpansionTileState();
-}
-     bool _customIcon = false;
-
-class _CustomExpansionTileState extends State<CustomExpansionTile> {
-  @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('expansion tile'),
-      ),
-      body: Column(
-        children: <Widget>[
-          ExpansionTile(
-            title: Text('Family Details'),
-            trailing: Icon(Icons.arrow_drop_down),
-            children: [
-              ListTile(
-                title: Text('title 1'),
-              ),
-              ListTile(
-                title: Text('title 2'),
-              ),
-              ListTile(
-                title: Text('title 3'),
-              ),
-            ],
+    return Theme(
+       data: ThemeData().copyWith(dividerColor: Colors.transparent),
+      child: Container(
+        decoration: BoxDecoration(
+          // borderRadius: BorderRadius.circular(8),
+          color: Colors.white,
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black.withOpacity(0.2),
+              spreadRadius: 1.0,
+              blurRadius: 5,
+              offset: const Offset(3.0, 3.0),
+            ),
+          ],
+        ),
+        child: ExpansionTile(
+          childrenPadding: EdgeInsets.symmetric(horizontal: horizontalPad,vertical: verticalPad),
+            title: Text(title),
+            trailing: Icon(Icons.keyboard_arrow_down),
+            children: children,
             onExpansionChanged: (bool value){
-              setState(() => _customIcon = value);
+              // setState(() => _customIcon = value);
             },
-          )
-        ],
+          ),
       ),
     );
   }

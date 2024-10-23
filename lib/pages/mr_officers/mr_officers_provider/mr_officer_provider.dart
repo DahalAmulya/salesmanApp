@@ -84,3 +84,48 @@ class MrOfficerCreateVisitProvider with ChangeNotifier {
     notifyListeners();
   }
 }
+
+class MrOfficerMoreDetailsProvider extends ChangeNotifier{
+
+  String _selectedOption = 'Self';
+  List<String> _dropDownOptions = ['Self', 'Others'];
+  bool _isOpen = false;
+  bool _isVisible = false;
+
+  final _nameController = TextEditingController();
+  final _addressController = TextEditingController();
+  final _phoneController = TextEditingController();
+  final _emailController = TextEditingController();
+  final _ageController = TextEditingController();
+  final _weightController = TextEditingController();
+  final _diseasesController = TextEditingController();
+  final _referenceController = TextEditingController();
+
+  String get selectedOption => _selectedOption;
+  List<String> get dropDownOptions => _dropDownOptions;
+  bool get isOpen => _isOpen;
+  bool get isVisible => _isVisible;
+  TextEditingController get nameController => _nameController;
+  TextEditingController get addressController => _addressController;
+  TextEditingController get phoneController => _phoneController;
+  TextEditingController get emailController => _emailController;
+  TextEditingController get ageController => _ageController;
+  TextEditingController get weightController => _weightController;
+  TextEditingController get diseasesController => _diseasesController;
+  TextEditingController get referenceController => _referenceController;
+
+  void selectDropDownOptions(String value) {
+    _selectedOption = value;
+   if(_selectedOption == 'Others'){
+     _isVisible = !_isVisible;
+   }
+   else{
+     _isVisible = false;
+   }
+    notifyListeners();
+  }
+  void setVisibility(bool isVisible){
+
+  }
+
+}
