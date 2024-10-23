@@ -11,6 +11,8 @@ class MrOfficerCreateVisitProvider with ChangeNotifier {
   final _searchClientController = TextEditingController();
   bool _isVisitFormValid = false;
   bool _isSwitched = false;
+  List<String> _countryCode = ['+977', '+91'];
+  String _selectedCountryCode = '+977';
 
   // Getters and setters for form fields
   TextEditingController get createNameController => _createNameController;
@@ -24,6 +26,13 @@ class MrOfficerCreateVisitProvider with ChangeNotifier {
   GlobalKey<FormState> get newVisitFormKey => _newVisitFormKey;
   bool get isVisitFormValid => _isVisitFormValid;
   bool get isSwitched => _isSwitched;
+  List<String> get countryCode => _countryCode;
+  String get selectedCountryCode => _selectedCountryCode;
+
+  void setCountryCode(value) {
+    _selectedCountryCode = value;
+    notifyListeners();
+  }
 
   void setWhatsAppNumber(bool isToggled) {
     _isSwitched = isToggled;
