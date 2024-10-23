@@ -8,6 +8,11 @@ class CustomExpansionTile extends StatelessWidget {
   final double verticalPad;
   final double horizontalPad;
   final bool applyShadow;
+  final bool initiallyExpanded;
+  final double radiusTopLeft;
+  final double radiusTopRight;
+  final double radiusBottomLeft;
+  final double radiusBottomRight;
   // final Function onExpansionChanged;
 
   const CustomExpansionTile({
@@ -15,6 +20,12 @@ class CustomExpansionTile extends StatelessWidget {
     required this.title,
     required this.children,
     this.applyShadow = true,
+    this.initiallyExpanded = false,
+    this.radiusTopLeft = 0,
+    this.radiusTopRight = 0,
+    this.radiusBottomLeft = 0,
+    this.radiusBottomRight = 0,
+    // required
     // this.onExpansionChanged,
     this.horizontalPad = 16,
     this.verticalPad = 0,
@@ -26,18 +37,19 @@ class CustomExpansionTile extends StatelessWidget {
        data: ThemeData().copyWith(dividerColor: Colors.transparent),
       child: Container(
         decoration: BoxDecoration(
-          // borderRadius: BorderRadius.circular(8),
+          borderRadius: BorderRadius.only(topLeft: Radius.circular(radiusTopLeft), topRight: Radius.circular(radiusTopRight),bottomRight: Radius.circular(radiusBottomRight),bottomLeft: Radius.circular(radiusBottomLeft)),
           color: Colors.white,
-          boxShadow: [
+          boxShadow: applyShadow ? [
             BoxShadow(
-              color: Colors.black.withOpacity(0.2),
+              color: Colors.black.withOpacity(0.1),
               spreadRadius: 1.0,
-              blurRadius: 5,
-              offset: const Offset(3.0, 3.0),
+              blurRadius: 5.0,
+              offset: const Offset(0, -2),
             ),
-          ],
+          ] : [],
         ),
         child: ExpansionTile(
+          initiallyExpanded: initiallyExpanded,
           childrenPadding: EdgeInsets.symmetric(horizontal: horizontalPad,vertical: verticalPad),
             title: Text(title),
             trailing: Icon(Icons.keyboard_arrow_down),

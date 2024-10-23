@@ -235,7 +235,6 @@ class _MROfficersVisitsScreenState extends State<MROfficersVisitsScreen>
           children: [
             CustomContainer(
               verticalMargin: 4,
-              applyShadow: true,
               child: Form(
                 key: _createVisitFormKey,
                 child: Column(
@@ -315,8 +314,7 @@ class _MROfficersVisitsScreenState extends State<MROfficersVisitsScreen>
                                   ? 'Phone number Required'
                                   : null;
                             },
-                            onChange: (value) => createVisitProvider
-                                .setWhatsAppNumberOnChange(value),
+                            onChange: (value) {},
                           ),
                         ),
                       ],
@@ -423,163 +421,177 @@ class _MROfficersVisitsScreenState extends State<MROfficersVisitsScreen>
   }
 
   Widget _visitDetails(context) {
-    return CustomContainer(
-      verticalPad: 0,
-      horizontalPad: 0,
-      color: Colors.white,
-      child: Column(
-        children: <Widget>[
-
-          CustomExpansionTile(
-
-              title: 'Visit Detail',
-              children: [
-                SizedBox(height: 12,),
-                TextFromFieldWithPrefixSuffix(
-                    labelText: 'Name',
-                    controller: nameController,
-                    validator: (value) {
-                      return null;
-                    }),
-                SizedBox(
-                  height: 8,
-                ),
-                TextFromFieldWithPrefixSuffix(
-                    labelText: 'Age',
-                    controller: ageController,
-                    validator: (value) {
-                      return null;
-                    }),
-                SizedBox(
-                  height: 8,
-                ),
-                TextFromFieldWithPrefixSuffix(
-                    labelText: 'Address',
-                    controller: addressController,
-                    validator: (value) {
-                      return null;
-                    }),
-                SizedBox(
-                  height: 8,
-                ),
-                TextFromFieldWithPrefixSuffix(
-                    labelText: 'Email',
-                    controller: emailController,
-                    validator: (value) {
-                      return null;
-                    }),
-                SizedBox(height: 16,),
-              ],
-          ),
-          CustomExpansionTile(
-              title: 'Health Detail',
-              children: [
-                TextFromFieldWithPrefixSuffix(
-                    labelText: 'Name',
-                    controller: nameController,
-                    validator: (value) {
-                      return null;
-                    }),
-                SizedBox(
-                  height: 8,
-                ),
-                TextFromFieldWithPrefixSuffix(
-                    labelText: 'Age',
-                    controller: ageController,
-                    validator: (value) {
-                      return null;
-                    }),
-                SizedBox(
-                  height: 8,
-                ),
-                TextFromFieldWithPrefixSuffix(
-                    labelText: 'Weight',
-                    controller: weightController,
-                    validator: (value) {
-                      return null;
-                    }),
-                SizedBox(
-                  height: 8,
-                ),
-                TextFromFieldWithPrefixSuffix(
-                    labelText: 'Diseases',
-                    controller: diseasesController,
-                    validator: (value) {
-                      return null;
-                    }),
-                SizedBox(height: 16,),
-              ],
-          ),
-          CustomExpansionTile(
-              title: 'Family Detail',
-              children: [
-                ListTile(
-                  title: Text('title 1'),
-                ),
-                ListTile(
-                  title: Text('title 2'),
-                ),
-                ListTile(
-                  title: Text('title 3'),
-                ),
-                SizedBox(height: 16,),
-              ],
-          ),
-          CustomExpansionTile(
-            title: 'Referral',
-            children: [
-              SizedBox(height: 12,),
-              CustomDropdown(
-                  labelText: 'Referred By *',
-                  items: dropDownOptions,
-                  value: selectedOption,
-                  onChanged: (newValue){
-                    setState(() {
-                      selectedOption = newValue!;
-                      if(selectedOption == 'Others'){
-                        isVisible = !isVisible;
-                      }else{
-                        isVisible = false;
+    return Column(
+      children: [
+        CustomContainer(
+          verticalPad: 0,
+          verticalMargin: 4,
+          horizontalPad: 0,
+          color: Colors.white,
+          child: Column(
+            children: <Widget>[
+              CustomExpansionTile(
+                radiusTopLeft: 16,
+                radiusTopRight: 16,
+                initiallyExpanded: true,
+                  title: 'Visit Detail',
+                  children: [
+                    SizedBox(height: 12,),
+                    TextFromFieldWithPrefixSuffix(
+                        labelText: 'Name',
+                        controller: nameController,
+                        validator: (value) {
+                          return null;
+                        }),
+                    SizedBox(
+                      height: 8,
+                    ),
+                    TextFromFieldWithPrefixSuffix(
+                        labelText: 'Age',
+                        controller: ageController,
+                        validator: (value) {
+                          return null;
+                        }),
+                    SizedBox(
+                      height: 8,
+                    ),
+                    TextFromFieldWithPrefixSuffix(
+                        labelText: 'Address',
+                        controller: addressController,
+                        validator: (value) {
+                          return null;
+                        }),
+                    SizedBox(
+                      height: 8,
+                    ),
+                    TextFromFieldWithPrefixSuffix(
+                        labelText: 'Email',
+                        controller: emailController,
+                        validator: (value) {
+                          return null;
+                        }),
+                    SizedBox(height: 16,),
+                  ],
+              ),
+              CustomExpansionTile(
+                  title: 'Health Detail',
+                  children: [
+                    TextFromFieldWithPrefixSuffix(
+                        labelText: 'Name',
+                        controller: nameController,
+                        validator: (value) {
+                          return null;
+                        }),
+                    SizedBox(
+                      height: 8,
+                    ),
+                    TextFromFieldWithPrefixSuffix(
+                        labelText: 'Age',
+                        controller: ageController,
+                        validator: (value) {
+                          return null;
+                        }),
+                    SizedBox(
+                      height: 8,
+                    ),
+                    TextFromFieldWithPrefixSuffix(
+                        labelText: 'Weight',
+                        controller: weightController,
+                        validator: (value) {
+                          return null;
+                        }),
+                    SizedBox(
+                      height: 8,
+                    ),
+                    TextFromFieldWithPrefixSuffix(
+                        labelText: 'Diseases',
+                        controller: diseasesController,
+                        validator: (value) {
+                          return null;
+                        }),
+                    SizedBox(height: 16,),
+                  ],
+              ),
+              CustomExpansionTile(
+                // applyShadow: false,
+                  title: 'Family Detail',
+                  children: [
+                    ListTile(
+                      title: Text('title 1'),
+                    ),
+                    ListTile(
+                      title: Text('title 2'),
+                    ),
+                    ListTile(
+                      title: Text('title 3'),
+                    ),
+                    SizedBox(height: 16,),
+                  ],
+              ),
+              CustomExpansionTile(
+                radiusBottomRight: 16,
+                radiusBottomLeft: 16,
+                // applyShadow: false,
+                title: 'Referral',
+                children: [
+                  SizedBox(height: 12,),
+                  CustomDropdown(
+                      labelText: 'Referred By *',
+                      items: dropDownOptions,
+                      value: selectedOption,
+                      onChanged: (newValue){
+                        setState(() {
+                          selectedOption = newValue!;
+                          if(selectedOption == 'Others'){
+                            isVisible = !isVisible;
+                          }else{
+                            isVisible = false;
+                          }
+                        });
                       }
-                    });
-                  }
+                  ),
+                  Visibility(
+                    visible: isVisible,
+                    child: Column(
+                      children: [
+                        SizedBox(height: 12,),
+                        TextFromFieldWithPrefixSuffix(
+                            labelText: 'Name',
+                            controller: nameController,
+                            validator: (value) {
+                              return null;
+                            }),
+                      ],
+                    ),
+                  ),
+                  SizedBox(height: 12,),
+                  TextFromFieldWithPrefixSuffix(
+                    borderRadius: 8,
+                    controller: referenceController,
+                    labelText: 'Referred To:',
+                    onTap: () {},
+                    validator: (value) {
+                      return null;
+                    },
+                    onChange: (value) {},
+                  ),
+                  SizedBox(height: 16,),
+                ],
               ),
-              SizedBox(height: 12,),
-              TextFromFieldWithPrefixSuffix(
-                borderRadius: 8,
-                controller: referenceController,
-                labelText: 'Referred To:',
-                onTap: () {},
-                validator: (value) {
-                  return null;
-                },
-                onChange: (value) {},
-              ),
-              SizedBox(height: 16,),
             ],
           ),
-          SizedBox(height: 12,),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              CustomElevatedButton(onPressed: (){}, widget: CustomText(text: 'Back'),
+        ),
+        SizedBox(height: 16,),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: [
+            CustomElevatedButton(onPressed: (){}, widget: CustomText(text: 'Back'),
               backgroundColor: CustomColors.lightRed,),
-              CustomElevatedButton(onPressed: (){}, widget: CustomText(text: 'Submit'),
-                backgroundColor: CustomColors.primaryColor,),
-            ],
-          ),
-          Visibility(
-            visible: isVisible,
-            child: TextFromFieldWithPrefixSuffix(
-                labelText: 'Name',
-                controller: nameController,
-                validator: (value) {
-                  return null;
-                }),
-          ),
-
-        ],
-      ),
+            CustomElevatedButton(onPressed: (){}, widget: CustomText(text: 'Submit'),
+              backgroundColor: CustomColors.primaryColor,),
+          ],
+        ),
+      ],
     );
   }
 }
