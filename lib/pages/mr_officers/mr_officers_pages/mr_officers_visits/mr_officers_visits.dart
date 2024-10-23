@@ -7,6 +7,7 @@ import 'package:deskgoo/widgets/app_bars/custom_app_bars.dart';
 import 'package:deskgoo/widgets/buttons/elevated_button.dart';
 import 'package:deskgoo/widgets/containers/custom_container.dart';
 import 'package:deskgoo/widgets/drop_downs/custom_dropdown.dart';
+import 'package:deskgoo/widgets/expansion_tile/custom_expansiontile.dart';
 import 'package:deskgoo/widgets/texts/custom_text.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -30,7 +31,7 @@ class _MROfficersVisitsScreenState extends State<MROfficersVisitsScreen>
   bool isOpen = false;
   bool isVisible = false;
 
-  String selectedOption = 'Referred By:';
+  String selectedOption = 'Self';
   List<String> dropDownOptions = ['Self', 'Others'];
 
   final nameController = TextEditingController();
@@ -423,248 +424,148 @@ class _MROfficersVisitsScreenState extends State<MROfficersVisitsScreen>
     return CustomContainer(
       verticalPad: 0,
       horizontalPad: 0,
-      color: Colors.transparent,
+      color: Colors.white,
       child: Column(
         children: <Widget>[
-          Theme(
-            data: ThemeData().copyWith(dividerColor: Colors.transparent),
-            child: Container(
-              decoration: BoxDecoration(
-                color: Colors.white,
-                // borderRadius: BorderRadius.circular(8),
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.black.withOpacity(0.2),
-                    spreadRadius: 1.0,
-                    blurRadius: 5,
-                    offset: const Offset(3.0, 3.0),
-                  ),
-                ],
-              ),
-              child: ExpansionTile(
-                initiallyExpanded: true,
-                title: Text('Visit Detail'),
-                children: [
-                  TextFromFieldWithPrefixSuffix(
-                      labelText: 'Name',
-                      controller: nameController,
-                      validator: (value) {
-                        return null;
-                      }),
-                  SizedBox(
-                    height: 8,
-                  ),
-                  TextFromFieldWithPrefixSuffix(
-                      labelText: 'Age',
-                      controller: ageController,
-                      validator: (value) {
-                        return null;
-                      }),
-                  SizedBox(
-                    height: 8,
-                  ),
-                  TextFromFieldWithPrefixSuffix(
-                      labelText: 'Address',
-                      controller: addressController,
-                      validator: (value) {
-                        return null;
-                      }),
-                  SizedBox(
-                    height: 8,
-                  ),
-                  TextFromFieldWithPrefixSuffix(
-                      labelText: 'Email',
-                      controller: emailController,
-                      validator: (value) {
-                        return null;
-                      }),
-                ],
-                onExpansionChanged: (bool value) {
-                  setState(() => _customIcon = value);
-                },
-              ),
-            ),
-          ),
-          Theme(
-            data: ThemeData().copyWith(dividerColor: Colors.transparent),
-            child: Container(
-              decoration: BoxDecoration(
-                // borderRadius: BorderRadius.circular(8),
-                color: Colors.white,
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.black.withOpacity(0.2),
-                    spreadRadius: 1.0,
-                    blurRadius: 5,
-                    offset: const Offset(3.0, 3.0),
-                  ),
-                ],
-              ),
-              child: ExpansionTile(
-                title: Text('Health Details'),
-                children: [
-                  TextFromFieldWithPrefixSuffix(
-                      labelText: 'Name',
-                      controller: nameController,
-                      validator: (value) {
-                        return null;
-                      }),
-                  SizedBox(
-                    height: 8,
-                  ),
-                  TextFromFieldWithPrefixSuffix(
-                      labelText: 'Age',
-                      controller: ageController,
-                      validator: (value) {
-                        return null;
-                      }),
-                  SizedBox(
-                    height: 8,
-                  ),
-                  TextFromFieldWithPrefixSuffix(
-                      labelText: 'Weight',
-                      controller: weightController,
-                      validator: (value) {
-                        return null;
-                      }),
-                  SizedBox(
-                    height: 8,
-                  ),
-                  TextFromFieldWithPrefixSuffix(
-                      labelText: 'Diseases',
-                      controller: diseasesController,
-                      validator: (value) {
-                        return null;
-                      }),
-                ],
-                onExpansionChanged: (bool value) {
-                  setState(() => _customIcon = value);
-                },
-              ),
-            ),
-          ),
-          Theme(
-            data: ThemeData().copyWith(dividerColor: Colors.transparent),
-            child: Container(
-              decoration: BoxDecoration(
-                // borderRadius: BorderRadius.circular(8),
-                color: Colors.white,
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.black.withOpacity(0.2),
-                    spreadRadius: 1.0,
-                    blurRadius: 5,
-                    offset: const Offset(3.0, 3.0),
-                  ),
-                ],
-              ),
-              child: ExpansionTile(
-                title: Text('Family Details'),
-                children: [
-                  ListTile(
-                    title: Text('title 1'),
-                  ),
-                  ListTile(
-                    title: Text('title 2'),
-                  ),
-                  ListTile(
-                    title: Text('title 3'),
-                  ),
-                ],
-                onExpansionChanged: (bool value) {
-                  setState(() => _customIcon = value);
-                },
-              ),
-            ),
-          ),
-          InkWell(
-            onTap: () {
-              setState(() {
-                isOpen = !isOpen;
-              });
-            },
-            child: Stack(
-              children: [
-                Theme(
-                  data: ThemeData().copyWith(dividerColor: Colors.transparent),
-                  child: Container(
-                    height: MediaQuery.of(context).size.height * 0.060,
-                    decoration: BoxDecoration(
-                      // borderRadius: BorderRadius.circular(8),
-                      color: Colors.white,
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.black.withOpacity(0.2),
-                          spreadRadius: 1.0,
-                          blurRadius: 5,
-                          offset: const Offset(3.0, 3.0),
-                        ),
-                      ],
-                    ),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 16),
-                          child: Text(
-                            selectedOption,
-                            style: TextStyle(fontSize: 16),
-                          ),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 24),
-                          child: Icon(isOpen
-                              ? Icons.keyboard_arrow_up
-                              : Icons.keyboard_arrow_down),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
 
-              ],
-            ),
-          ),
-          if (isOpen)
-            ListView(
-              primary: false,
-              shrinkWrap: true,
-              children: dropDownOptions
-                  .map(
-                    (e) => Container(
-                  height: MediaQuery.of(context).size.height * 0.060,
-                  decoration: BoxDecoration(
-                    // borderRadius: BorderRadius.circular(8),
-                    color: Colors.white,
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colors.black.withOpacity(0.2),
-                        spreadRadius: 1.0,
-                        blurRadius: 5,
-                        offset: const Offset(3.0, 3.0),
-                      ),
-                    ],
-                  ),
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: 16, vertical: 16),
-                    child: InkWell(
-                      onTap: () {
-                        setState(() {
-                          selectedOption = e;
-                          isOpen = false;
-                          isVisible = !isVisible;
-                        });
-                      },
-                      child: Text(
-                        e,
-                        style: TextStyle(fontSize: 16),
-                      ),
-                    ),
-                  ),
+          CustomExpansionTile(
+
+              title: 'Visit Detail',
+              children: [
+                SizedBox(height: 12,),
+                TextFromFieldWithPrefixSuffix(
+                    labelText: 'Name',
+                    controller: nameController,
+                    validator: (value) {
+                      return null;
+                    }),
+                SizedBox(
+                  height: 8,
                 ),
-              ).toList(),
-            ),
+                TextFromFieldWithPrefixSuffix(
+                    labelText: 'Age',
+                    controller: ageController,
+                    validator: (value) {
+                      return null;
+                    }),
+                SizedBox(
+                  height: 8,
+                ),
+                TextFromFieldWithPrefixSuffix(
+                    labelText: 'Address',
+                    controller: addressController,
+                    validator: (value) {
+                      return null;
+                    }),
+                SizedBox(
+                  height: 8,
+                ),
+                TextFromFieldWithPrefixSuffix(
+                    labelText: 'Email',
+                    controller: emailController,
+                    validator: (value) {
+                      return null;
+                    }),
+                SizedBox(height: 16,),
+              ],
+          ),
+          CustomExpansionTile(
+              title: 'Health Detail',
+              children: [
+                TextFromFieldWithPrefixSuffix(
+                    labelText: 'Name',
+                    controller: nameController,
+                    validator: (value) {
+                      return null;
+                    }),
+                SizedBox(
+                  height: 8,
+                ),
+                TextFromFieldWithPrefixSuffix(
+                    labelText: 'Age',
+                    controller: ageController,
+                    validator: (value) {
+                      return null;
+                    }),
+                SizedBox(
+                  height: 8,
+                ),
+                TextFromFieldWithPrefixSuffix(
+                    labelText: 'Weight',
+                    controller: weightController,
+                    validator: (value) {
+                      return null;
+                    }),
+                SizedBox(
+                  height: 8,
+                ),
+                TextFromFieldWithPrefixSuffix(
+                    labelText: 'Diseases',
+                    controller: diseasesController,
+                    validator: (value) {
+                      return null;
+                    }),
+                SizedBox(height: 16,),
+              ],
+          ),
+          CustomExpansionTile(
+              title: 'Family Detail',
+              children: [
+                ListTile(
+                  title: Text('title 1'),
+                ),
+                ListTile(
+                  title: Text('title 2'),
+                ),
+                ListTile(
+                  title: Text('title 3'),
+                ),
+                SizedBox(height: 16,),
+              ],
+          ),
+          CustomExpansionTile(
+            title: 'Referral',
+            children: [
+              SizedBox(height: 12,),
+              CustomDropdown(
+                  labelText: 'Referred By *',
+                  items: dropDownOptions,
+                  value: selectedOption,
+                  onChanged: (newValue){
+                    setState(() {
+                      selectedOption = newValue!;
+                      if(selectedOption == 'Others'){
+                        isVisible = !isVisible;
+                      }else{
+                        isVisible = false;
+                      }
+                    });
+                  }
+              ),
+              SizedBox(height: 12,),
+              TextFromFieldWithPrefixSuffix(
+                borderRadius: 8,
+                controller: referenceController,
+                labelText: 'Referred To:',
+                onTap: () {},
+                validator: (value) {
+                  return null;
+                },
+                onChange: (value) {},
+              ),
+              SizedBox(height: 16,),
+            ],
+          ),
+          SizedBox(height: 12,),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              CustomElevatedButton(onPressed: (){}, widget: CustomText(text: 'Back'),
+              backgroundColor: CustomColors.lightRed,),
+              CustomElevatedButton(onPressed: (){}, widget: CustomText(text: 'Submit'),
+                backgroundColor: CustomColors.primaryColor,),
+            ],
+          ),
           Visibility(
             visible: isVisible,
             child: TextFromFieldWithPrefixSuffix(
@@ -674,36 +575,7 @@ class _MROfficersVisitsScreenState extends State<MROfficersVisitsScreen>
                   return null;
                 }),
           ),
-          Theme(
-            data: ThemeData().copyWith(dividerColor: Colors.transparent),
-            child: Container(
-              decoration: BoxDecoration(
-                // borderRadius: BorderRadius.circular(8),
-                color: Colors.white,
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.black.withOpacity(0.2),
-                    spreadRadius: 1.0,
-                    blurRadius: 5,
-                    offset: const Offset(3.0, 3.0),
-                  ),
-                ],
-              ),
-              child: TextFromFieldWithPrefixSuffix(
-                borderRadius: 0,
-                controller: referenceController,
-                labelText: 'Referred To:',
-                onTap: () {},
-                validator: (value) {
-                  return null;
-                },
-                onChange: (value) {},
-              ),
-            ),
-          ),
-          SizedBox(
-            width: 8,
-          ),
+
         ],
       ),
     );
@@ -760,4 +632,94 @@ class _MROfficersVisitsScreenState extends State<MROfficersVisitsScreen>
 //       ),
 
 // ),
+// ),
+
+
+// InkWell(
+// onTap: () {
+// setState(() {
+// isOpen = !isOpen;
+// });
+// },
+// child: Stack(
+// children: [
+// Theme(
+// data: ThemeData().copyWith(dividerColor: Colors.transparent),
+// child: Container(
+// height: MediaQuery.of(context).size.height * 0.060,
+// decoration: BoxDecoration(
+// // borderRadius: BorderRadius.circular(8),
+// color: Colors.white,
+// boxShadow: [
+// BoxShadow(
+// color: Colors.black.withOpacity(0.2),
+// spreadRadius: 1.0,
+// blurRadius: 5,
+// offset: const Offset(3.0, 3.0),
+// ),
+// ],
+// ),
+// child: Row(
+// mainAxisAlignment: MainAxisAlignment.spaceBetween,
+// children: [
+// Padding(
+// padding: const EdgeInsets.symmetric(horizontal: 16),
+// child: Text(
+// selectedOption,
+// style: TextStyle(fontSize: 16),
+// ),
+// ),
+// Padding(
+// padding: const EdgeInsets.symmetric(horizontal: 24),
+// child: Icon(isOpen
+// ? Icons.keyboard_arrow_up
+//     : Icons.keyboard_arrow_down),
+// ),
+// ],
+// ),
+// ),
+// ),
+//
+// ],
+// ),
+// ),
+// if (isOpen)
+// ListView(
+// primary: false,
+// shrinkWrap: true,
+// children: dropDownOptions
+//     .map(
+// (e) => Container(
+// height: MediaQuery.of(context).size.height * 0.060,
+// decoration: BoxDecoration(
+// // borderRadius: BorderRadius.circular(8),
+// color: Colors.white,
+// boxShadow: [
+// BoxShadow(
+// color: Colors.black.withOpacity(0.2),
+// spreadRadius: 1.0,
+// blurRadius: 5,
+// offset: const Offset(3.0, 3.0),
+// ),
+// ],
+// ),
+// child: Padding(
+// padding: const EdgeInsets.symmetric(
+// horizontal: 16, vertical: 16),
+// child: InkWell(
+// onTap: () {
+// setState(() {
+// selectedOption = e;
+// isOpen = false;
+// isVisible = !isVisible;
+// });
+// },
+// child: Text(
+// e,
+// style: TextStyle(fontSize: 16),
+// ),
+// ),
+// ),
+// ),
+// ).toList(),
 // ),
