@@ -665,7 +665,6 @@ class _MROfficersVisitsScreenState extends State<MROfficersVisitsScreen>
                 ),
               ).toList(),
             ),
-
           Visibility(
             visible: isVisible,
             child: TextFromFieldWithPrefixSuffix(
