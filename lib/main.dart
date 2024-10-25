@@ -123,6 +123,7 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
         ChangeNotifierProvider(create: (context) => LiveTrackingProvider()),
         ChangeNotifierProvider(create: (context) => DetailsProvider()),
         ChangeNotifierProvider(create: (context) => MrOfficerVisitProvider()),
+        ChangeNotifierProvider(create: (context) => MrOfficerMoreDetailsProvider()),
         ChangeNotifierProvider(
             create: (context) => MrOfficerCreateVisitProvider()),
       ],
