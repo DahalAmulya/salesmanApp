@@ -114,7 +114,7 @@ class MrOfficerMoreDetailsProvider extends ChangeNotifier{
   TextEditingController get diseasesController => _diseasesController;
   TextEditingController get referenceController => _referenceController;
 
-  void selectDropDownOptions(String value) {
+  void selectDropDownOptions(String value, bool isVisible) {
     _selectedOption = value;
    if(_selectedOption == 'Others'){
      _isVisible = !_isVisible;
@@ -124,8 +124,6 @@ class MrOfficerMoreDetailsProvider extends ChangeNotifier{
    }
     notifyListeners();
   }
-  void setVisibility(bool isVisible){
 
-  }
 
 }
