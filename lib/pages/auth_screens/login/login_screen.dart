@@ -1,3 +1,6 @@
+import 'dart:convert' as convert;
+import 'dart:convert';
+
 import 'package:deskgoo/providers/auth_provider/user_auth_provider.dart';
 import 'package:deskgoo/providers/themes_provider/theme_changer_provider.dart';
 import 'package:deskgoo/routes/app_route_constants.dart';
@@ -8,8 +11,10 @@ import 'package:deskgoo/widgets/containers/custom_container.dart';
 import 'package:deskgoo/widgets/text_fields/text_from_field.dart';
 import 'package:deskgoo/widgets/texts/custom_text.dart';
 import 'package:flutter/material.dart';
+import 'package:http/http.dart';
 // import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
+import 'package:http/http.dart' as http;
 
 class LoginPage extends StatefulWidget {
   LoginPage({super.key});
@@ -20,6 +25,8 @@ class LoginPage extends StatefulWidget {
 
 class _LoginPageState extends State<LoginPage> {
   final _formKey = GlobalKey<FormState>();
+  List<Map<String,dynamic>> apiData = [];
+  var data;
 
   // Create TextEditingControllers
   TextEditingController emailController = TextEditingController();
@@ -98,8 +105,8 @@ class _LoginPageState extends State<LoginPage> {
                         RegExp regex = RegExp(pattern);
                         return value!.isEmpty
                             ? 'Email required'
-                            : !regex.hasMatch(value)
-                                ? 'Invalid email'
+                            // : !regex.hasMatch(value)
+                            //     ? 'Invalid email'
                                 : null;
                       },
                       onChange: (value) {},
@@ -155,11 +162,18 @@ class _LoginPageState extends State<LoginPage> {
                     CustomElevatedButton(
                       onPressed: () {
                         if (_formKey.currentState!.validate()) {
+                          print('object');
+                          // login api call logic
+                          try {
+                          userLogin();
+                          } catch (e){
+                            print('Error: $e');
+                          }
                           print('Form is valid');
                         } else {
                           print('Form is not valid');
-                          Navigator.of(context)
-                              .pushNamed(RouteGeneratorConstants.homePage);
+                          // Navigator.of(context)
+                          //     .pushNamed(RouteGeneratorConstants.homePage);
                         }
                       },
                       width: 0.90,
@@ -194,4 +208,41 @@ class _LoginPageState extends State<LoginPage> {
       ),
     );
   }
+  Future<void> userLogin() async {
+
+    final url = Uri.parse('http://108.181.195.185:8000/api/method/login');
+
+    final header = {
+      'Content-Type': 'application/x-www-form-urlencoded',
+    };
+
+    final body = {
+      'usr': emailController.value.text,
+      'pwd': passwordController.value.text,
+      // 'email': emailController.value.text.toLowerCase(),
+      // 'password': passwordController.value.text,
+    };
+    final encodedBody = body.entries
+        .map((e) =>
+    '${Uri.encodeComponent(e.key)}=${Uri.encodeComponent(e.value)}')
+        .join('&');
+
+    final response = await http.post(
+      url,
+      headers: header,
+      body: encodedBody,
+    );
+    var data = jsonDecode(response.body.toString());
+    print(response.statusCode);
+    print("response = ${response.body}");
+    if(response.statusCode ==  200){
+      print(response.statusCode);
+    }
+  }
+    // final response = await http.get(Uri.parse(
+    //     'http://108.181.195.185:8000/api/method/login'),
+    //   headers: header,
+    //   body: convert.jsonEncode(newData),
+    // );
+
 }

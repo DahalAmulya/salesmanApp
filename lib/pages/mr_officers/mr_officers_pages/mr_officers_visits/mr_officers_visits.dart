@@ -4,6 +4,7 @@ import 'package:deskgoo/pages/mr_officers/mr_officers_providers/mr_officer_visit
 import 'package:deskgoo/routes/route_generator_constants.dart';
 import 'package:deskgoo/themes/custom_colors.dart';
 import 'package:deskgoo/widgets/app_bars/custom_app_bars.dart';
+import 'package:deskgoo/widgets/bottom_sheets/custom_bottom_sheet2.dart';
 import 'package:deskgoo/widgets/buttons/elevated_button.dart';
 import 'package:deskgoo/widgets/containers/custom_container.dart';
 import 'package:deskgoo/widgets/drop_downs/custom_dropdown.dart';
@@ -14,7 +15,7 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
 import '../../../../widgets/text_fields/text_from_field.dart';
-import 'package:dropdown_search/dropdown_search.dart';
+// import 'package:getwidget/getwidget.dart';
 
 class MROfficersVisitsScreen extends StatefulWidget {
   const MROfficersVisitsScreen({super.key});
@@ -28,13 +29,15 @@ class _MROfficersVisitsScreenState extends State<MROfficersVisitsScreen>
   MrOfficerVisitProvider? _mrOfficerVisitProvider;
   Widget? _selectedVisit;
   final _createVisitFormKey = GlobalKey<FormState>();
-  final dropDownKey = GlobalKey<DropdownSearchState>();
+
 
   bool _customIcon = false;
   late String dropDownValue;
   bool isOpen = false;
   bool isVisible = false;
   bool isVisibleForState = false;
+  bool isVisibleForStateList = false;
+  bool isVisibleForDistrictList = false;
   bool isVisibleForDistrict = false;
 
   String selectedOption = 'Self';
@@ -57,33 +60,10 @@ class _MROfficersVisitsScreenState extends State<MROfficersVisitsScreen>
     'Dadeldhura',
     'Dailekh',
     'Dang',
-    'Darchula',
-    'Dhading',
-    'Dhankuta',
-    'Dhanusha',
-    'Dolakha',
-    'Dolpa',
-    'Doti',
-    'Achham',
-    'Baitadi',
-    'Bajhang',
-    'Bajura',
-    'Banke',
-    'Bara',
     ];
   List<String> foundStates = [];
-  List<String> states = [
-     'Achham',
-      'Arghakhanchi',
-    'Baitadi',
-     'Bajhang',
-    'Odisha',
-    'Bihar',
-     'Karnataka',
-    'Kerala',
-    'Madhya Pradesh',
-   'Maharashtra',
-     'Meghalaya',
+  List<String> foundDistrict = [];
+  List<String> states = ['Achham', 'Arghakhanchi', 'Baitadi', 'Bajhang','Odisha','Bihar','Karnataka','Kerala','Madhya Pradesh','Maharashtra','Meghalaya',
   ];
 
   final nameController = TextEditingController();
@@ -95,38 +75,49 @@ class _MROfficersVisitsScreenState extends State<MROfficersVisitsScreen>
   final diseasesController = TextEditingController();
   final referenceController = TextEditingController();
   final stateTextEditingController = TextEditingController();
+  final districtTextEditingController = TextEditingController();
   // final referenceController = TextEditingController();
 
   void _stateFilter(String enteredKeyword) {
-    List<String> result = [];
+    setState(() {
+      isVisibleForStateList = true;
+    });
+    List<String> stateResult = [];
     if (enteredKeyword.isEmpty) {
-      result = states;
+      stateResult = states;
     } else {
-      result = states
-          .where((state) => states
+      stateResult = states
+          .where((state) => state
           .toString()
           .toLowerCase()
           .contains(enteredKeyword.toLowerCase()))
           .toList();
     }
     setState(() {
-      foundStates = result;
+      foundStates = stateResult;
     });
   }
 
-  // @override
-  // void dispose() {
-  //   stateTextEditingController.dispose();
-  //   // countryTextEditingController.dispose();
-  //   super.dispose();
-  // }
-  // @override
-  // void initState() {
-  //   foundStates = states;
-  //   // foundCountry = country;
-  //   super.initState();
-  // }
-
+  void _countryFilter(String enteredKeyword) {
+    setState(() {
+      isVisibleForDistrictList = true;
+      List<String> districtResult = [];
+      if(enteredKeyword.isEmpty){
+      districtResult = districts;
+      }
+      else{
+        districtResult = districts
+            .where((district) => district
+            .toString()
+            .toLowerCase()
+            .contains(enteredKeyword.toLowerCase()))
+            .toList();
+      }
+      setState(() {
+        foundDistrict = districtResult;
+      });
+    });
+  }
 
 
   @override
@@ -522,6 +513,7 @@ class _MROfficersVisitsScreenState extends State<MROfficersVisitsScreen>
                 color: Colors.white,
                 child: Column(
                   children: <Widget>[
+                    // GFSearchBar(
                     CustomExpansionTile(
                       radiusTopLeft: 16,
                       radiusTopRight: 16,
@@ -634,8 +626,10 @@ class _MROfficersVisitsScreenState extends State<MROfficersVisitsScreen>
                                   if(selectedCountry == 'Nepal'){
                                     isVisibleForDistrict = !isVisibleForDistrict;
                                     isVisibleForState = false;
+                                    isVisibleForDistrictList = !isVisibleForDistrictList;
                                   }else{
                                     isVisibleForState = !isVisibleForState;
+                                    isVisibleForStateList = !isVisibleForStateList;
                                     isVisibleForDistrict = false;
                                   }
                                 });
@@ -644,31 +638,97 @@ class _MROfficersVisitsScreenState extends State<MROfficersVisitsScreen>
                           SizedBox(height: 12,),
                          Visibility(
                            visible: isVisibleForDistrict,
-                           child: CustomDropdown(
-                               labelText: 'Select District',
-                               items: districts,
-                               value: selectedDistrict,
-                               onChanged: (newValue){
-                                 setState(() {
-                                   isVisibleForDistrict = !isVisibleForDistrict;
-                                 });
-                               }
+                           child: TextFromFieldWithPrefixSuffix(
+                             applyPrefix: true,
+                             prefixIcon: Icon(Icons.search),
+                             applySuffixIcon: true,
+                             suffixIcon: Icon(Icons.arrow_drop_down),
+                             controller: districtTextEditingController,
+                             labelText: 'Select District',
+                             onTap: () {
+                               setState(() {
+                                 isVisibleForDistrictList = !isVisibleForDistrictList;
+                                 isVisibleForStateList = false;
+                               });
+                             },
+                             onChange: (value) => _countryFilter(value!),
+                             validator: (Value) {},
                            ),
                          ),
                           SizedBox(height: 12,),
+                          Visibility(
+                            visible: isVisibleForDistrictList,
+                            child: ColoredBox(
+                              color: Colors.white,
+                              child: ListView.builder(
+                                shrinkWrap: true,
+                                itemCount: foundDistrict.length,
+                                itemBuilder: (context, index) {
+                                  return ListTile(
+                                    onTap: () {
+                                      setState(() {
+                                        print(foundDistrict.length);
+                                        districtTextEditingController.text =
+                                        foundDistrict[index];
+                                        if(districtTextEditingController.text ==
+                                            foundDistrict[index]){
+                                          isVisibleForDistrictList = !isVisibleForDistrictList;
+                                        }
+                                      });
+                                      print('${foundDistrict[index]}');
+                                    },
+                                    title: Text('${foundDistrict[index]}'),
+                                  );
+                                },
+                              ),
+                            ),
+                          ),
+                          SizedBox(height: 12,),
                          Visibility(
                            visible: isVisibleForState,
-                           child: CustomDropdown(
-                               labelText: 'select State',
-                               items: states,
-                               value: selectedState,
-                               onChanged: (newValue){
-                           setState(() {
-                             isVisibleForState = !isVisibleForState;
-                           });
-                               }
+                           child: TextFromFieldWithPrefixSuffix(
+                             applyPrefix: true,
+                             prefixIcon: Icon(Icons.search),
+                             applySuffixIcon: true,
+                             suffixIcon: Icon(Icons.arrow_drop_down),
+                             controller: stateTextEditingController,
+                             labelText: 'Select State',
+                             onTap: () {
+                               setState(() {
+                                 isVisibleForStateList = !isVisibleForStateList;
+                               });
+                             },
+                             onChange: (value) => _stateFilter(value!),
+                             validator: (Value) {},
                            ),
                          ),
+                          SizedBox(height: 12,),
+                          Visibility(
+                            visible: isVisibleForStateList,
+                            child: ColoredBox(
+                              color: Colors.white,
+                              child: ListView.builder(
+                                shrinkWrap: true,
+                                itemCount: foundStates.length,
+                                itemBuilder: (context, index) {
+                                  return ListTile(
+                                    onTap: () {
+                                      setState(() {
+                                        stateTextEditingController.text =
+                                        foundStates[index];
+                                        if( stateTextEditingController.text ==
+                                        foundStates[index]){
+                                          isVisibleForStateList = !isVisibleForStateList;
+                                        }
+                                      });
+                                      print('${foundStates[index]}');
+                                    },
+                                    title: Text('${foundStates[index]}'),
+                                  );
+                                },
+                              ),
+                            ),
+                          ),
                           SizedBox(height: 12,),
                         ],
                     ),
@@ -743,44 +803,8 @@ class _MROfficersVisitsScreenState extends State<MROfficersVisitsScreen>
   }
 }
 
-// TextFromFieldWithPrefixSuffix(
-// applyPrefix: true,
-// prefixIcon: Icon(Icons.search),
-// applySuffixIcon: true,
-// suffixIcon: Icon(Icons.arrow_drop_down),
-// controller: stateTextEditingController,
-// labelText: 'Select State',
-// onTap: () {
-// setState(() {
-// isVisibleForState = !isVisibleForState;
-// });
-// },
-// onChange: (value) => _stateFilter(value!),
-// validator: (Value) {},
-// ),
-// Visibility(
-// visible: isVisibleForState,
-// child: ColoredBox(
-// color: Colors.white,
-// child: ListView.builder(
-// shrinkWrap: true,
-// itemCount: foundStates.length,
-// itemBuilder: (context, index) {
-// return ListTile(
-// onTap: () {
-// setState(() {
-// isVisibleForState = false;
-// stateTextEditingController.text =
-// foundStates[index];
-// });
-// print('${foundStates[index]}');
-// },
-// title: Text('${foundStates[index]}'),
-// );
-// },
-// ),
-// ),
-// ),
+
+
 // CustomDropdown(
 //     labelText: 'Select States',
 //     items: states,
@@ -791,3 +815,16 @@ class _MROfficersVisitsScreenState extends State<MROfficersVisitsScreen>
 //       });
 //     }
 // ),
+
+
+// CustomDropdown(
+// labelText: 'select State',
+// items: states,
+// value: selectedState,
+// onChanged: (newValue){
+// setState(() {
+// selectedState = newValue!;
+// // isVisibleForState = !isVisibleForState;
+// });
+// }
+// )
