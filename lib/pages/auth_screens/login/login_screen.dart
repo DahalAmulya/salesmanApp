@@ -16,6 +16,8 @@ import 'package:http/http.dart';
 import 'package:provider/provider.dart';
 import 'package:http/http.dart' as http;
 
+import '../../../providers/login_provider/login_provider.dart';
+
 class LoginPage extends StatefulWidget {
   LoginPage({super.key});
 
@@ -24,13 +26,28 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
+
+  UserProvider? _userProvider;
+
   final _formKey = GlobalKey<FormState>();
   List<Map<String,dynamic>> apiData = [];
   var data;
+  String full_name = '';
+  Map<String,dynamic> employee_details = {};
+  List<dynamic> user_roles = [];
+
 
   // Create TextEditingControllers
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
+
+  @override
+  // void didChangeDependencies() {
+  //   // Initialize UserProvider after initState
+  //   super.didChangeDependencies();
+  //   _userProvider = Provider.of<UserProvider>(context, listen: false);
+  // }
+
 
   // Create FocusNodes
   // FocusNode emailFocusNode = FocusNode();
@@ -45,6 +62,12 @@ class _LoginPageState extends State<LoginPage> {
   //   passwordFocusNode.dispose();
   //   super.dispose();
   // }
+
+  @override
+  void initState() {
+    super.initState();
+  _userProvider = Provider.of<UserProvider>(context,listen: false);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -159,32 +182,36 @@ class _LoginPageState extends State<LoginPage> {
                     SizedBox(
                       height: 16.0,
                     ),
-                    CustomElevatedButton(
-                      onPressed: () {
-                        if (_formKey.currentState!.validate()) {
-                          print('object');
-                          // login api call logic
-                          try {
-                          userLogin();
-                          } catch (e){
-                            print('Error: $e');
-                          }
-                          print('Form is valid');
-                        } else {
-                          print('Form is not valid');
-                          // Navigator.of(context)
-                          //     .pushNamed(RouteGeneratorConstants.homePage);
-                        }
-                      },
-                      width: 0.90,
-                      height: 50,
-                      backgroundColor: CustomColors.primaryColor,
-                      widget: CustomText(
-                        text: 'Login',
-                        fontWeight: FontWeight.w600,
-                        color: CustomColors.primaryBlack,
-                        size: 20.0,
-                      ),
+                    Consumer<UserProvider>(
+                      builder: (context,userProvider,_) {
+                        return CustomElevatedButton(
+                          onPressed: () {
+                            if (_formKey.currentState!.validate()) {
+                              print('object');
+                              // login api call logic
+                              try {
+                              userLogin();
+
+                              } catch (e){
+                                print('Error: $e');
+                              }
+                              print('Form is valid');
+                            } else {
+                              print('Form is not valid');
+
+                            }
+                          },
+                          width: 0.90,
+                          height: 50,
+                          backgroundColor: CustomColors.primaryColor,
+                          widget: CustomText(
+                            text: 'Login',
+                            fontWeight: FontWeight.w600,
+                            color: CustomColors.primaryBlack,
+                            size: 20.0,
+                          ),
+                        );
+                      }
                     ),
                     SizedBox(height: 8.0),
                     CustomElevatedButton(
@@ -232,12 +259,47 @@ class _LoginPageState extends State<LoginPage> {
       headers: header,
       body: encodedBody,
     );
-    var data = jsonDecode(response.body.toString());
-    print(response.statusCode);
-    print("response = ${response.body}");
+    final data = jsonDecode(response.body);
+    // print(data.runtimeType);
+    // full_name = data['full_name'];
+    // print('names = $full_name');
+    // employee_details = data['employee_details'];
+    // print('details = $employee_details');
+    // user_roles = data['user_roles'];
+    // print('user_roles = $user_roles');
+    // print('userDetails = ${data['employee_details']}');
+    // print('roles = ${data['user_roles']}');
+    // print('userData = $data');
     if(response.statusCode ==  200){
-      print(response.statusCode);
+
+      final data = jsonDecode(response.body);
+      full_name = data['full_name'];
+      employee_details = data['employee_details'];
+      user_roles = data['user_roles'];
+
+      Navigator.of(context)
+          .pushNamed(RouteGeneratorConstants.homePage);
+      _userProvider!.setUserDetails(
+          full_name = 'Monica Geller',
+          employee_details = {
+            "ID":"HR-EMP-00012",
+            "Name": null,
+            "Designation": "Senior Marketing  Officer",
+            "Department": "Marketing - DGD"
+          },
+          user_roles = [
+            "Employee",
+            "marketingAsstManager",
+            "All",
+            "Guest",
+            "Desk User"
+          ],
+      );
+      // print(response.statusCode);
+    }else{
+      print('Login failed with status: ${response.statusCode}');
     }
+
   }
     // final response = await http.get(Uri.parse(
     //     'http://108.181.195.185:8000/api/method/login'),
