@@ -58,7 +58,7 @@ class _OwnLiveLocationScreenState extends State<OwnLiveLocationScreen> {
         if (didpop) {
           return;
         }
-        Navigator.of(context).pushNamed(RouteGeneratorConstants.homePage);
+        Navigator.of(context).pushNamed(MarketingManagerConstants.homePage);
       }),
       child: GestureDetector(
         onTap: () {
@@ -78,7 +78,7 @@ class _OwnLiveLocationScreenState extends State<OwnLiveLocationScreen> {
             backgroundColor: CustomColors.primaryColor,
             onPressed: () {
               Navigator.of(context)
-                  .pushNamed(RouteGeneratorConstants.replayPage);
+                  .pushNamed(MarketingManagerConstants.replayPage);
             },
             // shape: ShapeBorder.lerp(a, b, t),
             child: ClipRRect(

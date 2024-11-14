@@ -59,7 +59,7 @@ class _LiveTrackingScreenState extends State<LiveTrackingScreen> {
         if (didpop) {
           return;
         }
-        Navigator.of(context).pushNamed(RouteGeneratorConstants.homePage);
+        Navigator.of(context).pushNamed(MarketingManagerConstants.homePage);
       }),
       child: GestureDetector(
         onTap: () {

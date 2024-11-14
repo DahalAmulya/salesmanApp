@@ -108,7 +108,7 @@ class _NotchedBottomNavBarState extends State<NotchedBottomNavBar> {
                           // GoRouter.of(context).pushReplacementNamed(
                           //     MyAppRouteConstants.homeNavBarRouteName);
                           Navigator.of(context)
-                              .pushNamed(RouteGeneratorConstants.homePage);
+                              .pushNamed(MarketingManagerConstants.homePage);
                         },
                         padding: EdgeInsets.all(0),
                         icon: Icon(Icons.phone),

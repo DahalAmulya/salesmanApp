@@ -184,14 +184,14 @@ class _LoginPageState extends State<LoginPage> {
                     Consumer<UserProvider>(builder: (context, userProvider, _) {
                       return CustomElevatedButton(
                         onPressed: () async {
-                          // if (_formKey.currentState!.validate()) {
-                          // login api call logic
-                          login();
-                          // }
-                          // print('Form is valid');
-                          // } else {
-                          //   print('Form is not valid');
-                          // }
+                          if (_formKey.currentState!.validate()) {
+                            // login api call logic
+                            login();
+                            print('Form is valid');
+                          } else {
+                            login();
+                            print('Form is not valid');
+                          }
                         },
                         width: 0.90,
                         height: 50,
@@ -209,7 +209,7 @@ class _LoginPageState extends State<LoginPage> {
                       onPressed: () {
                         print('Pressed');
                         Navigator.of(context)
-                            .pushNamed(RouteGeneratorConstants.forgotPage);
+                            .pushNamed(MarketingManagerConstants.forgotPage);
                       },
                       widget: CustomText(
                         text: 'Forgot Password?',
@@ -253,7 +253,7 @@ class _LoginPageState extends State<LoginPage> {
         employee_details,
         user_roles,
       );
-      Navigator.of(context).pushNamed(RouteGeneratorConstants.homePage);
+      Navigator.of(context).pushNamed(MarketingManagerConstants.homePage);
     }
   }
 }

@@ -37,7 +37,7 @@ class _MarketingOfficersScreenState extends State<MarketingOfficersScreen> {
         if (didpop) {
           return;
         }
-        Navigator.of(context).pop(RouteGeneratorConstants.homePage);
+        Navigator.of(context).pop(MarketingManagerConstants.homePage);
       }),
       child: Scaffold(
         backgroundColor: CustomColors.primaryWhite,
@@ -71,7 +71,7 @@ class _MarketingOfficersScreenState extends State<MarketingOfficersScreen> {
           leadingIcon: FontAwesomeIcons.arrowLeft,
           leadingIconColor: CustomColors.primaryBlack,
           onTapLeadingIcon: () {
-            Navigator.of(context).pop(RouteGeneratorConstants.homePage);
+            Navigator.of(context).pop(MarketingManagerConstants.homePage);
           },
         ),
       ),
@@ -122,7 +122,7 @@ class _MarketingOfficersScreenState extends State<MarketingOfficersScreen> {
                       detailsProvider.setSelectedOfficerVisitDetails(index);
                       print(detailsProvider.visitDetails);
                       Navigator.of(context).pushNamed(
-                          RouteGeneratorConstants.officerDescriptionPage);
+                          MarketingManagerConstants.officerDescriptionPage);
                     },
                     child: CustomContainer(
                       color: Colors.white,

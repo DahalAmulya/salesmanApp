@@ -51,7 +51,7 @@ class _PreviewCapturedPhotosState extends State<PreviewCapturedPhotos> {
           leadingIcon: FontAwesomeIcons.arrowLeft,
           onTapLeadingIcon: () {
             // Scaffold.of(context).openDrawer();
-            Navigator.of(context).pop(RouteGeneratorConstants.cameraPage);
+            Navigator.of(context).pop(MarketingManagerConstants.cameraPage);
           },
         );
       }),
@@ -220,7 +220,7 @@ class _PreviewCapturedPhotosState extends State<PreviewCapturedPhotos> {
                             CustomElevatedButton(
                               onPressed: () {
                                 Navigator.of(context)
-                                    .pop(RouteGeneratorConstants.cameraPage);
+                                    .pop(MarketingManagerConstants.cameraPage);
                               },
                               backgroundColor: CustomColors.primaryColor,
                               widget: FaIcon(
@@ -250,7 +250,7 @@ class _PreviewCapturedPhotosState extends State<PreviewCapturedPhotos> {
                                 //         .photos[cameraProvider.index]);
                                 _visitScreenProvider!.setIndex(4);
                                 Navigator.of(context).pushNamed(
-                                    RouteGeneratorConstants.visitPage);
+                                    MarketingManagerConstants.visitPage);
                               },
                               backgroundColor: CustomColors.primaryColor,
                               widget: FaIcon(

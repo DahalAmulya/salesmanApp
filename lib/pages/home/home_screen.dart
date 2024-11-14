@@ -160,8 +160,8 @@ class _HomeScreenState extends State<HomeScreen> {
           floatingActionButton: FloatingActionButton(
             backgroundColor: CustomColors.primaryColor,
             onPressed: () {
-              Navigator.of(context).push(MaterialPageRoute(
-                  builder: (context) => WeeklyPlanScreen()));
+              Navigator.of(context).push(
+                  MaterialPageRoute(builder: (context) => WeeklyPlanScreen()));
               // Navigator.of(context).push(MaterialPageRoute(
               //     builder: (context) => MROfficersVisitsScreen()));
             },
@@ -333,7 +333,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     InkWell(
                       onTap: () {
                         Navigator.of(context).pushNamed(
-                            RouteGeneratorConstants.marketingOfficers);
+                            MarketingManagerConstants.marketingOfficers);
                         // print('Tapped on Label');
                       },
                       child: Row(
@@ -396,7 +396,8 @@ class _HomeScreenState extends State<HomeScreen> {
                             marketingProvider
                                 .setSelectedOfficerVisitDetails(index);
                             Navigator.of(context).pushNamed(
-                                RouteGeneratorConstants.officerDescriptionPage);
+                                MarketingManagerConstants
+                                    .officerDescriptionPage);
                           },
                           child: Container(
                             child: Column(
@@ -582,7 +583,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                   ['OfficerName']);
                               // print(marketingOfficersName[index]['OfficerName']);
                               Navigator.of(context).pushNamed(
-                                  RouteGeneratorConstants
+                                  MarketingManagerConstants
                                       .officerDescriptionPage);
                             },
                             child: Container(

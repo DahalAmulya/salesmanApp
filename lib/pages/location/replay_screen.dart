@@ -65,7 +65,7 @@ class _ReplayScreenState extends State<ReplayScreen> {
         //     .pushReplacementNamed(MyAppRouteConstants.loginRouteName);
         _replayProvider!.setLeavePage(true);
         _replayProvider!.resetValues();
-        Navigator.of(context).pop(RouteGeneratorConstants.liveTrackingPage);
+        Navigator.of(context).pop(MarketingManagerConstants.liveTrackingPage);
       }),
       child: GestureDetector(
         onTap: () {
@@ -154,7 +154,8 @@ class _ReplayScreenState extends State<ReplayScreen> {
             // Scaffold.of(context).openDrawer();
             _replayProvider!.setLeavePage(true);
             _replayProvider!.resetValues();
-            Navigator.of(context).pop(RouteGeneratorConstants.liveTrackingPage);
+            Navigator.of(context)
+                .pop(MarketingManagerConstants.liveTrackingPage);
           },
         ),
       ),

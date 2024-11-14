@@ -37,7 +37,7 @@ class _MrOfficersVisitTypeScreenState extends State<MrOfficersVisitTypeScreen> {
         if (didpop) {
           return;
         }
-        Navigator.of(context).pop(RouteGeneratorConstants.homePage);
+        Navigator.of(context).pop(MarketingManagerConstants.homePage);
         _mrOfficerVisitProvider!.unSelectVisitType();
       }),
       child: Scaffold(
@@ -58,7 +58,7 @@ class _MrOfficersVisitTypeScreenState extends State<MrOfficersVisitTypeScreen> {
         leadingIcon: FontAwesomeIcons.arrowLeft,
         leadingIconColor: CustomColors.primaryBlack,
         onTapLeadingIcon: () {
-          Navigator.of(context).pop(RouteGeneratorConstants.homePage);
+          Navigator.of(context).pop(MarketingManagerConstants.homePage);
           _mrOfficerVisitProvider!.unSelectVisitType();
         },
       ),
@@ -124,7 +124,7 @@ class _MrOfficersVisitTypeScreenState extends State<MrOfficersVisitTypeScreen> {
                             onPressed: () {
                               visitProvider.unSelectVisitType();
                               Navigator.of(context)
-                                  .pop(RouteGeneratorConstants.homePage);
+                                  .pop(MarketingManagerConstants.homePage);
                             },
                             // backgroundColor: ,
                             backgroundColor: CustomColors.lightRed,

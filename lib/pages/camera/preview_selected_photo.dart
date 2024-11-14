@@ -53,7 +53,7 @@ class _PreviewSelectedPhotoState extends State<PreviewSelectedPhoto> {
             leadingIcon: FontAwesomeIcons.arrowLeft,
             onTapLeadingIcon: () {
               visitScreenProvider.setIndex(4);
-              Navigator.of(context).pop(RouteGeneratorConstants.visitPage);
+              Navigator.of(context).pop(MarketingManagerConstants.visitPage);
               // Scaffold.of(context).openDrawer();
             },
           );

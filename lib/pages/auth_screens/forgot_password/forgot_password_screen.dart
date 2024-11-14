@@ -22,7 +22,7 @@ class ForgotPasswordScreen extends StatelessWidget {
         }
         // GoRouter.of(context)
         //     .pushReplacementNamed(MyAppRouteConstants.loginRouteName);
-        Navigator.of(context).pushNamed(RouteGeneratorConstants.indexPage);
+        Navigator.of(context).pushNamed(MarketingManagerConstants.indexPage);
       }),
       child: GestureDetector(
         onTap: () {
@@ -102,7 +102,7 @@ class ForgotPasswordScreen extends StatelessWidget {
                             // GoRouter.of(context).pushReplacementNamed(
                             //     MyAppRouteConstants.loginRouteName);
                             Navigator.of(context)
-                                .pushNamed(RouteGeneratorConstants.indexPage);
+                                .pushNamed(MarketingManagerConstants.indexPage);
                           },
                           widget: CustomText(
                             text: 'Back to Login',

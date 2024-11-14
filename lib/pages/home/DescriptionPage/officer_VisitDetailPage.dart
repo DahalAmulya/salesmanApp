@@ -51,7 +51,7 @@ class _OfficerVisitDetailPageState extends State<OfficerVisitDetailPage> {
           onTapLeadingIcon: () {
             // Use the context under the Scaffold
             Navigator.of(context)
-                .pop(RouteGeneratorConstants.officerDescriptionPage);
+                .pop(MarketingManagerConstants.officerDescriptionPage);
             Scaffold.of(context).openDrawer();
           },
         ),

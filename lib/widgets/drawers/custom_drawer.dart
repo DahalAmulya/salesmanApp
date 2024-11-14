@@ -45,7 +45,7 @@ class CustomDrawer extends StatelessWidget {
               InkWell(
                 onTap: () {
                   Navigator.of(context)
-                      .pushNamed(RouteGeneratorConstants.profilePage);
+                      .pushNamed(MarketingManagerConstants.profilePage);
                 },
                 child: Padding(
                   padding: const EdgeInsets.only(
@@ -119,19 +119,22 @@ class CustomDrawer extends StatelessWidget {
                         // GoRouter.of(context).pushReplacementNamed(
                         //     MyAppRouteConstants.homeNavBarRouteName);
                         Navigator.of(context)
-                            .pushNamed(RouteGeneratorConstants.homePage);
+                            .pushNamed(MarketingManagerConstants.homePage);
                       },
                       isTabActive: isHomeActive,
                       icon: FontAwesomeIcons.house,
                       text: 'Dashboard',
                     ),
                     CustomListTile(
-                        onTap: (){
-                          Navigator.push(context, MaterialPageRoute(builder: (context) => WeeklyPlanScreen()));
-                        },
-                        isTabActive: isWeeklyPlanActive,
-                        text:'Weekly Plan',
-                        icon: Icons.add,
+                      onTap: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => WeeklyPlanScreen()));
+                      },
+                      isTabActive: isWeeklyPlanActive,
+                      text: 'Weekly Plan',
+                      icon: Icons.add,
                     ),
                     // CustomListTile(
                     //   onTap: () {
@@ -153,7 +156,7 @@ class CustomDrawer extends StatelessWidget {
                         // GoRouter.of(context).pushReplacementNamed(
                         //     MyAppRouteConstants.visitRouteName);
                         Navigator.of(context)
-                            .pushNamed(RouteGeneratorConstants.visitPage);
+                            .pushNamed(MarketingManagerConstants.visitPage);
                       },
                       isTabActive: isVisitActive,
                       isIcon: false,
@@ -170,7 +173,7 @@ class CustomDrawer extends StatelessWidget {
                         // GoRouter.of(context).pushReplacementNamed(
                         //     MyAppRouteConstants.remoteAttendanceRouteName);
                         Navigator.of(context).pushNamed(
-                            RouteGeneratorConstants.remoteAttendancePage);
+                            MarketingManagerConstants.remoteAttendancePage);
                       },
                       isTabActive: isAttendanceActive,
                       isIcon: false,
