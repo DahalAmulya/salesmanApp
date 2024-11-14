@@ -69,93 +69,95 @@ class _MrOfficersVisitTypeScreenState extends State<MrOfficersVisitTypeScreen> {
     return Center(
       child: Consumer<MrOfficerVisitProvider>(
         builder: (context, visitProvider, _) {
-          return Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              CustomContainer(
-                applyShadow: true,
-                child: Column(
-                  children: [
-                    CustomText(
-                      text: 'Select Visit Type',
-                      fontWeight: FontWeight.w600,
-                      size: 22,
-                    ),
-                    SizedBox(
-                      height: 8,
-                    ),
-                    CustomRadioButton(
-                      radioGroupValue: visitProvider.radioGroupValue,
-                      radioValue: visitProvider.vistTypeList[0],
-                      radioTitle: visitProvider.vistTypeList[0],
-                      onChange: (value) {
-                        visitProvider.selectVisitType(value);
-                      },
-                    ),
-                    CustomRadioButton(
-                      radioGroupValue: visitProvider.radioGroupValue,
-                      radioValue: visitProvider.vistTypeList[1],
-                      radioTitle: visitProvider.vistTypeList[1],
-                      showTrailingWidget: true,
-                      trailingWidgetTitle: '15',
-                      onChange: (value) {
-                        visitProvider.selectVisitType(value);
-                      },
-                    ),
-                    CustomRadioButton(
-                      radioGroupValue: visitProvider.radioGroupValue,
-                      radioValue: visitProvider.vistTypeList[2],
-                      radioTitle: visitProvider.vistTypeList[2],
-                      showTrailingWidget: true,
-                      trailingWidgetTitle: '5',
-                      onChange: (value) {
-                        visitProvider.selectVisitType(value);
-                      },
-                    ),
-                    SizedBox(
-                      height: 8,
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        CustomElevatedButton(
-                          onPressed: () {
-                            visitProvider.unSelectVisitType();
-                            Navigator.of(context)
-                                .pop(RouteGeneratorConstants.homePage);
-                          },
-                          // backgroundColor: ,
-                          backgroundColor: CustomColors.lightRed,
-                          widget: CustomText(
-                            text: 'Cancel',
-                            color: CustomColors.primaryBlack,
-                            fontWeight: FontWeight.w500,
+          return SingleChildScrollView(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                CustomContainer(
+                  applyShadow: true,
+                  child: Column(
+                    children: [
+                      CustomText(
+                        text: 'Select Visit Type',
+                        fontWeight: FontWeight.w600,
+                        size: 22,
+                      ),
+                      SizedBox(
+                        height: 8,
+                      ),
+                      CustomRadioButton(
+                        radioGroupValue: visitProvider.radioGroupValue,
+                        radioValue: visitProvider.vistTypeList[0],
+                        radioTitle: visitProvider.vistTypeList[0],
+                        onChange: (value) {
+                          visitProvider.selectVisitType(value);
+                        },
+                      ),
+                      CustomRadioButton(
+                        radioGroupValue: visitProvider.radioGroupValue,
+                        radioValue: visitProvider.vistTypeList[1],
+                        radioTitle: visitProvider.vistTypeList[1],
+                        showTrailingWidget: true,
+                        trailingWidgetTitle: '15',
+                        onChange: (value) {
+                          visitProvider.selectVisitType(value);
+                        },
+                      ),
+                      CustomRadioButton(
+                        radioGroupValue: visitProvider.radioGroupValue,
+                        radioValue: visitProvider.vistTypeList[2],
+                        radioTitle: visitProvider.vistTypeList[2],
+                        showTrailingWidget: true,
+                        trailingWidgetTitle: '5',
+                        onChange: (value) {
+                          visitProvider.selectVisitType(value);
+                        },
+                      ),
+                      SizedBox(
+                        height: 8,
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          CustomElevatedButton(
+                            onPressed: () {
+                              visitProvider.unSelectVisitType();
+                              Navigator.of(context)
+                                  .pop(RouteGeneratorConstants.homePage);
+                            },
+                            // backgroundColor: ,
+                            backgroundColor: CustomColors.lightRed,
+                            widget: CustomText(
+                              text: 'Cancel',
+                              color: CustomColors.primaryBlack,
+                              fontWeight: FontWeight.w500,
+                            ),
                           ),
-                        ),
-                        CustomElevatedButton(
-                          onPressed: () {
-                            bool isSelected =
-                                visitProvider.setSelectedVisitType();
-                            if (isSelected) {
-                              Navigator.of(context).push(MaterialPageRoute(
-                                  builder: (context) =>
-                                      MROfficersVisitsScreen()));
-                            }
-                          },
-                          backgroundColor: CustomColors.primaryColor,
-                          widget: CustomText(
-                            text: 'Next',
-                            color: CustomColors.primaryBlack,
-                            fontWeight: FontWeight.w500,
+                          CustomElevatedButton(
+                            onPressed: () {
+                              bool isSelected =
+                                  visitProvider.setSelectedVisitType();
+                              if (isSelected) {
+                                Navigator.of(context).push(MaterialPageRoute(
+                                    builder: (context) =>
+                                        MROfficersVisitsScreen()));
+                              }
+                            },
+                            backgroundColor: CustomColors.primaryColor,
+                            widget: CustomText(
+                              text: 'Next',
+                              color: CustomColors.primaryBlack,
+                              fontWeight: FontWeight.w500,
+                            ),
                           ),
-                        ),
-                      ],
-                    ),
-                  ],
+                        ],
+                      ),
+                    ],
+                  ),
                 ),
-              ),
-            ],
+              ],
+            ),
           );
         },
       ),
