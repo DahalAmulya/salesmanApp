@@ -4,6 +4,7 @@ import 'dart:convert';
 import 'package:deskgoo/providers/auth_provider/user_auth_provider.dart';
 import 'package:deskgoo/providers/themes_provider/theme_changer_provider.dart';
 import 'package:deskgoo/routes/app_route_constants.dart';
+import 'package:deskgoo/routes/marketing_officer_consts.dart';
 import 'package:deskgoo/routes/route_generator_constants.dart';
 import 'package:deskgoo/services/erp_services.dart';
 import 'package:deskgoo/themes/custom_colors.dart';
@@ -230,10 +231,10 @@ class _LoginPageState extends State<LoginPage> {
   void login() async {
     Map<String, dynamic> body = {
       'usr': emailController.value.text.isEmpty
-          ? 'Monica@gmail.com '
+          ? 'Phoebe@gmail.com'
           : emailController.value.text,
       'pwd': passwordController.value.text.isEmpty
-          ? 'Monica123@'
+          ? 'Phoebe123@'
           : passwordController.value.text,
       // user = Phoebe@gmail.com // marketingOfficer
       // pwd = Phoebe123@
@@ -253,7 +254,12 @@ class _LoginPageState extends State<LoginPage> {
         employee_details,
         user_roles,
       );
-      Navigator.of(context).pushNamed(MarketingManagerConstants.homePage);
+      if (_userProvider!.role == 'marketingOfficer') {
+        Navigator.of(context)
+            .pushNamed(MarketingOfficerConstants.mrStaffDashboardConst);
+      } else {
+        Navigator.of(context).pushNamed(MarketingManagerConstants.homePage);
+      }
     }
   }
 }
