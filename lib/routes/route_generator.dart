@@ -26,72 +26,72 @@ class RouteGenerator {
     final args = settings.arguments;
     switch (settings.name) {
       // Routes for MarketingManager
-      case RouteGeneratorConstants.indexPage:
+      case MarketingManagerConstants.indexPage:
         return MaterialPageRoute(
           builder: (_) => LoginPage(),
         );
-      case RouteGeneratorConstants.forgotPage:
+      case MarketingManagerConstants.forgotPage:
         return MaterialPageRoute(
           builder: (_) => ForgotPasswordScreen(),
         );
-      case RouteGeneratorConstants.homePage:
+      case MarketingManagerConstants.homePage:
         return MaterialPageRoute(
           builder: (_) => HomeScreen(),
         );
-      case RouteGeneratorConstants.cameraPage:
+      case MarketingManagerConstants.cameraPage:
         return MaterialPageRoute(
           builder: (_) => CameraPage(),
         );
-      case RouteGeneratorConstants.previewCapturedPhotoPage:
+      case MarketingManagerConstants.previewCapturedPhotoPage:
         return MaterialPageRoute(
           builder: (_) => PreviewCapturedPhotos(),
         );
-      case RouteGeneratorConstants.previewSelectedPhotoPage:
+      case MarketingManagerConstants.previewSelectedPhotoPage:
         return MaterialPageRoute(
           builder: (_) => PreviewSelectedPhoto(),
         );
-      case RouteGeneratorConstants.liveTrackingPage:
+      case MarketingManagerConstants.liveTrackingPage:
         return MaterialPageRoute(
           builder: (_) => LiveTrackingScreen(),
         );
-      case RouteGeneratorConstants.ownliveLocationPage:
+      case MarketingManagerConstants.ownliveLocationPage:
         return MaterialPageRoute(
           builder: (_) => OwnLiveLocationScreen(),
         );
-      case RouteGeneratorConstants.replayPage:
+      case MarketingManagerConstants.replayPage:
         return MaterialPageRoute(
           builder: (_) => ReplayScreen(),
         );
-      case RouteGeneratorConstants.visitPage:
+      case MarketingManagerConstants.visitPage:
         return MaterialPageRoute(
           builder: (_) => VisitScreen(),
         );
-      case RouteGeneratorConstants.remoteAttendancePage:
+      case MarketingManagerConstants.remoteAttendancePage:
         return MaterialPageRoute(
           builder: (_) => RemoteAttendencePage(),
         );
-      case RouteGeneratorConstants.settingPage:
+      case MarketingManagerConstants.settingPage:
         return MaterialPageRoute(
           builder: (_) => SettingPage(),
         );
-      case RouteGeneratorConstants.profilePage:
+      case MarketingManagerConstants.profilePage:
         return MaterialPageRoute(
           builder: (_) => Profile_page(),
         );
-      case RouteGeneratorConstants.officerDescriptionPage:
+      case MarketingManagerConstants.officerDescriptionPage:
         return MaterialPageRoute(
           builder: (_) => OfficerDescriptionPage(),
         );
-      case RouteGeneratorConstants.marketingOfficers:
+      case MarketingManagerConstants.marketingOfficers:
         return MaterialPageRoute(
           builder: (_) => MarketingOfficersScreen(),
         );
-      case RouteGeneratorConstants.officerVisitDetailPage:
+      case MarketingManagerConstants.officerVisitDetailPage:
         return MaterialPageRoute(
           builder: (_) => OfficerVisitDetailPage(),
         );
       // Routes for MarketingStaff
-      case RouteGeneratorConstants.backgroundLocationScreen:
+      case MarketingManagerConstants.backgroundLocationScreen:
         return MaterialPageRoute(builder: (_) => MrOfficersDashboardScreen());
       default:
         return MaterialPageRoute(builder: (_) => ErrorPage());
