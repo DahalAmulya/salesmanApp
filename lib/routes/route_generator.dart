@@ -15,7 +15,6 @@ import 'package:deskgoo/pages/settings/setting.dart';
 import 'package:deskgoo/pages/visit/visit_screen.dart';
 import 'package:deskgoo/routes/route_generator_constants.dart';
 import 'package:flutter/material.dart';
-
 import '../pages/home/DescriptionPage/officer_DescriptionPage.dart';
 import '../pages/home/DescriptionPage/officer_VisitDetailPage.dart';
 import '../pages/settings/profile/profile_Page.dart';
@@ -25,44 +24,72 @@ class RouteGenerator {
     // getting arguments passed in while calling Navigator.pushNamed
     final args = settings.arguments;
     switch (settings.name) {
+      // Routes for MarketingManager
       case RouteGeneratorConstants.indexPage:
-        return MaterialPageRoute(builder: (_) => LoginPage());
+        return MaterialPageRoute(
+          builder: (_) => LoginPage(),
+        );
       case RouteGeneratorConstants.forgotPage:
-        // if (args is String) {
-        return MaterialPageRoute(builder: (_) => ForgotPasswordScreen());
-      // } else {
-      //   return MaterialPageRoute(builder: (_) => ErrorPage());
-      // }
+        return MaterialPageRoute(
+          builder: (_) => ForgotPasswordScreen(),
+        );
       case RouteGeneratorConstants.homePage:
-        return MaterialPageRoute(builder: (_) => HomeScreen());
+        return MaterialPageRoute(
+          builder: (_) => HomeScreen(),
+        );
       case RouteGeneratorConstants.cameraPage:
-        return MaterialPageRoute(builder: (_) => CameraPage());
+        return MaterialPageRoute(
+          builder: (_) => CameraPage(),
+        );
       case RouteGeneratorConstants.previewCapturedPhotoPage:
-        return MaterialPageRoute(builder: (_) => PreviewCapturedPhotos());
+        return MaterialPageRoute(
+          builder: (_) => PreviewCapturedPhotos(),
+        );
       case RouteGeneratorConstants.previewSelectedPhotoPage:
-        return MaterialPageRoute(builder: (_) => PreviewSelectedPhoto());
+        return MaterialPageRoute(
+          builder: (_) => PreviewSelectedPhoto(),
+        );
       case RouteGeneratorConstants.liveTrackingPage:
-        return MaterialPageRoute(builder: (_) => LiveTrackingScreen());
+        return MaterialPageRoute(
+          builder: (_) => LiveTrackingScreen(),
+        );
       case RouteGeneratorConstants.ownliveLocationPage:
-        return MaterialPageRoute(builder: (_) => OwnLiveLocationScreen());
+        return MaterialPageRoute(
+          builder: (_) => OwnLiveLocationScreen(),
+        );
       case RouteGeneratorConstants.replayPage:
-        return MaterialPageRoute(builder: (_) => ReplayScreen());
+        return MaterialPageRoute(
+          builder: (_) => ReplayScreen(),
+        );
       case RouteGeneratorConstants.visitPage:
-        return MaterialPageRoute(builder: (_) => VisitScreen());
+        return MaterialPageRoute(
+          builder: (_) => VisitScreen(),
+        );
       case RouteGeneratorConstants.remoteAttendancePage:
-        return MaterialPageRoute(builder: (_) => RemoteAttendencePage());
+        return MaterialPageRoute(
+          builder: (_) => RemoteAttendencePage(),
+        );
       case RouteGeneratorConstants.settingPage:
-        return MaterialPageRoute(builder: (_) => SettingPage());
+        return MaterialPageRoute(
+          builder: (_) => SettingPage(),
+        );
       case RouteGeneratorConstants.profilePage:
-        return MaterialPageRoute(builder: (_) => Profile_page());
+        return MaterialPageRoute(
+          builder: (_) => Profile_page(),
+        );
       case RouteGeneratorConstants.officerDescriptionPage:
-        return MaterialPageRoute(builder: (_) => OfficerDescriptionPage());
+        return MaterialPageRoute(
+          builder: (_) => OfficerDescriptionPage(),
+        );
       case RouteGeneratorConstants.marketingOfficers:
-        return MaterialPageRoute(builder: (_) => MarketingOfficersScreen());
+        return MaterialPageRoute(
+          builder: (_) => MarketingOfficersScreen(),
+        );
       case RouteGeneratorConstants.officerVisitDetailPage:
-        return MaterialPageRoute(builder: (_) => OfficerVisitDetailPage());
-      // case RouteGeneratorConstants.backgroundLocationScreen:
-      //   return MaterialPageRoute(builder: (_) => BackgroundLocationScreen());
+        return MaterialPageRoute(
+          builder: (_) => OfficerVisitDetailPage(),
+        );
+      // Routes for MarketingStaff
       default:
         return MaterialPageRoute(builder: (_) => ErrorPage());
     }
