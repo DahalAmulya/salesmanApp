@@ -4,6 +4,8 @@ import 'package:deskgoo/widgets/drawers/drawers_items/custom_listTile.dart';
 import 'package:deskgoo/widgets/texts/custom_text.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+
+import '../../pages/mr_officers/mr_officers_pages/weeklyplan/weeklyplan_screen.dart';
 // import 'package:go_router/go_router.dart';
 
 class CustomDrawer extends StatelessWidget {
@@ -15,6 +17,7 @@ class CustomDrawer extends StatelessWidget {
     this.userName = 'John Cena',
     this.userRole = 'Wrestler',
     this.isHomeActive = false,
+    this.isWeeklyPlanActive = false,
     this.isVisitActive = false,
     this.isAttendanceActive = false,
   });
@@ -24,6 +27,7 @@ class CustomDrawer extends StatelessWidget {
   final String userName;
   final String userRole;
   final bool isHomeActive;
+  final bool isWeeklyPlanActive;
   final bool isVisitActive;
   final bool isAttendanceActive;
 
@@ -120,6 +124,14 @@ class CustomDrawer extends StatelessWidget {
                       isTabActive: isHomeActive,
                       icon: FontAwesomeIcons.house,
                       text: 'Dashboard',
+                    ),
+                    CustomListTile(
+                        onTap: (){
+                          Navigator.push(context, MaterialPageRoute(builder: (context) => WeeklyPlanScreen()));
+                        },
+                        isTabActive: isWeeklyPlanActive,
+                        text:'Weekly Plan',
+                        icon: Icons.add,
                     ),
                     // CustomListTile(
                     //   onTap: () {
