@@ -30,7 +30,6 @@ class _MROfficersVisitsScreenState extends State<MROfficersVisitsScreen>
   Widget? _selectedVisit;
   final _createVisitFormKey = GlobalKey<FormState>();
 
-
   bool _customIcon = false;
   late String dropDownValue;
   bool isOpen = false;
@@ -60,10 +59,21 @@ class _MROfficersVisitsScreenState extends State<MROfficersVisitsScreen>
     'Dadeldhura',
     'Dailekh',
     'Dang',
-    ];
+  ];
   List<String> foundStates = [];
   List<String> foundDistrict = [];
-  List<String> states = ['Achham', 'Arghakhanchi', 'Baitadi', 'Bajhang','Odisha','Bihar','Karnataka','Kerala','Madhya Pradesh','Maharashtra','Meghalaya',
+  List<String> states = [
+    'Achham',
+    'Arghakhanchi',
+    'Baitadi',
+    'Bajhang',
+    'Odisha',
+    'Bihar',
+    'Karnataka',
+    'Kerala',
+    'Madhya Pradesh',
+    'Maharashtra',
+    'Meghalaya',
   ];
 
   final nameController = TextEditingController();
@@ -88,9 +98,9 @@ class _MROfficersVisitsScreenState extends State<MROfficersVisitsScreen>
     } else {
       stateResult = states
           .where((state) => state
-          .toString()
-          .toLowerCase()
-          .contains(enteredKeyword.toLowerCase()))
+              .toString()
+              .toLowerCase()
+              .contains(enteredKeyword.toLowerCase()))
           .toList();
     }
     setState(() {
@@ -102,15 +112,14 @@ class _MROfficersVisitsScreenState extends State<MROfficersVisitsScreen>
     setState(() {
       isVisibleForDistrictList = true;
       List<String> districtResult = [];
-      if(enteredKeyword.isEmpty){
-      districtResult = districts;
-      }
-      else{
+      if (enteredKeyword.isEmpty) {
+        districtResult = districts;
+      } else {
         districtResult = districts
             .where((district) => district
-            .toString()
-            .toLowerCase()
-            .contains(enteredKeyword.toLowerCase()))
+                .toString()
+                .toLowerCase()
+                .contains(enteredKeyword.toLowerCase()))
             .toList();
       }
       setState(() {
@@ -118,7 +127,6 @@ class _MROfficersVisitsScreenState extends State<MROfficersVisitsScreen>
       });
     });
   }
-
 
   @override
   void initState() {
@@ -143,7 +151,7 @@ class _MROfficersVisitsScreenState extends State<MROfficersVisitsScreen>
           return;
         }
         Navigator.of(context)
-            .pushReplacementNamed(RouteGeneratorConstants.homePage);
+            .pushReplacementNamed(MarketingManagerConstants.homePage);
       }),
       child: GestureDetector(
         onTap: () {
@@ -173,7 +181,7 @@ class _MROfficersVisitsScreenState extends State<MROfficersVisitsScreen>
         leadingIconColor: CustomColors.primaryBlack,
         onTapLeadingIcon: () {
           Navigator.of(context)
-              .pushReplacementNamed(RouteGeneratorConstants.homePage);
+              .pushReplacementNamed(MarketingManagerConstants.homePage);
         },
       ),
     );
@@ -501,305 +509,342 @@ class _MROfficersVisitsScreenState extends State<MROfficersVisitsScreen>
 
   Widget _visitDetails(context) {
     return Consumer<MrOfficerMoreDetailsProvider>(
-      builder: (context,visitDetails,_) {
-        return SingleChildScrollView(
-          scrollDirection: Axis.vertical,
-          child: Column(
-            children: [
-              CustomContainer(
-                verticalPad: 0,
-                verticalMargin: 4,
-                horizontalPad: 0,
-                color: Colors.white,
-                child: Column(
-                  children: <Widget>[
-                    // GFSearchBar(
-                    CustomExpansionTile(
-                      radiusTopLeft: 16,
-                      radiusTopRight: 16,
-                      initiallyExpanded: true,
-                        title: 'Visit Detail',
-                        children: [
-                          SizedBox(height: 12,),
-                          TextFromFieldWithPrefixSuffix(
-                              labelText: 'Name',
-                              controller: visitDetails.nameController,
-                              validator: (value) {
-                                return null;
-                              }),
-                          SizedBox(
-                            height: 8,
-                          ),
-                          TextFromFieldWithPrefixSuffix(
-                              labelText: 'Age',
-                              controller: visitDetails.ageController,
-                              validator: (value) {
-                                return null;
-                              }),
-                          SizedBox(
-                            height: 8,
-                          ),
-                          TextFromFieldWithPrefixSuffix(
-                              labelText: 'Address',
-                              controller: visitDetails.addressController,
-                              validator: (value) {
-                                return null;
-                              }),
-                          SizedBox(
-                            height: 8,
-                          ),
-                          TextFromFieldWithPrefixSuffix(
-                              labelText: 'Email',
-                              controller: visitDetails.emailController,
-                              validator: (value) {
-                                return null;
-                              }),
-                          SizedBox(height: 16,),
-                        ],
-                    ),
-                    CustomExpansionTile(
-                        title: 'Health Detail',
-                        children: [
-                          TextFromFieldWithPrefixSuffix(
-                              labelText: 'Name',
-                              controller: visitDetails.nameController,
-                              validator: (value) {
-                                return null;
-                              }),
-                          SizedBox(
-                            height: 8,
-                          ),
-                          TextFromFieldWithPrefixSuffix(
-                              labelText: 'Age',
-                              controller: ageController,
-                              validator: (value) {
-                                return null;
-                              }),
-                          SizedBox(
-                            height: 8,
-                          ),
-                          TextFromFieldWithPrefixSuffix(
-                              labelText: 'Weight',
-                              controller: weightController,
-                              validator: (value) {
-                                return null;
-                              }),
-                          SizedBox(
-                            height: 8,
-                          ),
-                          TextFromFieldWithPrefixSuffix(
-                              labelText: 'Diseases',
-                              controller: diseasesController,
-                              validator: (value) {
-                                return null;
-                              }),
-                          SizedBox(height: 16,),
-                        ],
-                    ),
-                    CustomExpansionTile(
-                      // applyShadow: false,
-                        title: 'Family Detail',
-                        children: [
-                          ListTile(
-                            title: Text('title 1'),
-                          ),
-                          ListTile(
-                            title: Text('title 2'),
-                          ),
-                          ListTile(
-                            title: Text('title 3'),
-                          ),
-                          SizedBox(height: 16,),
-                        ],
-                    ),
-                    CustomExpansionTile(
-                        title: 'Country & States',
-                        children: [
-                          SizedBox(height: 8,),
-                          CustomDropdown(
-                              labelText: 'Select Country',
-                              items: country,
-                              value: selectedCountry,
-                              onChanged: (newValue){
-                                setState(() {
-                                  selectedCountry = newValue!;
-                                  if(selectedCountry == 'Nepal'){
-                                    isVisibleForDistrict = !isVisibleForDistrict;
-                                    isVisibleForState = false;
-                                    isVisibleForDistrictList = !isVisibleForDistrictList;
-                                  }else{
-                                    isVisibleForState = !isVisibleForState;
-                                    isVisibleForStateList = !isVisibleForStateList;
-                                    isVisibleForDistrict = false;
-                                  }
-                                });
-                              }
-                          ),
-                          SizedBox(height: 12,),
-                         Visibility(
-                           visible: isVisibleForDistrict,
-                           child: TextFromFieldWithPrefixSuffix(
-                             applyPrefix: true,
-                             prefixIcon: Icon(Icons.search),
-                             applySuffixIcon: true,
-                             suffixIcon: Icon(Icons.arrow_drop_down),
-                             controller: districtTextEditingController,
-                             labelText: 'Select District',
-                             onTap: () {
-                               setState(() {
-                                 isVisibleForDistrictList = !isVisibleForDistrictList;
-                                 isVisibleForStateList = false;
-                               });
-                             },
-                             onChange: (value) => _countryFilter(value!),
-                             validator: (Value) {},
-                           ),
-                         ),
-                          SizedBox(height: 12,),
-                          Visibility(
-                            visible: isVisibleForDistrictList,
-                            child: ColoredBox(
-                              color: Colors.white,
-                              child: ListView.builder(
-                                shrinkWrap: true,
-                                itemCount: foundDistrict.length,
-                                itemBuilder: (context, index) {
-                                  return ListTile(
-                                    onTap: () {
-                                      setState(() {
-                                        print(foundDistrict.length);
-                                        districtTextEditingController.text =
-                                        foundDistrict[index];
-                                        if(districtTextEditingController.text ==
-                                            foundDistrict[index]){
-                                          isVisibleForDistrictList = !isVisibleForDistrictList;
-                                        }
-                                      });
-                                      print('${foundDistrict[index]}');
-                                    },
-                                    title: Text('${foundDistrict[index]}'),
-                                  );
-                                },
-                              ),
-                            ),
-                          ),
-                          SizedBox(height: 12,),
-                         Visibility(
-                           visible: isVisibleForState,
-                           child: TextFromFieldWithPrefixSuffix(
-                             applyPrefix: true,
-                             prefixIcon: Icon(Icons.search),
-                             applySuffixIcon: true,
-                             suffixIcon: Icon(Icons.arrow_drop_down),
-                             controller: stateTextEditingController,
-                             labelText: 'Select State',
-                             onTap: () {
-                               setState(() {
-                                 isVisibleForStateList = !isVisibleForStateList;
-                               });
-                             },
-                             onChange: (value) => _stateFilter(value!),
-                             validator: (Value) {},
-                           ),
-                         ),
-                          SizedBox(height: 12,),
-                          Visibility(
-                            visible: isVisibleForStateList,
-                            child: ColoredBox(
-                              color: Colors.white,
-                              child: ListView.builder(
-                                shrinkWrap: true,
-                                itemCount: foundStates.length,
-                                itemBuilder: (context, index) {
-                                  return ListTile(
-                                    onTap: () {
-                                      setState(() {
-                                        stateTextEditingController.text =
-                                        foundStates[index];
-                                        if( stateTextEditingController.text ==
-                                        foundStates[index]){
-                                          isVisibleForStateList = !isVisibleForStateList;
-                                        }
-                                      });
-                                      print('${foundStates[index]}');
-                                    },
-                                    title: Text('${foundStates[index]}'),
-                                  );
-                                },
-                              ),
-                            ),
-                          ),
-                          SizedBox(height: 12,),
-                        ],
-                    ),
-                    CustomExpansionTile(
-                      radiusBottomRight: 16,
-                      radiusBottomLeft: 16,
-                      // applyShadow: false,
-                      title: 'Referral',
-                      children: [
-                        SizedBox(height: 12,),
-                        CustomDropdown(
-                            labelText: 'Referred By *',
-                            items: dropDownOptions,
-                            value: selectedOption,
-                            onChanged: (newValue){
-                              setState(() {
-                                selectedOption = newValue!;
-                                if(selectedOption == 'Others'){
-                                  isVisible = !isVisible;
-                                }else{
-                                  isVisible = false;
-                                }
-                              });
-                            }
-                        ),
-                        Visibility(
-                          visible: isVisible,
-                          child: Column(
-                            children: [
-                              SizedBox(height: 12,),
-                              TextFromFieldWithPrefixSuffix(
-                                  labelText: 'Name',
-                                  controller: nameController,
-                                  validator: (value) {
-                                    return null;
-                                  }),
-                            ],
-                          ),
-                        ),
-                        SizedBox(height: 12,),
-                        TextFromFieldWithPrefixSuffix(
-                          borderRadius: 8,
-                          controller: referenceController,
-                          labelText: 'Referred To:',
-                          onTap: () {},
+        builder: (context, visitDetails, _) {
+      return SingleChildScrollView(
+        scrollDirection: Axis.vertical,
+        child: Column(
+          children: [
+            CustomContainer(
+              verticalPad: 0,
+              verticalMargin: 4,
+              horizontalPad: 0,
+              color: Colors.white,
+              child: Column(
+                children: <Widget>[
+                  // GFSearchBar(
+                  CustomExpansionTile(
+                    radiusTopLeft: 16,
+                    radiusTopRight: 16,
+                    initiallyExpanded: true,
+                    title: 'Visit Detail',
+                    children: [
+                      SizedBox(
+                        height: 12,
+                      ),
+                      TextFromFieldWithPrefixSuffix(
+                          labelText: 'Name',
+                          controller: visitDetails.nameController,
                           validator: (value) {
                             return null;
+                          }),
+                      SizedBox(
+                        height: 8,
+                      ),
+                      TextFromFieldWithPrefixSuffix(
+                          labelText: 'Age',
+                          controller: visitDetails.ageController,
+                          validator: (value) {
+                            return null;
+                          }),
+                      SizedBox(
+                        height: 8,
+                      ),
+                      TextFromFieldWithPrefixSuffix(
+                          labelText: 'Address',
+                          controller: visitDetails.addressController,
+                          validator: (value) {
+                            return null;
+                          }),
+                      SizedBox(
+                        height: 8,
+                      ),
+                      TextFromFieldWithPrefixSuffix(
+                          labelText: 'Email',
+                          controller: visitDetails.emailController,
+                          validator: (value) {
+                            return null;
+                          }),
+                      SizedBox(
+                        height: 16,
+                      ),
+                    ],
+                  ),
+                  CustomExpansionTile(
+                    title: 'Health Detail',
+                    children: [
+                      TextFromFieldWithPrefixSuffix(
+                          labelText: 'Name',
+                          controller: visitDetails.nameController,
+                          validator: (value) {
+                            return null;
+                          }),
+                      SizedBox(
+                        height: 8,
+                      ),
+                      TextFromFieldWithPrefixSuffix(
+                          labelText: 'Age',
+                          controller: ageController,
+                          validator: (value) {
+                            return null;
+                          }),
+                      SizedBox(
+                        height: 8,
+                      ),
+                      TextFromFieldWithPrefixSuffix(
+                          labelText: 'Weight',
+                          controller: weightController,
+                          validator: (value) {
+                            return null;
+                          }),
+                      SizedBox(
+                        height: 8,
+                      ),
+                      TextFromFieldWithPrefixSuffix(
+                          labelText: 'Diseases',
+                          controller: diseasesController,
+                          validator: (value) {
+                            return null;
+                          }),
+                      SizedBox(
+                        height: 16,
+                      ),
+                    ],
+                  ),
+                  CustomExpansionTile(
+                    // applyShadow: false,
+                    title: 'Family Detail',
+                    children: [
+                      ListTile(
+                        title: Text('title 1'),
+                      ),
+                      ListTile(
+                        title: Text('title 2'),
+                      ),
+                      ListTile(
+                        title: Text('title 3'),
+                      ),
+                      SizedBox(
+                        height: 16,
+                      ),
+                    ],
+                  ),
+                  CustomExpansionTile(
+                    title: 'Country & States',
+                    children: [
+                      SizedBox(
+                        height: 8,
+                      ),
+                      CustomDropdown(
+                          labelText: 'Select Country',
+                          items: country,
+                          value: selectedCountry,
+                          onChanged: (newValue) {
+                            setState(() {
+                              selectedCountry = newValue!;
+                              if (selectedCountry == 'Nepal') {
+                                isVisibleForDistrict = !isVisibleForDistrict;
+                                isVisibleForState = false;
+                                isVisibleForDistrictList =
+                                    !isVisibleForDistrictList;
+                              } else {
+                                isVisibleForState = !isVisibleForState;
+                                isVisibleForStateList = !isVisibleForStateList;
+                                isVisibleForDistrict = false;
+                              }
+                            });
+                          }),
+                      SizedBox(
+                        height: 12,
+                      ),
+                      Visibility(
+                        visible: isVisibleForDistrict,
+                        child: TextFromFieldWithPrefixSuffix(
+                          applyPrefix: true,
+                          prefixIcon: Icon(Icons.search),
+                          applySuffixIcon: true,
+                          suffixIcon: Icon(Icons.arrow_drop_down),
+                          controller: districtTextEditingController,
+                          labelText: 'Select District',
+                          onTap: () {
+                            setState(() {
+                              isVisibleForDistrictList =
+                                  !isVisibleForDistrictList;
+                              isVisibleForStateList = false;
+                            });
                           },
-                          onChange: (value) {},
+                          onChange: (value) => _countryFilter(value!),
+                          validator: (Value) {},
                         ),
-                        SizedBox(height: 16,),
-                      ],
-                    ),
-                  ],
-                ),
-              ),
-              SizedBox(height: 16,),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  CustomElevatedButton(onPressed: (){}, widget: CustomText(text: 'Back'),
-                    backgroundColor: CustomColors.lightRed,),
-                  CustomElevatedButton(onPressed: (){}, widget: CustomText(text: 'Submit'),
-                    backgroundColor: CustomColors.primaryColor,),
+                      ),
+                      SizedBox(
+                        height: 12,
+                      ),
+                      Visibility(
+                        visible: isVisibleForDistrictList,
+                        child: ColoredBox(
+                          color: Colors.white,
+                          child: ListView.builder(
+                            shrinkWrap: true,
+                            itemCount: foundDistrict.length,
+                            itemBuilder: (context, index) {
+                              return ListTile(
+                                onTap: () {
+                                  setState(() {
+                                    print(foundDistrict.length);
+                                    districtTextEditingController.text =
+                                        foundDistrict[index];
+                                    if (districtTextEditingController.text ==
+                                        foundDistrict[index]) {
+                                      isVisibleForDistrictList =
+                                          !isVisibleForDistrictList;
+                                    }
+                                  });
+                                  print('${foundDistrict[index]}');
+                                },
+                                title: Text('${foundDistrict[index]}'),
+                              );
+                            },
+                          ),
+                        ),
+                      ),
+                      SizedBox(
+                        height: 12,
+                      ),
+                      Visibility(
+                        visible: isVisibleForState,
+                        child: TextFromFieldWithPrefixSuffix(
+                          applyPrefix: true,
+                          prefixIcon: Icon(Icons.search),
+                          applySuffixIcon: true,
+                          suffixIcon: Icon(Icons.arrow_drop_down),
+                          controller: stateTextEditingController,
+                          labelText: 'Select State',
+                          onTap: () {
+                            setState(() {
+                              isVisibleForStateList = !isVisibleForStateList;
+                            });
+                          },
+                          onChange: (value) => _stateFilter(value!),
+                          validator: (Value) {},
+                        ),
+                      ),
+                      SizedBox(
+                        height: 12,
+                      ),
+                      Visibility(
+                        visible: isVisibleForStateList,
+                        child: ColoredBox(
+                          color: Colors.white,
+                          child: ListView.builder(
+                            shrinkWrap: true,
+                            itemCount: foundStates.length,
+                            itemBuilder: (context, index) {
+                              return ListTile(
+                                onTap: () {
+                                  setState(() {
+                                    stateTextEditingController.text =
+                                        foundStates[index];
+                                    if (stateTextEditingController.text ==
+                                        foundStates[index]) {
+                                      isVisibleForStateList =
+                                          !isVisibleForStateList;
+                                    }
+                                  });
+                                  print('${foundStates[index]}');
+                                },
+                                title: Text('${foundStates[index]}'),
+                              );
+                            },
+                          ),
+                        ),
+                      ),
+                      SizedBox(
+                        height: 12,
+                      ),
+                    ],
+                  ),
+                  CustomExpansionTile(
+                    radiusBottomRight: 16,
+                    radiusBottomLeft: 16,
+                    // applyShadow: false,
+                    title: 'Referral',
+                    children: [
+                      SizedBox(
+                        height: 12,
+                      ),
+                      CustomDropdown(
+                          labelText: 'Referred By *',
+                          items: dropDownOptions,
+                          value: selectedOption,
+                          onChanged: (newValue) {
+                            setState(() {
+                              selectedOption = newValue!;
+                              if (selectedOption == 'Others') {
+                                isVisible = !isVisible;
+                              } else {
+                                isVisible = false;
+                              }
+                            });
+                          }),
+                      Visibility(
+                        visible: isVisible,
+                        child: Column(
+                          children: [
+                            SizedBox(
+                              height: 12,
+                            ),
+                            TextFromFieldWithPrefixSuffix(
+                                labelText: 'Name',
+                                controller: nameController,
+                                validator: (value) {
+                                  return null;
+                                }),
+                          ],
+                        ),
+                      ),
+                      SizedBox(
+                        height: 12,
+                      ),
+                      TextFromFieldWithPrefixSuffix(
+                        borderRadius: 8,
+                        controller: referenceController,
+                        labelText: 'Referred To:',
+                        onTap: () {},
+                        validator: (value) {
+                          return null;
+                        },
+                        onChange: (value) {},
+                      ),
+                      SizedBox(
+                        height: 16,
+                      ),
+                    ],
+                  ),
                 ],
               ),
-            ],
-          ),
-        );
-      }
-    );
+            ),
+            SizedBox(
+              height: 16,
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                CustomElevatedButton(
+                  onPressed: () {},
+                  widget: CustomText(text: 'Back'),
+                  backgroundColor: CustomColors.lightRed,
+                ),
+                CustomElevatedButton(
+                  onPressed: () {},
+                  widget: CustomText(text: 'Submit'),
+                  backgroundColor: CustomColors.primaryColor,
+                ),
+              ],
+            ),
+          ],
+        ),
+      );
+    });
   }
 }
 

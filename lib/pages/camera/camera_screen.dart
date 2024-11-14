@@ -122,7 +122,7 @@ class _CameraPageState extends State<CameraPage> {
       //     : _cameraProvider!.addFollowPhotos(picture.path);
       _cameraProvider!.setIndex(_cameraProvider!.photos.length - 1);
       Navigator.of(context)
-          .pushNamed(RouteGeneratorConstants.previewCapturedPhotoPage);
+          .pushNamed(MarketingManagerConstants.previewCapturedPhotoPage);
       // setState(() {
       //   photos.add(picture.path);
       // });
@@ -348,7 +348,7 @@ class _CameraPageState extends State<CameraPage> {
                                                   cameraProvider.photos.length -
                                                       1);
                                               Navigator.of(context).pushNamed(
-                                                  RouteGeneratorConstants
+                                                  MarketingManagerConstants
                                                       .previewCapturedPhotoPage);
                                             },
                                             child: ClipRRect(

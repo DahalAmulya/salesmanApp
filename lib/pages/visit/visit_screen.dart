@@ -104,7 +104,7 @@ class _VisitScreenState extends State<VisitScreen>
         }
         // GoRouter.of(context)
         //     .pushReplacementNamed(MyAppRouteConstants.homeNavBarRouteName);
-        Navigator.of(context).pushNamed(RouteGeneratorConstants.homePage);
+        Navigator.of(context).pushNamed(MarketingManagerConstants.homePage);
       }),
       child: GestureDetector(
         onTap: () {
@@ -1310,8 +1310,8 @@ class _VisitScreenState extends State<VisitScreen>
                                   followUpNoteController.value.text);
                             }
                             cameraProvider.setIsFollowUp();
-                            Navigator.of(context)
-                                .pushNamed(RouteGeneratorConstants.cameraPage);
+                            Navigator.of(context).pushNamed(
+                                MarketingManagerConstants.cameraPage);
                             print('Tapped on image contaier');
                           },
                           child: CustomContainer(
@@ -1339,7 +1339,7 @@ class _VisitScreenState extends State<VisitScreen>
                                             }
                                             cameraProvider.setIsFollowUp();
                                             Navigator.of(context).pushNamed(
-                                                RouteGeneratorConstants
+                                                MarketingManagerConstants
                                                     .cameraPage);
                                             print('image Icon Tapped');
                                           },
@@ -1363,7 +1363,7 @@ class _VisitScreenState extends State<VisitScreen>
                                   GestureDetector(
                                     onTap: () {
                                       Navigator.of(context).pushNamed(
-                                          RouteGeneratorConstants
+                                          MarketingManagerConstants
                                               .previewSelectedPhotoPage);
                                       print('Image tapped');
                                     },

@@ -29,7 +29,7 @@ class CustomGNavBar extends StatelessWidget {
           onPressed: () {
             // GoRouter.of(context)
             //     .pushReplacementNamed(MyAppRouteConstants.homeNavBarRouteName);
-            Navigator.of(context).pushNamed(RouteGeneratorConstants.homePage);
+            Navigator.of(context).pushNamed(MarketingManagerConstants.homePage);
           },
           // margin: EdgeInsets.symmetric(horizontal: 8, vertical: 0),
           padding: EdgeInsets.symmetric(vertical: 16, horizontal: 16),
@@ -43,7 +43,7 @@ class CustomGNavBar extends StatelessWidget {
         GButton(
           onPressed: () {
             Navigator.of(context)
-                .pushNamed(RouteGeneratorConstants.liveTrackingPage);
+                .pushNamed(MarketingManagerConstants.liveTrackingPage);
             // Navigator.of(context)
             //     .pushNamed(RouteGeneratorConstants.ownliveLocationPage);
           },
@@ -72,7 +72,7 @@ class CustomGNavBar extends StatelessWidget {
             // GoRouter.of(context)
             //     .pushReplacementNamed(MyAppRouteConstants.settingPageRouteName);
             Navigator.of(context)
-                .pushNamed(RouteGeneratorConstants.settingPage);
+                .pushNamed(MarketingManagerConstants.settingPage);
           },
           // margin: EdgeInsets.symmetric(horizontal: 0, vertical: 0),
           padding: EdgeInsets.symmetric(vertical: 16, horizontal: 16),

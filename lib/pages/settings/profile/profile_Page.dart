@@ -45,7 +45,7 @@ class _Profile_pageState extends State<Profile_page> {
           leadingIcon: FontAwesomeIcons.arrowLeft,
           leadingIconColor: CustomColors.primaryBlack,
           onTapLeadingIcon: () {
-            Navigator.of(context).pop(RouteGeneratorConstants.settingPage);
+            Navigator.of(context).pop(MarketingManagerConstants.settingPage);
           },
         ),
       ),

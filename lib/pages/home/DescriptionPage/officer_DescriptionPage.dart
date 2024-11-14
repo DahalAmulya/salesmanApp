@@ -107,7 +107,7 @@ class _OfficerDescriptionPageState extends State<OfficerDescriptionPage> {
         if (didpop) {
           return;
         }
-        Navigator.of(context).pop(RouteGeneratorConstants.marketingOfficers);
+        Navigator.of(context).pop(MarketingManagerConstants.marketingOfficers);
       }),
       child: Scaffold(
         appBar: _appBar(context),
@@ -135,12 +135,12 @@ class _OfficerDescriptionPageState extends State<OfficerDescriptionPage> {
             if (isApproved) {
               detailsProvider.setIsApproved(true);
               Navigator.of(context)
-                  .pop(RouteGeneratorConstants.marketingOfficers);
+                  .pop(MarketingManagerConstants.marketingOfficers);
             }
           },
           onTapLeadingIcon: () {
             // Use the context under the Scaffold
-            Navigator.of(context).pop(RouteGeneratorConstants.homePage);
+            Navigator.of(context).pop(MarketingManagerConstants.homePage);
           },
         ),
       ),
@@ -208,7 +208,8 @@ class _OfficerDescriptionPageState extends State<OfficerDescriptionPage> {
                                   .setNotes(officerDescription[index]['notes']);
                             }
                             Navigator.of(context).pushNamed(
-                                RouteGeneratorConstants.officerVisitDetailPage);
+                                MarketingManagerConstants
+                                    .officerVisitDetailPage);
                           },
                           child: CustomContainer(
                             horizontalMargin: 16,
@@ -398,7 +399,7 @@ class _OfficerDescriptionPageState extends State<OfficerDescriptionPage> {
                         // }
                         print(detailsProvider.selectedShowDetails);
                         Navigator.of(context).pushNamed(
-                            RouteGeneratorConstants.officerVisitDetailPage);
+                            MarketingManagerConstants.officerVisitDetailPage);
                       },
                       child: CustomContainer(
                         horizontalMargin: 16,

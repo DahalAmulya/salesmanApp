@@ -1,4 +1,5 @@
-class RouteGeneratorConstants {
+class MarketingManagerConstants {
+  // Marketing Manager Page Names
   static const String indexPage = '/';
   static const String forgotPage = '/forgot';
   static const String homePage = '/home';
