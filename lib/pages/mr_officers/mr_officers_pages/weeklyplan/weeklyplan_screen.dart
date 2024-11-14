@@ -1,4 +1,5 @@
 import 'package:awesome_notifications/awesome_notifications.dart';
+import 'package:date_picker_timeline/date_picker_timeline.dart';
 import 'package:deskgoo/themes/custom_colors.dart';
 import 'package:deskgoo/widgets/app_bars/custom_app_bars.dart';
 import 'package:deskgoo/widgets/drawers/custom_drawer.dart';
@@ -44,44 +45,58 @@ PreferredSize _appbar(context){
 Widget _body(context){
   return Column(
     children: [
-      Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Container(
+      Container(
+        margin: EdgeInsets.symmetric(horizontal: 8,vertical: 16),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Container(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  CustomText(
+                      text: (DateFormat.yMMMMd().format(DateTime.now())),
+                    size: 20,
+                    fontWeight: FontWeight.w600,
 
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                CustomText(
-                    text: (DateFormat.yMMMMd().format(DateTime.now())),
-                  size: 20,
-                  fontWeight: FontWeight.w600,
-
-                ),
-                CustomText(
-                    text: 'Today',
-                   size: 24,
-                  fontWeight: FontWeight.w600,
-                )
-              ],
-            ),
-          ),
-          Container(
-            margin: EdgeInsets.symmetric(horizontal: 8),
-            width: MediaQuery.of(context).size.width * 0.30,
-            height: MediaQuery.of(context).size.height * 0.048,
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(8),
-              color: CustomColors.primaryColor,
-            ),
-            child: Center(
-              child: CustomText(
-                  text: '+Add Task',
-                fontWeight: FontWeight.w600,
+                  ),
+                  CustomText(
+                      text: 'Today',
+                     size: 24,
+                    fontWeight: FontWeight.w600,
+                  )
+                ],
               ),
             ),
-          )
-        ],
+            Container(
+              width: MediaQuery.of(context).size.width * 0.30,
+              height: MediaQuery.of(context).size.height * 0.048,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(8),
+                color: CustomColors.primaryColor,
+              ),
+              child: Center(
+                child: CustomText(
+                    text: '+Add Task',
+                  fontWeight: FontWeight.w600,
+                ),
+              ),
+            )
+          ],
+        ),
+      ),
+      Container(
+        child: DatePicker(
+          DateTime.now(),
+          height: 108,
+          width: 80,
+          initialSelectedDate: DateTime.now(),
+          selectionColor: CustomColors.primaryColor,
+          dateTextStyle: TextStyle(
+            fontSize: 16,
+            fontWeight: FontWeight.w600,
+          ),
+        ),
       ),
     ]
   );
