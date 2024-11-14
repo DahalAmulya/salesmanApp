@@ -12,8 +12,10 @@ import 'package:deskgoo/pages/location/replay_screen.dart';
 import 'package:deskgoo/pages/location/show_own_location_screen.dart';
 import 'package:deskgoo/pages/marketing_officers/marketing_officers_screen.dart';
 import 'package:deskgoo/pages/mr_officers/mr_officers_pages/mr_officers_dashboard/mr_officers_dashboard.dart';
+import 'package:deskgoo/pages/mr_officers/mr_officers_pages/weeklyplan/weeklyplan_screen.dart';
 import 'package:deskgoo/pages/settings/setting.dart';
 import 'package:deskgoo/pages/visit/visit_screen.dart';
+import 'package:deskgoo/routes/marketing_officer_consts.dart';
 import 'package:deskgoo/routes/route_generator_constants.dart';
 import 'package:flutter/material.dart';
 import '../pages/home/DescriptionPage/officer_DescriptionPage.dart';
@@ -91,8 +93,10 @@ class RouteGenerator {
           builder: (_) => OfficerVisitDetailPage(),
         );
       // Routes for MarketingStaff
-      case MarketingManagerConstants.backgroundLocationScreen:
+      case MarketingOfficerConstants.mrStaffDashboardConst:
         return MaterialPageRoute(builder: (_) => MrOfficersDashboardScreen());
+      case MarketingOfficerConstants.weeklyPlanConst:
+        return MaterialPageRoute(builder: (_) => WeeklyPlanScreen());
       default:
         return MaterialPageRoute(builder: (_) => ErrorPage());
     }

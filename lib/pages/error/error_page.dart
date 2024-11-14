@@ -13,8 +13,6 @@ class ErrorPage extends StatelessWidget {
         if (didpop) {
           return;
         }
-        // GoRouter.of(context)
-        //     .pushReplacementNamed(MyAppRouteConstants.loginRouteName);
         Navigator.of(context).pushNamed(MarketingManagerConstants.indexPage);
       }),
       child: Scaffold(
