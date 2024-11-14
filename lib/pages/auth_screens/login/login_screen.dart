@@ -11,6 +11,7 @@ import 'package:deskgoo/widgets/containers/custom_container.dart';
 import 'package:deskgoo/widgets/text_fields/text_from_field.dart';
 import 'package:deskgoo/widgets/texts/custom_text.dart';
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:http/http.dart';
 // import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
@@ -186,20 +187,21 @@ class _LoginPageState extends State<LoginPage> {
                       builder: (context,userProvider,_) {
                         return CustomElevatedButton(
                           onPressed: () {
-                            if (_formKey.currentState!.validate()) {
+                            // if (_formKey.currentState!.validate()) {
                               print('object');
                               // login api call logic
                               try {
                               userLogin();
+                              print('response = $data');
 
                               } catch (e){
                                 print('Error: $e');
                               }
                               print('Form is valid');
-                            } else {
-                              print('Form is not valid');
+                            // } else {
+                            //   print('Form is not valid');
 
-                            }
+                            // }
                           },
                           width: 0.90,
                           height: 50,
@@ -244,10 +246,14 @@ class _LoginPageState extends State<LoginPage> {
     };
 
     final body = {
-      'usr': emailController.value.text,
-      'pwd': passwordController.value.text,
-      // 'email': emailController.value.text.toLowerCase(),
-      // 'password': passwordController.value.text,
+      'usr': emailController.value.text.isEmpty ? 'Monica@gmail.com ' : emailController.value.text,
+      'pwd': passwordController.value.text.isEmpty ? 'Monica123@' : passwordController.value.text,
+      // user = Phoebe@gmail.com // marketingOfficer
+      // pwd = Phoebe123@
+      // user = Rachel@gmail.com // marketingManager
+      // pwd = Rachel123@
+      // user = Monica@gmail.com // marketingAsstManager
+      // pwd = Monica123@
     };
     final encodedBody = body.entries
         .map((e) =>
@@ -260,6 +266,7 @@ class _LoginPageState extends State<LoginPage> {
       body: encodedBody,
     );
     final data = jsonDecode(response.body);
+    // print('data = $data');
     // print(data.runtimeType);
     // full_name = data['full_name'];
     // print('names = $full_name');
@@ -276,24 +283,18 @@ class _LoginPageState extends State<LoginPage> {
       full_name = data['full_name'];
       employee_details = data['employee_details'];
       user_roles = data['user_roles'];
+      // print('**************************************************');
+      // print(full_name);
+      // print(employee_details);
+      // print(user_roles);
+      // print('**************************************************');
 
       Navigator.of(context)
           .pushNamed(RouteGeneratorConstants.homePage);
       _userProvider!.setUserDetails(
-          full_name = 'Monica Geller',
-          employee_details = {
-            "ID":"HR-EMP-00012",
-            "Name": null,
-            "Designation": "Senior Marketing  Officer",
-            "Department": "Marketing - DGD"
-          },
-          user_roles = [
-            "Employee",
-            "marketingAsstManager",
-            "All",
-            "Guest",
-            "Desk User"
-          ],
+          full_name,
+          employee_details,
+          user_roles,
       );
       // print(response.statusCode);
     }else{
