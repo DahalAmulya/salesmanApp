@@ -42,6 +42,8 @@ dependencies:
   flutter_dotenv: ^5.1.0
   permission_handler: ^11.3.1
   flutter_background: ^1.3.0+1
+  intl:
+  google_fonts:
 #  getwidget: ^2.0.4
 
 dev_dependencies:
