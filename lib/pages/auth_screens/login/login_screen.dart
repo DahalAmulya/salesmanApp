@@ -5,6 +5,7 @@ import 'package:deskgoo/providers/auth_provider/user_auth_provider.dart';
 import 'package:deskgoo/providers/themes_provider/theme_changer_provider.dart';
 import 'package:deskgoo/routes/app_route_constants.dart';
 import 'package:deskgoo/routes/route_generator_constants.dart';
+import 'package:deskgoo/services/erp_services.dart';
 import 'package:deskgoo/themes/custom_colors.dart';
 import 'package:deskgoo/widgets/buttons/elevated_button.dart';
 import 'package:deskgoo/widgets/containers/custom_container.dart';
@@ -27,16 +28,14 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
-
   UserProvider? _userProvider;
 
   final _formKey = GlobalKey<FormState>();
-  List<Map<String,dynamic>> apiData = [];
+  List<Map<String, dynamic>> apiData = [];
   var data;
   String full_name = '';
-  Map<String,dynamic> employee_details = {};
+  Map<String, dynamic> employee_details = {};
   List<dynamic> user_roles = [];
-
 
   // Create TextEditingControllers
   TextEditingController emailController = TextEditingController();
@@ -48,7 +47,6 @@ class _LoginPageState extends State<LoginPage> {
   //   super.didChangeDependencies();
   //   _userProvider = Provider.of<UserProvider>(context, listen: false);
   // }
-
 
   // Create FocusNodes
   // FocusNode emailFocusNode = FocusNode();
@@ -67,7 +65,7 @@ class _LoginPageState extends State<LoginPage> {
   @override
   void initState() {
     super.initState();
-  _userProvider = Provider.of<UserProvider>(context,listen: false);
+    _userProvider = Provider.of<UserProvider>(context, listen: false);
   }
 
   @override
@@ -131,7 +129,7 @@ class _LoginPageState extends State<LoginPage> {
                             ? 'Email required'
                             // : !regex.hasMatch(value)
                             //     ? 'Invalid email'
-                                : null;
+                            : null;
                       },
                       onChange: (value) {},
                       hintText: 'jane@example.com',
@@ -183,38 +181,29 @@ class _LoginPageState extends State<LoginPage> {
                     SizedBox(
                       height: 16.0,
                     ),
-                    Consumer<UserProvider>(
-                      builder: (context,userProvider,_) {
-                        return CustomElevatedButton(
-                          onPressed: () {
-                            // if (_formKey.currentState!.validate()) {
-                              print('object');
-                              // login api call logic
-                              try {
-                              userLogin();
-                              print('response = $data');
-
-                              } catch (e){
-                                print('Error: $e');
-                              }
-                              print('Form is valid');
-                            // } else {
-                            //   print('Form is not valid');
-
-                            // }
-                          },
-                          width: 0.90,
-                          height: 50,
-                          backgroundColor: CustomColors.primaryColor,
-                          widget: CustomText(
-                            text: 'Login',
-                            fontWeight: FontWeight.w600,
-                            color: CustomColors.primaryBlack,
-                            size: 20.0,
-                          ),
-                        );
-                      }
-                    ),
+                    Consumer<UserProvider>(builder: (context, userProvider, _) {
+                      return CustomElevatedButton(
+                        onPressed: () async {
+                          // if (_formKey.currentState!.validate()) {
+                          // login api call logic
+                          login();
+                          // }
+                          // print('Form is valid');
+                          // } else {
+                          //   print('Form is not valid');
+                          // }
+                        },
+                        width: 0.90,
+                        height: 50,
+                        backgroundColor: CustomColors.primaryColor,
+                        widget: CustomText(
+                          text: 'Login',
+                          fontWeight: FontWeight.w600,
+                          color: CustomColors.primaryBlack,
+                          size: 20.0,
+                        ),
+                      );
+                    }),
                     SizedBox(height: 8.0),
                     CustomElevatedButton(
                       onPressed: () {
@@ -237,17 +226,15 @@ class _LoginPageState extends State<LoginPage> {
       ),
     );
   }
-  Future<void> userLogin() async {
 
-    final url = Uri.parse('http://108.181.195.185:8000/api/method/login');
-
-    final header = {
-      'Content-Type': 'application/x-www-form-urlencoded',
-    };
-
-    final body = {
-      'usr': emailController.value.text.isEmpty ? 'Monica@gmail.com ' : emailController.value.text,
-      'pwd': passwordController.value.text.isEmpty ? 'Monica123@' : passwordController.value.text,
+  void login() async {
+    Map<String, dynamic> body = {
+      'usr': emailController.value.text.isEmpty
+          ? 'Monica@gmail.com '
+          : emailController.value.text,
+      'pwd': passwordController.value.text.isEmpty
+          ? 'Monica123@'
+          : passwordController.value.text,
       // user = Phoebe@gmail.com // marketingOfficer
       // pwd = Phoebe123@
       // user = Rachel@gmail.com // marketingManager
@@ -255,57 +242,18 @@ class _LoginPageState extends State<LoginPage> {
       // user = Monica@gmail.com // marketingAsstManager
       // pwd = Monica123@
     };
-    final encodedBody = body.entries
-        .map((e) =>
-    '${Uri.encodeComponent(e.key)}=${Uri.encodeComponent(e.value)}')
-        .join('&');
-
-    final response = await http.post(
-      url,
-      headers: header,
-      body: encodedBody,
-    );
-    final data = jsonDecode(response.body);
-    // print('data = $data');
-    // print(data.runtimeType);
-    // full_name = data['full_name'];
-    // print('names = $full_name');
-    // employee_details = data['employee_details'];
-    // print('details = $employee_details');
-    // user_roles = data['user_roles'];
-    // print('user_roles = $user_roles');
-    // print('userDetails = ${data['employee_details']}');
-    // print('roles = ${data['user_roles']}');
-    // print('userData = $data');
-    if(response.statusCode ==  200){
-
+    ERPResponse response = await ERPServicer.ERPlogin(body);
+    if (response.statusCode == 200) {
       final data = jsonDecode(response.body);
       full_name = data['full_name'];
       employee_details = data['employee_details'];
       user_roles = data['user_roles'];
-      // print('**************************************************');
-      // print(full_name);
-      // print(employee_details);
-      // print(user_roles);
-      // print('**************************************************');
-
-      Navigator.of(context)
-          .pushNamed(RouteGeneratorConstants.homePage);
       _userProvider!.setUserDetails(
-          full_name,
-          employee_details,
-          user_roles,
+        full_name,
+        employee_details,
+        user_roles,
       );
-      // print(response.statusCode);
-    }else{
-      print('Login failed with status: ${response.statusCode}');
+      Navigator.of(context).pushNamed(RouteGeneratorConstants.homePage);
     }
-
   }
-    // final response = await http.get(Uri.parse(
-    //     'http://108.181.195.185:8000/api/method/login'),
-    //   headers: header,
-    //   body: convert.jsonEncode(newData),
-    // );
-
 }

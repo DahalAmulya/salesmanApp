@@ -14,8 +14,12 @@ class ERPResponse {
 }
 
 class ERPServicer {
-  static Map<String, String> headers = {
+  static Map<String, String> headersJson = {
     'Content-Type': 'Application/json',
+  };
+
+  static Map<String, String> headersFromUrlencoded = {
+    'Content-Type': 'Application/x-www-form-urlencoded',
   };
 
   static Future<ERPResponse> getRequest(String path, [String? extras]) async {
@@ -23,7 +27,7 @@ class ERPServicer {
     try {
       final response = await http.get(
         Uri.parse('$apiURL$path$extraPath'),
-        headers: headers,
+        headers: headersJson,
       );
       return ERPResponse(
         statusCode: response.statusCode,
@@ -40,7 +44,7 @@ class ERPServicer {
     try {
       final response = await http.post(
         Uri.parse('$apiURL$path$extraPath'),
-        headers: headers,
+        headers: headersJson,
         body: jsonEncode(body),
       );
       return ERPResponse(
@@ -49,7 +53,35 @@ class ERPServicer {
       );
     } catch (err) {
       return ERPResponse(
-        statusCode: 69,
+        statusCode: 400,
+        body: err.toString(),
+      );
+    }
+  }
+
+  static Future<ERPResponse> ERPlogin(Map<String, dynamic> body) async {
+    try {
+      String url = '$apiURLFrappe/method/login';
+      final encodedBody = body.entries
+          .map((e) =>
+              '${Uri.encodeComponent(e.key)}=${Uri.encodeComponent(e.value)}')
+          .join('&');
+
+      print(encodedBody.runtimeType);
+
+      final response = await http.post(
+        Uri.parse(url),
+        headers: headersFromUrlencoded,
+        body: encodedBody,
+      );
+
+      return ERPResponse(
+        statusCode: response.statusCode,
+        body: response.body,
+      );
+    } catch (err) {
+      return ERPResponse(
+        statusCode: 400,
         body: err.toString(),
       );
     }

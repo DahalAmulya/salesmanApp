@@ -3,7 +3,7 @@ import 'package:background_task/background_task.dart';
 import 'package:deskgoo/classes/background_task_handler.dart';
 import 'package:deskgoo/classes/notification_controller.dart';
 import 'package:deskgoo/consts.dart';
-import 'package:deskgoo/models/enviroment.dart';
+import 'package:deskgoo/models/environment.dart';
 import 'package:deskgoo/pages/mr_officers/mr_officers_provider/mr_officer_provider.dart';
 import 'package:deskgoo/pages/mr_officers/mr_officers_providers/mr_officer_visit_provider.dart';
 import 'package:deskgoo/providers/attendance_provider/remote_attendance_provider.dart';
@@ -30,7 +30,7 @@ import 'package:provider/provider.dart';
 
 Future<void> main() async {
   await dotenv.load(
-    fileName: Enviroment.fileName,
+    fileName: Environment.fileName,
   ); // fileName: '.env', is default fileName so no need to specify it
   if (kIsWeb) {
     print('Running on browser');
@@ -124,7 +124,8 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
         ChangeNotifierProvider(create: (context) => LiveTrackingProvider()),
         ChangeNotifierProvider(create: (context) => DetailsProvider()),
         ChangeNotifierProvider(create: (context) => MrOfficerVisitProvider()),
-        ChangeNotifierProvider(create: (context) => MrOfficerMoreDetailsProvider()),
+        ChangeNotifierProvider(
+            create: (context) => MrOfficerMoreDetailsProvider()),
         ChangeNotifierProvider(create: (context) => UserProvider()),
         ChangeNotifierProvider(
             create: (context) => MrOfficerCreateVisitProvider()),

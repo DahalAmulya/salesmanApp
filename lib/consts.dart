@@ -1,8 +1,8 @@
-import 'package:deskgoo/models/enviroment.dart';
+import 'package:deskgoo/models/environment.dart';
 
-String apiURLFrappe = Enviroment.frappeApiUrl;
-String apiURL = Enviroment.apiUrl;
-String googlMapApiKey = Enviroment.googleMapApiKey;
+String apiURLFrappe = Environment.frappeApiUrl;
+String apiURL = Environment.apiUrl;
+String googlMapApiKey = Environment.googleMapApiKey;
 bool isIOS = false;
 bool isAndroid = false;
 bool isBackground = false;
