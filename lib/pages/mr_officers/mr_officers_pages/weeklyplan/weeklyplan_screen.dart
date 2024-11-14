@@ -45,9 +45,10 @@ Widget _body(context){
   return Column(
     children: [
       Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Container(
-            margin: EdgeInsets.symmetric(horizontal: 8,vertical: 16),
+
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -65,7 +66,6 @@ Widget _body(context){
               ],
             ),
           ),
-          Spacer(),
           Container(
             margin: EdgeInsets.symmetric(horizontal: 8),
             width: MediaQuery.of(context).size.width * 0.30,
