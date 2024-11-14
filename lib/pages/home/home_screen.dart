@@ -22,6 +22,7 @@ import 'package:provider/provider.dart';
 import '../../providers/marketing_provider/officerName_provider.dart';
 import '../../providers/marketing_provider/officersDescription_provider.dart';
 import '../../utils/ScreenWIdth.dart';
+import '../mr_officers/mr_officers_pages/weeklyplan/weeklyplan_screen.dart';
 
 class HomeScreen extends StatefulWidget {
   HomeScreen({super.key});
@@ -160,7 +161,7 @@ class _HomeScreenState extends State<HomeScreen> {
             backgroundColor: CustomColors.primaryColor,
             onPressed: () {
               Navigator.of(context).push(MaterialPageRoute(
-                  builder: (context) => MrOfficersVisitTypeScreen()));
+                  builder: (context) => WeeklyPlanScreen()));
               // Navigator.of(context).push(MaterialPageRoute(
               //     builder: (context) => MROfficersVisitsScreen()));
             },
