@@ -1,5 +1,4 @@
 import 'package:deskgoo/providers/attendance_provider/remote_attendance_provider.dart';
-import 'package:deskgoo/routes/app_route_constants.dart';
 import 'package:deskgoo/routes/route_generator_constants.dart';
 import 'package:deskgoo/widgets/bottom_navigation/gnav_bar.dart';
 import 'package:deskgoo/widgets/containers/custom_container.dart';
@@ -32,7 +31,8 @@ class _RemoteAttendencePageState extends State<RemoteAttendencePage> {
   final NepaliDateTime nepaliTime = NepaliDateTime.now();
   final _formState = GlobalKey<FormState>();
   final descriptionTextController = TextEditingController();
-  final dateTimeController = TextEditingController();
+  final checkInTimeController = TextEditingController();
+  final checkOutTimeController = TextEditingController();
   final gpsLocationController = TextEditingController();
   bool _isAuthenticated = false;
 
@@ -70,6 +70,11 @@ class _RemoteAttendencePageState extends State<RemoteAttendencePage> {
           longitude = position.longitude;
           gpsLocationController.text =
               'Latitude: ${latitude.toString()}, Longitude: ${longitude.toString()}';
+          print(
+              '****************************************************************');
+          print('WeeklyPlanScreen = ${gpsLocationController.value.text}');
+          print(
+              '****************************************************************');
         });
       }
       print('latitude: $latitude');
@@ -144,9 +149,8 @@ class _RemoteAttendencePageState extends State<RemoteAttendencePage> {
         builder: (context) {
           return Consumer<ThemeChangerProvider>(
             builder: (context, provider, _) {
-              print('CustomAppBar build');
               return CustomAppBar(
-                tabName: 'Remote Attendance',
+                tabName: 'Attendance',
                 fontWeight: FontWeight.w600,
                 showLeading: true,
                 leadingIcon: FontAwesomeIcons.bars,
@@ -190,26 +194,13 @@ class _RemoteAttendencePageState extends State<RemoteAttendencePage> {
                         builder: (context, attendanceProvider, _) {
                       return InkWell(
                         onTap: () async {
-                          attendanceProvider.getDistance();
+                          // attendanceProvider.getDistance();
                           if (_formState.currentState!.validate()) {
-                            if (attendanceProvider.distance < 20) {
-                              bool response = await biometricAuthentication();
-                              if (response) {
-                                attendanceProvider
-                                    .switchRemoteAttendanceSwitch();
-                                if (attendanceProvider
-                                    .isRemoteAttendanceSwitched) {
-                                  attendanceProvider.setLoginTime();
-                                } else {
-                                  attendanceProvider.setLogoutTime();
-                                }
-                              }
-                              print('response = $response');
-                            } else {
-                              print('Not inside office perimeter');
-                              print(
-                                  'User is ${attendanceProvider.distance} away from office perimeter');
+                            bool response = await biometricAuthentication();
+                            if (response) {
+                              attendanceProvider.switchRemoteAttendanceSwitch();
                             }
+                            print('response = $response');
                           } else {
                             print(
                                 '_formState.currentState!.validate() = ${_formState.currentState!.validate()}');
@@ -281,91 +272,98 @@ class _RemoteAttendencePageState extends State<RemoteAttendencePage> {
                       onChange: (value) {},
                     ),
                     SizedBox(
-                      height: 8,
-                    ),
-                    SizedBox(
-                      height: 8,
+                      height: 16,
                     ),
                     Consumer<AttendanceProvider>(
-                        builder: (context, attendanceProvider, _) {
-                      return CustomText(
-                          text: attendanceProvider.isRemoteAttendanceSwitched
-                              ? 'Login Time'
-                              : 'Logout Time');
-                    }),
-                    SizedBox(
-                      height: 4,
+                      builder: (context, attendanceProvider, _) {
+                        return TextFromFieldWithPrefixSuffix(
+                          controller: attendanceProvider.checkInTimeController,
+                          applyPrefix: false,
+                          readOnly: true,
+                          labelText: 'Check-in',
+                          hintText: 'Login Time',
+                          onTap: () {},
+                          validator: (String) {
+                            return null;
+                          },
+                          onChange: (value) {},
+                        );
+                      },
                     ),
-                    Consumer<AttendanceProvider>(
-                        builder: (context, attendanceProvider, _) {
-                      dateTimeController.text = attendanceProvider.logTime;
-                      print(
-                          'dateTimeController = ${dateTimeController.value.text}');
-                      return TextFromFieldWithPrefixSuffix(
-                        controller: dateTimeController,
-                        applyPrefix: false,
-                        readOnly: true,
-                        onTap: () {},
-                        validator: (String) {
-                          return null;
-                        },
-                        onChange: (value) {},
-                      );
-                    }),
                     SizedBox(
                       height: 16,
                     ),
-                    CustomText(text: 'GPS Location'),
-                    SizedBox(
-                      height: 4,
-                    ),
-                    TextFromFieldWithPrefixSuffix(
-                      controller: gpsLocationController,
-                      applyPrefix: false,
-                      readOnly: true,
-                      onTap: () {},
-                      validator: (String) {
-                        return null;
+                    Consumer<AttendanceProvider>(
+                      builder: (context, attendanceProvider, _) {
+                        return TextFromFieldWithPrefixSuffix(
+                          controller: attendanceProvider.checkOutTimeController,
+                          applyPrefix: false,
+                          readOnly: true,
+                          labelText: 'Check-out',
+                          hintText: 'Attendance Time',
+                          onTap: () {},
+                          validator: (String) {
+                            return null;
+                          },
+                          onChange: (value) {},
+                        );
                       },
-                      onChange: (value) {},
                     ),
                     SizedBox(
-                      height: 16.0,
+                      height: 16,
                     ),
+                    // CustomText(text: 'GPS Location'),
+                    // SizedBox(
+                    //   height: 4,
+                    // ),
+                    // TextFromFieldWithPrefixSuffix(
+                    //   controller: gpsLocationController,
+                    //   applyPrefix: false,
+                    //   readOnly: true,
+                    //   onTap: () {},
+                    //   validator: (String) {
+                    //     return null;
+                    //   },
+                    //   onChange: (value) {},
+                    // ),
+                    // SizedBox(
+                    //   height: 16.0,
+                    // ),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Consumer<AttendanceProvider>(
-                            builder: (context, attendanceProvider, _) {
-                          return Container(
-                            decoration: BoxDecoration(
-                              color: CustomColors.primaryColor,
-                              borderRadius: BorderRadius.circular(100),
-                            ),
-                            child: IconButton(
-                              onPressed: () async {
-                                // if (isSwitched) {
-                                if (_formState.currentState!.validate()) {
-                                  bool response =
-                                      await biometricAuthentication();
-                                  if (response) {
-                                    attendanceProvider
-                                        .switchRemoteAttendanceSwitch();
-                                  }
-                                  print('response = $response');
-                                  print('valid form printed');
-                                } else {
-                                  print(
-                                      '_formState.currentState!.validate() = ${_formState.currentState!.validate()}');
-                                }
-                              },
-                              icon: Icon(
-                                Icons.fingerprint,
-                                size: 48,
+                          builder: (context, attendanceProvider, _) {
+                            return Container(
+                              decoration: BoxDecoration(
+                                color: CustomColors.primaryColor,
+                                borderRadius: BorderRadius.circular(100),
                               ),
-                            ),
-                          );
-                        }),
+                              child: IconButton(
+                                onPressed: () async {
+                                  // if (isSwitched) {
+                                  if (_formState.currentState!.validate()) {
+                                    bool response =
+                                        await biometricAuthentication();
+                                    if (response) {
+                                      attendanceProvider
+                                          .switchRemoteAttendanceSwitch();
+                                    }
+                                    print('response = $response');
+                                    print('valid form printed');
+                                  } else {
+                                    print(
+                                        '_formState.currentState!.validate() = ${_formState.currentState!.validate()}');
+                                  }
+                                },
+                                icon: Icon(
+                                  Icons.fingerprint,
+                                  size: 48,
+                                ),
+                              ),
+                            );
+                          },
+                        ),
                       ],
                     ),
                   ],
