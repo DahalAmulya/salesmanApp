@@ -1,21 +1,35 @@
 import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:date_picker_timeline/date_picker_timeline.dart';
+import 'package:deskgoo/providers/weeklyplan_provider/weeklyplan_provider.dart';
 import 'package:deskgoo/themes/custom_colors.dart';
 import 'package:deskgoo/widgets/app_bars/custom_app_bars.dart';
+import 'package:deskgoo/widgets/buttons/elevated_button.dart';
 import 'package:deskgoo/widgets/drawers/custom_drawer.dart';
 import 'package:deskgoo/widgets/texts/custom_text.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
+import 'package:provider/provider.dart';
 
-class WeeklyPlanScreen extends StatelessWidget {
-  const WeeklyPlanScreen({super.key});
+import '../../../../widgets/drawers/mr_officer_custom_drawer.dart';
+import 'newtask_screen.dart';
+
+class WeeklyPlanScreen extends StatefulWidget {
+
+   WeeklyPlanScreen({super.key});
+
+  @override
+  State<WeeklyPlanScreen> createState() => _WeeklyPlanScreenState();
+}
+
+class _WeeklyPlanScreenState extends State<WeeklyPlanScreen> {
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: _appbar(context),
-      drawer: CustomDrawer(
+      drawer: MrOfficerCustomDrawer(
         isWeeklyPlanActive: true,
       ),
       body: _body(context),
@@ -43,61 +57,86 @@ PreferredSize _appbar(context){
 }
 
 Widget _body(context){
+  DateTime _selectedDate = DateTime.now();
   return Column(
+    crossAxisAlignment: CrossAxisAlignment.start,
     children: [
-      Container(
-        margin: EdgeInsets.symmetric(horizontal: 8,vertical: 16),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 8.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Container(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  CustomText(
-                      text: (DateFormat.yMMMMd().format(DateTime.now())),
-                    size: 20,
-                    fontWeight: FontWeight.w600,
-
-                  ),
-                  CustomText(
-                      text: 'Today',
-                     size: 24,
-                    fontWeight: FontWeight.w600,
-                  )
-                ],
-              ),
-            ),
-            Container(
-              width: MediaQuery.of(context).size.width * 0.30,
-              height: MediaQuery.of(context).size.height * 0.048,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(8),
-                color: CustomColors.primaryColor,
-              ),
-              child: Center(
-                child: CustomText(
-                    text: '+Add Task',
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                CustomText(
+                    text: (DateFormat('y/MM/dd,EEEE').format(DateTime.now())),
+                  size: 20,
                   fontWeight: FontWeight.w600,
                 ),
-              ),
-            )
+                Consumer<WeeklyPlanProvider>(
+                    builder: (context,weeklyPlanProvider,_) {
+                      return CustomElevatedButton(
+                        onPressed: (){
+                          print('hello');
+                          weeklyPlanProvider.setSelectedDate(_selectedDate);
+                          Navigator.push(context, MaterialPageRoute(builder: (context) => NewTaskScreen()));
+                        },
+                        backgroundColor: CustomColors.primaryColor,
+                        widget: Row(
+                          children: [
+                            Icon(Icons.add,color: Colors.black,size: 16,),
+                            CustomText(
+                                text: ' Add Task'
+                            ),
+                          ],
+                        ),
+                      );
+                    }
+                ),
+              ],
+            ),
+            CustomText(
+              text: 'Today',
+              size: 24,
+              fontWeight: FontWeight.w600,
+            ),
           ],
         ),
       ),
       Container(
+        margin: EdgeInsets.symmetric(horizontal: 8),
         child: DatePicker(
           DateTime.now(),
-          height: 108,
+          height: 100,
           width: 80,
           initialSelectedDate: DateTime.now(),
           selectionColor: CustomColors.primaryColor,
-          dateTextStyle: TextStyle(
-            fontSize: 16,
-            fontWeight: FontWeight.w600,
+          dateTextStyle:GoogleFonts.lato(
+            textStyle: TextStyle(
+              fontSize: 16,
+              fontWeight: FontWeight.w600,
+            ),
           ),
+          dayTextStyle:GoogleFonts.lato(
+            textStyle: TextStyle(
+              fontSize: 14,
+              fontWeight: FontWeight.w600,
+            ),
+          ),
+          monthTextStyle:GoogleFonts.lato(
+            textStyle: TextStyle(
+              fontSize: 12,
+              fontWeight: FontWeight.w600,
+
+            ),
+          ),
+          onDateChange: (newDate){
+            _selectedDate = newDate;
+          },
         ),
       ),
     ]
   );
 }
+

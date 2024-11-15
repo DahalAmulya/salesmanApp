@@ -18,6 +18,7 @@ import 'package:deskgoo/providers/marketing_provider/officersDescription_provide
 import 'package:deskgoo/providers/settings_providers/profile_provider/profile_provider.dart';
 import 'package:deskgoo/providers/visit_provider/order_provider.dart';
 import 'package:deskgoo/providers/visit_provider/visit_screen_provider.dart';
+import 'package:deskgoo/providers/weeklyplan_provider/weeklyplan_provider.dart';
 import 'package:deskgoo/routes/route_generator.dart';
 import 'package:deskgoo/routes/route_generator_constants.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
@@ -124,6 +125,7 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
         ChangeNotifierProvider(create: (context) => LiveTrackingProvider()),
         ChangeNotifierProvider(create: (context) => DetailsProvider()),
         ChangeNotifierProvider(create: (context) => MrOfficerVisitProvider()),
+        ChangeNotifierProvider(create: (context) => WeeklyPlanProvider()),
         ChangeNotifierProvider(
             create: (context) => MrOfficerMoreDetailsProvider()),
         ChangeNotifierProvider(create: (context) => UserProvider()),
