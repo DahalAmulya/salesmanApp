@@ -4,20 +4,40 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
 
+import '../../../../routes/marketing_officer_consts.dart';
 import '../../../../widgets/app_bars/custom_app_bars.dart';
 import '../../../../widgets/drawers/mr_officer_custom_drawer.dart';
+import '../../../../widgets/text_fields/text_from_field.dart';
 
 class AddTaskScreen extends StatelessWidget {
   const AddTaskScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: _appbar(context),
-      drawer: MrOfficerCustomDrawer(
-        isWeeklyPlanActive: true,
+    return PopScope(
+      canPop: false,
+      onPopInvoked: ((didpop) {
+        if (didpop) {
+          return;
+        }
+        Navigator.of(context)
+            .pushNamed(MarketingOfficerConstants.weeklyPlanConst);
+      }),
+      child: GestureDetector(
+        onTap: (){
+          FocusScopeNode currentFocus = FocusScope.of(context);
+          if (!currentFocus.hasPrimaryFocus) {
+            FocusScope.of(context).unfocus();
+          }
+        },
+        child: Scaffold(
+          appBar: _appbar(context),
+          drawer: MrOfficerCustomDrawer(
+            isWeeklyPlanActive: true,
+          ),
+          body: _body(context),
+        ),
       ),
-      body: _body(context),
     );
   }
 }
@@ -30,10 +50,11 @@ PreferredSize _appbar(context){
           return CustomAppBar(
             tabName: 'New Task',
             showLeading: true,
-            leadingIcon: FontAwesomeIcons.bars,
+            leadingIcon: FontAwesomeIcons.arrowLeft,
             onTapLeadingIcon: (){
               print('hello');
-              Scaffold.of(context).openDrawer();
+              Navigator.of(context)
+                  .pushNamed(MarketingOfficerConstants.weeklyPlanConst);
             },
           );
         }
@@ -42,18 +63,35 @@ PreferredSize _appbar(context){
 }
 
 Widget _body(context){
-  return Column(
-    mainAxisAlignment: MainAxisAlignment.center,
-    children: [
-      Consumer<WeeklyPlanProvider>(
-        builder: (context,weeklyPlanProvider,_) {
-          return Container(
-            child: CustomText(
-                text: weeklyPlanProvider.selectedDate.toString(),
-            ),
-          );
-        }
-      )
-    ],
+  final _addTaskFormKey = GlobalKey<FormState>();
+  final taskActivityController = TextEditingController();
+  final taskAreaController = TextEditingController();
+  final taskRemarkController = TextEditingController();
+
+  return Form(
+    key: _addTaskFormKey,
+    child: Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Consumer<WeeklyPlanProvider>(
+          builder: (context,weeklyPlanProvider,_) {
+            return Container(
+              padding: EdgeInsets.symmetric(horizontal: 8,),
+              child: CustomText(
+                  text: weeklyPlanProvider.getFormattedDate(),
+                  size: 20,
+                  fontWeight: FontWeight.w600,
+              ),
+            );
+          }
+        ),
+        CustomText(text: 'Activity:'),
+        // TextFromFieldWithPrefixSuffix(
+        //   controller: null,
+        //   validator: () { },
+        //
+        // ),
+      ],
+    ),
   );
 }
