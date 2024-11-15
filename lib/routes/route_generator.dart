@@ -20,6 +20,7 @@ import 'package:deskgoo/routes/route_generator_constants.dart';
 import 'package:flutter/material.dart';
 import '../pages/home/DescriptionPage/officer_DescriptionPage.dart';
 import '../pages/home/DescriptionPage/officer_VisitDetailPage.dart';
+import '../pages/mr_officers/mr_officers_pages/weeklyplan/addtask_screen.dart';
 import '../pages/settings/profile/profile_Page.dart';
 
 class RouteGenerator {
@@ -98,6 +99,8 @@ class RouteGenerator {
         return MaterialPageRoute(builder: (_) => MrOfficersDashboardScreen());
       case MarketingOfficerConstants.weeklyPlanConst:
         return MaterialPageRoute(builder: (_) => WeeklyPlanScreen());
+        case MarketingOfficerConstants.addTaskConst:
+        return MaterialPageRoute(builder: (_) => AddTaskScreen());
       default:
         return MaterialPageRoute(builder: (_) => ErrorPage());
     }

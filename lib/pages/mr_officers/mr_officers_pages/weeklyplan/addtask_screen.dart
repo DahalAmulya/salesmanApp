@@ -7,8 +7,8 @@ import 'package:provider/provider.dart';
 import '../../../../widgets/app_bars/custom_app_bars.dart';
 import '../../../../widgets/drawers/mr_officer_custom_drawer.dart';
 
-class NewTaskScreen extends StatelessWidget {
-  const NewTaskScreen({super.key});
+class AddTaskScreen extends StatelessWidget {
+  const AddTaskScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
