@@ -59,7 +59,7 @@ PreferredSize _appbar(context) {
       return CustomAppBar(
         tabName: 'Weekly Plan',
         showLeading: true,
-        leadingIcon: FontAwesomeIcons.arrowLeft,
+        leadingIcon: FontAwesomeIcons.bars,
         onTapLeadingIcon: () {
           print('hello');
           Scaffold.of(context).openDrawer();
