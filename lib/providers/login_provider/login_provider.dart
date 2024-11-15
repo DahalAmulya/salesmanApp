@@ -1,3 +1,4 @@
+import 'package:deskgoo/consts.dart';
 import 'package:flutter/material.dart';
 
 class UserProvider extends ChangeNotifier {
@@ -32,6 +33,11 @@ class UserProvider extends ChangeNotifier {
           break outerLoop;
         }
       }
+    }
+    if (_role == 'marketingManager') {
+      isRoleManager = true;
+    } else {
+      isRoleOfficer = true;
     }
     print('******************************************************************');
     print(_fullName);
