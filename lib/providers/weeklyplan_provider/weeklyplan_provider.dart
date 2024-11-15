@@ -14,3 +14,4 @@ class WeeklyPlanProvider with ChangeNotifier{
     return DateFormat('y/MM/dd,EEEE').format(DateTime.now());
   }
 }
+
