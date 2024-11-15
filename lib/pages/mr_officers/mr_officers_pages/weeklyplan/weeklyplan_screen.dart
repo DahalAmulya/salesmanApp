@@ -71,8 +71,10 @@ PreferredSize _appbar(context) {
 
 Widget _body(context) {
   DateTime _selectedDate = DateTime.now();
-  return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-    Padding(
+  return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+      Padding(
       padding: const EdgeInsets.symmetric(horizontal: 8.0),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -148,14 +150,35 @@ Widget _body(context) {
         },
       ),
     ),
-    Consumer<WeeklyPlanProvider>(
-      builder: (context,weeklyPlanProvider,_) {
-        return Container(
-          child: CustomText(
-              text: 'Plan not created for '
-          ),
-        );
-      }
-    )
+    SizedBox(height: 240,),
+    Column(
+     crossAxisAlignment: CrossAxisAlignment.center,
+      children: [
+        Center(child: CustomText(text: 'Plan not created for')),
+        Consumer<WeeklyPlanProvider>(
+          builder: (context,weeklyPlanProvider,_) {
+            return Container(
+              child:
+              Center(
+                child: CustomText(
+                    text: '${weeklyPlanProvider.getFormattedDate()}',
+                ),
+              ),
+            );
+          }
+        ),
+      ],
+    ),
+    // Container(
+    //   child: Consumer<WeeklyPlanProvider>(
+    //     builder: (context,weeklyPlanProvider,_) {
+    //       return Container(
+    //         child: CustomText(
+    //             text: 'Plan not created for ${weeklyPlanProvider.getFormattedDate()}'
+    //         ),
+    //       );
+    //     }
+    //   ),
+    // )
   ]);
 }
