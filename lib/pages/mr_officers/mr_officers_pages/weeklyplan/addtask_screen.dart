@@ -85,7 +85,7 @@ Widget _body(context){
             );
           }
         ),
-        CustomText(text: 'Activity:'),
+        // CustomText(text: 'Activity:'),
         // TextFromFieldWithPrefixSuffix(
         //   controller: null,
         //   validator: () { },

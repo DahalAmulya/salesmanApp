@@ -13,7 +13,7 @@ class WeeklyPlanProvider with ChangeNotifier{
   String formattedDateTime (){
     return DateFormat('y/MM/dd,EEEE').format(DateTime.now());
   }
-  String getFormattedDate({String format = 'y/MM/dd,EEEE'}) {
+  String getFormattedDate({String format = 'dd MMM y, EE'}) {
     if (selectedDate == null) {
       return 'No Date Selected';
     }

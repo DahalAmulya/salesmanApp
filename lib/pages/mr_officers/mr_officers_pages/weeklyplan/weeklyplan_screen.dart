@@ -81,7 +81,7 @@ Widget _body(context) {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               CustomText(
-                text: (DateFormat('y/MM/dd,EEEE').format(DateTime.now())),
+                text: (DateFormat('dd MMM y, EE').format(DateTime.now())),
                 size: 20,
                 fontWeight: FontWeight.w600,
               ),
@@ -148,5 +148,14 @@ Widget _body(context) {
         },
       ),
     ),
+    Consumer<WeeklyPlanProvider>(
+      builder: (context,weeklyPlanProvider,_) {
+        return Container(
+          child: CustomText(
+              text: 'Plan not created for '
+          ),
+        );
+      }
+    )
   ]);
 }
