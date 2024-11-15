@@ -92,6 +92,7 @@ class RouteGenerator {
         return MaterialPageRoute(
           builder: (_) => OfficerVisitDetailPage(),
         );
+
       // Routes for MarketingStaff
       case MarketingOfficerConstants.mrStaffDashboardConst:
         return MaterialPageRoute(builder: (_) => MrOfficersDashboardScreen());
