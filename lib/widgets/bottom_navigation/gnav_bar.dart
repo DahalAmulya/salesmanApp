@@ -1,3 +1,5 @@
+import 'package:deskgoo/consts.dart';
+import 'package:deskgoo/routes/marketing_officer_consts.dart';
 import 'package:deskgoo/routes/route_generator_constants.dart';
 import 'package:deskgoo/themes/custom_colors.dart';
 import 'package:flutter/cupertino.dart';
@@ -29,7 +31,13 @@ class CustomGNavBar extends StatelessWidget {
           onPressed: () {
             // GoRouter.of(context)
             //     .pushReplacementNamed(MyAppRouteConstants.homeNavBarRouteName);
-            Navigator.of(context).pushNamed(MarketingManagerConstants.homePage);
+            if (isRoleManager) {
+              Navigator.of(context)
+                  .pushNamed(MarketingManagerConstants.homePage);
+            } else if (isRoleOfficer) {
+              Navigator.of(context)
+                  .pushNamed(MarketingOfficerConstants.mrStaffDashboardConst);
+            }
           },
           // margin: EdgeInsets.symmetric(horizontal: 8, vertical: 0),
           padding: EdgeInsets.symmetric(vertical: 16, horizontal: 16),
