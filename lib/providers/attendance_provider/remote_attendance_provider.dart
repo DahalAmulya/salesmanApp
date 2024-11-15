@@ -3,33 +3,49 @@ import 'package:geolocator/geolocator.dart';
 import 'package:nepali_utils/nepali_utils.dart';
 
 class AttendanceProvider extends ChangeNotifier {
+  TextEditingController _checkInTimeController = TextEditingController();
+  TextEditingController _checkOutTimeController = TextEditingController();
   bool _isRemoteAttendanceSwitched = false;
   bool _isBiometricAuthenticated = false;
   double _distance = 0.0;
-  NepaliDateTime _loginTime = NepaliDateTime.now();
-  NepaliDateTime _logoutTime = NepaliDateTime.now();
-  String _logTime = '';
+  NepaliDateTime _checkInTime = NepaliDateTime.now();
+  NepaliDateTime _checkOutTime = NepaliDateTime.now();
 
+  TextEditingController get checkInTimeController => _checkInTimeController;
+  TextEditingController get checkOutTimeController => _checkOutTimeController;
   bool get isRemoteAttendanceSwitched => _isRemoteAttendanceSwitched;
   bool get isAuthenticated => _isBiometricAuthenticated;
   double get distance => _distance;
-  NepaliDateTime get loginTime => _loginTime;
-  NepaliDateTime get logoutTime => _logoutTime;
-  String get logTime => _logTime;
+  NepaliDateTime get checkInTime => _checkInTime;
+  NepaliDateTime get checkOutTime => _checkOutTime;
 
   void switchRemoteAttendanceSwitch() {
     _isRemoteAttendanceSwitched = !_isRemoteAttendanceSwitched;
+    if (_isRemoteAttendanceSwitched) {
+      setCheckInTime();
+    } else {
+      setCheckOutTime();
+    }
     notifyListeners();
   }
 
   void toggleIsAuthenticated() {
     _isBiometricAuthenticated = !_isBiometricAuthenticated;
+
     notifyListeners();
   }
 
-  void setLoginTime() {
-    _loginTime = NepaliDateTime.now();
-    _logTime = _logoutTime.toString().split('.')[0];
+  void setCheckInTime() {
+    _checkInTime = NepaliDateTime.now();
+    _checkInTimeController.text =
+        _checkInTime.toString().split('.')[0].split(' ')[1];
+    notifyListeners();
+  }
+
+  void setCheckOutTime() {
+    _checkOutTime = NepaliDateTime.now();
+    _checkOutTimeController.text =
+        _checkOutTime.toString().split('.')[0].split(' ')[1];
     notifyListeners();
   }
 
@@ -46,12 +62,6 @@ class AttendanceProvider extends ChangeNotifier {
       position.latitude,
       position.longitude,
     );
-    notifyListeners();
-  }
-
-  void setLogoutTime() {
-    _logoutTime = NepaliDateTime.now();
-    _logTime = _logoutTime.toString().split('.')[0];
     notifyListeners();
   }
 }
