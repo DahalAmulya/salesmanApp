@@ -99,7 +99,7 @@ class RouteGenerator {
         return MaterialPageRoute(builder: (_) => MrOfficersDashboardScreen());
       case MarketingOfficerConstants.weeklyPlanConst:
         return MaterialPageRoute(builder: (_) => WeeklyPlanScreen());
-        case MarketingOfficerConstants.addTaskConst:
+      case MarketingOfficerConstants.addTaskConst:
         return MaterialPageRoute(builder: (_) => AddTaskScreen());
       default:
         return MaterialPageRoute(builder: (_) => ErrorPage());
