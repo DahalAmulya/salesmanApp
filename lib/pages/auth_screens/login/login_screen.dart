@@ -236,7 +236,7 @@ class _LoginPageState extends State<LoginPage> {
       'pwd': passwordController.value.text.isEmpty
           ? 'Phoebe123@'
           : passwordController.value.text,
-      // user = Phoebe@gmail.com // marketingOfficer
+      // user = Phoebe@gmail.com // marketingOfficer currently used
       // pwd = Phoebe123@
       // user = Rachel@gmail.com // marketingManager
       // pwd = Rachel123@
