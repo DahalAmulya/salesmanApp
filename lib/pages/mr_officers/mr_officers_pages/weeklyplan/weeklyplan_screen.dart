@@ -1,10 +1,8 @@
-import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:date_picker_timeline/date_picker_timeline.dart';
 import 'package:deskgoo/providers/weeklyplan_provider/weeklyplan_provider.dart';
 import 'package:deskgoo/themes/custom_colors.dart';
 import 'package:deskgoo/widgets/app_bars/custom_app_bars.dart';
 import 'package:deskgoo/widgets/buttons/elevated_button.dart';
-import 'package:deskgoo/widgets/drawers/custom_drawer.dart';
 import 'package:deskgoo/widgets/texts/custom_text.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -13,7 +11,6 @@ import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import '../../../../routes/marketing_officer_consts.dart';
 import '../../../../widgets/drawers/mr_officer_custom_drawer.dart';
-import 'addtask_screen.dart';
 
 class WeeklyPlanScreen extends StatefulWidget {
   WeeklyPlanScreen({super.key});
@@ -34,7 +31,7 @@ class _WeeklyPlanScreenState extends State<WeeklyPlanScreen> {
         // GoRouter.of(context)
         //     .pushReplacementNamed(MyAppRouteConstants.homeNavBarRouteName);
         Navigator.of(context)
-            .pushNamed(MarketingOfficerConstants.weeklyPlanConst);
+            .pushNamed(MarketingOfficerConstants.mrStaffDashboardConst);
       }),
       child: GestureDetector(
         onTap: () {
@@ -42,16 +39,14 @@ class _WeeklyPlanScreenState extends State<WeeklyPlanScreen> {
           if (!currentFocus.hasPrimaryFocus) {
             FocusScope.of(context).unfocus();
           }
-          ;
-          child:
-          Scaffold(
-            appBar: _appbar(context),
-            drawer: MrOfficerCustomDrawer(
-              isWeeklyPlanActive: true,
-            ),
-            body: _body(context),
-          );
         },
+        child: Scaffold(
+          appBar: _appbar(context),
+          drawer: MrOfficerCustomDrawer(
+            isWeeklyPlanActive: true,
+          ),
+          body: _body(context),
+        ),
       ),
     );
   }

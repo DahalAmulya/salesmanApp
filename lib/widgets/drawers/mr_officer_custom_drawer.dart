@@ -131,6 +131,7 @@ class MrOfficerCustomDrawer extends StatelessWidget {
                         onTap: () {
                           Navigator.of(context).pushNamed(
                               MarketingOfficerConstants.weeklyPlanConst);
+                          print('WeeklyPlanScreen');
                         },
                         isTabActive: isWeeklyPlanActive,
                         text: 'Weekly Plan',
