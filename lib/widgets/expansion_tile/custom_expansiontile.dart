@@ -13,6 +13,8 @@ class CustomExpansionTile extends StatelessWidget {
   final double radiusTopRight;
   final double radiusBottomLeft;
   final double radiusBottomRight;
+  final double verticalMargin;
+  final double horizontalMargin;
   // final Function onExpansionChanged;
 
   const CustomExpansionTile({
@@ -29,6 +31,9 @@ class CustomExpansionTile extends StatelessWidget {
     // this.onExpansionChanged,
     this.horizontalPad = 16,
     this.verticalPad = 0,
+    this.verticalMargin = 0,
+    this.horizontalMargin = 0,
+     // required
   });
 
   @override
@@ -36,6 +41,7 @@ class CustomExpansionTile extends StatelessWidget {
     return Theme(
        data: ThemeData().copyWith(dividerColor: Colors.transparent),
       child: Container(
+        margin: EdgeInsets.symmetric(vertical: verticalMargin,horizontal: horizontalMargin),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.only(topLeft: Radius.circular(radiusTopLeft), topRight: Radius.circular(radiusTopRight),bottomRight: Radius.circular(radiusBottomRight),bottomLeft: Radius.circular(radiusBottomLeft)),
           color: Colors.white,

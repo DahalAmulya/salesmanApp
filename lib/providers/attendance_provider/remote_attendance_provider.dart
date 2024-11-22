@@ -31,7 +31,6 @@ class AttendanceProvider extends ChangeNotifier {
 
   void toggleIsAuthenticated() {
     _isBiometricAuthenticated = !_isBiometricAuthenticated;
-
     notifyListeners();
   }
 

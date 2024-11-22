@@ -1,0 +1,310 @@
+[
+  {
+    "district": "Achham",
+    "cities": ["farhan","rahul"]
+  },
+  {
+    "district": "Arghakhanchi",
+    "cities": ["Lalitpur","Bhaktapur","Kathmandu"]
+  },
+  {
+    "district": "Baglung",
+    "cities": ["Lalitpur","Bhaktapur","Kathmandu"]
+  },
+  {
+    "district": "Baitadi",
+    "cities": ["Lalitpur","Bhaktapur","Kathmandu"]
+  },
+  {
+    "district": "Bajhang",
+    "cities": ["Lalitpur","Bhaktapur","Kathmandu"]
+  },
+  {
+    "district": "Bajura",
+    "cities": ["Lalitpur","Bhaktapur","Kathmandu"]
+  },
+  {
+    "district": "Banke",
+    "cities": ["Lalitpur","Bhaktapur","Kathmandu"]
+  },
+  {
+    "district": "Bara",
+    "cities": ["Lalitpur","Bhaktapur","Kathmandu"]
+  },
+  {
+    "district": "Bardiya",
+    "cities": ["Lalitpur","Bhaktapur","Kathmandu"]
+  },
+  {
+    "district": "Bhaktapur",
+    "cities": ["Lalitpur","Bhaktapur","Kathmandu"]
+  },
+  {
+    "district": "Bhojpur",
+    "cities": ["Lalitpur","Bhaktapur","Kathmandu"]
+  },
+  {
+    "district": "Chitwan",
+    "cities": ["Lalitpur","Bhaktapur","Kathmandu"]
+  },
+  {
+    "district": "Dadeldhura",
+    "cities": ["Lalitpur","Bhaktapur","Kathmandu"]
+  },
+  {
+    "district": "Dailekh",
+    "cities": ["Lalitpur","Bhaktapur","Kathmandu"]
+  },
+  {
+    "district": "Dang",
+    "cities": ["Lalitpur","Bhaktapur","Kathmandu"]
+  },
+  {
+    "district": "Darchula",
+    "cities": ["Lalitpur","Bhaktapur","Kathmandu"]
+  },
+  {
+    "district": "Dhading",
+    "cities": ["Lalitpur","Bhaktapur","Kathmandu"]
+  },
+  {
+    "district": "Dhankuta",
+    "cities": ["Lalitpur","Bhaktapur","Kathmandu"]
+  },
+  {
+    "district": "Dhanusha",
+    "cities": ["Lalitpur","Bhaktapur","Kathmandu"]
+  },
+  {
+    "district": "Dolakha",
+    "cities": ["Lalitpur","Bhaktapur","Kathmandu"]
+  },
+  {
+    "district": "Dolpa",
+    "cities": ["Lalitpur","Bhaktapur","Kathmandu"]
+  },
+  {
+    "district": "Doti",
+    "cities": ["Lalitpur","Bhaktapur","Kathmandu"]
+  },
+  {
+    "district": "Eastern Rukum",
+    "cities": ["Lalitpur","Bhaktapur","Kathmandu"]
+  },
+  {
+    "district": "Gorkha",
+    "cities": ["Lalitpur","Bhaktapur","Kathmandu"]
+  },
+  {
+    "district": "Gulmi",
+    "cities": ["Lalitpur","Bhaktapur","Kathmandu"]
+  },
+  {
+    "district": "Humla",
+    "cities": ["Lalitpur","Bhaktapur","Kathmandu"]
+  },
+  {
+    "district": "Ilam",
+    "cities": ["Lalitpur","Bhaktapur","Kathmandu"]
+  },
+  {
+    "district": "Jajarkot",
+    "cities": ["Lalitpur","Bhaktapur","Kathmandu"]
+  },
+  {
+    "district": "Jhapa",
+    "cities": ["Lalitpur","Bhaktapur","Kathmandu"]
+  },
+  {
+    "district": "Jumla",
+    "cities": ["Lalitpur","Bhaktapur","Kathmandu"]
+  },
+  {
+    "district": "Kailali",
+    "cities": ["Lalitpur","Bhaktapur","Kathmandu"]
+  },
+  {
+    "district": "kalikot",
+    "cities": ["Lalitpur","Bhaktapur","Kathmandu"]
+  },
+  {
+    "district": "Kanchanpur",
+    "cities": ["Lalitpur","Bhaktapur","Kathmandu"]
+  },
+  {
+    "district": "Kapilvastu",
+    "cities": ["Lalitpur","Bhaktapur","Kathmandu"]
+  },
+  {
+    "district": "Kaski",
+    "cities": ["Lalitpur","Bhaktapur","Kathmandu"]
+  },
+  {
+    "district": "Kathmandu",
+    "cities": ["Lalitpur","Bhaktapur","Kathmandu"]
+  },
+  {
+    "district": "Kavrepalanchok",
+    "cities": ["Lalitpur","Bhaktapur","Kathmandu"]
+  },
+  {
+    "district": "Khotang",
+    "cities": ["Lalitpur","Bhaktapur","Kathmandu"]
+  },
+  {
+    "district": "Lalitpur",
+    "cities": ["Lalitpur","Bhaktapur","Kathmandu"]
+  },
+  {
+    "district": "Lamjung",
+    "cities": ["Lalitpur","Bhaktapur","Kathmandu"]
+  },
+  {
+    "district": "Mahottari",
+    "cities": ["Lalitpur","Bhaktapur","Kathmandu"]
+  },
+  {
+    "district": "Makwanpur",
+    "cities": ["Lalitpur","Bhaktapur","Kathmandu"]
+  },
+  {
+    "district": "Manangg",
+    "cities": ["Lalitpur","Bhaktapur","Kathmandu"]
+  },
+  {
+    "district": "Morang",
+    "cities": ["Lalitpur","Bhaktapur","Kathmandu"]
+  },
+  {
+    "district": "Muggu",
+    "cities": ["Lalitpur","Bhaktapur","Kathmandu"]
+  },
+  {
+    "district": "Mustang",
+    "cities": ["Lalitpur","Bhaktapur","Kathmandu"]
+  },
+  {
+    "district": "Myagdi",
+    "cities": ["Lalitpur","Bhaktapur","Kathmandu"]
+  },
+  {
+    "district": "Nawalparasi(East of Bardaghat Susta)",
+    "cities": ["Lalitpur","Bhaktapur","Kathmandu"]
+  },
+  {
+    "district": "Nawalparasi(East of Bardaghat Susta)",
+    "cities": ["Lalitpur","Bhaktapur","Kathmandu"]
+  },
+  {
+    "district": "Nuwakot",
+    "cities": ["Lalitpur","Bhaktapur","Kathmandu"]
+  },
+  {
+    "district": "Okhal Dhunga",
+    "cities": ["Lalitpur","Bhaktapur","Kathmandu"]
+  },
+  {
+    "district": "Palpa",
+    "cities": ["Lalitpur","Bhaktapur","Kathmandu"]
+  },
+  {
+    "district": "Panchathar",
+    "cities": ["Lalitpur","Bhaktapur","Kathmandu"]
+  },
+  {
+    "district": "Parbat",
+    "cities": ["Lalitpur","Bhaktapur","Kathmandu"]
+  },
+  {
+    "district": "Parsa",
+    "cities": ["Lalitpur","Bhaktapur","Kathmandu"]
+  },
+  {
+    "district": "Pyuthan",
+    "cities": ["Lalitpur","Bhaktapur","Kathmandu"]
+  },
+  {
+    "district": "Ramechhap",
+    "cities": ["Lalitpur","Bhaktapur","Kathmandu"]
+  },
+  {
+    "district": "Rasuwa",
+    "cities": ["Lalitpur","Bhaktapur","Kathmandu"]
+  },
+  {
+    "district": "Rautahat",
+    "cities": ["Lalitpur","Bhaktapur","Kathmandu"]
+  },
+  {
+    "district": "Rolpa",
+    "cities": ["Lalitpur","Bhaktapur","Kathmandu"]
+  },
+  {
+    "district": "Rupandehi",
+    "cities": ["Lalitpur","Bhaktapur","Kathmandu"]
+  },
+  {
+    "district": "Salyan",
+    "cities": ["Lalitpur","Bhaktapur","Kathmandu"]
+  },
+  {
+    "district": "Sankhuwasabha",
+    "cities": ["Lalitpur","Bhaktapur","Kathmandu"]
+  },
+  {
+    "district": "Saptari",
+    "cities": ["Lalitpur","Bhaktapur","Kathmandu"]
+  },
+  {
+    "district": "Sarlahi",
+    "cities": ["Lalitpur","Bhaktapur","Kathmandu"]
+  },
+  {
+    "district": "Sindhuli",
+    "cities": ["Lalitpur","Bhaktapur","Kathmandu"]
+  },
+  {
+    "district": "Sindhupalchok",
+    "cities": ["Lalitpur","Bhaktapur","Kathmandu"]
+  },
+  {
+    "district": "Siraha",
+    "cities": ["Lalitpur","Bhaktapur","Kathmandu"]
+  },
+  {
+    "district": "Solukhumbu",
+    "cities": ["Lalitpur","Bhaktapur","Kathmandu"]
+  },
+  {
+    "district": "Sunsari",
+    "cities": ["Lalitpur","Bhaktapur","Kathmandu"]
+  },
+  {
+    "district": "Surkhet",
+    "cities": ["Lalitpur","Bhaktapur","Kathmandu"]
+  },
+  {
+    "district": "Syangja",
+    "cities": ["Lalitpur","Bhaktapur","Kathmandu"]
+  },
+  {
+    "district": "Tanahun",
+    "cities": ["Lalitpur","Bhaktapur","Kathmandu"]
+  },
+  {
+    "district": "Taplejung",
+    "cities": ["Lalitpur","Bhaktapur","Kathmandu"]
+  },
+  {
+    "district": "Tehrathum",
+    "cities": ["Lalitpur","Bhaktapur","Kathmandu"]
+  },
+  {
+    "district": "Udayapur",
+    "cities": ["Lalitpur","Bhaktapur","Kathmandu"]
+  },
+  {
+    "district": "Western Rukum",
+    "cities": ["Lalitpur","Bhaktapur","Kathmandu"]
+  }
+]
