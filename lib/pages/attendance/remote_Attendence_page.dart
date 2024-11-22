@@ -1,6 +1,7 @@
 import 'dart:io';
-
+import 'package:deskgoo/consts.dart';
 import 'package:deskgoo/providers/attendance_provider/remote_attendance_provider.dart';
+import 'package:deskgoo/routes/marketing_officer_consts.dart';
 import 'package:deskgoo/routes/route_generator_constants.dart';
 import 'package:deskgoo/widgets/bottom_navigation/gnav_bar.dart';
 import 'package:deskgoo/widgets/containers/custom_container.dart';
@@ -120,7 +121,12 @@ class _RemoteAttendencePageState extends State<RemoteAttendencePage> {
         }
         // GoRouter.of(context)
         //     .pushReplacementNamed(MyAppRouteConstants.homeNavBarRouteName);
-        Navigator.of(context).pushNamed(MarketingManagerConstants.homePage);
+        if (isRoleManager) {
+          Navigator.of(context).pushNamed(MarketingManagerConstants.homePage);
+        } else if (isRoleOfficer) {
+          Navigator.of(context)
+              .pushNamed(MarketingOfficerConstants.mrStaffDashboardConst);
+        }
       }),
       child: GestureDetector(
         onTap: () {

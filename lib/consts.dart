@@ -6,3 +6,5 @@ String googlMapApiKey = Environment.googleMapApiKey;
 bool isIOS = false;
 bool isAndroid = false;
 bool isBackground = false;
+bool isRoleManager = false;
+bool isRoleOfficer = false;
