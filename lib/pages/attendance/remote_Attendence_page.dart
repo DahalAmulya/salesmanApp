@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:deskgoo/providers/attendance_provider/remote_attendance_provider.dart';
 import 'package:deskgoo/routes/route_generator_constants.dart';
 import 'package:deskgoo/widgets/bottom_navigation/gnav_bar.dart';
@@ -356,10 +358,13 @@ class _RemoteAttendencePageState extends State<RemoteAttendencePage> {
                                         '_formState.currentState!.validate() = ${_formState.currentState!.validate()}');
                                   }
                                 },
-                                icon: Icon(
+                                icon: Platform.isAndroid ? Icon(
                                   Icons.fingerprint,
                                   size: 48,
-                                ),
+                                ) : CircleAvatar(
+                                  radius: 24,
+                                  backgroundColor: CustomColors.primaryColor,
+                                    child: Image.asset('assets/icons/faceid.png',width: 50,height: 50,)),
                               ),
                             );
                           },

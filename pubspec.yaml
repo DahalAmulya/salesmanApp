@@ -45,6 +45,8 @@ dependencies:
   intl:
   google_fonts:
   date_picker_timeline:
+  carousel_slider: ^5.0.0
+  smooth_page_indicator: ^1.2.0+3
 #  getwidget: ^2.0.4
 
 dev_dependencies:
@@ -77,6 +79,7 @@ flutter:
     - assets/icons/
     - assets/images/
     - assets/flag_img/
+    - assets/district.json
   #   - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see

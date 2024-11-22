@@ -21,6 +21,8 @@ class MrOfficerCustomDrawer extends StatelessWidget {
     this.isWeeklyPlanActive = false,
     this.isVisitActive = false,
     this.isAttendanceActive = false,
+    this.isAlertDialog = false,
+    this.isSwitched = false,
   });
 
   final bool hasImage;
@@ -31,6 +33,8 @@ class MrOfficerCustomDrawer extends StatelessWidget {
   final bool isWeeklyPlanActive;
   final bool isVisitActive;
   final bool isAttendanceActive;
+  final bool isAlertDialog;
+  final bool isSwitched;
 
   @override
   Widget build(BuildContext context) {
@@ -171,6 +175,18 @@ class MrOfficerCustomDrawer extends StatelessWidget {
                         text: 'Attendance',
                         textColor: CustomColors.primaryBlack,
                       ),
+                      CustomListTile(
+                        onTap: () {
+                          // GoRouter.of(context).pushReplacementNamed(
+                          //     MyAppRouteConstants.remoteAttendanceRouteName);
+                          // Navigator.of(context).pushNamed(
+                          //     MarketingManagerConstants.remoteAttendancePage);
+                          // openAlertDialog();
+                        },
+                        isTabActive: isAlertDialog,
+                        text: 'Alert Dialog',
+                        icon: Icons.add_alert,
+                      ),
                     ],
                   ),
                 ),
@@ -181,4 +197,66 @@ class MrOfficerCustomDrawer extends StatelessWidget {
       }),
     );
   }
+  // void openAlertDialog(){
+  //   showDialog(
+  //       context: context,
+  //       builder: (BuildContext context){
+  //         return AlertDialog(
+  //           backgroundColor: CustomColors.primaryWhite,
+  //           elevation: 10,
+  //           title: Center(
+  //             child: CustomText(
+  //               text: 'Select visit type',
+  //               fontWeight: FontWeight.bold,
+  //               size: 22,
+  //               color: CustomColors.primaryBlack,
+  //             ),
+  //           ),
+  //           content: Column(
+  //             children: [
+  //               Row(
+  //                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+  //                 children: [
+  //                   CustomText(
+  //                     text: 'Attendance',
+  //                     fontWeight: FontWeight.w600,
+  //                   ),
+  //                   Icon(Icons.arrow_forward_rounded,color: CustomColors.primaryColor,),
+  //                   Switch.adaptive(
+  //                       value: isSwitched,
+  //                       onChanged: (value){
+  //
+  //                       })
+  //                 ],
+  //               ),
+  //               Row(
+  //                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
+  //                 children: [
+  //                   CustomText(text: 'Status'),
+  //                   CustomText(text: 'Checked-in'),
+  //                 ],
+  //               ),
+  //               Row(
+  //                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
+  //                 children: [
+  //                   CustomText(text: 'Check-in Time'),
+  //                   CustomText(text: '09:05 2024/11/19'),
+  //                 ],
+  //               ),
+  //               Row(
+  //                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
+  //                 children: [
+  //                   CustomText(text: 'Check-out Time'),
+  //                   CustomText(text: 'Not Checked-out'),
+  //                 ],
+  //               ),
+  //               Center(child: Icon(Icons.fingerprint)),
+  //             ],
+  //           ),
+  //         );
+  //       });
+  // }
+
 }
+
+

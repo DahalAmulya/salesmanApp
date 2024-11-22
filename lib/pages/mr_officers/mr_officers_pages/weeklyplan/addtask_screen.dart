@@ -1,4 +1,7 @@
 import 'package:deskgoo/providers/weeklyplan_provider/weeklyplan_provider.dart';
+import 'package:deskgoo/themes/custom_colors.dart';
+import 'package:deskgoo/widgets/buttons/elevated_button.dart';
+import 'package:deskgoo/widgets/containers/custom_container.dart';
 import 'package:deskgoo/widgets/texts/custom_text.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -52,7 +55,6 @@ PreferredSize _appbar(context){
             showLeading: true,
             leadingIcon: FontAwesomeIcons.arrowLeft,
             onTapLeadingIcon: (){
-              print('hello');
               Navigator.of(context)
                   .pushNamed(MarketingOfficerConstants.weeklyPlanConst);
             },
@@ -76,7 +78,7 @@ Widget _body(context){
         Consumer<WeeklyPlanProvider>(
           builder: (context,weeklyPlanProvider,_) {
             return Container(
-              padding: EdgeInsets.symmetric(horizontal: 8,),
+              padding: EdgeInsets.symmetric(horizontal: 8,vertical: 8),
               child: CustomText(
                   text: weeklyPlanProvider.getFormattedDate(),
                   size: 20,
@@ -86,11 +88,88 @@ Widget _body(context){
           }
         ),
         // CustomText(text: 'Activity:'),
-        // TextFromFieldWithPrefixSuffix(
-        //   controller: null,
-        //   validator: () { },
-        //
-        // ),
+        CustomContainer(
+          applyShadow: true,
+          verticalPad: 18,
+          horizontalPad: 18,
+          verticalMargin: 16,
+          horizontalMargin: 16,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.end,
+            children: [
+              TextFromFieldWithPrefixSuffix(
+                controller: taskActivityController,
+                autoFocus: false,
+                hintText: 'Activity',
+                labelText: 'Activity note',
+                minLine: 6,
+                maxLines: 6,
+                validator: (value) {
+                  // print(visitScreenProvider.followUpNote);
+                  return value!.isEmpty
+                      ? 'Activity note is required'
+                      : value.length < 3
+                      ? 'Enter at least 3 characters'
+                      : null;
+                },
+                onChange: (value) {
+                  // visitScreenProvider.setFollowUpNote(value!);
+                },
+                onTap: () {},
+              ),
+              SizedBox(height: 8,),
+              TextFromFieldWithPrefixSuffix(
+                controller: taskAreaController,
+                autoFocus: false,
+                hintText: 'Area',
+                labelText: 'Area note',
+                minLine: 6,
+                maxLines: 6,
+                validator: (value) {
+                  // print(visitScreenProvider.followUpNote);
+                  return value!.isEmpty
+                      ? 'Visiting Area name is required'
+                      : value.length < 3
+                      ? 'Enter at least 3 characters'
+                      : null;
+                },
+                onChange: (value) {
+                  // visitScreenProvider.setFollowUpNote(value!);
+                },
+                onTap: () {},
+              ),
+              SizedBox(height: 8,),
+              TextFromFieldWithPrefixSuffix(
+                controller: taskRemarkController,
+                autoFocus: false,
+                hintText: 'Remark',
+                labelText: 'Remark note',
+                minLine: 6,
+                maxLines: 6,
+                validator: (value) {
+                  // print(visitScreenProvider.followUpNote);
+                  return value!.isEmpty
+                      ? 'Remark note is required'
+                      : value.length < 3
+                      ? 'Enter at least 3 characters'
+                      : null;
+                },
+                onChange: (value) {
+                  // visitScreenProvider.setFollowUpNote(value!);
+                },
+                onTap: () {},
+              ),
+              SizedBox(height: 8,),
+              CustomElevatedButton(
+                  onPressed: (){},
+                  backgroundColor: CustomColors.primaryColor,
+                  widget: CustomText(
+                      text: 'Submit'
+                  )
+              )
+            ],
+          ),
+        ),
       ],
     ),
   );
