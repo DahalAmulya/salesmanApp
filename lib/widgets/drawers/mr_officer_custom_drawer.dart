@@ -9,6 +9,12 @@ import 'package:deskgoo/widgets/texts/custom_text.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
+
+import '../../pages/mr_officers/mr_officers_pages/mr_officers_visits/mr_officers_visits.dart';
+import '../../pages/mr_officers/mr_officers_providers/mr_officer_visit_provider.dart';
+import '../buttons/elevated_button.dart';
+import '../containers/custom_container.dart';
+import '../radio_button/custom_radio_button.dart';
 // import 'package:go_router/go_router.dart';
 
 class MrOfficerCustomDrawer extends StatelessWidget {
@@ -196,7 +202,7 @@ class MrOfficerCustomDrawer extends StatelessWidget {
                           //     MyAppRouteConstants.remoteAttendanceRouteName);
                           // Navigator.of(context).pushNamed(
                           //     MarketingManagerConstants.remoteAttendancePage);
-                          // openAlertDialog();
+                          openAlertDialog(context);
                         },
                         isTabActive: isAlertDialog,
                         text: 'Alert Dialog',
@@ -212,63 +218,171 @@ class MrOfficerCustomDrawer extends StatelessWidget {
       }),
     );
   }
-  // void openAlertDialog(){
-  //   showDialog(
-  //       context: context,
-  //       builder: (BuildContext context){
-  //         return AlertDialog(
-  //           backgroundColor: CustomColors.primaryWhite,
-  //           elevation: 10,
-  //           title: Center(
-  //             child: CustomText(
-  //               text: 'Select visit type',
-  //               fontWeight: FontWeight.bold,
-  //               size: 22,
-  //               color: CustomColors.primaryBlack,
-  //             ),
-  //           ),
-  //           content: Column(
-  //             children: [
-  //               Row(
-  //                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-  //                 children: [
-  //                   CustomText(
-  //                     text: 'Attendance',
-  //                     fontWeight: FontWeight.w600,
-  //                   ),
-  //                   Icon(Icons.arrow_forward_rounded,color: CustomColors.primaryColor,),
-  //                   Switch.adaptive(
-  //                       value: isSwitched,
-  //                       onChanged: (value){
-  //
-  //                       })
-  //                 ],
-  //               ),
-  //               Row(
-  //                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
-  //                 children: [
-  //                   CustomText(text: 'Status'),
-  //                   CustomText(text: 'Checked-in'),
-  //                 ],
-  //               ),
-  //               Row(
-  //                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
-  //                 children: [
-  //                   CustomText(text: 'Check-in Time'),
-  //                   CustomText(text: '09:05 2024/11/19'),
-  //                 ],
-  //               ),
-  //               Row(
-  //                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
-  //                 children: [
-  //                   CustomText(text: 'Check-out Time'),
-  //                   CustomText(text: 'Not Checked-out'),
-  //                 ],
-  //               ),
-  //               Center(child: Icon(Icons.fingerprint)),
-  //             ],
-  //           ),
-  //         );
-  //       });
-  // }
+  void openAlertDialog(context){
+    showDialog(
+        context: context,
+        builder: (BuildContext context){
+          return AlertDialog(
+            backgroundColor: Colors.white,
+            title: Center(
+              child: SingleChildScrollView(
+                child: CustomContainer(
+                  // width: 1,
+                  verticalPad: 16,
+                  horizontalPad: 0,
+                  child: Consumer<MrOfficerVisitProvider>(
+                    builder: (context, visitProvider, _) {
+                      return Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          Column(
+                            children: [
+                              CustomText(
+                                text: 'Select Visit Type',
+                                fontWeight: FontWeight.w600,
+                                size: 22,
+                              ),
+                              SizedBox(
+                                height: 8,
+                              ),
+                              CustomRadioButton(
+                                radioGroupValue: visitProvider.radioGroupValue,
+                                radioValue: visitProvider.vistTypeList[0],
+                                radioTitle: visitProvider.vistTypeList[0],
+                                onChange: (value) {
+                                  visitProvider.selectVisitType(value);
+                                },
+                              ),
+                              CustomRadioButton(
+                                radioGroupValue: visitProvider.radioGroupValue,
+                                radioValue: visitProvider.vistTypeList[1],
+                                radioTitle: visitProvider.vistTypeList[1],
+                                showTrailingWidget: true,
+                                trailingWidgetTitle: '15',
+                                onChange: (value) {
+                                  visitProvider.selectVisitType(value);
+                                },
+                              ),
+                              CustomRadioButton(
+                                radioGroupValue: visitProvider.radioGroupValue,
+                                radioValue: visitProvider.vistTypeList[2],
+                                radioTitle: visitProvider.vistTypeList[2],
+                                showTrailingWidget: true,
+                                trailingWidgetTitle: '5',
+                                onChange: (value) {
+                                  visitProvider.selectVisitType(value);
+                                },
+                              ),
+                              SizedBox(
+                                height: 8,
+                              ),
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                children: [
+                                  CustomElevatedButton(
+                                    onPressed: () {
+                                      visitProvider.unSelectVisitType();
+                                      Navigator.of(context)
+                                          .pop(MarketingManagerConstants.homePage);
+                                    },
+                                    // backgroundColor: ,
+                                    backgroundColor: CustomColors.lightRed,
+                                    widget: CustomText(
+                                      text: 'Cancel',
+                                      color: CustomColors.primaryBlack,
+                                      fontWeight: FontWeight.w500,
+                                    ),
+                                  ),
+                                  CustomElevatedButton(
+                                    onPressed: () {
+                                      bool isSelected =
+                                      visitProvider.setSelectedVisitType();
+                                      if (isSelected) {
+                                        Navigator.of(context).push(MaterialPageRoute(
+                                            builder: (context) =>
+                                                MROfficersVisitsScreen()));
+                                      }
+                                    },
+                                    backgroundColor: CustomColors.primaryColor,
+                                    widget: CustomText(
+                                      text: 'Next',
+                                      color: CustomColors.primaryBlack,
+                                      fontWeight: FontWeight.w500,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              const SizedBox(
+                                height: 8,
+                              ),
+                            ],
+                          ),
+                        ],
+                      );
+                    },
+                  ),
+                ),
+              ),
+            ),
+          );
+          //   Center(
+          //   child: SingleChildScrollView(
+          //     child: AlertDialog(
+          //       backgroundColor: CustomColors.primaryWhite,
+          //       elevation: 10,
+          //       title: Center(
+          //         child: CustomText(
+          //           text: 'Select visit type',
+          //           fontWeight: FontWeight.bold,
+          //           size: 22,
+          //           color: CustomColors.primaryBlack,
+          //         ),
+          //       ),
+          //       content: Column(
+          //         children: [
+          //           Row(
+          //             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          //             children: [
+          //               CustomText(
+          //                 text: 'Attendance',
+          //                 fontWeight: FontWeight.w600,
+          //               ),
+          //               Icon(Icons.arrow_forward_rounded,color: CustomColors.primaryColor,),
+          //               Switch.adaptive(
+          //                   value: isSwitched,
+          //                   onChanged: (value){
+          //
+          //                   })
+          //             ],
+          //           ),
+          //           Row(
+          //             mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          //             children: [
+          //               CustomText(text: 'Status'),
+          //               CustomText(text: 'Checked-in'),
+          //             ],
+          //           ),
+          //           Row(
+          //             mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          //             children: [
+          //               CustomText(text: 'Check-in Time'),
+          //               CustomText(text: '09:05 2024/11/19'),
+          //             ],
+          //           ),
+          //           Row(
+          //             mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          //             children: [
+          //               CustomText(text: 'Check-out Time'),
+          //               CustomText(text: 'Not Checked-out'),
+          //             ],
+          //           ),
+          //           Center(child: Icon(Icons.fingerprint)),
+          //         ],
+          //       ),
+          //     ),
+          //   ),
+          // );
+        });
+  }
 }
