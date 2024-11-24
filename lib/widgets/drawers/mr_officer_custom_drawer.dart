@@ -2,6 +2,8 @@ import 'package:deskgoo/providers/login_provider/login_provider.dart';
 import 'package:deskgoo/routes/marketing_officer_consts.dart';
 import 'package:deskgoo/routes/route_generator_constants.dart';
 import 'package:deskgoo/themes/custom_colors.dart';
+import 'package:deskgoo/widgets/bottom_sheets/mr_officer_sheets/attendance.dart';
+import 'package:deskgoo/widgets/bottom_sheets/mr_officer_sheets/select_visit_type.dart';
 import 'package:deskgoo/widgets/drawers/drawers_items/custom_listTile.dart';
 import 'package:deskgoo/widgets/texts/custom_text.dart';
 import 'package:flutter/material.dart';
@@ -143,10 +145,17 @@ class MrOfficerCustomDrawer extends StatelessWidget {
                       ),
                       CustomListTile(
                         onTap: () {
-                          // GoRouter.of(context).pushReplacementNamed(
-                          //     MyAppRouteConstants.visitRouteName);
-                          Navigator.of(context)
-                              .pushNamed(MarketingManagerConstants.visitPage);
+                          Navigator.pop(context);
+                          // MrOfficerAttendanceBottomSheet.attendanceBottomSheet(
+                          //     context);
+                          showModalBottomSheet(
+                            isScrollControlled: true,
+                            context: context,
+                            builder: (context) =>
+                                MrOfficerSelectVisitTypeBottomSheet(),
+                          );
+                          // Navigator.of(context)
+                          //     .pushNamed(MarketingManagerConstants.visitPage);
                         },
                         isTabActive: isVisitActive,
                         isIcon: false,
@@ -160,10 +169,16 @@ class MrOfficerCustomDrawer extends StatelessWidget {
                       ),
                       CustomListTile(
                         onTap: () {
-                          // GoRouter.of(context).pushReplacementNamed(
-                          //     MyAppRouteConstants.remoteAttendanceRouteName);
-                          Navigator.of(context).pushNamed(
-                              MarketingManagerConstants.remoteAttendancePage);
+                          Navigator.pop(context);
+                          // MrOfficerAttendanceBottomSheet.attendanceBottomSheet(
+                          //     context);
+                          showModalBottomSheet(
+                            isScrollControlled: true,
+                            useSafeArea: true,
+                            context: context,
+                            builder: (context) =>
+                                MrOfficerAttendanceBottomSheet(),
+                          );
                         },
                         isTabActive: isAttendanceActive,
                         isIcon: false,
@@ -256,7 +271,4 @@ class MrOfficerCustomDrawer extends StatelessWidget {
   //         );
   //       });
   // }
-
 }
-
-
