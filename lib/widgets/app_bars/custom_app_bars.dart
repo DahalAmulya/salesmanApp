@@ -121,9 +121,14 @@ class CustomAppBar extends StatelessWidget {
             ? isLeadingImage
                 ? InkWell(
                     onTap: () {},
-                    child: Image(
-                      image: AssetImage(
-                          imageName ?? 'assets/images/deskgooBlack.png'),
+                    child: Padding(
+                      padding: const EdgeInsets.all(4.0),
+                      child: Image(
+                        height: 32,
+                        width: 32,
+                        image: AssetImage(
+                            imageName ?? 'assets/images/deskgooBlack.png'),
+                      ),
                     ),
                   )
                 : IconButton(
