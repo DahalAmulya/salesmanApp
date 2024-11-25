@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:deskgoo/providers/login_provider/login_provider.dart';
 import 'package:deskgoo/routes/marketing_officer_consts.dart';
 import 'package:deskgoo/routes/route_generator_constants.dart';
@@ -8,6 +10,7 @@ import 'package:deskgoo/widgets/drawers/drawers_items/custom_listTile.dart';
 import 'package:deskgoo/widgets/texts/custom_text.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
 import '../../pages/mr_officers/mr_officers_pages/mr_officers_visits/mr_officers_visits.dart';
@@ -18,7 +21,7 @@ import '../radio_button/custom_radio_button.dart';
 // import 'package:go_router/go_router.dart';
 
 class MrOfficerCustomDrawer extends StatelessWidget {
-  const MrOfficerCustomDrawer({
+  MrOfficerCustomDrawer({
     super.key,
     this.hasImage = true,
     // this.userImg,
@@ -31,6 +34,8 @@ class MrOfficerCustomDrawer extends StatelessWidget {
     this.isAttendanceActive = false,
     this.isAlertDialog = false,
     this.isSwitched = false,
+    this.previousTime = '',
+    this.currentDifference = '',
   });
 
   final bool hasImage;
@@ -43,6 +48,23 @@ class MrOfficerCustomDrawer extends StatelessWidget {
   final bool isAttendanceActive;
   final bool isAlertDialog;
   final bool isSwitched;
+  String previousTime;
+  String currentDifference;
+
+  DateTime currentTime = DateTime.now();
+  // Duration time = currentTime.difference(other)
+  String? calculateCheckedInDuration(){
+    previousTime = '2024-11-24 15:29:37.724407';
+    DateTime currentTime = DateTime.now();
+    Duration currentDifference = currentTime.difference(DateTime.parse(previousTime));
+    // String formattedDate = DateFormat("hh:mm:ss").format(DateTime.parse(currentDifference));
+    print(currentDifference);
+  }
+  void setTime(){
+    Future.delayed(Duration(minutes: 12));(){
+      print(calculateCheckedInDuration());
+    };
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -202,7 +224,28 @@ class MrOfficerCustomDrawer extends StatelessWidget {
                           //     MyAppRouteConstants.remoteAttendanceRouteName);
                           // Navigator.of(context).pushNamed(
                           //     MarketingManagerConstants.remoteAttendancePage);
-                          openAlertDialog(context);
+                          // openAlertDialog(context);
+                          previousTime = '2024-11-24 15:29:37.724407';
+                          DateTime currentTime = DateTime.now();
+                          currentDifference = currentTime.difference(DateTime.parse(previousTime)).toString();
+                          print(currentDifference);
+                          int seconds = 0;
+                          // Timer that runs every 2 seconds
+                          Timer.periodic(Duration(seconds: 1), (Timer timer) {
+                            seconds++;
+                            DateTime currentTime = DateTime.now();
+                            Duration currentDifference = currentTime.difference(DateTime.parse(previousTime));
+                            print('time = $currentDifference');
+                            print(DateTime.parse(currentDifference.toString()));
+                           String formattedDate = DateFormat('hh:mm:ss').format(DateTime.now());
+                            print(formattedDate);
+                            // Stop the timer after 5 ticks
+                            if (seconds == 60) {
+                             timer.cancel();
+                              // seconds = 60;
+                              print("Timer stopped");
+                            }
+                          });
                         },
                         isTabActive: isAlertDialog,
                         text: 'Alert Dialog',
@@ -222,167 +265,175 @@ class MrOfficerCustomDrawer extends StatelessWidget {
     showDialog(
         context: context,
         builder: (BuildContext context){
-          return AlertDialog(
-            backgroundColor: Colors.white,
-            title: Center(
-              child: SingleChildScrollView(
-                child: CustomContainer(
-                  // width: 1,
-                  verticalPad: 16,
-                  horizontalPad: 0,
-                  child: Consumer<MrOfficerVisitProvider>(
-                    builder: (context, visitProvider, _) {
-                      return Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          Column(
-                            children: [
-                              CustomText(
-                                text: 'Select Visit Type',
-                                fontWeight: FontWeight.w600,
-                                size: 22,
-                              ),
-                              SizedBox(
-                                height: 8,
-                              ),
-                              CustomRadioButton(
-                                radioGroupValue: visitProvider.radioGroupValue,
-                                radioValue: visitProvider.vistTypeList[0],
-                                radioTitle: visitProvider.vistTypeList[0],
-                                onChange: (value) {
-                                  visitProvider.selectVisitType(value);
-                                },
-                              ),
-                              CustomRadioButton(
-                                radioGroupValue: visitProvider.radioGroupValue,
-                                radioValue: visitProvider.vistTypeList[1],
-                                radioTitle: visitProvider.vistTypeList[1],
-                                showTrailingWidget: true,
-                                trailingWidgetTitle: '15',
-                                onChange: (value) {
-                                  visitProvider.selectVisitType(value);
-                                },
-                              ),
-                              CustomRadioButton(
-                                radioGroupValue: visitProvider.radioGroupValue,
-                                radioValue: visitProvider.vistTypeList[2],
-                                radioTitle: visitProvider.vistTypeList[2],
-                                showTrailingWidget: true,
-                                trailingWidgetTitle: '5',
-                                onChange: (value) {
-                                  visitProvider.selectVisitType(value);
-                                },
-                              ),
-                              SizedBox(
-                                height: 8,
-                              ),
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                children: [
-                                  CustomElevatedButton(
-                                    onPressed: () {
-                                      visitProvider.unSelectVisitType();
-                                      Navigator.of(context)
-                                          .pop(MarketingManagerConstants.homePage);
-                                    },
-                                    // backgroundColor: ,
-                                    backgroundColor: CustomColors.lightRed,
-                                    widget: CustomText(
-                                      text: 'Cancel',
-                                      color: CustomColors.primaryBlack,
-                                      fontWeight: FontWeight.w500,
-                                    ),
-                                  ),
-                                  CustomElevatedButton(
-                                    onPressed: () {
-                                      bool isSelected =
-                                      visitProvider.setSelectedVisitType();
-                                      if (isSelected) {
-                                        Navigator.of(context).push(MaterialPageRoute(
-                                            builder: (context) =>
-                                                MROfficersVisitsScreen()));
-                                      }
-                                    },
-                                    backgroundColor: CustomColors.primaryColor,
-                                    widget: CustomText(
-                                      text: 'Next',
-                                      color: CustomColors.primaryBlack,
-                                      fontWeight: FontWeight.w500,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                              const SizedBox(
-                                height: 8,
-                              ),
-                            ],
-                          ),
-                        ],
-                      );
-                    },
+          return Center(
+            child: SingleChildScrollView(
+              child: AlertDialog(
+                backgroundColor: CustomColors.primaryWhite,
+                elevation: 10,
+                title: Center(
+                  child: CustomText(
+                    text: 'Select visit type',
+                    fontWeight: FontWeight.bold,
+                    size: 22,
+                    color: CustomColors.primaryBlack,
                   ),
+                ),
+                content: Column(
+                  children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        CustomText(
+                          text: 'Attendance',
+                          fontWeight: FontWeight.w600,
+                        ),
+                        // Icon(Icons.arrow_forward_rounded,color: CustomColors.primaryColor,),
+                        Switch.adaptive(
+                            value: isSwitched,
+                            onChanged: (value){
+
+                            })
+                      ],
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        CustomText(text: 'Status'),
+                        CustomText(text: 'Checked-out'),
+                      ],
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        CustomText(text: 'Check-in Time'),
+                        CustomText(text: currentTime.toString().split('.')[0].split(' ')[1]),
+                      ],
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        CustomText(text: 'Checked since'),
+                        CustomText(text: '{formattedDate}'),
+                      ],
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        CustomText(text: 'Check-out Time'),
+                        CustomText(text: 'Not Checked-out'),
+                      ],
+                    ),
+                    Center(child: Icon(Icons.fingerprint)),
+                  ],
                 ),
               ),
             ),
           );
-          //   Center(
-          //   child: SingleChildScrollView(
-          //     child: AlertDialog(
-          //       backgroundColor: CustomColors.primaryWhite,
-          //       elevation: 10,
-          //       title: Center(
-          //         child: CustomText(
-          //           text: 'Select visit type',
-          //           fontWeight: FontWeight.bold,
-          //           size: 22,
-          //           color: CustomColors.primaryBlack,
+
+          // AlertDialog(
+          //   backgroundColor: Colors.white,
+          //   title: Center(
+          //     child: SingleChildScrollView(
+          //       child: CustomContainer(
+          //         // width: 1,
+          //         verticalPad: 16,
+          //         horizontalPad: 0,
+          //         child: Consumer<MrOfficerVisitProvider>(
+          //           builder: (context, visitProvider, _) {
+          //             return Column(
+          //               mainAxisAlignment: MainAxisAlignment.center,
+          //               crossAxisAlignment: CrossAxisAlignment.center,
+          //               children: [
+          //                 Column(
+          //                   children: [
+          //                     CustomText(
+          //                       text: 'Select Visit Type',
+          //                       fontWeight: FontWeight.w600,
+          //                       size: 22,
+          //                     ),
+          //                     SizedBox(
+          //                       height: 8,
+          //                     ),
+          //                     CustomRadioButton(
+          //                       radioGroupValue: visitProvider.radioGroupValue,
+          //                       radioValue: visitProvider.vistTypeList[0],
+          //                       radioTitle: visitProvider.vistTypeList[0],
+          //                       onChange: (value) {
+          //                         visitProvider.selectVisitType(value);
+          //                       },
+          //                     ),
+          //                     CustomRadioButton(
+          //                       radioGroupValue: visitProvider.radioGroupValue,
+          //                       radioValue: visitProvider.vistTypeList[1],
+          //                       radioTitle: visitProvider.vistTypeList[1],
+          //                       showTrailingWidget: true,
+          //                       trailingWidgetTitle: '15',
+          //                       onChange: (value) {
+          //                         visitProvider.selectVisitType(value);
+          //                       },
+          //                     ),
+          //                     CustomRadioButton(
+          //                       radioGroupValue: visitProvider.radioGroupValue,
+          //                       radioValue: visitProvider.vistTypeList[2],
+          //                       radioTitle: visitProvider.vistTypeList[2],
+          //                       showTrailingWidget: true,
+          //                       trailingWidgetTitle: '5',
+          //                       onChange: (value) {
+          //                         visitProvider.selectVisitType(value);
+          //                       },
+          //                     ),
+          //                     SizedBox(
+          //                       height: 8,
+          //                     ),
+          //                     Row(
+          //                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          //                       children: [
+          //                         CustomElevatedButton(
+          //                           onPressed: () {
+          //                             visitProvider.unSelectVisitType();
+          //                             Navigator.of(context)
+          //                                 .pop(MarketingManagerConstants.homePage);
+          //                           },
+          //                           // backgroundColor: ,
+          //                           backgroundColor: CustomColors.lightRed,
+          //                           widget: CustomText(
+          //                             text: 'Cancel',
+          //                             color: CustomColors.primaryBlack,
+          //                             fontWeight: FontWeight.w500,
+          //                           ),
+          //                         ),
+          //                         CustomElevatedButton(
+          //                           onPressed: () {
+          //                             bool isSelected =
+          //                             visitProvider.setSelectedVisitType();
+          //                             if (isSelected) {
+          //                               Navigator.of(context).push(MaterialPageRoute(
+          //                                   builder: (context) =>
+          //                                       MROfficersVisitsScreen()));
+          //                             }
+          //                           },
+          //                           backgroundColor: CustomColors.primaryColor,
+          //                           widget: CustomText(
+          //                             text: 'Next',
+          //                             color: CustomColors.primaryBlack,
+          //                             fontWeight: FontWeight.w500,
+          //                           ),
+          //                         ),
+          //                       ],
+          //                     ),
+          //                     const SizedBox(
+          //                       height: 8,
+          //                     ),
+          //                   ],
+          //                 ),
+          //               ],
+          //             );
+          //           },
           //         ),
-          //       ),
-          //       content: Column(
-          //         children: [
-          //           Row(
-          //             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          //             children: [
-          //               CustomText(
-          //                 text: 'Attendance',
-          //                 fontWeight: FontWeight.w600,
-          //               ),
-          //               Icon(Icons.arrow_forward_rounded,color: CustomColors.primaryColor,),
-          //               Switch.adaptive(
-          //                   value: isSwitched,
-          //                   onChanged: (value){
-          //
-          //                   })
-          //             ],
-          //           ),
-          //           Row(
-          //             mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          //             children: [
-          //               CustomText(text: 'Status'),
-          //               CustomText(text: 'Checked-in'),
-          //             ],
-          //           ),
-          //           Row(
-          //             mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          //             children: [
-          //               CustomText(text: 'Check-in Time'),
-          //               CustomText(text: '09:05 2024/11/19'),
-          //             ],
-          //           ),
-          //           Row(
-          //             mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          //             children: [
-          //               CustomText(text: 'Check-out Time'),
-          //               CustomText(text: 'Not Checked-out'),
-          //             ],
-          //           ),
-          //           Center(child: Icon(Icons.fingerprint)),
-          //         ],
           //       ),
           //     ),
           //   ),
-          // );
+          // )
         });
   }
 }
