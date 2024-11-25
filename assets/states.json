@@ -1,0 +1,188 @@
+[
+  {
+    "states": "Andhra Pradesh",
+    "cities": [
+      "Hyderabad",
+      "Visakhapatnam",
+      "Vijayawada",
+      "Nellore",
+      "Warangal",
+      "Guntur",
+      "Ramagundam",
+      "Nizamabad",
+      "Rajamahendri",
+      "Kakinada",
+      "Tirupati",
+      "Anantapur",
+      "Karimnagar",
+      "Kapra"
+    ]
+  },
+  {
+    "states": "Arunachal Pradesh",
+    "cities": ["Itanagar"]
+  },
+  {
+    "states": "Assam",
+    "cities": [
+      "Dhubri",
+      "Dibrugarh",
+      "Karimganj",
+      "North Lakhimpur",
+      "Goalpara",
+      "Guwahati",
+      "Jorhat",
+      "Bongaigaon",
+      "Sibsagar",
+      "Diphu",
+      "Tinsukia",
+      "Nagaon",
+      "Silchar"
+    ]
+  },
+  {
+    "states": "Bihar",
+    "cities": [
+      "Patna",
+      "rahul",
+      "Gaya",
+      "Bhagalpur",
+      "Muzaffarpur",
+      "Purnia",
+      "Darbhanga",
+      "Bihar Sharif",
+      "Ara",
+      "Begusarai",
+      "Katihar",
+      "Chapra",
+      "Munger",
+      "Saharsa",
+      "Bettiah",
+      "Hajipur",
+      "Sasaram",
+      "Dehri",
+      "Siwan",
+      "Motihari",
+      "Buxar"
+    ]
+  },
+  {
+    "states": "Chattisgarh",
+    "cities": [
+      "Raipur",
+      "Durg",
+      "Bilaspur",
+      "Bhilai",
+      "Jagdalpur",
+      "Korba"
+    ]
+  },
+  {
+    "states": "Goa",
+    "cities": [
+      "Panaji",
+      "Margao,",
+      "Vasco-Mormugao",
+      "Mapusa",
+      "Ponda"
+      ]
+  },
+  {
+    "states": "Gujrat",
+    "cities": [
+      "Ahmedabad",
+      "Gandhinagar",
+      "Rajkot",
+      "Surat"
+    ]
+  },
+  {
+    "states": "Haryana",
+    "cities": [
+      "Ambala",
+      "Gurugram",
+      "Panipat",
+      "Sonipat"
+    ]
+  },
+  {
+    "states": "Himachal Pradesh",
+    "cities": ["Dharamshala","Kullu","Mamit","Mandi"]
+  },
+  {
+    "states": "Jharkhand",
+    "cities": ["farhan","rahul"]
+  },
+  {
+    "states": "Karnataka",
+    "cities": ["farhan","rahul"]
+  },
+  {
+    "states": "Kerala",
+    "cities": ["farhan","rahul"]
+  },
+  {
+    "states": "Madhya Pradesh",
+    "cities": ["farhan","rahul"]
+  },
+  {
+    "states": "Maharashtra",
+    "cities": ["farhan","rahul"]
+  },
+  {
+    "states": "Manipur",
+    "cities": ["farhan","rahul"]
+  },
+  {
+    "states": "Meghalaya",
+    "cities": ["farhan","rahul"]
+  },
+  {
+    "states": "Mizoram",
+    "cities": ["farhan","rahul"]
+  },
+  {
+    "states": "Nagaland",
+    "cities": ["farhan","rahul"]
+  },
+  {
+    "states": "Odisha",
+    "cities": ["farhan","rahul"]
+  },
+  {
+    "states": "Punjab",
+    "cities": ["farhan","rahul"]
+  },
+  {
+    "states": "Rajasthan",
+    "cities": ["farhan","rahul"]
+  },
+  {
+    "states": "Sikkim",
+    "cities": ["farhan","rahul"]
+  },
+  {
+    "states": "Tamil Nadu",
+    "cities": ["farhan","rahul"]
+  },
+  {
+    "states": "Telangana",
+    "cities": ["farhan","rahul"]
+  },
+  {
+    "states": "Tripura",
+    "cities": ["farhan","rahul"]
+  },
+  {
+    "states": "Uttar Pradesh",
+    "cities": ["farhan","rahul"]
+  },
+  {
+    "states": "Uttarakhand",
+    "cities": ["farhan","rahul"]
+  },
+  {
+    "states": "West Bangal",
+    "cities": ["farhan","rahul"]
+  }
+]

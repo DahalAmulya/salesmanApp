@@ -176,50 +176,245 @@ class _MrOfficersDashboardScreenState extends State<MrOfficersDashboardScreen> {
           //     ],
           //   ),
           // ),
+          SizedBox(height: 16,),
           CustomContainer(
+              horizontalPad: 0,
+              horizontalMargin: 16,
+              applyShadow: true,
               child: Column(
                 children: [
                   Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
                       Container(
-                        height: 60,
-                        width: 40,
-                        color: CustomColors.primaryColor,
+                        height: 36,
+                        width: 10,
+                        decoration: BoxDecoration(
+                          color: CustomColors.primaryColor,
+                          borderRadius: BorderRadius.circular(16),
+                        ),
                       ),
+                      SizedBox(width: 8,),
                       CustomText(
                         isSubHeading: true,
                           text: 'Today\'s Plans'
                       ),
                       Spacer(),
-                      Icon(Icons.arrow_forward_ios),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                        child: Icon(Icons.arrow_forward_ios),
+                      ),
                     ],
                   ),
+                  SizedBox(height: 10,),
                   Divider(
                     height: 1,
                     thickness: 1,
                     color: Colors.black,
                   ),
-                  CustomText(
-                    isSubHeading: true,
-                      text: '2024/11/24, Sunday',
-                  ),
+                  SizedBox(height: 8,),
                   Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    mainAxisAlignment: MainAxisAlignment.start,
                     children: [
-                      CustomText(text: 'Activities'),
-                      CustomText(text: 'Marketing Meeting')
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                        child: CustomText(
+                          isSubHeading: true,
+                            text: '2024/11/24, Sunday',
+                        ),
+                      ),
                     ],
                   ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      CustomText(text: 'Area'),
-                      CustomText(text: 'Brt to ')
-                    ],
-                  )
+                  SizedBox(height: 8,),
+                  Container(
+                    padding: EdgeInsets.symmetric(horizontal: 16),
+                    child: Column(
+                      children: [
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Expanded(child: CustomText(text: 'Activities',size: 18,fontWeight: FontWeight.w600,)),
+                            Expanded(child: CustomText(text: 'Marketing Meeting',size: 18,fontWeight: FontWeight.w600,))
+                          ],
+                        ),
+                        SizedBox(height: 8,),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Expanded(
+                                child: CustomText(text: 'Area',size: 18,fontWeight: FontWeight.w600,)),
+                            Expanded(
+                              child: CustomText(
+                                  maxLines: 3,
+                                  textOverflow: TextOverflow.visible,
+                                  text: 'Brt to Ghuski, Harinagar, Bhutha,abcd',size: 18,fontWeight: FontWeight.w600,),
+                            )
+                          ],
+                        ),
+                        SizedBox(height: 8,),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Expanded(
+                                child: CustomText(text: 'Remarks',size: 18,fontWeight: FontWeight.w600,)),
+                            Expanded(
+                              child: CustomText(
+                                  maxLines: 4,
+                                  textOverflow: TextOverflow.visible,
+                                  text: 'All Marketing Officer & Hospital CEO',size: 18,fontWeight: FontWeight.w600,),
+                            )
+                          ],
+                        ),
+                      ],
+                    ),
+                  ),
                 ],
               )
-          )
+          ),
+          SizedBox(height: 16,),
+          CustomContainer(
+              horizontalPad: 0,
+              horizontalMargin: 16,
+              applyShadow: true,
+              child: Column(
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      Container(
+                        height: 36,
+                        width: 10,
+                        decoration: BoxDecoration(
+                          color: CustomColors.primaryColor,
+                          borderRadius: BorderRadius.circular(16),
+                        ),
+                      ),
+                      SizedBox(width: 8,),
+                      CustomText(
+                          isSubHeading: true,
+                          text: 'Attendance',
+                      ),
+                      Spacer(),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                        child: Icon(Icons.arrow_forward_ios),
+                      ),
+                    ],
+                  ),
+                  SizedBox(height: 10,),
+                  Divider(
+                    height: 1,
+                    thickness: 1,
+                    color: Colors.black,
+                  ),
+                  SizedBox(height: 8,),
+                  Container(
+                    padding: EdgeInsets.symmetric(horizontal: 16),
+                    child: Column(
+                      children: [
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Expanded(child: CustomText(text: 'Status',size: 18,fontWeight: FontWeight.w600,)),
+                            Expanded(child: CustomText(text: 'Checked-in',size: 18,fontWeight: FontWeight.w600,))
+                          ],
+                        ),
+                        SizedBox(height: 8,),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Expanded(child: CustomText(text: 'Check-in Time',size: 18,fontWeight: FontWeight.w600,)),
+                            Expanded(
+                              child: CustomText(
+                                text: '09:05 24/11/2024',size: 18,fontWeight: FontWeight.w600,),
+                            )
+                          ],
+                        ),
+                        SizedBox(height: 8,),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Expanded(child: CustomText(text: 'Total Time',size: 18,fontWeight: FontWeight.w600,)),
+                            Expanded(
+                              child: CustomText(
+                                text: '04:25 hours',size: 18,fontWeight: FontWeight.w600,),
+                            )
+                          ],
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              )
+          ),
+          SizedBox(height: 16,),
+          CustomContainer(
+              horizontalPad: 0,
+              horizontalMargin: 16,
+              applyShadow: true,
+              child: Column(
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      Container(
+                        height: 36,
+                        width: 10,
+                        decoration: BoxDecoration(
+                          color: CustomColors.primaryColor,
+                          borderRadius: BorderRadius.circular(16),
+                        ),
+                      ),
+                      SizedBox(width: 8,),
+                      CustomText(
+                        isSubHeading: true,
+                        text: 'Visit Today',
+                      ),
+                      Spacer(),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                        child: Icon(Icons.arrow_forward_ios),
+                      ),
+                    ],
+                  ),
+                  SizedBox(height: 10,),
+                  Divider(
+                    height: 1,
+                    thickness: 1,
+                    color: Colors.black,
+                  ),
+                  SizedBox(height: 8,),
+                  Container(
+                    padding: EdgeInsets.symmetric(horizontal: 16),
+                    child: Column(
+                      children: [
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            CustomText(text: 'Today\'s Total Visit',size: 18,fontWeight: FontWeight.w600,),
+                            CustomText(
+                              maxLines: 3,
+                              textOverflow: TextOverflow.clip,
+                              text: '08',size: 18,fontWeight: FontWeight.w600,)
+                          ],
+                        ),
+                        SizedBox(height: 8,),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            CustomText(text: 'Average Visit',size: 18,fontWeight: FontWeight.w600,),
+                            CustomText(
+                              maxLines: 4,
+                              textOverflow: TextOverflow.clip,
+                              text: '09',size: 18,fontWeight: FontWeight.w600,)
+                          ],
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              )
+          ),
         ],
       ),
     );
