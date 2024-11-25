@@ -1,15 +1,10 @@
-import 'package:flutter/material.dart';
-
-class testPage extends StatefulWidget {
-  const testPage({super.key});
-
-  @override
-  State<testPage> createState() => _testPageState();
-}
-
-class _testPageState extends State<testPage> {
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold();
+extension DurationFormat on Duration{
+  RegExpMatch? secToTime (){
+    String time =  'DateTime.now()';
+    return RegExp(r'(^0*[1-9] \d*:)?\d{2}: \d{2})\. \d+$').firstMatch(time);
   }
 }
+
+
+
+//RegExpE' ( (^0*[1-9] \d*:)?\d{2}: \d{2})\. \d+$')
