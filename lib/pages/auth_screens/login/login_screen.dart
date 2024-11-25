@@ -231,10 +231,10 @@ class _LoginPageState extends State<LoginPage> {
   void login() async {
     Map<String, dynamic> body = {
       'usr': emailController.value.text.isEmpty
-          ? 'Phoebe@gmail.com'
+          ? 'Rachel@gmail.com'
           : emailController.value.text,
       'pwd': passwordController.value.text.isEmpty
-          ? 'Phoebe123@'
+          ? 'Rachel123@'
           : passwordController.value.text,
       // user = Phoebe@gmail.com // marketingOfficer currently used
       // pwd = Phoebe123@
@@ -254,11 +254,14 @@ class _LoginPageState extends State<LoginPage> {
         employee_details,
         user_roles,
       );
+      print('user_roles = $user_roles');
       if (_userProvider!.role == 'marketingOfficer') {
         Navigator.of(context)
             .pushNamed(MarketingOfficerConstants.mrStaffDashboardConst);
+        print('Marketing Officer');
       } else {
         Navigator.of(context).pushNamed(MarketingManagerConstants.homePage);
+        print('Marketing manager');
       }
     }
   }

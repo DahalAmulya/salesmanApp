@@ -11,6 +11,7 @@ import 'package:deskgoo/pages/location/live_tracking_screen.dart';
 import 'package:deskgoo/pages/location/replay_screen.dart';
 import 'package:deskgoo/pages/location/show_own_location_screen.dart';
 import 'package:deskgoo/pages/marketing_officers/marketing_officers_screen.dart';
+import 'package:deskgoo/pages/mr_admin/mr_admin_pages/mr_admin_dashboard/mr_manager_dashboard.dart';
 import 'package:deskgoo/pages/mr_officers/mr_officers_pages/mr_officers_dashboard/mr_officers_dashboard.dart';
 import 'package:deskgoo/pages/mr_officers/mr_officers_pages/weeklyplan/weeklyplan_screen.dart';
 import 'package:deskgoo/pages/settings/setting.dart';
@@ -39,7 +40,7 @@ class RouteGenerator {
         );
       case MarketingManagerConstants.homePage:
         return MaterialPageRoute(
-          builder: (_) => HomeScreen(),
+          builder: (_) => MarketingManagerDashboard(),
         );
       case MarketingManagerConstants.cameraPage:
         return MaterialPageRoute(
