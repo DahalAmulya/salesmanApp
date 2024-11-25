@@ -1,5 +1,6 @@
 import 'package:deskgoo/themes/custom_colors.dart';
 import 'package:deskgoo/widgets/app_bars/custom_app_bars.dart';
+import 'package:deskgoo/widgets/containers/custom_container.dart';
 import 'package:deskgoo/widgets/drawers/mr_officer_custom_drawer.dart';
 import 'package:deskgoo/widgets/texts/custom_text.dart';
 import 'package:flutter/material.dart';
@@ -13,16 +14,18 @@ class MrOfficersDashboardScreen extends StatefulWidget {
   const MrOfficersDashboardScreen({super.key});
 
   @override
-  State<MrOfficersDashboardScreen> createState() => _MrOfficersDashboardScreenState();
+  State<MrOfficersDashboardScreen> createState() =>
+      _MrOfficersDashboardScreenState();
 }
 
 class _MrOfficersDashboardScreenState extends State<MrOfficersDashboardScreen> {
-  List<String>colors = ['red','yellow','green'];
+  List<String> colors = ['red', 'yellow', 'green'];
   String SelectedColors = '';
   int selectedIndex = 0;
-  void result()async{
-    final String jsonString = await rootBundle.loadString('assets/district.json');
-     print(jsonString);
+  void result() async {
+    final String jsonString =
+        await rootBundle.loadString('assets/district.json');
+    print(jsonString);
     // Decode the JSON
     // final List<dynamic> jsonData = jsonDecode(jsonString);
     // Print the parsed data
@@ -31,6 +34,7 @@ class _MrOfficersDashboardScreenState extends State<MrOfficersDashboardScreen> {
     //   print('Cities: ${district['cities']}');
     // }
   }
+
   Future<List<Map<String, dynamic>>> readDistrictJson() async {
     // Load the JSON file from the assets
     final String response = await rootBundle.loadString('assets/district.json');
@@ -39,16 +43,19 @@ class _MrOfficersDashboardScreenState extends State<MrOfficersDashboardScreen> {
     final List<dynamic> data = json.decode(response);
     return List<Map<String, dynamic>>.from(data);
   }
+
   void loadData() async {
     final districts = await readDistrictJson();
     print(districts);
   }
-   @override
+
+  @override
   void initState() {
     // result();
-     loadData();
+    loadData();
     super.initState();
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -78,17 +85,19 @@ class _MrOfficersDashboardScreenState extends State<MrOfficersDashboardScreen> {
     );
   }
 
-  Widget _body(context){
+  Widget _body(context) {
     return SafeArea(
       child: Column(
         children: [
-          SizedBox(height: 16,),
+          SizedBox(
+            height: 16,
+          ),
           CarouselSlider.builder(
             options: CarouselOptions(
-                height:200,
+              height: 200,
               enlargeCenterPage: true,
               enlargeStrategy: CenterPageEnlargeStrategy.height,
-              onPageChanged: (index ,reason) => setState(() {
+              onPageChanged: (index, reason) => setState(() {
                 selectedIndex = index;
               }),
             ),
@@ -96,27 +105,83 @@ class _MrOfficersDashboardScreenState extends State<MrOfficersDashboardScreen> {
             itemBuilder: (BuildContext context, index, int realIndex) {
               SelectedColors = colors[index];
               return Container(
-                width: MediaQuery.of(context).size.width* 0.75,
+                width: MediaQuery.of(context).size.width * 0.75,
                 decoration: BoxDecoration(
-                  color: CustomColors.primaryColor,
-                  borderRadius: BorderRadius.circular(16)
-                ),
+                    color: CustomColors.primaryColor,
+                    borderRadius: BorderRadius.circular(16)),
                 child: Center(child: CustomText(text: colors[index])),
               );
             },
           ),
-          SizedBox(height: 16,),
+          SizedBox(
+            height: 16,
+          ),
           // buildIndicator(),
+          CustomContainer(
+            horizontalPad: 8,
+            child: Column(
+              children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Expanded(
+                      flex: 1,
+                      child: CustomText(
+                        text: 'Area',
+                        isContent: true,
+                      ),
+                    ),
+                    Expanded(
+                      flex: 1,
+                      child: CustomText(
+                        text:
+                            'Brt To Ghuski, Harinagra, Bhutha, Debangunj, Chimdi',
+                        isContent: true,
+                        textOverflow: TextOverflow.ellipsis,
+                        maxLines: 3,
+                      ),
+                    )
+                  ],
+                ),
+                SizedBox(
+                  height: 8,
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Expanded(
+                      flex: 1,
+                      child: CustomText(
+                        text: 'Remarks',
+                        isContent: true,
+                      ),
+                    ),
+                    Expanded(
+                      flex: 1,
+                      child: CustomText(
+                        text:
+                            'Hospital, Pharmacy, Police, Ref. Person, Ambulance',
+                        isContent: true,
+                        textOverflow: TextOverflow.ellipsis,
+                        maxLines: 3,
+                      ),
+                    )
+                  ],
+                ),
+              ],
+            ),
+          ),
         ],
       ),
     );
   }
+
   Widget buildIndicator() => AnimatedSmoothIndicator(
-    activeIndex: selectedIndex,
-    count: colors.length,
-    effect: WormEffect(
-      activeDotColor: CustomColors.primaryColor,
-      dotColor: Colors.grey,
-    ),
-  );
+        activeIndex: selectedIndex,
+        count: colors.length,
+        effect: WormEffect(
+          activeDotColor: CustomColors.primaryColor,
+          dotColor: Colors.grey,
+        ),
+      );
 }

@@ -14,6 +14,7 @@ class CustomText extends StatelessWidget {
     this.isContent = false,
     this.isSubContent = false,
     this.isSmallText = false,
+    this.maxLines = 1,
     super.key,
   });
 
@@ -28,12 +29,14 @@ class CustomText extends StatelessWidget {
   final bool isContent;
   final bool isSubContent;
   final bool isSmallText;
+  final int maxLines;
 
   @override
   Widget build(BuildContext context) {
     return Text(
       softWrap: true,
       overflow: textOverflow,
+      maxLines: maxLines,
       text,
       style: TextStyle(
         decoration: textDecoration,
