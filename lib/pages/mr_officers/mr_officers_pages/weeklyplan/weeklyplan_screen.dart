@@ -65,6 +65,7 @@ class _WeeklyPlanScreenState extends State<WeeklyPlanScreen> {
           }
         },
         child: Scaffold(
+          backgroundColor: CustomColors.primaryWhite,
           appBar: _appbar(context),
           drawer: MrOfficerCustomDrawer(
             isWeeklyPlanActive: true,
@@ -174,91 +175,133 @@ class _WeeklyPlanScreenState extends State<WeeklyPlanScreen> {
           ),
         ),
         SizedBox(
-          height: 80,
+          height: 56,
         ),
-        Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            Center(child: CustomText(text: 'Plan not created for')),
-            Consumer<WeeklyPlanProvider>(
-                builder: (context, weeklyPlanProvider, _) {
-              return Container(
-                child: Center(
-                  child: CustomText(
-                    text:
-                        '${DateFormat('dd MMM y, EE').format(DateTime.now())}',
-                  ),
-                ),
-              );
-            }),
-          ],
-        ),
-        SizedBox(
-          height: 16,
-        ),
+        // CustomContainer(
+        //   verticalPad: 16,
+        //   horizontalPad: 16,
+        //   horizontalMargin: 8,
+        //   color: Colors.white,
+        //   applyShadow: true,
+        //   child: Column(
+        //     children: [
+        //       SizedBox(
+        //         height: 8,
+        //       ),
+        //       CustomDropdown(
+        //           labelText: 'Select Country',
+        //           items: country,
+        //           value: defaultValue,
+        //           onChanged: (newValue) {
+        //             selectedCountry = newValue!;
+        //             setState(() {
+        //               if (selectedCountry == country[0]) {
+        //                 _AddTaskBottomSheetForDistrict(context);
+        //               } else {
+        //                 _AddTaskBottomSheetForStates(context);
+        //                 // print(country[1]);
+        //               }
+        //             });
+        //           }),
+        //       SizedBox(
+        //         height: 8,
+        //       ),
+        //       TextFromFieldWithPrefixSuffix(
+        //         applyPrefix: true,
+        //         prefixIcon: Icon(Icons.search),
+        //         applySuffixIcon: true,
+        //         suffixIcon: Icon(Icons.arrow_drop_down),
+        //         controller: districtTextEditingController,
+        //         labelText: 'Select District',
+        //         onTap: () {
+        //           // weeklyPlanProvider.setDistrictList();
+        //           // _AddTaskBottomSheetForDistrict(context);
+        //         },
+        //         onChange: (value) => (){},
+        //         validator: (Value) {},
+        //       ),
+        //       SizedBox(
+        //         height: 8,
+        //       ),
+        //       TextFromFieldWithPrefixSuffix(
+        //         applyPrefix: true,
+        //         prefixIcon: Icon(Icons.search),
+        //         applySuffixIcon: true,
+        //         suffixIcon: Icon(Icons.arrow_drop_down),
+        //         controller: stateTextEditingController,
+        //         labelText: 'Select State',
+        //         readOnly: true,
+        //         onTap: () {
+        //           // weeklyPlanProvider.setStateList();
+        //           // _AddTaskBottomSheetForStates(context);
+        //         },
+        //         onChange: (value) => (){},
+        //         validator: (Value) {},
+        //       ),
+        //     ],
+        //   ),
+        // ),
         CustomContainer(
-          verticalPad: 8,
-          horizontalMargin: 8,
-          horizontalPad: 8,
-          color: Colors.white,
-          child: Column(
+            applyShadow: true,
+            verticalPad: 18,
+            horizontalPad: 24,
+            verticalMargin: 18,
+            horizontalMargin: 18,
+            child: Column(
             children: [
-              SizedBox(
-                height: 8,
+              Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  CustomText(text: 'Activity:',fontWeight: FontWeight.w600,size: 18,),
+                ],
               ),
-              CustomDropdown(
-                  labelText: 'Select Country',
-                  items: country,
-                  value: defaultValue,
-                  onChanged: (newValue) {
-                    selectedCountry = newValue!;
-                    setState(() {
-                      if (selectedCountry == country[0]) {
-                        _AddTaskBottomSheetForDistrict(context);
-                      } else {
-                        _AddTaskBottomSheetForStates(context);
-                        // print(country[1]);
-                      }
-                    });
-                  }),
-              SizedBox(
-                height: 8,
+              Container(
+                height: MediaQuery.of(context).size.height * 0.090,
+                width: MediaQuery.of(context).size.height * 0.8,
               ),
-              TextFromFieldWithPrefixSuffix(
-                applyPrefix: true,
-                prefixIcon: Icon(Icons.search),
-                applySuffixIcon: true,
-                suffixIcon: Icon(Icons.arrow_drop_down),
-                controller: districtTextEditingController,
-                labelText: 'Select District',
-                onTap: () {
-                  // weeklyPlanProvider.setDistrictList();
-                  // _AddTaskBottomSheetForDistrict(context);
-                },
-                onChange: (value) => (){},
-                validator: (Value) {},
+              Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  CustomText(text: 'Area:',fontWeight: FontWeight.w600,size: 18,),
+                ],
               ),
-              SizedBox(
-                height: 8,
+              Container(
+                height: MediaQuery.of(context).size.height * 0.090,
+                width:  MediaQuery.of(context).size.height * 0.8,
+                // child: Custom,
               ),
-              TextFromFieldWithPrefixSuffix(
-                applyPrefix: true,
-                prefixIcon: Icon(Icons.search),
-                applySuffixIcon: true,
-                suffixIcon: Icon(Icons.arrow_drop_down),
-                controller: stateTextEditingController,
-                labelText: 'Select State',
-                readOnly: true,
-                onTap: () {
-                  // weeklyPlanProvider.setStateList();
-                  // _AddTaskBottomSheetForStates(context);
-                },
-                onChange: (value) => (){},
-                validator: (Value) {},
+              Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  CustomText(text: 'Remark:',fontWeight: FontWeight.w600,size: 18,),
+                ],
+              ),
+              Container(
+                height: MediaQuery.of(context).size.height * 0.090,
+                // width: MediaQuery.of(context).size.height * 0.7,
+                width:  MediaQuery.of(context).size.height * 0.8,
               ),
             ],
-          ),
-        )
+                          )
+        ),
+        // SizedBox(height: 8,),
+        // Column(
+        //   crossAxisAlignment: CrossAxisAlignment.center,
+        //   children: [
+        //     Center(child: CustomText(text: 'Plan not created for')),
+        //     Consumer<WeeklyPlanProvider>(
+        //         builder: (context, weeklyPlanProvider, _) {
+        //           return Container(
+        //             child: Center(
+        //               child: CustomText(
+        //                 text:
+        //                 '${DateFormat('dd MMM y, EE').format(DateTime.now())}',
+        //               ),
+        //             ),
+        //           );
+        //         }),
+        //   ],
+        // ),
       ]),
     );
   }

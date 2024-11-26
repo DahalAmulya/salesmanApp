@@ -1,91 +1,91 @@
 [
   {
     "district": "Achham",
-    "cities": ["farhan","rahul"]
+    "cities": ["Kamalbazar","Mangalsen","Panchadewal","Binayak","Sanphebagar"]
   },
   {
     "district": "Arghakhanchi",
-    "cities": ["Lalitpur","Bhaktapur","Kathmandu"]
+    "cities": ["Sandhikharka","Sitganga","Bhumikasthan","Sandhikharka",""]
   },
   {
     "district": "Baglung",
-    "cities": ["Lalitpur","Bhaktapur","Kathmandu"]
+    "cities": ["Dhorpatan","Galkot","Jaimini","Dhorpatan",""]
   },
   {
     "district": "Baitadi",
-    "cities": ["Lalitpur","Bhaktapur","Kathmandu"]
+    "cities": ["Dasharathchand","Melauli","Patan","Puchaudi"]
   },
   {
     "district": "Bajhang",
-    "cities": ["Lalitpur","Bhaktapur","Kathmandu"]
+    "cities": ["Bungal","Jaya Prithivi"]
   },
   {
     "district": "Bajura",
-    "cities": ["Lalitpur","Bhaktapur","Kathmandu"]
+    "cities": ["Tribeni","Badimalika","Budhiganga","Budhinanda"]
   },
   {
     "district": "Banke",
-    "cities": ["Lalitpur","Bhaktapur","Kathmandu"]
+    "cities": ["Kohalpur","Nepaljung"]
   },
   {
     "district": "Bara",
-    "cities": ["Lalitpur","Bhaktapur","Kathmandu"]
+    "cities": ["Kolhabi","Mahagadhimai","Nijgadh","Pacharauta","Simraungadh","Jitpursimara","Kakching","kalaiya"]
   },
   {
     "district": "Bardiya",
-    "cities": ["Lalitpur","Bhaktapur","Kathmandu"]
+    "cities": ["Rajapur","Thakurbaba","Bansgadhi","Gualariya","Madhuwan"]
   },
   {
     "district": "Bhaktapur",
-    "cities": ["Lalitpur","Bhaktapur","Kathmandu"]
+    "cities": ["Suryabinayak","Bhaktapur","Changunarayan","Madhyapur Thimi"]
   },
   {
     "district": "Bhojpur",
-    "cities": ["Lalitpur","Bhaktapur","Kathmandu"]
+    "cities": ["Bhojpur","Shadananda"]
   },
   {
     "district": "Chitwan",
-    "cities": ["Lalitpur","Bhaktapur","Kathmandu"]
+    "cities": ["Kalika","Khairhani","Madi","Rapti","Ratnanagar","Bharatpur"]
   },
   {
     "district": "Dadeldhura",
-    "cities": ["Lalitpur","Bhaktapur","Kathmandu"]
+    "cities": ["Parshuram","Amargadhi"]
   },
   {
     "district": "Dailekh",
-    "cities": ["Lalitpur","Bhaktapur","Kathmandu"]
+    "cities": ["Aathabis","Chamunda Bindrasaini","Dullu","Narayan"]
   },
   {
     "district": "Dang",
-    "cities": ["Lalitpur","Bhaktapur","Kathmandu"]
+    "cities": ["Lamahi","Tulsipur"]
   },
   {
     "district": "Darchula",
-    "cities": ["Lalitpur","Bhaktapur","Kathmandu"]
+    "cities": ["Mahakali","Shailyashikhar"]
   },
   {
     "district": "Dhading",
-    "cities": ["Lalitpur","Bhaktapur","Kathmandu"]
+    "cities": ["Dhunibesi","Nilkantha"]
   },
   {
     "district": "Dhankuta",
-    "cities": ["Lalitpur","Bhaktapur","Kathmandu"]
+    "cities": ["Pakhribas","Dhankuta"]
   },
   {
     "district": "Dhanusha",
-    "cities": ["Lalitpur","Bhaktapur","Kathmandu"]
+    "cities": ["Sabaila","Shahidnagar","Bideha","Chhireshwarnath","Dhanushadham","Ganeshman Charanath","Hansapur","Kamala","Mithila","Nagarain"]
   },
   {
     "district": "Dolakha",
-    "cities": ["Lalitpur","Bhaktapur","Kathmandu"]
+    "cities": ["Bhimeshwar","jiri"]
   },
   {
     "district": "Dolpa",
-    "cities": ["Lalitpur","Bhaktapur","Kathmandu"]
+    "cities": ["Thuli Bheri","Tripura Sundari"]
   },
   {
     "district": "Doti",
-    "cities": ["Lalitpur","Bhaktapur","Kathmandu"]
+    "cities": ["Dipayal Silgadhi","Shikhar"]
   },
   {
     "district": "Eastern Rukum",
@@ -93,11 +93,11 @@
   },
   {
     "district": "Gorkha",
-    "cities": ["Lalitpur","Bhaktapur","Kathmandu"]
+    "cities": ["Gorkha","Palungtar"]
   },
   {
     "district": "Gulmi",
-    "cities": ["Lalitpur","Bhaktapur","Kathmandu"]
+    "cities": ["Resunga"]
   },
   {
     "district": "Humla",
@@ -105,23 +105,23 @@
   },
   {
     "district": "Ilam",
-    "cities": ["Lalitpur","Bhaktapur","Kathmandu"]
+    "cities": ["Suryodaya","Deumai","Mai","Ilam"]
   },
   {
     "district": "Jajarkot",
-    "cities": ["Lalitpur","Bhaktapur","Kathmandu"]
+    "cities": ["Bheri","Chhedagar","Nalgad"]
   },
   {
     "district": "Jhapa",
-    "cities": ["Lalitpur","Bhaktapur","Kathmandu"]
+    "cities": ["Birtamod","Damak","Gauradaha","Kankai","Mechinagar","Shivasatakshi","Arjundhara","Bhadrapur"]
   },
   {
     "district": "Jumla",
-    "cities": ["Lalitpur","Bhaktapur","Kathmandu"]
+    "cities": ["Chandannath"]
   },
   {
     "district": "Kailali",
-    "cities": ["Lalitpur","Bhaktapur","Kathmandu"]
+    "cities": ["Gauriganga","Ghodaghodi","Godawari","Lamki Chuha","Tikapur","Bhajani"]
   },
   {
     "district": "kalikot",

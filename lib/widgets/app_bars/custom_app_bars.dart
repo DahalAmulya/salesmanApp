@@ -28,6 +28,7 @@ class CustomAppBar extends StatelessWidget {
       this.onTapTrailingSearchIcon,
       this.showApproveButton = false,
       this.onTapTrailingApproveIcon,
+        this.onTap,
       super.key});
 
   final String tabName;
@@ -53,6 +54,7 @@ class CustomAppBar extends StatelessWidget {
   final Function()? onTapTrailingSearchIcon;
   bool showApproveButton;
   final Function()? onTapTrailingApproveIcon;
+  final Function()? onTap;
 
   @override
   Widget build(BuildContext context) {
@@ -120,7 +122,7 @@ class CustomAppBar extends StatelessWidget {
         leading: showLeading
             ? isLeadingImage
                 ? InkWell(
-                    onTap: () {},
+                    onTap: onTap,
                     child: Padding(
                       padding: const EdgeInsets.all(4.0),
                       child: Image(

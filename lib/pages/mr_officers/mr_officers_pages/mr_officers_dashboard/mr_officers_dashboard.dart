@@ -66,7 +66,7 @@ class _MrOfficersDashboardScreenState extends State<MrOfficersDashboardScreen> {
       appBar: _appBar(context),
       body: _body(context),
       drawer: MrOfficerCustomDrawer(
-        isHomeActive: true,
+        isWeeklyPlanActive: true,
       ),
     );
   }
@@ -86,8 +86,9 @@ class _MrOfficersDashboardScreenState extends State<MrOfficersDashboardScreen> {
                 isLeadingImage: true,
                 imageName: 'assets/images/userLocation.png',
                 leadingIconColor: CustomColors.primaryBlack,
-                onTapLeadingIcon: () {
+                onTap: () {
                   // Use the context under the Scaffold
+                  print('hello');
                   Scaffold.of(context).openDrawer();
                 },
               );
