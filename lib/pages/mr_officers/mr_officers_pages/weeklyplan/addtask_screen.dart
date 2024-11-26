@@ -34,6 +34,7 @@ class AddTaskScreen extends StatelessWidget {
           }
         },
         child: Scaffold(
+          backgroundColor: CustomColors.primaryWhite,
           appBar: _appbar(context),
           drawer: MrOfficerCustomDrawer(
             isWeeklyPlanActive: true,
@@ -73,37 +74,57 @@ Widget _body(context){
   return Form(
     key: _addTaskFormKey,
     child: Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
+     mainAxisAlignment: MainAxisAlignment.start,
       children: [
-        Consumer<WeeklyPlanProvider>(
-          builder: (context,weeklyPlanProvider,_) {
-            return Container(
-              padding: EdgeInsets.symmetric(horizontal: 8,vertical: 8),
-              child: CustomText(
-                  text: weeklyPlanProvider.getFormattedDate(),
-                  size: 20,
-                  fontWeight: FontWeight.w600,
-              ),
-            );
-          }
-        ),
+        // Consumer<WeeklyPlanProvider>(
+        //   builder: (context,weeklyPlanProvider,_) {
+        //     return Container(
+        //       padding: EdgeInsets.symmetric(horizontal: 8,vertical: 8),
+        //       child: CustomText(
+        //           text: weeklyPlanProvider.getFormattedDate(),
+        //           size: 20,
+        //           fontWeight: FontWeight.w600,
+        //       ),
+        //     );
+        //   }
+        // ),
         // CustomText(text: 'Activity:'),
         CustomContainer(
           applyShadow: true,
-          verticalPad: 18,
+          verticalPad: 8,
           horizontalPad: 18,
-          verticalMargin: 16,
-          horizontalMargin: 16,
+          verticalMargin: 18,
+          horizontalMargin: 18,
           child: Column(
-            crossAxisAlignment: CrossAxisAlignment.end,
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Consumer<WeeklyPlanProvider>(
+                      builder: (context,weeklyPlanProvider,_) {
+                        return Container(
+                          padding: EdgeInsets.symmetric(horizontal: 8,vertical: 8),
+                          child: CustomText(
+                            text:'Task For : ${weeklyPlanProvider.getFormattedDate()}',
+                            size: 20,
+                            fontWeight: FontWeight.w600,
+                          ),
+                        );
+                      }
+                  ),
+                ],
+              ),
+              // SizedBox(height: 8,),
+              CustomText(text: 'Activity',fontWeight: FontWeight.w600,size: 18,),
+              SizedBox(height: 8,),
               TextFromFieldWithPrefixSuffix(
                 controller: taskActivityController,
                 autoFocus: false,
                 hintText: 'Activity',
                 labelText: 'Activity note',
-                minLine: 6,
-                maxLines: 6,
+                minLine: 4,
+                maxLines: 4,
                 validator: (value) {
                   // print(visitScreenProvider.followUpNote);
                   return value!.isEmpty
@@ -118,13 +139,15 @@ Widget _body(context){
                 onTap: () {},
               ),
               SizedBox(height: 8,),
+              CustomText(text: 'Area',fontWeight: FontWeight.w600,size: 18,),
+              SizedBox(height: 8,),
               TextFromFieldWithPrefixSuffix(
                 controller: taskAreaController,
                 autoFocus: false,
                 hintText: 'Area',
                 labelText: 'Area note',
-                minLine: 6,
-                maxLines: 6,
+                minLine: 4,
+                maxLines: 4,
                 validator: (value) {
                   // print(visitScreenProvider.followUpNote);
                   return value!.isEmpty
@@ -139,13 +162,15 @@ Widget _body(context){
                 onTap: () {},
               ),
               SizedBox(height: 8,),
+              CustomText(text: 'Remark',fontWeight: FontWeight.w600,size: 18,),
+              SizedBox(height: 8,),
               TextFromFieldWithPrefixSuffix(
                 controller: taskRemarkController,
                 autoFocus: false,
                 hintText: 'Remark',
                 labelText: 'Remark note',
-                minLine: 6,
-                maxLines: 6,
+                minLine: 4,
+                maxLines: 4,
                 validator: (value) {
                   // print(visitScreenProvider.followUpNote);
                   return value!.isEmpty
@@ -160,12 +185,17 @@ Widget _body(context){
                 onTap: () {},
               ),
               SizedBox(height: 8,),
-              CustomElevatedButton(
-                  onPressed: (){},
-                  backgroundColor: CustomColors.primaryColor,
-                  widget: CustomText(
-                      text: 'Submit'
-                  )
+              Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  CustomElevatedButton(
+                      onPressed: (){},
+                      backgroundColor: CustomColors.primaryColor,
+                      widget: CustomText(
+                          text: 'Submit'
+                      )
+                  ),
+                ],
               )
             ],
           ),
