@@ -25,7 +25,7 @@ class MrOfficerCustomDrawer extends StatelessWidget {
     super.key,
     this.hasImage = true,
     // this.userImg,
-    this.userImg = 'assets/images/johnCena.jpg',
+    this.userImg = 'assets/images/man.png',
     this.userName = 'John Cena',
     this.userRole = 'Wrestler',
     this.isHomeActive = false,

@@ -85,11 +85,9 @@ class _MrOfficersDashboardScreenState extends State<MrOfficersDashboardScreen> {
             backgroundColor: CustomColors.primaryColor,
             showLeading: true,
             isLeadingImage: true,
-            imageName: 'assets/images/userLocation.png',
+            imageName: 'assets/images/man.png',
             leadingIconColor: CustomColors.primaryBlack,
             onTap: () {
-              // Use the context under the Scaffold
-              print('hello');
               Scaffold.of(context).openDrawer();
             },
           );
@@ -184,7 +182,7 @@ class _MrOfficersDashboardScreenState extends State<MrOfficersDashboardScreen> {
           CustomContainer(
             horizontalPad: 0,
             horizontalMargin: 16,
-            verticalPad: 8,
+            verticalPad: 12,
             applyShadow: true,
             child: Column(
               children: [
@@ -210,7 +208,7 @@ class _MrOfficersDashboardScreenState extends State<MrOfficersDashboardScreen> {
                   ],
                 ),
                 SizedBox(
-                  height: 4,
+                  height: 8,
                 ),
                 Divider(
                   height: 1,
@@ -233,7 +231,7 @@ class _MrOfficersDashboardScreenState extends State<MrOfficersDashboardScreen> {
                   ],
                 ),
                 SizedBox(
-                  height: 8,
+                  height: 12,
                 ),
                 Container(
                   padding: EdgeInsets.symmetric(horizontal: 16),
@@ -257,14 +255,14 @@ class _MrOfficersDashboardScreenState extends State<MrOfficersDashboardScreen> {
                         ],
                       ),
                       SizedBox(
-                        height: 8,
+                        height: 12,
                       ),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Expanded(
                             child: CustomText(
-                              text: 'Area',
+                              text: 'Areas',
                               isSubHeading: true,
                             ),
                           ),
@@ -279,7 +277,7 @@ class _MrOfficersDashboardScreenState extends State<MrOfficersDashboardScreen> {
                         ],
                       ),
                       SizedBox(
-                        height: 8,
+                        height: 12,
                       ),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -312,7 +310,7 @@ class _MrOfficersDashboardScreenState extends State<MrOfficersDashboardScreen> {
           CustomContainer(
             horizontalPad: 0,
             horizontalMargin: 16,
-            verticalPad: 8,
+            verticalPad: 12,
             applyShadow: true,
             child: Column(
               children: [
@@ -349,7 +347,7 @@ class _MrOfficersDashboardScreenState extends State<MrOfficersDashboardScreen> {
                   ),
                 ),
                 SizedBox(
-                  height: 4,
+                  height: 8,
                 ),
                 Divider(
                   height: 1,
@@ -414,6 +412,8 @@ class _MrOfficersDashboardScreenState extends State<MrOfficersDashboardScreen> {
                           ),
                           Expanded(
                             child: Row(
+                              // mainAxisAlignment: MainAxisAlignment.start,
+                              // crossAxisAlignment: CrossAxisAlignment.center,
                               children: [
                                 CustomText(
                                   text: '04',
@@ -448,7 +448,7 @@ class _MrOfficersDashboardScreenState extends State<MrOfficersDashboardScreen> {
           CustomContainer(
             horizontalPad: 0,
             horizontalMargin: 16,
-            verticalPad: 8,
+            verticalPad: 12,
             applyShadow: true,
             child: Column(
               children: [
@@ -461,7 +461,7 @@ class _MrOfficersDashboardScreenState extends State<MrOfficersDashboardScreen> {
                     ),
                     CustomText(
                       isSubHeading: true,
-                      text: 'Visit Today',
+                      text: 'Today\'s Visit',
                     ),
                     Spacer(),
                     Padding(
@@ -474,7 +474,7 @@ class _MrOfficersDashboardScreenState extends State<MrOfficersDashboardScreen> {
                   ],
                 ),
                 SizedBox(
-                  height: 4,
+                  height: 8,
                 ),
                 Divider(
                   height: 1,
@@ -484,43 +484,21 @@ class _MrOfficersDashboardScreenState extends State<MrOfficersDashboardScreen> {
                 SizedBox(
                   height: 8,
                 ),
-                Container(
+                Padding(
                   padding: EdgeInsets.symmetric(horizontal: 16),
-                  child: Column(
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          CustomText(
-                            text: 'Today\'s Total Visit',
-                            isSubHeading: true,
-                          ),
-                          CustomText(
-                            maxLines: 3,
-                            textOverflow: TextOverflow.clip,
-                            text: '08',
-                            isContent: true,
-                          )
-                        ],
+                      CustomText(
+                        text: 'Total Visit',
+                        isSubHeading: true,
                       ),
-                      SizedBox(
-                        height: 8,
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          CustomText(
-                            text: 'Average Visit',
-                            isSubHeading: true,
-                          ),
-                          CustomText(
-                            maxLines: 4,
-                            textOverflow: TextOverflow.clip,
-                            text: '09',
-                            isContent: true,
-                          )
-                        ],
-                      ),
+                      CustomText(
+                        maxLines: 3,
+                        textOverflow: TextOverflow.clip,
+                        text: '08',
+                        isContent: true,
+                      )
                     ],
                   ),
                 ),
