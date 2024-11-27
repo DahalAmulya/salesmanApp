@@ -78,7 +78,7 @@ class _MrOfficersDashboardScreenState extends State<MrOfficersDashboardScreen> {
         builder: (context) =>
             Consumer<UserProvider>(builder: (context, userProvider, _) {
               return CustomAppBar(
-                tabName: 'Hi, ${userProvider.fullName.split(' ')[0]}',
+                tabName: 'Hi, Ronak ${userProvider.fullName.split(' ')[0]}',
                 centerTitle: false,
                 titleColor: CustomColors.primaryBlack,
                 backgroundColor: CustomColors.primaryColor,

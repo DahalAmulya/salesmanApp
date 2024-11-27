@@ -1,11 +1,11 @@
 [
   {
     "district": "Achham",
-    "cities": ["Kamalbazar","Mangalsen","Panchadewal","Binayak","Sanphebagar"]
+    "cities": ["Bannigadi Jayagad","Binayak","Chaurpati","Dhakari","Kamalbazar","Mangalsen","Mellekh","Panchadewal","Ramaroshan","Sanfebagar","Turmakhand"]
   },
   {
     "district": "Arghakhanchi",
-    "cities": ["Sandhikharka","Sitganga","Bhumikasthan","Sandhikharka",""]
+    "cities": ["Bhumikasthan","Sandhikharka","Sitganga",]
   },
   {
     "district": "Baglung",
@@ -168,12 +168,12 @@
     "cities": ["Lalitpur","Bhaktapur","Kathmandu"]
   },
   {
-    "district": "Manangg",
+    "district": "Manang",
     "cities": ["Lalitpur","Bhaktapur","Kathmandu"]
   },
   {
     "district": "Morang",
-    "cities": ["Lalitpur","Bhaktapur","Kathmandu"]
+    "cities": ["Belbari","Biratnagar","Budhiganaga","Dhanpalthan","Gramthan","Jahada","Kanepokhari","Kerabari","Kathari","Letang","Miklajung","Pathari Shanischare","Rangeli","Ratuwamai","Sunawarshi","Sundar Haraincha","Urlabari"]
   },
   {
     "district": "Muggu",
