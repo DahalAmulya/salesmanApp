@@ -47,16 +47,16 @@ class CustomText extends StatelessWidget {
             : isSubHeading
                 ? FontWeight.w600
                 : isContent
-                    ? FontWeight.w400
+                    ? FontWeight.w500
                     : isSubContent
                         ? FontWeight.normal
                         : isSmallText
-                            ? FontWeight.w400
+                            ? FontWeight.w500
                             : fontWeight,
         fontSize: isHeading
             ? 24
             : isSubHeading
-                ? 20
+                ? 18
                 : isContent
                     ? 16
                     : isSubContent
