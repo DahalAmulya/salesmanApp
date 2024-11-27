@@ -124,7 +124,7 @@ class CustomAppBar extends StatelessWidget {
                 ? InkWell(
                     onTap: onTap,
                     child: Padding(
-                      padding: const EdgeInsets.all(4.0),
+                      padding: const EdgeInsets.symmetric(horizontal: 8.0,vertical: 4),
                       child: Image(
                         height: 32,
                         width: 32,

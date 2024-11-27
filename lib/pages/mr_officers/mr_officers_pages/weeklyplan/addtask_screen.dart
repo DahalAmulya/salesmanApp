@@ -6,7 +6,6 @@ import 'package:deskgoo/widgets/texts/custom_text.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
-
 import '../../../../routes/marketing_officer_consts.dart';
 import '../../../../widgets/app_bars/custom_app_bars.dart';
 import '../../../../widgets/drawers/mr_officer_custom_drawer.dart';
@@ -74,7 +73,7 @@ Widget _body(context){
   return Form(
     key: _addTaskFormKey,
     child: Column(
-     mainAxisAlignment: MainAxisAlignment.start,
+     mainAxisAlignment: MainAxisAlignment.center,
       children: [
         // Consumer<WeeklyPlanProvider>(
         //   builder: (context,weeklyPlanProvider,_) {

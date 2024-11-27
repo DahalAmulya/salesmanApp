@@ -255,31 +255,53 @@ class _WeeklyPlanScreenState extends State<WeeklyPlanScreen> {
                   CustomText(text: 'Activity:',fontWeight: FontWeight.w600,size: 18,),
                 ],
               ),
+              SizedBox(height: 8,),
               Container(
+                padding: EdgeInsets.symmetric(horizontal: 8,vertical: 16),
                 height: MediaQuery.of(context).size.height * 0.090,
                 width: MediaQuery.of(context).size.height * 0.8,
+                decoration: BoxDecoration(
+                  borderRadius:BorderRadius.circular(8),
+                  color: Colors.grey.shade200
+                ),
+                child: CustomText(text: 'Marketing Meeting',size: 18,fontWeight: FontWeight.w600),
               ),
+              SizedBox(height: 8,),
               Row(
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
                   CustomText(text: 'Area:',fontWeight: FontWeight.w600,size: 18,),
                 ],
               ),
+              SizedBox(height: 8,),
               Container(
+                padding: EdgeInsets.symmetric(horizontal: 8,vertical: 16),
                 height: MediaQuery.of(context).size.height * 0.090,
                 width:  MediaQuery.of(context).size.height * 0.8,
+                decoration: BoxDecoration(
+                    borderRadius:BorderRadius.circular(8),
+                    color: Colors.grey.shade200
+                ),
+                child: CustomText(text: 'Brt to Ghuski, Harinagar, Bhutha',size: 18,fontWeight: FontWeight.w600),
                 // child: Custom,
               ),
+              SizedBox(height: 8,),
               Row(
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
                   CustomText(text: 'Remark:',fontWeight: FontWeight.w600,size: 18,),
                 ],
               ),
+              SizedBox(height: 8,),
               Container(
+                padding: EdgeInsets.symmetric(horizontal: 8,vertical: 16),
                 height: MediaQuery.of(context).size.height * 0.090,
-                // width: MediaQuery.of(context).size.height * 0.7,
                 width:  MediaQuery.of(context).size.height * 0.8,
+                decoration: BoxDecoration(
+                    borderRadius:BorderRadius.circular(8),
+                    color: Colors.grey.shade200
+                ),
+                child: CustomText(text: 'All Marketing Officer & Hospital CEO',size: 18,fontWeight: FontWeight.w600),
               ),
             ],
                           )
