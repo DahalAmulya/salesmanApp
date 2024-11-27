@@ -53,15 +53,18 @@ class MrOfficerCustomDrawer extends StatelessWidget {
 
   DateTime currentTime = DateTime.now();
   // Duration time = currentTime.difference(other)
-  String? calculateCheckedInDuration(){
+  String? calculateCheckedInDuration() {
     previousTime = '2024-11-24 15:29:37.724407';
     DateTime currentTime = DateTime.now();
-    Duration currentDifference = currentTime.difference(DateTime.parse(previousTime));
+    Duration currentDifference =
+        currentTime.difference(DateTime.parse(previousTime));
     // String formattedDate = DateFormat("hh:mm:ss").format(DateTime.parse(currentDifference));
     print(currentDifference);
   }
-  void setTime(){
-    Future.delayed(Duration(minutes: 12));(){
+
+  void setTime() {
+    Future.delayed(Duration(minutes: 12));
+    () {
       print(calculateCheckedInDuration());
     };
   }
@@ -178,6 +181,7 @@ class MrOfficerCustomDrawer extends StatelessWidget {
                           //     context);
                           showModalBottomSheet(
                             isScrollControlled: true,
+                            useSafeArea: true,
                             context: context,
                             builder: (context) =>
                                 MrOfficerSelectVisitTypeBottomSheet(),
@@ -227,21 +231,25 @@ class MrOfficerCustomDrawer extends StatelessWidget {
                           // openAlertDialog(context);
                           previousTime = '2024-11-24 15:29:37.724407';
                           DateTime currentTime = DateTime.now();
-                          currentDifference = currentTime.difference(DateTime.parse(previousTime)).toString();
+                          currentDifference = currentTime
+                              .difference(DateTime.parse(previousTime))
+                              .toString();
                           print(currentDifference);
                           int seconds = 0;
                           // Timer that runs every 2 seconds
                           Timer.periodic(Duration(seconds: 1), (Timer timer) {
                             seconds++;
                             DateTime currentTime = DateTime.now();
-                            Duration currentDifference = currentTime.difference(DateTime.parse(previousTime));
+                            Duration currentDifference = currentTime
+                                .difference(DateTime.parse(previousTime));
                             print('time = $currentDifference');
                             print(DateTime.parse(currentDifference.toString()));
-                           String formattedDate = DateFormat('hh:mm:ss').format(DateTime.now());
+                            String formattedDate =
+                                DateFormat('hh:mm:ss').format(DateTime.now());
                             print(formattedDate);
                             // Stop the timer after 5 ticks
                             if (seconds == 60) {
-                             timer.cancel();
+                              timer.cancel();
                               // seconds = 60;
                               print("Timer stopped");
                             }
@@ -261,10 +269,11 @@ class MrOfficerCustomDrawer extends StatelessWidget {
       }),
     );
   }
-  void openAlertDialog(context){
+
+  void openAlertDialog(context) {
     showDialog(
         context: context,
-        builder: (BuildContext context){
+        builder: (BuildContext context) {
           return Center(
             child: SingleChildScrollView(
               child: AlertDialog(
@@ -289,10 +298,7 @@ class MrOfficerCustomDrawer extends StatelessWidget {
                         ),
                         // Icon(Icons.arrow_forward_rounded,color: CustomColors.primaryColor,),
                         Switch.adaptive(
-                            value: isSwitched,
-                            onChanged: (value){
-
-                            })
+                            value: isSwitched, onChanged: (value) {})
                       ],
                     ),
                     Row(
@@ -306,7 +312,11 @@ class MrOfficerCustomDrawer extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         CustomText(text: 'Check-in Time'),
-                        CustomText(text: currentTime.toString().split('.')[0].split(' ')[1]),
+                        CustomText(
+                            text: currentTime
+                                .toString()
+                                .split('.')[0]
+                                .split(' ')[1]),
                       ],
                     ),
                     Row(
