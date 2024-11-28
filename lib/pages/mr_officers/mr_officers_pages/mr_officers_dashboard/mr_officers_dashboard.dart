@@ -1,6 +1,7 @@
 import 'package:deskgoo/themes/custom_colors.dart';
 import 'package:deskgoo/widgets/app_bars/custom_app_bars.dart';
 import 'package:deskgoo/widgets/bottom_sheets/mr_officer_sheets/attendance.dart';
+import 'package:deskgoo/widgets/containers/CustomLineBar.dart';
 import 'package:deskgoo/widgets/containers/custom_container.dart';
 import 'package:deskgoo/widgets/drawers/mr_officer_custom_drawer.dart';
 import 'package:deskgoo/widgets/texts/custom_text.dart';
@@ -189,7 +190,7 @@ class _MrOfficersDashboardScreenState extends State<MrOfficersDashboardScreen> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
-                    lineBar(context),
+                    CustomLineBar(),
                     SizedBox(
                       width: 8,
                     ),
@@ -327,7 +328,7 @@ class _MrOfficersDashboardScreenState extends State<MrOfficersDashboardScreen> {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
-                      lineBar(context),
+                      CustomLineBar(),
                       SizedBox(
                         width: 8,
                       ),
@@ -455,7 +456,7 @@ class _MrOfficersDashboardScreenState extends State<MrOfficersDashboardScreen> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
-                    lineBar(context),
+                    CustomLineBar(),
                     SizedBox(
                       width: 8,
                     ),
@@ -518,15 +519,4 @@ class _MrOfficersDashboardScreenState extends State<MrOfficersDashboardScreen> {
 //           dotColor: Colors.grey,
 //         ),
 //       );
-
-  Container lineBar(context, [Color? barColor]) {
-    return Container(
-      height: 18,
-      width: 5,
-      decoration: BoxDecoration(
-        color: barColor ?? CustomColors.primaryColor,
-        borderRadius: BorderRadius.circular(50),
-      ),
-    );
-  }
 }
