@@ -1,5 +1,6 @@
 import 'dart:developer';
 import 'package:awesome_notifications/awesome_notifications.dart';
+import 'package:carousel_slider/carousel_slider.dart';
 import 'package:deskgoo/classes/notification_controller.dart';
 import 'package:deskgoo/pages/mr_officers/mr_officers_pages/weeklyplan/weeklyplan_screen.dart';
 import 'package:deskgoo/providers/deviceInfo_provider/deviceInfo_provider.dart';
@@ -12,8 +13,10 @@ import 'package:deskgoo/utils/ScreenWIdth.dart';
 import 'package:deskgoo/widgets/app_bars/custom_app_bars.dart';
 import 'package:deskgoo/widgets/bottom_navigation/gnav_bar.dart';
 import 'package:deskgoo/widgets/buttons/elevated_button.dart';
+import 'package:deskgoo/widgets/containers/CustomLineBar.dart';
 import 'package:deskgoo/widgets/containers/custom_container.dart';
 import 'package:deskgoo/widgets/drawers/custom_drawer.dart';
+import 'package:deskgoo/widgets/indicators/indicator.dart';
 import 'package:deskgoo/widgets/texts/custom_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -21,6 +24,8 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:local_auth/local_auth.dart';
 import 'package:provider/provider.dart';
+import 'package:smooth_page_indicator/smooth_page_indicator.dart';
+import 'package:fl_chart/fl_chart.dart';
 
 class MarketingManagerDashboard extends StatefulWidget {
   MarketingManagerDashboard({super.key});
@@ -34,7 +39,11 @@ class _MarketingManagerDashboardState extends State<MarketingManagerDashboard> {
   DeviceinfoProvider? _deviceinfoProvider;
   MarketingProvider? _marketingProvider;
   final LocalAuthentication auth = LocalAuthentication();
+  String SelectedColors = '';
+  int selectedIndex = 0;
+  List<String> colors = ['red', 'yellow', 'green'];
   int index = 0;
+  int touchedIndex = -1;
   // late DeviceinfoProvider _provider;
   double screenHeight = ScreenUtil.getScreenHeight();
   double screenWidth = ScreenUtil.getScreenWidth();
@@ -155,7 +164,7 @@ class _MarketingManagerDashboardState extends State<MarketingManagerDashboard> {
           backgroundColor: CustomColors.primaryWhite,
           appBar: _appBar(context),
           drawer: _drawer(context),
-          body: _testListViewUI(context),
+          body: _buildUI(context),
           floatingActionButton: FloatingActionButton(
             backgroundColor: CustomColors.primaryColor,
             onPressed: () {
@@ -168,111 +177,6 @@ class _MarketingManagerDashboardState extends State<MarketingManagerDashboard> {
               Icons.gps_fixed,
             ),
           ),
-          // floatingActionButton: FloatingActionButton(
-          //   backgroundColor: CustomColors.primaryColor,
-          //   onPressed: () async {
-          //     // Create visit details
-          //     VisitDetails visit1 = VisitDetails(
-          //       visitCount: 0,
-          //       clientVisitedPerson: 'Rita Sharma',
-          //       clientVisitedPersonRelation: 'Wife',
-          //       visitedDate: '2024-09-26 05:29:32',
-          //       note: 'Person was not at home. Please visit again',
-          //       isFollowUp: true,
-          //       newFollowUpdate: '2024-09-28',
-          //     );
-
-          // VisitClientModel client1 = VisitClientModel(
-          //   clientName: 'Ram Sharma',
-          //   clientPhoneNumber: '9812345678',
-          //   clientEmail: 'ramsharma@gmail.com',
-          //   clientAddress: 'biratnagar,mahendra chowk',
-          //   clientWhatsApp: '9812345678',
-          //   // visitDetails: [visit1],
-          // );
-
-          // Add the client to the list
-          // ClientsList.addClient(client1);
-
-          // ClientsList.addVisitDetails(
-          //   0,
-          //   VisitDetails(
-          //     visitedDate: '${DateTime.now().toString().split('.')[0]}',
-          //     note: 'Visited Person',
-          //     isFollowUp: false,
-          //     newFollowUpdate: '',
-          //   ),
-          // );
-
-          // ClientsList.clients[0].visitDetails!.add(
-          //   VisitDetails(
-          //       visitCount:
-          //           ClientsList.clients[0].visitDetails!.last.visitCount! +
-          //               1,
-          //       visitedDate: '2024-09-28',
-          //       note: 'Hello World',
-          //       isFollowUp: false,
-          //       newFollowUpdate: ''),
-          // );
-          // print('${ClientsList.clients[0].visitDetails!.last.visitCount}');
-          // print(
-          //     '${ClientsList.clients[0].visitDetails!.last.visitCount.runtimeType}');
-
-          // Print all clients
-          // ClientsList.getClientsList();
-
-          // Navigator.of(context)
-          //     .pushNamed(RouteGeneratorConstants.cameraPage);
-          // ERPResponse response = await ERPServicer.getRequest('device');
-          // print(response.statusCode);
-          // Map<String, dynamic> body = jsonDecode(response.body);
-          // List<dynamic> latestData = body['latestData'];
-          // for (int i = 0; i < latestData.length; i++) {
-          //   print(latestData[i]);
-          // }
-          // LiveTrackingProvider liveTrackingProvider =
-          //     Provider.of<LiveTrackingProvider>(context, listen: false);
-          // liveTrackingProvider.getAllEmployeesLocation();
-          // Navigator.of(context)
-          //     .pushNamed(RouteGeneratorConstants.replayPage);
-
-          // final appDocDir = await getApplicationDocumentsDirectory();
-          // final appDocPath = appDocDir.path;
-          // print('App Documents Directory: $appDocPath');
-          // final filePath = '${appDocPath}fileName';
-          // final file = File(filePath);
-          // await file.writeAsString('Thie is the content of the file...');
-          // print(file.path);
-          // print(await file.readAsString());
-
-          // final tempDir = await getTemporaryDirectory();
-          // final tempPath = tempDir.path;
-          // print('App Documents Directory: $tempPath');
-          // final appCacheDir = await getApplicationCacheDirectory();
-          // print('app Cache Directory: ${appCacheDir.path}');
-          // final appCacheDires = await getExternalCacheDirectories();
-          // print('app Cache Directories: ${appCacheDires}');
-          // final appSupportDir = await getApplicationSupportDirectory();
-          // print('app Support Directory: ${appSupportDir.path}');
-          // // final appLibraryDir = await getLibraryDirectory();
-          // // print('app Library Directories: ${appLibraryDir.path}');
-          // final appExternalStorageDires =
-          //     await getExternalStorageDirectories(
-          //         type: StorageDirectory.downloads);
-          // print('app External Directories: ${appExternalStorageDires}');
-          // final appExternalStorageDir = await getExternalStorageDirectory();
-          // print('app External Directory: ${appExternalStorageDir!.path}');
-          // final appDownloadDir = await getDownloadsDirectory();
-          // print('app Download Directory: ${appDownloadDir!.path}');
-          //   NotificationUtils.sendNotification(
-          //       1, 'Test', 'This is test notification');
-          // },
-          //   child: Image.asset(
-          //     'assets/images/camera.png',
-          //     width: 28,
-          //     height: 28,
-          //   ),
-          // ),
           bottomNavigationBar: _bottomNavBar(context),
         ),
       ),
@@ -283,23 +187,28 @@ class _MarketingManagerDashboardState extends State<MarketingManagerDashboard> {
     return PreferredSize(
       preferredSize: Size.fromHeight(kToolbarHeight),
       child: Builder(
-        builder: (context) =>
-            Consumer<UserProvider>(builder: (context, userProvider, _) {
-          return CustomAppBar(
-            tabName: 'Hi, ${userProvider.fullName.split(' ')[0]}',
-            centerTitle: false,
-            titleColor: CustomColors.primaryBlack,
-            backgroundColor: CustomColors.primaryColor,
-            showLeading: true,
-            isLeadingImage: true,
-            imageName: 'assets/images/userLocation.png',
-            leadingIconColor: CustomColors.primaryBlack,
-            onTapLeadingIcon: () {
-              // Use the context under the Scaffold
-              Scaffold.of(context).openDrawer();
-            },
-          );
-        }),
+        builder: (context) => Consumer<UserProvider>(
+          builder: (context, userProvider, _) {
+            return CustomAppBar(
+              tabName: 'Hi, ${userProvider.fullName.split(' ')[0]}',
+              centerTitle: false,
+              titleColor: CustomColors.primaryBlack,
+              backgroundColor: CustomColors.primaryColor,
+              showLeading: true,
+              isLeadingImage: true,
+              imageName: 'assets/images/userLocation.png',
+              leadingIconColor: CustomColors.primaryBlack,
+              onTap: () {
+                // Use the context under the Scaffold
+                Scaffold.of(context).openDrawer();
+              },
+              onTapLeadingIcon: () {
+                // Use the context under the Scaffold
+                Scaffold.of(context).openDrawer();
+              },
+            );
+          },
+        ),
       ),
     );
   }
@@ -311,7 +220,7 @@ class _MarketingManagerDashboardState extends State<MarketingManagerDashboard> {
     );
   }
 
-  Widget _testListViewUI(context) {
+  Widget _buildUI(context) {
     return Consumer<DetailsProvider>(
       builder: (context, marketingProvider, _) {
         return RefreshIndicator(
@@ -323,146 +232,215 @@ class _MarketingManagerDashboardState extends State<MarketingManagerDashboard> {
           child: ListView(
             children: [
               SizedBox(
-                height: 16,
+                height: 8,
               ),
-              CustomContainer(
-                color: Colors.white,
-                verticalMargin: 0,
-                verticalPad: 12,
-                horizontalMargin: 8,
-                horizontalPad: 0,
-                child: Column(
-                  children: [
-                    InkWell(
-                      onTap: () {
-                        Navigator.of(context).pushNamed(
-                            MarketingManagerConstants.marketingOfficers);
-                        // print('Tapped on Label');
-                      },
-                      child: Row(
-                        children: [
-                          Padding(
-                            padding: const EdgeInsets.only(top: 0, bottom: 0),
-                            child: Container(
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(50),
-                                color: CustomColors.primaryColor,
-                              ),
-                              width: 5,
-                              height: 24,
-                            ),
-                          ),
-                          Expanded(
-                            child: Padding(
-                              padding: EdgeInsets.symmetric(horizontal: 8.0),
-                              child: CustomText(
-                                text: 'Marketing Officers',
-                                size: 20,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                          ),
-                          const Spacer(),
-                          const Padding(
-                            padding: EdgeInsets.symmetric(horizontal: 12.0),
-                            child: Icon(
-                              FontAwesomeIcons.chevronRight,
-                              size: 18,
-                            ),
-                          ),
-                        ],
+              Center(
+                child: CustomContainer(
+                  color: Colors.transparent,
+                  borderRadius: 8,
+                  width: 0.90,
+                  verticalPad: 8,
+                  horizontalPad: 0,
+                  child: Row(
+                    children: [
+                      CustomLineBar(),
+                      SizedBox(
+                        width: 8,
                       ),
+                      CustomText(
+                        text: 'Quick Reports',
+                        isSubHeading: true,
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+              ColoredBox(
+                color: Colors.pinkAccent,
+                child: CarouselSlider.builder(
+                  options: CarouselOptions(
+                    height: 220,
+                    enlargeCenterPage: true,
+                    enlargeStrategy: CenterPageEnlargeStrategy.height,
+                    onPageChanged: (index, reason) => setState(
+                      () {
+                        selectedIndex = index;
+                      },
                     ),
-                    Padding(
-                      padding: const EdgeInsets.only(left: 16.0),
-                      child: Divider(),
-                    ),
-                    ListView.builder(
-                      itemCount:
-                          marketingProvider.marketingOfficersDetails.length -
-                              2, // Outer ListView
-                      shrinkWrap:
-                          true, // This allows it to take only the required height
-                      physics:
-                          NeverScrollableScrollPhysics(), // Disables scrolling for outer ListView, so the inner ListViews can handle scrolling
-                      padding: EdgeInsets.all(0),
-                      itemBuilder: (context, index) {
-                        String name = marketingProvider
-                            .marketingOfficersDetails[index]['OfficerName'];
-                        int target = marketingProvider
-                            .marketingOfficersDetails[index]['target'];
-                        int achived = marketingProvider
-                            .marketingOfficersDetails[index]['achieved'];
-                        double indicatorValue = achived / target;
-                        return InkWell(
-                          onTap: () {
-                            marketingProvider
-                                .setSelectedOfficerVisitDetails(index);
-                            Navigator.of(context).pushNamed(
-                                MarketingManagerConstants
-                                    .officerDescriptionPage);
-                          },
-                          child: Container(
+                  ),
+                  itemCount: colors.length,
+                  itemBuilder: (BuildContext context, index, int realIndex) {
+                    SelectedColors = colors[index];
+                    return CustomContainer(
+                      horizontalMargin: 8,
+                      verticalPad: 0,
+                      horizontalPad: 0,
+                      verticalMargin: 0,
+                      color: Colors.white,
+                      borderRadius: 16,
+                      applyShadow: true,
+                      child: ColoredBox(
+                        color: Colors.tealAccent,
+                        child: AspectRatio(
+                          aspectRatio: 1.3,
+                          child: ColoredBox(
+                            color: Colors.transparent,
                             child: Column(
+                              mainAxisAlignment: MainAxisAlignment.start,
                               crossAxisAlignment: CrossAxisAlignment.start,
-                              mainAxisSize: MainAxisSize.min,
                               children: [
-                                Padding(
-                                  padding:
-                                      const EdgeInsets.only(left: 16.0, top: 4),
-                                  child: Consumer<DetailsProvider>(
-                                    builder: (context, marketingProvider, _) {
-                                      return CustomText(
-                                        text: name,
-                                        fontWeight: FontWeight.bold,
-                                        color: CustomColors.primaryBlack,
-                                        // color: Colors.grey.shade600,
-                                      );
-                                    },
+                                Container(
+                                  color: Colors.amber,
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: CustomText(
+                                    text: 'Today\'s Attendance',
+                                    isSubHeading: true,
                                   ),
+                                ),
+                                SizedBox(
+                                  height: 24,
                                 ),
                                 Row(
                                   mainAxisAlignment:
                                       MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    Flexible(
-                                      child: Padding(
-                                        padding: const EdgeInsets.symmetric(
-                                            horizontal: 16.0),
-                                        child: LinearProgressIndicator(
-                                          value: indicatorValue,
-                                          backgroundColor: Colors.grey.shade300,
-                                          color: CustomColors.primaryColor,
-                                          minHeight: 6,
-                                          borderRadius:
-                                              BorderRadius.circular(10),
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  children: <Widget>[
+                                    const SizedBox(
+                                      height: 16,
+                                    ),
+                                    Expanded(
+                                      child: SizedBox(
+                                        height: 100,
+                                        width: 100,
+                                        // aspectRatio: 1,
+                                        child: PieChart(
+                                          PieChartData(
+                                            pieTouchData: PieTouchData(
+                                                touchCallback:
+                                                    (FlTouchEvent event,
+                                                        pieTouchResponse) {
+                                              setState(() {
+                                                if (!event
+                                                        .isInterestedForInteractions ||
+                                                    pieTouchResponse == null ||
+                                                    pieTouchResponse
+                                                            .touchedSection ==
+                                                        null) {
+                                                  touchedIndex = -1;
+                                                  return;
+                                                }
+                                                touchedIndex = pieTouchResponse
+                                                    .touchedSection!
+                                                    .touchedSectionIndex;
+                                                print(
+                                                    'touchedIndex = $touchedIndex');
+                                              });
+                                            }),
+                                            borderData: FlBorderData(
+                                              show: false,
+                                            ),
+                                            sectionsSpace: 0,
+                                            centerSpaceRadius: 30,
+                                            sections: showingSections(),
+                                          ),
                                         ),
                                       ),
+                                    ),
+                                    Column(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: <Widget>[
+                                        Indicator(
+                                          color: CustomColors.jadeGreen,
+                                          // noOfObj: '10',
+                                          // objInPercentage: '10',
+                                          text: 'On-Time',
+                                          isSquare: true,
+                                        ),
+                                        SizedBox(
+                                          height: 4,
+                                        ),
+                                        Indicator(
+                                          color: CustomColors.lightYellow,
+                                          text: 'Grace-Time',
+                                          // noOfObj: '10',
+                                          // objInPercentage: '10',
+                                          isSquare: true,
+                                        ),
+                                        SizedBox(
+                                          height: 4,
+                                        ),
+                                        Indicator(
+                                          color: CustomColors.lightRed,
+                                          text: 'Late',
+                                          // noOfObj: '10',
+                                          // objInPercentage: '10',
+                                          isSquare: true,
+                                        ),
+                                        SizedBox(
+                                          height: 18,
+                                        ),
+                                      ],
                                     ),
                                     const SizedBox(
-                                      width: 30,
-                                    ),
-                                    Padding(
-                                      padding: EdgeInsets.only(right: 16.0),
-                                      child: Text(
-                                        '${achived < 10 ? '0$achived' : achived}/$target',
-                                        style: TextStyle(
-                                          fontWeight: FontWeight.bold,
-                                          color: Colors.black,
-                                        ),
-                                      ),
+                                      width: 28,
                                     ),
                                   ],
                                 ),
                               ],
                             ),
                           ),
-                        );
-                      },
-                    ),
-                  ],
+                        ),
+                      ),
+
+                      ////////////////////////////////////////////////////////
+                      // Stack(
+                      //   alignment: Alignment.center,
+                      //   children: [
+                      //     CustomText(text: 'Today\'s Attendance'),
+                      //     PieChart(
+                      //       swapAnimationDuration:
+                      //           const Duration(milliseconds: 500),
+                      //       swapAnimationCurve: Curves.easeInOut,
+                      //       PieChartData(
+                      //         sections: [
+                      //           PieChartSectionData(
+                      //             value: 33,
+                      //             color: CustomColors.lightGreen,
+                      //           ),
+                      //           PieChartSectionData(
+                      //             value: 33,
+                      //             color: CustomColors.lightYellow,
+                      //           ),
+                      //           PieChartSectionData(
+                      //             value: 33,
+                      //             color: CustomColors.lightRed,
+                      //           ),
+                      //         ],
+                      //       ),
+                      //     ),
+                      //   ],
+                      // ),
+                    );
+                  },
                 ),
               ),
+              // SizedBox(
+              //   height: 8,
+              // ),
+              // Center(
+              //   child: buildIndicator(),
+              // ),
+              SizedBox(
+                height: 16,
+              ),
+              _reports(context),
+              SizedBox(
+                height: 16,
+              ),
+              _marketingOfficerReport(context, marketingProvider),
               SizedBox(
                 height: 16,
               ),
@@ -471,191 +449,6 @@ class _MarketingManagerDashboardState extends State<MarketingManagerDashboard> {
         );
       },
     );
-  }
-
-  Widget _buildUI(context) {
-    double marketingContainerHeight = 0.0;
-
-    print('width = $screenWidth');
-    if (screenWidth < 375) {
-      marketingContainerHeight = 0.88;
-    }
-    if (screenWidth >= 375 && screenWidth <= 393) {
-      marketingContainerHeight = 0.74;
-    }
-    if (screenWidth > 393 && screenWidth < 414) {
-      marketingContainerHeight = 0.84;
-    }
-    if (screenWidth >= 414 && screenWidth <= 430) {
-      marketingContainerHeight = 0.80;
-    }
-    if (screenWidth >= 430) {
-      marketingContainerHeight = 0.92;
-    }
-    if (screenWidth >= 500) {
-      marketingContainerHeight = 0.88;
-    }
-    return Consumer<DetailsProvider>(builder: (context, marketingProvider, _) {
-      return Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Center(
-            child: Container(
-              padding: EdgeInsets.symmetric(vertical: 8.0),
-              height:
-                  MediaQuery.of(context).size.width * marketingContainerHeight,
-              // height: double.infinity,
-              width: MediaQuery.of(context).size.width * 0.95,
-              decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.circular(10),
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.black.withOpacity(0.1),
-                    blurRadius: 3,
-                    spreadRadius: 1,
-                    offset: const Offset(3, 3),
-                  )
-                ],
-              ),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  // const SizedBox(
-                  //   height: 10,
-                  // ),
-                  Row(
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.only(top: 10, bottom: 10),
-                        child: Container(
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(50),
-                            color: CustomColors.primaryColor,
-                          ),
-                          width: 5,
-                          height: 18,
-                        ),
-                      ),
-                      Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 8.0),
-                        child: CustomText(
-                          text: 'Marketing Officers',
-                          size: 18,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                      const Spacer(),
-                      const Padding(
-                        padding: EdgeInsets.all(8.0),
-                        child: Icon(Icons.chevron_right),
-                      ),
-                    ],
-                  ),
-                  const Padding(
-                    padding: EdgeInsets.only(left: 16.0),
-                    child: Divider(
-                      height: 1,
-                      thickness: 1,
-                      indent: 2,
-                      color: Colors.grey,
-                    ),
-                  ),
-                  // Wrapping the ListView.builder with Expanded
-                  Consumer<DetailsProvider>(
-                      builder: (context, marketingProvider, _) {
-                    double indicatorValue = marketingProvider
-                            .marketingOfficersDetails[index]['achieved'] /
-                        marketingProvider.marketingOfficersDetails[index]
-                            ['target'];
-                    return Flexible(
-                      child: ListView.builder(
-                        itemCount: marketingProvider.marketingOfficersDetails
-                            .length, // Adjust itemCount as necessary
-                        itemBuilder: (BuildContext context, int index) {
-                          double indicatorValue = marketingProvider
-                                  .marketingOfficersDetails[index]['achieved'] /
-                              marketingProvider.marketingOfficersDetails[index]
-                                  ['target'];
-                          print('indicatorValue $index = $indicatorValue');
-                          return InkWell(
-                            onTap: () {
-                              _marketingProvider!.setName(marketingProvider
-                                      .marketingOfficersDetails[index]
-                                  ['OfficerName']);
-                              // print(marketingOfficersName[index]['OfficerName']);
-                              Navigator.of(context).pushNamed(
-                                  MarketingManagerConstants
-                                      .officerDescriptionPage);
-                            },
-                            child: Container(
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                mainAxisSize: MainAxisSize.min,
-                                children: [
-                                  Padding(
-                                    padding: const EdgeInsets.only(
-                                        left: 16.0, top: 13),
-                                    child: Consumer<DetailsProvider>(builder:
-                                        (context, marketingProvider, _) {
-                                      return CustomText(
-                                        text: marketingProvider
-                                                .marketingOfficersDetails[index]
-                                            ['OfficerName'],
-                                        fontWeight: FontWeight.bold,
-                                        color: CustomColors.primaryBlack,
-                                        // color: Colors.grey.shade600,
-                                      );
-                                    }),
-                                  ),
-                                  Row(
-                                    children: [
-                                      Flexible(
-                                        child: Padding(
-                                          padding: const EdgeInsets.symmetric(
-                                              horizontal: 16.0),
-                                          child: LinearProgressIndicator(
-                                            value: indicatorValue,
-                                            backgroundColor:
-                                                CustomColors.primaryWhite,
-                                            color: CustomColors.primaryColor,
-                                            minHeight: 6,
-                                            borderRadius:
-                                                BorderRadius.circular(10),
-                                          ),
-                                        ),
-                                      ),
-                                      const SizedBox(
-                                        width: 30,
-                                      ),
-                                      Padding(
-                                        padding: EdgeInsets.only(right: 16.0),
-                                        child: Text(
-                                          '${marketingProvider.marketingOfficersDetails[index]['achieved']}/${marketingProvider.marketingOfficersDetails[index]['target']}',
-                                          style: TextStyle(
-                                            fontWeight: FontWeight.bold,
-                                            color: Colors.grey.shade600,
-                                          ),
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ],
-                              ),
-                            ),
-                          );
-                        },
-                      ),
-                    );
-                  }),
-                ],
-              ),
-            ),
-          ),
-        ],
-      );
-    });
   }
 
   CustomGNavBar _bottomNavBar(context) {
@@ -667,4 +460,310 @@ class _MarketingManagerDashboardState extends State<MarketingManagerDashboard> {
       },
     );
   }
+
+  Widget _reports(context) {
+    return Center(
+      child: CustomContainer(
+        verticalPad: 12,
+        horizontalPad: 0,
+        // width:,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Row(
+                  children: [
+                    CustomLineBar(),
+                    SizedBox(
+                      width: 8,
+                    ),
+                    CustomText(
+                      text: 'Reports',
+                      isSubHeading: true,
+                    ),
+                  ],
+                ),
+                const Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 12.0),
+                  child: Icon(
+                    FontAwesomeIcons.chevronRight,
+                    size: 18,
+                  ),
+                ),
+              ],
+            ),
+            Padding(
+              padding: const EdgeInsets.only(left: 16.0),
+              child: Divider(),
+            ),
+            _reportRows(
+              context,
+              imgName: 'officer',
+              title: 'Marketing Officers',
+              onTap: () {},
+            ),
+            _reportRows(
+              context,
+              imgName: 'ambulance',
+              title: 'Ambulance',
+              onTap: () {},
+            ),
+            _reportRows(
+              context,
+              imgName: 'referral',
+              title: 'Referral',
+              onTap: () {},
+            ),
+            _reportRows(
+              context,
+              imgName: 'area',
+              title: 'Area',
+              onTap: () {},
+            ),
+            _reportRows(
+              context,
+              imgName: 'visits',
+              title: 'Average Visits',
+              onTap: () {},
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _reportRows(context,
+      {required String imgName,
+      required String title,
+      required Function onTap}) {
+    return InkWell(
+      onTap: () {
+        print('Pressed $title');
+      },
+      child: Padding(
+        padding: const EdgeInsets.symmetric(vertical: 4.0, horizontal: 16),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Image.asset(
+                  'assets/reports_img/$imgName.png',
+                  width: 42,
+                  height: 42,
+                ),
+                SizedBox(
+                  width: 12,
+                ),
+                CustomText(
+                  text: title,
+                  isContent: true,
+                ),
+              ],
+            ),
+            Icon(
+              FontAwesomeIcons.chevronRight,
+              size: 18,
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _marketingOfficerReport(context, marketingProvider) {
+    return Center(
+      child: CustomContainer(
+        color: Colors.white,
+        verticalMargin: 0,
+        verticalPad: 12,
+        horizontalPad: 0,
+        child: Column(
+          children: [
+            InkWell(
+              onTap: () {
+                Navigator.of(context)
+                    .pushNamed(MarketingManagerConstants.marketingOfficers);
+                // print('Tapped on Label');
+              },
+              child: Row(
+                children: [
+                  CustomLineBar(),
+                  Expanded(
+                    child: Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 8.0),
+                      child: CustomText(
+                        text: 'Marketing Officers',
+                        isSubHeading: true,
+                      ),
+                    ),
+                  ),
+                  // const Spacer(),
+                  const Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 12.0),
+                    child: Icon(
+                      FontAwesomeIcons.chevronRight,
+                      size: 18,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.only(left: 16.0),
+              child: Divider(),
+            ),
+            ListView.builder(
+              itemCount: marketingProvider.marketingOfficersDetails.length -
+                  2, // Outer ListView
+              shrinkWrap:
+                  true, // This allows it to take only the required height
+              physics:
+                  NeverScrollableScrollPhysics(), // Disables scrolling for outer ListView, so the inner ListViews can handle scrolling
+              padding: EdgeInsets.all(0),
+              itemBuilder: (context, index) {
+                String name = marketingProvider.marketingOfficersDetails[index]
+                    ['OfficerName'];
+                int target =
+                    marketingProvider.marketingOfficersDetails[index]['target'];
+                int achived = marketingProvider.marketingOfficersDetails[index]
+                    ['achieved'];
+                double indicatorValue = achived / target;
+                return InkWell(
+                  onTap: () {
+                    marketingProvider.setSelectedOfficerVisitDetails(index);
+                    Navigator.of(context).pushNamed(
+                        MarketingManagerConstants.officerDescriptionPage);
+                  },
+                  child: Container(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.only(left: 16.0, top: 4),
+                          child: Consumer<DetailsProvider>(
+                            builder: (context, marketingProvider, _) {
+                              return CustomText(
+                                text: name,
+                                fontWeight: FontWeight.bold,
+                                color: CustomColors.primaryBlack,
+                                // color: Colors.grey.shade600,
+                              );
+                            },
+                          ),
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Flexible(
+                              child: Padding(
+                                padding: const EdgeInsets.symmetric(
+                                    horizontal: 16.0),
+                                child: LinearProgressIndicator(
+                                  value: indicatorValue,
+                                  backgroundColor: Colors.grey.shade300,
+                                  color: CustomColors.primaryColor,
+                                  minHeight: 6,
+                                  borderRadius: BorderRadius.circular(10),
+                                ),
+                              ),
+                            ),
+                            const SizedBox(
+                              width: 30,
+                            ),
+                            Padding(
+                              padding: EdgeInsets.only(right: 16.0),
+                              child: Text(
+                                '${achived < 10 ? '0$achived' : achived}/$target',
+                                style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.black,
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
+                  ),
+                );
+              },
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  List<PieChartSectionData> showingSections() {
+    return List.generate(3, (i) {
+      final isTouched = i == touchedIndex;
+      final fontSize = isTouched ? 20.0 : 14.0;
+      final radius = isTouched ? 50.0 : 40.0;
+      final shadows = [
+        Shadow(
+          color: Colors.black.withOpacity(0.8),
+          blurRadius: 2,
+        )
+      ];
+      switch (i) {
+        case 0:
+          return PieChartSectionData(
+            color: CustomColors.jadeGreen,
+            value: 20,
+            title: '20%',
+            radius: radius,
+            titleStyle: TextStyle(
+              fontSize: fontSize,
+              fontWeight: FontWeight.bold,
+              color: Colors.white,
+              shadows: shadows,
+            ),
+          );
+        case 1:
+          return PieChartSectionData(
+            color: CustomColors.lightYellow,
+            value: 20,
+            title: '20%',
+            radius: radius,
+            titleStyle: TextStyle(
+              fontSize: fontSize,
+              fontWeight: FontWeight.bold,
+              color: Colors.white,
+              shadows: shadows,
+            ),
+          );
+        case 2:
+          return PieChartSectionData(
+            color: CustomColors.lightRed,
+            value: 20,
+            title: '20%',
+            radius: radius,
+            titleStyle: TextStyle(
+              fontSize: fontSize,
+              fontWeight: FontWeight.bold,
+              color: Colors.white,
+              shadows: shadows,
+            ),
+          );
+        default:
+          throw Error();
+      }
+    });
+  }
+
+  Widget buildIndicator() => AnimatedSmoothIndicator(
+        activeIndex: selectedIndex,
+        count: colors.length,
+        effect: WormEffect(
+          activeDotColor: CustomColors.primaryColor,
+          dotColor: Colors.grey,
+        ),
+      );
 }

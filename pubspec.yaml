@@ -4,7 +4,7 @@ description: "A new Flutter project."
 version: 1.0.0+1
 
 environment:
-  sdk: '>=3.4.1 <4.0.0'
+  sdk: ">=3.4.1 <4.0.0"
 
 dependencies:
   flutter:
@@ -47,6 +47,7 @@ dependencies:
   date_picker_timeline:
   carousel_slider: ^5.0.0
   smooth_page_indicator: ^1.2.0+3
+  fl_chart: ^0.68.0
 #  getwidget: ^2.0.4
 
 dev_dependencies:
@@ -65,11 +66,10 @@ dev_dependencies:
 
 # The following section is specific to Flutter packages.
 flutter:
-
   # The following line ensures that the Material Icons font is
   # included with your application, so that you can use the icons in
   # the material Icons class.
-  uses-material-design: true  
+  uses-material-design: true
 
   # To add assets to your application, add an assets section, like this:
   assets:
@@ -79,6 +79,7 @@ flutter:
     - assets/icons/
     - assets/images/
     - assets/flag_img/
+    - assets/reports_img/
     - assets/district.json
   #   - images/a_dot_ham.jpeg
 
@@ -107,7 +108,6 @@ flutter:
   #
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages
-
 # flutter_launcher_icons:
 #   android: "launcher_icon"
 #   ios: "AppIcon"
