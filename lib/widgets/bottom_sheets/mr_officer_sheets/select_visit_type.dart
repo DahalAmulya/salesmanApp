@@ -1,5 +1,6 @@
 import 'package:deskgoo/pages/mr_officers/mr_officers_pages/mr_officers_visits/mr_officers_visits.dart';
 import 'package:deskgoo/pages/mr_officers/mr_officers_providers/mr_officer_visit_provider.dart';
+import 'package:deskgoo/routes/marketing_officer_consts.dart';
 import 'package:deskgoo/routes/route_generator_constants.dart';
 import 'package:deskgoo/themes/custom_colors.dart';
 import 'package:deskgoo/widgets/buttons/elevated_button.dart';
@@ -27,7 +28,7 @@ class _MrOfficerSelectVisitTypeBottomSheetState
   Widget _buildUI(context) {
     return CustomContainer(
       width: 1,
-      verticalPad: 16,
+      verticalPad: 12,
       child: Consumer<MrOfficerVisitProvider>(
         builder: (context, visitProvider, _) {
           return SingleChildScrollView(
@@ -43,32 +44,26 @@ class _MrOfficerSelectVisitTypeBottomSheetState
                       size: 22,
                     ),
                     SizedBox(
-                      height: 8,
+                      height: 0,
+                    ),
+                    Divider(),
+                    SizedBox(
+                      height: 0,
                     ),
                     CustomRadioButton(
                       radioGroupValue: visitProvider.radioGroupValue,
-                      radioValue: visitProvider.vistTypeList[0],
-                      radioTitle: visitProvider.vistTypeList[0],
+                      radioValue: visitProvider.visitTypeList[0],
+                      radioTitle: visitProvider.visitTypeList[0],
                       onChange: (value) {
                         visitProvider.selectVisitType(value);
                       },
                     ),
                     CustomRadioButton(
                       radioGroupValue: visitProvider.radioGroupValue,
-                      radioValue: visitProvider.vistTypeList[1],
-                      radioTitle: visitProvider.vistTypeList[1],
-                      showTrailingWidget: true,
-                      trailingWidgetTitle: '15',
-                      onChange: (value) {
-                        visitProvider.selectVisitType(value);
-                      },
-                    ),
-                    CustomRadioButton(
-                      radioGroupValue: visitProvider.radioGroupValue,
-                      radioValue: visitProvider.vistTypeList[2],
-                      radioTitle: visitProvider.vistTypeList[2],
-                      showTrailingWidget: true,
-                      trailingWidgetTitle: '5',
+                      radioValue: visitProvider.visitTypeList[1],
+                      radioTitle: visitProvider.visitTypeList[1],
+                      // showTrailingWidget: true,
+                      // trailingWidgetTitle: '15',
                       onChange: (value) {
                         visitProvider.selectVisitType(value);
                       },
@@ -98,9 +93,17 @@ class _MrOfficerSelectVisitTypeBottomSheetState
                             bool isSelected =
                                 visitProvider.setSelectedVisitType();
                             if (isSelected) {
-                              Navigator.of(context).push(MaterialPageRoute(
-                                  builder: (context) =>
-                                      MROfficersVisitsScreen()));
+                              if (visitProvider.selectedVisitType ==
+                                  visitProvider.visitTypeList[0]) {
+                                Navigator.pop(context);
+                                Navigator.of(context).pushNamed(
+                                    MarketingOfficerConstants.newVisit);
+                              } else {
+                                Navigator.pop(context);
+                                Navigator.of(context).push(MaterialPageRoute(
+                                    builder: (context) =>
+                                        MROfficersVisitsScreen()));
+                              }
                             }
                           },
                           backgroundColor: CustomColors.primaryColor,

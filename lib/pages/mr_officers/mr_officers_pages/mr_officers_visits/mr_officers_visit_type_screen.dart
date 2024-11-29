@@ -88,16 +88,16 @@ class _MrOfficersVisitTypeScreenState extends State<MrOfficersVisitTypeScreen> {
                       ),
                       CustomRadioButton(
                         radioGroupValue: visitProvider.radioGroupValue,
-                        radioValue: visitProvider.vistTypeList[0],
-                        radioTitle: visitProvider.vistTypeList[0],
+                        radioValue: visitProvider.visitTypeList[0],
+                        radioTitle: visitProvider.visitTypeList[0],
                         onChange: (value) {
                           visitProvider.selectVisitType(value);
                         },
                       ),
                       CustomRadioButton(
                         radioGroupValue: visitProvider.radioGroupValue,
-                        radioValue: visitProvider.vistTypeList[1],
-                        radioTitle: visitProvider.vistTypeList[1],
+                        radioValue: visitProvider.visitTypeList[1],
+                        radioTitle: visitProvider.visitTypeList[1],
                         showTrailingWidget: true,
                         trailingWidgetTitle: '15',
                         onChange: (value) {
@@ -106,8 +106,8 @@ class _MrOfficersVisitTypeScreenState extends State<MrOfficersVisitTypeScreen> {
                       ),
                       CustomRadioButton(
                         radioGroupValue: visitProvider.radioGroupValue,
-                        radioValue: visitProvider.vistTypeList[2],
-                        radioTitle: visitProvider.vistTypeList[2],
+                        radioValue: visitProvider.visitTypeList[2],
+                        radioTitle: visitProvider.visitTypeList[2],
                         showTrailingWidget: true,
                         trailingWidgetTitle: '5',
                         onChange: (value) {
