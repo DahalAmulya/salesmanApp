@@ -20,18 +20,28 @@ class _MrOfficerNewVisitScreenState extends State<MrOfficerNewVisitScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: () {
-        // Dismiss the keyboard when tapping outside TextFormFields
-        FocusScopeNode currentFocus = FocusScope.of(context);
-        if (!currentFocus.hasPrimaryFocus) {
-          FocusScope.of(context).unfocus();
+    return PopScope(
+      canPop: false,
+      onPopInvoked: ((didpop) {
+        if (didpop) {
+          return;
         }
-      },
-      child: Scaffold(
-        backgroundColor: CustomColors.primaryWhite,
-        appBar: _appBar(context),
-        body: _buildUI(context),
+        Navigator.of(context)
+            .pop(MarketingOfficerConstants.mrStaffDashboardConst);
+      }),
+      child: GestureDetector(
+        onTap: () {
+          // Dismiss the keyboard when tapping outside TextFormFields
+          FocusScopeNode currentFocus = FocusScope.of(context);
+          if (!currentFocus.hasPrimaryFocus) {
+            FocusScope.of(context).unfocus();
+          }
+        },
+        child: Scaffold(
+          backgroundColor: CustomColors.primaryWhite,
+          appBar: _appBar(context),
+          body: _buildUI(context),
+        ),
       ),
     );
   }

@@ -503,31 +503,42 @@ class _MarketingManagerDashboardState extends State<MarketingManagerDashboard> {
               context,
               imgName: 'officer',
               title: 'Marketing Officers',
-              onTap: () {},
+              onTap: () {
+                Navigator.of(context).pushNamed(
+                    MarketingManagerConstants.reportMarketingOfficersScreen);
+              },
             ),
             _reportRows(
               context,
               imgName: 'ambulance',
               title: 'Ambulance',
-              onTap: () {},
+              onTap: () {
+                print('Tapped Ambulance');
+              },
             ),
             _reportRows(
               context,
               imgName: 'referral',
               title: 'Referral',
-              onTap: () {},
+              onTap: () {
+                print('Tapped Referral');
+              },
             ),
             _reportRows(
               context,
               imgName: 'area',
               title: 'Area',
-              onTap: () {},
+              onTap: () {
+                print('Tapped Area');
+              },
             ),
             _reportRows(
               context,
               imgName: 'visits',
               title: 'Average Visits',
-              onTap: () {},
+              onTap: () {
+                print('Tapped Average Visits');
+              },
             ),
           ],
         ),
@@ -538,11 +549,9 @@ class _MarketingManagerDashboardState extends State<MarketingManagerDashboard> {
   Widget _reportRows(context,
       {required String imgName,
       required String title,
-      required Function onTap}) {
+      required Function() onTap}) {
     return InkWell(
-      onTap: () {
-        print('Pressed $title');
-      },
+      onTap: onTap,
       child: Padding(
         padding: const EdgeInsets.symmetric(vertical: 4.0, horizontal: 16),
         child: Row(
