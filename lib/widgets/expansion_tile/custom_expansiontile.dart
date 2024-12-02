@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 
 class CustomExpansionTile extends StatelessWidget {
-
   final String title;
   // final Icon icon;
   final List<Widget> children;
@@ -15,6 +14,9 @@ class CustomExpansionTile extends StatelessWidget {
   final double radiusBottomRight;
   final double verticalMargin;
   final double horizontalMargin;
+  final bool applyTopBorderRadius;
+  final bool applyBottomBorderRadius;
+  final bool applyAllBorderRadius;
   // final Function onExpansionChanged;
 
   const CustomExpansionTile({
@@ -33,42 +35,65 @@ class CustomExpansionTile extends StatelessWidget {
     this.verticalPad = 0,
     this.verticalMargin = 0,
     this.horizontalMargin = 0,
-     // required
+    this.applyTopBorderRadius = false,
+    this.applyBottomBorderRadius = false,
+    this.applyAllBorderRadius = false,
+    // required
   });
 
   @override
   Widget build(BuildContext context) {
     return Theme(
-       data: ThemeData().copyWith(dividerColor: Colors.transparent),
+      data: ThemeData().copyWith(dividerColor: Colors.transparent),
       child: Container(
-        margin: EdgeInsets.symmetric(vertical: verticalMargin,horizontal: horizontalMargin),
+        margin: EdgeInsets.symmetric(
+            vertical: verticalMargin, horizontal: horizontalMargin),
         decoration: BoxDecoration(
-          borderRadius: BorderRadius.only(topLeft: Radius.circular(radiusTopLeft), topRight: Radius.circular(radiusTopRight),bottomRight: Radius.circular(radiusBottomRight),bottomLeft: Radius.circular(radiusBottomLeft)),
+          borderRadius: applyAllBorderRadius
+              ? BorderRadius.all(Radius.circular(16))
+              : BorderRadius.only(
+                  topLeft: applyTopBorderRadius
+                      ? Radius.circular(16)
+                      : Radius.circular(0),
+                  topRight: applyTopBorderRadius
+                      ? Radius.circular(16)
+                      : Radius.circular(0),
+                  bottomRight: applyBottomBorderRadius
+                      ? Radius.circular(16)
+                      : Radius.circular(0),
+                  bottomLeft: applyBottomBorderRadius
+                      ? Radius.circular(16)
+                      : Radius.circular(0)),
           color: Colors.white,
-          boxShadow: applyShadow ? [
-            BoxShadow(
-              color: Colors.black.withOpacity(0.1),
-              spreadRadius: 1.0,
-              blurRadius: 5.0,
-              offset: const Offset(0, -2),
-            ),
-          ] : [],
+          boxShadow: applyShadow
+              ? [
+                  // BoxShadow(
+                  //   color: Colors.black.withOpacity(0.1),
+                  //   spreadRadius: 1.0,
+                  //   blurRadius: 5.0,
+                  //   offset: const Offset(0, -2),
+                  // ),
+                  BoxShadow(
+                    color: Colors.black.withOpacity(0.1),
+                    spreadRadius: 2.0,
+                    blurRadius: 1.0,
+                    offset: const Offset(3, 3),
+                  )
+                ]
+              : [],
         ),
         child: ExpansionTile(
           initiallyExpanded: initiallyExpanded,
-          childrenPadding: EdgeInsets.symmetric(horizontal: horizontalPad,vertical: verticalPad),
-            title: Text(title),
-            trailing: Icon(Icons.keyboard_arrow_down),
-            children: children,
-            onExpansionChanged: (bool value){
-              // setState(() => _customIcon = value);
-            },
-          ),
+          childrenPadding: EdgeInsets.symmetric(
+              horizontal: horizontalPad, vertical: verticalPad),
+          title: Text(title),
+          trailing: Icon(Icons.keyboard_arrow_down),
+          children: children,
+          onExpansionChanged: (bool value) {
+            // setState(() => _customIcon = value);
+          },
+        ),
       ),
     );
   }
 }
-
-
-
-

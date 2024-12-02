@@ -11,6 +11,7 @@ class CustomDropdown extends StatelessWidget {
     required this.onChanged,
     this.color,
     this.withPrefixIcon = false,
+    this.applyCountryFlag = false,
   });
 
   final Color? color;
@@ -19,6 +20,7 @@ class CustomDropdown extends StatelessWidget {
   final List<String> items;
   final Function(String?) onChanged;
   final bool withPrefixIcon;
+  final bool applyCountryFlag;
 
   @override
   Widget build(BuildContext context) {
@@ -49,7 +51,26 @@ class CustomDropdown extends StatelessWidget {
                       CustomText(text: item),
                     ],
                   )
-                : CustomText(text: item),
+                : applyCountryFlag
+                    ? Row(
+                        children: [
+                          SizedBox(
+                            height: 28,
+                            width: 28,
+                            child: Image.asset(
+                              item == 'Nepal'
+                                  ? 'assets/flag_img/nepal.png'
+                                  : 'assets/flag_img/india.png',
+                              fit: BoxFit.scaleDown,
+                            ),
+                          ),
+                          SizedBox(
+                            width: 4,
+                          ),
+                          CustomText(text: item),
+                        ],
+                      )
+                    : CustomText(text: item),
           );
         }).toList(),
         onChanged: onChanged,
