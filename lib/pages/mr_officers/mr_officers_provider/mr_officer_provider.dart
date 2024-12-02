@@ -13,6 +13,32 @@ class MrOfficerCreateVisitProvider with ChangeNotifier {
   bool _isSwitched = false;
   List<String> _countryCode = ['+977', '+91'];
   String _selectedCountryCode = '+977';
+  List<String> _country = ['Nepal', 'India'];
+  String _selectedCountry = 'Nepal';
+  List<String> _category = ['Doctor', 'Ambulance', 'Practitioner'];
+  String _selectedCategory = 'Doctor';
+  List<String> _specialization = [
+    'Allergist/Immunologist',
+    'Cardiologist',
+    'Cardiothoracic Surgeon',
+    'Dermatologist',
+    'ENT (Ear, Nose and Throat) Specialist',
+    'Gastroenterologist',
+    'General',
+    'General Physician',
+    'Gynecologic Oncologist',
+    'Obstetrician / Gynecologist (OB / GYN)',
+    'Oncologist',
+    'Ophthalmologist',
+    'Orthopedic Surgeon',
+    'Pediatric Surgeon',
+    'Pediatrician',
+    'Plastic Surgeon',
+    'RMC / RMP',
+    'Urologist',
+    'Vascular Surgeon'
+  ];
+  String _selectedSpecialization = '';
 
   // Getters and setters for form fields
   TextEditingController get createNameController => _createNameController;
@@ -28,6 +54,12 @@ class MrOfficerCreateVisitProvider with ChangeNotifier {
   bool get isSwitched => _isSwitched;
   List<String> get countryCode => _countryCode;
   String get selectedCountryCode => _selectedCountryCode;
+  List<String> get country => _country;
+  String get selectedCountry => _selectedCountry;
+  List<String> get category => _category;
+  String get selectedCategory => _selectedCategory;
+  List<String> get specialization => _specialization;
+  String get selectedSpecialization => _selectedSpecialization;
 
   void setCountryCode(value) {
     _selectedCountryCode = value;
@@ -35,6 +67,21 @@ class MrOfficerCreateVisitProvider with ChangeNotifier {
       _createWhatsappController.text =
           '$_selectedCountryCode-${_createPhoneNoController.text}';
     }
+    notifyListeners();
+  }
+
+  void setCountry(value) {
+    _selectedCountry = value;
+    notifyListeners();
+  }
+
+  void setCategory(value) {
+    _selectedCategory = value;
+    notifyListeners();
+  }
+
+  void setSpecialization(value) {
+    _selectedSpecialization = value;
     notifyListeners();
   }
 
@@ -85,8 +132,7 @@ class MrOfficerCreateVisitProvider with ChangeNotifier {
   }
 }
 
-class MrOfficerMoreDetailsProvider extends ChangeNotifier{
-
+class MrOfficerMoreDetailsProvider extends ChangeNotifier {
   String _selectedOption = 'Self';
   List<String> _dropDownOptions = ['Self', 'Others'];
   bool _isOpen = false;
@@ -116,14 +162,11 @@ class MrOfficerMoreDetailsProvider extends ChangeNotifier{
 
   void selectDropDownOptions(String value, bool isVisible) {
     _selectedOption = value;
-   if(_selectedOption == 'Others'){
-     _isVisible = !_isVisible;
-   }
-   else{
-     _isVisible = false;
-   }
+    if (_selectedOption == 'Others') {
+      _isVisible = !_isVisible;
+    } else {
+      _isVisible = false;
+    }
     notifyListeners();
   }
-
-
 }

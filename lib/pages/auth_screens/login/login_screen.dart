@@ -231,10 +231,10 @@ class _LoginPageState extends State<LoginPage> {
   void login() async {
     Map<String, dynamic> body = {
       'usr': emailController.value.text.isEmpty
-          ? 'Rachel@gmail.com'
+          ? 'Phoebe@gmail.com'
           : emailController.value.text,
       'pwd': passwordController.value.text.isEmpty
-          ? 'Rachel123@'
+          ? 'Phoebe123@'
           : passwordController.value.text,
       // user = Phoebe@gmail.com // marketingOfficer currently used
       // pwd = Phoebe123@
