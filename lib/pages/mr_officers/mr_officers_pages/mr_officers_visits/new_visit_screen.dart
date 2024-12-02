@@ -1,4 +1,3 @@
-import 'package:deskgoo/pages/mr_officers/mr_officers_pages/mr_officers_visits/mr_officers_visit_type_screen.dart';
 import 'package:deskgoo/pages/mr_officers/mr_officers_provider/mr_officer_provider.dart';
 import 'package:deskgoo/routes/marketing_officer_consts.dart';
 import 'package:deskgoo/themes/custom_colors.dart';
@@ -70,7 +69,7 @@ class _MrOfficerNewVisitScreenState extends State<MrOfficerNewVisitScreen> {
 
   Widget _buildUI(BuildContext context) {
     selectedCountry = country[0];
-    return Consumer<MrOfficerCreateVisitProvider>(
+    return Consumer<MrOfficerVisitProvider>(
         builder: (context, createVisitProvider, _) {
       return SingleChildScrollView(
         child: Center(
@@ -121,9 +120,9 @@ class _MrOfficerNewVisitScreenState extends State<MrOfficerNewVisitScreen> {
                     ),
                     Expanded(
                       child: TextFromFieldWithPrefixSuffix(
-                        controller: createVisitProvider.createPhoneNoController,
+                        controller: createVisitProvider.phoneNoController,
                         keyboardType: TextInputType.number,
-                        labelText: 'Phone *',
+                        labelText: 'Number *',
                         onTap: () {},
                         validator: (value) {
                           return value!.isEmpty
@@ -230,7 +229,9 @@ class _MrOfficerNewVisitScreenState extends State<MrOfficerNewVisitScreen> {
                       backgroundColor: CustomColors.lightRed,
                     ),
                     CustomElevatedButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        createVisitProvider.getCurrentLocation();
+                      },
                       widget: CustomText(
                         text: 'Submit',
                         isContent: true,

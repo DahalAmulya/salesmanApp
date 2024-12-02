@@ -1,13 +1,22 @@
+import 'package:deskgoo/utils/toast_message.dart';
 import 'package:flutter/material.dart';
+import 'package:geolocator/geolocator.dart';
 
-class MrOfficerCreateVisitProvider with ChangeNotifier {
+class MrOfficerVisitProvider with ChangeNotifier {
   // final _createVisitFormKey = GlobalKey<FormState>();
-  final _createNameController = TextEditingController();
-  final _createAddressController = TextEditingController();
-  final _createPhoneNoController = TextEditingController();
-  final _createEmailController = TextEditingController();
-  final _createWhatsappController = TextEditingController();
-  final _createAgeController = TextEditingController();
+  List<String> _visitTypeList = [
+    'New Visit',
+    'FollowUp Visit',
+  ];
+  List<String> _selectedVisitTypeList = ['none', 'More Detail'];
+  String _selectedVisitType = '';
+  String _radioGroupValue = '';
+  int _tabIndex = 0;
+  Widget _selectedVisit = Container();
+  final _nameController = TextEditingController();
+  final _addressController = TextEditingController();
+  final _phoneNoController = TextEditingController();
+  final _ageController = TextEditingController();
   final _searchClientController = TextEditingController();
   bool _isVisitFormValid = false;
   bool _isSwitched = false;
@@ -16,7 +25,7 @@ class MrOfficerCreateVisitProvider with ChangeNotifier {
   List<String> _country = ['Nepal', 'India'];
   String _selectedCountry = 'Nepal';
   List<String> _category = ['Doctor', 'Ambulance', 'Practitioner'];
-  String _selectedCategory = 'Doctor';
+  String _selectedCategory = 'Ambulance';
   List<String> _specialization = [
     'Allergist/Immunologist',
     'Cardiologist',
@@ -41,13 +50,16 @@ class MrOfficerCreateVisitProvider with ChangeNotifier {
   String _selectedSpecialization = '';
 
   // Getters and setters for form fields
-  TextEditingController get createNameController => _createNameController;
-  TextEditingController get createAddressController => _createAddressController;
-  TextEditingController get createPhoneNoController => _createPhoneNoController;
-  TextEditingController get createEmailController => _createEmailController;
-  TextEditingController get createWhatsAppController =>
-      _createWhatsappController;
-  TextEditingController get createAgeController => _createAgeController;
+  List<String> get visitTypeList => _visitTypeList;
+  List<String> get selectedVisitTypeList => _selectedVisitTypeList;
+  String get selectedVisitType => _selectedVisitType;
+  String get radioGroupValue => _radioGroupValue;
+  int get tabIndex => _tabIndex;
+  Widget get selectedVisit => _selectedVisit;
+  TextEditingController get nameController => _nameController;
+  TextEditingController get addressController => _addressController;
+  TextEditingController get phoneNoController => _phoneNoController;
+  TextEditingController get AgeController => _ageController;
   TextEditingController get searchClientController => _searchClientController;
   // GlobalKey<FormState> get createVisitFormKey => _createVisitFormKey;
   bool get isVisitFormValid => _isVisitFormValid;
@@ -61,12 +73,51 @@ class MrOfficerCreateVisitProvider with ChangeNotifier {
   List<String> get specialization => _specialization;
   String get selectedSpecialization => _selectedSpecialization;
 
+  void selectVisitType(value) {
+    _radioGroupValue = value;
+    notifyListeners();
+  }
+
+  void setTabIndex(int index) {
+    _tabIndex = index;
+    notifyListeners();
+  }
+
+  bool setSelectedVisitType() {
+    _selectedVisitType = _radioGroupValue;
+    if (_selectedVisitType.isEmpty) {
+      ToastMessageUtils().showToastMessage('Please select visit type');
+      notifyListeners();
+      return false;
+    } else {
+      _selectedVisitTypeList[0] = _selectedVisitType;
+      notifyListeners();
+      return true;
+    }
+  }
+
+  void unSelectVisitType() {
+    _radioGroupValue = '';
+    _selectedVisitType = '';
+    notifyListeners();
+  }
+
+  void resetSelectedVisitType() {
+    _selectedVisitType = '';
+    notifyListeners();
+  }
+
+  Future<void> getCurrentLocation() async {
+    try {
+      Position position = await Geolocator.getCurrentPosition();
+      print('latLng = ${position.latitude}, ${position.longitude}');
+    } catch (err) {
+      print('err = $err');
+    }
+  }
+
   void setCountryCode(value) {
     _selectedCountryCode = value;
-    if (_isSwitched) {
-      _createWhatsappController.text =
-          '$_selectedCountryCode-${_createPhoneNoController.text}';
-    }
     notifyListeners();
   }
 
@@ -87,28 +138,20 @@ class MrOfficerCreateVisitProvider with ChangeNotifier {
 
   void setWhatsAppNumber(bool isToggled) {
     _isSwitched = isToggled;
-    if (_isSwitched) {
-      _createWhatsappController.text =
-          '$_selectedCountryCode-${_createPhoneNoController.text}';
-    }
     notifyListeners();
   }
 
   void setWhatsAppNumberOnChange(value) {
-    if (_isSwitched) {
-      _createWhatsappController.text =
-          '$_selectedCountryCode-${_createPhoneNoController.text}';
-    }
     notifyListeners();
   }
 
   void checkWhatsappAndPhoneNo(value) {
-    if (_createWhatsappController.text.split('-')[1] ==
-        _createPhoneNoController.text) {
-      _isSwitched = true;
-    } else {
-      _isSwitched = false;
-    }
+    // if (_WhatsappController.text.split('-')[1] ==
+    //     _PhoneNoController.text) {
+    //   _isSwitched = true;
+    // } else {
+    //   _isSwitched = false;
+    // }
     notifyListeners();
   }
 
@@ -117,17 +160,16 @@ class MrOfficerCreateVisitProvider with ChangeNotifier {
       String emial = '',
       String whatsApp = '',
       bool isToggled = false]) {
-    _createNameController.text = name;
-    _createAddressController.text = address;
-    _createPhoneNoController.text = phoneNo;
-    _createAgeController.text = age;
-    _createEmailController.text = emial;
+    _nameController.text = name;
+    _addressController.text = address;
+    _phoneNoController.text = phoneNo;
+    _ageController.text = age;
     _isSwitched = isToggled;
-    if (_isSwitched) {
-      _createWhatsappController.text = phoneNo;
-    } else {
-      _createWhatsappController.text = whatsApp;
-    }
+    // if (_isSwitched) {
+    //   _WhatsappController.text = phoneNo;
+    // } else {
+    //   _WhatsappController.text = whatsApp;
+    // }
     notifyListeners();
   }
 }

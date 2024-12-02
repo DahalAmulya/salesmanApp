@@ -5,7 +5,6 @@ import 'package:deskgoo/classes/notification_controller.dart';
 import 'package:deskgoo/consts.dart';
 import 'package:deskgoo/models/environment.dart';
 import 'package:deskgoo/pages/mr_officers/mr_officers_provider/mr_officer_provider.dart';
-import 'package:deskgoo/pages/mr_officers/mr_officers_providers/mr_officer_visit_provider.dart';
 import 'package:deskgoo/providers/attendance_provider/remote_attendance_provider.dart';
 import 'package:deskgoo/providers/camera_provider/camera_provider.dart';
 import 'package:deskgoo/providers/deviceInfo_provider/deviceInfo_provider.dart';
@@ -19,7 +18,6 @@ import 'package:deskgoo/providers/settings_providers/profile_provider/profile_pr
 import 'package:deskgoo/providers/visit_provider/order_provider.dart';
 import 'package:deskgoo/providers/visit_provider/visit_screen_provider.dart';
 import 'package:deskgoo/providers/weeklyplan_provider/weeklyplan_provider.dart';
-import 'package:deskgoo/routes/marketing_officer_consts.dart';
 import 'package:deskgoo/routes/route_generator.dart';
 import 'package:deskgoo/routes/route_generator_constants.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
@@ -130,8 +128,7 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
         ChangeNotifierProvider(
             create: (context) => MrOfficerMoreDetailsProvider()),
         ChangeNotifierProvider(create: (context) => UserProvider()),
-        ChangeNotifierProvider(
-            create: (context) => MrOfficerCreateVisitProvider()),
+        ChangeNotifierProvider(create: (context) => MrOfficerVisitProvider()),
       ],
       child: Builder(
         builder: (BuildContext context) {
@@ -156,6 +153,3 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
     );
   }
 }
-
-//MarketingManagerConstants.indexPage,
-//MarketingOfficerConstants.weeklyPlanConst,
