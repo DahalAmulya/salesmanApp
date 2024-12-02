@@ -15,6 +15,8 @@ class CustomExpansionTile extends StatelessWidget {
   final double radiusBottomRight;
   final double verticalMargin;
   final double horizontalMargin;
+  final double size;
+  final FontWeight fontWeight;
   // final Function onExpansionChanged;
 
   const CustomExpansionTile({
@@ -33,6 +35,8 @@ class CustomExpansionTile extends StatelessWidget {
     this.verticalPad = 0,
     this.verticalMargin = 0,
     this.horizontalMargin = 0,
+    this.size = 16.0,
+    this.fontWeight = FontWeight.normal,
      // required
   });
 
@@ -57,7 +61,10 @@ class CustomExpansionTile extends StatelessWidget {
         child: ExpansionTile(
           initiallyExpanded: initiallyExpanded,
           childrenPadding: EdgeInsets.symmetric(horizontal: horizontalPad,vertical: verticalPad),
-            title: Text(title),
+            title: Text(title,style: TextStyle(
+              fontWeight: fontWeight,
+              fontSize: size,
+            ),),
             trailing: Icon(Icons.keyboard_arrow_down),
             children: children,
             onExpansionChanged: (bool value){
