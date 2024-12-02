@@ -53,24 +53,24 @@ class _MrOfficerReferralScreenState extends State<MrOfficerReferralScreen> {
   TextEditingController text =  TextEditingController();
   TextEditingController text2 =  TextEditingController();
 
-  Future<List<Map<String, dynamic>>> readDistrictJson() async {
-    // Load the JSON file from the assets
-    final String response = await rootBundle.loadString('assets/district.json');
-
-    // Decode the JSON into a List of Maps
-    final List<dynamic> data = json.decode(response);
-    return List<Map<String, dynamic>>.from(data);
-  }
-  void loadData() async {
-    final districts = await readDistrictJson();
-    print(districts);
-  }
-  @override
-  void initState() {
-    // TODO: implement initState
-    loadData();
-    super.initState();
-  }
+  // Future<List<Map<String, dynamic>>> readDistrictJson() async {
+  //   // Load the JSON file from the assets
+  //   final String response = await rootBundle.loadString('assets/district.json');
+  //
+  //   // Decode the JSON into a List of Maps
+  //   final List<dynamic> data = json.decode(response);
+  //   return List<Map<String, dynamic>>.from(data);
+  // }
+  // void loadData() async {
+  //   final districts = await readDistrictJson();
+  //   print(districts);
+  // }
+  // @override
+  // void initState() {
+  //   // TODO: implement initState
+  //   loadData();
+  //   super.initState();
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -481,11 +481,17 @@ class _MrOfficerReferralScreenState extends State<MrOfficerReferralScreen> {
                     onPressed: (){},
                     widget: CustomText(text: 'Back',fontWeight: FontWeight.w600,size: 16,),
                 ),
-                CustomElevatedButton(
-                  borderRadius: 16,
-                  backgroundColor: CustomColors.primaryColor,
-                  onPressed: (){},
-                  widget: CustomText(text:'Submit',fontWeight: FontWeight.w600,size: 16,),
+                Consumer<WeeklyPlanProvider>(
+                  builder: (context,weeklyPlanProvider,_) {
+                    return CustomElevatedButton(
+                      borderRadius: 16,
+                      backgroundColor: CustomColors.primaryColor,
+                      onPressed: (){
+                        weeklyPlanProvider.main();
+                      },
+                      widget: CustomText(text:'Submit',fontWeight: FontWeight.w600,size: 16,),
+                    );
+                  }
                 ),
               ],
             ),

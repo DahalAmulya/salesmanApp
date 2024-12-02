@@ -1,10 +1,17 @@
+import 'dart:convert';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/physics.dart';
+import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
 
 
 class WeeklyPlanProvider with ChangeNotifier{
+ void main(){
+   var districtData = readDistrict();
+   districtData.loadData();
+ }
 
   bool _isOpen = false;
   bool _isVisible = false;
@@ -124,6 +131,7 @@ class WeeklyPlanProvider with ChangeNotifier{
     'Udayapur',
     'Western Rukum',
   ];
+  List<String> _districtList = [];
   List<String> _foundStates = [];
   List<String> _foundDistrict = [];
   String _selectedCountry = '';
@@ -145,6 +153,7 @@ class WeeklyPlanProvider with ChangeNotifier{
   List<String> get districts => _districts;
   List<String> get foundStates => _foundStates;
   List<String> get foundDistrict => _foundDistrict;
+  List<String> get districtList => _districtList;
   int get selectedIndex => _selectedIndex;
 
   TextEditingController get stateTextEditingController => _stateTextEditingController;
@@ -162,6 +171,7 @@ class WeeklyPlanProvider with ChangeNotifier{
     if (selectedCountry == _country[0]) {
 
       print('nepal');
+
     } if(selectedCountry == _country[1]){
       _isVisibleForState = !_isVisibleForState;
       _isVisibleForStateList = !_isVisibleForStateList;
@@ -232,5 +242,24 @@ class WeeklyPlanProvider with ChangeNotifier{
          _foundDistrict = districtResult;
        notifyListeners();
    }
+}
+
+class readDistrict{
+  Future<List<Map<String, dynamic>>> readDistrictJson() async {
+    // Load the JSON file from the assets
+    final String response = await rootBundle.loadString('assets/district.json');
+
+    // Decode the JSON into a List of Maps
+    final List<dynamic> data = json.decode(response);
+    return List<Map<String, dynamic>>.from(data);
+  }
+  void loadData() async {
+    final districts = await readDistrictJson();
+    for(int i = 0; i < districts.length; i ++){
+     print(districts[i]['district']);
+     // print(districts);
+    }
+  }
+
 }
 
