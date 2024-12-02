@@ -291,16 +291,18 @@ class _MrOfficerNewVisitScreenState extends State<MrOfficerNewVisitScreen> {
         child: ListView.builder(
           itemCount: content.length,
           itemBuilder: (context, index) {
-            String districtName = content[index]['$type'];
+            String name = content[index]['$type'];
             return ListTile(
               onTap: () {
                 Navigator.pop(context);
-                visitProvider.setSelectedDistrict(districtName);
+                type == 'district'
+                    ? visitProvider.setSelectedDistrict(name)
+                    : visitProvider.setSelectedState(name);
                 visitProvider.getCities(content[index]['cities']);
                 print(content[index]);
               },
               title: CustomText(
-                text: districtName,
+                text: name,
                 isContent: true,
               ),
             );

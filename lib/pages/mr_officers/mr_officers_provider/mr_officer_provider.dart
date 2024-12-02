@@ -114,7 +114,7 @@ class MrOfficerVisitProvider with ChangeNotifier {
 
   void setSelectedState(value) {
     _selectedState = value;
-    _districtController.text = _selectedState;
+    _stateController.text = _selectedState;
     notifyListeners();
   }
 
