@@ -39,7 +39,7 @@ class CustomExpansionTile extends StatelessWidget {
     this.horizontalMargin = 0,
     this.size = 16.0,
     this.fontWeight = FontWeight.normal,
-     // required
+    // required
     this.applyTopBorderRadius = false,
     this.applyBottomBorderRadius = false,
     this.applyAllBorderRadius = false,
@@ -89,26 +89,30 @@ class CustomExpansionTile extends StatelessWidget {
         ),
         child: ExpansionTile(
           initiallyExpanded: initiallyExpanded,
-          childrenPadding: EdgeInsets.symmetric(horizontal: horizontalPad,vertical: verticalPad),
-            title: Text(title,style: TextStyle(
-              fontWeight: fontWeight,
-              fontSize: size,
-            ),),
-            trailing: Icon(Icons.keyboard_arrow_down),
-            children: children,
-            onExpansionChanged: (bool value){
-              // setState(() => _customIcon = value);
-            },
-          ),
           childrenPadding: EdgeInsets.symmetric(
               horizontal: horizontalPad, vertical: verticalPad),
-          title: Text(title),
+          title: Text(
+            title,
+            style: TextStyle(
+              fontWeight: fontWeight,
+              fontSize: size,
+            ),
+          ),
           trailing: Icon(Icons.keyboard_arrow_down),
           children: children,
           onExpansionChanged: (bool value) {
             // setState(() => _customIcon = value);
           },
         ),
+        //       childrenPadding: EdgeInsets.symmetric(
+        //           horizontal: horizontalPad, vertical: verticalPad),
+        //       title: Text(title),
+        //       trailing: Icon(Icons.keyboard_arrow_down),
+        //       children: children,
+        //       onExpansionChanged: (bool value) {
+        //         // setState(() => _customIcon = value);
+        //       },
+        //     ),
       ),
     );
   }
