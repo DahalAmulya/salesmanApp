@@ -320,23 +320,6 @@ class _RemoteAttendencePageState extends State<RemoteAttendencePage> {
                     SizedBox(
                       height: 16,
                     ),
-                    // CustomText(text: 'GPS Location'),
-                    // SizedBox(
-                    //   height: 4,
-                    // ),
-                    // TextFromFieldWithPrefixSuffix(
-                    //   controller: gpsLocationController,
-                    //   applyPrefix: false,
-                    //   readOnly: true,
-                    //   onTap: () {},
-                    //   validator: (String) {
-                    //     return null;
-                    //   },
-                    //   onChange: (value) {},
-                    // ),
-                    // SizedBox(
-                    //   height: 16.0,
-                    // ),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
@@ -364,13 +347,20 @@ class _RemoteAttendencePageState extends State<RemoteAttendencePage> {
                                         '_formState.currentState!.validate() = ${_formState.currentState!.validate()}');
                                   }
                                 },
-                                icon: Platform.isAndroid ? Icon(
-                                  Icons.fingerprint,
-                                  size: 48,
-                                ) : CircleAvatar(
-                                  radius: 24,
-                                  backgroundColor: CustomColors.primaryColor,
-                                    child: Image.asset('assets/icons/faceid.png',width: 50,height: 50,)),
+                                icon: Platform.isAndroid
+                                    ? Icon(
+                                        Icons.fingerprint,
+                                        size: 48,
+                                      )
+                                    : CircleAvatar(
+                                        radius: 24,
+                                        backgroundColor:
+                                            CustomColors.primaryColor,
+                                        child: Image.asset(
+                                          'assets/icons/faceid.png',
+                                          width: 50,
+                                          height: 50,
+                                        )),
                               ),
                             );
                           },
