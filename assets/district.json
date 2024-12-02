@@ -137,39 +137,39 @@
   },
   {
     "district": "Kaski",
-    "cities": ["Lalitpur","Bhaktapur","Kathmandu"]
+    "cities": ["Pokhara","Annpurnna","Machhapuchhre","Madi","Rupa"]
   },
   {
     "district": "Kathmandu",
-    "cities": ["Lalitpur","Bhaktapur","Kathmandu"]
+    "cities": ["Budhanilkantha","Chandragiri","Gokarneshwar","Kathmandu","Kageshwari-Manohara","Kirtipur","Tarakeshwar","Tokha"]
   },
   {
     "district": "Kavrepalanchok",
-    "cities": ["Lalitpur","Bhaktapur","Kathmandu"]
+    "cities": ["Banepa ","Bethanchok ","Bhumlu","Chauri Deurali","Dhulikhel","Khani Khola","Mahabharat","Mandandeupur","Namobuddha","Panauti","Panchkhal","Roshi","Temal"]
   },
   {
     "district": "Khotang",
-    "cities": ["Lalitpur","Bhaktapur","Kathmandu"]
+    "cities": ["Aiselukharka","Barahpokhari","Diktel Rupakot Majhuwagadhi","Diprung","Halesi Tuwachung","Jantedhunga","Khotehang","Kepilasgadhi","Rawabesi","Sakela"]
   },
   {
     "district": "Lalitpur",
-    "cities": ["Lalitpur","Bhaktapur","Kathmandu"]
+    "cities": ["Bagmati","Godawari","Konjyoson","Lalitpur","Mahalaxmi","Mahankal"]
   },
   {
     "district": "Lamjung",
-    "cities": ["Lalitpur","Bhaktapur","Kathmandu"]
+    "cities": ["Besisahar","Dordi","Dudhpokhari","Kwhlosothar","Madhya","Marsyandi","Rainas","Sundarbazar"]
   },
   {
     "district": "Mahottari",
-    "cities": ["Lalitpur","Bhaktapur","Kathmandu"]
+    "cities": ["Aurahi","Balawa","Bardibas","Bhangaha","Gaushala","Jaleshwor","Loharpatti","ManaraShiswa","Matihani","Ramgopalpur","Ekdara","Mahottari","Pipara","Samsi","Sonama"]
   },
   {
     "district": "Makwanpur",
-    "cities": ["Lalitpur","Bhaktapur","Kathmandu"]
+    "cities": ["Bhimphedi","Bakaiya","Bagmati","Hetauda","Indrasarowar","Kailash","Manahari","Makawanpurgadhi","Raksirang","Thaha"]
   },
   {
     "district": "Manang",
-    "cities": ["Lalitpur","Bhaktapur","Kathmandu"]
+    "cities": ["Chame","Nason","Narpa Bhumi","Manang Ngisyang"]
   },
   {
     "district": "Morang",
@@ -177,134 +177,134 @@
   },
   {
     "district": "Muggu",
-    "cities": ["Lalitpur","Bhaktapur","Kathmandu"]
+    "cities": ["Chhayanath Rara","Khatyad","Mugum Karmarong","Soru"]
   },
   {
     "district": "Mustang",
-    "cities": ["Lalitpur","Bhaktapur","Kathmandu"]
+    "cities": ["Barhagaun Muktichhetra","Gharapjhong","Lomanthang","Lo-Ghekar Damodarkunda"]
   },
   {
     "district": "Myagdi",
-    "cities": ["Lalitpur","Bhaktapur","Kathmandu"]
+    "cities": ["Beni","Annapurna","Dhaulagiri","Mangala","Malika","Raghuganga"]
   },
   {
-    "district": "Nawalparasi(East of Bardaghat Susta)",
-    "cities": ["Lalitpur","Bhaktapur","Kathmandu"]
+    "district": "Nawalparasi(East of Bardaghat Susta 1)",
+    "cities": ["Bulingtar","Devchuli","Gaidakot","Kawasoti"]
   },
   {
-    "district": "Nawalparasi(East of Bardaghat Susta)",
-    "cities": ["Lalitpur","Bhaktapur","Kathmandu"]
+    "district": "Nawalparasi(East of Bardaghat Susta 2)",
+    "cities": ["Bungdikali","Binayi Tribeni","Hupsekot","Kawasoti","Madhyabindu"]
   },
   {
     "district": "Nuwakot",
-    "cities": ["Lalitpur","Bhaktapur","Kathmandu"]
+    "cities": ["Bidur","Belkotgadhi","Dupcheshwar","Kakani","Kispang","Likhu","Myagang","Panchakanya","Shivapuri","Suryagadhi","Tarkeshwar"]
   },
   {
     "district": "Okhal Dhunga",
-    "cities": ["Lalitpur","Bhaktapur","Kathmandu"]
+    "cities": ["Champadevi","Chisankhugadhi","Khijijdemba","Likhu","Molung","Manebhenjyang","Siddhicharan","Sunkoshi"]
   },
   {
     "district": "Palpa",
-    "cities": ["Lalitpur","Bhaktapur","Kathmandu"]
+    "cities": ["Bagnaskali","Mathagadi","Nisdi","Purbakhola","Rampur","Rainadevi","Ripdikoit","Rambha","Tansen","Tinahu"]
   },
   {
     "district": "Panchathar",
-    "cities": ["Lalitpur","Bhaktapur","Kathmandu"]
+    "cities": ["Hilihang","Kummayak","Miklajung","Phidim","Phalelung","Phalgunanda","Tumbewa","Yangawarak"]
   },
   {
     "district": "Parbat",
-    "cities": ["Lalitpur","Bhaktapur","Kathmandu"]
+    "cities": ["Bihadi","Jaljala","Kushma","Mahashila","Modi","Paiyun","Phalewas"]
   },
   {
     "district": "Parsa",
-    "cities": ["Lalitpur","Bhaktapur","Kathmandu"]
+    "cities": ["Birjung","Bahudarmai","Bindabasini","Chhipaharmai","Dhobini","Jagarnathpur","Jirabhawani","Kalikamai","Parsagadhi","Pokhariya","Pakaha","Paterwa","Sakhuawa","Thori"]
   },
   {
     "district": "Pyuthan",
-    "cities": ["Lalitpur","Bhaktapur","Kathmandu"]
+    "cities": ["Airawati","Gaumukhi","Jhimruk","Mandavi","Mallrani","Naubahini","Pyuthan","Sworgadwari","Sarumarani"]
   },
   {
     "district": "Ramechhap",
-    "cities": ["Lalitpur","Bhaktapur","Kathmandu"]
+    "cities": ["Doramba","Gokulganga","Khandadevi","Likhu","Manthali","Ramechhap","Sunapati","Umakunda"]
   },
   {
     "district": "Rasuwa",
-    "cities": ["Lalitpur","Bhaktapur","Kathmandu"]
+    "cities": ["Aamachhodingmo","Gosaikunda","Kalika","Naukunda","Uttargaya"]
   },
   {
     "district": "Rautahat",
-    "cities": ["Lalitpur","Bhaktapur","Kathmandu"]
+    "cities": ["Baudhimai","Brindaban","Chandrapur","Dewahi Gonahi","Durga Bhagwati","Gadhimai","Garuda","Gaur","Gujara","Ishanath","Katahariya","Madhav Narayan","Maulapur","Paroha","Phatuwa Bijayapur","Rajdevi","Rajpur","Yamunamai"]
   },
   {
     "district": "Rolpa",
-    "cities": ["Lalitpur","Bhaktapur","Kathmandu"]
+    "cities": ["Gangadev","Lungri","Madi","Paribartan","Rolpa","Runtigadhi","Sunilsmiriti","Sunchhahari","Thabang","Triveni"]
   },
   {
     "district": "Rupandehi",
-    "cities": ["Lalitpur","Bhaktapur","Kathmandu"]
+    "cities": ["Butwal","Devdaha","Gaidahawa","Kanchan","Kotahimai","Lumbini Sansakriti","Marchawari","Mayadevi","Omsatiya","Rohini","Siddarthanagar","Sainamaina","Sammarimai","Siyari","Suddodhan","Tilottama"]
   },
   {
     "district": "Salyan",
-    "cities": ["Lalitpur","Bhaktapur","Kathmandu"]
+    "cities": ["Bagchaur","Bangad Kupinde","Chatreshwari","Darma","Kalimati","Kapurkot","Kumakh","Siddha Kumakh","Shaarda","Tribeni"]
   },
   {
     "district": "Sankhuwasabha",
-    "cities": ["Lalitpur","Bhaktapur","Kathmandu"]
+    "cities": ["Bhotkhola","Chainpur","Chichila","Dharmadevi","Khandbari","Madi","Makalu","Panchkhapan","Savapokhari","Silichong"]
   },
   {
     "district": "Saptari",
-    "cities": ["Lalitpur","Bhaktapur","Kathmandu"]
+    "cities": ["Agnisaira Krishnasavaran","Bodebarsain","Balan-Bihul","Bishnupur","Chhinnamasta","Dakneshwori","Hanumannagar Kankalini","Kanchanrup","Khadak","Mahadeva","Rajbiraj","Rajgadh","Rupani","Sambhunath","Saptakoshi","Surunga","Tilathi Koiladi","Tirhut"]
   },
   {
     "district": "Sarlahi",
-    "cities": ["Lalitpur","Bhaktapur","Kathmandu"]
+    "cities": ["Bagmati","Balara","Barahathwa","Basbariya","Bishnu","Brahampuri","Chakraghatta","Chandranagar","Dhankaul","Godaita","Harion","Haripur","Haripurwa","Ishworpur","Kabilasi","Kaudena","Lalbandi","Malangwa","Parsa","Ramnagar"]
   },
   {
     "district": "Sindhuli",
-    "cities": ["Lalitpur","Bhaktapur","Kathmandu"]
+    "cities": ["Dudhauli","Golanjor","Ghyanglekh","Hariharpurgadhi","Kamalamai","Marin","Phikkal","Sunkoshi","Tinpatan"]
   },
   {
     "district": "Sindhupalchok",
-    "cities": ["Lalitpur","Bhaktapur","Kathmandu"]
+    "cities": ["Bahrabise","Balephi","Bhotekoshi","Chautara Sangachowkgadhi","Helambu","Indrawati","Jugal","Lisankhu Pakhar","Melamchi","Panchpokhari Thangpal","Sunkoshi","Tripurasundari"]
   },
   {
     "district": "Siraha",
-    "cities": ["Lalitpur","Bhaktapur","Kathmandu"]
+    "cities": ["Arnama","Aurahi","Bhagwanpur","Bishnupur","Bariyarpatti","Dhangadhimai","Golbazar","Kalyanpur","Karjanha","Lahan","Lakshmipur","Mirchaiya","Naraha","Navarajpur","Siraha","Sukhipur","Sakhuwanankar Katti"]
   },
   {
     "district": "Solukhumbu",
-    "cities": ["Lalitpur","Bhaktapur","Kathmandu"]
+    "cities": ["Dudhakaushika","Dudhkoshi","Khumbu Pasanglhamu","Likhu Pike","Maha Kulung","Necha Salyan","Solududhkunda","Sotang"]
   },
   {
     "district": "Sunsari",
-    "cities": ["Lalitpur","Bhaktapur","Kathmandu"]
+    "cities": ["Barju","Bhokraha Narsingh","Barahachhetra","Dharan","Duhabi","Dewanganj","Gadhi","Harinagar","Itahari","Inaruwa","Koshi","Ramdhuni-Bhasi"]
   },
   {
     "district": "Surkhet",
-    "cities": ["Lalitpur","Bhaktapur","Kathmandu"]
+    "cities": ["Birendranagar","Bheriganga","Barahatal","Chaukune","Chingad","Gurbha Kot","Lekbesi","Panchapuri","Simta"]
   },
   {
     "district": "Syangja",
-    "cities": ["Lalitpur","Bhaktapur","Kathmandu"]
+    "cities": ["Arjun Chaupari","Aandhikhola","Bhirkot","Biruwa","Chapakot","Galyang","Harinas","Kaligandaki","Putalibazar","Phedikhola","Waling"]
   },
   {
     "district": "Tanahun",
-    "cities": ["Lalitpur","Bhaktapur","Kathmandu"]
+    "cities": ["Anbu Khaireni","Bandipur","Bhanu","Bhimad","Byas","Devghat","Ghiring","Myagde","Rishing","Shuklagandaki"]
   },
   {
     "district": "Taplejung",
-    "cities": ["Lalitpur","Bhaktapur","Kathmandu"]
+    "cities": ["Aathrai Tribeni","Mikkwakhola","Meringden","Maiwakhola","Phungling","Phaktanglung","Pathibhara Yangwarak","Sidingwa","Sirijangha"]
   },
   {
     "district": "Tehrathum",
-    "cities": ["Lalitpur","Bhaktapur","Kathmandu"]
+    "cities": ["Aathrai","Chhathar","Laligurans","Menchhayayem","Myanglung","Phedap"]
   },
   {
     "district": "Udayapur",
-    "cities": ["Lalitpur","Bhaktapur","Kathmandu"]
+    "cities": ["Belaka","Chaudandigadhi","Katari","Limchungbung","Rautamai","Triyuga","Tapli","Udayapurgadhi"]
   },
   {
     "district": "Western Rukum",
-    "cities": ["Lalitpur","Bhaktapur","Kathmandu"]
+    "cities": ["Aathbiskot","Banphikot","Chaurjahari","Musikot","Sani Bheri","Tribeni"]
   }
 ]
