@@ -81,6 +81,7 @@ flutter:
     - assets/flag_img/
     - assets/reports_img/
     - assets/district.json
+    - assets/states.json
   #   - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see

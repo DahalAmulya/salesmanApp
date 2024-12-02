@@ -1,3 +1,6 @@
+import 'dart:convert';
+import 'dart:io';
+
 import 'package:deskgoo/pages/mr_officers/mr_officers_provider/mr_officer_provider.dart';
 import 'package:deskgoo/routes/marketing_officer_consts.dart';
 import 'package:deskgoo/themes/custom_colors.dart';
@@ -8,6 +11,7 @@ import 'package:deskgoo/widgets/drop_downs/custom_dropdown.dart';
 import 'package:deskgoo/widgets/text_fields/text_from_field.dart';
 import 'package:deskgoo/widgets/texts/custom_text.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 
 class MrOfficerNewVisitScreen extends StatefulWidget {
@@ -86,7 +90,7 @@ class _MrOfficerNewVisitScreenState extends State<MrOfficerNewVisitScreen> {
                   height: 16,
                 ),
                 TextFromFieldWithPrefixSuffix(
-                  controller: fullNameController,
+                  controller: createVisitProvider.nameController,
                   labelText: 'Full Name',
                   validator: (newValue) {},
                 ),
@@ -94,7 +98,7 @@ class _MrOfficerNewVisitScreenState extends State<MrOfficerNewVisitScreen> {
                   height: 16,
                 ),
                 TextFromFieldWithPrefixSuffix(
-                  controller: fullNameController,
+                  controller: createVisitProvider.ageController,
                   labelText: 'Age',
                   validator: (newValue) {},
                 ),
@@ -150,26 +154,54 @@ class _MrOfficerNewVisitScreenState extends State<MrOfficerNewVisitScreen> {
                   height: 16,
                 ),
                 TextFromFieldWithPrefixSuffix(
-                  controller: fullNameController,
+                  controller: createVisitProvider.selectedCountry ==
+                          createVisitProvider.country[0]
+                      ? createVisitProvider.districtController
+                      : createVisitProvider.stateController,
+                  readOnly: true,
                   labelText: createVisitProvider.selectedCountry ==
                           createVisitProvider.country[0]
                       ? 'District'
                       : 'State',
                   validator: (newValue) {},
+                  onTap: () async {
+                    String fileName = createVisitProvider.selectedCountry ==
+                            createVisitProvider.country[0]
+                        ? 'district'
+                        : 'states';
+                    final file =
+                        await rootBundle.loadString('assets/$fileName.json');
+                    final content = await jsonDecode(file);
+                    showModalBottomSheet(
+                        isScrollControlled: true,
+                        useSafeArea: true,
+                        context: context,
+                        builder: (context) =>
+                            districtBottomSheet(context, '$fileName', content));
+                  },
                 ),
                 SizedBox(
                   height: 16,
                 ),
                 TextFromFieldWithPrefixSuffix(
-                  controller: fullNameController,
+                  controller: createVisitProvider.cityController,
+                  readOnly: true,
                   labelText: 'City',
                   validator: (newValue) {},
+                  onTap: () async {
+                    showModalBottomSheet(
+                        isScrollControlled: true,
+                        useSafeArea: true,
+                        context: context,
+                        builder: (context) => citiesBottomSheet(
+                            context, createVisitProvider.cities));
+                  },
                 ),
                 SizedBox(
                   height: 16,
                 ),
                 TextFromFieldWithPrefixSuffix(
-                  controller: fullNameController,
+                  controller: createVisitProvider.addressController,
                   labelText: 'Address',
                   validator: (newValue) {},
                 ),
@@ -218,9 +250,12 @@ class _MrOfficerNewVisitScreenState extends State<MrOfficerNewVisitScreen> {
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
                     CustomElevatedButton(
-                      onPressed: () {
-                        Navigator.of(context).pop(
-                            MarketingOfficerConstants.mrStaffDashboardConst);
+                      onPressed: () async {
+                        // Navigator.of(context).pop(
+                        //     MarketingOfficerConstants.mrStaffDashboardConst);
+                        final file =
+                            await rootBundle.loadString('assets/district.json');
+                        final content = await jsonDecode(file);
                       },
                       widget: CustomText(
                         text: 'Back',
@@ -243,6 +278,59 @@ class _MrOfficerNewVisitScreenState extends State<MrOfficerNewVisitScreen> {
               ],
             ),
           ),
+        ),
+      );
+    });
+  }
+
+  Widget districtBottomSheet(context, String type, List<dynamic> content) {
+    return Consumer<MrOfficerVisitProvider>(
+        builder: (context, visitProvider, _) {
+      return SizedBox(
+        height: MediaQuery.of(context).size.height * 0.80,
+        child: ListView.builder(
+          itemCount: content.length,
+          itemBuilder: (context, index) {
+            String districtName = content[index]['$type'];
+            return ListTile(
+              onTap: () {
+                Navigator.pop(context);
+                visitProvider.setSelectedDistrict(districtName);
+                visitProvider.getCities(content[index]['cities']);
+                print(content[index]);
+              },
+              title: CustomText(
+                text: districtName,
+                isContent: true,
+              ),
+            );
+          },
+        ),
+      );
+    });
+  }
+
+  Widget citiesBottomSheet(context, List<dynamic> content) {
+    return Consumer<MrOfficerVisitProvider>(
+        builder: (context, visitProvider, _) {
+      return SizedBox(
+        height: MediaQuery.of(context).size.height * 0.80,
+        child: ListView.builder(
+          itemCount: content.length,
+          itemBuilder: (context, index) {
+            String cityName = content[index];
+            return ListTile(
+              onTap: () {
+                Navigator.pop(context);
+                visitProvider.setSelectedCity(cityName);
+                print(content[index]);
+              },
+              title: CustomText(
+                text: cityName,
+                isContent: true,
+              ),
+            );
+          },
         ),
       );
     });

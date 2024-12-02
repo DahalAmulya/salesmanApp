@@ -14,6 +14,9 @@ class MrOfficerVisitProvider with ChangeNotifier {
   int _tabIndex = 0;
   Widget _selectedVisit = Container();
   final _nameController = TextEditingController();
+  final _districtController = TextEditingController();
+  final _stateController = TextEditingController();
+  final _cityController = TextEditingController();
   final _addressController = TextEditingController();
   final _phoneNoController = TextEditingController();
   final _ageController = TextEditingController();
@@ -48,6 +51,12 @@ class MrOfficerVisitProvider with ChangeNotifier {
     'Vascular Surgeon'
   ];
   String _selectedSpecialization = '';
+  List<dynamic> _districts = [];
+  String _selectedDistrict = '';
+  List<dynamic> _states = [];
+  String _selectedState = '';
+  List<dynamic> _cities = [];
+  String _selectedCity = '';
 
   // Getters and setters for form fields
   List<String> get visitTypeList => _visitTypeList;
@@ -57,9 +66,12 @@ class MrOfficerVisitProvider with ChangeNotifier {
   int get tabIndex => _tabIndex;
   Widget get selectedVisit => _selectedVisit;
   TextEditingController get nameController => _nameController;
+  TextEditingController get districtController => _districtController;
+  TextEditingController get stateController => _stateController;
+  TextEditingController get cityController => _cityController;
   TextEditingController get addressController => _addressController;
   TextEditingController get phoneNoController => _phoneNoController;
-  TextEditingController get AgeController => _ageController;
+  TextEditingController get ageController => _ageController;
   TextEditingController get searchClientController => _searchClientController;
   // GlobalKey<FormState> get createVisitFormKey => _createVisitFormKey;
   bool get isVisitFormValid => _isVisitFormValid;
@@ -72,6 +84,45 @@ class MrOfficerVisitProvider with ChangeNotifier {
   String get selectedCategory => _selectedCategory;
   List<String> get specialization => _specialization;
   String get selectedSpecialization => _selectedSpecialization;
+  List<dynamic> get districts => _districts;
+  String get selectedDistrict => _selectedDistrict;
+  List<dynamic> get states => _states;
+  String get selectedState => _selectedState;
+  List<dynamic> get cities => _cities;
+  String get selectedCity => _selectedCity;
+
+  void getDistricts(List<dynamic> districtsList) {
+    _districts = districtsList;
+    notifyListeners();
+  }
+
+  void getStates(List<dynamic> statesList) {
+    _states = statesList;
+    notifyListeners();
+  }
+
+  void getCities(List<dynamic> citiesList) {
+    _cities = citiesList;
+    notifyListeners();
+  }
+
+  void setSelectedDistrict(value) {
+    _selectedDistrict = value;
+    _districtController.text = _selectedDistrict;
+    notifyListeners();
+  }
+
+  void setSelectedState(value) {
+    _selectedState = value;
+    _districtController.text = _selectedState;
+    notifyListeners();
+  }
+
+  void setSelectedCity(value) {
+    _selectedCity = value;
+    _cityController.text = _selectedCity;
+    notifyListeners();
+  }
 
   void selectVisitType(value) {
     _radioGroupValue = value;
