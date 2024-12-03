@@ -33,6 +33,7 @@ class _MrOfficerReferralScreenState extends State<MrOfficerReferralScreen> {
   String selectedState = 'Achham';
   String selectedCountry = '';
   List<String> country = ['Nepal', 'India'];
+  String districtList = '';
 
   final districtTextEditingController = TextEditingController();
   final searchForDistrictTextEditingController = TextEditingController();
@@ -52,25 +53,40 @@ class _MrOfficerReferralScreenState extends State<MrOfficerReferralScreen> {
   TextEditingController phoneNumberText =  TextEditingController();
   TextEditingController text =  TextEditingController();
   TextEditingController text2 =  TextEditingController();
+  TextEditingController referralNameText =  TextEditingController();
+  TextEditingController referralAgeText =  TextEditingController();
+  TextEditingController referredNumberText =  TextEditingController();
+  TextEditingController referredCityText =  TextEditingController();
+  TextEditingController referredAddressText =  TextEditingController();
+  TextEditingController referredCategoryText =  TextEditingController();
+  TextEditingController referredSpecializationText =  TextEditingController();
+  TextEditingController referralRemarkText =  TextEditingController();
 
-  // Future<List<Map<String, dynamic>>> readDistrictJson() async {
-  //   // Load the JSON file from the assets
-  //   final String response = await rootBundle.loadString('assets/district.json');
-  //
-  //   // Decode the JSON into a List of Maps
-  //   final List<dynamic> data = json.decode(response);
-  //   return List<Map<String, dynamic>>.from(data);
-  // }
-  // void loadData() async {
-  //   final districts = await readDistrictJson();
-  //   print(districts);
-  // }
-  // @override
-  // void initState() {
-  //   // TODO: implement initState
-  //   loadData();
-  //   super.initState();
-  // }
+
+  Future<List<Map<String,dynamic>>> readDistrictJson ()async{
+    final response = await rootBundle.loadString('assets/district.json');
+    final List<dynamic> data = json.decode(response);
+      return List<Map<String, dynamic>>.from(data);
+  }
+
+  void loadData()async{
+    final districts = await readDistrictJson();
+    for(int i = 0; i < districts.length; i ++){
+      districtList = districts[i]['district'];
+      print(districtList);
+    }
+  }
+  void getData()async{
+  final respose = await rootBundle.loadString('assets/district.json');
+  print(respose.runtimeType);
+  List<dynamic> districtData = json.decode(respose);
+  print(districtData);
+}
+  @override
+  void initState() {
+    // loadData();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -100,6 +116,32 @@ class _MrOfficerReferralScreenState extends State<MrOfficerReferralScreen> {
     return SingleChildScrollView(
       child: Column(
         children: [
+          SizedBox(
+            height: 16,
+          ),
+          Padding(
+            padding:const EdgeInsets.symmetric(horizontal: 8.0),
+            child: CustomExpansionTile(
+              title: 'Remarks',
+              applyAllBorderRadius: true,
+              size: 20,
+              fontWeight: FontWeight.w600,
+              children: [
+                TextFromFieldWithPrefixSuffix(
+                  autoFocus: false,
+                  hintText: 'Remarks note',
+                  labelText: 'Remarks',
+                  minLine: 4,
+                  maxLines: 4,
+                  controller: referralRemarkText,
+                  validator: (value){
+                return null;
+              },
+              ),
+                SizedBox(height: 16,)
+             ],
+            ),
+          ),
           SizedBox(
             height: 16,
           ),
@@ -185,6 +227,7 @@ class _MrOfficerReferralScreenState extends State<MrOfficerReferralScreen> {
                         if (selectedCountry == country[0]) {
                           _isVisibleForDistrict = !_isVisibleForDistrict;
                           _isVisibleForState = false;
+                          loadData();
                           _AddTaskBottomSheetForDistrict(context);
                         } else {
                           _isVisibleForDistrict = false;
@@ -281,7 +324,7 @@ class _MrOfficerReferralScreenState extends State<MrOfficerReferralScreen> {
                   autoFocus: false,
                   hintText: 'Name',
                   labelText: 'Name',
-                  controller: nameText,
+                  controller: referralNameText,
                   validator: (value) {
                     return value!.isEmpty
                         ? 'Name is required'
@@ -295,13 +338,14 @@ class _MrOfficerReferralScreenState extends State<MrOfficerReferralScreen> {
                 ),
                 TextFromFieldWithPrefixSuffix(
                   autoFocus: false,
-                  labelText: '--------',
-                  controller: ageText,
+                  labelText: 'Number',
+                  hintText: 'Number',
+                  controller: referralAgeText,
                   validator: (value) {
                     return value!.isEmpty
-                        ? 'Age is required'
+                        ? 'Number is required'
                         : value.length < 3
-                        ? 'Enter at least 1 characters'
+                        ? 'Enter at least 10 characters'
                         : null;
                   },
                 ),
@@ -310,26 +354,12 @@ class _MrOfficerReferralScreenState extends State<MrOfficerReferralScreen> {
                 ),
                 TextFromFieldWithPrefixSuffix(
                   autoFocus: false,
-                  labelText: '-----------',
-                  controller: genderText,
+                  labelText: 'City',
+                  hintText: 'City',
+                  controller: referredCityText,
                   validator: (value) {
                     return value!.isEmpty
-                        ? 'Gender is required'
-                        : value.length < 3
-                        ? 'Enter at least 3 characters'
-                        : null;
-                  },
-                ),
-                SizedBox(
-                  height: 16,
-                ),
-                TextFromFieldWithPrefixSuffix(
-                  autoFocus: false,
-                  labelText: '----------------',
-                  controller: provisionalDiagnosisText,
-                  validator: (value) {
-                    return value!.isEmpty
-                        ? 'Provisional Diagnosis is required'
+                        ? 'City is required'
                         : value.length < 3
                         ? 'Enter at least 3 characters'
                         : null;
@@ -340,11 +370,12 @@ class _MrOfficerReferralScreenState extends State<MrOfficerReferralScreen> {
                 ),
                 TextFromFieldWithPrefixSuffix(
                   autoFocus: false,
-                  labelText: '-------------------',
-                  controller: countryText,
+                  labelText: 'Address',
+                  hintText: 'Address',
+                  controller: referredAddressText,
                   validator: (value) {
                     return value!.isEmpty
-                        ? 'Activity note is required'
+                        ? 'Address is required'
                         : value.length < 3
                         ? 'Enter at least 3 characters'
                         : null;
@@ -355,11 +386,28 @@ class _MrOfficerReferralScreenState extends State<MrOfficerReferralScreen> {
                 ),
                 TextFromFieldWithPrefixSuffix(
                   autoFocus: false,
-                  labelText: '----------------',
-                  controller: districtText,
+                  labelText: 'Category',
+                  hintText: 'Category',
+                  controller: referredCategoryText,
                   validator: (value) {
                     return value!.isEmpty
-                        ? 'District is required'
+                        ? 'Category is required'
+                        : value.length < 3
+                        ? 'Enter at least 3 characters'
+                        : null;
+                  },
+                ),
+                SizedBox(
+                  height: 16,
+                ),
+                TextFromFieldWithPrefixSuffix(
+                  autoFocus: false,
+                  labelText: 'Specialization',
+                  hintText: 'Specialization',
+                  controller: referredSpecializationText,
+                  validator: (value) {
+                    return value!.isEmpty
+                        ? 'Specialization is required'
                         : value.length < 3
                         ? 'Enter at least 3 characters'
                         : null;
@@ -478,7 +526,9 @@ class _MrOfficerReferralScreenState extends State<MrOfficerReferralScreen> {
                 CustomElevatedButton(
                   borderRadius: 16,
                   backgroundColor:Colors.redAccent,
-                    onPressed: (){},
+                    onPressed: (){
+                      loadData();
+                    },
                     widget: CustomText(text: 'Back',fontWeight: FontWeight.w600,size: 16,),
                 ),
                 Consumer<WeeklyPlanProvider>(
@@ -487,7 +537,8 @@ class _MrOfficerReferralScreenState extends State<MrOfficerReferralScreen> {
                       borderRadius: 16,
                       backgroundColor: CustomColors.primaryColor,
                       onPressed: (){
-                        weeklyPlanProvider.main();
+                        // weeklyPlanProvider.setList()
+                        getData();
                       },
                       widget: CustomText(text:'Submit',fontWeight: FontWeight.w600,size: 16,),
                     );
@@ -537,41 +588,61 @@ class _MrOfficerReferralScreenState extends State<MrOfficerReferralScreen> {
     return ListView(
       children: [
         SizedBox(height: 16,),
-        Consumer<WeeklyPlanProvider>(
-            builder: (context,weeklyPlanProvider,_) {
-              return TextFromFieldWithPrefixSuffix(
-                applyPrefix: true,
-                prefixIcon: Icon(Icons.search),
-                applySuffixIcon: true,
-                suffixIcon: Icon(Icons.arrow_drop_down),
-                controller: searchForDistrictTextEditingController,
-                labelText: 'Select District',
-                onTap: () {
-                  // weeklyPlanProvider.setDistrictList();
-                },
-                onChange: (value) => weeklyPlanProvider.runDistrictSearchFilter(searchForDistrictTextEditingController.value.text),
-                validator: (Value) {},
-              );
-            }
+        // Consumer<WeeklyPlanProvider>(
+        //     builder: (context,weeklyPlanProvider,_) {
+        //       return TextFromFieldWithPrefixSuffix(
+        //         applyPrefix: true,
+        //         prefixIcon: Icon(Icons.search),
+        //         applySuffixIcon: true,
+        //         suffixIcon: Icon(Icons.arrow_drop_down),
+        //         controller: searchForDistrictTextEditingController,
+        //         labelText: 'Select District',
+        //         onTap: () {
+        //           // weeklyPlanProvider.setDistrictList();
+        //         },
+        //         onChange: (value) => weeklyPlanProvider.runDistrictSearchFilter(searchForDistrictTextEditingController.value.text),
+        //         validator: (Value) {},
+        //       );
+        //     }
+        // ),
+        Container(
+          child: ListView.builder(
+              physics: ScrollPhysics(),
+              shrinkWrap: true,
+              itemCount: districtList.length,
+              itemBuilder: (context,index){
+                return ListTile(
+                  title: CustomText(
+                      text: districtList[index]
+                  ),
+                  onTap: () {
+                    // print(districtList);
+                    loadData();
+                    selectedDistrict = districtList.toString();
+                    districtTextEditingController.text = selectedDistrict;
+                    Navigator.pop(context);
+                  },
+                );
+              }),
         ),
-        Consumer<WeeklyPlanProvider>(builder: (context, weeklyPlanProvider, _) {
-          return Container(
-            child: ListView.builder(
-                shrinkWrap: true,
-                itemCount: weeklyPlanProvider.foundDistrict.length,
-                itemBuilder: (context, index) {
-                  return ListTile(
-                    title: CustomText(
-                        text: weeklyPlanProvider.foundDistrict[index].toString()),
-                    onTap: () {
-                      selectedState = weeklyPlanProvider.foundDistrict[index];
-                      districtTextEditingController.text = selectedState;
-                      Navigator.pop(context);
-                    },
-                  );
-                }),
-          );
-        })
+        // Consumer<WeeklyPlanProvider>(builder: (context, weeklyPlanProvider, _) {
+        //   return Container(
+        //     child: ListView.builder(
+        //         shrinkWrap: true,
+        //         itemCount: weeklyPlanProvider.foundDistrict.length,
+        //         itemBuilder: (context, index) {
+        //           return ListTile(
+        //             title: CustomText(
+        //                 text: weeklyPlanProvider.foundDistrict[index].toString()),
+        //             onTap: () {
+        //               selectedState = weeklyPlanProvider.foundDistrict[index];
+        //               districtTextEditingController.text = selectedState;
+        //               Navigator.pop(context);
+        //             },
+        //           );
+        //         }),
+        //   );
+        // })
       ],
     );
   }
@@ -649,7 +720,8 @@ class _MrOfficerReferralScreenState extends State<MrOfficerReferralScreen> {
                   );
                 }),
           );
-        })
+        },
+        ),
       ],
     );
   }

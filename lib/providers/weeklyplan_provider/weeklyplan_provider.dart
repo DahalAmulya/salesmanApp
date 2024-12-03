@@ -8,11 +8,11 @@ import 'package:intl/intl.dart';
 
 
 class WeeklyPlanProvider with ChangeNotifier{
- void main(){
-   var districtData = readDistrict();
-   districtData.loadData();
- }
-
+  // void setList(){
+  //   var districtData = readDistrict();
+  //   districtData.loadData();
+  //
+  // }
   bool _isOpen = false;
   bool _isVisible = false;
   bool _isVisibleForState = false;
@@ -166,6 +166,13 @@ class WeeklyPlanProvider with ChangeNotifier{
 
   }
 
+
+  //
+  // void setDistrictList(){
+  //   // _districtList =
+  //   // _districtList = setList();
+  // }
+
   void setDropDownValue(newValue){
     _selectedCountry = newValue;
     if (selectedCountry == _country[0]) {
@@ -244,22 +251,22 @@ class WeeklyPlanProvider with ChangeNotifier{
    }
 }
 
-class readDistrict{
-  Future<List<Map<String, dynamic>>> readDistrictJson() async {
-    // Load the JSON file from the assets
-    final String response = await rootBundle.loadString('assets/district.json');
-
-    // Decode the JSON into a List of Maps
-    final List<dynamic> data = json.decode(response);
-    return List<Map<String, dynamic>>.from(data);
-  }
-  void loadData() async {
-    final districts = await readDistrictJson();
-    for(int i = 0; i < districts.length; i ++){
-     print(districts[i]['district']);
-     // print(districts);
-    }
-  }
-
-}
+// class readDistrict{
+//   Future<List<Map<String, dynamic>>> readDistrictJson() async {
+//     // Load the JSON file from the assets
+//     final String response = await rootBundle.loadString('assets/district.json');
+//
+//     // Decode the JSON into a List of Maps
+//     final List<dynamic> data = json.decode(response);
+//     return List<Map<String, dynamic>>.from(data);
+//   }
+//   void loadData() async {
+//     final districts = await readDistrictJson();
+//     for(int i = 0; i < districts.length; i ++){
+//      print(districts[i]['district']);
+//      // print(districts);
+//     }
+//   }
+//
+// }
 
