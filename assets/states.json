@@ -2,19 +2,45 @@
   {
     "states": "Andhra Pradesh",
     "cities": [
+      "Adoni",
+      "Anantapur",
+      "Bhimavaram",
+      "Chilakaluripet",
+      "Chittoor",
+      "Dharmavaram",
+      "Eluru",
+      "Guntur",
+      "Guntakal",
+      "Gudivada",
       "Hyderabad",
+      "Hindupur",
+      "Kurnool",
+      "Kakinada",
+      "Kadapa",
+      "Kadiri",
+      "Karimnagar",
+      "Mangalagiri-Tadepalli",
+      "Madanapalle",
+      "Machilipatnam",
+      "Nellore",
+      "Nandyal",
+      "Narasaraopet",
+      "Ongole",
+      "Proddatur",
+      "Rajamahendravaram",
+      "Ramagundam",
+      "Tirupati",
+      "Tenali",
       "Visakhapatnam",
       "Vijayawada",
       "Nellore",
       "Warangal",
-      "Guntur",
-      "Ramagundam",
+
       "Nizamabad",
       "Rajamahendri",
-      "Kakinada",
+
       "Tirupati",
-      "Anantapur",
-      "Karimnagar",
+
       "Kapra"
     ]
   },
@@ -43,27 +69,27 @@
   {
     "states": "Bihar",
     "cities": [
-      "Patna",
-      "rahul",
-      "Gaya",
-      "Bhagalpur",
-      "Muzaffarpur",
-      "Purnia",
-      "Darbhanga",
-      "Bihar Sharif",
       "Ara",
+      "Bhagalpur",
+      "Bihar Sharif",
       "Begusarai",
-      "Katihar",
-      "Chapra",
-      "Munger",
-      "Saharsa",
       "Bettiah",
+      "Chapra",
+      "Darbhanga",
+      "Forbesganj",
+      "Gaya",
       "Hajipur",
-      "Sasaram",
-      "Dehri",
-      "Siwan",
+      "Katihar",
+      "Muzaffarpur",
       "Motihari",
-      "Buxar"
+      "Munger",
+      "Patna",
+      "Purnia",
+      "Sasaram",
+      "Samastipur",
+      "Saharsa",
+      "Siwan",
+      "Sitamarhi"
     ]
   },
   {
@@ -159,7 +185,7 @@
   },
   {
     "states": "Sikkim",
-    "cities": ["farhan","rahul"]
+    "cities": ["Ahale","Akhria","Amba","Amlai","Aritar","Aritar Barbati","Arubote","Asangthang","Baijak","Baisalu","Bara Pathing","Bareng","Barmiak","Bhalukhop","Bhasme","Bhurtuk","Bikmat","Bokrong","","","","",""]
   },
   {
     "states": "Tamil Nadu",
@@ -175,14 +201,14 @@
   },
   {
     "states": "Uttar Pradesh",
-    "cities": ["farhan","rahul"]
+    "cities": ["Kanpur","Lucknow","Ghaziabad","Agra","Meerut","Varanasi","Prayagraj","Bareilly","Aligarh","Moradabad","Saharanpur","Gorakhpur","Gautam Buddha Nagar","Firozabad","Jhansi","Muzaffarnagar","Mathura","Badaun","Rampur","Shahjahanpur","Farrukhabad","Ayodhya","Mau","Hapur","Etawah","Mirzapur","Bulandshahr","Sambhal","Amroha","Hardoi","Fatehpur","Raebareli","Jalaun","Sitapur","Bahraich","Ghaziabad","Unnao","Jaunpur","Lakhimpur Kheri","Hathras","Banda","Pilibhit","Barabanki","Bulandshahr","Gonda","Mainpuri","Lalitpur","Etah","Deoria","Ghazipur","Sultanpur","Azamgarh","Bijnor","Budaun","Basti","Sambhal","Ambedkar Nagar","Ballia","Ambedkar Nagar","Gautam Budh Nagar","Firozabad","Shamli","Etah","Kasganj"]
   },
   {
     "states": "Uttarakhand",
-    "cities": ["farhan","rahul"]
+    "cities": ["Almora","Dehradun","Haldwani","Haridwar","Jaspur","Kichha","Kashipur","Kotdwara","Manglaur","Nainital","Pithoragarh","Rishikesh","Rudrapur","Ramnagar","Roorkee"]
   },
   {
     "states": "West Bangal",
-    "cities": ["farhan","rahul"]
+    "cities": ["Asansol","Bardhaman","Durgapur","Howrah","Kolkata"]
   }
 ]
