@@ -4,12 +4,12 @@ import 'package:deskgoo/classes/background_task_handler.dart';
 import 'package:deskgoo/classes/notification_controller.dart';
 import 'package:deskgoo/consts.dart';
 import 'package:deskgoo/models/environment.dart';
-import 'package:deskgoo/pages/mr_officers/mr_officers_provider/mr_officer_provider.dart';
 import 'package:deskgoo/providers/attendance_provider/remote_attendance_provider.dart';
 import 'package:deskgoo/providers/camera_provider/camera_provider.dart';
 import 'package:deskgoo/providers/deviceInfo_provider/deviceInfo_provider.dart';
 import 'package:deskgoo/providers/live_tracking_provider/live_tracking_provider.dart';
 import 'package:deskgoo/providers/login_provider/login_provider.dart';
+import 'package:deskgoo/providers/mr_officer_provider/mr_visit_provider.dart';
 import 'package:deskgoo/providers/replay_provider/replay_provider.dart';
 import 'package:deskgoo/providers/marketing_provider/officerName_provider.dart';
 import 'package:deskgoo/providers/marketing_provider/officerdetail_provider.dart';
@@ -129,7 +129,6 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
         ChangeNotifierProvider(
             create: (context) => MrOfficerMoreDetailsProvider()),
         ChangeNotifierProvider(create: (context) => UserProvider()),
-        ChangeNotifierProvider(create: (context) => MrOfficerVisitProvider()),
       ],
       child: Builder(
         builder: (BuildContext context) {

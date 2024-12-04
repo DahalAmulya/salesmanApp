@@ -1,5 +1,4 @@
-// import 'package:deskgoo/pages/mr_officers/mr_officers_pages/mr_officers_visits/mr_officers_visits.dart';
-import 'package:deskgoo/pages/mr_officers/mr_officers_provider/mr_officer_provider.dart';
+import 'package:deskgoo/providers/mr_officer_provider/mr_visit_provider.dart';
 import 'package:deskgoo/routes/marketing_officer_consts.dart';
 import 'package:deskgoo/routes/route_generator_constants.dart';
 import 'package:deskgoo/themes/custom_colors.dart';
