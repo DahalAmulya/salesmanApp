@@ -18,6 +18,7 @@ import 'package:deskgoo/providers/settings_providers/profile_provider/profile_pr
 import 'package:deskgoo/providers/visit_provider/order_provider.dart';
 import 'package:deskgoo/providers/visit_provider/visit_screen_provider.dart';
 import 'package:deskgoo/providers/weeklyplan_provider/weeklyplan_provider.dart';
+import 'package:deskgoo/routes/marketing_officer_consts.dart';
 import 'package:deskgoo/routes/route_generator.dart';
 import 'package:deskgoo/routes/route_generator_constants.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
@@ -145,7 +146,8 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
               primarySwatch: Colors.blue,
               useMaterial3: true,
             ),
-            initialRoute: MarketingManagerConstants.indexPage,
+            // initialRoute: MarketingManagerConstants.indexPage,
+            initialRoute: MarketingOfficerConstants.mrStaffDashboardConst,
             onGenerateRoute: RouteGenerator.generateRoute,
           );
         },

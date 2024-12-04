@@ -28,12 +28,14 @@ class CustomDropdown extends StatelessWidget {
       color: color ?? CustomColors.primaryWhite,
       child: DropdownButtonFormField(
         value: value,
+        isExpanded: true,
         dropdownColor: Colors.white,
         items: items.map((item) {
           return DropdownMenuItem(
             value: item,
             child: withPrefixIcon
                 ? Row(
+                    mainAxisSize: MainAxisSize.min, // Prevent expanding
                     children: [
                       SizedBox(
                         height: 28,
@@ -45,14 +47,17 @@ class CustomDropdown extends StatelessWidget {
                           fit: BoxFit.scaleDown,
                         ),
                       ),
-                      SizedBox(
-                        width: 4,
+                      const SizedBox(width: 4),
+                      CustomText(
+                        text: item,
+                        maxLines: 1,
+                        textOverflow: TextOverflow.ellipsis,
                       ),
-                      CustomText(text: item),
                     ],
                   )
                 : applyCountryFlag
                     ? Row(
+                        mainAxisSize: MainAxisSize.min, // Prevent expanding
                         children: [
                           SizedBox(
                             height: 28,
@@ -64,13 +69,19 @@ class CustomDropdown extends StatelessWidget {
                               fit: BoxFit.scaleDown,
                             ),
                           ),
-                          SizedBox(
-                            width: 4,
+                          const SizedBox(width: 4),
+                          CustomText(
+                            text: item,
+                            maxLines: 1,
+                            textOverflow: TextOverflow.ellipsis,
                           ),
-                          CustomText(text: item),
                         ],
                       )
-                    : CustomText(text: item),
+                    : CustomText(
+                        text: item,
+                        maxLines: 1,
+                        textOverflow: TextOverflow.ellipsis,
+                      ),
           );
         }).toList(),
         onChanged: onChanged,
