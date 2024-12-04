@@ -33,7 +33,9 @@ class _MrOfficerReferralScreenState extends State<MrOfficerReferralScreen> {
   String selectedState = 'Achham';
   String selectedCountry = '';
   List<String> country = ['Nepal', 'India'];
-  String districtList = '';
+  List<dynamic> districtList = [];
+  List<dynamic> stateList = [];
+
 
   final districtTextEditingController = TextEditingController();
   final searchForDistrictTextEditingController = TextEditingController();
@@ -63,28 +65,41 @@ class _MrOfficerReferralScreenState extends State<MrOfficerReferralScreen> {
   TextEditingController referralRemarkText =  TextEditingController();
 
 
-  Future<List<Map<String,dynamic>>> readDistrictJson ()async{
-    final response = await rootBundle.loadString('assets/district.json');
-    final List<dynamic> data = json.decode(response);
-      return List<Map<String, dynamic>>.from(data);
-  }
-
-  void loadData()async{
-    final districts = await readDistrictJson();
-    for(int i = 0; i < districts.length; i ++){
-      districtList = districts[i]['district'];
-      print(districtList);
-    }
-  }
-  void getData()async{
+  // Future<List<Map<String,dynamic>>> readDistrictJson ()async{
+  //   final response = await rootBundle.loadString('assets/district.json');
+  //   final List<dynamic> data = json.decode(response);
+  //     return List<Map<String, dynamic>>.from(data);
+  // }
+  //
+  // void loadData()async{
+  //   final districts = await readDistrictJson();
+  //   for(int i = 0; i < districts.length; i ++){
+  //     districtList = districts[i]['district'];
+  //
+  //     print(districtList);
+  //   }
+  // }
+  void getDataForDistrict()async{
   final respose = await rootBundle.loadString('assets/district.json');
   print(respose.runtimeType);
   List<dynamic> districtData = json.decode(respose);
-  print(districtData);
+  // print(districtData);
+  districtList = districtData;
 }
+
+void getDataForState()async{
+    final respose = await rootBundle.loadString('assets/states.json');
+    List<dynamic> stateData = json.decode(respose);
+    stateList = stateData;
+    print(stateList);
+}
+
+
   @override
   void initState() {
     // loadData();
+    getDataForDistrict();
+    getDataForState();
     super.initState();
   }
 
@@ -227,7 +242,6 @@ class _MrOfficerReferralScreenState extends State<MrOfficerReferralScreen> {
                         if (selectedCountry == country[0]) {
                           _isVisibleForDistrict = !_isVisibleForDistrict;
                           _isVisibleForState = false;
-                          loadData();
                           _AddTaskBottomSheetForDistrict(context);
                         } else {
                           _isVisibleForDistrict = false;
@@ -527,7 +541,6 @@ class _MrOfficerReferralScreenState extends State<MrOfficerReferralScreen> {
                   borderRadius: 16,
                   backgroundColor:Colors.redAccent,
                     onPressed: (){
-                      loadData();
                     },
                     widget: CustomText(text: 'Back',fontWeight: FontWeight.w600,size: 16,),
                 ),
@@ -538,7 +551,7 @@ class _MrOfficerReferralScreenState extends State<MrOfficerReferralScreen> {
                       backgroundColor: CustomColors.primaryColor,
                       onPressed: (){
                         // weeklyPlanProvider.setList()
-                        getData();
+
                       },
                       widget: CustomText(text:'Submit',fontWeight: FontWeight.w600,size: 16,),
                     );
@@ -613,12 +626,11 @@ class _MrOfficerReferralScreenState extends State<MrOfficerReferralScreen> {
               itemBuilder: (context,index){
                 return ListTile(
                   title: CustomText(
-                      text: districtList[index]
+                      text: districtList[index]['district'],
                   ),
                   onTap: () {
                     // print(districtList);
-                    loadData();
-                    selectedDistrict = districtList.toString();
+                    selectedDistrict = districtList[index]['district'];
                     districtTextEditingController.text = selectedDistrict;
                     Navigator.pop(context);
                   },
@@ -686,42 +698,61 @@ class _MrOfficerReferralScreenState extends State<MrOfficerReferralScreen> {
         SizedBox(
           height: 16,
         ),
-        Consumer<WeeklyPlanProvider>(builder: (context, weeklyPlanProvider, _) {
-          return TextFromFieldWithPrefixSuffix(
-            applyPrefix: true,
-            prefixIcon: Icon(Icons.search),
-            applySuffixIcon: true,
-            suffixIcon: Icon(Icons.arrow_drop_down),
-            controller: searchForStatesTextEditingController,
-            labelText: 'Select State',
-            onTap: () {
-              // weeklyPlanProvider.setStateList();
-            },
-            onChange: (value) => weeklyPlanProvider
-                .runStateSearchFilter(searchForStatesTextEditingController.value.text),
-            validator: (Value) {},
-          );
-        }),
-        Consumer<WeeklyPlanProvider>(builder: (context, weeklyPlanProvider, _) {
-          return Container(
-            child: ListView.builder(
-                physics: ScrollPhysics(),
-                shrinkWrap: true,
-                itemCount: weeklyPlanProvider.foundStates.length,
-                itemBuilder: (context, index) {
-                  return ListTile(
-                    title: CustomText(
-                        text: weeklyPlanProvider.foundStates[index].toString()),
-                    onTap: () {
-                      selectedState = weeklyPlanProvider.foundStates[index];
-                      stateTextEditingController.text = selectedState;
-                      Navigator.pop(context);
-                    },
-                  );
-                }),
-          );
-        },
+        // Consumer<WeeklyPlanProvider>(builder: (context, weeklyPlanProvider, _) {
+        //   return TextFromFieldWithPrefixSuffix(
+        //     applyPrefix: true,
+        //     prefixIcon: Icon(Icons.search),
+        //     applySuffixIcon: true,
+        //     suffixIcon: Icon(Icons.arrow_drop_down),
+        //     controller: searchForStatesTextEditingController,
+        //     labelText: 'Select State',
+        //     onTap: () {
+        //       // weeklyPlanProvider.setStateList();
+        //     },
+        //     onChange: (value) => weeklyPlanProvider
+        //         .runStateSearchFilter(searchForStatesTextEditingController.value.text),
+        //     validator: (Value) {},
+        //   );
+        // }),
+        Container(
+          child: ListView.builder(
+              physics: ScrollPhysics(),
+              shrinkWrap: true,
+              itemCount: stateList.length,
+              itemBuilder: (context,index){
+                return ListTile(
+                  title: CustomText(
+                    text: stateList[index]['states'],
+                  ),
+                  onTap: () {
+                    // print(districtList);
+                    selectedState = stateList[index]['states'];
+                    stateTextEditingController.text = selectedState;
+                    Navigator.pop(context);
+                  },
+                );
+              }),
         ),
+        // Consumer<WeeklyPlanProvider>(builder: (context, weeklyPlanProvider, _) {
+        //   return Container(
+        //     child: ListView.builder(
+        //         physics: ScrollPhysics(),
+        //         shrinkWrap: true,
+        //         itemCount: weeklyPlanProvider.foundStates.length,
+        //         itemBuilder: (context, index) {
+        //           return ListTile(
+        //             title: CustomText(
+        //                 text: weeklyPlanProvider.foundStates[index].toString()),
+        //             onTap: () {
+        //               selectedState = weeklyPlanProvider.foundStates[index];
+        //               stateTextEditingController.text = selectedState;
+        //               Navigator.pop(context);
+        //             },
+        //           );
+        //         }),
+        //   );
+        // },
+        // ),
       ],
     );
   }
