@@ -2,7 +2,7 @@ import 'dart:developer';
 import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:deskgoo/classes/notification_controller.dart';
-import 'package:deskgoo/pages/mr_officers/mr_officers_pages/weeklyplan/weeklyplan_screen.dart';
+import 'package:deskgoo/pages/mr_officers_pages/weeklyplan/weeklyplan_screen.dart';
 import 'package:deskgoo/providers/deviceInfo_provider/deviceInfo_provider.dart';
 import 'package:deskgoo/providers/login_provider/login_provider.dart';
 import 'package:deskgoo/providers/marketing_provider/officerName_provider.dart';

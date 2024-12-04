@@ -1,23 +1,22 @@
 import 'package:deskgoo/pages/attendance/remote_Attendence_page.dart';
 import 'package:deskgoo/pages/auth_screens/forgot_password/forgot_password_screen.dart';
 import 'package:deskgoo/pages/auth_screens/login/login_screen.dart';
-import 'package:deskgoo/pages/background_location_screen/background_location_screen.dart';
 import 'package:deskgoo/pages/camera/camera_screen.dart';
 import 'package:deskgoo/pages/camera/preview_photos.dart';
 import 'package:deskgoo/pages/camera/preview_selected_photo.dart';
 import 'package:deskgoo/pages/error/error_page.dart';
-import 'package:deskgoo/pages/home/home_screen.dart';
 import 'package:deskgoo/pages/location/live_tracking_screen.dart';
 import 'package:deskgoo/pages/location/replay_screen.dart';
 import 'package:deskgoo/pages/location/show_own_location_screen.dart';
 import 'package:deskgoo/pages/marketing_officers/marketing_officers_screen.dart';
 import 'package:deskgoo/pages/mr_admin/mr_admin_pages/mr_admin_dashboard/mr_manager_dashboard.dart';
 import 'package:deskgoo/pages/mr_admin/mr_admin_pages/reports/report_screen.dart';
-import 'package:deskgoo/pages/mr_officers/mr_officers_pages/mr_officers_dashboard/mr_officers_dashboard.dart';
-import 'package:deskgoo/pages/mr_officers/mr_officers_pages/mr_officers_visits/followUp_visit_screen.dart';
-import 'package:deskgoo/pages/mr_officers/mr_officers_pages/mr_officers_visits/new_visit_screen.dart';
-import 'package:deskgoo/pages/mr_officers/mr_officers_pages/referral/referral_screen.dart';
-import 'package:deskgoo/pages/mr_officers/mr_officers_pages/weeklyplan/weeklyplan_screen.dart';
+import 'package:deskgoo/pages/mr_officers_pages/mr_officers_dashboard/mr_officers_dashboard.dart';
+import 'package:deskgoo/pages/mr_officers_pages/mr_officers_visits/followUp_visit_screen.dart';
+import 'package:deskgoo/pages/mr_officers_pages/mr_officers_visits/new_visit_screen.dart';
+import 'package:deskgoo/pages/mr_officers_pages/referral/referral_screen.dart';
+import 'package:deskgoo/pages/mr_officers_pages/weeklyplan/addtask_screen.dart';
+import 'package:deskgoo/pages/mr_officers_pages/weeklyplan/weeklyplan_screen.dart';
 import 'package:deskgoo/pages/settings/setting.dart';
 import 'package:deskgoo/pages/visit/visit_screen.dart';
 import 'package:deskgoo/routes/marketing_officer_consts.dart';
@@ -25,7 +24,6 @@ import 'package:deskgoo/routes/route_generator_constants.dart';
 import 'package:flutter/material.dart';
 import '../pages/home/DescriptionPage/officer_DescriptionPage.dart';
 import '../pages/home/DescriptionPage/officer_VisitDetailPage.dart';
-import '../pages/mr_officers/mr_officers_pages/weeklyplan/addtask_screen.dart';
 import '../pages/settings/profile/profile_Page.dart';
 
 class RouteGenerator {
