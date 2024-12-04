@@ -100,9 +100,8 @@ class _MrOfficerSelectVisitTypeBottomSheetState
                                     MarketingOfficerConstants.newVisit);
                               } else {
                                 Navigator.pop(context);
-                                // Navigator.of(context).push(MaterialPageRoute(
-                                //     builder: (context) =>
-                                //         MROfficersVisitsScreen()));
+                                Navigator.of(context).pushNamed(
+                                    MarketingOfficerConstants.followUpVisit);
                               }
                             }
                           },

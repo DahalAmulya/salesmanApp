@@ -14,6 +14,7 @@ import 'package:deskgoo/pages/marketing_officers/marketing_officers_screen.dart'
 import 'package:deskgoo/pages/mr_admin/mr_admin_pages/mr_admin_dashboard/mr_manager_dashboard.dart';
 import 'package:deskgoo/pages/mr_admin/mr_admin_pages/reports/report_screen.dart';
 import 'package:deskgoo/pages/mr_officers/mr_officers_pages/mr_officers_dashboard/mr_officers_dashboard.dart';
+import 'package:deskgoo/pages/mr_officers/mr_officers_pages/mr_officers_visits/followUp_visit_screen.dart';
 import 'package:deskgoo/pages/mr_officers/mr_officers_pages/mr_officers_visits/new_visit_screen.dart';
 import 'package:deskgoo/pages/mr_officers/mr_officers_pages/referral/referral_screen.dart';
 import 'package:deskgoo/pages/mr_officers/mr_officers_pages/weeklyplan/weeklyplan_screen.dart';
@@ -112,7 +113,8 @@ class RouteGenerator {
       case MarketingOfficerConstants.newVisit:
         return MaterialPageRoute(builder: (_) => MrOfficerNewVisitScreen());
       case MarketingOfficerConstants.followUpVisit:
-        return MaterialPageRoute(builder: (_) => AddTaskScreen());
+        return MaterialPageRoute(
+            builder: (_) => MrOfficerFollowUpVisitScreen());
       case MarketingOfficerConstants.referral:
         return MaterialPageRoute(builder: (_) => MrOfficerReferralScreen());
       default:
