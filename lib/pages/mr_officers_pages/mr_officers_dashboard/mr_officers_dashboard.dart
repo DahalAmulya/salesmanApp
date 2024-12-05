@@ -95,7 +95,7 @@ class _MrOfficersDashboardScreenState extends State<MrOfficersDashboardScreen> {
   }
 
   Widget _body(context) {
-    return Column(
+    return ListView(
       children: [
         SizedBox(
           height: 16,
@@ -195,7 +195,7 @@ class _MrOfficersDashboardScreenState extends State<MrOfficersDashboardScreen> {
                           child: CustomText(
                             maxLines: 3,
                             textOverflow: TextOverflow.visible,
-                            text: 'Brt to Ghuski, Harinagar, Bhutha,abcd',
+                            text: 'Brt to Ghuski, Harinagar, Bhutha',
                             isContent: true,
                           ),
                         ),
@@ -437,6 +437,9 @@ class _MrOfficersDashboardScreenState extends State<MrOfficersDashboardScreen> {
               ),
             ],
           ),
+        ),
+        SizedBox(
+          height: 16,
         ),
       ],
     );
