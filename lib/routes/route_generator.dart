@@ -1,4 +1,3 @@
-import 'package:deskgoo/pages/attendance/remote_Attendence_page.dart';
 import 'package:deskgoo/pages/auth_screens/forgot_password/forgot_password_screen.dart';
 import 'package:deskgoo/pages/auth_screens/login/login_screen.dart';
 import 'package:deskgoo/pages/camera/camera_screen.dart';
@@ -71,10 +70,6 @@ class RouteGenerator {
       case MarketingManagerConstants.visitPage:
         return MaterialPageRoute(
           builder: (_) => VisitScreen(),
-        );
-      case MarketingManagerConstants.remoteAttendancePage:
-        return MaterialPageRoute(
-          builder: (_) => RemoteAttendencePage(),
         );
       case MarketingManagerConstants.settingPage:
         return MaterialPageRoute(

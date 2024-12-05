@@ -89,7 +89,7 @@ class _MrOfficerNewVisitScreenState extends State<MrOfficerNewVisitScreen> {
                   ),
                   TextFromFieldWithPrefixSuffix(
                     controller: createVisitProvider.nameController,
-                    labelText: 'Full Name',
+                    labelText: 'Full Name *',
                     validator: (newValue) {},
                   ),
                   SizedBox(
@@ -159,8 +159,8 @@ class _MrOfficerNewVisitScreenState extends State<MrOfficerNewVisitScreen> {
                     readOnly: true,
                     labelText: createVisitProvider.selectedCountry ==
                             createVisitProvider.country[0]
-                        ? 'District'
-                        : 'State',
+                        ? 'District *'
+                        : 'State *',
                     validator: (newValue) {},
                     onTap: () async {
                       String fileName = createVisitProvider.selectedCountry ==
@@ -184,7 +184,7 @@ class _MrOfficerNewVisitScreenState extends State<MrOfficerNewVisitScreen> {
                   TextFromFieldWithPrefixSuffix(
                     controller: createVisitProvider.cityController,
                     readOnly: true,
-                    labelText: 'City',
+                    labelText: 'City *',
                     validator: (newValue) {},
                     onTap: () async {
                       showModalBottomSheet(
@@ -200,7 +200,8 @@ class _MrOfficerNewVisitScreenState extends State<MrOfficerNewVisitScreen> {
                   ),
                   TextFromFieldWithPrefixSuffix(
                     controller: createVisitProvider.addressController,
-                    labelText: 'Address',
+                    labelText: 'Address *',
+                    maxLines: 2,
                     validator: (newValue) {},
                   ),
                   SizedBox(
@@ -239,6 +240,16 @@ class _MrOfficerNewVisitScreenState extends State<MrOfficerNewVisitScreen> {
                   TextFromFieldWithPrefixSuffix(
                     controller: fullNameController,
                     labelText: 'Organization',
+                    maxLines: 2,
+                    validator: (newValue) {},
+                  ),
+                  SizedBox(
+                    height: 16,
+                  ),
+                  TextFromFieldWithPrefixSuffix(
+                    controller: fullNameController,
+                    labelText: 'Remarks *',
+                    maxLines: 2,
                     validator: (newValue) {},
                   ),
                   SizedBox(
