@@ -89,6 +89,8 @@ class _MrOfficerAttendanceBottomSheetState
                       Switch.adaptive(
                         activeColor: CustomColors.primaryBlack,
                         activeTrackColor: CustomColors.primaryColor,
+                        inactiveThumbColor: CustomColors.primaryBlack,
+                        inactiveTrackColor: CustomColors.primaryWhite,
                         value: attendanceProvider.isRemoteAttendanceSwitched,
                         onChanged: (value) async {
                           bool response = await biometricAuthentication();
