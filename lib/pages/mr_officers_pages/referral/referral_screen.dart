@@ -1,5 +1,4 @@
 import 'dart:convert';
-
 import 'package:deskgoo/routes/marketing_officer_consts.dart';
 import 'package:deskgoo/themes/custom_colors.dart';
 import 'package:deskgoo/widgets/app_bars/custom_app_bars.dart';
@@ -32,9 +31,11 @@ class _MrOfficerReferralScreenState extends State<MrOfficerReferralScreen> {
   String defaultValue = 'Nepal';
   String selectedState = 'Achham';
   String selectedCountry = '';
+  String selectedCity = '';
   List<String> country = ['Nepal', 'India'];
   List<dynamic> districtList = [];
   List<dynamic> stateList = [];
+  List<dynamic> citiesList = [];
   final _formState = GlobalKey<FormState>();
 
 
@@ -77,7 +78,7 @@ class _MrOfficerReferralScreenState extends State<MrOfficerReferralScreen> {
     final respose = await rootBundle.loadString('assets/states.json');
     List<dynamic> stateData = json.decode(respose);
     stateList = stateData;
-    print(stateList);
+    // print(stateList);
   }
 
 
@@ -299,6 +300,9 @@ class _MrOfficerReferralScreenState extends State<MrOfficerReferralScreen> {
             hintText: 'City',
             labelText: 'City',
             controller: cityText,
+            onTap: (){
+              _AddTaskBottomSheetForCities(context);
+            },
             validator: (value) {
               return value!.isEmpty
                   ? 'Activity note is required'
@@ -576,6 +580,8 @@ class _MrOfficerReferralScreenState extends State<MrOfficerReferralScreen> {
                   onTap: () {
                     // print(districtList);
                     selectedDistrict = districtList[index]['district'];
+                    citiesList = districtList[index]['cities'];
+                    print(citiesList);
                     districtTextEditingController.text = selectedDistrict;
                     Navigator.pop(context);
                   },
@@ -665,5 +671,69 @@ class _MrOfficerReferralScreenState extends State<MrOfficerReferralScreen> {
       ],
     );
   }
+  //------------------------------------------------------------------------------------------------------------------------//
+
+  Future<void> _AddTaskBottomSheetForCities(context) {
+    return showModalBottomSheet(
+      context: context,
+      isScrollControlled: true, // Allows the sheet to take up more space
+      builder: (context) => ClipRRect(
+        borderRadius: BorderRadius.circular(16.0),
+        child: SizedBox(
+          height: MediaQuery.of(context).size.height * 0.90,
+          child: Scaffold(
+            backgroundColor: Colors.grey.shade200,
+            appBar: _AddTaskBottomSheetForCitiesAppBar(context),
+            body: _AddTaskBottomSheetForCitiesBody(context),
+          ),
+        ),
+      ),
+    );
+  }
+
+  PreferredSize _AddTaskBottomSheetForCitiesAppBar(context) {
+    return PreferredSize(
+        preferredSize: Size.fromHeight(kToolbarHeight),
+        child: CustomAppBar(
+          showLeading: true,
+          leadingIcon: FontAwesomeIcons.arrowLeft,
+          backgroundColor: CustomColors.primaryColor,
+          tabName: 'Select Cities',
+          onTapLeadingIcon: () {
+            Navigator.pop(context);
+          },
+        ),
+    );
+  }
+  Widget _AddTaskBottomSheetForCitiesBody(context) {
+    return ListView(
+      children: [
+        SizedBox(
+          height: 16,
+        ),
+        Container(
+          child: ListView.builder(
+              physics: ScrollPhysics(),
+              shrinkWrap: true,
+              itemCount: citiesList.length,
+              itemBuilder: (context,index){
+                return ListTile(
+                  title: CustomText(
+                    text: citiesList[index].toString(),
+                  ),
+                  onTap: () {
+                    // print(districtList);
+                    selectedCity = citiesList[index];
+                    cityText.text = selectedCity;
+                    Navigator.pop(context);
+                  },
+                );
+              }),
+        ),
+      ],
+    );
+  }
+
+
 
 }
