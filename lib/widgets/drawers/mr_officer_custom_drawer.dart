@@ -225,6 +225,7 @@ class MrOfficerCustomDrawer extends StatelessWidget {
                           onTap: () {
                             // GoRouter.of(context).pushReplacementNamed(
                             //     MyAppRouteConstants.remoteAttendanceRouteName);
+                            Navigator.pop(context);
                             Navigator.of(context)
                                 .pushNamed(MarketingOfficerConstants.referral);
                             // openAlertDialog(context);
