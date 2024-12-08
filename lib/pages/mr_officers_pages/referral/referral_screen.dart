@@ -9,11 +9,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
-
 import '../../../../providers/weeklyplan_provider/weeklyplan_provider.dart';
 import '../../../../widgets/drop_downs/custom_dropdown.dart';
 import '../../../../widgets/expansion_tile/custom_expansiontile.dart';
 import '../../../../widgets/text_fields/text_from_field.dart';
+import 'package:http/http.dart' as http;
 
 class MrOfficerReferralScreen extends StatefulWidget {
   const MrOfficerReferralScreen({super.key});
@@ -37,6 +37,7 @@ class _MrOfficerReferralScreenState extends State<MrOfficerReferralScreen> {
   List<dynamic> stateList = [];
   List<dynamic> citiesList = [];
   final _formState = GlobalKey<FormState>();
+  final Url = 'http://108.181.195.185:5000/api/country/Nepal';
 
 
   final districtTextEditingController = TextEditingController();
@@ -80,12 +81,20 @@ class _MrOfficerReferralScreenState extends State<MrOfficerReferralScreen> {
     stateList = stateData;
     // print(stateList);
   }
+   void fetchData()async{
+    final response = await http.get(Uri.parse(Url));
+    print("response = ${response.body}");
+    // print(response.runtimeType);
+    // final districtList = await json.decode(response);
+
+   }
 
 
   @override
   void initState() {
     getDataForDistrict();
     getDataForState();
+    fetchData();
     super.initState();
   }
 

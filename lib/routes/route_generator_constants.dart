@@ -19,6 +19,6 @@ class MarketingManagerConstants {
   static const String officerDescriptionPage = '/officerDescriptionPage';
   static const String officerVisitDetailPage = '/officerVisitDetailPage';
   static const String backgroundLocationScreen = '/background_location_screen';
-  static const String reportMarketingOfficersScreen =
-      '/report_marketing_offices_screen';
+  static const String reportMarketingOfficersScreen = '/report_marketing_offices_screen';
+  static const String areaReportMarketingOfficersScreen = '/area_report_marketing_offices_screen';
 }

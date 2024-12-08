@@ -23,6 +23,7 @@ import 'package:deskgoo/routes/route_generator_constants.dart';
 import 'package:flutter/material.dart';
 import '../pages/home/DescriptionPage/officer_DescriptionPage.dart';
 import '../pages/home/DescriptionPage/officer_VisitDetailPage.dart';
+import '../pages/mr_admin/mr_admin_pages/reports/Area/report_area_screen.dart';
 import '../pages/settings/profile/profile_Page.dart';
 
 class RouteGenerator {
@@ -95,6 +96,11 @@ class RouteGenerator {
         return MaterialPageRoute(
           builder: (_) => MrAdminReportScreen(),
         );
+        case MarketingManagerConstants.areaReportMarketingOfficersScreen:
+        return MaterialPageRoute(
+          builder: (_) => MrAdminAreaReportScreen(),
+        );
+
 
       // Routes for MarketingStaff
       case MarketingOfficerConstants.mrStaffDashboardConst:
