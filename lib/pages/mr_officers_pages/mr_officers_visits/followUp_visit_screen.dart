@@ -35,8 +35,7 @@ class _MrOfficerFollowUpVisitScreenState
         if (didpop) {
           return;
         }
-        Navigator.of(context)
-            .pop(MarketingOfficerConstants.mrStaffDashboardConst);
+        Navigator.of(context).pop();
       }),
       child: GestureDetector(
         onTap: () {
@@ -63,8 +62,7 @@ class _MrOfficerFollowUpVisitScreenState
         centerTitle: true,
         automaticallyImplyLeading: true,
         onTapLeadingIcon: () {
-          Navigator.of(context)
-              .pop(MarketingOfficerConstants.mrStaffDashboardConst);
+          Navigator.of(context).pop();
         },
       ),
     );
@@ -170,6 +168,7 @@ class _MrOfficerFollowUpVisitScreenState
                               final file = await rootBundle
                                   .loadString('assets/district.json');
                               final content = await jsonDecode(file);
+                              Navigator.of(context).pop();
                             },
                             widget: CustomText(
                               text: 'Back',

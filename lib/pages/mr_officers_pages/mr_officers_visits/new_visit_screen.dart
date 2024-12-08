@@ -34,8 +34,7 @@ class _MrOfficerNewVisitScreenState extends State<MrOfficerNewVisitScreen> {
         if (didpop) {
           return;
         }
-        Navigator.of(context)
-            .pop(MarketingOfficerConstants.mrStaffDashboardConst);
+        Navigator.of(context).pop();
       }),
       child: GestureDetector(
         onTap: () {
@@ -62,8 +61,7 @@ class _MrOfficerNewVisitScreenState extends State<MrOfficerNewVisitScreen> {
         centerTitle: true,
         automaticallyImplyLeading: true,
         onTapLeadingIcon: () {
-          Navigator.of(context)
-              .pop(MarketingOfficerConstants.mrStaffDashboardConst);
+          Navigator.of(context).pop();
         },
       ),
     );
@@ -262,9 +260,10 @@ class _MrOfficerNewVisitScreenState extends State<MrOfficerNewVisitScreen> {
                         onPressed: () async {
                           // Navigator.of(context).pop(
                           //     MarketingOfficerConstants.mrStaffDashboardConst);
-                          final file = await rootBundle
-                              .loadString('assets/district.json');
-                          final content = await jsonDecode(file);
+                          // final file = await rootBundle
+                          //     .loadString('assets/district.json');
+                          // final content = await jsonDecode(file);
+                          Navigator.of(context).pop();
                         },
                         widget: CustomText(
                           text: 'Back',
