@@ -140,6 +140,14 @@ class WeeklyPlanProvider with ChangeNotifier{
   TextEditingController _stateTextEditingController = TextEditingController();
   TextEditingController _districtTextEditingController = TextEditingController();
 
+  TextEditingController _taskActivityController = TextEditingController();
+  TextEditingController _taskAreaController = TextEditingController();
+  TextEditingController _taskRemarkController = TextEditingController();
+
+  TextEditingController _taskActivityNoteController = TextEditingController();
+  TextEditingController _taskAreaNoteController = TextEditingController();
+  TextEditingController _taskRemarkNoteController = TextEditingController();
+
 
   bool get isOpen => _isOpen;
   bool get isVisible => _isVisible;
@@ -159,20 +167,30 @@ class WeeklyPlanProvider with ChangeNotifier{
   TextEditingController get stateTextEditingController => _stateTextEditingController;
   TextEditingController get districtTextEditingController => _districtTextEditingController;
 
+  TextEditingController get taskActivityController => _taskActivityController;
+  TextEditingController get taskAreaController => _taskAreaController;
+  TextEditingController get taskRemarkController => _taskRemarkController;
+
+  TextEditingController get taskActivityNoteController => _taskActivityNoteController;
+  TextEditingController get taskAreaNoteController => _taskAreaNoteController;
+  TextEditingController get taskRemarkNoteController => _taskRemarkNoteController;
+
   WeeklyPlanProvider (){
     _foundStates = _states.where((state) => state.toLowerCase().contains('A'.toLowerCase())).toList();
     _foundDistrict = _districts.where((district) => district.toLowerCase().contains('A'.toLowerCase())).toList();
     // _foundDistrict = _districts.where((district) => district.toString().toLowerCase().toList();
 
   }
+  void setNewTask(){
+    _taskActivityNoteController.text = _taskActivityController.text;
+    _taskAreaNoteController.text = _taskAreaController.text;
+    _taskRemarkNoteController.text = _taskRemarkController.text;
 
-
-  //
-  // void setDistrictList(){
-  //   // _districtList =
-  //   // _districtList = setList();
-  // }
-
+    _taskActivityController.clear();
+    _taskAreaController.clear();
+    _taskActivityController.clear();
+     notifyListeners();
+  }
   void setDropDownValue(newValue){
     _selectedCountry = newValue;
     if (selectedCountry == _country[0]) {

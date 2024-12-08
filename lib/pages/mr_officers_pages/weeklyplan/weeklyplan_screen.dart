@@ -24,25 +24,20 @@ class WeeklyPlanScreen extends StatefulWidget {
 }
 
 class _WeeklyPlanScreenState extends State<WeeklyPlanScreen> {
-  bool isVisibleForStateList = false;
 
-
-  List<String> foundStates = [];
-  List<String> foundDistrict = [];
   bool isVisibleForDistrictList = false;
   DateTime _selectedDate = DateTime.now();
-  late String dropDownValue;
 
-  final stateTextEditingController = TextEditingController();
-  final districtTextEditingController = TextEditingController();
-  final searchForStatesTextEditingController = TextEditingController();
-  final searchForDistrictTextEditingController = TextEditingController();
+  final _addTaskFormKey = GlobalKey<FormState>();
+  final taskActivityController = TextEditingController();
+  final taskAreaController = TextEditingController();
+  final taskRemarkController = TextEditingController();
 
-  String selectedDistrict = 'Baglung';
-  String defaultValue = 'Nepal';
-  String selectedState = 'Achham';
-  String selectedCountry = '';
-  List<String> country = ['Nepal', 'India'];
+  final taskActivityNoteController = TextEditingController();
+  final taskAreaNoteController = TextEditingController();
+  final taskRemarkNoteController = TextEditingController();
+
+
 
   @override
   Widget build(BuildContext context) {
@@ -116,9 +111,10 @@ class _WeeklyPlanScreenState extends State<WeeklyPlanScreen> {
                       builder: (context, weeklyPlanProvider, _) {
                     return CustomElevatedButton(
                       onPressed: () {
-                        weeklyPlanProvider.setSelectedDate(_selectedDate);
-                        Navigator.of(context)
-                            .pushNamed(MarketingOfficerConstants.addTaskConst);
+                        // weeklyPlanProvider.setSelectedDate(_selectedDate);
+                        // Navigator.of(context)
+                        //     .pushNamed(MarketingOfficerConstants.addTaskConst);
+                        openAlertDialog(context);
                       },
                       backgroundColor: CustomColors.primaryColor,
                       widget: Row(
@@ -177,70 +173,6 @@ class _WeeklyPlanScreenState extends State<WeeklyPlanScreen> {
         SizedBox(
           height: 56,
         ),
-        // CustomContainer(
-        //   verticalPad: 16,
-        //   horizontalPad: 16,
-        //   horizontalMargin: 8,
-        //   color: Colors.white,
-        //   applyShadow: true,
-        //   child: Column(
-        //     children: [
-        //       SizedBox(
-        //         height: 8,
-        //       ),
-        //       CustomDropdown(
-        //           labelText: 'Select Country',
-        //           items: country,
-        //           value: defaultValue,
-        //           onChanged: (newValue) {
-        //             selectedCountry = newValue!;
-        //             setState(() {
-        //               if (selectedCountry == country[0]) {
-        //                 _AddTaskBottomSheetForDistrict(context);
-        //               } else {
-        //                 _AddTaskBottomSheetForStates(context);
-        //                 // print(country[1]);
-        //               }
-        //             });
-        //           }),
-        //       SizedBox(
-        //         height: 8,
-        //       ),
-        //       TextFromFieldWithPrefixSuffix(
-        //         applyPrefix: true,
-        //         prefixIcon: Icon(Icons.search),
-        //         applySuffixIcon: true,
-        //         suffixIcon: Icon(Icons.arrow_drop_down),
-        //         controller: districtTextEditingController,
-        //         labelText: 'Select District',
-        //         onTap: () {
-        //           // weeklyPlanProvider.setDistrictList();
-        //           // _AddTaskBottomSheetForDistrict(context);
-        //         },
-        //         onChange: (value) => (){},
-        //         validator: (Value) {},
-        //       ),
-        //       SizedBox(
-        //         height: 8,
-        //       ),
-        //       TextFromFieldWithPrefixSuffix(
-        //         applyPrefix: true,
-        //         prefixIcon: Icon(Icons.search),
-        //         applySuffixIcon: true,
-        //         suffixIcon: Icon(Icons.arrow_drop_down),
-        //         controller: stateTextEditingController,
-        //         labelText: 'Select State',
-        //         readOnly: true,
-        //         onTap: () {
-        //           // weeklyPlanProvider.setStateList();
-        //           // _AddTaskBottomSheetForStates(context);
-        //         },
-        //         onChange: (value) => (){},
-        //         validator: (Value) {},
-        //       ),
-        //     ],
-        //   ),
-        // ),
         CustomContainer(
             applyShadow: true,
             verticalPad: 18,
@@ -256,15 +188,17 @@ class _WeeklyPlanScreenState extends State<WeeklyPlanScreen> {
                 ],
               ),
               SizedBox(height: 8,),
-              Container(
-                padding: EdgeInsets.symmetric(horizontal: 8,vertical: 16),
-                height: MediaQuery.of(context).size.height * 0.090,
-                width: MediaQuery.of(context).size.height * 0.8,
-                decoration: BoxDecoration(
-                  borderRadius:BorderRadius.circular(8),
-                  color: Colors.grey.shade200
-                ),
-                child: CustomText(text: 'Marketing Meeting',size: 18,fontWeight: FontWeight.w600),
+              Consumer<WeeklyPlanProvider>(
+                builder: (context,weeklyPlanProvider,_) {
+                  return TextFromFieldWithPrefixSuffix(
+                      readOnly: true,
+                      labelText: 'Activity',
+                      controller: weeklyPlanProvider.taskActivityNoteController,
+                      validator: (validator){
+
+                      }
+                  );
+                }
               ),
               SizedBox(height: 8,),
               Row(
@@ -274,16 +208,17 @@ class _WeeklyPlanScreenState extends State<WeeklyPlanScreen> {
                 ],
               ),
               SizedBox(height: 8,),
-              Container(
-                padding: EdgeInsets.symmetric(horizontal: 8,vertical: 16),
-                height: MediaQuery.of(context).size.height * 0.090,
-                width:  MediaQuery.of(context).size.height * 0.8,
-                decoration: BoxDecoration(
-                    borderRadius:BorderRadius.circular(8),
-                    color: Colors.grey.shade200
-                ),
-                child: CustomText(text: 'Brt to Ghuski, Harinagar, Bhutha',size: 18,fontWeight: FontWeight.w600),
-                // child: Custom,
+              Consumer<WeeklyPlanProvider>(
+                builder: (context,weeklyPlanProvider,_) {
+                  return TextFromFieldWithPrefixSuffix(
+                      readOnly: true,
+                      labelText: 'Area',
+                      controller: weeklyPlanProvider.taskAreaNoteController,
+                      validator: (validator){
+
+                      }
+                  );
+                }
               ),
               SizedBox(height: 8,),
               Row(
@@ -293,15 +228,17 @@ class _WeeklyPlanScreenState extends State<WeeklyPlanScreen> {
                 ],
               ),
               SizedBox(height: 8,),
-              Container(
-                padding: EdgeInsets.symmetric(horizontal: 8,vertical: 16),
-                height: MediaQuery.of(context).size.height * 0.090,
-                width:  MediaQuery.of(context).size.height * 0.8,
-                decoration: BoxDecoration(
-                    borderRadius:BorderRadius.circular(8),
-                    color: Colors.grey.shade200
-                ),
-                child: CustomText(text: 'All Marketing Officer & Hospital CEO',size: 18,fontWeight: FontWeight.w600),
+              Consumer<WeeklyPlanProvider>(
+                builder: (context,weeklyPlanProvider,_) {
+                  return TextFromFieldWithPrefixSuffix(
+                      readOnly: true,
+                      labelText: 'Remark',
+                      controller: weeklyPlanProvider.taskRemarkNoteController,
+                      validator: (validator){
+
+                      }
+                  );
+                }
               ),
             ],
                           )
@@ -327,162 +264,136 @@ class _WeeklyPlanScreenState extends State<WeeklyPlanScreen> {
       ]),
     );
   }
+  //----------------------------------------------------------------AlertDialog----------------------------------------------------------------//
 
-  //--------------------------------------Bottom Sheets----------------------------------------------------//
 
-  Future<void> _AddTaskBottomSheetForStates(context) {
-    return showModalBottomSheet(
-      context: context,
-      isScrollControlled: true, // Allows the sheet to take up more space
-      builder: (context) => ClipRRect(
-        borderRadius: BorderRadius.circular(16.0),
-        child: SizedBox(
-          height: MediaQuery.of(context).size.height * 0.90,
-          child: Scaffold(
-            backgroundColor: Colors.grey.shade200,
-            appBar: _AddTaskBottomSheetForStatesAppBar(context),
-            body: _AddTaskBottomSheetForStatesBody(context),
-          ),
-        ),
-      ),
-    );
-  }
+  void openAlertDialog(context){
+    showDialog(
+        context: context,
+        builder: (BuildContext context){
+          return AlertDialog(
+            backgroundColor: CustomColors.primaryWhite,
+            elevation: 10,
+            title: Center(child: CustomText(text: 'New Task',size: 24,fontWeight: FontWeight.w600,)),
+            content: SizedBox(
+              width: MediaQuery.of(context).size.width * 0.7,
+              child: SingleChildScrollView(
+                child: Form(
+                  key: _addTaskFormKey,
+                  child: Column(
+                    // mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      CustomText(text: 'Activity',fontWeight: FontWeight.w600,size: 18,),
+                      SizedBox(height: 8,),
+                      Consumer<WeeklyPlanProvider>(
+                        builder: (context,weeklyPlanProvider,_) {
+                          return TextFromFieldWithPrefixSuffix(
+                            controller: weeklyPlanProvider.taskActivityController,
+                            autoFocus: false,
+                            hintText: 'Activity',
+                            labelText: 'Activity note',
+                            maxLines: 2,
+                            validator: (value) {
+                              // print(visitScreenProvider.followUpNote);
+                              return value!.isEmpty
+                                  ? 'Activity note is required'
+                                  : value.length < 3
+                                  ? 'Enter at least 3 characters'
+                                  : null;
+                            },
+                            onChange: (value) {
+                              // visitScreenProvider.setFollowUpNote(value!);
+                            },
+                            onTap: () {},
+                          );
+                        }
+                      ),
+                      SizedBox(height: 8,),
+                      CustomText(text: 'Area',fontWeight: FontWeight.w600,size: 18,),
+                      SizedBox(height: 8,),
+                      Consumer<WeeklyPlanProvider>(
+                        builder: (context,weeklyPlanProvider,_) {
+                          return TextFromFieldWithPrefixSuffix(
+                            controller: weeklyPlanProvider.taskAreaController,
+                            autoFocus: false,
+                            hintText: 'Area',
+                            labelText: 'Area note',
+                            maxLines: 2,
+                            validator: (value) {
+                              // print(visitScreenProvider.followUpNote);
+                              return value!.isEmpty
+                                  ? 'Visiting Area name is required'
+                                  : value.length < 3
+                                  ? 'Enter at least 3 characters'
+                                  : null;
+                            },
+                            onChange: (value) {
+                              // visitScreenProvider.setFollowUpNote(value!);
+                            },
+                            onTap: () {},
+                          );
+                        }
+                      ),
+                      SizedBox(height: 8,),
+                      CustomText(text: 'Remark',fontWeight: FontWeight.w600,size: 18,),
+                      SizedBox(height: 8,),
+                      Consumer<WeeklyPlanProvider>(
+                        builder: (context,weeklyPlanProvider,_) {
+                          return TextFromFieldWithPrefixSuffix(
+                            controller: weeklyPlanProvider.taskRemarkController,
+                            autoFocus: false,
+                            hintText: 'Remark',
+                            labelText: 'Remark note',
+                            maxLines: 2,
+                            validator: (value) {
+                              // print(visitScreenProvider.followUpNote);
+                              return value!.isEmpty
+                                  ? 'Remark note is required'
+                                  : value.length < 3
+                                  ? 'Enter at least 3 characters'
+                                  : null;
+                            },
+                            onChange: (value) {
+                              // visitScreenProvider.setFollowUpNote(value!);
+                            },
+                            onTap: () {
 
-  PreferredSize _AddTaskBottomSheetForStatesAppBar(context) {
-    return PreferredSize(
-        preferredSize: Size.fromHeight(kToolbarHeight),
-        child: CustomAppBar(
-          showLeading: true,
-          leadingIcon: FontAwesomeIcons.arrowLeft,
-          backgroundColor: CustomColors.primaryColor,
-          tabName: 'Select State',
-          onTapLeadingIcon: () {
-            Navigator.pop(context);
-          },
-        ));
-  }
+                              // Navigator.pop(context);
+                            },
+                          );
+                        }
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ),
+            actions: [
+              Consumer<WeeklyPlanProvider>(
+                builder: (context,weeklyPlanProvider,_) {
+                  return Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      CustomElevatedButton(
+                          onPressed: (){
+                              weeklyPlanProvider.setNewTask();
+                              Navigator.pop(context);
 
-  Widget _AddTaskBottomSheetForStatesBody(context) {
-    return ListView(
-      children: [
-        SizedBox(
-          height: 16,
-        ),
-        Consumer<WeeklyPlanProvider>(builder: (context, weeklyPlanProvider, _) {
-          return TextFromFieldWithPrefixSuffix(
-            applyPrefix: true,
-            prefixIcon: Icon(Icons.search),
-            applySuffixIcon: true,
-            suffixIcon: Icon(Icons.arrow_drop_down),
-            controller: searchForStatesTextEditingController,
-            labelText: 'Select State',
-            onTap: () {
-              // weeklyPlanProvider.setStateList();
-            },
-            onChange: (value) => weeklyPlanProvider
-                .runStateSearchFilter(searchForStatesTextEditingController.value.text),
-            validator: (Value) {},
-          );
-        }),
-        Consumer<WeeklyPlanProvider>(builder: (context, weeklyPlanProvider, _) {
-          return Container(
-            child: ListView.builder(
-              physics: ScrollPhysics(),
-                shrinkWrap: true,
-                itemCount: weeklyPlanProvider.foundStates.length,
-                itemBuilder: (context, index) {
-                  return ListTile(
-                    title: CustomText(
-                        text: weeklyPlanProvider.foundStates[index].toString()),
-                    onTap: () {
-                      selectedState = weeklyPlanProvider.foundStates[index];
-                      stateTextEditingController.text = selectedState;
-                      Navigator.pop(context);
-                    },
+                          },
+                          backgroundColor: CustomColors.primaryColor,
+                          widget: CustomText(
+                              text: 'Submit'
+                          )
+                      ),
+                    ],
                   );
-                }),
+                }
+              ),
+            ],
           );
-        })
-      ],
+        }
     );
   }
-
-//----------------------------------------------------------------------------------------------------------------//
-
-  Future<void> _AddTaskBottomSheetForDistrict(context) {
-    return showModalBottomSheet(
-      context: context,
-      isScrollControlled: true, // Allows the sheet to take up more space
-      builder: (context) => ClipRRect(
-        borderRadius: BorderRadius.circular(16.0),
-        child: SizedBox(
-          height: MediaQuery.of(context).size.height * 0.90,
-          child: Scaffold(
-            backgroundColor: Colors.grey.shade200,
-            appBar: _AddTaskBottomSheetForDistrictAppBar(context),
-            body: _AddTaskBottomSheetForDistrictBody(context),
-          ),
-        ),
-      ),
-    );
-  }
-
-  PreferredSize _AddTaskBottomSheetForDistrictAppBar(context){
-    return PreferredSize(
-        preferredSize: Size.fromHeight(kToolbarHeight),
-        child: CustomAppBar(
-          showLeading: true,
-          leadingIcon: FontAwesomeIcons.arrowLeft,
-          backgroundColor: CustomColors.primaryColor,
-          tabName: 'Select District',
-          onTapLeadingIcon: () {
-            Navigator.pop(context);
-          },
-        ));
-  }
-
-  Widget _AddTaskBottomSheetForDistrictBody(context){
-    return ListView(
-      children: [
-        SizedBox(height: 16,),
-        Consumer<WeeklyPlanProvider>(
-          builder: (context,weeklyPlanProvider,_) {
-            return TextFromFieldWithPrefixSuffix(
-              applyPrefix: true,
-              prefixIcon: Icon(Icons.search),
-              applySuffixIcon: true,
-              suffixIcon: Icon(Icons.arrow_drop_down),
-              controller: searchForDistrictTextEditingController,
-              labelText: 'Select District',
-              onTap: () {
-                // weeklyPlanProvider.setDistrictList();
-              },
-              onChange: (value) => weeklyPlanProvider.runDistrictSearchFilter(searchForDistrictTextEditingController.value.text),
-              validator: (Value) {},
-            );
-          }
-        ),
-        Consumer<WeeklyPlanProvider>(builder: (context, weeklyPlanProvider, _) {
-          return Container(
-            child: ListView.builder(
-                shrinkWrap: true,
-                itemCount: weeklyPlanProvider.foundDistrict.length,
-                itemBuilder: (context, index) {
-                  return ListTile(
-                    title: CustomText(
-                        text: weeklyPlanProvider.foundDistrict[index].toString()),
-                    onTap: () {
-                      selectedState = weeklyPlanProvider.foundDistrict[index];
-                      districtTextEditingController.text = selectedState;
-                      Navigator.pop(context);
-                    },
-                  );
-                }),
-          );
-        })
-      ],
-    );
-  }
-
 }
 
