@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:deskgoo/routes/marketing_officer_consts.dart';
+import 'package:deskgoo/services/erp_services.dart';
 import 'package:deskgoo/themes/custom_colors.dart';
 import 'package:deskgoo/widgets/app_bars/custom_app_bars.dart';
 import 'package:deskgoo/widgets/buttons/elevated_button.dart';
@@ -83,9 +84,15 @@ class _MrOfficerReferralScreenState extends State<MrOfficerReferralScreen> {
   }
    void fetchData()async{
     final response = await http.get(Uri.parse(Url));
-    print("response = ${response.body}");
+    print("response = ${response.runtimeType}");
     // print(response.runtimeType);
     // final districtList = await json.decode(response);
+
+   }
+
+   Future<void> getByCountry()async{
+    ERPResponse response = await ERPServicer.getRequest(Url);
+    print('response = ${response.body}');
 
    }
 
@@ -94,7 +101,8 @@ class _MrOfficerReferralScreenState extends State<MrOfficerReferralScreen> {
   void initState() {
     getDataForDistrict();
     getDataForState();
-    fetchData();
+    // fetchData();
+    getByCountry();
     super.initState();
   }
 
