@@ -103,18 +103,6 @@ class DeviceInfoProvider extends ChangeNotifier {
     updateLocation();
   }
 
-  // void backgroundLocation() async {
-  //   try {
-  //     bg.Location location = await bg.BackgroundGeolocation.getCurrentPosition(
-  //         samples: 1,
-  //         persist: true,
-  //         extras: {"event": "terminate", "headless": true});
-  //     print("[getCurrentPosition] Headless: ${location}");
-  //   } catch (error) {
-  //     print("[getCurrentPosition] Headless ERROR: $error");
-  //   }
-  // }
-
   void updateLocation() async {
     clearMarkers();
     // _locationTimer.cancel();

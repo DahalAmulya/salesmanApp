@@ -165,17 +165,22 @@ class _MarketingManagerDashboardState extends State<MarketingManagerDashboard> {
           appBar: _appBar(context),
           drawer: _drawer(context),
           body: _buildUI(context),
-          floatingActionButton: FloatingActionButton(
-            backgroundColor: CustomColors.primaryColor,
-            onPressed: () {
-              Navigator.of(context).push(
-                  MaterialPageRoute(builder: (context) => WeeklyPlanScreen()));
-              // Navigator.of(context).push(MaterialPageRoute(
-              //     builder: (context) => MROfficersVisitsScreen()));
+          floatingActionButton: Consumer<DeviceInfoProvider>(
+            builder: (context, location, _) {
+              return FloatingActionButton(
+                backgroundColor: CustomColors.primaryColor,
+                onPressed: () {
+                  location.DeviceinfoProvider();
+                  // Navigator.of(context).push(
+                  //     MaterialPageRoute(builder: (context) => WeeklyPlanScreen()));
+                  // Navigator.of(context).push(MaterialPageRoute(
+                  //     builder: (context) => MROfficersVisitsScreen()));
+                },
+                child: Icon(
+                  Icons.gps_fixed,
+                ),
+              );
             },
-            child: Icon(
-              Icons.gps_fixed,
-            ),
           ),
           bottomNavigationBar: _bottomNavBar(context),
         ),
