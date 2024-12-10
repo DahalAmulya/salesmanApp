@@ -30,7 +30,7 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  DeviceinfoProvider? _deviceinfoProvider;
+  DeviceInfoProvider? _deviceinfoProvider;
   MarketingProvider? _marketingProvider;
   final LocalAuthentication auth = LocalAuthentication();
   int index = 0;
@@ -54,7 +54,7 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   void initState() {
     _deviceinfoProvider =
-        Provider.of<DeviceinfoProvider>(context, listen: false);
+        Provider.of<DeviceInfoProvider>(context, listen: false);
     _marketingProvider = Provider.of<MarketingProvider>(context, listen: false);
     getLocationPermission();
 

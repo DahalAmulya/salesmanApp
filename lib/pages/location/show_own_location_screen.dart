@@ -125,7 +125,7 @@ class _OwnLiveLocationScreenState extends State<OwnLiveLocationScreen> {
   }
 
   Widget _googleMap(context) {
-    return Consumer<DeviceinfoProvider>(
+    return Consumer<DeviceInfoProvider>(
       builder: (context, deviceInfoProvider, _) {
         // deviceInfoProvider.locationReplay();
         latitude = deviceInfoProvider.liveLatitude;
@@ -158,7 +158,7 @@ class _OwnLiveLocationScreenState extends State<OwnLiveLocationScreen> {
   }
 
   Widget _osmMap(context) {
-    return Consumer<DeviceinfoProvider>(
+    return Consumer<DeviceInfoProvider>(
       builder: (context, deviceInfoProvider, _) {
         latitude = deviceInfoProvider.liveLatitude;
         longitude = deviceInfoProvider.liveLongitude;

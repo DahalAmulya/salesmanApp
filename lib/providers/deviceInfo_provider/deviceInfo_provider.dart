@@ -14,7 +14,7 @@ import 'package:connectivity_plus/connectivity_plus.dart';
 // import 'package:flutter_background_geolocation/flutter_background_geolocation.dart'
 //     as bg;
 
-class DeviceinfoProvider extends ChangeNotifier {
+class DeviceInfoProvider extends ChangeNotifier {
   Battery _battery = Battery();
   DeviceInfoPlugin deviceInfo = DeviceInfoPlugin();
   String _uniqueIdentifier = '';
@@ -33,7 +33,7 @@ class DeviceinfoProvider extends ChangeNotifier {
   late Timer _locationTimer;
   int _seconds = 0;
   Set<Marker> _livePositionMarkers = {};
-  var baseApi = 'http://108.181.195.185:5000/api/location';
+  var baseApi = 'https://a02c-27-34-68-147.ngrok-free.app/api/location';
   List<ConnectivityResult> _connectionStatus = [ConnectivityResult.none];
   Connectivity _connectivity = Connectivity();
   // late StreamSubscription<List<ConnectivityResult>> _connectivitySubscription;
@@ -171,6 +171,8 @@ class DeviceinfoProvider extends ChangeNotifier {
   }
 
   void postDeviceInfo() async {
+    print('****************************************************************');
+    print('Uploading device information');
     Uri url = Uri.parse(baseApi);
     Map<String, dynamic> data = {
       'mobileIdentifier': _uniqueIdentifier,
@@ -193,7 +195,7 @@ class DeviceinfoProvider extends ChangeNotifier {
       );
       if (response.statusCode == 200 || response.statusCode == 201) {
         _connectivityStatus = 'connected';
-        print('Data Post succcessfull');
+        print('Data Post successfull');
         notifyListeners();
       } else {
         print(response.statusCode);
@@ -203,6 +205,7 @@ class DeviceinfoProvider extends ChangeNotifier {
       notifyListeners();
       print('Error: $e');
     }
+    print('****************************************************************');
   }
 
   void getLocation() async {
