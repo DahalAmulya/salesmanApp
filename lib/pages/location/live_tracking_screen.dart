@@ -154,7 +154,7 @@ class _LiveTrackingScreenState extends State<LiveTrackingScreen> {
   }
 
   Widget _ownGoogleMap(context) {
-    return Consumer<DeviceinfoProvider>(
+    return Consumer<DeviceInfoProvider>(
       builder: (context, deviceInfoProvider, _) {
         // deviceInfoProvider.locationReplay();
         // latitude = deviceInfoProvider.liveLatitude;
@@ -254,7 +254,7 @@ class _LiveTrackingScreenState extends State<LiveTrackingScreen> {
   }
 
   Widget _osmMap(context) {
-    return Consumer<DeviceinfoProvider>(
+    return Consumer<DeviceInfoProvider>(
       builder: (context, deviceInfoProvider, _) {
         // latitude = deviceInfoProvider.liveLatitude;
         // longitude = deviceInfoProvider.liveLongitude;

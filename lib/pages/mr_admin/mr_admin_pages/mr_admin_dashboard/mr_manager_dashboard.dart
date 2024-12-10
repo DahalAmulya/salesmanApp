@@ -36,7 +36,7 @@ class MarketingManagerDashboard extends StatefulWidget {
 }
 
 class _MarketingManagerDashboardState extends State<MarketingManagerDashboard> {
-  DeviceinfoProvider? _deviceinfoProvider;
+  DeviceInfoProvider? _deviceinfoProvider;
   MarketingProvider? _marketingProvider;
   final LocalAuthentication auth = LocalAuthentication();
   String SelectedColors = '';
@@ -64,7 +64,7 @@ class _MarketingManagerDashboardState extends State<MarketingManagerDashboard> {
   @override
   void initState() {
     _deviceinfoProvider =
-        Provider.of<DeviceinfoProvider>(context, listen: false);
+        Provider.of<DeviceInfoProvider>(context, listen: false);
     _marketingProvider = Provider.of<MarketingProvider>(context, listen: false);
     getLocationPermission();
 
@@ -530,8 +530,8 @@ class _MarketingManagerDashboardState extends State<MarketingManagerDashboard> {
               title: 'Area',
               onTap: () {
                 print('Tapped Area');
-                Navigator.of(context).pushNamed(
-                    MarketingManagerConstants.areaReportMarketingOfficersScreen);
+                Navigator.of(context).pushNamed(MarketingManagerConstants
+                    .areaReportMarketingOfficersScreen);
               },
             ),
             _reportRows(

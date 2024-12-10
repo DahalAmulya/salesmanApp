@@ -116,7 +116,7 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
         ChangeNotifierProvider(create: (context) => VisitScreenProvider()),
         ChangeNotifierProvider(create: (context) => OrderProvider()),
         ChangeNotifierProvider(create: (context) => AttendanceProvider()),
-        ChangeNotifierProvider(create: (context) => DeviceinfoProvider()),
+        ChangeNotifierProvider(create: (context) => DeviceInfoProvider()),
         ChangeNotifierProvider(create: (context) => ReplayProvider()),
         ChangeNotifierProvider(create: (context) => CameraProvider()),
         ChangeNotifierProvider(create: (context) => ProfileProvider()),

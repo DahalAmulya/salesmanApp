@@ -90,7 +90,7 @@ class ReplayProvider extends ChangeNotifier {
 
   void cacheIcons(String img) async {
     LiveTrackingProvider _imgprovider = LiveTrackingProvider();
-    DeviceinfoProvider _provider = DeviceinfoProvider();
+    DeviceInfoProvider _provider = DeviceInfoProvider();
     String tempMarkerImg = img.isEmpty ? 'assets/images/userLocation.png' : img;
     _tempMarkerIcon = await _imgprovider.getBytesFromAsset(tempMarkerImg, 100);
     // img.isEmpty
