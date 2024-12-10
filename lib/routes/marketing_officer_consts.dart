@@ -5,4 +5,5 @@ class MarketingOfficerConstants {
   static const String followUpVisit = 'mr_office_follow_up_visit';
   static const String referral = 'mr_office_referral';
   static const String addTaskConst = 'mr_office_add_task';
+  static const String productConst = 'mr_office_product';
 }

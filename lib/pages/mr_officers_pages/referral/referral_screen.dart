@@ -38,7 +38,7 @@ class _MrOfficerReferralScreenState extends State<MrOfficerReferralScreen> {
   List<dynamic> stateList = [];
   List<dynamic> citiesList = [];
   final _formState = GlobalKey<FormState>();
-  final Url = 'http://108.181.195.185:5000/api/country/Nepal';
+  final link = 'http://108.181.195.185:5000/api/country/Nepal';
 
 
   final districtTextEditingController = TextEditingController();
@@ -83,7 +83,7 @@ class _MrOfficerReferralScreenState extends State<MrOfficerReferralScreen> {
     // print(stateList);
   }
    void fetchData()async{
-    final response = await http.get(Uri.parse(Url));
+    final response = await http.get(Uri.parse(link));
     print("response = ${response.runtimeType}");
     // print(response.runtimeType);
     // final districtList = await json.decode(response);
@@ -91,7 +91,7 @@ class _MrOfficerReferralScreenState extends State<MrOfficerReferralScreen> {
    }
 
    Future<void> getByCountry()async{
-    ERPResponse response = await ERPServicer.getRequest(Url);
+    ERPResponse response = await ERPServicer.getRequest(link);
     print('response = ${response.body}');
 
    }
