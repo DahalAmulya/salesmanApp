@@ -344,9 +344,8 @@ class _ProductPageState extends State<ProductPage> {
                             fontWeight: FontWeight.w600,
                           ),
                         ),
-                        Spacer(),
                         Expanded(
-                          flex: 1,
+                          flex: 2,
                           child: TextFromFieldWithPrefixSuffix(
                               controller: productQuantityController,
                               validator: (value){},
@@ -382,24 +381,29 @@ class _ProductPageState extends State<ProductPage> {
                     ),
                     Row(
                       children: [
-                        CustomText(
-                          text: 'Price : ',
-                          size: 16,
-                          fontWeight: FontWeight.w600,
-                        ),
-                        Spacer(),
-                        Container(
-                          height: MediaQuery.of(context).size.height * 0.06,
-                          width: 100,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(8),
-                            color: CustomColors.primaryWhite,
-                            border: Border.all(color: Colors.black,width: 0.6)
+                        Expanded(
+                          flex: 1,
+                          child: CustomText(
+                            text: 'Price : ',
+                            size: 16,
+                            fontWeight: FontWeight.w600,
                           ),
-                          child: Center(
-                            child: CustomText(
-                              text: foundMed,
-                              fontWeight: FontWeight.w600,
+                        ),
+                        Expanded(
+                          flex: 2,
+                          child: Container(
+                            height: MediaQuery.of(context).size.height * 0.06,
+                            width: 100,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(8),
+                              color: CustomColors.primaryWhite,
+                              border: Border.all(color: Colors.black,width: 0.6)
+                            ),
+                            child: Center(
+                              child: CustomText(
+                                text: foundMed,
+                                fontWeight: FontWeight.w600,
+                              ),
                             ),
                           ),
                         ),
@@ -418,9 +422,8 @@ class _ProductPageState extends State<ProductPage> {
                             fontWeight: FontWeight.w600,
                           ),
                         ),
-                        Spacer(),
                         Expanded(
-                          flex: 1,
+                          flex: 2,
                           child: TextFromFieldWithPrefixSuffix(
                             controller: productDiscountController,
                             validator: (value){},
@@ -433,24 +436,29 @@ class _ProductPageState extends State<ProductPage> {
                     ),
                     Row(
                       children: [
-                        CustomText(
-                          text: 'Total Price : ',
-                          size: 16,
-                          fontWeight: FontWeight.w600,
-                        ),
-                        Spacer(),
-                        Container(
-                          height: MediaQuery.of(context).size.height * 0.06,
-                          width: 100,
-                          decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(8),
-                              color: CustomColors.primaryWhite,
-                              border: Border.all(color: Colors.black,width: 0.6)
+                        Expanded(
+                          flex: 1,
+                          child: CustomText(
+                            text: 'Total Price : ',
+                            size: 16,
+                            fontWeight: FontWeight.w600,
                           ),
-                          child: Center(
-                            child: CustomText(
-                              text: 'foundMed',
-                              fontWeight: FontWeight.w600,
+                        ),
+                        Expanded(
+                          flex: 2,
+                          child: Container(
+                            height: MediaQuery.of(context).size.height * 0.06,
+                            width: 100,
+                            decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(8),
+                                color: CustomColors.primaryWhite,
+                                border: Border.all(color: Colors.black,width: 0.6)
+                            ),
+                            child: Center(
+                              child: CustomText(
+                                text: 'foundMed',
+                                fontWeight: FontWeight.w600,
+                              ),
                             ),
                           ),
                         ),
