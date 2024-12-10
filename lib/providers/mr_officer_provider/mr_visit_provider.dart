@@ -20,7 +20,7 @@ class MrOfficerVisitProvider with ChangeNotifier {
   final _addressController = TextEditingController();
   final _phoneNoController = TextEditingController();
   final _ageController = TextEditingController();
-  final _searchClientController = TextEditingController();
+  final _searchController = TextEditingController();
   bool _isVisitFormValid = false;
   bool _isSwitched = false;
   List<String> _countryCode = ['+977', '+91'];
@@ -57,6 +57,7 @@ class MrOfficerVisitProvider with ChangeNotifier {
   String _selectedState = '';
   List<dynamic> _cities = [];
   String _selectedCity = '';
+  List<dynamic> _searchResult = [];
 
   // Getters and setters for form fields
   List<String> get visitTypeList => _visitTypeList;
@@ -72,7 +73,7 @@ class MrOfficerVisitProvider with ChangeNotifier {
   TextEditingController get addressController => _addressController;
   TextEditingController get phoneNoController => _phoneNoController;
   TextEditingController get ageController => _ageController;
-  TextEditingController get searchClientController => _searchClientController;
+  TextEditingController get searchController => _searchController;
   // GlobalKey<FormState> get createVisitFormKey => _createVisitFormKey;
   bool get isVisitFormValid => _isVisitFormValid;
   bool get isSwitched => _isSwitched;
@@ -90,6 +91,7 @@ class MrOfficerVisitProvider with ChangeNotifier {
   String get selectedState => _selectedState;
   List<dynamic> get cities => _cities;
   String get selectedCity => _selectedCity;
+  List<dynamic> get searchResult => _searchResult;
 
   void getDistricts(List<dynamic> districtsList) {
     _districts = districtsList;
@@ -221,6 +223,47 @@ class MrOfficerVisitProvider with ChangeNotifier {
     // } else {
     //   _WhatsappController.text = whatsApp;
     // }
+    notifyListeners();
+  }
+
+  void searchAddressResult(String enteredKeyWord, List<dynamic> addressList) {
+    _searchResult = addressList;
+    if (enteredKeyWord.isEmpty) {
+      _searchResult = addressList;
+    } else {
+      try {
+        if (addressList[0] is String) {
+          print('List of cities');
+          _searchResult = addressList
+              .where((city) => city
+                  .toString()
+                  .toLowerCase()
+                  .contains(enteredKeyWord.toLowerCase()))
+              .toList();
+        } else if (addressList[0].containsKey('district')) {
+          print('List of district');
+          _searchResult = addressList
+              .where((district) => district['district']
+                  .toString()
+                  .toLowerCase()
+                  .contains(enteredKeyWord.toLowerCase()))
+              .toList();
+        } else if (addressList[0].containsKey('states')) {
+          print('List of states');
+          _searchResult = addressList
+              .where((states) => states['states']
+                  .toString()
+                  .toLowerCase()
+                  .contains(enteredKeyWord.toLowerCase()))
+              .toList();
+        }
+      } catch (err) {
+        print('Error as $err');
+      }
+    }
+    // print(enteredKeyWord);
+    print('search result = $_searchResult');
+    // _searchController.text = '';
     notifyListeners();
   }
 }
