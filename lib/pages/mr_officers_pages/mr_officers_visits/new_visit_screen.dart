@@ -10,6 +10,7 @@ import 'package:deskgoo/widgets/text_fields/text_from_field.dart';
 import 'package:deskgoo/widgets/texts/custom_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
 
 class MrOfficerNewVisitScreen extends StatefulWidget {
@@ -174,6 +175,10 @@ class _MrOfficerNewVisitScreenState extends State<MrOfficerNewVisitScreen> {
                           context: context,
                           builder: (context) => districtBottomSheet(
                               context, '$fileName', content));
+                      createVisitProvider.searchController.text = '';
+                      createVisitProvider.searchAddressResult(
+                          createVisitProvider.searchController.value.text,
+                          content);
                     },
                   ),
                   SizedBox(
@@ -185,6 +190,10 @@ class _MrOfficerNewVisitScreenState extends State<MrOfficerNewVisitScreen> {
                     labelText: 'City *',
                     validator: (newValue) {},
                     onTap: () async {
+                      createVisitProvider.searchController.text = '';
+                      createVisitProvider.searchAddressResult(
+                          createVisitProvider.searchController.value.text,
+                          createVisitProvider.cities);
                       showModalBottomSheet(
                           isScrollControlled: true,
                           useSafeArea: true,
@@ -274,7 +283,8 @@ class _MrOfficerNewVisitScreenState extends State<MrOfficerNewVisitScreen> {
                       CustomElevatedButton(
                         onPressed: () {
                           // createVisitProvider.getCurrentLocation();
-                          Navigator.of(context).pushNamed(MarketingOfficerConstants.productConst);
+                          Navigator.of(context).pushNamed(
+                              MarketingOfficerConstants.productConst);
                         },
                         widget: CustomText(
                           text: 'Submit',
@@ -296,27 +306,81 @@ class _MrOfficerNewVisitScreenState extends State<MrOfficerNewVisitScreen> {
   Widget districtBottomSheet(context, String type, List<dynamic> content) {
     return Consumer<MrOfficerVisitProvider>(
       builder: (context, visitProvider, _) {
-        return SizedBox(
+        return Container(
+          color: CustomColors.primaryWhite,
           height: MediaQuery.of(context).size.height * 0.80,
-          child: ListView.builder(
-            itemCount: content.length,
-            itemBuilder: (context, index) {
-              String name = content[index]['$type'];
-              return ListTile(
-                onTap: () {
-                  Navigator.pop(context);
-                  type == 'district'
-                      ? visitProvider.setSelectedDistrict(name)
-                      : visitProvider.setSelectedState(name);
-                  visitProvider.getCities(content[index]['cities']);
-                  print(content[index]);
-                },
-                title: CustomText(
-                  text: name,
-                  isContent: true,
+          child: Column(
+            children: [
+              // SizedBox(
+              //   height: 16,
+              // ),
+              Container(
+                padding: const EdgeInsets.only(
+                  top: 8,
+                  right: 12.0,
+                  bottom: 8,
                 ),
-              );
-            },
+                decoration: BoxDecoration(
+                  color: CustomColors.primaryColor,
+                ),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Expanded(
+                      flex: 1,
+                      child: InkWell(
+                          onTap: () {
+                            print('Pressed');
+                            Navigator.pop(context);
+                          },
+                          child: Icon(FontAwesomeIcons.arrowLeft)),
+                    ),
+                    // ),
+                    Expanded(
+                      flex: 7,
+                      child: TextFromFieldWithPrefixSuffix(
+                        controller: visitProvider.searchController,
+                        labelText: 'Search District',
+                        applySuffixIcon: true,
+                        suffixIcon: Icon(Icons.search),
+                        validator: (value) {},
+                        onChange: (value) => visitProvider.searchAddressResult(
+                            visitProvider.searchController.value.text, content),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              SizedBox(
+                height: 16,
+              ),
+              Expanded(
+                child: ListView.builder(
+                  // shrinkWrap: true,
+                  // physics: NeverScrollableScrollPhysics(),
+                  itemCount: visitProvider.searchResult.length,
+                  itemBuilder: (context, index) {
+                    String name = visitProvider.searchResult[index]['$type'];
+                    return ListTile(
+                      onTap: () {
+                        Navigator.pop(context);
+                        type == 'district'
+                            ? visitProvider.setSelectedDistrict(name)
+                            : visitProvider.setSelectedState(name);
+                        visitProvider.getCities(
+                            visitProvider.searchResult[index]['cities']);
+                        // print(visitProvider.searchResult[index]);
+                        // print(visitProvider.cities);
+                      },
+                      title: CustomText(
+                        text: name,
+                        isContent: true,
+                      ),
+                    );
+                  },
+                ),
+              ),
+            ],
           ),
         );
       },
@@ -328,22 +392,68 @@ class _MrOfficerNewVisitScreenState extends State<MrOfficerNewVisitScreen> {
       builder: (context, visitProvider, _) {
         return SizedBox(
           height: MediaQuery.of(context).size.height * 0.80,
-          child: ListView.builder(
-            itemCount: content.length,
-            itemBuilder: (context, index) {
-              String cityName = content[index];
-              return ListTile(
-                onTap: () {
-                  Navigator.pop(context);
-                  visitProvider.setSelectedCity(cityName);
-                  print(content[index]);
-                },
-                title: CustomText(
-                  text: cityName,
-                  isContent: true,
+          child: Column(
+            children: [
+              Container(
+                padding: const EdgeInsets.only(
+                  top: 8,
+                  right: 12.0,
+                  bottom: 8,
                 ),
-              );
-            },
+                decoration: BoxDecoration(
+                  color: CustomColors.primaryColor,
+                ),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Expanded(
+                      flex: 1,
+                      child: InkWell(
+                          onTap: () {
+                            print('Pressed');
+                            Navigator.pop(context);
+                          },
+                          child: Icon(FontAwesomeIcons.arrowLeft)),
+                    ),
+                    // ),
+                    Expanded(
+                      flex: 7,
+                      child: TextFromFieldWithPrefixSuffix(
+                        controller: visitProvider.searchController,
+                        labelText: 'Search City',
+                        applySuffixIcon: true,
+                        suffixIcon: Icon(Icons.search),
+                        validator: (value) {},
+                        onChange: (value) => visitProvider.searchAddressResult(
+                            visitProvider.searchController.value.text, content),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              SizedBox(
+                height: 16,
+              ),
+              Expanded(
+                child: ListView.builder(
+                  itemCount: visitProvider.searchResult.length,
+                  itemBuilder: (context, index) {
+                    String cityName = visitProvider.searchResult[index];
+                    return ListTile(
+                      onTap: () {
+                        Navigator.pop(context);
+                        visitProvider.setSelectedCity(cityName);
+                        print(visitProvider.searchResult[index]);
+                      },
+                      title: CustomText(
+                        text: cityName,
+                        isContent: true,
+                      ),
+                    );
+                  },
+                ),
+              ),
+            ],
           ),
         );
       },
