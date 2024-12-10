@@ -24,6 +24,7 @@ import 'package:flutter/material.dart';
 import '../pages/home/DescriptionPage/officer_DescriptionPage.dart';
 import '../pages/home/DescriptionPage/officer_VisitDetailPage.dart';
 import '../pages/mr_admin/mr_admin_pages/reports/Area/report_area_screen.dart';
+import '../pages/mr_officers_pages/mr_officers_visits/product.dart';
 import '../pages/settings/profile/profile_Page.dart';
 
 class RouteGenerator {
@@ -116,6 +117,8 @@ class RouteGenerator {
             builder: (_) => MrOfficerFollowUpVisitScreen());
       case MarketingOfficerConstants.referral:
         return MaterialPageRoute(builder: (_) => MrOfficerReferralScreen());
+        case MarketingOfficerConstants.productConst:
+        return MaterialPageRoute(builder: (_) => ProductPage());
       default:
         return MaterialPageRoute(builder: (_) => ErrorPage());
     }

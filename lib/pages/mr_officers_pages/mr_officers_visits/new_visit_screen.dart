@@ -273,7 +273,8 @@ class _MrOfficerNewVisitScreenState extends State<MrOfficerNewVisitScreen> {
                       ),
                       CustomElevatedButton(
                         onPressed: () {
-                          createVisitProvider.getCurrentLocation();
+                          // createVisitProvider.getCurrentLocation();
+                          Navigator.of(context).pushNamed(MarketingOfficerConstants.productConst);
                         },
                         widget: CustomText(
                           text: 'Submit',
