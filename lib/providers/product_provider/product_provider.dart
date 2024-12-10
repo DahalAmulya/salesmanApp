@@ -1,7 +1,8 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 
 class ProductProvider extends ChangeNotifier{
-  double _quantity = 0;
+
   List<Map<String, dynamic>> _medList = [
     {
       "name": "Paracetamol",
@@ -69,7 +70,16 @@ class ProductProvider extends ChangeNotifier{
       "pack": 480,
     },
   ];
+  String _foundMed = '';
+  TextEditingController _productQuantityController = TextEditingController();
+  TextEditingController _productDiscountController = TextEditingController();
 
   List<Map<String, dynamic>> get medList => _medList;
-  double get quantity => _quantity;
+  String get foundMed => _foundMed;
+  TextEditingController get productDiscountController => _productDiscountController;
+  TextEditingController get productQuantityController => _productQuantityController;
+
+  void setMedicine(){
+    // _foundMed = _medList[index]['price'].toString();
+  }
 }
