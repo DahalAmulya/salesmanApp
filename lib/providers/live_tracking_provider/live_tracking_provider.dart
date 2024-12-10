@@ -9,6 +9,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:http/http.dart' as http;
 
 class LiveTrackingProvider extends ChangeNotifier {
   TextEditingController _searchController = TextEditingController();
@@ -86,7 +87,15 @@ class LiveTrackingProvider extends ChangeNotifier {
   }
 
   void getAllEmployeesLocation() async {
-    ERPResponse response = await ERPServicer.getRequest('location');
+    // ERPResponse response = await ERPServicer.getRequest('location');
+    Map<String, String> headersJson = {
+      'Content-Type': 'Application/json',
+    };
+    final response = await http.get(
+      Uri.parse(
+          'https://97ca-2400-1a00-bd11-19ea-7127-1a80-92ee-3b02.ngrok-free.app/api/location'),
+      headers: headersJson,
+    );
     // print(response.statusCode);
     Map<String, dynamic> body = jsonDecode(response.body);
     _employeeLiveData = body['latestData'];
