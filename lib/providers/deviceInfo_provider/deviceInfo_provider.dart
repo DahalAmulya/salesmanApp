@@ -184,6 +184,7 @@ class DeviceInfoProvider extends ChangeNotifier {
       if (response.statusCode == 200 || response.statusCode == 201) {
         _connectivityStatus = 'connected';
         print('Data Post successfull');
+        print('identifier = ${_uniqueIdentifier}');
         notifyListeners();
       } else {
         print(response.statusCode);

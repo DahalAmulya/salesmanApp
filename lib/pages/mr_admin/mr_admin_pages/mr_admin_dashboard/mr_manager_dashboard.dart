@@ -44,6 +44,7 @@ class _MarketingManagerDashboardState extends State<MarketingManagerDashboard> {
   List<String> colors = ['red', 'yellow', 'green'];
   int index = 0;
   int touchedIndex = -1;
+  String url = 'https://a02c-27-34-68-147.ngrok-free.app/api/location';
   // late DeviceinfoProvider _provider;
   double screenHeight = ScreenUtil.getScreenHeight();
   double screenWidth = ScreenUtil.getScreenWidth();
@@ -59,6 +60,22 @@ class _MarketingManagerDashboardState extends State<MarketingManagerDashboard> {
     //   Position currentPosiont = await Geolocator.getCurrentPosition(
     //       desiredAccuracy: LocationAccuracy.best);
     // }
+  }
+  void postData(){
+    // Map<String, dynamic> data = {
+    //   'mobileIdentifier': _uniqueIdentifier,
+    //   'employeeName': _name,
+    //   'latitude': _liveLatitude,
+    //   'longitude': _liveLongitude,
+    //   'batteryPercentage': _batteryLevel,
+    //   'accuracy': _accuracy,
+    //   'deviceTime': _deviceTime,
+    //   'connectivityType': _connectivityType,
+    //   'connectivityStatus': _connectivityStatus,
+    //   'distance': _distance,
+    // };
+
+
   }
 
   @override
@@ -171,6 +188,7 @@ class _MarketingManagerDashboardState extends State<MarketingManagerDashboard> {
                 backgroundColor: CustomColors.primaryColor,
                 onPressed: () {
                   location.DeviceinfoProvider();
+                  location.postDeviceInfo();
                   // Navigator.of(context).push(
                   //     MaterialPageRoute(builder: (context) => WeeklyPlanScreen()));
                   // Navigator.of(context).push(MaterialPageRoute(
