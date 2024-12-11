@@ -33,7 +33,7 @@ class DeviceInfoProvider extends ChangeNotifier {
   late Timer _locationTimer;
   int _seconds = 0;
   Set<Marker> _livePositionMarkers = {};
-  var baseApi = 'https://a02c-27-34-68-147.ngrok-free.app/api/location';
+  var baseApi = 'http://108.181.195.185:5000/api/location';
   List<ConnectivityResult> _connectionStatus = [ConnectivityResult.none];
   Connectivity _connectivity = Connectivity();
   // late StreamSubscription<List<ConnectivityResult>> _connectivitySubscription;

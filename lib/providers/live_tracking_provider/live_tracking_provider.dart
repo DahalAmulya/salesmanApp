@@ -92,7 +92,7 @@ class LiveTrackingProvider extends ChangeNotifier {
       'Content-Type': 'Application/json',
     };
     final response = await http.get(
-      Uri.parse('https://a02c-27-34-68-147.ngrok-free.app/api/location'),
+      Uri.parse('http://108.181.195.185:5000/api/location'),
       headers: headersJson,
     );
     // print(response.statusCode);
