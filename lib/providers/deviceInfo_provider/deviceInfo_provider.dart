@@ -95,12 +95,18 @@ class DeviceInfoProvider extends ChangeNotifier {
     });
   }
 
-  DeviceinfoProvider() {
+  deviceInfoProvider() {
     clearMarkers();
     getUniqueIdentifier();
     getBatteryLevel();
     getLocation();
     updateLocation();
+  }
+
+  void cancelLocationTimer() {
+    _locationTimer.cancel();
+    print('Stopped updating location');
+    notifyListeners();
   }
 
   void updateLocation() async {

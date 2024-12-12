@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:deskgoo/providers/attendance_provider/remote_attendance_provider.dart';
+import 'package:deskgoo/providers/deviceInfo_provider/deviceInfo_provider.dart';
 import 'package:deskgoo/themes/custom_colors.dart';
 import 'package:deskgoo/widgets/containers/custom_container.dart';
 import 'package:deskgoo/widgets/texts/custom_text.dart';
@@ -56,174 +57,203 @@ class _MrOfficerAttendanceBottomSheetState
     return CustomContainer(
       width: 1,
       child: SingleChildScrollView(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Consumer<AttendanceProvider>(
-              builder: (context, attendanceProvider, _) {
-                return InkWell(
-                  onTap: () async {
-                    bool response = await biometricAuthentication();
-                    if (response) {
-                      attendanceProvider.switchRemoteAttendanceSwitch();
-                    }
-                    print('response = $response');
-                  },
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      CustomText(
-                        text: 'Attendance',
-                        color: Colors.black,
-                        isSubHeading: true,
-                      ),
-                      FaIcon(
-                        attendanceProvider.isRemoteAttendanceSwitched
-                            ? FontAwesomeIcons.arrowRight
-                            : FontAwesomeIcons.arrowLeft,
-                        color: attendanceProvider.isRemoteAttendanceSwitched
-                            ? CustomColors.primaryColor
-                            : CustomColors.primaryBlack,
-                      ),
-                      Switch.adaptive(
-                        activeColor: CustomColors.primaryBlack,
-                        activeTrackColor: CustomColors.primaryColor,
-                        inactiveThumbColor: CustomColors.primaryBlack,
-                        inactiveTrackColor: CustomColors.primaryWhite,
-                        value: attendanceProvider.isRemoteAttendanceSwitched,
-                        onChanged: (value) async {
-                          bool response = await biometricAuthentication();
-                          if (response) {
-                            attendanceProvider.switchRemoteAttendanceSwitch();
-                          }
-                          print('response = $response');
-                          print('valid form printed');
-                          print('value = $value');
-                        },
-                      ),
-                    ],
-                  ),
-                );
-              },
-            ),
-            SizedBox(
-              height: 8,
-            ),
-            Consumer<AttendanceProvider>(
-              builder: (context, attendanceProvider, _) {
-                return Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    CustomText(
-                      text: 'Status',
-                      isContent: true,
-                    ),
-                    CustomText(
-                      text: 'Checked-in',
-                      isContent: true,
-                    ),
-                  ],
-                );
-              },
-            ),
-            SizedBox(
-              height: 8,
-            ),
-            Consumer<AttendanceProvider>(
-              builder: (context, attendanceProvider, _) {
-                return Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    CustomText(
-                      text: 'Check-in Time',
-                      isContent: true,
-                    ),
-                    Row(
+        child: Consumer<DeviceInfoProvider>(
+            builder: (context, deviceInfoProvider, _) {
+          return Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Consumer<AttendanceProvider>(
+                builder: (context, attendanceProvider, _) {
+                  return InkWell(
+                    onTap: () async {
+                      bool response = await biometricAuthentication();
+                      if (response) {
+                        attendanceProvider.switchRemoteAttendanceSwitch();
+                        if (attendanceProvider.isRemoteAttendanceSwitched) {
+                          deviceInfoProvider.deviceInfoProvider();
+                          print(
+                              'attendanceProvider.isRemoteAttendanceSwitched = ${attendanceProvider.isRemoteAttendanceSwitched}, Posting device information');
+                        } else {
+                          deviceInfoProvider.cancelLocationTimer();
+                          print(
+                              'attendanceProvider.isRemoteAttendanceSwitched = ${attendanceProvider.isRemoteAttendanceSwitched}, Stop posting device information');
+                        }
+                      }
+                      print('response = $response');
+                    },
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         CustomText(
-                          text: '09:05 ',
-                          isContent: true,
+                          text: 'Attendance',
+                          color: Colors.black,
+                          isSubHeading: true,
                         ),
-                        CustomText(
-                          text: '2024/11/24',
-                          isSubContent: true,
+                        FaIcon(
+                          attendanceProvider.isRemoteAttendanceSwitched
+                              ? FontAwesomeIcons.arrowRight
+                              : FontAwesomeIcons.arrowLeft,
+                          color: attendanceProvider.isRemoteAttendanceSwitched
+                              ? CustomColors.primaryColor
+                              : CustomColors.primaryBlack,
+                        ),
+                        Switch.adaptive(
+                          activeColor: CustomColors.primaryBlack,
+                          activeTrackColor: CustomColors.primaryColor,
+                          inactiveThumbColor: CustomColors.primaryBlack,
+                          inactiveTrackColor: CustomColors.primaryWhite,
+                          value: attendanceProvider.isRemoteAttendanceSwitched,
+                          onChanged: (value) async {
+                            bool response = await biometricAuthentication();
+                            if (response) {
+                              attendanceProvider.switchRemoteAttendanceSwitch();
+                              if (attendanceProvider
+                                  .isRemoteAttendanceSwitched) {
+                                deviceInfoProvider.deviceInfoProvider();
+                                print(
+                                    'attendanceProvider.isRemoteAttendanceSwitched = ${attendanceProvider.isRemoteAttendanceSwitched}, Posting device information');
+                              } else {
+                                deviceInfoProvider.cancelLocationTimer();
+                                print(
+                                    'attendanceProvider.isRemoteAttendanceSwitched = ${attendanceProvider.isRemoteAttendanceSwitched}, Stop posting device information');
+                              }
+                            }
+                          },
                         ),
                       ],
                     ),
-                  ],
-                );
-              },
-            ),
-            SizedBox(
-              height: 8,
-            ),
-            Consumer<AttendanceProvider>(
-              builder: (context, attendanceProvider, _) {
-                return Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    CustomText(
-                      text: 'Check-out Time',
-                      isContent: true,
-                    ),
-                    CustomText(
-                      text: 'Not checked-out',
-                      isContent: true,
-                    ),
-                  ],
-                );
-              },
-            ),
-            SizedBox(
-              height: 16,
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Consumer<AttendanceProvider>(
-                  builder: (context, attendanceProvider, _) {
-                    return Container(
-                      decoration: BoxDecoration(
-                        color: CustomColors.primaryColor,
-                        borderRadius: BorderRadius.circular(100),
+                  );
+                },
+              ),
+              SizedBox(
+                height: 8,
+              ),
+              Consumer<AttendanceProvider>(
+                builder: (context, attendanceProvider, _) {
+                  return Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      CustomText(
+                        text: 'Status',
+                        isContent: true,
                       ),
-                      child: IconButton(
-                        onPressed: () async {
-                          bool response = await biometricAuthentication();
-                          if (response) {
-                            attendanceProvider.switchRemoteAttendanceSwitch();
-                          }
-                          print('response = $response');
-                          print('valid form printed');
-                        },
-                        icon: Platform.isAndroid
-                            ? Icon(
-                                Icons.fingerprint,
-                                size: 48,
-                              )
-                            : CircleAvatar(
-                                radius: 24,
-                                backgroundColor: CustomColors.primaryColor,
-                                child: Image.asset(
-                                  'assets/icons/faceid.png',
-                                  width: 50,
-                                  height: 50,
-                                )),
+                      CustomText(
+                        text: 'Checked-in',
+                        isContent: true,
                       ),
-                    );
-                  },
-                ),
-              ],
-            ),
-            const SizedBox(
-              height: 8,
-            ),
-          ],
-        ),
+                    ],
+                  );
+                },
+              ),
+              SizedBox(
+                height: 8,
+              ),
+              Consumer<AttendanceProvider>(
+                builder: (context, attendanceProvider, _) {
+                  return Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      CustomText(
+                        text: 'Check-in Time',
+                        isContent: true,
+                      ),
+                      Row(
+                        children: [
+                          CustomText(
+                            text: '09:05 ',
+                            isContent: true,
+                          ),
+                          CustomText(
+                            text: '2024/11/24',
+                            isSubContent: true,
+                          ),
+                        ],
+                      ),
+                    ],
+                  );
+                },
+              ),
+              SizedBox(
+                height: 8,
+              ),
+              Consumer<AttendanceProvider>(
+                builder: (context, attendanceProvider, _) {
+                  return Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      CustomText(
+                        text: 'Check-out Time',
+                        isContent: true,
+                      ),
+                      CustomText(
+                        text: 'Not checked-out',
+                        isContent: true,
+                      ),
+                    ],
+                  );
+                },
+              ),
+              SizedBox(
+                height: 16,
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Consumer<AttendanceProvider>(
+                    builder: (context, attendanceProvider, _) {
+                      return Container(
+                        decoration: BoxDecoration(
+                          color: CustomColors.primaryColor,
+                          borderRadius: BorderRadius.circular(100),
+                        ),
+                        child: IconButton(
+                          onPressed: () async {
+                            bool response = await biometricAuthentication();
+                            if (response) {
+                              attendanceProvider.switchRemoteAttendanceSwitch();
+                              if (attendanceProvider
+                                  .isRemoteAttendanceSwitched) {
+                                deviceInfoProvider.deviceInfoProvider();
+                                print(
+                                    'attendanceProvider.isRemoteAttendanceSwitched = ${attendanceProvider.isRemoteAttendanceSwitched}, Posting device information');
+                              } else {
+                                deviceInfoProvider.cancelLocationTimer();
+                                print(
+                                    'attendanceProvider.isRemoteAttendanceSwitched = ${attendanceProvider.isRemoteAttendanceSwitched}, Stop posting device information');
+                              }
+                            }
+                            print('response = $response');
+                            print('valid form printed');
+                          },
+                          icon: Platform.isAndroid
+                              ? Icon(
+                                  Icons.fingerprint,
+                                  size: 48,
+                                )
+                              : CircleAvatar(
+                                  radius: 24,
+                                  backgroundColor: CustomColors.primaryColor,
+                                  child: Image.asset(
+                                    'assets/icons/faceid.png',
+                                    width: 50,
+                                    height: 50,
+                                  )),
+                        ),
+                      );
+                    },
+                  ),
+                ],
+              ),
+              const SizedBox(
+                height: 8,
+              ),
+            ],
+          );
+        }),
       ),
     );
   }
