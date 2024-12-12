@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:developer';
 import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:carousel_slider/carousel_slider.dart';
@@ -26,6 +27,7 @@ import 'package:local_auth/local_auth.dart';
 import 'package:provider/provider.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import 'package:fl_chart/fl_chart.dart';
+import 'package:http/http.dart' as http;
 
 class MarketingManagerDashboard extends StatefulWidget {
   MarketingManagerDashboard({super.key});
@@ -61,7 +63,8 @@ class _MarketingManagerDashboardState extends State<MarketingManagerDashboard> {
     //       desiredAccuracy: LocationAccuracy.best);
     // }
   }
-  void postData(){
+
+  void postData() {
     // Map<String, dynamic> data = {
     //   'mobileIdentifier': _uniqueIdentifier,
     //   'employeeName': _name,
@@ -74,8 +77,6 @@ class _MarketingManagerDashboardState extends State<MarketingManagerDashboard> {
     //   'connectivityStatus': _connectivityStatus,
     //   'distance': _distance,
     // };
-
-
   }
 
   @override
@@ -186,13 +187,39 @@ class _MarketingManagerDashboardState extends State<MarketingManagerDashboard> {
             builder: (context, location, _) {
               return FloatingActionButton(
                 backgroundColor: CustomColors.primaryColor,
-                onPressed: () {
-                  location.DeviceinfoProvider();
-                  location.postDeviceInfo();
+                onPressed: () async {
+                  // location.deviceInfoProvider();
+                  // location.postDeviceInfo();
                   // Navigator.of(context).push(
                   //     MaterialPageRoute(builder: (context) => WeeklyPlanScreen()));
                   // Navigator.of(context).push(MaterialPageRoute(
                   //     builder: (context) => MROfficersVisitsScreen()));
+                  // Uri url =
+                  //     Uri.parse('http://108.181.195.185:5000/api/location');
+                  // Map<String, dynamic> data = {
+                  //   'mobileIdentifier': '_uniqueIdentifier',
+                  //   'employeeName': '_name',
+                  //   'latitude': 23.55454,
+                  //   'longitude': 87.415454,
+                  //   'batteryPercentage': 85,
+                  //   'accuracy': '_accuracy',
+                  //   'deviceTime': '_deviceTime',
+                  //   'connectivityType': '_connectivityType',
+                  //   'connectivityStatus': '_connectivityStatus',
+                  //   'distance': 69.69,
+                  // };
+
+                  // try {
+                  //   final response = await http.post(
+                  //     url,
+                  //     headers: {'Content-Type': 'application/json'},
+                  //     body: jsonEncode(data),
+                  //   );
+                  //   print(response.body);
+                  //   print(response.statusCode);
+                  // } catch (err) {
+                  //   print('Err = $err');
+                  // }
                 },
                 child: Icon(
                   Icons.gps_fixed,

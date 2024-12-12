@@ -124,17 +124,17 @@ class CustomDrawer extends StatelessWidget {
                       icon: FontAwesomeIcons.house,
                       text: 'Dashboard',
                     ),
-                    CustomListTile(
-                      onTap: () {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => WeeklyPlanScreen()));
-                      },
-                      isTabActive: isWeeklyPlanActive,
-                      text: 'Weekly Plan',
-                      icon: Icons.add,
-                    ),
+                    // CustomListTile(
+                    //   onTap: () {
+                    //     Navigator.push(
+                    //         context,
+                    //         MaterialPageRoute(
+                    //             builder: (context) => WeeklyPlanScreen()));
+                    //   },
+                    //   isTabActive: isWeeklyPlanActive,
+                    //   text: 'Weekly Plan',
+                    //   icon: Icons.add,
+                    // ),
                     // CustomListTile(
                     //   onTap: () {
                     //     GoRouter.of(context).pushReplacementNamed(
@@ -150,40 +150,40 @@ class CustomDrawer extends StatelessWidget {
                     //   text: 'Dashboard',
                     //   textColor: Colors.white,
                     // ),
-                    CustomListTile(
-                      onTap: () {
-                        // GoRouter.of(context).pushReplacementNamed(
-                        //     MyAppRouteConstants.visitRouteName);
-                        Navigator.of(context)
-                            .pushNamed(MarketingManagerConstants.visitPage);
-                      },
-                      isTabActive: isVisitActive,
-                      isIcon: false,
-                      imgName: 'assets/images/visit.png',
-                      imgBoxFit: BoxFit.scaleDown,
-                      imgHeigt: 32,
-                      imgWidth: 32,
-                      // imgColor: Colors.transparent,
-                      text: 'Visit',
-                      textColor: CustomColors.primaryBlack,
-                    ),
-                    CustomListTile(
-                      onTap: () {
-                        // GoRouter.of(context).pushReplacementNamed(
-                        //     MyAppRouteConstants.remoteAttendanceRouteName);
-                        Navigator.of(context).pushNamed(
-                            MarketingManagerConstants.remoteAttendancePage);
-                      },
-                      isTabActive: isAttendanceActive,
-                      isIcon: false,
-                      imgName: 'assets/images/biometricattendenceBold.png',
-                      imgBoxFit: BoxFit.scaleDown,
-                      imgHeigt: 32,
-                      imgWidth: 32,
-                      imgColor: CustomColors.primaryBlack,
-                      text: 'Attendance',
-                      textColor: CustomColors.primaryBlack,
-                    ),
+                    // CustomListTile(
+                    //   onTap: () {
+                    //     // GoRouter.of(context).pushReplacementNamed(
+                    //     //     MyAppRouteConstants.visitRouteName);
+                    //     Navigator.of(context)
+                    //         .pushNamed(MarketingManagerConstants.visitPage);
+                    //   },
+                    //   isTabActive: isVisitActive,
+                    //   isIcon: false,
+                    //   imgName: 'assets/images/visit.png',
+                    //   imgBoxFit: BoxFit.scaleDown,
+                    //   imgHeigt: 32,
+                    //   imgWidth: 32,
+                    //   // imgColor: Colors.transparent,
+                    //   text: 'Visit',
+                    //   textColor: CustomColors.primaryBlack,
+                    // ),
+                    // CustomListTile(
+                    //   onTap: () {
+                    //     // GoRouter.of(context).pushReplacementNamed(
+                    //     //     MyAppRouteConstants.remoteAttendanceRouteName);
+                    //     Navigator.of(context).pushNamed(
+                    //         MarketingManagerConstants.remoteAttendancePage);
+                    //   },
+                    //   isTabActive: isAttendanceActive,
+                    //   isIcon: false,
+                    //   imgName: 'assets/images/biometricattendenceBold.png',
+                    //   imgBoxFit: BoxFit.scaleDown,
+                    //   imgHeigt: 32,
+                    //   imgWidth: 32,
+                    //   imgColor: CustomColors.primaryBlack,
+                    //   text: 'Attendance',
+                    //   textColor: CustomColors.primaryBlack,
+                    // ),
                   ],
                 ),
               ),

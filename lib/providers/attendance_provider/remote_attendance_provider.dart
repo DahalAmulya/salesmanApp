@@ -1,3 +1,4 @@
+import 'package:deskgoo/providers/deviceInfo_provider/deviceInfo_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:nepali_utils/nepali_utils.dart';
@@ -22,6 +23,7 @@ class AttendanceProvider extends ChangeNotifier {
   void switchRemoteAttendanceSwitch() {
     _isRemoteAttendanceSwitched = !_isRemoteAttendanceSwitched;
     if (_isRemoteAttendanceSwitched) {
+      print('_isRemoteAttendanceSwitched = $_isRemoteAttendanceSwitched');
       setCheckInTime();
     } else {
       setCheckOutTime();
