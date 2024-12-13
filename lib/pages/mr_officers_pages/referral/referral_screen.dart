@@ -750,7 +750,4 @@ class _MrOfficerReferralScreenState extends State<MrOfficerReferralScreen> {
       ],
     );
   }
-
-
-
 }
