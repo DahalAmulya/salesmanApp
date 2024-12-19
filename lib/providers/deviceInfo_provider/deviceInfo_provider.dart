@@ -11,8 +11,7 @@ import 'dart:ui' as ui;
 import 'package:flutter_udid/flutter_udid.dart';
 import 'package:device_info_plus/device_info_plus.dart';
 import 'package:connectivity_plus/connectivity_plus.dart';
-// import 'package:flutter_background_geolocation/flutter_background_geolocation.dart'
-//     as bg;
+// import 'package:flutter_background_geolocation/flutter_background_geolocation.dart' as bg;
 
 class DeviceInfoProvider extends ChangeNotifier {
   Battery _battery = Battery();

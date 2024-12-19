@@ -75,25 +75,30 @@ class _LiveTrackingScreenState extends State<LiveTrackingScreen> {
           drawer: _drawer(context),
           // drawerDragStartBehavior: DragStartBehavior.start,
           // body: _googleMap(context),
-          body: isAdmin ? _googleMap(context) : _ownGoogleMap(context),
-          floatingActionButton: FloatingActionButton.small(
-            backgroundColor: CustomColors.primaryColor,
-            onPressed: () {
-              SelectEmployeeBottomSheet.showBottomSheetForm(context);
-              // Navigator.of(context)
-              //     .pushNamed(RouteGeneratorConstants.replayPage);
-            },
-            // shape: ShapeBorder.lerp(a, b, t),
-            child: ClipRRect(
-              borderRadius: BorderRadius.circular(100),
-              child: Container(
-                child: Icon(
-                  CupertinoIcons.play_fill,
-                  color: CustomColors.primaryBlack,
+          // body: isAdmin ? _googleMap(context) : _ownGoogleMap(context),
+          body: _ownGoogleMap(context),
+          floatingActionButton: Consumer<DeviceInfoProvider>(
+              builder: (context, deviceInfoProvider, _) {
+            return FloatingActionButton.small(
+              backgroundColor: CustomColors.primaryColor,
+              onPressed: () {
+                deviceInfoProvider.deviceInfoProvider();
+                // SelectEmployeeBottomSheet.showBottomSheetForm(context);
+                // Navigator.of(context)
+                //     .pushNamed(RouteGeneratorConstants.replayPage);
+              },
+              // shape: ShapeBorder.lerp(a, b, t),
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(100),
+                child: Container(
+                  child: Icon(
+                    CupertinoIcons.play_fill,
+                    color: CustomColors.primaryBlack,
+                  ),
                 ),
               ),
-            ),
-          ),
+            );
+          }),
           bottomNavigationBar: _bottomNavBar(context),
         ),
       ),
