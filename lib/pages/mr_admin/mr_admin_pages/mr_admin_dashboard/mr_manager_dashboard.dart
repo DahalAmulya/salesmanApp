@@ -4,6 +4,7 @@ import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:deskgoo/classes/notification_controller.dart';
 import 'package:deskgoo/pages/mr_officers_pages/weeklyplan/weeklyplan_screen.dart';
+import 'package:deskgoo/pages/notification_screen.dart';
 import 'package:deskgoo/providers/deviceInfo_provider/deviceInfo_provider.dart';
 import 'package:deskgoo/providers/login_provider/login_provider.dart';
 import 'package:deskgoo/providers/marketing_provider/officerName_provider.dart';
@@ -183,49 +184,57 @@ class _MarketingManagerDashboardState extends State<MarketingManagerDashboard> {
           appBar: _appBar(context),
           drawer: _drawer(context),
           body: _buildUI(context),
-          floatingActionButton: Consumer<DeviceInfoProvider>(
-            builder: (context, location, _) {
-              return FloatingActionButton(
-                backgroundColor: CustomColors.primaryColor,
-                onPressed: () async {
-                  // location.deviceInfoProvider();
-                  // location.postDeviceInfo();
-                  // Navigator.of(context).push(
-                  //     MaterialPageRoute(builder: (context) => WeeklyPlanScreen()));
-                  // Navigator.of(context).push(MaterialPageRoute(
-                  //     builder: (context) => MROfficersVisitsScreen()));
-                  // Uri url =
-                  //     Uri.parse('http://108.181.195.185:5000/api/location');
-                  // Map<String, dynamic> data = {
-                  //   'mobileIdentifier': '_uniqueIdentifier',
-                  //   'employeeName': '_name',
-                  //   'latitude': 23.55454,
-                  //   'longitude': 87.415454,
-                  //   'batteryPercentage': 85,
-                  //   'accuracy': '_accuracy',
-                  //   'deviceTime': '_deviceTime',
-                  //   'connectivityType': '_connectivityType',
-                  //   'connectivityStatus': '_connectivityStatus',
-                  //   'distance': 69.69,
-                  // };
+          // floatingActionButton: Consumer<DeviceInfoProvider>(
+          //   builder: (context, location, _) {
+          //     return FloatingActionButton(
+          //       backgroundColor: CustomColors.primaryColor,
+          //       onPressed: () async {
+          //         // location.deviceInfoProvider();
+          //         // location.postDeviceInfo();
+          //         // Navigator.of(context).push(
+          //         //     MaterialPageRoute(builder: (context) => WeeklyPlanScreen()));
+          //         // Navigator.of(context).push(MaterialPageRoute(
+          //         //     builder: (context) => MROfficersVisitsScreen()));
+          //         // Uri url =
+          //         //     Uri.parse('http://108.181.195.185:5000/api/location');
+          //         // Map<String, dynamic> data = {
+          //         //   'mobileIdentifier': '_uniqueIdentifier',
+          //         //   'employeeName': '_name',
+          //         //   'latitude': 23.55454,
+          //         //   'longitude': 87.415454,
+          //         //   'batteryPercentage': 85,
+          //         //   'accuracy': '_accuracy',
+          //         //   'deviceTime': '_deviceTime',
+          //         //   'connectivityType': '_connectivityType',
+          //         //   'connectivityStatus': '_connectivityStatus',
+          //         //   'distance': 69.69,
+          //         // };
 
-                  // try {
-                  //   final response = await http.post(
-                  //     url,
-                  //     headers: {'Content-Type': 'application/json'},
-                  //     body: jsonEncode(data),
-                  //   );
-                  //   print(response.body);
-                  //   print(response.statusCode);
-                  // } catch (err) {
-                  //   print('Err = $err');
-                  // }
-                },
-                child: Icon(
-                  Icons.gps_fixed,
-                ),
-              );
+          //         // try {
+          //         //   final response = await http.post(
+          //         //     url,
+          //         //     headers: {'Content-Type': 'application/json'},
+          //         //     body: jsonEncode(data),
+          //         //   );
+          //         //   print(response.body);
+          //         //   print(response.statusCode);
+          //         // } catch (err) {
+          //         //   print('Err = $err');
+          //         // }
+          //       },
+          //       child: Icon(
+          //         Icons.gps_fixed,
+          //       ),
+          //     );
+          //   },
+          // ),
+          floatingActionButton: FloatingActionButton.small(
+            backgroundColor: CustomColors.primaryColor,
+            onPressed: () {
+              Navigator.of(context).push(MaterialPageRoute(
+                  builder: (context) => NotificationScreen()));
             },
+            child: Icon(Icons.add),
           ),
           bottomNavigationBar: _bottomNavBar(context),
         ),
@@ -305,177 +314,167 @@ class _MarketingManagerDashboardState extends State<MarketingManagerDashboard> {
                   ),
                 ),
               ),
-              ColoredBox(
-                color: Colors.pinkAccent,
-                child: CarouselSlider.builder(
-                  options: CarouselOptions(
-                    height: 220,
-                    enlargeCenterPage: true,
-                    enlargeStrategy: CenterPageEnlargeStrategy.height,
-                    onPageChanged: (index, reason) => setState(
-                      () {
-                        selectedIndex = index;
-                      },
-                    ),
+              CarouselSlider.builder(
+                options: CarouselOptions(
+                  height: 220,
+                  enlargeCenterPage: true,
+                  enlargeStrategy: CenterPageEnlargeStrategy.height,
+                  onPageChanged: (index, reason) => setState(
+                    () {
+                      selectedIndex = index;
+                    },
                   ),
-                  itemCount: colors.length,
-                  itemBuilder: (BuildContext context, index, int realIndex) {
-                    SelectedColors = colors[index];
-                    return CustomContainer(
-                      horizontalMargin: 8,
-                      verticalPad: 0,
-                      horizontalPad: 0,
-                      verticalMargin: 0,
-                      color: Colors.white,
-                      borderRadius: 16,
-                      applyShadow: true,
+                ),
+                itemCount: colors.length,
+                itemBuilder: (BuildContext context, index, int realIndex) {
+                  SelectedColors = colors[index];
+                  return CustomContainer(
+                    horizontalMargin: 8,
+                    verticalPad: 0,
+                    horizontalPad: 0,
+                    verticalMargin: 0,
+                    color: Colors.white,
+                    borderRadius: 16,
+                    applyShadow: true,
+                    child: AspectRatio(
+                      aspectRatio: 1.3,
                       child: ColoredBox(
-                        color: Colors.tealAccent,
-                        child: AspectRatio(
-                          aspectRatio: 1.3,
-                          child: ColoredBox(
-                            color: Colors.transparent,
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Container(
-                                  color: Colors.amber,
-                                  padding: const EdgeInsets.all(8.0),
-                                  child: CustomText(
-                                    text: 'Today\'s Attendance',
-                                    isSubHeading: true,
-                                  ),
+                        color: Colors.transparent,
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Container(
+                              color: Colors.amber,
+                              padding: const EdgeInsets.all(8.0),
+                              child: CustomText(
+                                text: 'Today\'s Attendance',
+                                isSubHeading: true,
+                              ),
+                            ),
+                            SizedBox(
+                              height: 24,
+                            ),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: <Widget>[
+                                const SizedBox(
+                                  height: 16,
                                 ),
-                                SizedBox(
-                                  height: 24,
-                                ),
-                                Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  children: <Widget>[
-                                    const SizedBox(
-                                      height: 16,
-                                    ),
-                                    Expanded(
-                                      child: SizedBox(
-                                        height: 100,
-                                        width: 100,
-                                        // aspectRatio: 1,
-                                        child: PieChart(
-                                          PieChartData(
-                                            pieTouchData: PieTouchData(
-                                                touchCallback:
-                                                    (FlTouchEvent event,
-                                                        pieTouchResponse) {
-                                              setState(() {
-                                                if (!event
-                                                        .isInterestedForInteractions ||
-                                                    pieTouchResponse == null ||
-                                                    pieTouchResponse
-                                                            .touchedSection ==
-                                                        null) {
-                                                  touchedIndex = -1;
-                                                  return;
-                                                }
-                                                touchedIndex = pieTouchResponse
-                                                    .touchedSection!
-                                                    .touchedSectionIndex;
-                                                print(
-                                                    'touchedIndex = $touchedIndex');
-                                              });
-                                            }),
-                                            borderData: FlBorderData(
-                                              show: false,
-                                            ),
-                                            sectionsSpace: 0,
-                                            centerSpaceRadius: 30,
-                                            sections: showingSections(),
-                                          ),
+                                Expanded(
+                                  child: SizedBox(
+                                    height: 100,
+                                    width: 100,
+                                    // aspectRatio: 1,
+                                    child: PieChart(
+                                      PieChartData(
+                                        pieTouchData: PieTouchData(
+                                            touchCallback: (FlTouchEvent event,
+                                                pieTouchResponse) {
+                                          setState(() {
+                                            if (!event
+                                                    .isInterestedForInteractions ||
+                                                pieTouchResponse == null ||
+                                                pieTouchResponse
+                                                        .touchedSection ==
+                                                    null) {
+                                              touchedIndex = -1;
+                                              return;
+                                            }
+                                            touchedIndex = pieTouchResponse
+                                                .touchedSection!
+                                                .touchedSectionIndex;
+                                            print(
+                                                'touchedIndex = $touchedIndex');
+                                          });
+                                        }),
+                                        borderData: FlBorderData(
+                                          show: false,
                                         ),
+                                        sectionsSpace: 0,
+                                        centerSpaceRadius: 30,
+                                        sections: showingSections(),
                                       ),
                                     ),
-                                    Column(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: <Widget>[
-                                        Indicator(
-                                          color: CustomColors.jadeGreen,
-                                          // noOfObj: '10',
-                                          // objInPercentage: '10',
-                                          text: 'On-Time',
-                                          isSquare: true,
-                                        ),
-                                        SizedBox(
-                                          height: 4,
-                                        ),
-                                        Indicator(
-                                          color: CustomColors.lightYellow,
-                                          text: 'Grace-Time',
-                                          // noOfObj: '10',
-                                          // objInPercentage: '10',
-                                          isSquare: true,
-                                        ),
-                                        SizedBox(
-                                          height: 4,
-                                        ),
-                                        Indicator(
-                                          color: CustomColors.lightRed,
-                                          text: 'Late',
-                                          // noOfObj: '10',
-                                          // objInPercentage: '10',
-                                          isSquare: true,
-                                        ),
-                                        SizedBox(
-                                          height: 18,
-                                        ),
-                                      ],
+                                  ),
+                                ),
+                                Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: <Widget>[
+                                    Indicator(
+                                      color: CustomColors.jadeGreen,
+                                      // noOfObj: '10',
+                                      // objInPercentage: '10',
+                                      text: 'On-Time',
+                                      isSquare: true,
                                     ),
-                                    const SizedBox(
-                                      width: 28,
+                                    SizedBox(
+                                      height: 4,
+                                    ),
+                                    Indicator(
+                                      color: CustomColors.lightYellow,
+                                      text: 'Grace-Time',
+                                      // noOfObj: '10',
+                                      // objInPercentage: '10',
+                                      isSquare: true,
+                                    ),
+                                    SizedBox(
+                                      height: 4,
+                                    ),
+                                    Indicator(
+                                      color: CustomColors.lightRed,
+                                      text: 'Late',
+                                      // noOfObj: '10',
+                                      // objInPercentage: '10',
+                                      isSquare: true,
+                                    ),
+                                    SizedBox(
+                                      height: 18,
                                     ),
                                   ],
                                 ),
+                                const SizedBox(
+                                  width: 28,
+                                ),
                               ],
                             ),
-                          ),
+                          ],
                         ),
                       ),
+                    ),
 
-                      ////////////////////////////////////////////////////////
-                      // Stack(
-                      //   alignment: Alignment.center,
-                      //   children: [
-                      //     CustomText(text: 'Today\'s Attendance'),
-                      //     PieChart(
-                      //       swapAnimationDuration:
-                      //           const Duration(milliseconds: 500),
-                      //       swapAnimationCurve: Curves.easeInOut,
-                      //       PieChartData(
-                      //         sections: [
-                      //           PieChartSectionData(
-                      //             value: 33,
-                      //             color: CustomColors.lightGreen,
-                      //           ),
-                      //           PieChartSectionData(
-                      //             value: 33,
-                      //             color: CustomColors.lightYellow,
-                      //           ),
-                      //           PieChartSectionData(
-                      //             value: 33,
-                      //             color: CustomColors.lightRed,
-                      //           ),
-                      //         ],
-                      //       ),
-                      //     ),
-                      //   ],
-                      // ),
-                    );
-                  },
-                ),
+                    ////////////////////////////////////////////////////////
+                    // Stack(
+                    //   alignment: Alignment.center,
+                    //   children: [
+                    //     CustomText(text: 'Today\'s Attendance'),
+                    //     PieChart(
+                    //       swapAnimationDuration:
+                    //           const Duration(milliseconds: 500),
+                    //       swapAnimationCurve: Curves.easeInOut,
+                    //       PieChartData(
+                    //         sections: [
+                    //           PieChartSectionData(
+                    //             value: 33,
+                    //             color: CustomColors.lightGreen,
+                    //           ),
+                    //           PieChartSectionData(
+                    //             value: 33,
+                    //             color: CustomColors.lightYellow,
+                    //           ),
+                    //           PieChartSectionData(
+                    //             value: 33,
+                    //             color: CustomColors.lightRed,
+                    //           ),
+                    //         ],
+                    //       ),
+                    //     ),
+                    //   ],
+                    // ),
+                  );
+                },
               ),
               // SizedBox(
               //   height: 8,
