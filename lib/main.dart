@@ -145,8 +145,8 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
               primarySwatch: Colors.blue,
               useMaterial3: true,
             ),
-            initialRoute: MarketingManagerConstants.indexPage,
-            // initialRoute: MarketingManagerConstants.homePage,
+            // initialRoute: MarketingManagerConstants.indexPage,
+            initialRoute: MarketingManagerConstants.homePage,
             // initialRoute: MarketingOfficerConstants.mrStaffDashboardConst,
             onGenerateRoute: RouteGenerator.generateRoute,
           );
