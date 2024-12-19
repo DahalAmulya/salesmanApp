@@ -200,6 +200,23 @@ class MrOfficerCustomDrawer extends StatelessWidget {
                         ),
                         CustomListTile(
                           onTap: () {
+                            // GoRouter.of(context).pushReplacementNamed(
+                            //     MyAppRouteConstants.visitRouteName);
+                            Navigator.of(context)
+                                .pushNamed(MarketingManagerConstants.visitPage);
+                          },
+                          isTabActive: isVisitActive,
+                          isIcon: false,
+                          imgName: 'assets/images/order.png',
+                          imgBoxFit: BoxFit.scaleDown,
+                          imgHeigt: 32,
+                          imgWidth: 32,
+                          // imgColor: Colors.transparent,
+                          text: 'Order',
+                          textColor: CustomColors.primaryBlack,
+                        ),
+                        CustomListTile(
+                          onTap: () {
                             Navigator.pop(context);
                             // MrOfficerAttendanceBottomSheet.attendanceBottomSheet(
                             //     context);

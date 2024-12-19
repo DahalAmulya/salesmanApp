@@ -3,7 +3,9 @@ import 'package:background_task/background_task.dart';
 import 'package:deskgoo/classes/background_task_handler.dart';
 import 'package:deskgoo/classes/notification_controller.dart';
 import 'package:deskgoo/consts.dart';
+import 'package:deskgoo/firebase_options.dart';
 import 'package:deskgoo/models/environment.dart';
+import 'package:deskgoo/pages/testPage.dart';
 import 'package:deskgoo/providers/attendance_provider/remote_attendance_provider.dart';
 import 'package:deskgoo/providers/camera_provider/camera_provider.dart';
 import 'package:deskgoo/providers/deviceInfo_provider/deviceInfo_provider.dart';
@@ -21,6 +23,8 @@ import 'package:deskgoo/providers/weeklyplan_provider/weeklyplan_provider.dart';
 import 'package:deskgoo/routes/marketing_officer_consts.dart';
 import 'package:deskgoo/routes/route_generator.dart';
 import 'package:deskgoo/routes/route_generator_constants.dart';
+import 'package:deskgoo/services/firebaseApi.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:deskgoo/providers/auth_provider/user_auth_provider.dart';
 import 'package:deskgoo/providers/themes_provider/theme_changer_provider.dart';
@@ -42,6 +46,9 @@ Future<void> main() async {
     NotificationController.getPermissions();
     print('Not Running on browser');
     WidgetsFlutterBinding.ensureInitialized();
+    await Firebase.initializeApp(
+        options: DefaultFirebaseOptions.currentPlatform);
+    await FirebaseApi().initNotifications();
     BackgroundTask.instance.setAndroidNotification(
       title: 'Deskgoo',
       message: 'Running in the background',
@@ -145,8 +152,9 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
               primarySwatch: Colors.blue,
               useMaterial3: true,
             ),
-            initialRoute: MarketingManagerConstants.indexPage,
-            // initialRoute: MarketingManagerConstants.homePage,
+            // home: TestingDecodingAndEncoding(),
+            // initialRoute: MarketingManagerConstants.indexPage,
+            initialRoute: MarketingManagerConstants.homePage,
             // initialRoute: MarketingOfficerConstants.mrStaffDashboardConst,
             onGenerateRoute: RouteGenerator.generateRoute,
           );

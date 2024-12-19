@@ -150,23 +150,23 @@ class CustomDrawer extends StatelessWidget {
                     //   text: 'Dashboard',
                     //   textColor: Colors.white,
                     // ),
-                    // CustomListTile(
-                    //   onTap: () {
-                    //     // GoRouter.of(context).pushReplacementNamed(
-                    //     //     MyAppRouteConstants.visitRouteName);
-                    //     Navigator.of(context)
-                    //         .pushNamed(MarketingManagerConstants.visitPage);
-                    //   },
-                    //   isTabActive: isVisitActive,
-                    //   isIcon: false,
-                    //   imgName: 'assets/images/visit.png',
-                    //   imgBoxFit: BoxFit.scaleDown,
-                    //   imgHeigt: 32,
-                    //   imgWidth: 32,
-                    //   // imgColor: Colors.transparent,
-                    //   text: 'Visit',
-                    //   textColor: CustomColors.primaryBlack,
-                    // ),
+                    CustomListTile(
+                      onTap: () {
+                        // GoRouter.of(context).pushReplacementNamed(
+                        //     MyAppRouteConstants.visitRouteName);
+                        Navigator.of(context)
+                            .pushNamed(MarketingManagerConstants.visitPage);
+                      },
+                      isTabActive: isVisitActive,
+                      isIcon: false,
+                      imgName: 'assets/images/visit.png',
+                      imgBoxFit: BoxFit.scaleDown,
+                      imgHeigt: 32,
+                      imgWidth: 32,
+                      // imgColor: Colors.transparent,
+                      text: 'Visit',
+                      textColor: CustomColors.primaryBlack,
+                    ),
                     // CustomListTile(
                     //   onTap: () {
                     //     // GoRouter.of(context).pushReplacementNamed(

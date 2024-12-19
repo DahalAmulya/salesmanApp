@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "490201849342",
+    "project_id": "deskgoo-golden",
+    "storage_bucket": "deskgoo-golden.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:490201849342:android:7dd70b4fb2cf049e46b4af",
+        "android_client_info": {
+          "package_name": "com.deskgooGolden"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCJ721vU1dja9Qib1XrNWUoKFWXulFonHA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
