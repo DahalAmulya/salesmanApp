@@ -14,21 +14,19 @@ class ERPResponse {
 }
 
 class ERPServices {
-  static Map<String, String> headersJson = {
-    'Content-Type': 'Application/json',
-    'Authorization': 'Bearer $accessToken'
-  };
-
   static Map<String, String> headersFromUrlencoded = {
     'Content-Type': 'Application/x-www-form-urlencoded',
   };
 
   static Future<ERPResponse> getRequest(String path) async {
     try {
-      print('$apiURL$path');
+      Map<String, String> header = {
+        'Content-Type': 'Application/json',
+        'Authorization': 'Bearer $accessToken'
+      };
       final response = await http.get(
         Uri.parse('$apiURL$path'),
-        headers: headersJson,
+        headers: header,
       );
       return ERPResponse(
         statusCode: response.statusCode,
@@ -41,9 +39,13 @@ class ERPServices {
 
   static Future<ERPResponse> postRequest(String path, Map body) async {
     try {
+      Map<String, String> header = {
+        'Content-Type': 'Application/json',
+        'Authorization': 'Bearer $accessToken'
+      };
       final response = await http.post(
         Uri.parse('$apiURL$path'),
-        headers: headersJson,
+        headers: header,
         body: jsonEncode(body),
       );
       return ERPResponse(
@@ -67,10 +69,12 @@ class ERPServices {
       //     .join('&');
 
       // print(encodedBody.runtimeType);
-
+      Map<String, String> header = {
+        'Content-Type': 'Application/json',
+      };
       final response = await http.post(
         Uri.parse(url),
-        headers: headersJson,
+        headers: header,
         body: jsonEncode(body),
       );
 

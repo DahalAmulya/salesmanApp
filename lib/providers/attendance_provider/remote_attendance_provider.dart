@@ -63,13 +63,8 @@ class AttendanceProvider extends ChangeNotifier {
 
   void getAttendanceStatus() async {
     try {
-      final response = await http.get(
-        Uri.parse('$apiURL/attendance/$userId'),
-        headers: {
-          'Content-Type': 'Application/json',
-          'Authorization': 'Bearer $accessToken'
-        },
-      );
+      ERPResponse response =
+          await ERPServices.getRequest('/attendance/$userId');
       print(response.body);
       if (response.statusCode == 200) {
         final data = jsonDecode(response.body);
@@ -113,21 +108,22 @@ class AttendanceProvider extends ChangeNotifier {
 
   void switchRemoteAttendanceSwitch() async {
     try {
-      // getCurrentLocation();
       Map<String, dynamic> body = {
         "deviceTime": _time,
         "latitude": _latitude,
         "longitude": _longitude
       };
-      print(body);
-      final response = await http.post(
-        Uri.parse('$apiURL/attendance/$userId'),
-        headers: {
-          'Content-Type': 'Application/json',
-          'Authorization': 'Bearer $accessToken'
-        },
-        body: jsonEncode(body),
-      );
+      // print(body);
+      // final response = await http.post(
+      //   Uri.parse('$apiURL/attendance/$userId'),
+      //   headers: {
+      //     'Content-Type': 'Application/json',
+      //     'Authorization': 'Bearer $accessToken'
+      //   },
+      //   body: jsonEncode(body),
+      // );
+      ERPResponse response =
+          await ERPServices.postRequest('/attendance/$userId', body);
       if (response.statusCode == 200) {
         _isRemoteAttendanceSwitched = !_isRemoteAttendanceSwitched;
         final data = jsonDecode(response.body);
