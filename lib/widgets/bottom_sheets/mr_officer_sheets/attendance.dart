@@ -54,7 +54,7 @@ class _MrOfficerAttendanceBottomSheetState
     super.initState();
     _attendanceProvider =
         Provider.of<AttendanceProvider>(context, listen: false);
-    _attendanceProvider?.attendanceStatus();
+    _attendanceProvider?.getAttendanceStatus();
     _attendanceProvider?.getCurrentLocation();
     _isAuthenticated = false;
     askPermission();
@@ -70,482 +70,251 @@ class _MrOfficerAttendanceBottomSheetState
       width: 1,
       child: SingleChildScrollView(
         child: Consumer<DeviceInfoProvider>(
-            builder: (context, deviceInfoProvider, _) {
-          return Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Consumer<AttendanceProvider>(
-                builder: (context, attendanceProvider, _) {
-                  return InkWell(
-                    onTap: () async {
-                      bool response = await biometricAuthentication();
-                      if (response) {
-                        attendanceProvider.switchRemoteAttendanceSwitch();
-                        if (attendanceProvider.isRemoteAttendanceSwitched) {
-                          deviceInfoProvider.deviceInfoProvider();
-                          print(
-                              'attendanceProvider.isRemoteAttendanceSwitched = ${attendanceProvider.isRemoteAttendanceSwitched}, Posting device information');
-                        } else {
-                          deviceInfoProvider.cancelLocationTimer();
-                          print(
-                              'attendanceProvider.isRemoteAttendanceSwitched = ${attendanceProvider.isRemoteAttendanceSwitched}, Stop posting device information');
+          builder: (context, deviceInfoProvider, _) {
+            return Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Consumer<AttendanceProvider>(
+                  builder: (context, attendanceProvider, _) {
+                    return InkWell(
+                      onTap: () async {
+                        bool response = await biometricAuthentication();
+                        if (response) {
+                          attendanceProvider.switchRemoteAttendanceSwitch();
+                          if (attendanceProvider.isRemoteAttendanceSwitched) {
+                            deviceInfoProvider.deviceInfoProvider();
+                            print(
+                                'attendanceProvider.isRemoteAttendanceSwitched = ${attendanceProvider.isRemoteAttendanceSwitched}, Posting device information');
+                          } else {
+                            deviceInfoProvider.cancelLocationTimer();
+                            print(
+                                'attendanceProvider.isRemoteAttendanceSwitched = ${attendanceProvider.isRemoteAttendanceSwitched}, Stop posting device information');
+                          }
                         }
-                      }
-                      print('response = $response');
-                    },
-                    child: Row(
+                        print('response = $response');
+                      },
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          CustomText(
+                            text: 'Attendance',
+                            color: Colors.black,
+                            isSubHeading: true,
+                          ),
+                          FaIcon(
+                            attendanceProvider.isRemoteAttendanceSwitched
+                                ? FontAwesomeIcons.arrowRight
+                                : FontAwesomeIcons.arrowLeft,
+                            color: attendanceProvider.isRemoteAttendanceSwitched
+                                ? CustomColors.primaryColor
+                                : CustomColors.primaryBlack,
+                          ),
+                          Switch.adaptive(
+                            activeColor: CustomColors.primaryBlack,
+                            activeTrackColor: CustomColors.primaryColor,
+                            inactiveThumbColor: CustomColors.primaryBlack,
+                            inactiveTrackColor: CustomColors.primaryWhite,
+                            value:
+                                attendanceProvider.isRemoteAttendanceSwitched,
+                            onChanged: (value) async {
+                              bool response = await biometricAuthentication();
+                              if (response) {
+                                attendanceProvider
+                                    .switchRemoteAttendanceSwitch();
+                                if (attendanceProvider
+                                    .isRemoteAttendanceSwitched) {
+                                  deviceInfoProvider.deviceInfoProvider();
+                                  print(
+                                      'attendanceProvider.isRemoteAttendanceSwitched = ${attendanceProvider.isRemoteAttendanceSwitched}, Posting device information');
+                                } else {
+                                  deviceInfoProvider.cancelLocationTimer();
+                                  print(
+                                      'attendanceProvider.isRemoteAttendanceSwitched = ${attendanceProvider.isRemoteAttendanceSwitched}, Stop posting device information');
+                                }
+                              }
+                            },
+                          ),
+                        ],
+                      ),
+                    );
+                  },
+                ),
+                SizedBox(
+                  height: 12,
+                ),
+                Consumer<AttendanceProvider>(
+                  builder: (context, attendanceProvider, _) {
+                    return Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         CustomText(
-                          text: 'Attendance',
-                          color: Colors.black,
-                          isSubHeading: true,
+                          text: 'Status',
+                          isContent: true,
                         ),
-                        FaIcon(
-                          attendanceProvider.isRemoteAttendanceSwitched
-                              ? FontAwesomeIcons.arrowRight
-                              : FontAwesomeIcons.arrowLeft,
-                          color: attendanceProvider.isRemoteAttendanceSwitched
-                              ? CustomColors.primaryColor
-                              : CustomColors.primaryBlack,
-                        ),
-                        Switch.adaptive(
-                          activeColor: CustomColors.primaryBlack,
-                          activeTrackColor: CustomColors.primaryColor,
-                          inactiveThumbColor: CustomColors.primaryBlack,
-                          inactiveTrackColor: CustomColors.primaryWhite,
-                          value: attendanceProvider.isRemoteAttendanceSwitched,
-                          onChanged: (value) async {
-                            bool response = await biometricAuthentication();
-                            if (response) {
-                              attendanceProvider.switchRemoteAttendanceSwitch();
-                              if (attendanceProvider
-                                  .isRemoteAttendanceSwitched) {
-                                deviceInfoProvider.deviceInfoProvider();
-                                print(
-                                    'attendanceProvider.isRemoteAttendanceSwitched = ${attendanceProvider.isRemoteAttendanceSwitched}, Posting device information');
-                              } else {
-                                deviceInfoProvider.cancelLocationTimer();
-                                print(
-                                    'attendanceProvider.isRemoteAttendanceSwitched = ${attendanceProvider.isRemoteAttendanceSwitched}, Stop posting device information');
-                              }
-                            }
-                          },
+                        CustomText(
+                          text: attendanceProvider.status,
+                          isContent: true,
                         ),
                       ],
-                    ),
-                  );
-                },
-              ),
-              SizedBox(
-                height: 12,
-              ),
-              Consumer<AttendanceProvider>(
-                builder: (context, attendanceProvider, _) {
-                  return Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      CustomText(
-                        text: 'Status',
-                        isContent: true,
-                      ),
-                      CustomText(
-                        text: attendanceProvider.status,
-                        isContent: true,
-                      ),
-                    ],
-                  );
-                },
-              ),
-              SizedBox(
-                height: 12,
-              ),
-              Consumer<AttendanceProvider>(
-                builder: (context, attendanceProvider, _) {
-                  return Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      CustomText(
-                        text: 'Check-in Time',
-                        isContent: true,
-                      ),
-                      attendanceProvider.isAttendance
-                          ? Row(
-                              children: [
-                                CustomText(
-                                  text:
-                                      '${attendanceProvider.checkInTimeStr.split(' ')[0]} ',
-                                  isContent: true,
-                                ),
-                                CustomText(
-                                  text:
-                                      '${attendanceProvider.checkInTimeStr.split(' ')[1]} ',
-                                  isSubContent: true,
-                                ),
-                              ],
-                            )
-                          : CustomText(
-                              text: attendanceProvider.checkInTimeStr,
-                              isContent: true,
-                            ),
-                    ],
-                  );
-                },
-              ),
-              SizedBox(
-                height: 12,
-              ),
-              Consumer<AttendanceProvider>(
-                builder: (context, attendanceProvider, _) {
-                  return Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      CustomText(
-                        text: 'Check-out Time',
-                        isContent: true,
-                      ),
-                      attendanceProvider.isAttendance &&
-                              attendanceProvider.isCheckedOut
-                          ? Row(
-                              children: [
-                                CustomText(
-                                  text:
-                                      '${attendanceProvider.checkOutTimeStr.split(' ')[0]} ',
-                                  isContent: true,
-                                ),
-                                CustomText(
-                                  text:
-                                      '${attendanceProvider.checkOutTimeStr.split(' ')[1]}',
-                                  isSubContent: true,
-                                ),
-                              ],
-                            )
-                          : CustomText(
-                              text: attendanceProvider.checkOutTimeStr,
-                              isContent: true,
-                            ),
-                    ],
-                  );
-                },
-              ),
-              SizedBox(
-                height: 12,
-              ),
-              Consumer<AttendanceProvider>(
-                builder: (context, attendanceProvider, _) {
-                  return Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      CustomText(
-                        text: 'Total Hours',
-                        isContent: true,
-                      ),
-                      CustomText(
-                        text: attendanceProvider.totalHours,
-                        isContent: true,
-                      )
-                    ],
-                  );
-                },
-              ),
-              SizedBox(
-                height: 16,
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Consumer<AttendanceProvider>(
-                    builder: (context, attendanceProvider, _) {
-                      return Container(
-                        decoration: BoxDecoration(
-                          color: CustomColors.primaryColor,
-                          borderRadius: BorderRadius.circular(100),
+                    );
+                  },
+                ),
+                SizedBox(
+                  height: 12,
+                ),
+                Consumer<AttendanceProvider>(
+                  builder: (context, attendanceProvider, _) {
+                    return Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        CustomText(
+                          text: 'Check-in Time',
+                          isContent: true,
                         ),
-                        child: IconButton(
-                          onPressed: () async {
-                            bool response = await biometricAuthentication();
-                            if (response) {
-                              attendanceProvider.switchRemoteAttendanceSwitch();
-                              if (attendanceProvider
-                                  .isRemoteAttendanceSwitched) {
-                                deviceInfoProvider.deviceInfoProvider();
-                                print(
-                                    'attendanceProvider.isRemoteAttendanceSwitched = ${attendanceProvider.isRemoteAttendanceSwitched}, Posting device information');
-                              } else {
-                                deviceInfoProvider.cancelLocationTimer();
-                                print(
-                                    'attendanceProvider.isRemoteAttendanceSwitched = ${attendanceProvider.isRemoteAttendanceSwitched}, Stop posting device information');
+                        attendanceProvider.isAttendance
+                            ? Row(
+                                children: [
+                                  CustomText(
+                                    text:
+                                        '${attendanceProvider.checkInTimeStr.split(' ')[0]} ',
+                                    isContent: true,
+                                  ),
+                                  CustomText(
+                                    text:
+                                        '${attendanceProvider.checkInTimeStr.split(' ')[1]} ',
+                                    isSubContent: true,
+                                  ),
+                                ],
+                              )
+                            : CustomText(
+                                text: attendanceProvider.checkInTimeStr,
+                                isContent: true,
+                              ),
+                      ],
+                    );
+                  },
+                ),
+                SizedBox(
+                  height: 12,
+                ),
+                Consumer<AttendanceProvider>(
+                  builder: (context, attendanceProvider, _) {
+                    return Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        CustomText(
+                          text: 'Check-out Time',
+                          isContent: true,
+                        ),
+                        attendanceProvider.isAttendance &&
+                                attendanceProvider.isCheckedOut
+                            ? Row(
+                                children: [
+                                  CustomText(
+                                    text:
+                                        '${attendanceProvider.checkOutTimeStr.split(' ')[0]} ',
+                                    isContent: true,
+                                  ),
+                                  CustomText(
+                                    text:
+                                        '${attendanceProvider.checkOutTimeStr.split(' ')[1]}',
+                                    isSubContent: true,
+                                  ),
+                                ],
+                              )
+                            : CustomText(
+                                text: attendanceProvider.checkOutTimeStr,
+                                isContent: true,
+                              ),
+                      ],
+                    );
+                  },
+                ),
+                SizedBox(
+                  height: 12,
+                ),
+                Consumer<AttendanceProvider>(
+                  builder: (context, attendanceProvider, _) {
+                    return Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        CustomText(
+                          text: 'Total Hours',
+                          isContent: true,
+                        ),
+                        CustomText(
+                          text: attendanceProvider.totalHours,
+                          isContent: true,
+                        )
+                      ],
+                    );
+                  },
+                ),
+                SizedBox(
+                  height: 16,
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Consumer<AttendanceProvider>(
+                      builder: (context, attendanceProvider, _) {
+                        return Container(
+                          decoration: BoxDecoration(
+                            color: CustomColors.primaryColor,
+                            borderRadius: BorderRadius.circular(100),
+                          ),
+                          child: IconButton(
+                            onPressed: () async {
+                              bool response = await biometricAuthentication();
+                              if (response) {
+                                attendanceProvider
+                                    .switchRemoteAttendanceSwitch();
+                                if (attendanceProvider
+                                    .isRemoteAttendanceSwitched) {
+                                  deviceInfoProvider.deviceInfoProvider();
+                                  print(
+                                      'attendanceProvider.isRemoteAttendanceSwitched = ${attendanceProvider.isRemoteAttendanceSwitched}, Posting device information');
+                                } else {
+                                  deviceInfoProvider.cancelLocationTimer();
+                                  print(
+                                      'attendanceProvider.isRemoteAttendanceSwitched = ${attendanceProvider.isRemoteAttendanceSwitched}, Stop posting device information');
+                                }
                               }
-                            }
-                            print('response = $response');
-                            print('valid form printed');
-                          },
-                          icon: Platform.isAndroid
-                              ? Icon(
-                                  Icons.fingerprint,
-                                  size: 48,
-                                )
-                              : CircleAvatar(
-                                  radius: 24,
-                                  backgroundColor: CustomColors.primaryColor,
-                                  child: Image.asset(
-                                    'assets/icons/faceid.png',
-                                    width: 50,
-                                    height: 50,
-                                  )),
-                        ),
-                      );
-                    },
-                  ),
-                ],
-              ),
-              const SizedBox(
-                height: 8,
-              ),
-            ],
-          );
-        }),
+                              print('response = $response');
+                              print('valid form printed');
+                            },
+                            icon: Platform.isAndroid
+                                ? Icon(
+                                    Icons.fingerprint,
+                                    size: 48,
+                                  )
+                                : CircleAvatar(
+                                    radius: 24,
+                                    backgroundColor: CustomColors.primaryColor,
+                                    child: Image.asset(
+                                      'assets/icons/faceid.png',
+                                      width: 50,
+                                      height: 50,
+                                    )),
+                          ),
+                        );
+                      },
+                    ),
+                  ],
+                ),
+                const SizedBox(
+                  height: 8,
+                ),
+              ],
+            );
+          },
+        ),
       ),
     );
   }
 }
-
-// class MrOfficerAttendanceBottomSheet {
-//   static void attendanceBottomSheet(context) {
-//     final LocalAuthentication auth = LocalAuthentication();
-//     bool _isAuthenticated = false;
-
-//     Future<void> askPermission() async {
-//       LocationPermission permission = await Geolocator.checkPermission();
-//       if (permission == LocationPermission.denied) {
-//         permission = await Geolocator.requestPermission();
-//         if (permission == LocationPermission.denied) {
-//           return askPermission();
-//         }
-//       }
-//     }
-
-//     Future<bool> biometricAuthentication() async {
-//       if (_isAuthenticated) return true;
-//       try {
-//         final bool canAuthenticateWithBiometrics =
-//             await auth.canCheckBiometrics;
-//         if (canAuthenticateWithBiometrics) {
-//           return await auth.authenticate(
-//               localizedReason: 'Please authenticate for remote attendance');
-//         }
-//       } catch (err) {
-//         print('Authentication error: $err');
-//       }
-//       return false;
-//     }
-
-//     showModalBottomSheet(
-//       // isScrollControlled: true,
-//       // useSafeArea: true,
-//       context: context,
-//       builder: (context) => CustomContainer(
-//         width: 1,
-//         child: Column(
-//           mainAxisAlignment: MainAxisAlignment.center,
-//           crossAxisAlignment: CrossAxisAlignment.start,
-//           children: [
-//             Consumer<AttendanceProvider>(
-//               builder: (context, attendanceProvider, _) {
-//                 return InkWell(
-//                   onTap: () async {
-//                     bool response = await biometricAuthentication();
-//                     if (response) {
-//                       attendanceProvider.switchRemoteAttendanceSwitch();
-//                     }
-//                     print('response = $response');
-//                   },
-//                   child: Row(
-//                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
-//                     children: [
-//                       CustomText(
-//                         text: 'Attendance',
-//                         color: Colors.black,
-//                         isSubHeading: true,
-//                       ),
-//                       FaIcon(
-//                         attendanceProvider.isRemoteAttendanceSwitched
-//                             ? FontAwesomeIcons.arrowRight
-//                             : FontAwesomeIcons.arrowLeft,
-//                         color: attendanceProvider.isRemoteAttendanceSwitched
-//                             ? CustomColors.primaryColor
-//                             : CustomColors.primaryBlack,
-//                       ),
-//                       Switch.adaptive(
-//                         activeColor: CustomColors.primaryBlack,
-//                         activeTrackColor: CustomColors.primaryColor,
-//                         value: attendanceProvider.isRemoteAttendanceSwitched,
-//                         onChanged: (value) async {
-//                           bool response = await biometricAuthentication();
-//                           if (response) {
-//                             attendanceProvider.switchRemoteAttendanceSwitch();
-//                           }
-//                           print('response = $response');
-//                           print('valid form printed');
-//                           print('value = $value');
-//                         },
-//                       ),
-//                     ],
-//                   ),
-//                 );
-//               },
-//             ),
-//             SizedBox(
-//               height: 8,
-//             ),
-//             Consumer<AttendanceProvider>(
-//               builder: (context, attendanceProvider, _) {
-//                 return Row(
-//                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-//                   crossAxisAlignment: CrossAxisAlignment.start,
-//                   children: [
-//                     CustomText(
-//                       text: 'Status',
-//                       isContent: true,
-//                     ),
-//                     CustomText(
-//                       text: 'Checked-in',
-//                       isContent: true,
-//                     ),
-//                   ],
-//                 );
-//                 // TextFromFieldWithPrefixSuffix(
-//                 //   controller: attendanceProvider.checkInTimeController,
-//                 //   applyPrefix: false,
-//                 //   readOnly: true,
-//                 //   labelText: 'Check-in',
-//                 //   hintText: 'Login Time',
-//                 //   onTap: () {},
-//                 //   validator: (String) {
-//                 //     return null;
-//                 //   },
-//                 //   onChange: (value) {},
-//                 // );
-//               },
-//             ),
-//             SizedBox(
-//               height: 8,
-//             ),
-//             Consumer<AttendanceProvider>(
-//               builder: (context, attendanceProvider, _) {
-//                 return Row(
-//                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-//                   crossAxisAlignment: CrossAxisAlignment.start,
-//                   children: [
-//                     CustomText(
-//                       text: 'Check-in Time',
-//                       isContent: true,
-//                     ),
-//                     Row(
-//                       children: [
-//                         CustomText(
-//                           text: '09:05 ',
-//                           isContent: true,
-//                         ),
-//                         CustomText(
-//                           text: '2024/11/24',
-//                           isSubContent: true,
-//                         ),
-//                       ],
-//                     ),
-//                   ],
-//                 );
-//               },
-//             ),
-//             SizedBox(
-//               height: 8,
-//             ),
-//             Consumer<AttendanceProvider>(
-//               builder: (context, attendanceProvider, _) {
-//                 return Row(
-//                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-//                   crossAxisAlignment: CrossAxisAlignment.start,
-//                   children: [
-//                     CustomText(
-//                       text: 'Check-out Time',
-//                       isContent: true,
-//                     ),
-//                     CustomText(
-//                       text: 'Not checked-out',
-//                       isContent: true,
-//                     ),
-//                   ],
-//                 );
-//               },
-//             ),
-//             SizedBox(
-//               height: 16,
-//             ),
-//             // Consumer<AttendanceProvider>(
-//             //   builder: (context, attendanceProvider, _) {
-//             //     return TextFromFieldWithPrefixSuffix(
-//             //       controller: attendanceProvider.checkOutTimeController,
-//             //       applyPrefix: false,
-//             //       readOnly: true,
-//             //       labelText: 'Check-out',
-//             //       hintText: 'Attendance Time',
-//             //       onTap: () {},
-//             //       validator: (String) {
-//             //         return null;
-//             //       },
-//             //       onChange: (value) {},
-//             //     );
-//             //   },
-//             // ),
-//             // SizedBox(
-//             //   height: 16,
-//             // ),
-//             Row(
-//               mainAxisAlignment: MainAxisAlignment.center,
-//               children: [
-//                 Consumer<AttendanceProvider>(
-//                   builder: (context, attendanceProvider, _) {
-//                     return Container(
-//                       decoration: BoxDecoration(
-//                         color: CustomColors.primaryColor,
-//                         borderRadius: BorderRadius.circular(100),
-//                       ),
-//                       child: IconButton(
-//                         onPressed: () async {
-//                           bool response = await biometricAuthentication();
-//                           if (response) {
-//                             attendanceProvider.switchRemoteAttendanceSwitch();
-//                           }
-//                           print('response = $response');
-//                           print('valid form printed');
-//                         },
-//                         icon: Platform.isAndroid
-//                             ? Icon(
-//                                 Icons.fingerprint,
-//                                 size: 48,
-//                               )
-//                             : CircleAvatar(
-//                                 radius: 24,
-//                                 backgroundColor: CustomColors.primaryColor,
-//                                 child: Image.asset(
-//                                   'assets/icons/faceid.png',
-//                                   width: 50,
-//                                   height: 50,
-//                                 )),
-//                       ),
-//                     );
-//                   },
-//                 ),
-//               ],
-//             ),
-//           ],
-//         ),
-//       ),
-//     );
-//   }
-// }

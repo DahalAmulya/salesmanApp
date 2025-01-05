@@ -1,7 +1,7 @@
-// import 'package:deskgoo/providers/deviceInfo_provider/deviceInfo_provider.dart';
 import 'dart:convert';
 
 import 'package:deskgoo/consts.dart';
+import 'package:deskgoo/services/erp_services.dart';
 import 'package:deskgoo/utils/hourToHMS.dart';
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
@@ -61,14 +61,16 @@ class AttendanceProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  void attendanceStatus() async {
+  void getAttendanceStatus() async {
     try {
       final response = await http.get(
-        Uri.parse('${apiURLFrappe}/attendance/$userId'),
+        Uri.parse('$apiURL/attendance/$userId'),
         headers: {
-          'Content-Type': 'application/json',
+          'Content-Type': 'Application/json',
+          'Authorization': 'Bearer $accessToken'
         },
       );
+      print(response.body);
       if (response.statusCode == 200) {
         final data = jsonDecode(response.body);
         if (data.isEmpty) {
@@ -117,17 +119,20 @@ class AttendanceProvider extends ChangeNotifier {
         "latitude": _latitude,
         "longitude": _longitude
       };
-      final response =
-          await http.post(Uri.parse('${apiURLFrappe}attendance/$userId'),
-              headers: {
-                'Content-Type': 'application/json',
-              },
-              body: jsonEncode(body));
+      print(body);
+      final response = await http.post(
+        Uri.parse('$apiURL/attendance/$userId'),
+        headers: {
+          'Content-Type': 'Application/json',
+          'Authorization': 'Bearer $accessToken'
+        },
+        body: jsonEncode(body),
+      );
       if (response.statusCode == 200) {
         _isRemoteAttendanceSwitched = !_isRemoteAttendanceSwitched;
         final data = jsonDecode(response.body);
         print('data = $data');
-        attendanceStatus();
+        getAttendanceStatus();
       } else {
         print('Error: ${response.statusCode}');
         print('Response: ${response.body}');
