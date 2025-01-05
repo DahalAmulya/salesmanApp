@@ -32,7 +32,7 @@ class DeviceInfoProvider extends ChangeNotifier {
   late Timer _locationTimer;
   int _seconds = 0;
   Set<Marker> _livePositionMarkers = {};
-  var baseApi = 'http://108.181.195.185:5000/api/location';
+  var baseApi = 'http://202.51.3.49:8002/api/location';
   List<ConnectivityResult> _connectionStatus = [ConnectivityResult.none];
   Connectivity _connectivity = Connectivity();
   // late StreamSubscription<List<ConnectivityResult>> _connectivitySubscription;

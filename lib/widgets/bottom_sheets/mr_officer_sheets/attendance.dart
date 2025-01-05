@@ -23,6 +23,7 @@ class _MrOfficerAttendanceBottomSheetState
     extends State<MrOfficerAttendanceBottomSheet> {
   final LocalAuthentication auth = LocalAuthentication();
   bool _isAuthenticated = false;
+  AttendanceProvider? _attendanceProvider;
 
   Future<void> askPermission() async {
     LocationPermission permission = await Geolocator.checkPermission();
@@ -46,6 +47,17 @@ class _MrOfficerAttendanceBottomSheetState
       print('Authentication error: $err');
     }
     return false;
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _attendanceProvider =
+        Provider.of<AttendanceProvider>(context, listen: false);
+    _attendanceProvider?.attendanceStatus();
+    _attendanceProvider?.getCurrentLocation();
+    _isAuthenticated = false;
+    askPermission();
   }
 
   @override
@@ -127,7 +139,7 @@ class _MrOfficerAttendanceBottomSheetState
                 },
               ),
               SizedBox(
-                height: 8,
+                height: 12,
               ),
               Consumer<AttendanceProvider>(
                 builder: (context, attendanceProvider, _) {
@@ -140,7 +152,7 @@ class _MrOfficerAttendanceBottomSheetState
                         isContent: true,
                       ),
                       CustomText(
-                        text: 'Checked-in',
+                        text: attendanceProvider.status,
                         isContent: true,
                       ),
                     ],
@@ -148,7 +160,7 @@ class _MrOfficerAttendanceBottomSheetState
                 },
               ),
               SizedBox(
-                height: 8,
+                height: 12,
               ),
               Consumer<AttendanceProvider>(
                 builder: (context, attendanceProvider, _) {
@@ -160,24 +172,31 @@ class _MrOfficerAttendanceBottomSheetState
                         text: 'Check-in Time',
                         isContent: true,
                       ),
-                      Row(
-                        children: [
-                          CustomText(
-                            text: '09:05 ',
-                            isContent: true,
-                          ),
-                          CustomText(
-                            text: '2024/11/24',
-                            isSubContent: true,
-                          ),
-                        ],
-                      ),
+                      attendanceProvider.isAttendance
+                          ? Row(
+                              children: [
+                                CustomText(
+                                  text:
+                                      '${attendanceProvider.checkInTimeStr.split(' ')[0]} ',
+                                  isContent: true,
+                                ),
+                                CustomText(
+                                  text:
+                                      '${attendanceProvider.checkInTimeStr.split(' ')[1]} ',
+                                  isSubContent: true,
+                                ),
+                              ],
+                            )
+                          : CustomText(
+                              text: attendanceProvider.checkInTimeStr,
+                              isContent: true,
+                            ),
                     ],
                   );
                 },
               ),
               SizedBox(
-                height: 8,
+                height: 12,
               ),
               Consumer<AttendanceProvider>(
                 builder: (context, attendanceProvider, _) {
@@ -189,10 +208,47 @@ class _MrOfficerAttendanceBottomSheetState
                         text: 'Check-out Time',
                         isContent: true,
                       ),
+                      attendanceProvider.isAttendance &&
+                              attendanceProvider.isCheckedOut
+                          ? Row(
+                              children: [
+                                CustomText(
+                                  text:
+                                      '${attendanceProvider.checkOutTimeStr.split(' ')[0]} ',
+                                  isContent: true,
+                                ),
+                                CustomText(
+                                  text:
+                                      '${attendanceProvider.checkOutTimeStr.split(' ')[1]}',
+                                  isSubContent: true,
+                                ),
+                              ],
+                            )
+                          : CustomText(
+                              text: attendanceProvider.checkOutTimeStr,
+                              isContent: true,
+                            ),
+                    ],
+                  );
+                },
+              ),
+              SizedBox(
+                height: 12,
+              ),
+              Consumer<AttendanceProvider>(
+                builder: (context, attendanceProvider, _) {
+                  return Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
                       CustomText(
-                        text: 'Not checked-out',
+                        text: 'Total Hours',
                         isContent: true,
                       ),
+                      CustomText(
+                        text: attendanceProvider.totalHours,
+                        isContent: true,
+                      )
                     ],
                   );
                 },

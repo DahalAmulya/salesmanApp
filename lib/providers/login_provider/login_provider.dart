@@ -47,4 +47,10 @@ class UserProvider extends ChangeNotifier {
     print('******************************************************************');
     notifyListeners();
   }
+
+  void setBasicUserInfo(username, role) {
+    _fullName = username;
+    _role = role;
+    notifyListeners();
+  }
 }

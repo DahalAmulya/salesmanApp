@@ -61,18 +61,18 @@ class ERPServicer {
 
   static Future<ERPResponse> ERPlogin(Map<String, dynamic> body) async {
     try {
-      String url = '$apiURLFrappe/method/login';
-      final encodedBody = body.entries
-          .map((e) =>
-              '${Uri.encodeComponent(e.key)}=${Uri.encodeComponent(e.value)}')
-          .join('&');
+      String url = '$apiURL/login';
+      // final encodedBody = body.entries
+      //     .map((e) =>
+      //         '${Uri.encodeComponent(e.key)}=${Uri.encodeComponent(e.value)}')
+      //     .join('&');
 
-      print(encodedBody.runtimeType);
+      // print(encodedBody.runtimeType);
 
       final response = await http.post(
         Uri.parse(url),
-        headers: headersFromUrlencoded,
-        body: encodedBody,
+        headers: headersJson,
+        body: jsonEncode(body),
       );
 
       return ERPResponse(
