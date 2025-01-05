@@ -29,7 +29,7 @@ class UserAuthProvider extends ChangeNotifier {
           ? 'farhan@123'
           : _passwordController.value.text,
     };
-    ERPResponse response = await ERPServicer.ERPlogin(body);
+    ERPResponse response = await ERPServices.ERPlogin(body);
     if (response.statusCode == 200) {
       print(response.statusCode);
       final data = jsonDecode(response.body);

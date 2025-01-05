@@ -104,7 +104,7 @@ class ReplayProvider extends ChangeNotifier {
 
   void getEmployeeLocationById(int id) async {
     resetValues();
-    ERPResponse response = await ERPServicer.getRequest('location', '/$id');
+    ERPResponse response = await ERPServices.getRequest('location/$id');
     print(response.statusCode);
     Map<String, dynamic> body = jsonDecode(response.body);
     _name = body['employee_name'];

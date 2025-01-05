@@ -13,21 +13,21 @@ class ERPResponse {
   });
 }
 
-class ERPServicer {
+class ERPServices {
   static Map<String, String> headersJson = {
     'Content-Type': 'Application/json',
-    'Authorization': 'Bearer $accessToken',
+    'Authorization': 'Bearer $accessToken'
   };
 
   static Map<String, String> headersFromUrlencoded = {
     'Content-Type': 'Application/x-www-form-urlencoded',
   };
 
-  static Future<ERPResponse> getRequest(String path, [String? extras]) async {
-    String extraPath = extras ?? '';
+  static Future<ERPResponse> getRequest(String path) async {
     try {
+      print('$apiURL$path');
       final response = await http.get(
-        Uri.parse('$apiURL$path$extraPath'),
+        Uri.parse('$apiURL$path'),
         headers: headersJson,
       );
       return ERPResponse(
@@ -39,12 +39,10 @@ class ERPServicer {
     }
   }
 
-  static Future<ERPResponse> postRequest(String path, Map body,
-      [String? extras]) async {
-    String extraPath = extras ?? '';
+  static Future<ERPResponse> postRequest(String path, Map body) async {
     try {
       final response = await http.post(
-        Uri.parse('$apiURL$path$extraPath'),
+        Uri.parse('$apiURL$path'),
         headers: headersJson,
         body: jsonEncode(body),
       );

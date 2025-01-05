@@ -215,7 +215,7 @@ class _LoginPageState extends State<LoginPage> {
       // farhan@example.com
       // farhan@123
     };
-    ERPResponse response = await ERPServicer.ERPlogin(body);
+    ERPResponse response = await ERPServices.ERPlogin(body);
     if (response.statusCode == 200) {
       print(response.statusCode);
       final data = jsonDecode(response.body);

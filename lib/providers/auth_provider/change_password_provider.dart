@@ -59,7 +59,7 @@ class ChangePasswordProvider extends ChangeNotifier {
       'confirmPassword': newConfirmPasswordController.value.text,
     };
     ERPResponse response =
-        await ERPServicer.postRequest('/resetPassword', body);
+        await ERPServices.postRequest('/resetPassword', body);
     final data = jsonDecode(response.body);
     print(body);
     if (response.statusCode == 200) {

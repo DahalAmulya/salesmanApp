@@ -40,35 +40,33 @@ class _MrOfficerReferralScreenState extends State<MrOfficerReferralScreen> {
   final _formState = GlobalKey<FormState>();
   final link = 'http://108.181.195.185:5000/api/country/Nepal';
 
-
   final districtTextEditingController = TextEditingController();
   final searchForDistrictTextEditingController = TextEditingController();
   final stateTextEditingController = TextEditingController();
   final searchForStatesTextEditingController = TextEditingController();
 
-  TextEditingController nameText =  TextEditingController();
-  TextEditingController ageText =  TextEditingController();
-  TextEditingController genderText =  TextEditingController();
-  TextEditingController provisionalDiagnosisText =  TextEditingController();
-  TextEditingController countryText =  TextEditingController();
-  TextEditingController districtText =  TextEditingController();
-  TextEditingController cityText =  TextEditingController();
-  TextEditingController addressText =  TextEditingController();
-  TextEditingController driverNameText =  TextEditingController();
-  TextEditingController ambulanceText =  TextEditingController();
-  TextEditingController phoneNumberText =  TextEditingController();
-  TextEditingController text =  TextEditingController();
-  TextEditingController referralNameText =  TextEditingController();
-  TextEditingController referralAgeText =  TextEditingController();
-  TextEditingController referredNumberText =  TextEditingController();
-  TextEditingController referredCityText =  TextEditingController();
-  TextEditingController referredAddressText =  TextEditingController();
-  TextEditingController referredCategoryText =  TextEditingController();
-  TextEditingController referredSpecializationText =  TextEditingController();
-  TextEditingController referralRemarkText =  TextEditingController();
+  TextEditingController nameText = TextEditingController();
+  TextEditingController ageText = TextEditingController();
+  TextEditingController genderText = TextEditingController();
+  TextEditingController provisionalDiagnosisText = TextEditingController();
+  TextEditingController countryText = TextEditingController();
+  TextEditingController districtText = TextEditingController();
+  TextEditingController cityText = TextEditingController();
+  TextEditingController addressText = TextEditingController();
+  TextEditingController driverNameText = TextEditingController();
+  TextEditingController ambulanceText = TextEditingController();
+  TextEditingController phoneNumberText = TextEditingController();
+  TextEditingController text = TextEditingController();
+  TextEditingController referralNameText = TextEditingController();
+  TextEditingController referralAgeText = TextEditingController();
+  TextEditingController referredNumberText = TextEditingController();
+  TextEditingController referredCityText = TextEditingController();
+  TextEditingController referredAddressText = TextEditingController();
+  TextEditingController referredCategoryText = TextEditingController();
+  TextEditingController referredSpecializationText = TextEditingController();
+  TextEditingController referralRemarkText = TextEditingController();
 
-
-  void getDataForDistrict()async{
+  void getDataForDistrict() async {
     final respose = await rootBundle.loadString('assets/district.json');
     print(respose.runtimeType);
     List<dynamic> districtData = json.decode(respose);
@@ -76,26 +74,24 @@ class _MrOfficerReferralScreenState extends State<MrOfficerReferralScreen> {
     districtList = districtData;
   }
 
-  void getDataForState()async{
+  void getDataForState() async {
     final respose = await rootBundle.loadString('assets/states.json');
     List<dynamic> stateData = json.decode(respose);
     stateList = stateData;
     // print(stateList);
   }
-   void fetchData()async{
+
+  void fetchData() async {
     final response = await http.get(Uri.parse(link));
     print("response = ${response.runtimeType}");
     // print(response.runtimeType);
     // final districtList = await json.decode(response);
+  }
 
-   }
-
-   Future<void> getByCountry()async{
-    ERPResponse response = await ERPServicer.getRequest(link);
+  Future<void> getByCountry() async {
+    ERPResponse response = await ERPServices.getRequest(link);
     print('response = ${response.body}');
-
-   }
-
+  }
 
   @override
   void initState() {
@@ -139,15 +135,15 @@ class _MrOfficerReferralScreenState extends State<MrOfficerReferralScreen> {
             SizedBox(
               height: 16,
             ),
-           _personalDetails(context),
+            _personalDetails(context),
             SizedBox(
               height: 16,
             ),
-           _refferedBy(context),
+            _refferedBy(context),
             SizedBox(
               height: 16,
             ),
-           _ambulanceDetails(context),
+            _ambulanceDetails(context),
             SizedBox(
               height: 16,
             ),
@@ -158,25 +154,32 @@ class _MrOfficerReferralScreenState extends State<MrOfficerReferralScreen> {
                 children: [
                   CustomElevatedButton(
                     borderRadius: 16,
-                    backgroundColor:Colors.redAccent,
-                    onPressed: (){
+                    backgroundColor: Colors.redAccent,
+                    onPressed: () {
                       Navigator.pop(context);
                     },
-                    widget: CustomText(text: 'Back',fontWeight: FontWeight.w600,size: 16,),
+                    widget: CustomText(
+                      text: 'Back',
+                      fontWeight: FontWeight.w600,
+                      size: 16,
+                    ),
                   ),
                   Consumer<WeeklyPlanProvider>(
-                      builder: (context,weeklyPlanProvider,_) {
-                        return CustomElevatedButton(
-                          borderRadius: 16,
-                          backgroundColor: CustomColors.primaryColor,
-                          onPressed: (){
-                            // weeklyPlanProvider.setList()
-                            _formState.currentState!.validate();
-                          },
-                          widget: CustomText(text:'Submit',fontWeight: FontWeight.w600,size: 16,),
-                        );
-                      }
-                  ),
+                      builder: (context, weeklyPlanProvider, _) {
+                    return CustomElevatedButton(
+                      borderRadius: 16,
+                      backgroundColor: CustomColors.primaryColor,
+                      onPressed: () {
+                        // weeklyPlanProvider.setList()
+                        _formState.currentState!.validate();
+                      },
+                      widget: CustomText(
+                        text: 'Submit',
+                        fontWeight: FontWeight.w600,
+                        size: 16,
+                      ),
+                    );
+                  }),
                 ],
               ),
             ),
@@ -186,13 +189,13 @@ class _MrOfficerReferralScreenState extends State<MrOfficerReferralScreen> {
     );
   }
 
-  Widget _personalDetails(context){
-    return  Padding(
+  Widget _personalDetails(context) {
+    return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 8.0),
       child: CustomExpansionTile(
         initiallyExpanded: true,
         applyAllBorderRadius: true,
-        title:'Personal Details',
+        title: 'Personal Details',
         size: 20,
         fontWeight: FontWeight.w600,
         children: [
@@ -205,8 +208,8 @@ class _MrOfficerReferralScreenState extends State<MrOfficerReferralScreen> {
               return value!.isEmpty
                   ? 'Name is required'
                   : value.length < 3
-                  ? 'Enter at least 3 characters'
-                  : null;
+                      ? 'Enter at least 3 characters'
+                      : null;
             },
           ),
           SizedBox(
@@ -221,8 +224,8 @@ class _MrOfficerReferralScreenState extends State<MrOfficerReferralScreen> {
               return value!.isEmpty
                   ? 'Age is required'
                   : value.length < 3
-                  ? 'Enter at least 1 characters'
-                  : null;
+                      ? 'Enter at least 1 characters'
+                      : null;
             },
           ),
           SizedBox(
@@ -237,8 +240,8 @@ class _MrOfficerReferralScreenState extends State<MrOfficerReferralScreen> {
               return value!.isEmpty
                   ? 'Gender is required'
                   : value.length < 3
-                  ? 'Enter at least 3 characters'
-                  : null;
+                      ? 'Enter at least 3 characters'
+                      : null;
             },
           ),
           SizedBox(
@@ -253,8 +256,8 @@ class _MrOfficerReferralScreenState extends State<MrOfficerReferralScreen> {
               return value!.isEmpty
                   ? 'Provisional Diagnosis is required'
                   : value.length < 3
-                  ? 'Enter at least 3 characters'
-                  : null;
+                      ? 'Enter at least 3 characters'
+                      : null;
             },
           ),
           SizedBox(
@@ -291,7 +294,7 @@ class _MrOfficerReferralScreenState extends State<MrOfficerReferralScreen> {
                 // weeklyPlanProvider.setDistrictList();
                 _AddTaskBottomSheetForDistrict(context);
               },
-              onChange: (value) => (){},
+              onChange: (value) => () {},
               validator: (Value) {},
             ),
           ),
@@ -305,7 +308,7 @@ class _MrOfficerReferralScreenState extends State<MrOfficerReferralScreen> {
                 // weeklyPlanProvider.setStateList();
                 _AddTaskBottomSheetForStates(context);
               },
-              onChange: (value) => (){},
+              onChange: (value) => () {},
               validator: (Value) {},
             ),
           ),
@@ -317,15 +320,15 @@ class _MrOfficerReferralScreenState extends State<MrOfficerReferralScreen> {
             hintText: 'City',
             labelText: 'City',
             controller: cityText,
-            onTap: (){
+            onTap: () {
               _AddTaskBottomSheetForCities(context);
             },
             validator: (value) {
               return value!.isEmpty
                   ? 'Activity note is required'
                   : value.length < 3
-                  ? 'Enter at least 3 characters'
-                  : null;
+                      ? 'Enter at least 3 characters'
+                      : null;
             },
           ),
           SizedBox(
@@ -340,8 +343,8 @@ class _MrOfficerReferralScreenState extends State<MrOfficerReferralScreen> {
               return value!.isEmpty
                   ? 'Address is required'
                   : value.length < 3
-                  ? 'Enter at least 3 characters'
-                  : null;
+                      ? 'Enter at least 3 characters'
+                      : null;
             },
           ),
           SizedBox(
@@ -351,8 +354,9 @@ class _MrOfficerReferralScreenState extends State<MrOfficerReferralScreen> {
       ),
     );
   }
-  Widget _refferedBy(context){
-    return  Padding(
+
+  Widget _refferedBy(context) {
+    return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 8.0),
       child: CustomExpansionTile(
         applyAllBorderRadius: true,
@@ -360,7 +364,7 @@ class _MrOfficerReferralScreenState extends State<MrOfficerReferralScreen> {
         radiusTopRight: 16,
         radiusBottomLeft: 16,
         radiusBottomRight: 16,
-        title:'Referred By',
+        title: 'Referred By',
         size: 20,
         fontWeight: FontWeight.w600,
         children: [
@@ -373,8 +377,8 @@ class _MrOfficerReferralScreenState extends State<MrOfficerReferralScreen> {
               return value!.isEmpty
                   ? 'Name is required'
                   : value.length < 3
-                  ? 'Enter at least 3 characters'
-                  : null;
+                      ? 'Enter at least 3 characters'
+                      : null;
             },
           ),
           SizedBox(
@@ -389,8 +393,8 @@ class _MrOfficerReferralScreenState extends State<MrOfficerReferralScreen> {
               return value!.isEmpty
                   ? 'Category is required'
                   : value.length < 3
-                  ? 'Enter at least 3 characters'
-                  : null;
+                      ? 'Enter at least 3 characters'
+                      : null;
             },
           ),
           SizedBox(
@@ -405,8 +409,8 @@ class _MrOfficerReferralScreenState extends State<MrOfficerReferralScreen> {
               return value!.isEmpty
                   ? 'Specialization is required'
                   : value.length < 3
-                  ? 'Enter at least 3 characters'
-                  : null;
+                      ? 'Enter at least 3 characters'
+                      : null;
             },
           ),
           SizedBox(
@@ -421,8 +425,8 @@ class _MrOfficerReferralScreenState extends State<MrOfficerReferralScreen> {
               return value!.isEmpty
                   ? 'Number is required'
                   : value.length < 3
-                  ? 'Enter at least 10 characters'
-                  : null;
+                      ? 'Enter at least 10 characters'
+                      : null;
             },
           ),
           SizedBox(
@@ -437,8 +441,8 @@ class _MrOfficerReferralScreenState extends State<MrOfficerReferralScreen> {
               return value!.isEmpty
                   ? 'Address is required'
                   : value.length < 3
-                  ? 'Enter at least 3 characters'
-                  : null;
+                      ? 'Enter at least 3 characters'
+                      : null;
             },
           ),
           SizedBox(
@@ -453,8 +457,8 @@ class _MrOfficerReferralScreenState extends State<MrOfficerReferralScreen> {
               return value!.isEmpty
                   ? 'Address is required'
                   : value.length < 3
-                  ? 'Enter at least 3 characters'
-                  : null;
+                      ? 'Enter at least 3 characters'
+                      : null;
             },
           ),
           SizedBox(
@@ -464,8 +468,9 @@ class _MrOfficerReferralScreenState extends State<MrOfficerReferralScreen> {
       ),
     );
   }
-   Widget _ambulanceDetails(context){
-    return  Padding(
+
+  Widget _ambulanceDetails(context) {
+    return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 8.0),
       child: CustomExpansionTile(
         applyAllBorderRadius: true,
@@ -473,7 +478,7 @@ class _MrOfficerReferralScreenState extends State<MrOfficerReferralScreen> {
         radiusTopRight: 16,
         radiusBottomLeft: 16,
         radiusBottomRight: 16,
-        title:'Ambulance Details',
+        title: 'Ambulance Details',
         size: 20,
         fontWeight: FontWeight.w600,
         children: [
@@ -486,8 +491,8 @@ class _MrOfficerReferralScreenState extends State<MrOfficerReferralScreen> {
               return value!.isEmpty
                   ? 'Driver Name is required'
                   : value.length < 3
-                  ? 'Enter at least 3 characters'
-                  : null;
+                      ? 'Enter at least 3 characters'
+                      : null;
             },
           ),
           SizedBox(
@@ -502,8 +507,8 @@ class _MrOfficerReferralScreenState extends State<MrOfficerReferralScreen> {
               return value!.isEmpty
                   ? 'Ambulance Number is required'
                   : value.length < 3
-                  ? 'Enter at least 4 characters'
-                  : null;
+                      ? 'Enter at least 4 characters'
+                      : null;
             },
           ),
           SizedBox(
@@ -512,14 +517,14 @@ class _MrOfficerReferralScreenState extends State<MrOfficerReferralScreen> {
           TextFromFieldWithPrefixSuffix(
             autoFocus: false,
             labelText: 'Phone Number',
-            hintText:  'Phone Number',
+            hintText: 'Phone Number',
             controller: phoneNumberText,
             validator: (value) {
               return value!.isEmpty
                   ? 'Phone Number is required'
                   : value.length < 3
-                  ? 'Enter at least 10 characters'
-                  : null;
+                      ? 'Enter at least 10 characters'
+                      : null;
             },
           ),
           SizedBox(
@@ -528,7 +533,7 @@ class _MrOfficerReferralScreenState extends State<MrOfficerReferralScreen> {
         ],
       ),
     );
-   }
+  }
 
   //------------------------------------------------------------------------------------------------------------------------//
   Future<void> _AddTaskBottomSheetForDistrict(context) {
@@ -549,7 +554,7 @@ class _MrOfficerReferralScreenState extends State<MrOfficerReferralScreen> {
     );
   }
 
-  PreferredSize _AddTaskBottomSheetForDistrictAppBar(context){
+  PreferredSize _AddTaskBottomSheetForDistrictAppBar(context) {
     return PreferredSize(
         preferredSize: Size.fromHeight(kToolbarHeight),
         child: CustomAppBar(
@@ -563,10 +568,12 @@ class _MrOfficerReferralScreenState extends State<MrOfficerReferralScreen> {
         ));
   }
 
-  Widget _AddTaskBottomSheetForDistrictBody(context){
+  Widget _AddTaskBottomSheetForDistrictBody(context) {
     return ListView(
       children: [
-        SizedBox(height: 16,),
+        SizedBox(
+          height: 16,
+        ),
         // Consumer<WeeklyPlanProvider>(
         //     builder: (context,weeklyPlanProvider,_) {
         //       return TextFromFieldWithPrefixSuffix(
@@ -589,7 +596,7 @@ class _MrOfficerReferralScreenState extends State<MrOfficerReferralScreen> {
               physics: ScrollPhysics(),
               shrinkWrap: true,
               itemCount: districtList.length,
-              itemBuilder: (context,index){
+              itemBuilder: (context, index) {
                 return ListTile(
                   title: CustomText(
                     text: districtList[index]['district'],
@@ -671,7 +678,7 @@ class _MrOfficerReferralScreenState extends State<MrOfficerReferralScreen> {
               physics: ScrollPhysics(),
               shrinkWrap: true,
               itemCount: stateList.length,
-              itemBuilder: (context,index){
+              itemBuilder: (context, index) {
                 return ListTile(
                   title: CustomText(
                     text: stateList[index]['states'],
@@ -710,18 +717,19 @@ class _MrOfficerReferralScreenState extends State<MrOfficerReferralScreen> {
 
   PreferredSize _AddTaskBottomSheetForCitiesAppBar(context) {
     return PreferredSize(
-        preferredSize: Size.fromHeight(kToolbarHeight),
-        child: CustomAppBar(
-          showLeading: true,
-          leadingIcon: FontAwesomeIcons.arrowLeft,
-          backgroundColor: CustomColors.primaryColor,
-          tabName: 'Select Cities',
-          onTapLeadingIcon: () {
-            Navigator.pop(context);
-          },
-        ),
+      preferredSize: Size.fromHeight(kToolbarHeight),
+      child: CustomAppBar(
+        showLeading: true,
+        leadingIcon: FontAwesomeIcons.arrowLeft,
+        backgroundColor: CustomColors.primaryColor,
+        tabName: 'Select Cities',
+        onTapLeadingIcon: () {
+          Navigator.pop(context);
+        },
+      ),
     );
   }
+
   Widget _AddTaskBottomSheetForCitiesBody(context) {
     return ListView(
       children: [
@@ -733,7 +741,7 @@ class _MrOfficerReferralScreenState extends State<MrOfficerReferralScreen> {
               physics: ScrollPhysics(),
               shrinkWrap: true,
               itemCount: citiesList.length,
-              itemBuilder: (context,index){
+              itemBuilder: (context, index) {
                 return ListTile(
                   title: CustomText(
                     text: citiesList[index].toString(),
