@@ -12,7 +12,6 @@ import 'package:deskgoo/widgets/containers/custom_container.dart';
 import 'package:deskgoo/widgets/text_fields/text_from_field.dart';
 import 'package:deskgoo/widgets/texts/custom_text.dart';
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
 import 'package:provider/provider.dart';
 
 import '../../../providers/login_provider/login_provider.dart';

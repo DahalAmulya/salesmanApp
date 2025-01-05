@@ -113,7 +113,9 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                           validator: (value) {
                             return value!.isEmpty
                                 ? 'New Password required'
-                                : null;
+                                : value.length < 8
+                                    ? 'Password mush be 8 character Long'
+                                    : null;
                           },
                           onChange: (value) {},
                           hintText: '••••••',
@@ -149,7 +151,11 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                           validator: (value) {
                             return value!.isEmpty
                                 ? 'Confirm Password required'
-                                : null;
+                                : value !=
+                                        changePasswordProvider
+                                            .newPasswordController.value.text
+                                    ? 'New password and Confirm did not match'
+                                    : null;
                           },
                           onChange: (value) {},
                           hintText: '••••••',
@@ -179,8 +185,7 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                           children: [
                             CustomElevatedButton(
                               onPressed: () {
-                                // if(changePasswordProvider.formKey.currentState!)
-                                changePasswordProvider.onSubmit();
+                                changePasswordProvider.onSubmit(context);
                               },
                               backgroundColor: CustomColors.primaryColor,
                               widget: CustomText(

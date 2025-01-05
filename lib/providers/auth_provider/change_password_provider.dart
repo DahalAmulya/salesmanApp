@@ -1,6 +1,11 @@
+import 'dart:convert';
 import 'dart:ffi';
 
+import 'package:deskgoo/services/erp_services.dart';
+import 'package:deskgoo/themes/custom_colors.dart';
+import 'package:deskgoo/utils/toast_message.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 class ChangePasswordProvider extends ChangeNotifier {
   final formKey = GlobalKey<FormState>();
@@ -36,11 +41,33 @@ class ChangePasswordProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  void onSubmit() {
-    if (formKey.currentState!.validate()) {
-      print('Form is valid');
+  void onSubmit(context) {
+    resetPassword(context);
+    // if (formKey.currentState!.validate()) {
+    //   print('Form is valid');
+    // } else {
+    //   ToastMessageUtils()
+    //       .showToastMessage('Form is not valid', ToastGravity.BOTTOM);
+    //   print('Form is not valid');
+    // }
+  }
+
+  void resetPassword(context) async {
+    Map<String, dynamic> body = {
+      'email': 'farhan@example.com',
+      'password': newPasswordController.value.text,
+      'confirmPassword': newConfirmPasswordController.value.text,
+    };
+    ERPResponse response =
+        await ERPServicer.postRequest('/resetPassword', body);
+    final data = jsonDecode(response.body);
+    print(body);
+    if (response.statusCode == 200) {
+      ToastMessageUtils().showToastMessage('Password changed successfully',
+          ToastGravity.TOP, CustomColors.jadeGreen);
+      Navigator.pop(context);
     } else {
-      print('Form is not valid');
+      ToastMessageUtils().showToastMessage(data['message']);
     }
   }
 }
