@@ -74,16 +74,16 @@ class _LiveTrackingScreenState extends State<LiveTrackingScreen> {
           // appBar: _searchAppBar(context),
           drawer: _drawer(context),
           // drawerDragStartBehavior: DragStartBehavior.start,
-          // body: _googleMap(context),
+          body: _googleMap(context),
           // body: isAdmin ? _googleMap(context) : _ownGoogleMap(context),
-          body: _ownGoogleMap(context),
+          // body: _ownGoogleMap(context),
           floatingActionButton: Consumer<DeviceInfoProvider>(
               builder: (context, deviceInfoProvider, _) {
             return FloatingActionButton.small(
               backgroundColor: CustomColors.primaryColor,
               onPressed: () {
-                deviceInfoProvider.deviceInfoProvider();
-                // SelectEmployeeBottomSheet.showBottomSheetForm(context);
+                // deviceInfoProvider.deviceInfoProvider();
+                SelectEmployeeBottomSheet.showBottomSheetForm(context);
                 // Navigator.of(context)
                 //     .pushNamed(RouteGeneratorConstants.replayPage);
               },

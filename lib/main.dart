@@ -7,6 +7,7 @@ import 'package:deskgoo/firebase_options.dart';
 import 'package:deskgoo/models/environment.dart';
 import 'package:deskgoo/pages/testPage.dart';
 import 'package:deskgoo/providers/attendance_provider/remote_attendance_provider.dart';
+import 'package:deskgoo/providers/auth_provider/change_password_provider.dart';
 import 'package:deskgoo/providers/camera_provider/camera_provider.dart';
 import 'package:deskgoo/providers/deviceInfo_provider/deviceInfo_provider.dart';
 import 'package:deskgoo/providers/live_tracking_provider/live_tracking_provider.dart';
@@ -120,6 +121,7 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
       providers: [
         ChangeNotifierProvider(create: (context) => ThemeChangerProvider()),
         ChangeNotifierProvider(create: (context) => UserAuthProvider()),
+        ChangeNotifierProvider(create: (context) => ChangePasswordProvider()),
         ChangeNotifierProvider(create: (context) => VisitScreenProvider()),
         ChangeNotifierProvider(create: (context) => OrderProvider()),
         ChangeNotifierProvider(create: (context) => AttendanceProvider()),
@@ -153,8 +155,8 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
               useMaterial3: true,
             ),
             // home: TestingDecodingAndEncoding(),
-            // initialRoute: MarketingManagerConstants.indexPage,
-            initialRoute: MarketingManagerConstants.homePage,
+            initialRoute: MarketingManagerConstants.indexPage,
+            // initialRoute: MarketingManagerConstants.homePage,
             // initialRoute: MarketingOfficerConstants.mrStaffDashboardConst,
             onGenerateRoute: RouteGenerator.generateRoute,
           );

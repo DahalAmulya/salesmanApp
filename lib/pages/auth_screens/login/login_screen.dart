@@ -1,5 +1,7 @@
 import 'dart:convert';
 
+import 'package:deskgoo/consts.dart';
+import 'package:deskgoo/pages/auth_screens/change_passowrd/change_password_screen.dart';
 import 'package:deskgoo/providers/auth_provider/user_auth_provider.dart';
 import 'package:deskgoo/routes/marketing_officer_consts.dart';
 import 'package:deskgoo/routes/route_generator_constants.dart';
@@ -10,6 +12,7 @@ import 'package:deskgoo/widgets/containers/custom_container.dart';
 import 'package:deskgoo/widgets/text_fields/text_from_field.dart';
 import 'package:deskgoo/widgets/texts/custom_text.dart';
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
 import 'package:provider/provider.dart';
 
 import '../../../providers/login_provider/login_provider.dart';
@@ -156,7 +159,7 @@ class _LoginPageState extends State<LoginPage> {
                     ),
                     Consumer<UserProvider>(builder: (context, userProvider, _) {
                       return CustomElevatedButton(
-                        onPressed: () async {
+                        onPressed: () {
                           if (_formKey.currentState!.validate()) {
                             // login api call logic
                             login();
@@ -202,38 +205,41 @@ class _LoginPageState extends State<LoginPage> {
 
   void login() async {
     Map<String, dynamic> body = {
-      'usr': emailController.value.text.isEmpty
-          ? 'Phoebe@gmail.com'
+      'email': emailController.value.text.isEmpty
+          ? 'farhan@example.com'
           : emailController.value.text,
-      'pwd': passwordController.value.text.isEmpty
-          ? 'Phoebe123@'
+      'password': passwordController.value.text.isEmpty
+          ? 'farhan@123'
           : passwordController.value.text,
-      // user = Phoebe@gmail.com // marketingOfficer currently used
-      // pwd = Phoebe123@
-      // user = Rachel@gmail.com // marketingManager
-      // pwd = Rachel123@
-      // user = Monica@gmail.com // marketingAsstManager
-      // pwd = Monica123@
+      // admin@example.com
+      // admin@123
+      // farhan@example.com
+      // farhan@123
     };
     ERPResponse response = await ERPServicer.ERPlogin(body);
     if (response.statusCode == 200) {
+      print(response.statusCode);
       final data = jsonDecode(response.body);
-      full_name = data['full_name'];
-      employee_details = data['employee_details'];
-      user_roles = data['user_roles'];
-      _userProvider!.setUserDetails(
-        full_name,
-        employee_details,
-        user_roles,
-      );
-      print('user_roles = $user_roles');
-      if (_userProvider!.role == 'marketingOfficer') {
-        Navigator.of(context)
-            .pushNamed(MarketingOfficerConstants.mrStaffDashboardConst);
-        print('Marketing Officer');
+      accessToken = data['accessToken'];
+      refreshToken = data['refreshToken'];
+      userId = data['user']['userId'];
+      isFirstLogin = data['user']['firstLogin'];
+      isResetMobile = data['user']['resetMobile'];
+      role = data['user']['role'];
+      print(data);
+      if (isFirstLogin || isResetMobile) {
+        print('$isFirstLogin, $isResetMobile');
+        Navigator.of(context).push(
+            MaterialPageRoute(builder: (context) => ChangePasswordScreen()));
       } else {
-        Navigator.of(context).pushNamed(MarketingManagerConstants.homePage);
-        print('Marketing manager');
+        if (role == 'admin') {
+          Navigator.of(context).pushNamed(MarketingManagerConstants.homePage);
+          print('Administrator');
+        } else {
+          Navigator.of(context)
+              .pushNamed(MarketingOfficerConstants.mrStaffDashboardConst);
+          print('Marketing Officer');
+        }
       }
     }
   }
