@@ -245,7 +245,7 @@ class _MrOfficerNewVisitScreenState extends State<MrOfficerNewVisitScreen> {
                     height: 16,
                   ),
                   TextFromFieldWithPrefixSuffix(
-                    controller: fullNameController,
+                    controller: createVisitProvider.organizationController,
                     labelText: 'Organization',
                     maxLines: 2,
                     validator: (newValue) {},
@@ -254,7 +254,7 @@ class _MrOfficerNewVisitScreenState extends State<MrOfficerNewVisitScreen> {
                     height: 16,
                   ),
                   TextFromFieldWithPrefixSuffix(
-                    controller: fullNameController,
+                    controller: createVisitProvider.remarksController,
                     labelText: 'Remarks *',
                     maxLines: 2,
                     validator: (newValue) {},
@@ -282,9 +282,9 @@ class _MrOfficerNewVisitScreenState extends State<MrOfficerNewVisitScreen> {
                       ),
                       CustomElevatedButton(
                         onPressed: () {
-                          // createVisitProvider.getCurrentLocation();
-                          Navigator.of(context).pushNamed(
-                              MarketingOfficerConstants.productConst);
+                          createVisitProvider.createPOC(context);
+                          // Navigator.of(context).pushNamed(
+                          //     MarketingOfficerConstants.productConst);
                         },
                         widget: CustomText(
                           text: 'Submit',

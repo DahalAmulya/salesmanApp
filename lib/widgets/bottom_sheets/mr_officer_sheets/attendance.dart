@@ -56,6 +56,7 @@ class _MrOfficerAttendanceBottomSheetState
         Provider.of<AttendanceProvider>(context, listen: false);
     _attendanceProvider?.getAttendanceStatus();
     _attendanceProvider?.getCurrentLocation();
+    _attendanceProvider?.resetCheckOutConfirmation();
     _isAuthenticated = false;
     askPermission();
   }
@@ -270,6 +271,7 @@ class _MrOfficerAttendanceBottomSheetState
                           ),
                           child: IconButton(
                             onPressed: () async {
+                              // attendanceProvider.confirmCheckout(context);
                               bool response = await biometricAuthentication();
                               if (response) {
                                 attendanceProvider
@@ -300,7 +302,8 @@ class _MrOfficerAttendanceBottomSheetState
                                       'assets/icons/faceid.png',
                                       width: 50,
                                       height: 50,
-                                    )),
+                                    ),
+                                  ),
                           ),
                         );
                       },
