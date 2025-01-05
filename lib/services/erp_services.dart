@@ -16,6 +16,7 @@ class ERPResponse {
 class ERPServicer {
   static Map<String, String> headersJson = {
     'Content-Type': 'Application/json',
+    'Authorization': 'Bearer $accessToken',
   };
 
   static Map<String, String> headersFromUrlencoded = {
@@ -53,7 +54,7 @@ class ERPServicer {
       );
     } catch (err) {
       return ERPResponse(
-        statusCode: 400,
+        statusCode: 69,
         body: err.toString(),
       );
     }
