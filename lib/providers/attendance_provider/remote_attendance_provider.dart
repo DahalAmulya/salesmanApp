@@ -2,11 +2,13 @@ import 'dart:convert';
 
 import 'package:deskgoo/consts.dart';
 import 'package:deskgoo/services/erp_services.dart';
+import 'package:deskgoo/themes/custom_colors.dart';
 import 'package:deskgoo/utils/hourToHMS.dart';
+import 'package:deskgoo/widgets/buttons/elevated_button.dart';
+import 'package:deskgoo/widgets/texts/custom_text.dart';
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:nepali_utils/nepali_utils.dart';
-import 'package:http/http.dart' as http;
 
 class AttendanceProvider extends ChangeNotifier {
   TextEditingController _checkInTimeController = TextEditingController();
@@ -17,6 +19,7 @@ class AttendanceProvider extends ChangeNotifier {
   bool _isRemoteAttendanceSwitched = false;
   bool _isBiometricAuthenticated = false;
   bool _isCheckedOut = false;
+  bool _checkOutConfirmation = false;
   double _latitude = 0.0;
   double _longitude = 0.0;
   String _time = 'Unknown';
@@ -36,6 +39,7 @@ class AttendanceProvider extends ChangeNotifier {
   bool get isRemoteAttendanceSwitched => _isRemoteAttendanceSwitched;
   bool get isAuthenticated => _isBiometricAuthenticated;
   bool get isCheckedOut => _isCheckedOut;
+  bool get checkOutConfirmation => _checkOutConfirmation;
   double get latitude => _latitude;
   double get longitude => _longitude;
   String get time => _time;
@@ -46,6 +50,10 @@ class AttendanceProvider extends ChangeNotifier {
   // NepaliDateTime get checkOutTime => _checkOutTime;
   String get checkInTimeStr => _checkInTimeStr;
   String get checkOutTimeStr => _checkOutTimeStr;
+
+  void resetCheckOutConfirmation() {
+    _checkOutConfirmation = false;
+  }
 
   void getCurrentLocation() async {
     Position position = await Geolocator.getCurrentPosition(
@@ -82,17 +90,21 @@ class AttendanceProvider extends ChangeNotifier {
           _isAttendance = true;
           _isRemoteAttendanceSwitched = true;
           _isBiometricAuthenticated = true;
-          _status = data[0]['status'];
+          _status = data[data.length - 1]['status'];
           if (_status == 'check-in') {
             _checkInTimeStr = data[0]['checkIn']['deviceInTime'];
             _checkOutTimeStr = 'Not Check-out yet';
             _totalHours = 'In progress';
             _isCheckedOut = false;
           } else {
+            if (_checkOutConfirmation) {}
             _isCheckedOut = true;
-            _checkInTimeStr = data[0]['checkIn']['deviceInTime'];
-            _checkOutTimeStr = data[0]['checkOut']['deviceOutTime'];
-            _totalHours = hoursToHMS(data[0]['totalHours']);
+            _isRemoteAttendanceSwitched = false;
+            _isBiometricAuthenticated = true;
+            _checkInTimeStr = data[data.length - 1]['checkIn']['deviceInTime'];
+            _checkOutTimeStr =
+                data[data.length - 1]['checkOut']['deviceOutTime'];
+            _totalHours = hoursToHMS(data[data.length - 1]['totalHours']);
           }
           print(data.runtimeType);
         }
@@ -113,15 +125,6 @@ class AttendanceProvider extends ChangeNotifier {
         "latitude": _latitude,
         "longitude": _longitude
       };
-      // print(body);
-      // final response = await http.post(
-      //   Uri.parse('$apiURL/attendance/$userId'),
-      //   headers: {
-      //     'Content-Type': 'Application/json',
-      //     'Authorization': 'Bearer $accessToken'
-      //   },
-      //   body: jsonEncode(body),
-      // );
       ERPResponse response =
           await ERPServices.postRequest('/attendance/$userId', body);
       if (response.statusCode == 200) {
@@ -136,12 +139,6 @@ class AttendanceProvider extends ChangeNotifier {
     } catch (err) {
       print('Err = $err');
     }
-    // if (_isRemoteAttendanceSwitched) {
-    //   print('_isRemoteAttendanceSwitched = $_isRemoteAttendanceSwitched');
-    //   setCheckInTime();
-    // } else {
-    //   setCheckOutTime();
-    // }
     notifyListeners();
   }
 
@@ -179,4 +176,46 @@ class AttendanceProvider extends ChangeNotifier {
     );
     notifyListeners();
   }
+
+  Future<void> confirmCheckout(context) => showDialog(
+        context: context,
+        builder: (_) => AlertDialog(
+          backgroundColor: CustomColors.primaryWhite,
+          elevation: 10,
+          title: Center(
+            child: CustomText(
+              maxLines: 2,
+              text: 'Are you sure you want to checkout?',
+              isSubHeading: true,
+            ),
+          ),
+          contentPadding: const EdgeInsets.all(16.0),
+          content: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              CustomElevatedButton(
+                backgroundColor: CustomColors.lightRed,
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+                widget: CustomText(
+                  text: 'Cancel',
+                  isContent: true,
+                ),
+              ),
+              CustomElevatedButton(
+                backgroundColor: CustomColors.primaryColor,
+                onPressed: () {
+                  _checkOutConfirmation = true;
+                  Navigator.pop(context);
+                },
+                widget: CustomText(
+                  text: 'Yes',
+                  isContent: true,
+                ),
+              ),
+            ],
+          ),
+        ),
+      );
 }

@@ -1,5 +1,10 @@
+import 'package:deskgoo/services/erp_services.dart';
+import 'package:deskgoo/themes/custom_colors.dart';
 import 'package:deskgoo/utils/toast_message.dart';
+import 'package:deskgoo/widgets/buttons/elevated_button.dart';
+import 'package:deskgoo/widgets/texts/custom_text.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:geolocator/geolocator.dart';
 
 class MrOfficerVisitProvider with ChangeNotifier {
@@ -21,6 +26,8 @@ class MrOfficerVisitProvider with ChangeNotifier {
   final _phoneNoController = TextEditingController();
   final _ageController = TextEditingController();
   final _searchController = TextEditingController();
+  final _organizationController = TextEditingController();
+  final _remarksController = TextEditingController();
   bool _isVisitFormValid = false;
   bool _isSwitched = false;
   List<String> _countryCode = ['+977', '+91'];
@@ -58,6 +65,9 @@ class MrOfficerVisitProvider with ChangeNotifier {
   List<dynamic> _cities = [];
   String _selectedCity = '';
   List<dynamic> _searchResult = [];
+  double _latitude = 0;
+  double _longitude = 0;
+  String _dateTime = '';
 
   // Getters and setters for form fields
   List<String> get visitTypeList => _visitTypeList;
@@ -74,6 +84,8 @@ class MrOfficerVisitProvider with ChangeNotifier {
   TextEditingController get phoneNoController => _phoneNoController;
   TextEditingController get ageController => _ageController;
   TextEditingController get searchController => _searchController;
+  TextEditingController get organizationController => _organizationController;
+  TextEditingController get remarksController => _remarksController;
   // GlobalKey<FormState> get createVisitFormKey => _createVisitFormKey;
   bool get isVisitFormValid => _isVisitFormValid;
   bool get isSwitched => _isSwitched;
@@ -92,6 +104,21 @@ class MrOfficerVisitProvider with ChangeNotifier {
   List<dynamic> get cities => _cities;
   String get selectedCity => _selectedCity;
   List<dynamic> get searchResult => _searchResult;
+
+  void getCurrentTimeAndLocation() async {
+    Position position = await Geolocator.getCurrentPosition(
+      locationSettings: LocationSettings(
+        accuracy: LocationAccuracy.best,
+        distanceFilter: 0,
+      ),
+    );
+    _latitude = position.latitude;
+    _longitude = position.longitude;
+    List timeList =
+        DateTime.now().toString().split('.')[0].toString().split(' ');
+    _dateTime = '${timeList[1]} ${timeList[0]}';
+    notifyListeners();
+  }
 
   void getDistricts(List<dynamic> districtsList) {
     _districts = districtsList;
@@ -199,12 +226,6 @@ class MrOfficerVisitProvider with ChangeNotifier {
   }
 
   void checkWhatsappAndPhoneNo(value) {
-    // if (_WhatsappController.text.split('-')[1] ==
-    //     _PhoneNoController.text) {
-    //   _isSwitched = true;
-    // } else {
-    //   _isSwitched = false;
-    // }
     notifyListeners();
   }
 
@@ -266,6 +287,317 @@ class MrOfficerVisitProvider with ChangeNotifier {
     // _searchController.text = '';
     notifyListeners();
   }
+
+  void createPOC(context) async {
+    Position position = await Geolocator.getCurrentPosition(
+      locationSettings: LocationSettings(
+        accuracy: LocationAccuracy.best,
+        distanceFilter: 0,
+      ),
+    );
+    _latitude = position.latitude;
+    _longitude = position.longitude;
+    List timeList =
+        DateTime.now().toString().split('.')[0].toString().split(' ');
+    _dateTime = '${timeList[1]} ${timeList[0]}';
+
+    Map<String, dynamic> body = {
+      "name": _nameController.value.text,
+      "age": _ageController.value.text,
+      "number": '$_selectedCountryCode${_phoneNoController.value.text}',
+      "country": _selectedCountry,
+      "region":
+          _selectedCountry == 'Nepal' ? _selectedDistrict : _selectedState,
+      "city": _selectedCity,
+      "address": _addressController.value.text,
+      "category": _selectedCategory,
+      "specialization": _selectedSpecialization,
+      "organization": _organizationController.value.text,
+      "mobileTime": _dateTime
+    };
+    print(body);
+    pocDetails(context, body);
+    // ERPResponse response = await ERPServices.postRequest('/poc', body);
+    // print(response.statusCode);
+    // print(response.body);
+    // if (response.statusCode == 201) {
+    //   ToastMessageUtils().showToastMessage(
+    //       'POC created successfully', ToastGravity.TOP, CustomColors.jadeGreen);
+    // } else {
+    //   ToastMessageUtils().showToastMessage('Something went wrong');
+    // }
+  }
+
+  Future pocDetails(context, body) => showDialog(
+        context: context,
+        builder: (_) {
+          return AlertDialog(
+            backgroundColor: CustomColors.primaryWhite,
+            elevation: 10,
+            title: Center(
+              child: CustomText(
+                text: 'POC Details',
+                fontWeight: FontWeight.bold,
+                size: 22,
+                color: CustomColors.primaryBlack,
+              ),
+            ),
+            content: SingleChildScrollView(
+              child: Column(
+                children: [
+                  SizedBox(
+                    height: 10,
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Expanded(
+                        child: CustomText(
+                          text: 'Full Name',
+                          isContent: true,
+                        ),
+                      ),
+                      Expanded(
+                        child: CustomText(
+                          maxLines: 3,
+                          text: body['name'],
+                          isContent: true,
+                        ),
+                      ),
+                    ],
+                  ),
+                  SizedBox(
+                    height: 10,
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Expanded(
+                        child: CustomText(
+                          text: 'Age',
+                          isContent: true,
+                        ),
+                      ),
+                      Expanded(
+                        child: CustomText(
+                          maxLines: 3,
+                          text: body['age'],
+                          isContent: true,
+                        ),
+                      ),
+                    ],
+                  ),
+                  SizedBox(
+                    height: 10,
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Expanded(
+                        child: CustomText(
+                          text: 'Number',
+                          isContent: true,
+                        ),
+                      ),
+                      Expanded(
+                        child: CustomText(
+                          maxLines: 3,
+                          text: body['number'],
+                          isContent: true,
+                        ),
+                      ),
+                    ],
+                  ),
+                  SizedBox(
+                    height: 10,
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Expanded(
+                        child: CustomText(
+                          text: 'Country',
+                          isContent: true,
+                        ),
+                      ),
+                      Expanded(
+                        child: CustomText(
+                          maxLines: 3,
+                          text: body['country'],
+                          isContent: true,
+                        ),
+                      ),
+                    ],
+                  ),
+                  SizedBox(
+                    height: 10,
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Expanded(
+                        // flex: ,
+                        child: CustomText(
+                          text: _selectedCountry == 'Nepal'
+                              ? 'District'
+                              : 'State',
+                          isContent: true,
+                        ),
+                      ),
+                      Expanded(
+                        // flex: 2,
+                        child: CustomText(
+                          maxLines: 3,
+                          text: body['region'],
+                          isContent: true,
+                        ),
+                      ),
+                    ],
+                  ),
+                  SizedBox(
+                    height: 10,
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Expanded(
+                        child: CustomText(
+                          text: 'City',
+                          isContent: true,
+                        ),
+                      ),
+                      Expanded(
+                        child: CustomText(
+                          maxLines: 3,
+                          text: body['city'],
+                          isContent: true,
+                        ),
+                      ),
+                    ],
+                  ),
+                  SizedBox(
+                    height: 10,
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Expanded(
+                        child: CustomText(
+                          text: 'Address',
+                          isContent: true,
+                        ),
+                      ),
+                      Expanded(
+                        child: CustomText(
+                          maxLines: 3,
+                          text: body['address'],
+                          isContent: true,
+                        ),
+                      ),
+                    ],
+                  ),
+                  SizedBox(
+                    height: 10,
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Expanded(
+                        child: CustomText(
+                          text: 'Category',
+                          isContent: true,
+                        ),
+                      ),
+                      Expanded(
+                        child: CustomText(
+                          maxLines: 3,
+                          text: body['category'],
+                          isContent: true,
+                        ),
+                      ),
+                    ],
+                  ),
+                  SizedBox(
+                    height: 10,
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Expanded(
+                        child: CustomText(
+                          text: 'Specialization',
+                          isContent: true,
+                        ),
+                      ),
+                      Expanded(
+                        child: CustomText(
+                          maxLines: 3,
+                          text: body['specialization'],
+                          isContent: true,
+                        ),
+                      ),
+                    ],
+                  ),
+                  SizedBox(
+                    height: 10,
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Expanded(
+                        child: CustomText(
+                          text: 'Organization',
+                          isContent: true,
+                        ),
+                      ),
+                      Expanded(
+                        child: CustomText(
+                          maxLines: 3,
+                          text: body['organization'],
+                          isContent: true,
+                        ),
+                      ),
+                    ],
+                  ),
+                  SizedBox(
+                    height: 10,
+                  ),
+                ],
+              ),
+            ),
+            actions: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  CustomElevatedButton(
+                    onPressed: () {
+                      Navigator.pop(context); // passing false
+                    },
+                    backgroundColor: CustomColors.lightRed,
+                    widget: CustomText(
+                      text: 'Edit',
+                      color: CustomColors.primaryBlack,
+                      isContent: true,
+                    ),
+                  ),
+                  CustomElevatedButton(
+                    onPressed: () {
+                      createPOC(context);
+                      Navigator.pop(context); // passing false
+                    },
+                    backgroundColor: CustomColors.primaryColor,
+                    widget: CustomText(
+                      text: 'Submit',
+                      color: CustomColors.primaryBlack,
+                      isContent: true,
+                    ),
+                  ),
+                ],
+              ),
+            ],
+          );
+        },
+      );
 }
 
 class MrOfficerMoreDetailsProvider extends ChangeNotifier {
