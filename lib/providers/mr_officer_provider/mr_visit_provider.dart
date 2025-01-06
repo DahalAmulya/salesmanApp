@@ -313,19 +313,40 @@ class MrOfficerVisitProvider with ChangeNotifier {
       "category": _selectedCategory,
       "specialization": _selectedSpecialization,
       "organization": _organizationController.value.text,
+      // "remarks": _remarksController.value.text,
       "mobileTime": _dateTime
     };
     print(body);
     pocDetails(context, body);
-    // ERPResponse response = await ERPServices.postRequest('/poc', body);
-    // print(response.statusCode);
-    // print(response.body);
-    // if (response.statusCode == 201) {
-    //   ToastMessageUtils().showToastMessage(
-    //       'POC created successfully', ToastGravity.TOP, CustomColors.jadeGreen);
-    // } else {
-    //   ToastMessageUtils().showToastMessage('Something went wrong');
-    // }
+  }
+
+  void clearTextControllersValue() {
+    _nameController.text = "";
+    _districtController.text = "";
+    _stateController.text = "";
+    _cityController.text = "";
+    _addressController.text = "";
+    _phoneNoController.text = "";
+    _ageController.text = "";
+    _searchController.text = "";
+    _organizationController.text = "";
+    _remarksController.text = "";
+    notifyListeners();
+  }
+
+  void postPOCDetails(body, context) async {
+    ERPResponse response = await ERPServices.postRequest('/poc', body);
+    print(response.statusCode);
+    print(response.body);
+    if (response.statusCode == 201) {
+      ToastMessageUtils().showToastMessage('New POC created successfully',
+          ToastGravity.TOP, CustomColors.jadeGreen);
+      clearTextControllersValue();
+      Navigator.pop(context);
+    } else {
+      ToastMessageUtils().showToastMessage('Something went wrong');
+      Navigator.pop(context);
+    }
   }
 
   Future pocDetails(context, body) => showDialog(
@@ -562,6 +583,27 @@ class MrOfficerVisitProvider with ChangeNotifier {
                   SizedBox(
                     height: 10,
                   ),
+                  // Row(
+                  //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  //   children: [
+                  //     Expanded(
+                  //       child: CustomText(
+                  //         text: 'Remarks',
+                  //         isContent: true,
+                  //       ),
+                  //     ),
+                  //     Expanded(
+                  //       child: CustomText(
+                  //         maxLines: 3,
+                  //         text: body['remarks'],
+                  //         isContent: true,
+                  //       ),
+                  //     ),
+                  //   ],
+                  // ),
+                  // SizedBox(
+                  //   height: 10,
+                  // ),
                 ],
               ),
             ),
@@ -583,6 +625,7 @@ class MrOfficerVisitProvider with ChangeNotifier {
                   CustomElevatedButton(
                     onPressed: () {
                       createPOC(context);
+                      postPOCDetails(body, context);
                       Navigator.pop(context); // passing false
                     },
                     backgroundColor: CustomColors.primaryColor,
