@@ -1,22 +1,27 @@
 import 'dart:convert';
 
 import 'package:deskgoo/consts.dart';
-import 'package:deskgoo/routes/marketing_officer_consts.dart';
-import 'package:deskgoo/routes/route_generator_constants.dart';
 import 'package:deskgoo/services/erp_services.dart';
 import 'package:flutter/material.dart';
 
 class UserAuthProvider extends ChangeNotifier {
   bool _obscure = true;
+  bool _rememberMe = false;
   TextEditingController _emailController = TextEditingController();
   TextEditingController _passwordController = TextEditingController();
 
   bool get obscure => _obscure;
   TextEditingController get emailController => _emailController;
   TextEditingController get passwordController => _passwordController;
+  bool get rememberMe => _rememberMe;
 
   void toggleObscure() {
     _obscure = !_obscure;
+    notifyListeners();
+  }
+
+  void toggleRememberMe(bool value) {
+    _rememberMe = value;
     notifyListeners();
   }
 
@@ -36,23 +41,6 @@ class UserAuthProvider extends ChangeNotifier {
       accessToken = data['accessToken'];
       userId = data['user']['userId'];
       print(data);
-      // full_name = data['full_name'];
-      // employee_details = data['employee_details'];
-      // user_roles = data['user_roles'];
-      // _userProvider!.setUserDetails(
-      //   full_name,
-      //   employee_details,
-      //   user_roles,
-      // );
-      // print('user_roles = $user_roles');
-      // if (_userProvider!.role == 'marketingOfficer') {
-      //   Navigator.of(context)
-      //       .pushNamed(MarketingOfficerConstants.mrStaffDashboardConst);
-      //   print('Marketing Officer');
-      // } else {
-      //   Navigator.of(context).pushNamed(MarketingManagerConstants.homePage);
-      //   print('Marketing manager');
-      // }
     }
   }
 }
