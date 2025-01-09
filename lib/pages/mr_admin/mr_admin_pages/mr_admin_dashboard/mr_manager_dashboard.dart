@@ -3,6 +3,7 @@ import 'dart:developer';
 import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:deskgoo/classes/notification_controller.dart';
+import 'package:deskgoo/consts.dart';
 import 'package:deskgoo/pages/mr_officers_pages/weeklyplan/weeklyplan_screen.dart';
 import 'package:deskgoo/pages/notification_screen.dart';
 import 'package:deskgoo/providers/deviceInfo_provider/deviceInfo_provider.dart';
@@ -249,7 +250,7 @@ class _MarketingManagerDashboardState extends State<MarketingManagerDashboard> {
         builder: (context) => Consumer<UserProvider>(
           builder: (context, userProvider, _) {
             return CustomAppBar(
-              tabName: 'Hi, ${userProvider.fullName.split(' ')[0]}',
+              tabName: 'Hi, ${userName.split(' ')[0]}',
               centerTitle: false,
               titleColor: CustomColors.primaryBlack,
               backgroundColor: CustomColors.primaryColor,

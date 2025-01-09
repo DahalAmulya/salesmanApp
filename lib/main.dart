@@ -5,13 +5,13 @@ import 'package:deskgoo/classes/notification_controller.dart';
 import 'package:deskgoo/consts.dart';
 import 'package:deskgoo/firebase_options.dart';
 import 'package:deskgoo/models/environment.dart';
-import 'package:deskgoo/pages/testPage.dart';
 import 'package:deskgoo/providers/attendance_provider/remote_attendance_provider.dart';
 import 'package:deskgoo/providers/auth_provider/change_password_provider.dart';
 import 'package:deskgoo/providers/camera_provider/camera_provider.dart';
 import 'package:deskgoo/providers/deviceInfo_provider/deviceInfo_provider.dart';
 import 'package:deskgoo/providers/live_tracking_provider/live_tracking_provider.dart';
 import 'package:deskgoo/providers/login_provider/login_provider.dart';
+import 'package:deskgoo/providers/mr_officer_provider/mr_followup_provider.dart';
 import 'package:deskgoo/providers/mr_officer_provider/mr_visit_provider.dart';
 import 'package:deskgoo/providers/replay_provider/replay_provider.dart';
 import 'package:deskgoo/providers/marketing_provider/officerName_provider.dart';
@@ -21,7 +21,6 @@ import 'package:deskgoo/providers/settings_providers/profile_provider/profile_pr
 import 'package:deskgoo/providers/visit_provider/order_provider.dart';
 import 'package:deskgoo/providers/visit_provider/visit_screen_provider.dart';
 import 'package:deskgoo/providers/weeklyplan_provider/weeklyplan_provider.dart';
-import 'package:deskgoo/routes/marketing_officer_consts.dart';
 import 'package:deskgoo/routes/route_generator.dart';
 import 'package:deskgoo/routes/route_generator_constants.dart';
 import 'package:deskgoo/services/firebaseApi.dart';
@@ -134,9 +133,9 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
         ChangeNotifierProvider(create: (context) => LiveTrackingProvider()),
         ChangeNotifierProvider(create: (context) => DetailsProvider()),
         ChangeNotifierProvider(create: (context) => MrOfficerVisitProvider()),
-        ChangeNotifierProvider(create: (context) => WeeklyPlanProvider()),
         ChangeNotifierProvider(
-            create: (context) => MrOfficerMoreDetailsProvider()),
+            create: (context) => MrOfficerFollowUpProvider()),
+        ChangeNotifierProvider(create: (context) => WeeklyPlanProvider()),
         ChangeNotifierProvider(create: (context) => UserProvider()),
       ],
       child: Builder(

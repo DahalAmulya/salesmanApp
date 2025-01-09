@@ -1,6 +1,10 @@
 import 'dart:async';
 
+import 'package:deskgoo/consts.dart';
+import 'package:deskgoo/providers/attendance_provider/remote_attendance_provider.dart';
+import 'package:deskgoo/providers/auth_provider/change_password_provider.dart';
 import 'package:deskgoo/providers/login_provider/login_provider.dart';
+import 'package:deskgoo/providers/mr_officer_provider/mr_visit_provider.dart';
 import 'package:deskgoo/routes/marketing_officer_consts.dart';
 import 'package:deskgoo/routes/route_generator_constants.dart';
 import 'package:deskgoo/themes/custom_colors.dart';
@@ -23,7 +27,7 @@ class MrOfficerCustomDrawer extends StatelessWidget {
     this.hasImage = true,
     // this.userImg,
     this.userImg = 'assets/images/man.png',
-    this.userName = 'John Cena',
+    // this.userName = 'John Cena',
     this.userRole = 'Wrestler',
     this.isHomeActive = false,
     this.isWeeklyPlanActive = false,
@@ -37,7 +41,7 @@ class MrOfficerCustomDrawer extends StatelessWidget {
 
   final bool hasImage;
   final String? userImg;
-  final String userName;
+  // final String userName;
   final String userRole;
   final bool isHomeActive;
   final bool isWeeklyPlanActive;
@@ -129,12 +133,12 @@ class MrOfficerCustomDrawer extends StatelessWidget {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               CustomText(
-                                text: userProvider.fullName,
+                                text: userName,
                                 color: CustomColors.primaryBlack,
                                 fontWeight: FontWeight.w600,
                               ),
                               CustomText(
-                                text: userProvider.role,
+                                text: role,
                                 color: CustomColors.primaryBlack,
                                 fontWeight: FontWeight.w500,
                                 size: 14,
@@ -198,23 +202,23 @@ class MrOfficerCustomDrawer extends StatelessWidget {
                           text: 'Visit',
                           textColor: CustomColors.primaryBlack,
                         ),
-                        CustomListTile(
-                          onTap: () {
-                            // GoRouter.of(context).pushReplacementNamed(
-                            //     MyAppRouteConstants.visitRouteName);
-                            Navigator.of(context)
-                                .pushNamed(MarketingManagerConstants.visitPage);
-                          },
-                          isTabActive: isVisitActive,
-                          isIcon: false,
-                          imgName: 'assets/images/order.png',
-                          imgBoxFit: BoxFit.scaleDown,
-                          imgHeigt: 32,
-                          imgWidth: 32,
-                          // imgColor: Colors.transparent,
-                          text: 'Order',
-                          textColor: CustomColors.primaryBlack,
-                        ),
+                        // CustomListTile(
+                        //   onTap: () {
+                        //     // GoRouter.of(context).pushReplacementNamed(
+                        //     //     MyAppRouteConstants.visitRouteName);
+                        //     Navigator.of(context)
+                        //         .pushNamed(MarketingManagerConstants.visitPage);
+                        //   },
+                        //   isTabActive: isVisitActive,
+                        //   isIcon: false,
+                        //   imgName: 'assets/images/order.png',
+                        //   imgBoxFit: BoxFit.scaleDown,
+                        //   imgHeigt: 32,
+                        //   imgWidth: 32,
+                        //   // imgColor: Colors.transparent,
+                        //   text: 'Order',
+                        //   textColor: CustomColors.primaryBlack,
+                        // ),
                         CustomListTile(
                           onTap: () {
                             Navigator.pop(context);
@@ -243,39 +247,40 @@ class MrOfficerCustomDrawer extends StatelessWidget {
                             // GoRouter.of(context).pushReplacementNamed(
                             //     MyAppRouteConstants.remoteAttendanceRouteName);
                             Navigator.pop(context);
+                            AttendanceProvider? attendanceProvider;
+                            MrOfficerVisitProvider? mrOfficerVisitProvider;
+                            ChangePasswordProvider? changePasswordProvider;
+                            attendanceProvider =
+                                Provider.of<AttendanceProvider>(context,
+                                    listen: false);
+                            mrOfficerVisitProvider =
+                                Provider.of<MrOfficerVisitProvider>(context,
+                                    listen: false);
+                            changePasswordProvider =
+                                Provider.of<ChangePasswordProvider>(context,
+                                    listen: false);
+                            attendanceProvider.resetValue();
+                            mrOfficerVisitProvider.clearTextControllersValue();
+                            changePasswordProvider.resetValues();
                             Navigator.of(context)
                                 .pushNamed(MarketingOfficerConstants.referral);
-                            // openAlertDialog(context);
-                            // previousTime = '2024-11-24 15:29:37.724407';
-                            // DateTime currentTime = DateTime.now();
-                            // currentDifference = currentTime
-                            //     .difference(DateTime.parse(previousTime))
-                            //     .toString();
-                            // print(currentDifference);
-                            // int seconds = 0;
-                            // // Timer that runs every 2 seconds
-                            // Timer.periodic(Duration(seconds: 1), (Timer timer) {
-                            //   seconds++;
-                            //   DateTime currentTime = DateTime.now();
-                            //   Duration currentDifference = currentTime
-                            //       .difference(DateTime.parse(previousTime));
-                            //   print('time = $currentDifference');
-                            //   print(
-                            //       DateTime.parse(currentDifference.toString()));
-                            //   String formattedDate =
-                            //       DateFormat('hh:mm:ss').format(DateTime.now());
-                            //   print(formattedDate);
-                            //   // Stop the timer after 5 ticks
-                            //   if (seconds == 60) {
-                            //     timer.cancel();
-                            //     // seconds = 60;
-                            //     print("Timer stopped");
-                            //   }
-                            // });
                           },
                           isTabActive: isAlertDialog,
                           text: 'Referral',
                           icon: Icons.share,
+                        ),
+                        CustomListTile(
+                          onTap: () {
+                            // GoRouter.of(context).pushReplacementNamed(
+                            //     MyAppRouteConstants.remoteAttendanceRouteName);
+                            // Navigator.pop(context);
+                            Navigator.of(context)
+                                .pushNamed(MarketingManagerConstants.indexPage);
+                          },
+                          isTabActive: isAlertDialog,
+                          text: 'Logout',
+                          icon: Icons.logout,
+                          iconSize: 22.0,
                         ),
                       ],
                     ),
@@ -357,111 +362,6 @@ class MrOfficerCustomDrawer extends StatelessWidget {
             ),
           ),
         );
-
-        // AlertDialog(
-        //   backgroundColor: Colors.white,
-        //   title: Center(
-        //     child: SingleChildScrollView(
-        //       child: CustomContainer(
-        //         // width: 1,
-        //         verticalPad: 16,
-        //         horizontalPad: 0,
-        //         child: Consumer<MrOfficerVisitProvider>(
-        //           builder: (context, visitProvider, _) {
-        //             return Column(
-        //               mainAxisAlignment: MainAxisAlignment.center,
-        //               crossAxisAlignment: CrossAxisAlignment.center,
-        //               children: [
-        //                 Column(
-        //                   children: [
-        //                     CustomText(
-        //                       text: 'Select Visit Type',
-        //                       fontWeight: FontWeight.w600,
-        //                       size: 22,
-        //                     ),
-        //                     SizedBox(
-        //                       height: 8,
-        //                     ),
-        //                     CustomRadioButton(
-        //                       radioGroupValue: visitProvider.radioGroupValue,
-        //                       radioValue: visitProvider.vistTypeList[0],
-        //                       radioTitle: visitProvider.vistTypeList[0],
-        //                       onChange: (value) {
-        //                         visitProvider.selectVisitType(value);
-        //                       },
-        //                     ),
-        //                     CustomRadioButton(
-        //                       radioGroupValue: visitProvider.radioGroupValue,
-        //                       radioValue: visitProvider.vistTypeList[1],
-        //                       radioTitle: visitProvider.vistTypeList[1],
-        //                       showTrailingWidget: true,
-        //                       trailingWidgetTitle: '15',
-        //                       onChange: (value) {
-        //                         visitProvider.selectVisitType(value);
-        //                       },
-        //                     ),
-        //                     CustomRadioButton(
-        //                       radioGroupValue: visitProvider.radioGroupValue,
-        //                       radioValue: visitProvider.vistTypeList[2],
-        //                       radioTitle: visitProvider.vistTypeList[2],
-        //                       showTrailingWidget: true,
-        //                       trailingWidgetTitle: '5',
-        //                       onChange: (value) {
-        //                         visitProvider.selectVisitType(value);
-        //                       },
-        //                     ),
-        //                     SizedBox(
-        //                       height: 8,
-        //                     ),
-        //                     Row(
-        //                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        //                       children: [
-        //                         CustomElevatedButton(
-        //                           onPressed: () {
-        //                             visitProvider.unSelectVisitType();
-        //                             Navigator.of(context)
-        //                                 .pop(MarketingManagerConstants.homePage);
-        //                           },
-        //                           // backgroundColor: ,
-        //                           backgroundColor: CustomColors.lightRed,
-        //                           widget: CustomText(
-        //                             text: 'Cancel',
-        //                             color: CustomColors.primaryBlack,
-        //                             fontWeight: FontWeight.w500,
-        //                           ),
-        //                         ),
-        //                         CustomElevatedButton(
-        //                           onPressed: () {
-        //                             bool isSelected =
-        //                             visitProvider.setSelectedVisitType();
-        //                             if (isSelected) {
-        //                               Navigator.of(context).push(MaterialPageRoute(
-        //                                   builder: (context) =>
-        //                                       MROfficersVisitsScreen()));
-        //                             }
-        //                           },
-        //                           backgroundColor: CustomColors.primaryColor,
-        //                           widget: CustomText(
-        //                             text: 'Next',
-        //                             color: CustomColors.primaryBlack,
-        //                             fontWeight: FontWeight.w500,
-        //                           ),
-        //                         ),
-        //                       ],
-        //                     ),
-        //                     const SizedBox(
-        //                       height: 8,
-        //                     ),
-        //                   ],
-        //                 ),
-        //               ],
-        //             );
-        //           },
-        //         ),
-        //       ),
-        //     ),
-        //   ),
-        // )
       },
     );
   }

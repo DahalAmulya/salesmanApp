@@ -1,3 +1,4 @@
+import 'package:deskgoo/consts.dart';
 import 'package:deskgoo/pages/mr_officers_pages/weeklyplan/weeklyplan_screen.dart';
 import 'package:deskgoo/routes/route_generator_constants.dart';
 import 'package:deskgoo/themes/custom_colors.dart';
@@ -13,8 +14,8 @@ class CustomDrawer extends StatelessWidget {
     this.hasImage = true,
     // this.userImg,
     this.userImg = 'assets/images/johnCena.jpg',
-    this.userName = 'John Cena',
-    this.userRole = 'Wrestler',
+    // this.userName = 'John Cena',
+    // this.userRole = 'Wrestler',
     this.isHomeActive = false,
     this.isWeeklyPlanActive = false,
     this.isVisitActive = false,
@@ -23,8 +24,8 @@ class CustomDrawer extends StatelessWidget {
 
   final bool hasImage;
   final String? userImg;
-  final String userName;
-  final String userRole;
+  // final String userName;
+  // final String userRole;
   final bool isHomeActive;
   final bool isWeeklyPlanActive;
   final bool isVisitActive;
@@ -73,8 +74,7 @@ class CustomDrawer extends StatelessWidget {
                                     padding: EdgeInsets.all(4),
                                     child: Center(
                                       child: CustomText(
-                                        text:
-                                            '${userName.split(' ')[0][0]} ${userName.split(' ')[1][0]}',
+                                        text: userName,
                                         size: 24,
                                         color: CustomColors.primaryWhite,
                                         fontWeight: FontWeight.w600,
@@ -96,7 +96,7 @@ class CustomDrawer extends StatelessWidget {
                             fontWeight: FontWeight.w600,
                           ),
                           CustomText(
-                            text: userRole,
+                            text: role,
                             color: CustomColors.primaryBlack,
                             fontWeight: FontWeight.w500,
                             size: 14,
@@ -150,23 +150,23 @@ class CustomDrawer extends StatelessWidget {
                     //   text: 'Dashboard',
                     //   textColor: Colors.white,
                     // ),
-                    CustomListTile(
-                      onTap: () {
-                        // GoRouter.of(context).pushReplacementNamed(
-                        //     MyAppRouteConstants.visitRouteName);
-                        Navigator.of(context)
-                            .pushNamed(MarketingManagerConstants.visitPage);
-                      },
-                      isTabActive: isVisitActive,
-                      isIcon: false,
-                      imgName: 'assets/images/visit.png',
-                      imgBoxFit: BoxFit.scaleDown,
-                      imgHeigt: 32,
-                      imgWidth: 32,
-                      // imgColor: Colors.transparent,
-                      text: 'Visit',
-                      textColor: CustomColors.primaryBlack,
-                    ),
+                    // CustomListTile(
+                    //   onTap: () {
+                    //     // GoRouter.of(context).pushReplacementNamed(
+                    //     //     MyAppRouteConstants.visitRouteName);
+                    //     Navigator.of(context)
+                    //         .pushNamed(MarketingManagerConstants.visitPage);
+                    //   },
+                    //   isTabActive: isVisitActive,
+                    //   isIcon: false,
+                    //   imgName: 'assets/images/visit.png',
+                    //   imgBoxFit: BoxFit.scaleDown,
+                    //   imgHeigt: 32,
+                    //   imgWidth: 32,
+                    //   // imgColor: Colors.transparent,
+                    //   text: 'Visit',
+                    //   textColor: CustomColors.primaryBlack,
+                    // ),
                     // CustomListTile(
                     //   onTap: () {
                     //     // GoRouter.of(context).pushReplacementNamed(

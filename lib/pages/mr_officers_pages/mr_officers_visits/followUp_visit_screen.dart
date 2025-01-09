@@ -1,6 +1,6 @@
 import 'dart:convert';
+import 'package:deskgoo/providers/mr_officer_provider/mr_followup_provider.dart';
 import 'package:deskgoo/providers/mr_officer_provider/mr_visit_provider.dart';
-import 'package:deskgoo/routes/marketing_officer_consts.dart';
 import 'package:deskgoo/themes/custom_colors.dart';
 import 'package:deskgoo/widgets/app_bars/custom_app_bars.dart';
 import 'package:deskgoo/widgets/buttons/elevated_button.dart';
@@ -70,8 +70,8 @@ class _MrOfficerFollowUpVisitScreenState
 
   Widget _buildUI(BuildContext context) {
     selectedCountry = country[0];
-    return Consumer<MrOfficerVisitProvider>(
-      builder: (context, createVisitProvider, _) {
+    return Consumer<MrOfficerFollowUpProvider>(
+      builder: (context, followUpProvider, _) {
         return SingleChildScrollView(
           child: Center(
             child: Stack(
@@ -89,16 +89,25 @@ class _MrOfficerFollowUpVisitScreenState
                         height: 16,
                       ),
                       TextFromFieldWithPrefixSuffix(
-                        controller: createVisitProvider.nameController,
+                        controller: followUpProvider.fullNameController,
                         labelText: 'Full Name *',
                         readOnly: true,
                         validator: (newValue) {},
+                        onTap: () {
+                          followUpProvider.GetPOCList();
+                          showModalBottomSheet(
+                              isScrollControlled: true,
+                              useSafeArea: true,
+                              context: context,
+                              builder: (context) =>
+                                  _POCModalBottomSheet(context));
+                        },
                       ),
                       SizedBox(
                         height: 16,
                       ),
                       TextFromFieldWithPrefixSuffix(
-                        controller: createVisitProvider.nameController,
+                        controller: followUpProvider.categoryController,
                         labelText: 'Category',
                         readOnly: true,
                         validator: (newValue) {},
@@ -107,7 +116,7 @@ class _MrOfficerFollowUpVisitScreenState
                         height: 16,
                       ),
                       TextFromFieldWithPrefixSuffix(
-                        controller: createVisitProvider.nameController,
+                        controller: followUpProvider.specializationController,
                         labelText: 'Specialization',
                         maxLines: 2,
                         readOnly: true,
@@ -117,7 +126,7 @@ class _MrOfficerFollowUpVisitScreenState
                         height: 16,
                       ),
                       TextFromFieldWithPrefixSuffix(
-                        controller: createVisitProvider.ageController,
+                        controller: followUpProvider.ageController,
                         labelText: 'Age',
                         readOnly: true,
                         validator: (newValue) {},
@@ -126,7 +135,7 @@ class _MrOfficerFollowUpVisitScreenState
                         height: 16,
                       ),
                       TextFromFieldWithPrefixSuffix(
-                        controller: createVisitProvider.phoneNoController,
+                        controller: followUpProvider.numberController,
                         keyboardType: TextInputType.number,
                         readOnly: true,
                         labelText: 'Number',
@@ -142,17 +151,27 @@ class _MrOfficerFollowUpVisitScreenState
                         height: 16,
                       ),
                       TextFromFieldWithPrefixSuffix(
-                        controller: createVisitProvider.addressController,
+                        controller: followUpProvider.addressController,
                         readOnly: true,
                         labelText: 'Address',
-                        maxLines: 23,
+                        maxLines: 2,
                         validator: (newValue) {},
                       ),
                       SizedBox(
                         height: 16,
                       ),
                       TextFromFieldWithPrefixSuffix(
-                        controller: createVisitProvider.addressController,
+                        controller: followUpProvider.organizationController,
+                        readOnly: true,
+                        labelText: 'Organization',
+                        maxLines: 2,
+                        validator: (newValue) {},
+                      ),
+                      SizedBox(
+                        height: 16,
+                      ),
+                      TextFromFieldWithPrefixSuffix(
+                        controller: followUpProvider.remarksController,
                         maxLines: 3,
                         labelText: 'Remarks *',
                         validator: (newValue) {},
@@ -178,7 +197,9 @@ class _MrOfficerFollowUpVisitScreenState
                           ),
                           CustomElevatedButton(
                             onPressed: () {
-                              createVisitProvider.getCurrentLocation();
+                              followUpProvider.postFollowUp();
+                              // followUpProvider.GetPOCList();
+                              // followUpProvider.getCurrentLocation();
                             },
                             widget: CustomText(
                               text: 'Submit',
@@ -199,6 +220,133 @@ class _MrOfficerFollowUpVisitScreenState
                       print('Pressed on edit');
                     },
                     icon: Icon(FontAwesomeIcons.edit),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        );
+      },
+    );
+  }
+
+  Widget _POCModalBottomSheet(context) {
+    return Consumer<MrOfficerFollowUpProvider>(
+      builder: (context, followUpProvider, _) {
+        return ClipRRect(
+          borderRadius: BorderRadius.circular(16.0),
+          child: SizedBox(
+            height: MediaQuery.of(context).size.height * 0.90,
+            child: Column(
+              children: [
+                Container(
+                  padding: const EdgeInsets.only(
+                    top: 8,
+                    right: 12.0,
+                    bottom: 8,
+                  ),
+                  decoration: BoxDecoration(
+                    color: CustomColors.primaryColor,
+                  ),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Expanded(
+                        flex: 1,
+                        child: InkWell(
+                            onTap: () {
+                              print('Pressed');
+                              Navigator.pop(context);
+                            },
+                            child: Icon(FontAwesomeIcons.arrowLeft)),
+                      ),
+                      // ),
+                      Expanded(
+                        flex: 7,
+                        child: TextFromFieldWithPrefixSuffix(
+                          controller: followUpProvider.searchByNameController,
+                          labelText: 'Search POC name',
+                          applySuffixIcon: true,
+                          suffixIcon: Icon(Icons.search),
+                          validator: (value) {},
+                          // onChange: (value) => visitProvider.searchAddressResult(
+                          //     visitProvider.searchController.value.text, content),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                SizedBox(
+                  height: 16,
+                ),
+                Expanded(
+                  child: ListView.builder(
+                    itemCount: followUpProvider.pocList.length,
+                    itemBuilder: (context, index) {
+                      // String cityName = visitProvider.searchResult[index];
+                      return ListTile(
+                        onTap: () {
+                          // print(followUpProvider.pocList[index]);
+                          followUpProvider.getPOCDetailByID(
+                              followUpProvider.pocList[index]['id']);
+                          Navigator.pop(context);
+                        },
+                        title: CustomContainer(
+                          applyShadow: true,
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Expanded(
+                                    flex: 1,
+                                    child: CustomText(
+                                      text: 'Name',
+                                      isContent: true,
+                                    ),
+                                  ),
+                                  Expanded(
+                                    flex: 2,
+                                    child: CustomText(
+                                      text: followUpProvider.pocList[index]
+                                          ['fullName'],
+                                      isContent: true,
+                                      maxLines: 2,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              SizedBox(
+                                height: 8.0,
+                              ),
+                              Row(
+                                children: [
+                                  Expanded(
+                                    flex: 1,
+                                    child: CustomText(
+                                      text: 'Address',
+                                      isContent: true,
+                                    ),
+                                  ),
+                                  Expanded(
+                                    flex: 2,
+                                    child: CustomText(
+                                      text: followUpProvider.pocList[index]
+                                          ['address'],
+                                      isContent: true,
+                                      maxLines: 2,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ],
+                          ),
+                        ),
+                      );
+                    },
                   ),
                 ),
               ],
