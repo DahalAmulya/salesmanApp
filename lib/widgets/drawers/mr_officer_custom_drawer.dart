@@ -271,9 +271,6 @@ class MrOfficerCustomDrawer extends StatelessWidget {
                         ),
                         CustomListTile(
                           onTap: () {
-                            // GoRouter.of(context).pushReplacementNamed(
-                            //     MyAppRouteConstants.remoteAttendanceRouteName);
-                            // Navigator.pop(context);
                             Navigator.of(context)
                                 .pushNamed(MarketingManagerConstants.indexPage);
                           },

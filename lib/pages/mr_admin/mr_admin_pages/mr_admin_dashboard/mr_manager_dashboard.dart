@@ -4,12 +4,14 @@ import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:deskgoo/classes/notification_controller.dart';
 import 'package:deskgoo/consts.dart';
-import 'package:deskgoo/pages/mr_officers_pages/weeklyplan/weeklyplan_screen.dart';
 import 'package:deskgoo/pages/notification_screen.dart';
+import 'package:deskgoo/providers/attendance_provider/remote_attendance_provider.dart';
+import 'package:deskgoo/providers/auth_provider/change_password_provider.dart';
 import 'package:deskgoo/providers/deviceInfo_provider/deviceInfo_provider.dart';
 import 'package:deskgoo/providers/login_provider/login_provider.dart';
 import 'package:deskgoo/providers/marketing_provider/officerName_provider.dart';
 import 'package:deskgoo/providers/marketing_provider/officersDescription_provider.dart';
+import 'package:deskgoo/providers/mr_officer_provider/mr_visit_provider.dart';
 import 'package:deskgoo/routes/route_generator_constants.dart';
 import 'package:deskgoo/themes/custom_colors.dart';
 import 'package:deskgoo/utils/ScreenWIdth.dart';
@@ -122,6 +124,7 @@ class _MarketingManagerDashboardState extends State<MarketingManagerDashboard> {
           builder: (_) {
             return AlertDialog(
               elevation: 10,
+              backgroundColor: CustomColors.primaryWhite,
               title: CustomText(
                 text: 'Exit',
                 fontWeight: FontWeight.bold,
@@ -153,6 +156,21 @@ class _MarketingManagerDashboardState extends State<MarketingManagerDashboard> {
                         // First navigate to the root page '/' and remove all other pages from the stack.
                         // Navigate to the root page ('/') using GoRouter
                         // context.go(MyAppRouteConstants.loginRouteName); // Navigates to the initial page (home)
+                        AttendanceProvider? attendanceProvider;
+                        MrOfficerVisitProvider? mrOfficerVisitProvider;
+                        ChangePasswordProvider? changePasswordProvider;
+                        attendanceProvider = Provider.of<AttendanceProvider>(
+                            context,
+                            listen: false);
+                        mrOfficerVisitProvider =
+                            Provider.of<MrOfficerVisitProvider>(context,
+                                listen: false);
+                        changePasswordProvider =
+                            Provider.of<ChangePasswordProvider>(context,
+                                listen: false);
+                        attendanceProvider.resetValue();
+                        mrOfficerVisitProvider.clearTextControllersValue();
+                        changePasswordProvider.resetValues();
                         Navigator.pop(context, false);
                         SystemNavigator.pop();
                         // exit(0);
