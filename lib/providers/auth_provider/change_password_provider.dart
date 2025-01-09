@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:ffi';
 
+import 'package:deskgoo/consts.dart';
 import 'package:deskgoo/services/erp_services.dart';
 import 'package:deskgoo/themes/custom_colors.dart';
 import 'package:deskgoo/utils/toast_message.dart';
@@ -52,9 +53,18 @@ class ChangePasswordProvider extends ChangeNotifier {
     // }
   }
 
+  void resetValues() {
+    _oldPasswordObscure = true;
+    _newPasswordObscure = true;
+    _newConfirmPasswordObscure = true;
+    _passwordController.text = '';
+    _newPasswordController.text = '';
+    _newConfirmPasswordController.text = '';
+  }
+
   void resetPassword(context) async {
     Map<String, dynamic> body = {
-      'email': 'farhan@example.com',
+      'email': userEmail,
       'password': newPasswordController.value.text,
       'confirmPassword': newConfirmPasswordController.value.text,
     };

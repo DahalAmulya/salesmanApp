@@ -242,18 +242,82 @@ class _MrOfficerAttendanceBottomSheetState
                   builder: (context, attendanceProvider, _) {
                     return Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         CustomText(
-                          text: 'Total Hours',
+                          text: 'Total Time',
                           isContent: true,
                         ),
-                        CustomText(
-                          text: attendanceProvider.totalHours,
-                          isContent: true,
+                        Row(
+                          // mainAxisAlignment: MainAxisAlignment.start,
+                          // crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            CustomText(
+                              text: attendanceProvider.hours,
+                              isContent: true,
+                            ),
+                            CustomText(
+                              text: 'H ',
+                              isSmallText: true,
+                            ),
+                            CustomText(
+                              text: attendanceProvider.minutes,
+                              isContent: true,
+                            ),
+                            CustomText(
+                              text: 'M',
+                              isSmallText: true,
+                            ),
+                          ],
                         )
                       ],
                     );
+                    // Row(
+                    //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    //   crossAxisAlignment: CrossAxisAlignment.start,
+                    //   children: [
+                    //     CustomText(
+                    //       text: 'Total Hours',
+                    //       isContent: true,
+                    //     ),
+                    //     Row(
+                    //       mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    //       children: [
+                    //         Expanded(
+                    //           flex: 1,
+                    //           child: CustomText(
+                    //             text: 'Total Hours',
+                    //             isSubHeading: true,
+                    //           ),
+                    //         ),
+                    //         Expanded(
+                    //           flex: 1,
+                    //           child: Row(
+                    //             // mainAxisAlignment: MainAxisAlignment.start,
+                    //             // crossAxisAlignment: CrossAxisAlignment.center,
+                    //             children: [
+                    //               CustomText(
+                    //                 text: attendanceProvider.hours,
+                    //                 isContent: true,
+                    //               ),
+                    //               CustomText(
+                    //                 text: 'H ',
+                    //                 isSmallText: true,
+                    //               ),
+                    //               CustomText(
+                    //                 text: attendanceProvider.minutes,
+                    //                 isContent: true,
+                    //               ),
+                    //               CustomText(
+                    //                 text: 'M',
+                    //                 isSmallText: true,
+                    //               ),
+                    //             ],
+                    //           ),
+                    //         )
+                    //       ],
+                    //     ),
+                    //   ],
+                    // );
                   },
                 ),
                 SizedBox(

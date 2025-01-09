@@ -9,6 +9,7 @@ import 'package:deskgoo/widgets/texts/custom_text.dart';
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:nepali_utils/nepali_utils.dart';
+import 'package:intl/intl.dart';
 
 class AttendanceProvider extends ChangeNotifier {
   TextEditingController _checkInTimeController = TextEditingController();
@@ -30,6 +31,8 @@ class AttendanceProvider extends ChangeNotifier {
   // NepaliDateTime _checkOutTime = NepaliDateTime.now();
   String _checkInTimeStr = 'Unknown';
   String _checkOutTimeStr = 'Unknown';
+  String _hours = '00';
+  String _minutes = '00';
 
   TextEditingController get checkInTimeController => _checkInTimeController;
   TextEditingController get checkOutTimeController => _checkOutTimeController;
@@ -50,6 +53,8 @@ class AttendanceProvider extends ChangeNotifier {
   // NepaliDateTime get checkOutTime => _checkOutTime;
   String get checkInTimeStr => _checkInTimeStr;
   String get checkOutTimeStr => _checkOutTimeStr;
+  String get hours => _hours;
+  String get minutes => _minutes;
 
   void resetCheckOutConfirmation() {
     _checkOutConfirmation = false;
@@ -66,6 +71,29 @@ class AttendanceProvider extends ChangeNotifier {
     _longitude = position.longitude;
     List timeList = _checkInTime.toString().split('.')[0].toString().split(' ');
     _time = '${timeList[1]} ${timeList[0]}';
+    notifyListeners();
+  }
+
+  void calculateTimeDifference(String createdAtString) {
+    // Parse createdAt to DateTime
+    DateTime createdAt = DateTime.parse(createdAtString);
+
+    // Get the current DateTime
+    DateTime currentTime = DateTime.now();
+
+    // Calculate the difference
+    Duration difference = currentTime.difference(createdAt);
+
+    // Convert the difference to hours and minutes
+    int hours = difference.inHours;
+    int minutes = difference.inMinutes % 60;
+
+    // Format hours and minutes with zero-padding
+    _hours = hours.toString().padLeft(2, '0');
+    _minutes = minutes.toString().padLeft(2, '0');
+    // String formattedTime =
+    //     '${hours.toString().padLeft(2, '0')}:${minutes.toString().padLeft(2, '0')}';
+
     notifyListeners();
   }
 
@@ -96,6 +124,7 @@ class AttendanceProvider extends ChangeNotifier {
             _checkOutTimeStr = 'Not Check-out yet';
             _totalHours = 'In progress';
             _isCheckedOut = false;
+            calculateTimeDifference(data[0]['createdAt']);
           } else {
             if (_checkOutConfirmation) {}
             _isCheckedOut = true;
@@ -104,7 +133,10 @@ class AttendanceProvider extends ChangeNotifier {
             _checkInTimeStr = data[data.length - 1]['checkIn']['deviceInTime'];
             _checkOutTimeStr =
                 data[data.length - 1]['checkOut']['deviceOutTime'];
+            // calculateTotalTime(data[0]['createdAt']);
             _totalHours = hoursToHMS(data[data.length - 1]['totalHours']);
+            _hours = _totalHours.split(':')[0];
+            _minutes = _totalHours.split(':')[1];
           }
           print(data.runtimeType);
         }
@@ -175,6 +207,28 @@ class AttendanceProvider extends ChangeNotifier {
       position.longitude,
     );
     notifyListeners();
+  }
+
+  void resetValue() {
+    _checkInTimeController.text = '';
+    _checkOutTimeController.text = '';
+    _status = 'Unknown';
+    _totalHours = 'Unknown';
+    _isAttendance = false;
+    _isRemoteAttendanceSwitched = false;
+    _isBiometricAuthenticated = false;
+    _isCheckedOut = false;
+    _checkOutConfirmation = false;
+    _latitude = 0.0;
+    _longitude = 0.0;
+    _time = 'Unknown';
+    _distance = 0.0;
+    _checkInTime = DateTime.now();
+    _checkOutTime = DateTime.now();
+    _checkInTimeStr = 'Unknown';
+    _checkOutTimeStr = 'Unknown';
+    _hours = '00';
+    _minutes = '00';
   }
 
   Future<void> confirmCheckout(context) => showDialog(

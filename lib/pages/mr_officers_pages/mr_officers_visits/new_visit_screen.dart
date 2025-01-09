@@ -282,7 +282,13 @@ class _MrOfficerNewVisitScreenState extends State<MrOfficerNewVisitScreen> {
                       ),
                       CustomElevatedButton(
                         onPressed: () {
-                          createVisitProvider.createPOC(context);
+                          createVisitProvider.createPOC();
+                          pocDetails(context);
+                          // showModalBottomSheet(
+                          //     isScrollControlled: true,
+                          //     useSafeArea: true,
+                          //     context: context,
+                          //     builder: (context) => districtBottomSheet());
                           // Navigator.of(context).pushNamed(
                           //     MarketingOfficerConstants.productConst);
                         },
@@ -302,6 +308,308 @@ class _MrOfficerNewVisitScreenState extends State<MrOfficerNewVisitScreen> {
       },
     );
   }
+
+  Future pocDetails(context) => showDialog(
+        context: context,
+        builder: (_) {
+          return AlertDialog(
+            backgroundColor: CustomColors.primaryWhite,
+            elevation: 10,
+            title: Builder(builder: (context) {
+              return Center(
+                child: CustomText(
+                  text: 'POC Details',
+                  fontWeight: FontWeight.bold,
+                  size: 22,
+                  color: CustomColors.primaryBlack,
+                ),
+              );
+            }),
+            content: SingleChildScrollView(
+              child: Consumer<MrOfficerVisitProvider>(
+                  builder: (context, mrOfficerVisitProvider, _) {
+                return Column(
+                  children: [
+                    SizedBox(
+                      height: 10,
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Expanded(
+                          child: CustomText(
+                            text: 'Full Name',
+                            isContent: true,
+                          ),
+                        ),
+                        Expanded(
+                          child: CustomText(
+                            maxLines: 3,
+                            text: mrOfficerVisitProvider.body['name'],
+                            isContent: true,
+                          ),
+                        ),
+                      ],
+                    ),
+                    SizedBox(
+                      height: 10,
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Expanded(
+                          child: CustomText(
+                            text: 'Age',
+                            isContent: true,
+                          ),
+                        ),
+                        Expanded(
+                          child: CustomText(
+                            maxLines: 3,
+                            text: mrOfficerVisitProvider.body['age'],
+                            isContent: true,
+                          ),
+                        ),
+                      ],
+                    ),
+                    SizedBox(
+                      height: 10,
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Expanded(
+                          child: CustomText(
+                            text: 'Number',
+                            isContent: true,
+                          ),
+                        ),
+                        Expanded(
+                          child: CustomText(
+                            maxLines: 3,
+                            text: mrOfficerVisitProvider.body['number'],
+                            isContent: true,
+                          ),
+                        ),
+                      ],
+                    ),
+                    SizedBox(
+                      height: 10,
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Expanded(
+                          child: CustomText(
+                            text: 'Country',
+                            isContent: true,
+                          ),
+                        ),
+                        Expanded(
+                          child: CustomText(
+                            maxLines: 3,
+                            text: mrOfficerVisitProvider.body['country'],
+                            isContent: true,
+                          ),
+                        ),
+                      ],
+                    ),
+                    SizedBox(
+                      height: 10,
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Expanded(
+                          // flex: ,
+                          child: CustomText(
+                            text: mrOfficerVisitProvider.selectedCountry ==
+                                    'Nepal'
+                                ? 'District'
+                                : 'State',
+                            isContent: true,
+                          ),
+                        ),
+                        Expanded(
+                          // flex: 2,
+                          child: CustomText(
+                            maxLines: 3,
+                            text: mrOfficerVisitProvider.body['region'],
+                            isContent: true,
+                          ),
+                        ),
+                      ],
+                    ),
+                    SizedBox(
+                      height: 10,
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Expanded(
+                          child: CustomText(
+                            text: 'City',
+                            isContent: true,
+                          ),
+                        ),
+                        Expanded(
+                          child: CustomText(
+                            maxLines: 3,
+                            text: mrOfficerVisitProvider.body['city'],
+                            isContent: true,
+                          ),
+                        ),
+                      ],
+                    ),
+                    SizedBox(
+                      height: 10,
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Expanded(
+                          child: CustomText(
+                            text: 'Address',
+                            isContent: true,
+                          ),
+                        ),
+                        Expanded(
+                          child: CustomText(
+                            maxLines: 3,
+                            text: mrOfficerVisitProvider.body['address'],
+                            isContent: true,
+                          ),
+                        ),
+                      ],
+                    ),
+                    SizedBox(
+                      height: 10,
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Expanded(
+                          child: CustomText(
+                            text: 'Category',
+                            isContent: true,
+                          ),
+                        ),
+                        Expanded(
+                          child: CustomText(
+                            maxLines: 3,
+                            text: mrOfficerVisitProvider.body['category'],
+                            isContent: true,
+                          ),
+                        ),
+                      ],
+                    ),
+                    SizedBox(
+                      height: 10,
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Expanded(
+                          child: CustomText(
+                            text: 'Specialization',
+                            isContent: true,
+                          ),
+                        ),
+                        Expanded(
+                          child: CustomText(
+                            maxLines: 3,
+                            text: mrOfficerVisitProvider.body['specialization'],
+                            isContent: true,
+                          ),
+                        ),
+                      ],
+                    ),
+                    SizedBox(
+                      height: 10,
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Expanded(
+                          child: CustomText(
+                            text: 'Organization',
+                            isContent: true,
+                          ),
+                        ),
+                        Expanded(
+                          child: CustomText(
+                            maxLines: 3,
+                            text: mrOfficerVisitProvider.body['organization'],
+                            isContent: true,
+                          ),
+                        ),
+                      ],
+                    ),
+                    SizedBox(
+                      height: 10,
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Expanded(
+                          child: CustomText(
+                            text: 'Remarks',
+                            isContent: true,
+                          ),
+                        ),
+                        Expanded(
+                          child: CustomText(
+                            maxLines: 3,
+                            text: mrOfficerVisitProvider.body['remarks'],
+                            isContent: true,
+                          ),
+                        ),
+                      ],
+                    ),
+                    SizedBox(
+                      height: 10,
+                    ),
+                  ],
+                );
+              }),
+            ),
+            actions: [
+              Consumer<MrOfficerVisitProvider>(
+                  builder: (context, mrOfficerVisitProvider, _) {
+                return Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    CustomElevatedButton(
+                      onPressed: () {
+                        Navigator.pop(context); // passing false
+                      },
+                      backgroundColor: CustomColors.lightRed,
+                      widget: CustomText(
+                        text: 'Edit',
+                        color: CustomColors.primaryBlack,
+                        isContent: true,
+                      ),
+                    ),
+                    CustomElevatedButton(
+                      onPressed: () {
+                        mrOfficerVisitProvider.postPOCDetails(context);
+                        // mrOfficerVisitProvider.postPOCDetails(body, context);
+                        // Navigator.pop(context); // passing false
+                      },
+                      backgroundColor: CustomColors.primaryColor,
+                      widget: CustomText(
+                        text: 'Submit',
+                        color: CustomColors.primaryBlack,
+                        isContent: true,
+                      ),
+                    ),
+                  ],
+                );
+              }),
+            ],
+          );
+        },
+      );
 
   Widget districtBottomSheet(context, String type, List<dynamic> content) {
     return Consumer<MrOfficerVisitProvider>(
@@ -356,8 +664,6 @@ class _MrOfficerNewVisitScreenState extends State<MrOfficerNewVisitScreen> {
               ),
               Expanded(
                 child: ListView.builder(
-                  // shrinkWrap: true,
-                  // physics: NeverScrollableScrollPhysics(),
                   itemCount: visitProvider.searchResult.length,
                   itemBuilder: (context, index) {
                     String name = visitProvider.searchResult[index]['$type'];
@@ -369,8 +675,6 @@ class _MrOfficerNewVisitScreenState extends State<MrOfficerNewVisitScreen> {
                             : visitProvider.setSelectedState(name);
                         visitProvider.getCities(
                             visitProvider.searchResult[index]['cities']);
-                        // print(visitProvider.searchResult[index]);
-                        // print(visitProvider.cities);
                       },
                       title: CustomText(
                         text: name,

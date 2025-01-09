@@ -7,11 +7,14 @@ import 'package:deskgoo/routes/marketing_officer_consts.dart';
 import 'package:deskgoo/routes/route_generator_constants.dart';
 import 'package:deskgoo/services/erp_services.dart';
 import 'package:deskgoo/themes/custom_colors.dart';
+import 'package:deskgoo/utils/toast_message.dart';
 import 'package:deskgoo/widgets/buttons/elevated_button.dart';
 import 'package:deskgoo/widgets/containers/custom_container.dart';
 import 'package:deskgoo/widgets/text_fields/text_from_field.dart';
 import 'package:deskgoo/widgets/texts/custom_text.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:provider/provider.dart';
 
 import '../../../providers/login_provider/login_provider.dart';
@@ -46,17 +49,26 @@ class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
     print('build');
-    return GestureDetector(
-      onTap: () {
-        // Dismiss the keyboard when tapping outside TextFormFields
-        FocusScopeNode currentFocus = FocusScope.of(context);
-        if (!currentFocus.hasPrimaryFocus) {
-          FocusScope.of(context).unfocus();
+    return PopScope(
+      canPop: false,
+      onPopInvoked: ((didpop) {
+        if (didpop) {
+          return;
         }
-      },
-      child: Scaffold(
-        backgroundColor: CustomColors.primaryColor,
-        body: _buildUI(context),
+        SystemNavigator.pop();
+      }),
+      child: GestureDetector(
+        onTap: () {
+          // Dismiss the keyboard when tapping outside TextFormFields
+          FocusScopeNode currentFocus = FocusScope.of(context);
+          if (!currentFocus.hasPrimaryFocus) {
+            FocusScope.of(context).unfocus();
+          }
+        },
+        child: Scaffold(
+          backgroundColor: CustomColors.primaryColor,
+          body: _buildUI(context),
+        ),
       ),
     );
   }
@@ -217,14 +229,18 @@ class _LoginPageState extends State<LoginPage> {
     };
     ERPResponse response = await ERPServices.ERPlogin(body);
     if (response.statusCode == 200) {
+      ToastMessageUtils().showToastMessage(
+          'Login successful', ToastGravity.TOP, CustomColors.jadeGreen);
       print(response.statusCode);
       final data = jsonDecode(response.body);
       accessToken = data['accessToken'];
       refreshToken = data['refreshToken'];
       userId = data['user']['userId'];
+      userName = data['user']['username'];
       isFirstLogin = data['user']['firstLogin'];
       isResetMobile = data['user']['resetMobile'];
       role = data['user']['role'];
+      userEmail = data['user']['email'];
       print(data);
       if (isFirstLogin || isResetMobile) {
         print('$isFirstLogin, $isResetMobile');
@@ -240,6 +256,9 @@ class _LoginPageState extends State<LoginPage> {
           print('Marketing Officer');
         }
       }
+    } else {
+      ToastMessageUtils()
+          .showToastMessage('Something went wrong', ToastGravity.TOP);
     }
   }
 }
