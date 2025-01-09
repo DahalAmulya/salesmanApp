@@ -13,6 +13,7 @@ import 'package:deskgoo/widgets/bottom_sheets/mr_officer_sheets/select_visit_typ
 import 'package:deskgoo/widgets/drawers/drawers_items/custom_listTile.dart';
 import 'package:deskgoo/widgets/texts/custom_text.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
@@ -157,8 +158,6 @@ class MrOfficerCustomDrawer extends StatelessWidget {
                       children: [
                         CustomListTile(
                           onTap: () {
-                            // GoRouter.of(context).pushReplacementNamed(
-                            //     MyAppRouteConstants.homeNavBarRouteName);
                             Navigator.of(context).pushNamed(
                                 MarketingOfficerConstants
                                     .mrStaffDashboardConst);
@@ -175,13 +174,15 @@ class MrOfficerCustomDrawer extends StatelessWidget {
                           },
                           isTabActive: isWeeklyPlanActive,
                           text: 'Weekly Plan',
-                          icon: Icons.add,
+                          isIcon: false,
+                          imgName: 'assets/images/plan.png',
+                          imgBoxFit: BoxFit.scaleDown,
+                          imgHeigt: 32,
+                          imgWidth: 32,
                         ),
                         CustomListTile(
                           onTap: () {
                             Navigator.pop(context);
-                            // MrOfficerAttendanceBottomSheet.attendanceBottomSheet(
-                            //     context);
                             showModalBottomSheet(
                               isScrollControlled: true,
                               useSafeArea: true,
@@ -189,12 +190,10 @@ class MrOfficerCustomDrawer extends StatelessWidget {
                               builder: (context) =>
                                   MrOfficerSelectVisitTypeBottomSheet(),
                             );
-                            // Navigator.of(context)
-                            //     .pushNamed(MarketingManagerConstants.visitPage);
                           },
                           isTabActive: isVisitActive,
                           isIcon: false,
-                          imgName: 'assets/images/visit.png',
+                          imgName: 'assets/images/visitor.png',
                           imgBoxFit: BoxFit.scaleDown,
                           imgHeigt: 32,
                           imgWidth: 32,
@@ -234,7 +233,7 @@ class MrOfficerCustomDrawer extends StatelessWidget {
                           },
                           isTabActive: isAttendanceActive,
                           isIcon: false,
-                          imgName: 'assets/images/biometricattendenceBold.png',
+                          imgName: 'assets/images/biometricAttendanceWhite.png',
                           imgBoxFit: BoxFit.scaleDown,
                           imgHeigt: 32,
                           imgWidth: 32,
@@ -244,8 +243,6 @@ class MrOfficerCustomDrawer extends StatelessWidget {
                         ),
                         CustomListTile(
                           onTap: () {
-                            // GoRouter.of(context).pushReplacementNamed(
-                            //     MyAppRouteConstants.remoteAttendanceRouteName);
                             Navigator.pop(context);
                             AttendanceProvider? attendanceProvider;
                             MrOfficerVisitProvider? mrOfficerVisitProvider;
@@ -271,8 +268,71 @@ class MrOfficerCustomDrawer extends StatelessWidget {
                         ),
                         CustomListTile(
                           onTap: () {
-                            Navigator.of(context)
-                                .pushNamed(MarketingManagerConstants.indexPage);
+                            showDialog(
+                              context: context,
+                              builder: (_) {
+                                return AlertDialog(
+                                  elevation: 10,
+                                  backgroundColor: CustomColors.primaryWhite,
+                                  title: CustomText(
+                                    text: 'Logout ?',
+                                    isHeading: true,
+                                    // fontWeight: FontWeight.bold,
+                                    // size: 24.0,
+                                    // color: Colors.red,
+                                  ),
+                                  content: CustomText(
+                                    text: 'Are you sure you want to logout ?',
+                                    maxLines: 2,
+                                    isSubHeading: true,
+                                  ),
+                                  actions: [
+                                    Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        CustomElevatedButton(
+                                          onPressed: () {
+                                            Navigator.pop(context, false);
+                                          },
+                                          // backgroundColor: Colors.green,
+                                          backgroundColor:
+                                              CustomColors.primaryColor,
+                                          widget: CustomText(
+                                            text: 'No',
+                                            isContent: true,
+                                          ),
+                                        ),
+                                        CustomElevatedButton(
+                                          onPressed: () {
+                                            // First navigate to the root page '/' and remove all other pages from the stack.
+                                            // Navigate to the root page ('/') using GoRouter
+                                            // context.go(MyAppRouteConstants.loginRouteName); // Navigates to the initial page (home)
+                                            // Navigator.pop(context, false);
+
+                                            // SystemNavigator.pop();
+                                            Navigator.pop(context);
+                                            Navigator.of(context).pushNamed(
+                                                MarketingManagerConstants
+                                                    .indexPage);
+                                            // exit(0);
+                                          },
+                                          // backgroundColor: Colors.red,
+                                          backgroundColor:
+                                              CustomColors.lightRed,
+                                          widget: CustomText(
+                                            text: 'Yes',
+                                            isContent: true,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ],
+                                );
+                              },
+                            );
+                            // Navigator.of(context)
+                            //     .pushNamed(MarketingManagerConstants.indexPage);
                           },
                           isTabActive: isAlertDialog,
                           text: 'Logout',

@@ -166,31 +166,61 @@ class _LoginPageState extends State<LoginPage> {
                       },
                     ),
                     SizedBox(
-                      height: 16.0,
+                      height: 4.0,
                     ),
-                    Consumer<UserProvider>(builder: (context, userProvider, _) {
-                      return CustomElevatedButton(
-                        onPressed: () {
-                          if (_formKey.currentState!.validate()) {
-                            // login api call logic
-                            login();
-                            print('Form is valid');
-                          } else {
-                            login();
-                            print('Form is not valid');
-                          }
-                        },
-                        width: 0.90,
-                        height: 50,
-                        backgroundColor: CustomColors.primaryColor,
-                        widget: CustomText(
-                          text: 'Login',
-                          fontWeight: FontWeight.w600,
-                          color: CustomColors.primaryBlack,
-                          size: 20.0,
-                        ),
+                    Consumer<UserAuthProvider>(
+                        builder: (context, authProvider, _) {
+                      return Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          CustomText(
+                            text: 'Remember me ?',
+                            isSubHeading: true,
+                          ),
+                          Checkbox(
+                            activeColor: CustomColors.primaryColor,
+                            value: authProvider.rememberMe,
+                            onChanged: (value) {
+                              authProvider.toggleRememberMe(value!);
+                            },
+                          )
+                          // Switch.adaptive(
+                          //   activeColor: CustomColors.primaryBlack,
+                          //   activeTrackColor: CustomColors.primaryColor,
+                          //   inactiveThumbColor: CustomColors.primaryBlack,
+                          //   inactiveTrackColor: CustomColors.primaryWhite,
+                          //   value: false,
+                          //   onChanged: (value) {
+                          //     print(value);
+                          //   },
+                          // ),
+                        ],
                       );
                     }),
+                    SizedBox(
+                      height: 4.0,
+                    ),
+                    CustomElevatedButton(
+                      onPressed: () {
+                        if (_formKey.currentState!.validate()) {
+                          // login api call logic
+                          login();
+                          print('Form is valid');
+                        } else {
+                          login();
+                          print('Form is not valid');
+                        }
+                      },
+                      width: 0.90,
+                      height: 50,
+                      backgroundColor: CustomColors.primaryColor,
+                      widget: CustomText(
+                        text: 'Login',
+                        fontWeight: FontWeight.w600,
+                        color: CustomColors.primaryBlack,
+                        size: 20.0,
+                      ),
+                    ),
                     SizedBox(height: 8.0),
                     CustomElevatedButton(
                       onPressed: () {

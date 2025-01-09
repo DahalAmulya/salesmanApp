@@ -32,13 +32,6 @@ class _MrOfficersDashboardScreenState extends State<MrOfficersDashboardScreen> {
     final String jsonString =
         await rootBundle.loadString('assets/district.json');
     print(jsonString);
-    // Decode the JSON
-    // final List<dynamic> jsonData = jsonDecode(jsonString);
-    // Print the parsed data
-    // for (var district in jsonData) {
-    //   print('District: ${district['district']}');
-    //   print('Cities: ${district['cities']}');
-    // }
   }
 
   Future<List<Map<String, dynamic>>> readDistrictJson() async {
