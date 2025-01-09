@@ -78,15 +78,18 @@ class _MrOfficersDashboardScreenState extends State<MrOfficersDashboardScreen> {
           builder: (_) {
             return AlertDialog(
               elevation: 10,
+              backgroundColor: CustomColors.primaryWhite,
               title: CustomText(
-                text: 'Exit',
-                fontWeight: FontWeight.bold,
-                size: 24.0,
-                color: Colors.red,
+                text: 'Exit App?',
+                isHeading: true,
+                // fontWeight: FontWeight.bold,
+                // size: 24.0,
+                // color: Colors.red,
               ),
               content: CustomText(
                 text: 'Are you sure you want to exit ?',
-                fontWeight: FontWeight.w500,
+                maxLines: 2,
+                isSubHeading: true,
               ),
               actions: [
                 Row(
@@ -97,11 +100,10 @@ class _MrOfficersDashboardScreenState extends State<MrOfficersDashboardScreen> {
                         Navigator.pop(context, false);
                       },
                       // backgroundColor: Colors.green,
-                      borderColor: CustomColors.primaryBlack,
+                      backgroundColor: CustomColors.primaryColor,
                       widget: CustomText(
                         text: 'No',
-                        fontWeight: FontWeight.w500,
-                        color: CustomColors.primaryBlack,
+                        isContent: true,
                       ),
                     ),
                     CustomElevatedButton(
@@ -115,11 +117,10 @@ class _MrOfficersDashboardScreenState extends State<MrOfficersDashboardScreen> {
                         // exit(0);
                       },
                       // backgroundColor: Colors.red,
-                      borderColor: Colors.red,
+                      backgroundColor: CustomColors.lightRed,
                       widget: CustomText(
                         text: 'Yes',
-                        fontWeight: FontWeight.w500,
-                        color: Colors.red,
+                        isContent: true,
                       ),
                     ),
                   ],
