@@ -4,9 +4,9 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 class Environment {
   static String get fileName {
     if (kReleaseMode) {
-      return '.env.production';
+      return '.env';
     }
-    return '.env';
+    return '.env.production';
   }
 
   // dotenv.env['API_URL'] ?? 'API_URL not found' is same as dotenv.get('API_URL', fallback: 'API_URL not found');
