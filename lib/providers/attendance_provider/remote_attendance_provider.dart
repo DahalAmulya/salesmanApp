@@ -9,7 +9,6 @@ import 'package:deskgoo/widgets/texts/custom_text.dart';
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:nepali_utils/nepali_utils.dart';
-import 'package:intl/intl.dart';
 
 class AttendanceProvider extends ChangeNotifier {
   TextEditingController _checkInTimeController = TextEditingController();
@@ -61,12 +60,7 @@ class AttendanceProvider extends ChangeNotifier {
   }
 
   void getCurrentLocation() async {
-    Position position = await Geolocator.getCurrentPosition(
-      locationSettings: LocationSettings(
-        accuracy: LocationAccuracy.best,
-        distanceFilter: 0,
-      ),
-    );
+    Position position = await Geolocator.getCurrentPosition();
     _latitude = position.latitude;
     _longitude = position.longitude;
     List timeList = _checkInTime.toString().split('.')[0].toString().split(' ');
@@ -98,11 +92,14 @@ class AttendanceProvider extends ChangeNotifier {
   }
 
   void getAttendanceStatus() async {
+    print(
+        '********************************************************************************************');
     try {
       ERPResponse response =
           await ERPServices.getRequest('/attendance/$userId');
       print(response.body);
       if (response.statusCode == 200) {
+        print('StatusCode=${response.statusCode}');
         final data = jsonDecode(response.body);
         if (data.isEmpty) {
           _isAttendance = false;
@@ -147,6 +144,8 @@ class AttendanceProvider extends ChangeNotifier {
     } catch (err) {
       print('Err = $err');
     }
+    print(
+        '********************************************************************************************');
     notifyListeners();
   }
 

@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
+import 'package:deskgoo/consts.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
@@ -11,13 +12,13 @@ import 'dart:ui' as ui;
 import 'package:flutter_udid/flutter_udid.dart';
 import 'package:device_info_plus/device_info_plus.dart';
 import 'package:connectivity_plus/connectivity_plus.dart';
-// import 'package:flutter_background_geolocation/flutter_background_geolocation.dart' as bg;
 
 class DeviceInfoProvider extends ChangeNotifier {
+  bool _isAttendance = false;
   Battery _battery = Battery();
   DeviceInfoPlugin deviceInfo = DeviceInfoPlugin();
   String _uniqueIdentifier = '';
-  String _name = 'Nimesh';
+  String _name = userName;
   String _consistentUdid = '';
   String _accuracy = '';
   String _deviceTime = '';
@@ -32,7 +33,7 @@ class DeviceInfoProvider extends ChangeNotifier {
   late Timer _locationTimer;
   int _seconds = 0;
   Set<Marker> _livePositionMarkers = {};
-  var baseApi = 'http://202.51.3.49:8002/api/location';
+  var baseApi = 'http://202.51.3.49:8090/api/location';
   List<ConnectivityResult> _connectionStatus = [ConnectivityResult.none];
   Connectivity _connectivity = Connectivity();
   // late StreamSubscription<List<ConnectivityResult>> _connectivitySubscription;
@@ -94,6 +95,10 @@ class DeviceInfoProvider extends ChangeNotifier {
     });
   }
 
+  void setIsAttendance(bool value) {
+    _isAttendance = value;
+  }
+
   deviceInfoProvider() {
     clearMarkers();
     getUniqueIdentifier();
@@ -111,16 +116,20 @@ class DeviceInfoProvider extends ChangeNotifier {
   void updateLocation() async {
     clearMarkers();
     // _locationTimer.cancel();
-    _locationTimer = Timer.periodic(const Duration(seconds: 1), (timer) {
-      if (_seconds == 3) {
-        _seconds = 0;
-        getLocation();
-        // backgroundLocation();
-      } else {
-        _seconds++;
-      }
-      // print('Seconds = $seconds');
-    });
+    if (_isAttendance) {
+      _locationTimer = Timer.periodic(const Duration(seconds: 1), (timer) {
+        if (_seconds == 3) {
+          _seconds = 0;
+          getLocation();
+          // backgroundLocation();
+        } else {
+          _seconds++;
+        }
+        // print('Seconds = $seconds');
+      });
+    } else {
+      _locationTimer.cancel();
+    }
   }
 
   Stream<Position> positionStream = Geolocator.getPositionStream(

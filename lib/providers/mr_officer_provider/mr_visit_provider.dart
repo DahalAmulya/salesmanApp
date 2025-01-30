@@ -25,6 +25,7 @@ class MrOfficerVisitProvider with ChangeNotifier {
   final _phoneNoController = TextEditingController();
   final _ageController = TextEditingController();
   final _searchController = TextEditingController();
+  final _ambulanceNumberController = TextEditingController();
   final _organizationController = TextEditingController();
   final _remarksController = TextEditingController();
   bool _isVisitFormValid = false;
@@ -34,7 +35,7 @@ class MrOfficerVisitProvider with ChangeNotifier {
   List<String> _country = ['Nepal', 'India'];
   String _selectedCountry = 'Nepal';
   List<String> _category = ['Doctor', 'Ambulance', 'Practitioner'];
-  String _selectedCategory = 'Ambulance';
+  String _selectedCategory = 'Doctor';
   List<String> _specialization = [
     'Allergist/Immunologist',
     'Cardiologist',
@@ -101,6 +102,8 @@ class MrOfficerVisitProvider with ChangeNotifier {
   TextEditingController get phoneNoController => _phoneNoController;
   TextEditingController get ageController => _ageController;
   TextEditingController get searchController => _searchController;
+  TextEditingController get ambulanceNumberController =>
+      _ambulanceNumberController;
   TextEditingController get organizationController => _organizationController;
   TextEditingController get remarksController => _remarksController;
   // GlobalKey<FormState> get createVisitFormKey => _createVisitFormKey;
@@ -226,6 +229,8 @@ class MrOfficerVisitProvider with ChangeNotifier {
 
   void setCategory(value) {
     _selectedCategory = value;
+    _selectedSpecialization = "General";
+    print(_selectedCategory);
     notifyListeners();
   }
 
@@ -330,6 +335,7 @@ class MrOfficerVisitProvider with ChangeNotifier {
       "address": _addressController.value.text,
       "category": _selectedCategory,
       "specialization": _selectedSpecialization,
+      "ambNumber": _addressController.value.text,
       "organization": _organizationController.value.text,
       "latitude": _latitude,
       "longitude": _longitude,

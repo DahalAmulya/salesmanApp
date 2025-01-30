@@ -1,6 +1,5 @@
 import 'dart:convert';
 import 'package:deskgoo/providers/mr_officer_provider/mr_visit_provider.dart';
-import 'package:deskgoo/routes/marketing_officer_consts.dart';
 import 'package:deskgoo/themes/custom_colors.dart';
 import 'package:deskgoo/widgets/app_bars/custom_app_bars.dart';
 import 'package:deskgoo/widgets/buttons/elevated_button.dart';
@@ -244,6 +243,22 @@ class _MrOfficerNewVisitScreenState extends State<MrOfficerNewVisitScreen> {
                   SizedBox(
                     height: 16,
                   ),
+                  createVisitProvider.selectedCategory == "Ambulance"
+                      ? Column(
+                          children: [
+                            TextFromFieldWithPrefixSuffix(
+                              controller:
+                                  createVisitProvider.organizationController,
+                              labelText: 'Ambulance Number *',
+                              maxLines: 2,
+                              validator: (newValue) {},
+                            ),
+                            SizedBox(
+                              height: 16,
+                            ),
+                          ],
+                        )
+                      : Container(),
                   TextFromFieldWithPrefixSuffix(
                     controller: createVisitProvider.organizationController,
                     labelText: 'Organization',

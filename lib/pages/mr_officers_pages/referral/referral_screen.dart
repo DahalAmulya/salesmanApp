@@ -4,7 +4,6 @@ import 'package:deskgoo/services/erp_services.dart';
 import 'package:deskgoo/themes/custom_colors.dart';
 import 'package:deskgoo/widgets/app_bars/custom_app_bars.dart';
 import 'package:deskgoo/widgets/buttons/elevated_button.dart';
-import 'package:deskgoo/widgets/containers/custom_container.dart';
 import 'package:deskgoo/widgets/texts/custom_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -135,7 +134,7 @@ class _MrOfficerReferralScreenState extends State<MrOfficerReferralScreen> {
             SizedBox(
               height: 16,
             ),
-            _personalDetails(context),
+            _patientDetails(context),
             SizedBox(
               height: 16,
             ),
@@ -189,13 +188,13 @@ class _MrOfficerReferralScreenState extends State<MrOfficerReferralScreen> {
     );
   }
 
-  Widget _personalDetails(context) {
+  Widget _patientDetails(context) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 8.0),
       child: CustomExpansionTile(
         initiallyExpanded: true,
         applyAllBorderRadius: true,
-        title: 'Personal Details',
+        title: 'Patient Details',
         size: 20,
         fontWeight: FontWeight.w600,
         children: [

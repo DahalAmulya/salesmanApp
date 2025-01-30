@@ -21,9 +21,11 @@ import 'package:deskgoo/providers/settings_providers/profile_provider/profile_pr
 import 'package:deskgoo/providers/visit_provider/order_provider.dart';
 import 'package:deskgoo/providers/visit_provider/visit_screen_provider.dart';
 import 'package:deskgoo/providers/weeklyplan_provider/weeklyplan_provider.dart';
+import 'package:deskgoo/routes/marketing_officer_consts.dart';
 import 'package:deskgoo/routes/route_generator.dart';
 import 'package:deskgoo/routes/route_generator_constants.dart';
 import 'package:deskgoo/services/firebaseApi.dart';
+import 'package:deskgoo/utils/readUserCred.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:deskgoo/providers/auth_provider/user_auth_provider.dart';
@@ -43,6 +45,7 @@ Future<void> main() async {
       DevicePreview(builder: (context) => const MyApp()),
     );
   } else {
+    UserCred().readUserCred();
     NotificationController.getPermissions();
     print('Not Running on browser');
     WidgetsFlutterBinding.ensureInitialized();
@@ -93,7 +96,7 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
         state == AppLifecycleState.detached) return;
 
     if (state == AppLifecycleState.paused) {
-      // getBackgroundLocation();
+      getBackgroundLocation();
       print('----------------------------------------------------------------');
       print('\t\tApp is in background');
       isBackground = true;
@@ -154,7 +157,8 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
               useMaterial3: true,
             ),
             // home: TestingDecodingAndEncoding(),
-            initialRoute: MarketingManagerConstants.indexPage,
+            // initialRoute: MarketingManagerConstants.indexPage,
+            initialRoute: MarketingOfficerConstants.mrStaffDashboardConst,
             // initialRoute: MarketingManagerConstants.homePage,
             // initialRoute: MarketingOfficerConstants.mrStaffDashboardConst,
             onGenerateRoute: RouteGenerator.generateRoute,
