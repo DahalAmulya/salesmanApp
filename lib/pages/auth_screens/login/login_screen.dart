@@ -253,10 +253,10 @@ class _LoginPageState extends State<LoginPage> {
   void login() async {
     Map<String, dynamic> body = {
       'email': emailController.value.text.isEmpty
-          ? 'farhan@example.com'
+          ? 'farhan@gmail.com'
           : emailController.value.text,
       'password': passwordController.value.text.isEmpty
-          ? 'farhan@123'
+          ? 'farhan123@'
           : passwordController.value.text,
       // admin@example.com
       // admin@123
@@ -270,40 +270,41 @@ class _LoginPageState extends State<LoginPage> {
           'Login successful', ToastGravity.TOP, CustomColors.jadeGreen);
       print(response.statusCode);
       final data = jsonDecode(response.body);
-      accessToken = data['accessToken'];
-      refreshToken = data['refreshToken'];
-      userId = data['user']['userId'];
-      userName = data['user']['username'];
-      isFirstLogin = data['user']['firstLogin'];
-      isResetMobile = data['user']['resetMobile'];
-      role = data['user']['role'];
-      userEmail = data['user']['email'];
-      if (rememberMe) {
-        SecureStorage().writeLoginCredentials(
-            SecureStorage.userEmail, emailController.value.text);
-        SecureStorage().writeLoginCredentials(
-            SecureStorage.password, passwordController.value.text);
-      }
-      SecureStorage()
-          .writeLoginCredentials(SecureStorage.refreshToken, refreshToken);
-      SecureStorage().writeLoginCredentials(SecureStorage.userId, userId);
-      SecureStorage()
-          .writeLoginCredentials(SecureStorage.rememberMe, '$rememberMe');
       print(data);
-      if (isFirstLogin || isResetMobile) {
-        print('$isFirstLogin, $isResetMobile');
-        Navigator.of(context).push(
-            MaterialPageRoute(builder: (context) => ChangePasswordScreen()));
-      } else {
-        if (role == 'admin') {
-          Navigator.of(context).pushNamed(MarketingManagerConstants.homePage);
-          print('Administrator');
-        } else {
-          Navigator.of(context)
-              .pushNamed(MarketingOfficerConstants.mrStaffDashboardConst);
-          print('Marketing Officer');
-        }
-      }
+      // accessToken = data['accessToken'];
+      // refreshToken = data['refreshToken'];
+      // userId = data['user']['userId'];
+      // userName = data['user']['username'];
+      // isFirstLogin = data['user']['firstLogin'];
+      // isResetMobile = data['user']['resetMobile'];
+      // role = data['user']['role'];
+      // userEmail = data['user']['email'];
+      // if (rememberMe) {
+      //   SecureStorage().writeLoginCredentials(
+      //       SecureStorage.userEmail, emailController.value.text);
+      //   SecureStorage().writeLoginCredentials(
+      //       SecureStorage.password, passwordController.value.text);
+      // }
+      // SecureStorage()
+      //     .writeLoginCredentials(SecureStorage.refreshToken, refreshToken);
+      // SecureStorage().writeLoginCredentials(SecureStorage.userId, userId);
+      // SecureStorage()
+      //     .writeLoginCredentials(SecureStorage.rememberMe, '$rememberMe');
+      // print(data);
+      // if (isFirstLogin || isResetMobile) {
+      //   print('$isFirstLogin, $isResetMobile');
+      //   Navigator.of(context).push(
+      //       MaterialPageRoute(builder: (context) => ChangePasswordScreen()));
+      // } else {
+      //   if (role == 'admin') {
+      //     Navigator.of(context).pushNamed(MarketingManagerConstants.homePage);
+      //     print('Administrator');
+      //   } else {
+      //     Navigator.of(context)
+      //         .pushNamed(MarketingOfficerConstants.mrStaffDashboardConst);
+      //     print('Marketing Officer');
+      //   }
+      // }
     } else {
       ToastMessageUtils()
           .showToastMessage('Something went wrong', ToastGravity.TOP);

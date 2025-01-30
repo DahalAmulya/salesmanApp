@@ -62,7 +62,7 @@ class ERPServices {
 
   static Future<ERPResponse> ERPlogin(Map<String, dynamic> body) async {
     try {
-      String url = '$apiURL/login';
+      String url = '$apiURL/auth';
       // final encodedBody = body.entries
       //     .map((e) =>
       //         '${Uri.encodeComponent(e.key)}=${Uri.encodeComponent(e.value)}')
