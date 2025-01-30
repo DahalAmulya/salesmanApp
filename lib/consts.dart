@@ -16,3 +16,4 @@ String userEmail = '';
 bool isFirstLogin = false;
 bool isResetMobile = false;
 String role = '';
+int roleValue = 0;
