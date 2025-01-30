@@ -49,9 +49,9 @@ Future<void> main() async {
     NotificationController.getPermissions();
     print('Not Running on browser');
     WidgetsFlutterBinding.ensureInitialized();
-    await Firebase.initializeApp(
-        options: DefaultFirebaseOptions.currentPlatform);
-    await FirebaseApi().initNotifications();
+    // await Firebase.initializeApp(
+    //     options: DefaultFirebaseOptions.currentPlatform);
+    // await FirebaseApi().initNotifications();
     BackgroundTask.instance.setAndroidNotification(
       title: 'Deskgoo',
       message: 'Running in the background',
