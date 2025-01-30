@@ -1,3 +1,4 @@
+import 'dart:ffi';
 import 'dart:io';
 
 import 'package:deskgoo/providers/attendance_provider/remote_attendance_provider.dart';
@@ -24,6 +25,7 @@ class _MrOfficerAttendanceBottomSheetState
   final LocalAuthentication auth = LocalAuthentication();
   bool _isAuthenticated = false;
   AttendanceProvider? _attendanceProvider;
+  DeviceInfoProvider? deviceInfoProvider;
 
   Future<void> askPermission() async {
     LocationPermission permission = await Geolocator.checkPermission();
@@ -61,6 +63,11 @@ class _MrOfficerAttendanceBottomSheetState
     askPermission();
   }
 
+  void updateDeviceLocation() {
+    deviceInfoProvider = Provider.of<DeviceInfoProvider>(context, listen: true);
+    deviceInfoProvider?.deviceInfoProvider();
+  }
+
   @override
   Widget build(BuildContext context) {
     return _buildUI(context);
@@ -81,18 +88,18 @@ class _MrOfficerAttendanceBottomSheetState
                     return InkWell(
                       onTap: () async {
                         bool response = await biometricAuthentication();
-                        if (response) {
-                          attendanceProvider.switchRemoteAttendanceSwitch();
-                          if (attendanceProvider.isRemoteAttendanceSwitched) {
-                            deviceInfoProvider.deviceInfoProvider();
-                            print(
-                                'attendanceProvider.isRemoteAttendanceSwitched = ${attendanceProvider.isRemoteAttendanceSwitched}, Posting device information');
-                          } else {
-                            deviceInfoProvider.cancelLocationTimer();
-                            print(
-                                'attendanceProvider.isRemoteAttendanceSwitched = ${attendanceProvider.isRemoteAttendanceSwitched}, Stop posting device information');
-                          }
+                        // if (response) {
+                        attendanceProvider.switchRemoteAttendanceSwitch();
+                        if (attendanceProvider.isRemoteAttendanceSwitched) {
+                          deviceInfoProvider.deviceInfoProvider();
+                          print(
+                              'attendanceProvider.isRemoteAttendanceSwitched = ${attendanceProvider.isRemoteAttendanceSwitched}, Posting device information');
+                        } else {
+                          deviceInfoProvider.cancelLocationTimer();
+                          print(
+                              'attendanceProvider.isRemoteAttendanceSwitched = ${attendanceProvider.isRemoteAttendanceSwitched}, Stop posting device information');
                         }
+                        // }
                         print('response = $response');
                       },
                       child: Row(

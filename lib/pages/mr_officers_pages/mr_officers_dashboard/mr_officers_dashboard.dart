@@ -1,6 +1,9 @@
+import 'package:deskgoo/classes/secure_storage.dart';
 import 'package:deskgoo/consts.dart';
 import 'package:deskgoo/providers/attendance_provider/remote_attendance_provider.dart';
+import 'package:deskgoo/providers/deviceInfo_provider/deviceInfo_provider.dart';
 import 'package:deskgoo/themes/custom_colors.dart';
+import 'package:deskgoo/utils/readUserCred.dart';
 import 'package:deskgoo/widgets/app_bars/custom_app_bars.dart';
 import 'package:deskgoo/widgets/bottom_sheets/mr_officer_sheets/attendance.dart';
 import 'package:deskgoo/widgets/buttons/elevated_button.dart';
@@ -25,6 +28,7 @@ class MrOfficersDashboardScreen extends StatefulWidget {
 
 class _MrOfficersDashboardScreenState extends State<MrOfficersDashboardScreen> {
   AttendanceProvider? attendanceProvider;
+  DeviceInfoProvider? deviceInfoProvider;
   List<String> colors = ['red', 'yellow', 'green'];
   String SelectedColors = '';
   int selectedIndex = 0;
@@ -48,13 +52,29 @@ class _MrOfficersDashboardScreenState extends State<MrOfficersDashboardScreen> {
     print(districts);
   }
 
+  void updateStopDeviceLocationUpdates() {
+    if (attendanceProvider!.isRemoteAttendanceSwitched) {
+      deviceInfoProvider?.setIsAttendance(true);
+      deviceInfoProvider?.updateLocation();
+      print(
+          'attendanceProvider.isRemoteAttendanceSwitched = ${attendanceProvider!.isRemoteAttendanceSwitched}, Posting device information');
+    } else {
+      deviceInfoProvider?.setIsAttendance(false);
+      print(
+          'attendanceProvider.isRemoteAttendanceSwitched = ${attendanceProvider!.isRemoteAttendanceSwitched}, Stop posting device information');
+    }
+  }
+
   @override
   void initState() {
     attendanceProvider =
         Provider.of<AttendanceProvider>(context, listen: false);
+    deviceInfoProvider =
+        Provider.of<DeviceInfoProvider>(context, listen: false);
     attendanceProvider?.getAttendanceStatus();
-    // result();
-    // loadData();
+    deviceInfoProvider
+        ?.setIsAttendance(attendanceProvider!.isRemoteAttendanceSwitched);
+    UserCred().readUserCred();
     super.initState();
   }
 

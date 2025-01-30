@@ -1,4 +1,3 @@
-import 'dart:convert';
 import 'dart:developer';
 import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:carousel_slider/carousel_slider.dart';
@@ -31,7 +30,6 @@ import 'package:local_auth/local_auth.dart';
 import 'package:provider/provider.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import 'package:fl_chart/fl_chart.dart';
-import 'package:http/http.dart' as http;
 
 class MarketingManagerDashboard extends StatefulWidget {
   MarketingManagerDashboard({super.key});

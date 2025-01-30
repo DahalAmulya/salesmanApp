@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:deskgoo/classes/secure_storage.dart';
 import 'package:deskgoo/consts.dart';
 import 'package:deskgoo/pages/auth_screens/change_passowrd/change_password_screen.dart';
 import 'package:deskgoo/providers/auth_provider/user_auth_provider.dart';
@@ -7,6 +8,7 @@ import 'package:deskgoo/routes/marketing_officer_consts.dart';
 import 'package:deskgoo/routes/route_generator_constants.dart';
 import 'package:deskgoo/services/erp_services.dart';
 import 'package:deskgoo/themes/custom_colors.dart';
+import 'package:deskgoo/utils/readUserCred.dart';
 import 'package:deskgoo/utils/toast_message.dart';
 import 'package:deskgoo/widgets/buttons/elevated_button.dart';
 import 'package:deskgoo/widgets/containers/custom_container.dart';
@@ -35,15 +37,23 @@ class _LoginPageState extends State<LoginPage> {
   String full_name = '';
   Map<String, dynamic> employee_details = {};
   List<dynamic> user_roles = [];
+  bool rememberMe = false;
 
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
 
   @override
-  @override
   void initState() {
-    super.initState();
+    emailController.text = UserCred().email;
+    passwordController.text = UserCred().password;
+    print('***********************************************************');
+    print(emailController.text);
+    print(passwordController.text);
+    print(UserCred().email);
+    print(UserCred().password);
+    print('***********************************************************');
     _userProvider = Provider.of<UserProvider>(context, listen: false);
+    super.initState();
   }
 
   @override
@@ -169,34 +179,30 @@ class _LoginPageState extends State<LoginPage> {
                       height: 4.0,
                     ),
                     Consumer<UserAuthProvider>(
-                        builder: (context, authProvider, _) {
-                      return Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          CustomText(
-                            text: 'Remember me ?',
-                            isSubHeading: true,
-                          ),
-                          Checkbox(
-                            activeColor: CustomColors.primaryColor,
-                            value: authProvider.rememberMe,
-                            onChanged: (value) {
-                              authProvider.toggleRememberMe(value!);
-                            },
-                          )
-                          // Switch.adaptive(
-                          //   activeColor: CustomColors.primaryBlack,
-                          //   activeTrackColor: CustomColors.primaryColor,
-                          //   inactiveThumbColor: CustomColors.primaryBlack,
-                          //   inactiveTrackColor: CustomColors.primaryWhite,
-                          //   value: false,
-                          //   onChanged: (value) {
-                          //     print(value);
-                          //   },
-                          // ),
-                        ],
-                      );
-                    }),
+                      builder: (context, authProvider, _) {
+                        return Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            CustomText(
+                              text: 'Remember me ?',
+                              isSubHeading: true,
+                            ),
+                            Checkbox(
+                              activeColor: CustomColors.primaryColor,
+                              value: authProvider.rememberMe,
+                              onChanged: (value) {
+                                authProvider.toggleRememberMe(value!);
+                                if (authProvider.rememberMe) {
+                                  rememberMe = true;
+                                } else {
+                                  rememberMe = false;
+                                }
+                              },
+                            ),
+                          ],
+                        );
+                      },
+                    ),
                     SizedBox(
                       height: 4.0,
                     ),
@@ -257,6 +263,7 @@ class _LoginPageState extends State<LoginPage> {
       // farhan@example.com
       // farhan@123
     };
+
     ERPResponse response = await ERPServices.ERPlogin(body);
     if (response.statusCode == 200) {
       ToastMessageUtils().showToastMessage(
@@ -271,6 +278,17 @@ class _LoginPageState extends State<LoginPage> {
       isResetMobile = data['user']['resetMobile'];
       role = data['user']['role'];
       userEmail = data['user']['email'];
+      if (rememberMe) {
+        SecureStorage().writeLoginCredentials(
+            SecureStorage.userEmail, emailController.value.text);
+        SecureStorage().writeLoginCredentials(
+            SecureStorage.password, passwordController.value.text);
+      }
+      SecureStorage()
+          .writeLoginCredentials(SecureStorage.refreshToken, refreshToken);
+      SecureStorage().writeLoginCredentials(SecureStorage.userId, userId);
+      SecureStorage()
+          .writeLoginCredentials(SecureStorage.rememberMe, '$rememberMe');
       print(data);
       if (isFirstLogin || isResetMobile) {
         print('$isFirstLogin, $isResetMobile');
