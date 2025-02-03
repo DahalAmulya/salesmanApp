@@ -46,9 +46,10 @@ class _WeeklyPlanScreenState extends State<WeeklyPlanScreen> {
   String area = '';
   String remark = '';
 
-  Future<void> getTodayPlan() async{
-    ERPResponse response = await ERPServices.getRequest("/plan/today?userId=$userId");
+  Future<void> getTodayPlan(planDate) async{
+    ERPResponse response = await ERPServices.getRequest("/plan/today?userId=$userId&planDate=$planDate");
     var decodedData = jsonDecode(response.body);
+    print(decodedData);
 
     if(response.statusCode == 200) {
       todaysPlan = decodedData;
@@ -72,7 +73,7 @@ class _WeeklyPlanScreenState extends State<WeeklyPlanScreen> {
   @override
   void initState() {
     super.initState();
-    getTodayPlan();
+    getTodayPlan(DateTime.now().toString().split(" ")[0]);
   }
 
 
@@ -208,6 +209,8 @@ class _WeeklyPlanScreenState extends State<WeeklyPlanScreen> {
                 ),
                 onDateChange: (newDate) {
                   weeklyPlanProvider.updateDate(newDate);
+                  getTodayPlan(newDate.toString().split(" ")[0]);
+                  print(newDate);
                 },
               ),
             );

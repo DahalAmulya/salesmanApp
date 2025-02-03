@@ -6,6 +6,7 @@ import 'package:deskgoo/services/erp_services.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:intl/intl.dart';
 
 class MrOfficerFollowUpProvider extends ChangeNotifier {
   final _fullNameController = TextEditingController();
@@ -22,6 +23,7 @@ class MrOfficerFollowUpProvider extends ChangeNotifier {
   double _latitude = 0;
   double _longitude = 0;
   String _dateTime = '';
+  DateTime _updatedDate = DateTime.now();
 
   TextEditingController get fullNameController => _fullNameController;
   TextEditingController get categoryController => _categoryController;
@@ -35,6 +37,7 @@ class MrOfficerFollowUpProvider extends ChangeNotifier {
   TextEditingController get searchByNameController => _searchByNameController;
   List<dynamic> get pocList => _pocList;
   String get pocId => _pocId;
+  DateTime get updatedDate => _updatedDate;
 
   void GetPOCList(context) async {
     ERPResponse response =
@@ -66,26 +69,45 @@ class MrOfficerFollowUpProvider extends ChangeNotifier {
 
   void filterPOCList(name) {}
 
-  void getPOCDetailByID(id) async {
-    _pocId = id;
-    ERPResponse response = await ERPServices.getRequest('/poc/$id');
-    print(response.statusCode);
-    Map<String, dynamic> data = jsonDecode(response.body);
-    print(data);
-    String name = data['fullName'];
-    String category = data['category'];
-    String specialization = data['specialization'];
-    String age = data['age'];
-    String number = data['number'];
-    String address = data['fullAddress'];
-    String organization = data['organization'];
-    setPOCDetails(
-        name, category, specialization, age, number, address, organization);
+  void updateDate(DateTime newDate) {
+    _updatedDate = newDate;
     notifyListeners();
   }
 
-  void setPOCDetails(
-      name, category, specialization, age, number, address, organization) {
+  void getPOCDetailByID(id) async {
+    _pocId = id;
+    ERPResponse response = await ERPServices.getRequest('/poc/followup');
+    print(response.statusCode);
+    Map<String, dynamic> data = jsonDecode(response.body);
+    print("response : ${data}");
+    // print(data['pocName']);
+    // print(data['_id']);
+    // _fullNameController.text = data['pocName'];
+    // _categoryController.text = data['category'];
+    // _specializationController.text = data['specialization'];
+    // _ageController.text = data['age'];
+    // _numberController.text = data['number'];
+    // _addressController.text = data['address'];
+    // _organizationController.text = data['organization'];
+
+    // print(_fullNameController.text);
+    // print(_categoryController.text);
+    // print(_specializationController.text);
+
+    // String name = data['pocName'];
+    // String category = data['category'];
+    // String specialization = data['specialization'];
+    // String age = data['age'];
+    // String number = data['number'];
+    // String address = data['address'];
+    // String organization = data['organization'];
+    // setPOCDetails(
+    //     name, category, specialization, age, number, address, organization);
+    notifyListeners();
+  }
+
+  void setPOCDetails(id, name, category, specialization, age, number, address, organization) {
+    _pocId = id;
     _fullNameController.text = name;
     _categoryController.text = category;
     _specializationController.text = specialization;
@@ -97,15 +119,31 @@ class MrOfficerFollowUpProvider extends ChangeNotifier {
   }
 
   void postFollowUp() async {
-    Map<String, dynamic> body = {
-      'createdById': userId,
-      'createdByName': userName,
-      'pocId': _pocId,
-      'mobileTime': _dateTime,
-      'latitude': _latitude,
-      'longitude': _longitude,
-      'remarks': _remarksController.value.text,
+    DateTime now = DateTime.now();
+    String mobileTime = DateFormat('HH:mm:ss MM-dd-yyyy').format(now);
+    // print(mobileTime);
+    String userName = pocList[0]['pocName'];
+
+    Map<String,dynamic> body = {
+      "pocId": _pocId,
+      "pocName": _fullNameController.value.text,
+      "createdById":  userId,
+      "remarks": _remarksController.value.text,
+      "mobileTime": mobileTime,
+      "latitude": 26.45767892768517,
+      "longitude": 87.27953249820239,
     };
+    print("response : ${body}");
+    // Map<String, dynamic> body = {
+    //   'createdById': userId,
+    //   'createdByName': userName,
+    //   'pocId': _pocId,
+    //   'mobileTime': _dateTime,
+    //   'latitude': _latitude,
+    //   'longitude': _longitude,
+    //   'remarks': _remarksController.value.text,
+    // };
+
     ERPResponse response = await ERPServices.postRequest('/poc/followup', body);
     print(response.statusCode);
     print(response.body);
