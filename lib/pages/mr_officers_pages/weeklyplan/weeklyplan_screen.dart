@@ -1,4 +1,6 @@
+import 'dart:convert';
 import 'package:date_picker_timeline/date_picker_timeline.dart';
+import 'package:deskgoo/consts.dart';
 import 'package:deskgoo/providers/weeklyplan_provider/weeklyplan_provider.dart';
 import 'package:deskgoo/themes/custom_colors.dart';
 import 'package:deskgoo/widgets/app_bars/custom_app_bars.dart';
@@ -15,6 +17,7 @@ import '../../../../routes/marketing_officer_consts.dart';
 import '../../../../widgets/drawers/mr_officer_custom_drawer.dart';
 import '../../../../widgets/drop_downs/custom_dropdown.dart';
 import '../../../../widgets/text_fields/text_from_field.dart';
+import '../../../services/erp_services.dart';
 
 class WeeklyPlanScreen extends StatefulWidget {
   WeeklyPlanScreen({super.key});
@@ -37,7 +40,40 @@ class _WeeklyPlanScreenState extends State<WeeklyPlanScreen> {
   final taskAreaNoteController = TextEditingController();
   final taskRemarkNoteController = TextEditingController();
 
+  final Url = 'http://202.51.3.49:8002/api/plan/today?userId=679b632e4c526fbfe839ada5';
+  Map<String,dynamic> todaysPlan = {};
+  String activity = '';
+  String area = '';
+  String remark = '';
 
+  Future<void> getTodayPlan() async{
+    ERPResponse response = await ERPServices.getRequest("/plan/today?userId=$userId");
+    var decodedData = jsonDecode(response.body);
+
+    if(response.statusCode == 200) {
+      todaysPlan = decodedData;
+      // print(todaysPlan['activity'] ?? 'key not found');
+      print(todaysPlan);
+      setState(() {
+        activity = todaysPlan['todaysPlan']['activity'];
+        area = todaysPlan['todaysPlan']['area'];
+        remark = todaysPlan['todaysPlan']['remark'];
+      });
+
+      print(response.statusCode);
+      // print(response.body.runtimeType);
+      // print(response.body);
+    }else{
+      print(response.body);
+
+    }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    getTodayPlan();
+  }
 
 
   @override
@@ -116,6 +152,8 @@ class _WeeklyPlanScreenState extends State<WeeklyPlanScreen> {
                         // Navigator.of(context)
                         //     .pushNamed(MarketingOfficerConstants.addTaskConst);
                         openAlertDialog(context);
+                        // getTodayPlan();
+                        // print('hhello');
                       },
                       backgroundColor: CustomColors.primaryColor,
                       widget: Row(
@@ -125,7 +163,7 @@ class _WeeklyPlanScreenState extends State<WeeklyPlanScreen> {
                             color: Colors.black,
                             size: 16,
                           ),
-                          CustomText(text: ' Add Task'),
+                          CustomText(text: ' Create Plan'),
                         ],
                       ),
                     );
@@ -140,36 +178,40 @@ class _WeeklyPlanScreenState extends State<WeeklyPlanScreen> {
             ],
           ),
         ),
-        Container(
-          margin: EdgeInsets.symmetric(horizontal: 8),
-          child: DatePicker(
-            DateTime.now(),
-            height: 100,
-            width: 80,
-            initialSelectedDate: DateTime.now(),
-            selectionColor: CustomColors.primaryColor,
-            dateTextStyle: GoogleFonts.lato(
-              textStyle: TextStyle(
-                fontSize: 16,
-                fontWeight: FontWeight.w600,
+        Consumer<WeeklyPlanProvider>(
+          builder: (context,weeklyPlanProvider,_) {
+            return Container(
+              margin: EdgeInsets.symmetric(horizontal: 8),
+              child: DatePicker(
+                DateTime.now(),
+                height: 100,
+                width: 80,
+                initialSelectedDate: DateTime.now(),
+                selectionColor: CustomColors.primaryColor,
+                dateTextStyle: GoogleFonts.lato(
+                  textStyle: TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
+                dayTextStyle: GoogleFonts.lato(
+                  textStyle: TextStyle(
+                    fontSize: 14,
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
+                monthTextStyle: GoogleFonts.lato(
+                  textStyle: TextStyle(
+                    fontSize: 12,
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
+                onDateChange: (newDate) {
+                  weeklyPlanProvider.updateDate(newDate);
+                },
               ),
-            ),
-            dayTextStyle: GoogleFonts.lato(
-              textStyle: TextStyle(
-                fontSize: 14,
-                fontWeight: FontWeight.w600,
-              ),
-            ),
-            monthTextStyle: GoogleFonts.lato(
-              textStyle: TextStyle(
-                fontSize: 12,
-                fontWeight: FontWeight.w600,
-              ),
-            ),
-            onDateChange: (newDate) {
-              _selectedDate = newDate;
-            },
-          ),
+            );
+          }
         ),
         SizedBox(
           height: 56,
@@ -193,7 +235,7 @@ class _WeeklyPlanScreenState extends State<WeeklyPlanScreen> {
                 builder: (context,weeklyPlanProvider,_) {
                   return TextFromFieldWithPrefixSuffix(
                       readOnly: true,
-                      labelText: 'Activity',
+                      hintText: '$activity',
                       controller: weeklyPlanProvider.taskActivityNoteController,
                       validator: (validator){
 
@@ -213,7 +255,7 @@ class _WeeklyPlanScreenState extends State<WeeklyPlanScreen> {
                 builder: (context,weeklyPlanProvider,_) {
                   return TextFromFieldWithPrefixSuffix(
                       readOnly: true,
-                      labelText: 'Area',
+                      hintText: '$area',
                       controller: weeklyPlanProvider.taskAreaNoteController,
                       validator: (validator){
 
@@ -233,7 +275,7 @@ class _WeeklyPlanScreenState extends State<WeeklyPlanScreen> {
                 builder: (context,weeklyPlanProvider,_) {
                   return TextFromFieldWithPrefixSuffix(
                       readOnly: true,
-                      labelText: 'Remark',
+                      hintText: '$remark',
                       controller: weeklyPlanProvider.taskRemarkNoteController,
                       validator: (validator){
 
@@ -378,7 +420,9 @@ class _WeeklyPlanScreenState extends State<WeeklyPlanScreen> {
                     children: [
                       CustomElevatedButton(
                           onPressed: (){
-                              weeklyPlanProvider.setNewTask();
+                              // weeklyPlanProvider.setNewTask();
+                            weeklyPlanProvider.postRequest(context);
+                            weeklyPlanProvider.getAllPlans();
                               Navigator.pop(context);
 
                           },

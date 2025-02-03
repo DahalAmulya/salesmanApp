@@ -1,4 +1,7 @@
 import 'dart:convert';
+import 'package:date_picker_timeline/date_picker_timeline.dart';
+import 'package:deskgoo/consts.dart';
+import 'package:deskgoo/services/erp_services.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -131,11 +134,13 @@ class WeeklyPlanProvider with ChangeNotifier{
     'Udayapur',
     'Western Rukum',
   ];
+
   List<String> _districtList = [];
   List<String> _foundStates = [];
   List<String> _foundDistrict = [];
   String _selectedCountry = '';
   int _selectedIndex  = 0;
+  DateTime _updatedDate = DateTime.now();
 
   TextEditingController _stateTextEditingController = TextEditingController();
   TextEditingController _districtTextEditingController = TextEditingController();
@@ -163,6 +168,7 @@ class WeeklyPlanProvider with ChangeNotifier{
   List<String> get foundDistrict => _foundDistrict;
   List<String> get districtList => _districtList;
   int get selectedIndex => _selectedIndex;
+  DateTime get updatedDate => _updatedDate;
 
   TextEditingController get stateTextEditingController => _stateTextEditingController;
   TextEditingController get districtTextEditingController => _districtTextEditingController;
@@ -181,6 +187,7 @@ class WeeklyPlanProvider with ChangeNotifier{
     // _foundDistrict = _districts.where((district) => district.toString().toLowerCase().toList();
 
   }
+
   void setNewTask(){
     _taskActivityNoteController.text = _taskActivityController.text;
     _taskAreaNoteController.text = _taskAreaController.text;
@@ -266,6 +273,49 @@ class WeeklyPlanProvider with ChangeNotifier{
        }
          _foundDistrict = districtResult;
        notifyListeners();
+   }
+
+   void updateDate(DateTime newDate) {
+    _updatedDate = newDate;
+    notifyListeners();
+   }
+
+   void postRequest(context) async{
+     DateTime now = DateTime.now();
+     String mobileTime = DateFormat('yyyy/MM/dd, EEEE').format(_updatedDate);
+     String planDate = DateFormat('yyyy-MM-dd').format(_updatedDate);
+     final dateTime = DateTime.now();
+     print(dateTime.toString().split(" ")[0]);
+
+     Map<String,dynamic> _body = {
+       "userId": userId,
+       "activity": _taskActivityController.value.text,
+       "area": _taskAreaController.value.text,
+       "remark": _taskRemarkController.value.text,
+       "mobileTime": mobileTime,
+       "planDate": planDate,
+     };
+     // print(_body);
+     // try{
+     //   ERPResponse response = await ERPServices.postRequest('/plan', _body);
+     //   print(response.statusCode);
+     //   print(response.body);
+     //   if(response.statusCode == 200){
+     //     print('success');
+     //   }else{
+     //     print('something is missing');
+     //   }
+     // }catch(err){
+     //   print('err = ${err}');
+     // }
+
+     notifyListeners();
+   }
+
+   void getAllPlans() async{
+    ERPResponse response = await ERPServices.getRequest('/plan?userId=679b632e4c526fbfe839ada5&from=2025-02-05&to=2025-02-05');
+    print(response.body);
+    notifyListeners();
    }
 }
 
