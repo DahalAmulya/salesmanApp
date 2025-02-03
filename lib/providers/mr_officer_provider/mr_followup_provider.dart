@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:deskgoo/consts.dart';
+import 'package:deskgoo/routes/marketing_officer_consts.dart';
 import 'package:deskgoo/services/erp_services.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -35,11 +36,16 @@ class MrOfficerFollowUpProvider extends ChangeNotifier {
   List<dynamic> get pocList => _pocList;
   String get pocId => _pocId;
 
-  void GetPOCList() async {
-    ERPResponse response = await ERPServices.getRequest('/poc');
-    print(response.statusCode);
-    print(response.body);
-    _pocList = jsonDecode(response.body);
+  void GetPOCList(context) async {
+    ERPResponse response =
+        await ERPServices.getRequest('/poc/createdBy?createdById=$userId');
+    if (response.statusCode == 200) {
+      _pocList = jsonDecode(response.body)['poc'];
+      print(_pocList);
+      Navigator.of(context).pushNamed(MarketingOfficerConstants.followUpVisit);
+    } else {
+      print('Error: ${response.statusCode} - ${response.body}');
+    }
     notifyListeners();
   }
 
@@ -100,7 +106,7 @@ class MrOfficerFollowUpProvider extends ChangeNotifier {
       'longitude': _longitude,
       'remarks': _remarksController.value.text,
     };
-    ERPResponse response = await ERPServices.postRequest('/visitlog', body);
+    ERPResponse response = await ERPServices.postRequest('/poc/followup', body);
     print(response.statusCode);
     print(response.body);
   }

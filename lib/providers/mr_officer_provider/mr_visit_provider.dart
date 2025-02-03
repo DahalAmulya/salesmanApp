@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:deskgoo/consts.dart';
 import 'package:deskgoo/services/erp_services.dart';
 import 'package:deskgoo/themes/custom_colors.dart';
@@ -34,7 +36,13 @@ class MrOfficerVisitProvider with ChangeNotifier {
   String _selectedCountryCode = '+977';
   List<String> _country = ['Nepal', 'India'];
   String _selectedCountry = 'Nepal';
-  List<String> _category = ['Doctor', 'Ambulance', 'Practitioner'];
+  List<String> _category = [
+    'Doctor',
+    'Ambulance',
+    'Practitioner',
+    'Police',
+    'Politician'
+  ];
   String _selectedCategory = 'Doctor';
   List<String> _specialization = [
     'Allergist/Immunologist',
@@ -69,7 +77,7 @@ class MrOfficerVisitProvider with ChangeNotifier {
   double _longitude = 0;
   String _dateTime = '';
   Map<String, dynamic> _body = {
-    "name": '',
+    "pocName": '',
     "age": '',
     "number": '',
     "country": '',
@@ -78,6 +86,7 @@ class MrOfficerVisitProvider with ChangeNotifier {
     "address": '',
     "category": '',
     "specialization": '',
+    "ambNumber": '',
     "organization": '',
     "latitude": '',
     "longitude": '',
@@ -262,11 +271,6 @@ class MrOfficerVisitProvider with ChangeNotifier {
     _phoneNoController.text = phoneNo;
     _ageController.text = age;
     _isSwitched = isToggled;
-    // if (_isSwitched) {
-    //   _WhatsappController.text = phoneNo;
-    // } else {
-    //   _WhatsappController.text = whatsApp;
-    // }
     notifyListeners();
   }
 
@@ -325,7 +329,7 @@ class MrOfficerVisitProvider with ChangeNotifier {
     _dateTime = '${timeList[1]} ${timeList[0]}';
 
     _body = {
-      "name": _nameController.value.text,
+      "pocName": _nameController.value.text,
       "age": _ageController.value.text,
       "number": '$_selectedCountryCode${_phoneNoController.value.text}',
       "country": _selectedCountry,
@@ -335,7 +339,7 @@ class MrOfficerVisitProvider with ChangeNotifier {
       "address": _addressController.value.text,
       "category": _selectedCategory,
       "specialization": _selectedSpecialization,
-      "ambNumber": _addressController.value.text,
+      "ambNumber": _ambulanceNumberController.value.text,
       "organization": _organizationController.value.text,
       "latitude": _latitude,
       "longitude": _longitude,
@@ -366,16 +370,17 @@ class MrOfficerVisitProvider with ChangeNotifier {
   }
 
   void postPOCDetails(context) async {
-    ERPResponse response = await ERPServices.postRequest('/poc', _body);
+    ERPResponse response = await ERPServices.postRequest('/poc/create', _body);
     print(response.statusCode);
     print(response.body);
-    if (response.statusCode == 201) {
+    if (response.statusCode == 200) {
       ToastMessageUtils().showToastMessage('New POC created successfully',
           ToastGravity.TOP, CustomColors.jadeGreen);
       clearTextControllersValue();
       Navigator.pop(context);
     } else {
-      ToastMessageUtils().showToastMessage('Something went wrong');
+      ToastMessageUtils()
+          .showToastMessage(jsonDecode(response.body)['message']);
       Navigator.pop(context);
     }
   }

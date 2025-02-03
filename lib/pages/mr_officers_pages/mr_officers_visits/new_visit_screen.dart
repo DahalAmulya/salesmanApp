@@ -360,7 +360,7 @@ class _MrOfficerNewVisitScreenState extends State<MrOfficerNewVisitScreen> {
                         Expanded(
                           child: CustomText(
                             maxLines: 3,
-                            text: mrOfficerVisitProvider.body['name'],
+                            text: mrOfficerVisitProvider.body['pocName'],
                             isContent: true,
                           ),
                         ),

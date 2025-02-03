@@ -1,6 +1,9 @@
+import 'package:deskgoo/consts.dart';
+import 'package:deskgoo/providers/mr_officer_provider/mr_followup_provider.dart';
 import 'package:deskgoo/providers/mr_officer_provider/mr_visit_provider.dart';
 import 'package:deskgoo/routes/marketing_officer_consts.dart';
 import 'package:deskgoo/routes/route_generator_constants.dart';
+import 'package:deskgoo/services/erp_services.dart';
 import 'package:deskgoo/themes/custom_colors.dart';
 import 'package:deskgoo/widgets/buttons/elevated_button.dart';
 import 'package:deskgoo/widgets/containers/custom_container.dart';
@@ -87,30 +90,34 @@ class _MrOfficerSelectVisitTypeBottomSheetState
                             fontWeight: FontWeight.w500,
                           ),
                         ),
-                        CustomElevatedButton(
-                          onPressed: () {
-                            bool isSelected =
-                                visitProvider.setSelectedVisitType();
-                            if (isSelected) {
-                              if (visitProvider.selectedVisitType ==
-                                  visitProvider.visitTypeList[0]) {
-                                Navigator.pop(context);
-                                Navigator.of(context).pushNamed(
-                                    MarketingOfficerConstants.newVisit);
-                              } else {
-                                Navigator.pop(context);
-                                Navigator.of(context).pushNamed(
-                                    MarketingOfficerConstants.followUpVisit);
+                        Consumer<MrOfficerFollowUpProvider>(
+                            builder: (context, followUpProvider, _) {
+                          return CustomElevatedButton(
+                            onPressed: () async {
+                              bool isSelected =
+                                  visitProvider.setSelectedVisitType();
+                              if (isSelected) {
+                                if (visitProvider.selectedVisitType ==
+                                    visitProvider.visitTypeList[0]) {
+                                  Navigator.pop(context);
+                                  Navigator.of(context).pushNamed(
+                                      MarketingOfficerConstants.newVisit);
+                                } else {
+                                  Navigator.pop(context);
+                                  followUpProvider.GetPOCList(context);
+                                  // Navigator.of(context).pushNamed(
+                                  //     MarketingOfficerConstants.followUpVisit);
+                                }
                               }
-                            }
-                          },
-                          backgroundColor: CustomColors.primaryColor,
-                          widget: CustomText(
-                            text: 'Next',
-                            color: CustomColors.primaryBlack,
-                            fontWeight: FontWeight.w500,
-                          ),
-                        ),
+                            },
+                            backgroundColor: CustomColors.primaryColor,
+                            widget: CustomText(
+                              text: 'Next',
+                              color: CustomColors.primaryBlack,
+                              fontWeight: FontWeight.w500,
+                            ),
+                          );
+                        }),
                       ],
                     ),
                     const SizedBox(

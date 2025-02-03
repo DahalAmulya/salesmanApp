@@ -94,7 +94,7 @@ class _MrOfficerFollowUpVisitScreenState
                         readOnly: true,
                         validator: (newValue) {},
                         onTap: () {
-                          followUpProvider.GetPOCList();
+                          // followUpProvider.GetPOCList(context);
                           showModalBottomSheet(
                               isScrollControlled: true,
                               useSafeArea: true,
@@ -288,8 +288,9 @@ class _MrOfficerFollowUpVisitScreenState
                         onTap: () {
                           // print(followUpProvider.pocList[index]);
                           followUpProvider.getPOCDetailByID(
-                              followUpProvider.pocList[index]['id']);
-                          Navigator.pop(context);
+                              followUpProvider.pocList[index]['_id']);
+                          print(followUpProvider.pocId);
+                          // Navigator.pop(context);
                         },
                         title: CustomContainer(
                           applyShadow: true,
@@ -312,7 +313,30 @@ class _MrOfficerFollowUpVisitScreenState
                                     flex: 2,
                                     child: CustomText(
                                       text: followUpProvider.pocList[index]
-                                          ['fullName'],
+                                          ['pocName'],
+                                      isContent: true,
+                                      maxLines: 2,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              SizedBox(
+                                height: 8.0,
+                              ),
+                              Row(
+                                children: [
+                                  Expanded(
+                                    flex: 1,
+                                    child: CustomText(
+                                      text: 'Number',
+                                      isContent: true,
+                                    ),
+                                  ),
+                                  Expanded(
+                                    flex: 2,
+                                    child: CustomText(
+                                      text: followUpProvider.pocList[index]
+                                          ['number'],
                                       isContent: true,
                                       maxLines: 2,
                                     ),
