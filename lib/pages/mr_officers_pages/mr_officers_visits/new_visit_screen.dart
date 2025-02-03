@@ -88,7 +88,9 @@ class _MrOfficerNewVisitScreenState extends State<MrOfficerNewVisitScreen> {
                   TextFromFieldWithPrefixSuffix(
                     controller: createVisitProvider.nameController,
                     labelText: 'Full Name *',
-                    validator: (newValue) {},
+                    validator: (newValue) {
+
+                    },
                   ),
                   SizedBox(
                     height: 16,

@@ -229,7 +229,7 @@ class _MrOfficerFollowUpVisitScreenState
       },
     );
   }
-
+//---------------------------------------------------------------- bottomSheet-------------------------------------------------------------------//
   Widget _POCModalBottomSheet(context) {
     return Consumer<MrOfficerFollowUpProvider>(
       builder: (context, followUpProvider, _) {
@@ -287,10 +287,19 @@ class _MrOfficerFollowUpVisitScreenState
                       return ListTile(
                         onTap: () {
                           // print(followUpProvider.pocList[index]);
-                          followUpProvider.getPOCDetailByID(
-                              followUpProvider.pocList[index]['_id']);
-                          print(followUpProvider.pocId);
-                          // Navigator.pop(context);
+                          // followUpProvider.getPOCDetailByID(
+                          //     followUpProvider.pocList[index]['_id']);
+                          print(followUpProvider.pocList[index]);
+                          String id = followUpProvider.pocList[index]['_id'];
+                          String name = followUpProvider.pocList[index]['pocName'];
+                          String category = followUpProvider.pocList[index]['category'];
+                          String specialization = followUpProvider.pocList[index]['specialization'];
+                          String age = followUpProvider.pocList[index]['age'].toString();
+                          String number = followUpProvider.pocList[index]['number'];
+                          String address = followUpProvider.pocList[index]['address'];
+                          String organization = followUpProvider.pocList[index]['organization'];
+                          followUpProvider.setPOCDetails(id, name, category, specialization, age, number, address, organization);
+                          Navigator.pop(context);
                         },
                         title: CustomContainer(
                           applyShadow: true,
