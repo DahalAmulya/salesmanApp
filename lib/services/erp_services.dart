@@ -22,7 +22,8 @@ class ERPServices {
     try {
       Map<String, String> header = {
         'Content-Type': 'Application/json',
-        'Authorization': 'Bearer $accessToken'
+        'Authorization': 'Bearer $accessToken',
+        '_id': userId
       };
       final response = await http.get(
         Uri.parse('$apiURL$path'),
@@ -41,7 +42,8 @@ class ERPServices {
     try {
       Map<String, String> header = {
         'Content-Type': 'Application/json',
-        'Authorization': 'Bearer $accessToken'
+        'Authorization': 'Bearer $accessToken',
+        '_id': userId
       };
       final response = await http.post(
         Uri.parse('$apiURL$path'),

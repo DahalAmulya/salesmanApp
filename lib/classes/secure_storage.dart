@@ -13,6 +13,8 @@ class SecureStorage {
   static String password = 'password';
   static String accessToken = 'accessToken';
   static String refreshToken = 'refreshToken';
+  static String role = 'role';
+  static String roleValue = 'roleValue';
   static String userId = 'userId';
   static String rememberMe = 'false';
 

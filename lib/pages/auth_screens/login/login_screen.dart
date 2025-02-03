@@ -253,15 +253,17 @@ class _LoginPageState extends State<LoginPage> {
   void login() async {
     Map<String, dynamic> body = {
       'email': emailController.value.text.isEmpty
-          ? 'farhan@gmail.com'
+          ? 'nimesh@gmail.com'
           : emailController.value.text,
       'password': passwordController.value.text.isEmpty
-          ? 'farhan123@'
+          ? 'nimesh123@'
           : passwordController.value.text,
-      // admin@example.com
-      // admin@123
-      // farhan@example.com
-      // farhan@123
+      // shuvam@gmail.com
+      // shuvam123@
+      // farhan@gmail.com
+      // farhan123@
+      // nimesh@gmail.com
+      // nimesh123@
     };
 
     ERPResponse response = await ERPServices.ERPlogin(body);
@@ -270,7 +272,7 @@ class _LoginPageState extends State<LoginPage> {
           'Login successful', ToastGravity.TOP, CustomColors.jadeGreen);
       print(response.statusCode);
       final decodedBody = jsonDecode(response.body);
-      Map<String,dynamic> data = decodedBody;
+      Map<String, dynamic> data = decodedBody;
       print(data);
       print(data['user']);
       accessToken = data['accessToken'];
@@ -281,7 +283,7 @@ class _LoginPageState extends State<LoginPage> {
       isResetMobile = data['user']['reset'];
       role = data['user']['role']['role'];
       userEmail = data['user']['email'];
-      roleValue =data['user']['role']['roleValue'];
+      roleValue = data['user']['role']['roleValue'];
       if (rememberMe) {
         SecureStorage().writeLoginCredentials(
             SecureStorage.userEmail, emailController.value.text);
@@ -291,6 +293,9 @@ class _LoginPageState extends State<LoginPage> {
       SecureStorage()
           .writeLoginCredentials(SecureStorage.refreshToken, refreshToken);
       SecureStorage().writeLoginCredentials(SecureStorage.userId, userId);
+      SecureStorage().writeLoginCredentials(SecureStorage.role, role);
+      SecureStorage()
+          .writeLoginCredentials(SecureStorage.roleValue, roleValue.toString());
       SecureStorage()
           .writeLoginCredentials(SecureStorage.rememberMe, '$rememberMe');
       print(data);
@@ -302,7 +307,7 @@ class _LoginPageState extends State<LoginPage> {
         if (roleValue == 1011) {
           Navigator.of(context).pushNamed(MarketingManagerConstants.homePage);
           print('Administrator');
-        } else if( roleValue == 3031){
+        } else if (roleValue == 3031) {
           Navigator.of(context)
               .pushNamed(MarketingOfficerConstants.mrStaffDashboardConst);
           print('Marketing Officer');
