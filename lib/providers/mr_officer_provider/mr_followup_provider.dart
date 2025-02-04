@@ -106,7 +106,8 @@ class MrOfficerFollowUpProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  void setPOCDetails(id, name, category, specialization, age, number, address, organization) {
+  void setPOCDetails(
+      id, name, category, specialization, age, number, address, organization) {
     _pocId = id;
     _fullNameController.text = name;
     _categoryController.text = category;
@@ -124,14 +125,15 @@ class MrOfficerFollowUpProvider extends ChangeNotifier {
     // print(mobileTime);
     String userName = pocList[0]['pocName'];
 
-    Map<String,dynamic> body = {
+    Map<String, dynamic> body = {
       "pocId": _pocId,
       "pocName": _fullNameController.value.text,
-      "createdById":  userId,
+      "createdById": userId,
       "remarks": _remarksController.value.text,
       "mobileTime": mobileTime,
-      "latitude": 26.45767892768517,
-      "longitude": 87.27953249820239,
+      "visitDate": DateTime.now(),
+      "latitude": _latitude,
+      "longitude": _longitude,
     };
     print("response : ${body}");
     // Map<String, dynamic> body = {
