@@ -2,6 +2,8 @@ import 'package:deskgoo/classes/secure_storage.dart';
 import 'package:deskgoo/consts.dart';
 import 'package:deskgoo/providers/attendance_provider/remote_attendance_provider.dart';
 import 'package:deskgoo/providers/deviceInfo_provider/deviceInfo_provider.dart';
+import 'package:deskgoo/routes/marketing_officer_consts.dart';
+import 'package:deskgoo/routes/route_generator_constants.dart';
 import 'package:deskgoo/services/erp_services.dart';
 import 'package:deskgoo/themes/custom_colors.dart';
 import 'package:deskgoo/utils/readUserCred.dart';
@@ -550,26 +552,32 @@ class _MrOfficersDashboardScreenState extends State<MrOfficersDashboardScreen> {
           applyShadow: true,
           child: Column(
             children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  CustomLineBar(),
-                  SizedBox(
-                    width: 8,
-                  ),
-                  CustomText(
-                    isSubHeading: true,
-                    text: 'Today\'s Visit',
-                  ),
-                  Spacer(),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                    child: Icon(
-                      Icons.arrow_forward_ios,
-                      size: 18,
+              InkWell(
+                onTap: () {
+                  Navigator.of(context)
+                      .pushNamed(MarketingOfficerConstants.visitLog);
+                },
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    CustomLineBar(),
+                    SizedBox(
+                      width: 8,
                     ),
-                  ),
-                ],
+                    CustomText(
+                      isSubHeading: true,
+                      text: 'Today\'s Visit',
+                    ),
+                    Spacer(),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                      child: Icon(
+                        Icons.arrow_forward_ios,
+                        size: 18,
+                      ),
+                    ),
+                  ],
+                ),
               ),
               SizedBox(
                 height: 8,

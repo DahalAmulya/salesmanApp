@@ -56,6 +56,16 @@ class _MrOfficerVisitLogStateScreen extends State<MrOfficerVisitLogScreen> {
     });
   }
 
+  MrOfficeVisitLogProvider? _visitLogProvider;
+
+  @override
+  void initState() {
+    _visitLogProvider =
+        Provider.of<MrOfficeVisitLogProvider>(context, listen: false);
+    _visitLogProvider?.getVisitLogs();
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return PopScope(

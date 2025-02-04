@@ -19,5 +19,6 @@ class MrOfficeVisitLogProvider extends ChangeNotifier {
     _visitLogs = body["visitLogs"]["visitLogs"];
     print(response.statusCode);
     print(_visitLogs);
+    notifyListeners();
   }
 }
