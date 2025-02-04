@@ -1,6 +1,7 @@
 import 'package:date_picker_timeline/date_picker_widget.dart';
 import 'package:deskgoo/themes/custom_colors.dart';
 import 'package:deskgoo/widgets/app_bars/custom_app_bars.dart';
+import 'package:deskgoo/widgets/containers/custom_container.dart';
 import 'package:deskgoo/widgets/drop_downs/custom_dropdown.dart';
 import 'package:deskgoo/widgets/texts/custom_text.dart';
 import 'package:flutter/material.dart';
@@ -16,6 +17,32 @@ class MrOfficerVisitLogScreen extends StatefulWidget {
 
 class _MrOfficerVisitLogStateScreen extends State<MrOfficerVisitLogScreen> {
   List<String> dateList = ["Today", "Yesterday", "Custom"];
+  List<Map<String,dynamic>> logList = [
+    {
+      "name":"Jay prakash Malla",
+      "category": "Doctor",
+      "Age": "32",
+      "number": "9819022387",
+      "organization": "Golden Hospital",
+      "remarks": "Hospital visit"
+    },
+    {
+      "name":"Ram Yadav",
+      "category": "Social worker",
+      "Age": "22",
+      "number": "9819022345",
+      "organization": "Our Nepal",
+      "remarks": "Social Worker visit"
+    },
+    {
+      "name":"Ashish Rai",
+      "category": "Doctor",
+      "Age": "42",
+      "number": "98011022387",
+      "organization": "Birat Teaching Hospital",
+      "remarks": "Hospital visit"
+    },
+  ];
   String defaultValue = "Today";
   String selectedDate = "";
   bool isVisible = false;
@@ -74,7 +101,7 @@ class _MrOfficerVisitLogStateScreen extends State<MrOfficerVisitLogScreen> {
         child: Scaffold(
           backgroundColor: CustomColors.primaryWhite,
           appBar: _appBar(context),
-          body: _buildUI(context),
+          // body: _buildUI(context),
         ),
       ),
     );
@@ -94,35 +121,5 @@ class _MrOfficerVisitLogStateScreen extends State<MrOfficerVisitLogScreen> {
     );
   }
 
-  Widget _buildUI(BuildContext context) {
-    return Scaffold(
-      body: Column(
-        children: [
-          Padding(
-            padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 8.0),
-            child: Row(
-              children: [
-                Expanded(flex: 1, child: CustomText(text: 'Select Date : ')),
-                Expanded(
-                  flex: 2,
-                  child: CustomDropdown(
-                      labelText: 'Select Date',
-                      items: dateList,
-                      value: defaultValue,
-                      onChanged: (newValue) {
-                        if(newValue != null) {
-                          updateSelectedDate(newValue);
-                        }
-                      }),
-                )
-              ],
-            ),
-          ),
-          SizedBox(
-            height: 16,
-          ),
-        ],
-      ),
-    );
-  }
+
 }
