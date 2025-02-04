@@ -2,6 +2,9 @@ import 'package:deskgoo/classes/secure_storage.dart';
 import 'package:deskgoo/consts.dart';
 import 'package:deskgoo/providers/attendance_provider/remote_attendance_provider.dart';
 import 'package:deskgoo/providers/deviceInfo_provider/deviceInfo_provider.dart';
+import 'package:deskgoo/routes/marketing_officer_consts.dart';
+import 'package:deskgoo/routes/route_generator_constants.dart';
+import 'package:deskgoo/services/erp_services.dart';
 import 'package:deskgoo/themes/custom_colors.dart';
 import 'package:deskgoo/utils/readUserCred.dart';
 import 'package:deskgoo/widgets/app_bars/custom_app_bars.dart';
@@ -12,6 +15,7 @@ import 'package:deskgoo/widgets/containers/custom_container.dart';
 import 'package:deskgoo/widgets/drawers/mr_officer_custom_drawer.dart';
 import 'package:deskgoo/widgets/texts/custom_text.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'dart:convert';
 import 'package:flutter/services.dart' show SystemNavigator, rootBundle;
@@ -32,6 +36,12 @@ class _MrOfficersDashboardScreenState extends State<MrOfficersDashboardScreen> {
   List<String> colors = ['red', 'yellow', 'green'];
   String SelectedColors = '';
   int selectedIndex = 0;
+  Map<String, dynamic> todaysPlan = {};
+  String activity = 'No activity for today';
+  String area = 'No area for today';
+  String remark = 'No remark for today';
+  int totalVisit = 0;
+  String todaysDateTime = DateFormat('yyyy/MM/dd, EEEE').format(DateTime.now());
   void result() async {
     final String jsonString =
         await rootBundle.loadString('assets/district.json');
@@ -65,8 +75,56 @@ class _MrOfficersDashboardScreenState extends State<MrOfficersDashboardScreen> {
     }
   }
 
+  void getTodayPlan() async {
+    ERPResponse response =
+        await ERPServices.getRequest("/plan/today?userId=$userId&planDate=");
+    var decodedData = jsonDecode(response.body);
+    print(decodedData);
+
+    if (response.statusCode == 200) {
+      todaysPlan = decodedData;
+      // print(todaysPlan['activity'] ?? 'key not found');
+      print(todaysPlan);
+
+      if (todaysPlan.isNotEmpty) {
+        setState(() {
+          todaysDateTime = todaysPlan['todaysPlan']['mobileTime'];
+          activity = todaysPlan['todaysPlan']['activity'];
+          area = todaysPlan['todaysPlan']['area'];
+          remark = todaysPlan['todaysPlan']['remark'];
+        });
+      }
+
+      print(response.statusCode);
+      // print(response.body.runtimeType);
+      // print(response.body);
+    } else {
+      print(response.body);
+    }
+  }
+
+  void getVisitLogs() async {
+    DateTime now = DateTime.now();
+    String date = now.toString().split(' ')[0];
+    String from = '${date} 00:00:00';
+    String to = '${date} 23:59:59';
+    ERPResponse response = await ERPServices.getRequest(
+        '/visitLogs?visitLogId=$userId&from=$from&to=$to');
+    Map<String, dynamic> body = jsonDecode(response.body);
+    List<dynamic> visitLogs = body["visitLogs"]["visitLogs"];
+    setState(() {
+      totalVisit = visitLogs.length;
+    });
+    print(totalVisit);
+    print(response.statusCode);
+    print(response.body);
+    // print(_visitLogs);
+  }
+
   @override
   void initState() {
+    getTodayPlan();
+    getVisitLogs();
     attendanceProvider =
         Provider.of<AttendanceProvider>(context, listen: false);
     deviceInfoProvider =
@@ -230,7 +288,7 @@ class _MrOfficersDashboardScreenState extends State<MrOfficersDashboardScreen> {
                     padding: const EdgeInsets.symmetric(horizontal: 16.0),
                     child: CustomText(
                       isSubHeading: true,
-                      text: '2024/11/24, Sunday',
+                      text: todaysDateTime,
                     ),
                   ),
                 ],
@@ -255,7 +313,7 @@ class _MrOfficersDashboardScreenState extends State<MrOfficersDashboardScreen> {
                         Expanded(
                           flex: 1,
                           child: CustomText(
-                            text: 'Marketing Meeting',
+                            text: activity,
                             isContent: true,
                           ),
                         ),
@@ -279,7 +337,7 @@ class _MrOfficersDashboardScreenState extends State<MrOfficersDashboardScreen> {
                           child: CustomText(
                             maxLines: 3,
                             textOverflow: TextOverflow.visible,
-                            text: 'Brt to Ghuski, Harinagar, Bhutha',
+                            text: area,
                             isContent: true,
                           ),
                         ),
@@ -303,7 +361,7 @@ class _MrOfficersDashboardScreenState extends State<MrOfficersDashboardScreen> {
                           child: CustomText(
                             maxLines: 4,
                             textOverflow: TextOverflow.visible,
-                            text: 'All Marketing Officer & Hospital CEO',
+                            text: remark,
                             isContent: true,
                           ),
                         )
@@ -494,26 +552,32 @@ class _MrOfficersDashboardScreenState extends State<MrOfficersDashboardScreen> {
           applyShadow: true,
           child: Column(
             children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  CustomLineBar(),
-                  SizedBox(
-                    width: 8,
-                  ),
-                  CustomText(
-                    isSubHeading: true,
-                    text: 'Today\'s Visit',
-                  ),
-                  Spacer(),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                    child: Icon(
-                      Icons.arrow_forward_ios,
-                      size: 18,
+              InkWell(
+                onTap: () {
+                  Navigator.of(context)
+                      .pushNamed(MarketingOfficerConstants.visitLog);
+                },
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    CustomLineBar(),
+                    SizedBox(
+                      width: 8,
                     ),
-                  ),
-                ],
+                    CustomText(
+                      isSubHeading: true,
+                      text: 'Today\'s Visit',
+                    ),
+                    Spacer(),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                      child: Icon(
+                        Icons.arrow_forward_ios,
+                        size: 18,
+                      ),
+                    ),
+                  ],
+                ),
               ),
               SizedBox(
                 height: 8,
@@ -538,7 +602,7 @@ class _MrOfficersDashboardScreenState extends State<MrOfficersDashboardScreen> {
                     CustomText(
                       maxLines: 3,
                       textOverflow: TextOverflow.clip,
-                      text: '08',
+                      text: totalVisit.toString(),
                       isContent: true,
                     )
                   ],

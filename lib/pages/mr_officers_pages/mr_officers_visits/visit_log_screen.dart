@@ -1,4 +1,5 @@
 import 'package:date_picker_timeline/date_picker_widget.dart';
+import 'package:deskgoo/providers/mr_officer_provider/mr_visitLog_provider.dart';
 import 'package:deskgoo/themes/custom_colors.dart';
 import 'package:deskgoo/widgets/app_bars/custom_app_bars.dart';
 import 'package:deskgoo/widgets/containers/custom_container.dart';
@@ -6,6 +7,7 @@ import 'package:deskgoo/widgets/drop_downs/custom_dropdown.dart';
 import 'package:deskgoo/widgets/texts/custom_text.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:provider/provider.dart';
 
 class MrOfficerVisitLogScreen extends StatefulWidget {
   const MrOfficerVisitLogScreen({super.key});
@@ -16,59 +18,33 @@ class MrOfficerVisitLogScreen extends StatefulWidget {
 }
 
 class _MrOfficerVisitLogStateScreen extends State<MrOfficerVisitLogScreen> {
-  List<String> dateList = ["Today", "Yesterday", "Custom"];
-  List<Map<String,dynamic>> logList = [
-    {
-      "name":"Jay prakash Malla",
-      "category": "Doctor",
-      "Age": "32",
-      "number": "9819022387",
-      "organization": "Golden Hospital",
-      "remarks": "Hospital visit"
-    },
-    {
-      "name":"Ram Yadav",
-      "category": "Social worker",
-      "Age": "22",
-      "number": "9819022345",
-      "organization": "Our Nepal",
-      "remarks": "Social Worker visit"
-    },
-    {
-      "name":"Ashish Rai",
-      "category": "Doctor",
-      "Age": "42",
-      "number": "98011022387",
-      "organization": "Birat Teaching Hospital",
-      "remarks": "Hospital visit"
-    },
-  ];
   String defaultValue = "Today";
   String selectedDate = "";
   bool isVisible = false;
 
-  Future<void> selectDate () async{
+  Future<void> selectDate() async {
     DateTime? picked = await showDatePicker(
-        context: context,
-        initialDate: DateTime.now(),
-        firstDate: DateTime(2000),
-        lastDate: DateTime(2040),
+      context: context,
+      initialDate: DateTime.now(),
+      firstDate: DateTime(2000),
+      lastDate: DateTime(2040),
     );
-    if(picked == null){
+    if (picked == null) {
       return;
-    }else{
+    } else {
       setState(() {
         selectedDate = "${picked.year}-${picked.month}-${picked.day}";
       });
     }
     print(selectedDate);
   }
+
   void updateSelectedDate(String newValue) {
     setState(() {
       selectedDate = newValue;
       if (selectedDate == "Today") {
         selectedDate =
-        "${DateTime.now().year}-${DateTime.now().month}-${DateTime.now().day}";
+            "${DateTime.now().year}-${DateTime.now().month}-${DateTime.now().day}";
       } else if (selectedDate == "Yesterday") {
         DateTime yesterday = DateTime.now().subtract(Duration(days: 1));
         selectedDate = "${yesterday.year}-${yesterday.month}-${yesterday.day}";
@@ -79,6 +55,15 @@ class _MrOfficerVisitLogStateScreen extends State<MrOfficerVisitLogScreen> {
     });
   }
 
+  MrOfficeVisitLogProvider? _visitLogProvider;
+
+  @override
+  void initState() {
+    _visitLogProvider =
+        Provider.of<MrOfficeVisitLogProvider>(context, listen: false);
+    _visitLogProvider?.getVisitLogs();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -120,6 +105,4 @@ class _MrOfficerVisitLogStateScreen extends State<MrOfficerVisitLogScreen> {
       ),
     );
   }
-
-
 }

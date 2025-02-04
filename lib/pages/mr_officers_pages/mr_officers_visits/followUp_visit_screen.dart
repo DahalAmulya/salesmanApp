@@ -1,6 +1,5 @@
 import 'dart:convert';
 import 'package:deskgoo/providers/mr_officer_provider/mr_followup_provider.dart';
-import 'package:deskgoo/providers/mr_officer_provider/mr_visit_provider.dart';
 import 'package:deskgoo/themes/custom_colors.dart';
 import 'package:deskgoo/widgets/app_bars/custom_app_bars.dart';
 import 'package:deskgoo/widgets/buttons/elevated_button.dart';
@@ -72,6 +71,7 @@ class _MrOfficerFollowUpVisitScreenState
     selectedCountry = country[0];
     return Consumer<MrOfficerFollowUpProvider>(
       builder: (context, followUpProvider, _) {
+        followUpProvider.getCurrentTimeAndLocation();
         return SingleChildScrollView(
           child: Center(
             child: Stack(
@@ -141,9 +141,9 @@ class _MrOfficerFollowUpVisitScreenState
                         labelText: 'Number',
                         onTap: () {},
                         validator: (value) {
-                          return value!.isEmpty
-                              ? 'Phone number Required'
-                              : null;
+                          // return value!.isEmpty
+                          //     ? 'Phone number Required'
+                          //     : null;
                         },
                         onChange: (value) {},
                       ),
@@ -229,6 +229,7 @@ class _MrOfficerFollowUpVisitScreenState
       },
     );
   }
+
 //---------------------------------------------------------------- bottomSheet-------------------------------------------------------------------//
   Widget _POCModalBottomSheet(context) {
     return Consumer<MrOfficerFollowUpProvider>(
@@ -291,14 +292,29 @@ class _MrOfficerFollowUpVisitScreenState
                           //     followUpProvider.pocList[index]['_id']);
                           print(followUpProvider.pocList[index]);
                           String id = followUpProvider.pocList[index]['_id'];
-                          String name = followUpProvider.pocList[index]['pocName'];
-                          String category = followUpProvider.pocList[index]['category'];
-                          String specialization = followUpProvider.pocList[index]['specialization'];
-                          String age = followUpProvider.pocList[index]['age'].toString();
-                          String number = followUpProvider.pocList[index]['number'];
-                          String address = followUpProvider.pocList[index]['address'];
-                          String organization = followUpProvider.pocList[index]['organization'];
-                          followUpProvider.setPOCDetails(id, name, category, specialization, age, number, address, organization);
+                          String name =
+                              followUpProvider.pocList[index]['pocName'];
+                          String category =
+                              followUpProvider.pocList[index]['category'];
+                          String specialization =
+                              followUpProvider.pocList[index]['specialization'];
+                          String age =
+                              followUpProvider.pocList[index]['age'].toString();
+                          String number =
+                              followUpProvider.pocList[index]['number'];
+                          String address =
+                              followUpProvider.pocList[index]['address'];
+                          String organization =
+                              followUpProvider.pocList[index]['organization'];
+                          followUpProvider.setPOCDetails(
+                              id,
+                              name,
+                              category,
+                              specialization,
+                              age,
+                              number,
+                              address,
+                              organization);
                           Navigator.pop(context);
                         },
                         title: CustomContainer(

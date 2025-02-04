@@ -3,8 +3,11 @@ import 'dart:convert';
 import 'package:deskgoo/consts.dart';
 import 'package:deskgoo/routes/marketing_officer_consts.dart';
 import 'package:deskgoo/services/erp_services.dart';
+import 'package:deskgoo/themes/custom_colors.dart';
+import 'package:deskgoo/utils/toast_message.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:intl/intl.dart';
 
@@ -106,7 +109,8 @@ class MrOfficerFollowUpProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  void setPOCDetails(id, name, category, specialization, age, number, address, organization) {
+  void setPOCDetails(
+      id, name, category, specialization, age, number, address, organization) {
     _pocId = id;
     _fullNameController.text = name;
     _categoryController.text = category;
@@ -118,34 +122,46 @@ class MrOfficerFollowUpProvider extends ChangeNotifier {
     notifyListeners();
   }
 
+  void clearValue() {
+    _pocId = '';
+    _fullNameController.text = '';
+    _categoryController.text = '';
+    _specializationController.text = '';
+    _ageController.text = '';
+    _numberController.text = '';
+    _addressController.text = '';
+    _organizationController.text = '';
+    _remarksController.text = '';
+  }
+
   void postFollowUp() async {
     DateTime now = DateTime.now();
     String mobileTime = DateFormat('HH:mm:ss MM-dd-yyyy').format(now);
     // print(mobileTime);
     String userName = pocList[0]['pocName'];
+    DateTime currentTime = DateTime.now();
 
-    Map<String,dynamic> body = {
+    Map<String, dynamic> body = {
       "pocId": _pocId,
       "pocName": _fullNameController.value.text,
-      "createdById":  userId,
+      "createdById": userId,
       "remarks": _remarksController.value.text,
       "mobileTime": mobileTime,
-      "latitude": 26.45767892768517,
-      "longitude": 87.27953249820239,
+      "visitDate": currentTime.toString(),
+      "latitude": _latitude,
+      "longitude": _longitude,
     };
-    print("response : ${body}");
-    // Map<String, dynamic> body = {
-    //   'createdById': userId,
-    //   'createdByName': userName,
-    //   'pocId': _pocId,
-    //   'mobileTime': _dateTime,
-    //   'latitude': _latitude,
-    //   'longitude': _longitude,
-    //   'remarks': _remarksController.value.text,
-    // };
 
     ERPResponse response = await ERPServices.postRequest('/poc/followup', body);
     print(response.statusCode);
     print(response.body);
+    print("response : ${body}");
+    if (response.statusCode == 200) {
+      clearValue();
+      ToastMessageUtils().showToastMessage(
+          'Follow Up successful', ToastGravity.TOP, CustomColors.jadeGreen);
+    } else {
+      ToastMessageUtils().showToastMessage('Something went wrong');
+    }
   }
 }

@@ -27,7 +27,6 @@ class WeeklyPlanScreen extends StatefulWidget {
 }
 
 class _WeeklyPlanScreenState extends State<WeeklyPlanScreen> {
-
   bool isVisibleForDistrictList = false;
   DateTime _selectedDate = DateTime.now();
 
@@ -40,18 +39,20 @@ class _WeeklyPlanScreenState extends State<WeeklyPlanScreen> {
   final taskAreaNoteController = TextEditingController();
   final taskRemarkNoteController = TextEditingController();
 
-  final Url = 'http://202.51.3.49:8002/api/plan/today?userId=679b632e4c526fbfe839ada5';
-  Map<String,dynamic> todaysPlan = {};
+  final Url =
+      'http://202.51.3.49:8002/api/plan/today?userId=679b632e4c526fbfe839ada5';
+  Map<String, dynamic> todaysPlan = {};
   String activity = '';
   String area = '';
   String remark = '';
 
-  Future<void> getTodayPlan(planDate) async{
-    ERPResponse response = await ERPServices.getRequest("/plan/today?userId=$userId&planDate=$planDate");
+  Future<void> getTodayPlan(planDate) async {
+    ERPResponse response = await ERPServices.getRequest(
+        "/plan/today?userId=$userId&planDate=$planDate");
     var decodedData = jsonDecode(response.body);
     print(decodedData);
 
-    if(response.statusCode == 200) {
+    if (response.statusCode == 200) {
       todaysPlan = decodedData;
       // print(todaysPlan['activity'] ?? 'key not found');
       print(todaysPlan);
@@ -61,12 +62,16 @@ class _WeeklyPlanScreenState extends State<WeeklyPlanScreen> {
         remark = todaysPlan['todaysPlan']['remark'];
       });
 
-      print(response.statusCode);
       // print(response.body.runtimeType);
       // print(response.body);
-    }else{
-      print(response.body);
-
+    } else {
+      setState(() {
+        activity = 'No activity';
+        area = 'No area';
+        remark = 'No remarks';
+      });
+      // print(response.statusCode);
+      // print(response.body);
     }
   }
 
@@ -75,7 +80,6 @@ class _WeeklyPlanScreenState extends State<WeeklyPlanScreen> {
     super.initState();
     getTodayPlan(DateTime.now().toString().split(" ")[0]);
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -179,43 +183,41 @@ class _WeeklyPlanScreenState extends State<WeeklyPlanScreen> {
             ],
           ),
         ),
-        Consumer<WeeklyPlanProvider>(
-          builder: (context,weeklyPlanProvider,_) {
-            return Container(
-              margin: EdgeInsets.symmetric(horizontal: 8),
-              child: DatePicker(
-                DateTime.now(),
-                height: 100,
-                width: 80,
-                initialSelectedDate: DateTime.now(),
-                selectionColor: CustomColors.primaryColor,
-                dateTextStyle: GoogleFonts.lato(
-                  textStyle: TextStyle(
-                    fontSize: 16,
-                    fontWeight: FontWeight.w600,
-                  ),
+        Consumer<WeeklyPlanProvider>(builder: (context, weeklyPlanProvider, _) {
+          return Container(
+            margin: EdgeInsets.symmetric(horizontal: 8),
+            child: DatePicker(
+              DateTime.now(),
+              height: 100,
+              width: 80,
+              initialSelectedDate: DateTime.now(),
+              selectionColor: CustomColors.primaryColor,
+              dateTextStyle: GoogleFonts.lato(
+                textStyle: TextStyle(
+                  fontSize: 16,
+                  fontWeight: FontWeight.w600,
                 ),
-                dayTextStyle: GoogleFonts.lato(
-                  textStyle: TextStyle(
-                    fontSize: 14,
-                    fontWeight: FontWeight.w600,
-                  ),
-                ),
-                monthTextStyle: GoogleFonts.lato(
-                  textStyle: TextStyle(
-                    fontSize: 12,
-                    fontWeight: FontWeight.w600,
-                  ),
-                ),
-                onDateChange: (newDate) {
-                  weeklyPlanProvider.updateDate(newDate);
-                  getTodayPlan(newDate.toString().split(" ")[0]);
-                  print(newDate);
-                },
               ),
-            );
-          }
-        ),
+              dayTextStyle: GoogleFonts.lato(
+                textStyle: TextStyle(
+                  fontSize: 14,
+                  fontWeight: FontWeight.w600,
+                ),
+              ),
+              monthTextStyle: GoogleFonts.lato(
+                textStyle: TextStyle(
+                  fontSize: 12,
+                  fontWeight: FontWeight.w600,
+                ),
+              ),
+              onDateChange: (newDate) {
+                weeklyPlanProvider.updateDate(newDate);
+                getTodayPlan(newDate.toString().split(" ")[0]);
+                print(newDate);
+              },
+            ),
+          );
+        }),
         SizedBox(
           height: 56,
         ),
@@ -226,69 +228,78 @@ class _WeeklyPlanScreenState extends State<WeeklyPlanScreen> {
             verticalMargin: 18,
             horizontalMargin: 18,
             child: Column(
-            children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  CustomText(text: 'Activity:',fontWeight: FontWeight.w600,size: 18,),
-                ],
-              ),
-              SizedBox(height: 8,),
-              Consumer<WeeklyPlanProvider>(
-                builder: (context,weeklyPlanProvider,_) {
+              children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    CustomText(
+                      text: 'Activity:',
+                      fontWeight: FontWeight.w600,
+                      size: 18,
+                    ),
+                  ],
+                ),
+                SizedBox(
+                  height: 8,
+                ),
+                Consumer<WeeklyPlanProvider>(
+                    builder: (context, weeklyPlanProvider, _) {
                   return TextFromFieldWithPrefixSuffix(
                       readOnly: true,
                       hintText: '$activity',
                       controller: weeklyPlanProvider.taskActivityNoteController,
-                      validator: (validator){
-
-                      }
-                  );
-                }
-              ),
-              SizedBox(height: 8,),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  CustomText(text: 'Area:',fontWeight: FontWeight.w600,size: 18,),
-                ],
-              ),
-              SizedBox(height: 8,),
-              Consumer<WeeklyPlanProvider>(
-                builder: (context,weeklyPlanProvider,_) {
+                      validator: (validator) {});
+                }),
+                SizedBox(
+                  height: 8,
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    CustomText(
+                      text: 'Area:',
+                      fontWeight: FontWeight.w600,
+                      size: 18,
+                    ),
+                  ],
+                ),
+                SizedBox(
+                  height: 8,
+                ),
+                Consumer<WeeklyPlanProvider>(
+                    builder: (context, weeklyPlanProvider, _) {
                   return TextFromFieldWithPrefixSuffix(
                       readOnly: true,
                       hintText: '$area',
                       controller: weeklyPlanProvider.taskAreaNoteController,
-                      validator: (validator){
-
-                      }
-                  );
-                }
-              ),
-              SizedBox(height: 8,),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  CustomText(text: 'Remark:',fontWeight: FontWeight.w600,size: 18,),
-                ],
-              ),
-              SizedBox(height: 8,),
-              Consumer<WeeklyPlanProvider>(
-                builder: (context,weeklyPlanProvider,_) {
+                      validator: (validator) {});
+                }),
+                SizedBox(
+                  height: 8,
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    CustomText(
+                      text: 'Remark:',
+                      fontWeight: FontWeight.w600,
+                      size: 18,
+                    ),
+                  ],
+                ),
+                SizedBox(
+                  height: 8,
+                ),
+                Consumer<WeeklyPlanProvider>(
+                    builder: (context, weeklyPlanProvider, _) {
                   return TextFromFieldWithPrefixSuffix(
                       readOnly: true,
                       hintText: '$remark',
                       controller: weeklyPlanProvider.taskRemarkNoteController,
-                      validator: (validator){
-
-                      }
-                  );
-                }
-              ),
-            ],
-                          )
-        ),
+                      validator: (validator) {});
+                }),
+              ],
+            )),
         // SizedBox(height: 8,),
         // Column(
         //   crossAxisAlignment: CrossAxisAlignment.center,
@@ -312,15 +323,19 @@ class _WeeklyPlanScreenState extends State<WeeklyPlanScreen> {
   }
   //----------------------------------------------------------------AlertDialog----------------------------------------------------------------//
 
-
-  void openAlertDialog(context){
+  void openAlertDialog(context) {
     showDialog(
         context: context,
-        builder: (BuildContext context){
+        builder: (BuildContext context) {
           return AlertDialog(
             backgroundColor: CustomColors.primaryWhite,
             elevation: 10,
-            title: Center(child: CustomText(text: 'New Task',size: 24,fontWeight: FontWeight.w600,)),
+            title: Center(
+                child: CustomText(
+              text: 'New Task',
+              size: 24,
+              fontWeight: FontWeight.w600,
+            )),
             content: SizedBox(
               width: MediaQuery.of(context).size.width * 0.7,
               child: SingleChildScrollView(
@@ -330,86 +345,104 @@ class _WeeklyPlanScreenState extends State<WeeklyPlanScreen> {
                     // mainAxisAlignment: MainAxisAlignment.start,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      CustomText(text: 'Activity',fontWeight: FontWeight.w600,size: 18,),
-                      SizedBox(height: 8,),
-                      Consumer<WeeklyPlanProvider>(
-                        builder: (context,weeklyPlanProvider,_) {
-                          return TextFromFieldWithPrefixSuffix(
-                            controller: weeklyPlanProvider.taskActivityController,
-                            autoFocus: false,
-                            hintText: 'Activity',
-                            labelText: 'Activity note',
-                            maxLines: 2,
-                            validator: (value) {
-                              // print(visitScreenProvider.followUpNote);
-                              return value!.isEmpty
-                                  ? 'Activity note is required'
-                                  : value.length < 3
-                                  ? 'Enter at least 3 characters'
-                                  : null;
-                            },
-                            onChange: (value) {
-                              // visitScreenProvider.setFollowUpNote(value!);
-                            },
-                            onTap: () {},
-                          );
-                        }
+                      CustomText(
+                        text: 'Activity',
+                        fontWeight: FontWeight.w600,
+                        size: 18,
                       ),
-                      SizedBox(height: 8,),
-                      CustomText(text: 'Area',fontWeight: FontWeight.w600,size: 18,),
-                      SizedBox(height: 8,),
-                      Consumer<WeeklyPlanProvider>(
-                        builder: (context,weeklyPlanProvider,_) {
-                          return TextFromFieldWithPrefixSuffix(
-                            controller: weeklyPlanProvider.taskAreaController,
-                            autoFocus: false,
-                            hintText: 'Area',
-                            labelText: 'Area note',
-                            maxLines: 2,
-                            validator: (value) {
-                              // print(visitScreenProvider.followUpNote);
-                              return value!.isEmpty
-                                  ? 'Visiting Area name is required'
-                                  : value.length < 3
-                                  ? 'Enter at least 3 characters'
-                                  : null;
-                            },
-                            onChange: (value) {
-                              // visitScreenProvider.setFollowUpNote(value!);
-                            },
-                            onTap: () {},
-                          );
-                        }
+                      SizedBox(
+                        height: 8,
                       ),
-                      SizedBox(height: 8,),
-                      CustomText(text: 'Remark',fontWeight: FontWeight.w600,size: 18,),
-                      SizedBox(height: 8,),
                       Consumer<WeeklyPlanProvider>(
-                        builder: (context,weeklyPlanProvider,_) {
-                          return TextFromFieldWithPrefixSuffix(
-                            controller: weeklyPlanProvider.taskRemarkController,
-                            autoFocus: false,
-                            hintText: 'Remark',
-                            labelText: 'Remark note',
-                            maxLines: 2,
-                            validator: (value) {
-                              // print(visitScreenProvider.followUpNote);
-                              return value!.isEmpty
-                                  ? 'Remark note is required'
-                                  : value.length < 3
-                                  ? 'Enter at least 3 characters'
-                                  : null;
-                            },
-                            onChange: (value) {
-                              // visitScreenProvider.setFollowUpNote(value!);
-                            },
-                            onTap: () {
-
-                              // Navigator.pop(context);
-                            },
-                          );
-                        }
+                          builder: (context, weeklyPlanProvider, _) {
+                        return TextFromFieldWithPrefixSuffix(
+                          controller: weeklyPlanProvider.taskActivityController,
+                          autoFocus: false,
+                          hintText: 'Activity',
+                          labelText: 'Activity note',
+                          maxLines: 2,
+                          validator: (value) {
+                            // print(visitScreenProvider.followUpNote);
+                            return value!.isEmpty
+                                ? 'Activity note is required'
+                                : value.length < 3
+                                    ? 'Enter at least 3 characters'
+                                    : null;
+                          },
+                          onChange: (value) {
+                            // visitScreenProvider.setFollowUpNote(value!);
+                          },
+                          onTap: () {},
+                        );
+                      }),
+                      SizedBox(
+                        height: 8,
                       ),
+                      CustomText(
+                        text: 'Area',
+                        fontWeight: FontWeight.w600,
+                        size: 18,
+                      ),
+                      SizedBox(
+                        height: 8,
+                      ),
+                      Consumer<WeeklyPlanProvider>(
+                          builder: (context, weeklyPlanProvider, _) {
+                        return TextFromFieldWithPrefixSuffix(
+                          controller: weeklyPlanProvider.taskAreaController,
+                          autoFocus: false,
+                          hintText: 'Area',
+                          labelText: 'Area note',
+                          maxLines: 2,
+                          validator: (value) {
+                            // print(visitScreenProvider.followUpNote);
+                            return value!.isEmpty
+                                ? 'Visiting Area name is required'
+                                : value.length < 3
+                                    ? 'Enter at least 3 characters'
+                                    : null;
+                          },
+                          onChange: (value) {
+                            // visitScreenProvider.setFollowUpNote(value!);
+                          },
+                          onTap: () {},
+                        );
+                      }),
+                      SizedBox(
+                        height: 8,
+                      ),
+                      CustomText(
+                        text: 'Remark',
+                        fontWeight: FontWeight.w600,
+                        size: 18,
+                      ),
+                      SizedBox(
+                        height: 8,
+                      ),
+                      Consumer<WeeklyPlanProvider>(
+                          builder: (context, weeklyPlanProvider, _) {
+                        return TextFromFieldWithPrefixSuffix(
+                          controller: weeklyPlanProvider.taskRemarkController,
+                          autoFocus: false,
+                          hintText: 'Remark',
+                          labelText: 'Remark note',
+                          maxLines: 2,
+                          validator: (value) {
+                            // print(visitScreenProvider.followUpNote);
+                            return value!.isEmpty
+                                ? 'Remark note is required'
+                                : value.length < 3
+                                    ? 'Enter at least 3 characters'
+                                    : null;
+                          },
+                          onChange: (value) {
+                            // visitScreenProvider.setFollowUpNote(value!);
+                          },
+                          onTap: () {
+                            // Navigator.pop(context);
+                          },
+                        );
+                      }),
                     ],
                   ),
                 ),
@@ -417,31 +450,24 @@ class _WeeklyPlanScreenState extends State<WeeklyPlanScreen> {
             ),
             actions: [
               Consumer<WeeklyPlanProvider>(
-                builder: (context,weeklyPlanProvider,_) {
-                  return Row(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: [
-                      CustomElevatedButton(
-                          onPressed: (){
-                              // weeklyPlanProvider.setNewTask();
-                            weeklyPlanProvider.postRequest(context);
-                            weeklyPlanProvider.getAllPlans();
-                              Navigator.pop(context);
-
-                          },
-                          backgroundColor: CustomColors.primaryColor,
-                          widget: CustomText(
-                              text: 'Submit'
-                          )
-                      ),
-                    ],
-                  );
-                }
-              ),
+                  builder: (context, weeklyPlanProvider, _) {
+                return Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    CustomElevatedButton(
+                        onPressed: () {
+                          // weeklyPlanProvider.setNewTask();
+                          weeklyPlanProvider.postRequest(context);
+                          weeklyPlanProvider.getAllPlans();
+                          Navigator.pop(context);
+                        },
+                        backgroundColor: CustomColors.primaryColor,
+                        widget: CustomText(text: 'Submit')),
+                  ],
+                );
+              }),
             ],
           );
-        }
-    );
+        });
   }
 }
-
