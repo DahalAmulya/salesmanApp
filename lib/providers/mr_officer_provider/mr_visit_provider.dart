@@ -10,10 +10,7 @@ import 'package:geolocator/geolocator.dart';
 
 class MrOfficerVisitProvider with ChangeNotifier {
   // final _createVisitFormKey = GlobalKey<FormState>();
-  List<String> _visitTypeList = [
-    'New Visit',
-    'FollowUp Visit',
-  ];
+  List<String> _visitTypeList = ['New Visit', 'FollowUp Visit', 'Visit Log'];
   List<String> _selectedVisitTypeList = ['none', 'More Detail'];
   String _selectedVisitType = '';
   String _radioGroupValue = '';

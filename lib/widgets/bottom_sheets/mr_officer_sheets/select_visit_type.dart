@@ -70,6 +70,16 @@ class _MrOfficerSelectVisitTypeBottomSheetState
                         visitProvider.selectVisitType(value);
                       },
                     ),
+                    CustomRadioButton(
+                      radioGroupValue: visitProvider.radioGroupValue,
+                      radioValue: visitProvider.visitTypeList[2],
+                      radioTitle: visitProvider.visitTypeList[2],
+                      // showTrailingWidget: true,
+                      // trailingWidgetTitle: '15',
+                      onChange: (value) {
+                        visitProvider.selectVisitType(value);
+                      },
+                    ),
                     SizedBox(
                       height: 8,
                     ),
@@ -102,11 +112,14 @@ class _MrOfficerSelectVisitTypeBottomSheetState
                                   Navigator.pop(context);
                                   Navigator.of(context).pushNamed(
                                       MarketingOfficerConstants.newVisit);
-                                } else {
+                                } else if (visitProvider.selectedVisitType ==
+                                    visitProvider.visitTypeList[1]) {
                                   Navigator.pop(context);
                                   followUpProvider.GetPOCList(context);
                                   // Navigator.of(context).pushNamed(
                                   //     MarketingOfficerConstants.followUpVisit);
+                                } else {
+                                  Navigator.pop(context);
                                 }
                               }
                             },
