@@ -120,6 +120,8 @@ class _MrOfficerSelectVisitTypeBottomSheetState
                                   //     MarketingOfficerConstants.followUpVisit);
                                 } else {
                                   Navigator.pop(context);
+                                  Navigator.of(context).pushNamed(
+                                      MarketingOfficerConstants.visitLog);
                                 }
                               }
                             },
