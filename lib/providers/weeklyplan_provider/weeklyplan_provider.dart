@@ -310,6 +310,10 @@ class WeeklyPlanProvider with ChangeNotifier {
       print(response.statusCode);
       print(response.body);
       if (response.statusCode == 200) {
+        Map<String, dynamic> body = jsonDecode(response.body);
+        _taskActivityNoteController.text = body['newPlan']['activity'];
+        _taskAreaNoteController.text = body['newPlan']['area'];
+        _taskRemarkNoteController.text = body['newPlan']['remark'];
         ToastMessageUtils().showToastMessage('Plan created successfully',
             ToastGravity.TOP, CustomColors.jadeGreen);
         print('success');
