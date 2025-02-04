@@ -18,7 +18,6 @@ class MrOfficerVisitLogScreen extends StatefulWidget {
 }
 
 class _MrOfficerVisitLogStateScreen extends State<MrOfficerVisitLogScreen> {
-  List<String> dateList = ["Today", "Yesterday", "Custom"];
   String defaultValue = "Today";
   String selectedDate = "";
   bool isVisible = false;
@@ -87,7 +86,7 @@ class _MrOfficerVisitLogStateScreen extends State<MrOfficerVisitLogScreen> {
         child: Scaffold(
           backgroundColor: CustomColors.primaryWhite,
           appBar: _appBar(context),
-          body: _buildUI(context),
+          // body: _buildUI(context),
         ),
       ),
     );
@@ -105,108 +104,5 @@ class _MrOfficerVisitLogStateScreen extends State<MrOfficerVisitLogScreen> {
         },
       ),
     );
-  }
-
-  Widget _buildUI(BuildContext context) {
-    return Consumer<MrOfficeVisitLogProvider>(
-        builder: (context, visitLogProvider, _) {
-      return ListView(
-        children: [
-          SizedBox(
-            height: 16,
-          ),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 0),
-            child: Row(
-              children: [
-                Expanded(flex: 1, child: CustomText(text: 'Select Date : ')),
-                Expanded(
-                  flex: 2,
-                  child: CustomDropdown(
-                      labelText: 'Select Date',
-                      items: dateList,
-                      value: defaultValue,
-                      onChanged: (newValue) {
-                        if (newValue != null) {
-                          updateSelectedDate(newValue);
-                          print(newValue);
-                          visitLogProvider.getVisitLogs();
-                        }
-                      }),
-                )
-              ],
-            ),
-          ),
-          SizedBox(
-            height: 16,
-          ),
-          ListView.builder(
-              shrinkWrap:
-                  true, // This allows it to take only the required height
-              physics:
-                  NeverScrollableScrollPhysics(), // Disables scrolling for outer ListView, so the inner ListViews can handle scrolling
-              padding: EdgeInsets.all(0),
-              itemCount: visitLogProvider.visitLog.length,
-              itemBuilder: (context, index) {
-                String pocName = visitLogProvider.visitLog[index]['pocName'];
-                String dateTime =
-                    visitLogProvider.visitLog[index]['mobileTime'];
-                String time = dateTime.split(' ')[0];
-                String date = dateTime.split(' ')[1];
-                String remarks = visitLogProvider.visitLog[index]['remarks'];
-                return ListTile(
-                  onTap: () {},
-                  title: CustomContainer(
-                    applyShadow: true,
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Row(
-                          children: [
-                            Expanded(
-                              flex: 1,
-                              child: CustomText(text: 'Name', isContent: true),
-                            ),
-                            Expanded(
-                              flex: 3,
-                              child: CustomText(text: pocName, isContent: true),
-                            ),
-                          ],
-                        ),
-                        Row(
-                          children: [
-                            Expanded(
-                              flex: 1,
-                              child:
-                                  CustomText(text: 'Remarks', isContent: true),
-                            ),
-                            Expanded(
-                              flex: 3,
-                              child: CustomText(text: remarks, isContent: true),
-                            ),
-                          ],
-                        ),
-                        Row(
-                          children: [
-                            Expanded(
-                              flex: 1,
-                              child: CustomText(text: 'Time', isContent: true),
-                            ),
-                            Expanded(
-                              flex: 3,
-                              child: CustomText(
-                                  text: '$time  $date', isContent: true),
-                            ),
-                          ],
-                        ),
-                      ],
-                    ),
-                  ),
-                );
-              }),
-        ],
-      );
-    });
   }
 }
