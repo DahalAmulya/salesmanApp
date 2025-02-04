@@ -1,10 +1,13 @@
 import 'package:date_picker_timeline/date_picker_widget.dart';
+import 'package:deskgoo/providers/mr_officer_provider/mr_visitLog_provider.dart';
 import 'package:deskgoo/themes/custom_colors.dart';
 import 'package:deskgoo/widgets/app_bars/custom_app_bars.dart';
+import 'package:deskgoo/widgets/containers/custom_container.dart';
 import 'package:deskgoo/widgets/drop_downs/custom_dropdown.dart';
 import 'package:deskgoo/widgets/texts/custom_text.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:provider/provider.dart';
 
 class MrOfficerVisitLogScreen extends StatefulWidget {
   const MrOfficerVisitLogScreen({super.key});
@@ -20,28 +23,29 @@ class _MrOfficerVisitLogStateScreen extends State<MrOfficerVisitLogScreen> {
   String selectedDate = "";
   bool isVisible = false;
 
-  Future<void> selectDate () async{
+  Future<void> selectDate() async {
     DateTime? picked = await showDatePicker(
-        context: context,
-        initialDate: DateTime.now(),
-        firstDate: DateTime(2000),
-        lastDate: DateTime(2040),
+      context: context,
+      initialDate: DateTime.now(),
+      firstDate: DateTime(2000),
+      lastDate: DateTime(2040),
     );
-    if(picked == null){
+    if (picked == null) {
       return;
-    }else{
+    } else {
       setState(() {
         selectedDate = "${picked.year}-${picked.month}-${picked.day}";
       });
     }
     print(selectedDate);
   }
+
   void updateSelectedDate(String newValue) {
     setState(() {
       selectedDate = newValue;
       if (selectedDate == "Today") {
         selectedDate =
-        "${DateTime.now().year}-${DateTime.now().month}-${DateTime.now().day}";
+            "${DateTime.now().year}-${DateTime.now().month}-${DateTime.now().day}";
       } else if (selectedDate == "Yesterday") {
         DateTime yesterday = DateTime.now().subtract(Duration(days: 1));
         selectedDate = "${yesterday.year}-${yesterday.month}-${yesterday.day}";
@@ -51,7 +55,6 @@ class _MrOfficerVisitLogStateScreen extends State<MrOfficerVisitLogScreen> {
       print("Selected Date: $selectedDate");
     });
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -95,11 +98,15 @@ class _MrOfficerVisitLogStateScreen extends State<MrOfficerVisitLogScreen> {
   }
 
   Widget _buildUI(BuildContext context) {
-    return Scaffold(
-      body: Column(
+    return Consumer<MrOfficeVisitLogProvider>(
+        builder: (context, visitLogProvider, _) {
+      return ListView(
         children: [
+          SizedBox(
+            height: 16,
+          ),
           Padding(
-            padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 8.0),
+            padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 0),
             child: Row(
               children: [
                 Expanded(flex: 1, child: CustomText(text: 'Select Date : ')),
@@ -110,8 +117,10 @@ class _MrOfficerVisitLogStateScreen extends State<MrOfficerVisitLogScreen> {
                       items: dateList,
                       value: defaultValue,
                       onChanged: (newValue) {
-                        if(newValue != null) {
+                        if (newValue != null) {
                           updateSelectedDate(newValue);
+                          print(newValue);
+                          visitLogProvider.getVisitLogs();
                         }
                       }),
                 )
@@ -121,8 +130,73 @@ class _MrOfficerVisitLogStateScreen extends State<MrOfficerVisitLogScreen> {
           SizedBox(
             height: 16,
           ),
+          ListView.builder(
+              shrinkWrap:
+                  true, // This allows it to take only the required height
+              physics:
+                  NeverScrollableScrollPhysics(), // Disables scrolling for outer ListView, so the inner ListViews can handle scrolling
+              padding: EdgeInsets.all(0),
+              itemCount: visitLogProvider.visitLog.length,
+              itemBuilder: (context, index) {
+                String pocName = visitLogProvider.visitLog[index]['pocName'];
+                String dateTime =
+                    visitLogProvider.visitLog[index]['mobileTime'];
+                String time = dateTime.split(' ')[0];
+                String date = dateTime.split(' ')[1];
+                String remarks = visitLogProvider.visitLog[index]['remarks'];
+                return ListTile(
+                  onTap: () {},
+                  title: CustomContainer(
+                    applyShadow: true,
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Row(
+                          children: [
+                            Expanded(
+                              flex: 1,
+                              child: CustomText(text: 'Name', isContent: true),
+                            ),
+                            Expanded(
+                              flex: 3,
+                              child: CustomText(text: pocName, isContent: true),
+                            ),
+                          ],
+                        ),
+                        Row(
+                          children: [
+                            Expanded(
+                              flex: 1,
+                              child:
+                                  CustomText(text: 'Remarks', isContent: true),
+                            ),
+                            Expanded(
+                              flex: 3,
+                              child: CustomText(text: remarks, isContent: true),
+                            ),
+                          ],
+                        ),
+                        Row(
+                          children: [
+                            Expanded(
+                              flex: 1,
+                              child: CustomText(text: 'Time', isContent: true),
+                            ),
+                            Expanded(
+                              flex: 3,
+                              child: CustomText(
+                                  text: '$time  $date', isContent: true),
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
+                  ),
+                );
+              }),
         ],
-      ),
-    );
+      );
+    });
   }
 }

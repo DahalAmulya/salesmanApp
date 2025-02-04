@@ -1,6 +1,5 @@
 import 'dart:convert';
 import 'package:deskgoo/providers/mr_officer_provider/mr_followup_provider.dart';
-import 'package:deskgoo/providers/mr_officer_provider/mr_visit_provider.dart';
 import 'package:deskgoo/themes/custom_colors.dart';
 import 'package:deskgoo/widgets/app_bars/custom_app_bars.dart';
 import 'package:deskgoo/widgets/buttons/elevated_button.dart';
@@ -142,9 +141,9 @@ class _MrOfficerFollowUpVisitScreenState
                         labelText: 'Number',
                         onTap: () {},
                         validator: (value) {
-                          return value!.isEmpty
-                              ? 'Phone number Required'
-                              : null;
+                          // return value!.isEmpty
+                          //     ? 'Phone number Required'
+                          //     : null;
                         },
                         onChange: (value) {},
                       ),
