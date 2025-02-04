@@ -2,15 +2,17 @@ import 'dart:convert';
 import 'package:date_picker_timeline/date_picker_timeline.dart';
 import 'package:deskgoo/consts.dart';
 import 'package:deskgoo/services/erp_services.dart';
+import 'package:deskgoo/themes/custom_colors.dart';
+import 'package:deskgoo/utils/toast_message.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/physics.dart';
 import 'package:flutter/services.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:intl/intl.dart';
 
-
-class WeeklyPlanProvider with ChangeNotifier{
+class WeeklyPlanProvider with ChangeNotifier {
   // void setList(){
   //   var districtData = readDistrict();
   //   districtData.loadData();
@@ -139,11 +141,12 @@ class WeeklyPlanProvider with ChangeNotifier{
   List<String> _foundStates = [];
   List<String> _foundDistrict = [];
   String _selectedCountry = '';
-  int _selectedIndex  = 0;
+  int _selectedIndex = 0;
   DateTime _updatedDate = DateTime.now();
 
   TextEditingController _stateTextEditingController = TextEditingController();
-  TextEditingController _districtTextEditingController = TextEditingController();
+  TextEditingController _districtTextEditingController =
+      TextEditingController();
 
   TextEditingController _taskActivityController = TextEditingController();
   TextEditingController _taskAreaController = TextEditingController();
@@ -152,7 +155,6 @@ class WeeklyPlanProvider with ChangeNotifier{
   TextEditingController _taskActivityNoteController = TextEditingController();
   TextEditingController _taskAreaNoteController = TextEditingController();
   TextEditingController _taskRemarkNoteController = TextEditingController();
-
 
   bool get isOpen => _isOpen;
   bool get isVisible => _isVisible;
@@ -170,25 +172,32 @@ class WeeklyPlanProvider with ChangeNotifier{
   int get selectedIndex => _selectedIndex;
   DateTime get updatedDate => _updatedDate;
 
-  TextEditingController get stateTextEditingController => _stateTextEditingController;
-  TextEditingController get districtTextEditingController => _districtTextEditingController;
+  TextEditingController get stateTextEditingController =>
+      _stateTextEditingController;
+  TextEditingController get districtTextEditingController =>
+      _districtTextEditingController;
 
   TextEditingController get taskActivityController => _taskActivityController;
   TextEditingController get taskAreaController => _taskAreaController;
   TextEditingController get taskRemarkController => _taskRemarkController;
 
-  TextEditingController get taskActivityNoteController => _taskActivityNoteController;
+  TextEditingController get taskActivityNoteController =>
+      _taskActivityNoteController;
   TextEditingController get taskAreaNoteController => _taskAreaNoteController;
-  TextEditingController get taskRemarkNoteController => _taskRemarkNoteController;
+  TextEditingController get taskRemarkNoteController =>
+      _taskRemarkNoteController;
 
-  WeeklyPlanProvider (){
-    _foundStates = _states.where((state) => state.toLowerCase().contains('A'.toLowerCase())).toList();
-    _foundDistrict = _districts.where((district) => district.toLowerCase().contains('A'.toLowerCase())).toList();
+  WeeklyPlanProvider() {
+    _foundStates = _states
+        .where((state) => state.toLowerCase().contains('A'.toLowerCase()))
+        .toList();
+    _foundDistrict = _districts
+        .where((district) => district.toLowerCase().contains('A'.toLowerCase()))
+        .toList();
     // _foundDistrict = _districts.where((district) => district.toString().toLowerCase().toList();
-
   }
 
-  void setNewTask(){
+  void setNewTask() {
     _taskActivityNoteController.text = _taskActivityController.text;
     _taskAreaNoteController.text = _taskAreaController.text;
     _taskRemarkNoteController.text = _taskRemarkController.text;
@@ -196,15 +205,15 @@ class WeeklyPlanProvider with ChangeNotifier{
     _taskActivityController.clear();
     _taskAreaController.clear();
     _taskActivityController.clear();
-     notifyListeners();
+    notifyListeners();
   }
-  void setDropDownValue(newValue){
+
+  void setDropDownValue(newValue) {
     _selectedCountry = newValue;
     if (selectedCountry == _country[0]) {
-
       print('nepal');
-
-    } if(selectedCountry == _country[1]){
+    }
+    if (selectedCountry == _country[1]) {
       _isVisibleForState = !_isVisibleForState;
       _isVisibleForStateList = !_isVisibleForStateList;
       _isVisibleForDistrict = false;
@@ -212,12 +221,12 @@ class WeeklyPlanProvider with ChangeNotifier{
     }
   }
 
-  void setStateList(){
+  void setStateList() {
     _isVisibleForStateList = true;
     notifyListeners();
   }
 
-  void setDistrictList(){
+  void setDistrictList() {
     _isVisibleForDistrictList = true;
     _isVisibleForStateList = false;
     notifyListeners();
@@ -227,14 +236,16 @@ class WeeklyPlanProvider with ChangeNotifier{
     _SelectedDate = newDate;
     notifyListeners();
   }
-  void setIndex(newIndex){
+
+  void setIndex(newIndex) {
     _selectedIndex = newIndex;
     notifyListeners();
   }
 
-  String formattedDateTime (){
+  String formattedDateTime() {
     return DateFormat('y/MM/dd,EEEE').format(DateTime.now());
   }
+
   String getFormattedDate({String format = 'dd MMM y, EE'}) {
     if (selectedDate == null) {
       return 'No Date Selected';
@@ -242,99 +253,82 @@ class WeeklyPlanProvider with ChangeNotifier{
     return DateFormat(format).format(selectedDate!);
   }
 
-   void runStateSearchFilter(String enteredKeyword){
-     List<String> stateResult = [];
-     if (enteredKeyword.isEmpty) {
-       stateResult = _states;
-     } else {
-       stateResult = _states
-           .where((state) => state
-           .toString()
-           .toLowerCase()
-           .contains(enteredKeyword.toLowerCase()))
-           .toList();
-     }
-       _foundStates = stateResult;
-     notifyListeners();
+  void runStateSearchFilter(String enteredKeyword) {
+    List<String> stateResult = [];
+    if (enteredKeyword.isEmpty) {
+      stateResult = _states;
+    } else {
+      stateResult = _states
+          .where((state) => state
+              .toString()
+              .toLowerCase()
+              .contains(enteredKeyword.toLowerCase()))
+          .toList();
+    }
+    _foundStates = stateResult;
+    notifyListeners();
+  }
 
-   }
+  void runDistrictSearchFilter(String enteredKeyword) {
+    List<String> districtResult = [];
+    if (enteredKeyword.isEmpty) {
+      districtResult = _districts;
+    } else {
+      districtResult = districts
+          .where((district) => district
+              .toString()
+              .toLowerCase()
+              .contains(enteredKeyword.toLowerCase()))
+          .toList();
+    }
+    _foundDistrict = districtResult;
+    notifyListeners();
+  }
 
-   void runDistrictSearchFilter(String enteredKeyword){
-       List<String> districtResult = [];
-       if (enteredKeyword.isEmpty) {
-         districtResult = _districts;
-       } else {
-         districtResult = districts
-             .where((district) => district
-             .toString()
-             .toLowerCase()
-             .contains(enteredKeyword.toLowerCase()))
-             .toList();
-       }
-         _foundDistrict = districtResult;
-       notifyListeners();
-   }
-
-   void updateDate(DateTime newDate) {
+  void updateDate(DateTime newDate) {
     _updatedDate = newDate;
     notifyListeners();
-   }
+  }
 
-   void postRequest(context) async{
-     DateTime now = DateTime.now();
-     String mobileTime = DateFormat('yyyy/MM/dd, EEEE').format(_updatedDate);
-     String planDate = DateFormat('yyyy-MM-dd').format(_updatedDate);
-     final dateTime = DateTime.now();
-     print(dateTime.toString().split(" ")[0]);
+  void postRequest(context) async {
+    DateTime now = DateTime.now();
+    String mobileTime = DateFormat('yyyy/MM/dd, EEEE').format(_updatedDate);
+    String planDate = DateFormat('yyyy-MM-dd').format(_updatedDate);
+    final dateTime = DateTime.now();
+    print(dateTime.toString().split(" ")[0]);
 
-     Map<String,dynamic> _body = {
-       "userId": userId,
-       "activity": _taskActivityController.value.text,
-       "area": _taskAreaController.value.text,
-       "remark": _taskRemarkController.value.text,
-       "mobileTime": mobileTime,
-       "planDate": planDate,
-     };
-     // print(_body);
-     // try{
-     //   ERPResponse response = await ERPServices.postRequest('/plan', _body);
-     //   print(response.statusCode);
-     //   print(response.body);
-     //   if(response.statusCode == 200){
-     //     print('success');
-     //   }else{
-     //     print('something is missing');
-     //   }
-     // }catch(err){
-     //   print('err = ${err}');
-     // }
+    Map<String, dynamic> _body = {
+      "userId": userId,
+      "activity": _taskActivityController.value.text,
+      "area": _taskAreaController.value.text,
+      "remark": _taskRemarkController.value.text,
+      "mobileTime": mobileTime,
+      "planDate": planDate,
+    };
+    try {
+      ERPResponse response = await ERPServices.postRequest('/plan', _body);
+      print(response.statusCode);
+      print(response.body);
+      if (response.statusCode == 200) {
+        ToastMessageUtils().showToastMessage('Plan created successfully',
+            ToastGravity.TOP, CustomColors.jadeGreen);
+        print('success');
+      } else {
+        ToastMessageUtils().showToastMessage(
+            'Something went wrong', ToastGravity.TOP, CustomColors.lightRed);
+        print('something is missing');
+      }
+    } catch (err) {
+      print('err = ${err}');
+    }
 
-     notifyListeners();
-   }
+    notifyListeners();
+  }
 
-   void getAllPlans() async{
-    ERPResponse response = await ERPServices.getRequest('/plan?userId=679b632e4c526fbfe839ada5&from=2025-02-05&to=2025-02-05');
+  void getAllPlans() async {
+    ERPResponse response = await ERPServices.getRequest(
+        '/plan?userId=679b632e4c526fbfe839ada5&from=2025-02-05&to=2025-02-05');
     print(response.body);
     notifyListeners();
-   }
+  }
 }
-
-// class readDistrict{
-//   Future<List<Map<String, dynamic>>> readDistrictJson() async {
-//     // Load the JSON file from the assets
-//     final String response = await rootBundle.loadString('assets/district.json');
-//
-//     // Decode the JSON into a List of Maps
-//     final List<dynamic> data = json.decode(response);
-//     return List<Map<String, dynamic>>.from(data);
-//   }
-//   void loadData() async {
-//     final districts = await readDistrictJson();
-//     for(int i = 0; i < districts.length; i ++){
-//      print(districts[i]['district']);
-//      // print(districts);
-//     }
-//   }
-//
-// }
-
