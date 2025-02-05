@@ -111,6 +111,7 @@ class _MrOfficersDashboardScreenState extends State<MrOfficersDashboardScreen> {
     ERPResponse response = await ERPServices.getRequest(
         '/visitLogs?visitLogId=$userId&from=$from&to=$to');
     Map<String, dynamic> body = jsonDecode(response.body);
+    print(body);
     List<dynamic> visitLogs = body["visitLogs"]["visitLogs"];
     setState(() {
       totalVisit = visitLogs.length;

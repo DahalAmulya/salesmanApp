@@ -30,8 +30,7 @@ class MrOfficerFollowUpProvider extends ChangeNotifier {
 
   TextEditingController get fullNameController => _fullNameController;
   TextEditingController get categoryController => _categoryController;
-  TextEditingController get specializationController =>
-      _specializationController;
+  TextEditingController get specializationController => _specializationController;
   TextEditingController get ageController => _ageController;
   TextEditingController get numberController => _numberController;
   TextEditingController get addressController => _addressController;
