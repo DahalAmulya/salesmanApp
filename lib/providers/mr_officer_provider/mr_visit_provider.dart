@@ -90,7 +90,8 @@ class MrOfficerVisitProvider with ChangeNotifier {
     "remarks": '',
     "createdById": '',
     "createdByName": '',
-    "mobileTime": ''
+    "mobileTime": '',
+    "visitDate": ''
   };
 
   // Getters and setters for form fields
@@ -343,7 +344,8 @@ class MrOfficerVisitProvider with ChangeNotifier {
       "remarks": _remarksController.value.text,
       "createdById": userId,
       "createdByName": userName,
-      "mobileTime": _dateTime
+      "mobileTime": _dateTime,
+      "visitDate": DateTime.now().toString().split(".")[0]
     };
     print(_body);
     notifyListeners();

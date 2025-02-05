@@ -12,6 +12,7 @@ import 'package:deskgoo/providers/deviceInfo_provider/deviceInfo_provider.dart';
 import 'package:deskgoo/providers/live_tracking_provider/live_tracking_provider.dart';
 import 'package:deskgoo/providers/login_provider/login_provider.dart';
 import 'package:deskgoo/providers/mr_officer_provider/mr_followup_provider.dart';
+import 'package:deskgoo/providers/mr_officer_provider/mr_referral_provider.dart';
 import 'package:deskgoo/providers/mr_officer_provider/mr_visitLog_provider.dart';
 import 'package:deskgoo/providers/mr_officer_provider/mr_visit_provider.dart';
 import 'package:deskgoo/providers/replay_provider/replay_provider.dart';
@@ -142,6 +143,7 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
             create: (context) => MrOfficerFollowUpProvider()),
         ChangeNotifierProvider(create: (context) => WeeklyPlanProvider()),
         ChangeNotifierProvider(create: (context) => UserProvider()),
+        ChangeNotifierProvider(create: (context) => ReferralsDetailProvider()),
       ],
       child: Builder(
         builder: (BuildContext context) {

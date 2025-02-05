@@ -250,7 +250,7 @@ class _MrOfficerNewVisitScreenState extends State<MrOfficerNewVisitScreen> {
                           children: [
                             TextFromFieldWithPrefixSuffix(
                               controller:
-                                  createVisitProvider.organizationController,
+                                  createVisitProvider.ambulanceNumberController,
                               labelText: 'Ambulance Number *',
                               maxLines: 2,
                               validator: (newValue) {},
@@ -515,6 +515,27 @@ class _MrOfficerNewVisitScreenState extends State<MrOfficerNewVisitScreen> {
                           child: CustomText(
                             maxLines: 3,
                             text: mrOfficerVisitProvider.body['category'],
+                            isContent: true,
+                          ),
+                        ),
+                      ],
+                    ),
+                    SizedBox(
+                      height: 10,
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Expanded(
+                          child: CustomText(
+                            text: 'Ambulance No',
+                            isContent: true,
+                          ),
+                        ),
+                        Expanded(
+                          child: CustomText(
+                            maxLines: 3,
+                            text: mrOfficerVisitProvider.body['ambNumber'],
                             isContent: true,
                           ),
                         ),
