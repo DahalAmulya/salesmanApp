@@ -47,19 +47,8 @@ class _MrOfficerReferralScreenState extends State<MrOfficerReferralScreen> {
   final stateTextEditingController = TextEditingController();
   final searchForStatesTextEditingController = TextEditingController();
 
-  TextEditingController nameText = TextEditingController();
-  TextEditingController ageText = TextEditingController();
-  TextEditingController genderText = TextEditingController();
-  TextEditingController provisionalDiagnosisText = TextEditingController();
-  TextEditingController countryText = TextEditingController();
-  TextEditingController districtText = TextEditingController();
   TextEditingController cityText = TextEditingController();
 
-  TextEditingController addressText = TextEditingController();
-  TextEditingController driverNameText = TextEditingController();
-  TextEditingController ambulanceText = TextEditingController();
-  TextEditingController phoneNumberText = TextEditingController();
-  TextEditingController text = TextEditingController();
 
   void getDataForDistrict() async {
     final respose = await rootBundle.loadString('assets/district.json');
@@ -185,168 +174,173 @@ class _MrOfficerReferralScreenState extends State<MrOfficerReferralScreen> {
   }
 
   Widget _patientDetails(context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 8.0),
-      child: CustomExpansionTile(
-        initiallyExpanded: true,
-        applyAllBorderRadius: true,
-        title: 'Patient Details',
-        size: 20,
-        fontWeight: FontWeight.w600,
-        children: [
-          TextFromFieldWithPrefixSuffix(
-            autoFocus: false,
-            hintText: 'Patient Name',
-            labelText: 'Patient Name',
-            controller: nameText,
-            validator: (value) {
-              return value!.isEmpty
-                  ? 'Name is required'
-                  : value.length < 3
-                      ? 'Enter at least 3 characters'
-                      : null;
-            },
-          ),
-          SizedBox(
-            height: 16,
-          ),
-          TextFromFieldWithPrefixSuffix(
-            autoFocus: false,
-            hintText: 'Age',
-            labelText: 'Age',
-            controller: ageText,
-            validator: (value) {
-              return value!.isEmpty
-                  ? 'Age is required'
-                  : value.length < 3
-                      ? 'Enter at least 1 characters'
-                      : null;
-            },
-          ),
-          SizedBox(
-            height: 16,
-          ),
-          TextFromFieldWithPrefixSuffix(
-            autoFocus: false,
-            hintText: 'Gender',
-            labelText: 'Gender',
-            controller: genderText,
-            validator: (value) {
-              return value!.isEmpty
-                  ? 'Gender is required'
-                  : value.length < 3
-                      ? 'Enter at least 3 characters'
-                      : null;
-            },
-          ),
-          SizedBox(
-            height: 16,
-          ),
-          TextFromFieldWithPrefixSuffix(
-            autoFocus: false,
-            hintText: 'Provisional Diagnosis',
-            labelText: 'Provisional Diagnosis',
-            controller: provisionalDiagnosisText,
-            validator: (value) {
-              return value!.isEmpty
-                  ? 'Provisional Diagnosis is required'
-                  : value.length < 3
-                      ? 'Enter at least 3 characters'
-                      : null;
-            },
-          ),
-          SizedBox(
-            height: 16,
-          ),
-          CustomDropdown(
-              labelText: 'Select Country',
-              items: country,
-              value: defaultValue,
-              onChanged: (newValue) {
-                selectedCountry = newValue!;
-                setState(() {
-                  if (selectedCountry == country[0]) {
-                    _isVisibleForDistrict = true;
-                    _isVisibleForState = false;
+    return Consumer<ReferralsDetailProvider>(
+      builder: (context,referralsDetailProvider,_) {
+        return Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 8.0),
+          child: CustomExpansionTile(
+            initiallyExpanded: true,
+            applyAllBorderRadius: true,
+            title: 'Patient Details',
+            size: 20,
+            fontWeight: FontWeight.w600,
+            children: [
+              SizedBox(height: 4,),
+              TextFromFieldWithPrefixSuffix(
+                autoFocus: false,
+                hintText: 'Patient Name',
+                labelText: 'Patient Name',
+                controller: referralsDetailProvider.patientNameTextController,
+                validator: (value) {
+                  return value!.isEmpty
+                      ? 'Name is required'
+                      : value.length < 3
+                          ? 'Enter at least 3 characters'
+                          : null;
+                },
+              ),
+              SizedBox(
+                height: 16,
+              ),
+              TextFromFieldWithPrefixSuffix(
+                autoFocus: false,
+                hintText: 'Age',
+                labelText: 'Age',
+                controller: referralsDetailProvider.patientAgeTextController,
+                validator: (value) {
+                  // return value!.isEmpty
+                  //     ? 'Age is required'
+                  //     : value.length < 3
+                  //         ? 'Enter at least 1 characters'
+                  //         : null;
+                },
+              ),
+              SizedBox(
+                height: 16,
+              ),
+              TextFromFieldWithPrefixSuffix(
+                autoFocus: false,
+                hintText: 'Gender',
+                labelText: 'Gender',
+                controller: referralsDetailProvider.patientGenderTextController,
+                validator: (value) {
+                  return value!.isEmpty
+                      ? 'Gender is required'
+                      : value.length < 3
+                          ? 'Enter at least 3 characters'
+                          : null;
+                },
+              ),
+              SizedBox(
+                height: 16,
+              ),
+              TextFromFieldWithPrefixSuffix(
+                autoFocus: false,
+                hintText: 'Provisional Diagnosis',
+                labelText: 'Provisional Diagnosis',
+                controller: referralsDetailProvider.patientProvisionalDiagnosisTextController,
+                validator: (value) {
+                  return value!.isEmpty
+                      ? 'Provisional Diagnosis is required'
+                      : value.length < 3
+                          ? 'Enter at least 3 characters'
+                          : null;
+                },
+              ),
+              SizedBox(
+                height: 16,
+              ),
+              CustomDropdown(
+                  labelText: 'Select Country',
+                  items: country,
+                  value: defaultValue,
+                  onChanged: (newValue) {
+                    selectedCountry = newValue!;
+                    setState(() {
+                      if (selectedCountry == country[0]) {
+                        _isVisibleForDistrict = true;
+                        _isVisibleForState = false;
+                        _AddTaskBottomSheetForDistrict(context);
+                      } else {
+                        _isVisibleForDistrict = false;
+                        _isVisibleForState = true;
+                        _AddTaskBottomSheetForStates(context);
+                        // print(country[1]);
+                      }
+                    });
+                  }),
+              SizedBox(
+                height: 16,
+              ),
+              Visibility(
+                visible: _isVisibleForDistrict,
+                child: TextFromFieldWithPrefixSuffix(
+                  controller: districtTextEditingController,
+                  labelText: 'District',
+                  onTap: () {
+                    // weeklyPlanProvider.setDistrictList();
                     _AddTaskBottomSheetForDistrict(context);
-                  } else {
-                    _isVisibleForDistrict = false;
-                    _isVisibleForState = true;
+                  },
+                  onChange: (value) => () {},
+                  validator: (Value) {},
+                ),
+              ),
+              Visibility(
+                visible: _isVisibleForState,
+                child: TextFromFieldWithPrefixSuffix(
+                  controller: stateTextEditingController,
+                  labelText: 'State',
+                  readOnly: true,
+                  onTap: () {
+                    // weeklyPlanProvider.setStateList();
                     _AddTaskBottomSheetForStates(context);
-                    // print(country[1]);
-                  }
-                });
-              }),
-          SizedBox(
-            height: 16,
+                  },
+                  onChange: (value) => () {},
+                  validator: (Value) {},
+                ),
+              ),
+              SizedBox(
+                height: 16,
+              ),
+              TextFromFieldWithPrefixSuffix(
+                autoFocus: false,
+                hintText: 'City',
+                labelText: 'City',
+                controller: referralsDetailProvider.patientCityTextController,
+                onTap: () {
+                  _AddTaskBottomSheetForCities(context);
+                },
+                validator: (value) {
+                  return value!.isEmpty
+                      ? 'Activity note is required'
+                      : value.length < 3
+                          ? 'Enter at least 3 characters'
+                          : null;
+                },
+              ),
+              SizedBox(
+                height: 16,
+              ),
+              TextFromFieldWithPrefixSuffix(
+                autoFocus: false,
+                hintText: 'Address',
+                labelText: 'Address',
+                controller: referralsDetailProvider.patientAddressTextController,
+                validator: (value) {
+                  return value!.isEmpty
+                      ? 'Address is required'
+                      : value.length < 3
+                          ? 'Enter at least 3 characters'
+                          : null;
+                },
+              ),
+              SizedBox(
+                height: 16,
+              ),
+            ],
           ),
-          Visibility(
-            visible: _isVisibleForDistrict,
-            child: TextFromFieldWithPrefixSuffix(
-              controller: districtTextEditingController,
-              labelText: 'District',
-              onTap: () {
-                // weeklyPlanProvider.setDistrictList();
-                _AddTaskBottomSheetForDistrict(context);
-              },
-              onChange: (value) => () {},
-              validator: (Value) {},
-            ),
-          ),
-          Visibility(
-            visible: _isVisibleForState,
-            child: TextFromFieldWithPrefixSuffix(
-              controller: stateTextEditingController,
-              labelText: 'State',
-              readOnly: true,
-              onTap: () {
-                // weeklyPlanProvider.setStateList();
-                _AddTaskBottomSheetForStates(context);
-              },
-              onChange: (value) => () {},
-              validator: (Value) {},
-            ),
-          ),
-          SizedBox(
-            height: 16,
-          ),
-          TextFromFieldWithPrefixSuffix(
-            autoFocus: false,
-            hintText: 'City',
-            labelText: 'City',
-            controller: cityText,
-            onTap: () {
-              _AddTaskBottomSheetForCities(context);
-            },
-            validator: (value) {
-              return value!.isEmpty
-                  ? 'Activity note is required'
-                  : value.length < 3
-                      ? 'Enter at least 3 characters'
-                      : null;
-            },
-          ),
-          SizedBox(
-            height: 16,
-          ),
-          TextFromFieldWithPrefixSuffix(
-            autoFocus: false,
-            hintText: 'Address',
-            labelText: 'Address',
-            controller: addressText,
-            validator: (value) {
-              return value!.isEmpty
-                  ? 'Address is required'
-                  : value.length < 3
-                      ? 'Enter at least 3 characters'
-                      : null;
-            },
-          ),
-          SizedBox(
-            height: 16,
-          ),
-        ],
-      ),
+        );
+      }
     );
   }
 
@@ -493,11 +487,12 @@ class _MrOfficerReferralScreenState extends State<MrOfficerReferralScreen> {
             size: 20,
             fontWeight: FontWeight.w600,
             children: [
+              SizedBox(height: 4,),
               TextFromFieldWithPrefixSuffix(
                 autoFocus: false,
                 hintText: 'Driver Name',
                 labelText: 'Driver Name',
-                controller: referralsDetailProvider.driverNameText,
+                controller: referralsDetailProvider.driverNameTextController,
                 validator: (value) {
                   return value!.isEmpty
                       ? 'Driver Name is required'
@@ -522,7 +517,7 @@ class _MrOfficerReferralScreenState extends State<MrOfficerReferralScreen> {
                 autoFocus: false,
                 labelText: 'Ambulance Number',
                 hintText: 'Ambulance Number',
-                controller: referralsDetailProvider.ambulanceText,
+                controller: referralsDetailProvider.ambulanceTextController,
                 validator: (value) {
                   return value!.isEmpty
                       ? 'Ambulance Number is required'
@@ -538,7 +533,7 @@ class _MrOfficerReferralScreenState extends State<MrOfficerReferralScreen> {
                 autoFocus: false,
                 labelText: 'Phone Number',
                 hintText: 'Phone Number',
-                controller: referralsDetailProvider.phoneNumberText,
+                controller: referralsDetailProvider.phoneNumberTextController,
                 validator: (value) {
                   return value!.isEmpty
                       ? 'Phone Number is required'
@@ -824,7 +819,7 @@ class _MrOfficerReferralScreenState extends State<MrOfficerReferralScreen> {
                   return ListTile(
                     onTap: (){
                       referralsDetailProvider.GetPOCList(context);
-                      // String id = referralsDetailProvider.pocList[index]['_id'];
+                      String id = referralsDetailProvider.pocList[index]['_id'];
                       String name = referralsDetailProvider.pocList[index]['pocName'];
                       String category = referralsDetailProvider.pocList[index]['category'];
                       String specialization = referralsDetailProvider.pocList[index]['specialization'];
@@ -832,7 +827,8 @@ class _MrOfficerReferralScreenState extends State<MrOfficerReferralScreen> {
                       String number = referralsDetailProvider.pocList[index]['number'];
                       String address = referralsDetailProvider.pocList[index]['address'];
                       // String organization = referralsDetailProvider.pocList[index]['organization'];
-                      referralsDetailProvider.setPOCDetails(name, category, specialization, age, number, address);
+                      referralsDetailProvider.setPOCDetails(id,name, category, specialization, age, number, address);
+                      print(referralsDetailProvider.pocList[index]);
                       Navigator.pop(context);
                     },
                       title: CustomContainer(
@@ -928,16 +924,18 @@ class _MrOfficerReferralScreenState extends State<MrOfficerReferralScreen> {
                       itemBuilder: (context,index){
                         return ListTile(
                           onTap: (){
-                            referralsDetailProvider.GetPOCList(context);
-                            // String id = referralsDetailProvider.pocList[index]['_id'];
+                            referralsDetailProvider.GetAmbulancePOCList(context);
+                            String id = referralsDetailProvider.pocList[index]['_id'];
                             String name = referralsDetailProvider.pocList[index]['pocName'];
                             String category = referralsDetailProvider.pocList[index]['category'];
                             String specialization = referralsDetailProvider.pocList[index]['specialization'];
                             String age = referralsDetailProvider.pocList[index]['age'].toString();
                             String number = referralsDetailProvider.pocList[index]['number'];
                             String address = referralsDetailProvider.pocList[index]['address'];
+                            String ambNumber = referralsDetailProvider.pocList[index]['ambNumber'];
                             // String organization = referralsDetailProvider.pocList[index]['organization'];
-                            referralsDetailProvider.setPOCDetails(name, category, specialization, age, number, address);
+                            referralsDetailProvider.setAmbulancePOCDetails(id,name, ambNumber, number);
+                            print(referralsDetailProvider.pocList[index]);
                             Navigator.pop(context);
                           },
                           title: CustomContainer(
