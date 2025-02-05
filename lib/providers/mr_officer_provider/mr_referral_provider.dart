@@ -12,14 +12,15 @@ class ReferralsDetailProvider extends ChangeNotifier {
  final _stateTextEditingController = TextEditingController();
  final _searchForStatesTextEditingController = TextEditingController();
 
- final _nameTextController = TextEditingController();
- final _ageTextController = TextEditingController();
- final _genderTextController = TextEditingController();
- final _provisionalDiagnosisTextController = TextEditingController();
- final _countryTextController = TextEditingController();
- final _districtTextController = TextEditingController();
- final _cityTextController = TextEditingController();
- final _addressTextController = TextEditingController();
+ final _patientNameTextController = TextEditingController();
+ final _patientAgeTextController = TextEditingController();
+ final _patientGenderTextController = TextEditingController();
+ final _patientProvisionalDiagnosisTextController = TextEditingController();
+ final _patientCountryTextController = TextEditingController();
+ final _patientDistrictTextController = TextEditingController();
+ final _patientCityTextController = TextEditingController();
+ final _patientAddressTextController = TextEditingController();
+
  final _driverNameTextController = TextEditingController();
  final _ambulanceTextController = TextEditingController();
  final _phoneNumberTextController = TextEditingController();
@@ -33,26 +34,32 @@ class ReferralsDetailProvider extends ChangeNotifier {
  final _referredSpecializationTextController = TextEditingController();
  final _referralRemarkTextController = TextEditingController();
  final _searchByNameController = TextEditingController();
+
  final _driverNameText = TextEditingController();
- final _ambulanceText = TextEditingController();
+ final _ambulanceNumText = TextEditingController();
  final _phoneNumberText = TextEditingController();
+
  List<dynamic> _pocList = [];
+ String _pocId = '';
+ String _ambId = '';
 
  TextEditingController get districtTextEditingController => _districtTextEditingController;
  TextEditingController get stateTextEditingController => _stateTextEditingController;
  TextEditingController get searchForStatesTextEditingController => _searchForStatesTextEditingController;
 
- TextEditingController get nameTextController => _nameTextController;
- TextEditingController get ageTextController => _ageTextController;
- TextEditingController get genderTextController => _genderTextController;
- TextEditingController get provisionalDiagnosisTextController => _provisionalDiagnosisTextController;
- TextEditingController get countryTextController => _countryTextController;
- TextEditingController get districtTextController => _districtTextController;
- TextEditingController get cityTextController => _cityTextController;
- TextEditingController get addressTextController => _addressTextController;
+ TextEditingController get patientNameTextController => _patientNameTextController;
+ TextEditingController get patientAgeTextController => _patientAgeTextController;
+ TextEditingController get patientGenderTextController => _patientGenderTextController;
+ TextEditingController get patientProvisionalDiagnosisTextController => _patientProvisionalDiagnosisTextController;
+ TextEditingController get patientCountryTextController => _patientCountryTextController;
+ TextEditingController get patientDistrictTextController => _patientDistrictTextController;
+ TextEditingController get patientCityTextController => _patientCityTextController;
+ TextEditingController get patientAddressTextController => _patientAddressTextController;
+
  TextEditingController get driverNameTextController => _driverNameTextController;
  TextEditingController get ambulanceTextController => _ambulanceTextController;
  TextEditingController get phoneNumberTextController => _phoneNumberTextController;
+
  TextEditingController get textController => _textController;
  TextEditingController get referralNameTextController => _referralNameTextController;
  TextEditingController get referralAgeTextController => _referralAgeTextController;
@@ -65,12 +72,15 @@ class ReferralsDetailProvider extends ChangeNotifier {
  TextEditingController get searchByNameController => _searchByNameController;
 
  TextEditingController get driverNameText => _driverNameText;
- TextEditingController get ambulanceText => _ambulanceText;
+ TextEditingController get ambulanceNumText => _ambulanceNumText;
  TextEditingController get phoneNumberText => _phoneNumberText;
+
  List<dynamic> get pocList => _pocList;
+String get pocId => _pocId;
+ String get ambId => _ambId;
 
-
- void setPOCDetails(name, category, specialization, age, number, address){
+ void setPOCDetails(id,name, category, specialization, age, number, address){
+  _pocId = id;
   _referralNameTextController.text = name;
   _referredCategoryTextController.text = category;
   _referredSpecializationTextController.text = specialization;
@@ -78,7 +88,6 @@ class ReferralsDetailProvider extends ChangeNotifier {
   _referredNumberTextController.text = number;
   _referredAddressTextController.text = address;
   notifyListeners();
-
  }
 
 
@@ -87,12 +96,21 @@ class ReferralsDetailProvider extends ChangeNotifier {
   await ERPServices.getRequest('/poc/category?createdById=$userId&category=');
   if (response.statusCode == 200) {
    _pocList = jsonDecode(response.body)['poc'];
-   print(_pocList);
+   // print(_pocList);
    // Navigator.of(context).pushNamed(MarketingOfficerConstants.followUpVisit);
   } else {
    print('Error: ${response.statusCode} - ${response.body}');
   }
   notifyListeners();
+ }
+
+ void setAmbulancePOCDetails(id,name, ambNumber, number ){
+  _ambId = id;
+  _driverNameTextController.text = name;
+  _ambulanceTextController.text = ambNumber;
+  _phoneNumberTextController.text = number;
+  notifyListeners();
+
  }
 
  void GetAmbulancePOCList(context) async {
@@ -106,5 +124,33 @@ class ReferralsDetailProvider extends ChangeNotifier {
    print('Error: ${response.statusCode} - ${response.body}');
   }
   notifyListeners();
+ }
+
+ void PostReferralPOCList(context) async{
+  Map<String,dynamic> _body = {
+   "fullName": _patientNameTextController.value.text,
+   "age": _patientAgeTextController.value.text,
+   "gender": _patientGenderTextController.value.text,
+   "country": _patientCountryTextController,
+   "region": "Morang",
+   "city": _patientCityTextController.value.text,
+   "address": _patientAddressTextController,
+   "createdById": userId,
+   "createdByName": userName,
+   "pocId": _pocId,
+   "pocName": _referralNameTextController.value.text,
+   "pocNumber": _referredNumberTextController.value.text,
+   "ambId": _ambId,
+   "ambDriverName": _driverNameText.value.text,
+   "ambDriverNumber": _phoneNumberText.value.text,
+   "ambNumber": _ambulanceNumText.value.text,
+   "latitude": 26.4577518899581,
+   "longitude": 87.27941914017262,
+   "mobileTime": "11:21:31 21-01-2025",
+   "dateTime": "2025-02-5 17:58:22"
+  };
+    ERPResponse response = await ERPServices.postRequest('/referral?createdById=$userId', _body);
+    print(response.statusCode);
+    print(response.body);
  }
 }
