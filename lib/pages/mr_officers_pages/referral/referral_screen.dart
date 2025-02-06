@@ -178,6 +178,8 @@ class _MrOfficerReferralScreenState extends State<MrOfficerReferralScreen> {
     );
   }
 
+  //------------------------------------------------------patients details----------------------------------------------------//
+
   Widget _patientDetails(context) {
     return Consumer<ReferralsDetailProvider>(
       builder: (context,referralsDetailProvider,_) {
@@ -348,6 +350,7 @@ class _MrOfficerReferralScreenState extends State<MrOfficerReferralScreen> {
       }
     );
   }
+  //------------------------------------------------------Referred by----------------------------------------------------//
 
   Widget _referredBy(context) {
     return Consumer<ReferralsDetailProvider>(
@@ -476,6 +479,7 @@ class _MrOfficerReferralScreenState extends State<MrOfficerReferralScreen> {
       }
     );
   }
+  //------------------------------------------------------ambulance details----------------------------------------------------//
 
   Widget _ambulanceDetails(context) {
     return Consumer<ReferralsDetailProvider>(
@@ -497,7 +501,7 @@ class _MrOfficerReferralScreenState extends State<MrOfficerReferralScreen> {
                 autoFocus: false,
                 hintText: 'Driver Name',
                 labelText: 'Driver Name',
-                controller: referralsDetailProvider.driverNameTextController,
+                controller: referralsDetailProvider.ambDriverNameTextController,
                 validator: (value) {
                   return value!.isEmpty
                       ? 'Driver Name is required'
@@ -522,7 +526,7 @@ class _MrOfficerReferralScreenState extends State<MrOfficerReferralScreen> {
                 autoFocus: false,
                 labelText: 'Ambulance Number',
                 hintText: 'Ambulance Number',
-                controller: referralsDetailProvider.ambulanceTextController,
+                controller: referralsDetailProvider.ambNumberTextController,
                 validator: (value) {
                   return value!.isEmpty
                       ? 'Ambulance Number is required'
@@ -538,7 +542,7 @@ class _MrOfficerReferralScreenState extends State<MrOfficerReferralScreen> {
                 autoFocus: false,
                 labelText: 'Phone Number',
                 hintText: 'Phone Number',
-                controller: referralsDetailProvider.phoneNumberTextController,
+                controller: referralsDetailProvider.ambPhoneNumberTextController,
                 validator: (value) {
                   return value!.isEmpty
                       ? 'Phone Number is required'

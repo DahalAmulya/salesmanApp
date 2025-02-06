@@ -22,9 +22,6 @@ class ReferralsDetailProvider extends ChangeNotifier {
  final _patientCityTextController = TextEditingController();
  final _patientAddressTextController = TextEditingController();
 
- final _driverNameTextController = TextEditingController();
- final _ambulanceTextController = TextEditingController();
- final _phoneNumberTextController = TextEditingController();
  final _textController = TextEditingController();
  final _referralNameTextController = TextEditingController();
  final _referralAgeTextController = TextEditingController();
@@ -36,9 +33,9 @@ class ReferralsDetailProvider extends ChangeNotifier {
  final _referralRemarkTextController = TextEditingController();
  final _searchByNameController = TextEditingController();
 
- final _driverNameText = TextEditingController();
- final _ambulanceNumText = TextEditingController();
- final _phoneNumberText = TextEditingController();
+ final _ambDriverNameTextController = TextEditingController();
+ final _ambNumberTextController = TextEditingController();
+ final _ambPhoneNumberTextController = TextEditingController();
 
  List<dynamic> _pocList = [];
  String _pocId = '';
@@ -57,9 +54,7 @@ class ReferralsDetailProvider extends ChangeNotifier {
  TextEditingController get patientCityTextController => _patientCityTextController;
  TextEditingController get patientAddressTextController => _patientAddressTextController;
 
- TextEditingController get driverNameTextController => _driverNameTextController;
- TextEditingController get ambulanceTextController => _ambulanceTextController;
- TextEditingController get phoneNumberTextController => _phoneNumberTextController;
+
 
  TextEditingController get textController => _textController;
  TextEditingController get referralNameTextController => _referralNameTextController;
@@ -72,9 +67,9 @@ class ReferralsDetailProvider extends ChangeNotifier {
  TextEditingController get referralRemarkTextController => _referralRemarkTextController;
  TextEditingController get searchByNameController => _searchByNameController;
 
- TextEditingController get driverNameText => _driverNameText;
- TextEditingController get ambulanceNumText => _ambulanceNumText;
- TextEditingController get phoneNumberText => _phoneNumberText;
+ TextEditingController get ambDriverNameTextController => _ambDriverNameTextController;
+ TextEditingController get ambNumberTextController => _ambNumberTextController;
+ TextEditingController get ambPhoneNumberTextController => _ambPhoneNumberTextController;
 
  List<dynamic> get pocList => _pocList;
 String get pocId => _pocId;
@@ -107,9 +102,9 @@ String get pocId => _pocId;
 
  void setAmbulancePOCDetails(id,name, ambNumber, number ){
   _ambId = id;
-  _driverNameTextController.text = name;
-  _ambulanceTextController.text = ambNumber;
-  _phoneNumberTextController.text = number;
+  _ambDriverNameTextController.text = name;
+  _ambNumberTextController.text = ambNumber;
+  _ambPhoneNumberTextController.text = number;
   notifyListeners();
 
  }
@@ -146,9 +141,9 @@ String get pocId => _pocId;
    "pocName": _referralNameTextController.value.text,
    "pocNumber": _referredNumberTextController.value.text,
    "ambId": _ambId,
-   "ambDriverName": _driverNameText.value.text,
-   "ambDriverNumber": _phoneNumberText.value.text,
-   "ambNumber": _ambulanceNumText.value.text,
+   "ambDriverName": _ambDriverNameTextController.value.text,
+   "ambDriverNumber": _ambNumberTextController.value.text,
+   "ambNumber": _ambPhoneNumberTextController.value.text,
    "latitude": 26.4577518899581,
    "longitude": 87.27941914017262,
    "mobileTime": mobileTime,
