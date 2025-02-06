@@ -10,7 +10,6 @@ import '../../services/erp_services.dart';
 
 class ReferralsDetailProvider extends ChangeNotifier {
  final _districtTextEditingController = TextEditingController();
- final _stateTextEditingController = TextEditingController();
  final _searchForStatesTextEditingController = TextEditingController();
 
  final _patientNameTextController = TextEditingController();
@@ -19,6 +18,7 @@ class ReferralsDetailProvider extends ChangeNotifier {
  final _patientProvisionalDiagnosisTextController = TextEditingController();
  final _patientCountryTextController = TextEditingController();
  final _patientDistrictTextController = TextEditingController();
+ final _patientStateTextController = TextEditingController();
  final _patientCityTextController = TextEditingController();
  final _patientAddressTextController = TextEditingController();
 
@@ -41,8 +41,8 @@ class ReferralsDetailProvider extends ChangeNotifier {
  String _pocId = '';
  String _ambId = '';
 
- TextEditingController get districtTextEditingController => _districtTextEditingController;
- TextEditingController get stateTextEditingController => _stateTextEditingController;
+ TextEditingController get patientDistrictTextEditingController => _districtTextEditingController;
+
  TextEditingController get searchForStatesTextEditingController => _searchForStatesTextEditingController;
 
  TextEditingController get patientNameTextController => _patientNameTextController;
@@ -51,6 +51,7 @@ class ReferralsDetailProvider extends ChangeNotifier {
  TextEditingController get patientProvisionalDiagnosisTextController => _patientProvisionalDiagnosisTextController;
  TextEditingController get patientCountryTextController => _patientCountryTextController;
  TextEditingController get patientDistrictTextController => _patientDistrictTextController;
+ TextEditingController get patientStateTextController => _patientStateTextController;
  TextEditingController get patientCityTextController => _patientCityTextController;
  TextEditingController get patientAddressTextController => _patientAddressTextController;
 
@@ -82,6 +83,11 @@ String get pocId => _pocId;
 
  void updateDistrict(String district) {
   _patientDistrictTextController.text = district;
+  notifyListeners();
+ }
+
+ void updateState(String state) {
+  _patientStateTextController.text = state;
   notifyListeners();
  }
 
@@ -146,9 +152,12 @@ String get pocId => _pocId;
    "fullName": _patientNameTextController.value.text,
    "age": _patientAgeTextController.value.text,
    "gender": _patientGenderTextController.value.text,
-   "country": _patientCountryTextController.value.text,
-   "region": _patientDistrictTextController.value.text,
-   "city": _patientCityTextController.value.text,
+   // "country": _patientCountryTextController.value.text,
+   // "region": _patientDistrictTextController.value.text,
+   // "city": _patientCityTextController.value.text,
+   "country": "Nepal",
+   "region": "Morang",
+   "city": "Biratnagar",
    "address": _patientAddressTextController.value.text,
    "createdById": userId,
    "createdByName": userName,
@@ -166,11 +175,11 @@ String get pocId => _pocId;
   };
 
   print(_body);
-    // ERPResponse response = await ERPServices.postRequest('/referral?createdById=$userId', _body);
-    // print(response.statusCode);
-    // print(response.body);
-    // if(response.statusCode == 200){
-    //
-    // }
+    ERPResponse response = await ERPServices.postRequest('/referral?createdById=$userId', _body);
+    print(response.statusCode);
+    print(response.body);
+    if(response.statusCode == 200){
+     print('post success');
+    }
  }
 }
