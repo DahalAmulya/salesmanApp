@@ -2,11 +2,14 @@ import 'dart:convert';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:intl/intl.dart';
 
 import '../../consts.dart';
 import '../../routes/marketing_officer_consts.dart';
 import '../../services/erp_services.dart';
+import '../../themes/custom_colors.dart';
+import '../../utils/toast_message.dart';
 
 class ReferralsDetailProvider extends ChangeNotifier {
  final _districtTextEditingController = TextEditingController();
@@ -143,6 +146,28 @@ String get pocId => _pocId;
   notifyListeners();
  }
 
+ void clearValues(){
+  _patientNameTextController.text = '';
+  _patientAgeTextController.text = '';
+  _patientGenderTextController.text = '';
+  _patientProvisionalDiagnosisTextController.text = '';
+  _patientDistrictTextController.text = '';
+  _patientCityTextController.text = '';
+  _patientAddressTextController.text = '';
+  _referralNameTextController.text = '';
+  _referredCategoryTextController.text = '';
+  _referredSpecializationTextController.text = '';
+  _referralAgeTextController.text = '';
+  _referredNumberTextController.text = '';
+  _referredAddressTextController.text = '';
+
+  _ambDriverNameTextController.text = '';
+  _ambPhoneNumberTextController.text = '';
+  _ambNumberTextController.text = '';
+  _pocId = '';
+  notifyListeners();
+ }
+
  void PostReferralPOCList(context) async{
   DateTime now = DateTime.now();
   String mobileTime = DateFormat('HH:mm:ss dd-MM-yyyy').format(now);
@@ -153,7 +178,7 @@ String get pocId => _pocId;
    "age": _patientAgeTextController.value.text,
    "gender": _patientGenderTextController.value.text,
    "provisionalDiagnosis": _patientProvisionalDiagnosisTextController.value.text,
-   "country": _patientCountryTextController.value.text,
+   "country": _patientCountryTextController.value.text.isEmpty ? "Nepal": _patientCountryTextController.value.text,
    "region": _patientDistrictTextController.value.text,
    "city": _patientCityTextController.value.text,
    // "country": "Nepal",
@@ -179,8 +204,14 @@ String get pocId => _pocId;
     ERPResponse response = await ERPServices.postRequest('/referral?createdById=$userId', _body);
     print(response.statusCode);
     print(response.body);
-    if(response.statusCode == 200){
-     print('post success');
-    }
+  if (response.statusCode == 200) {
+   ToastMessageUtils().showToastMessage('Referral created successfully',
+       ToastGravity.TOP, CustomColors.jadeGreen);
+   print('success');
+  } else {
+   ToastMessageUtils().showToastMessage(
+       'Something went wrong', ToastGravity.TOP, CustomColors.lightRed);
+   print('something is missing');
+  }
  }
 }
