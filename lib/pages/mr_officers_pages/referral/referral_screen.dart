@@ -263,6 +263,7 @@ class _MrOfficerReferralScreenState extends State<MrOfficerReferralScreen> {
                   value: defaultValue,
                   onChanged: (newValue) {
                     selectedCountry = newValue!;
+                    referralsDetailProvider.updateCountry(selectedCountry);
                     setState(() {
                       if (selectedCountry == country[0]) {
                         _isVisibleForDistrict = true;
