@@ -16,4 +16,14 @@ String userEmail = '';
 bool isFirstLogin = false;
 bool isResetMobile = false;
 String role = '';
+String userDob = '';
+String userGender = '';
+String userAddress = '';
+String userMaritalStatus = '';
+String userDoj = '';
+String userDepartment = '';
+String userDesignation = '';
+String userDor = '';
+String userNationality = '';
+
 int roleValue = 0;

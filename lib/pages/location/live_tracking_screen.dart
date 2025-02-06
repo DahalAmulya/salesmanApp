@@ -99,7 +99,7 @@ class _LiveTrackingScreenState extends State<LiveTrackingScreen> {
               ),
             );
           }),
-          bottomNavigationBar: _bottomNavBar(context),
+          // bottomNavigationBar: _bottomNavBar(context),
         ),
       ),
     );
