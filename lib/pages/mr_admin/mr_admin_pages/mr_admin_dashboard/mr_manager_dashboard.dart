@@ -253,7 +253,7 @@ class _MarketingManagerDashboardState extends State<MarketingManagerDashboard> {
             },
             child: Icon(Icons.add),
           ),
-          bottomNavigationBar: _bottomNavBar(context),
+          // bottomNavigationBar: _bottomNavBar(context),
         ),
       ),
     );
