@@ -75,6 +75,21 @@ class ReferralsDetailProvider extends ChangeNotifier {
 String get pocId => _pocId;
  String get ambId => _ambId;
 
+ void updateCountry(String country) {
+  _patientCountryTextController.text = country;
+  notifyListeners();
+ }
+
+ void updateDistrict(String district) {
+  _patientDistrictTextController.text = district;
+  notifyListeners();
+ }
+
+ void updateCity(String city) {
+  _patientCityTextController.text = city;
+  notifyListeners();
+ }
+
  void setPOCDetails(id,name, category, specialization, age, number, address){
   _pocId = id;
   _referralNameTextController.text = name;
