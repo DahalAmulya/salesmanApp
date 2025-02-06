@@ -574,7 +574,7 @@ class _MrOfficerReferralScreenState extends State<MrOfficerReferralScreen> {
           height: MediaQuery.of(context).size.height * 0.90,
           child: Scaffold(
             backgroundColor: Colors.grey.shade200,
-            appBar: _AddTaskBottomSheetForDistrictAppBar(context),
+            // appBar: _AddTaskBottomSheetForDistrictAppBar(context),
             body: _AddTaskBottomSheetForDistrictBody(context),
           ),
         ),
@@ -601,26 +601,29 @@ class _MrOfficerReferralScreenState extends State<MrOfficerReferralScreen> {
       builder: (context,referralsDetailProvider,_) {
         return ListView(
           children: [
-            SizedBox(
-              height: 16,
+
+            Container(
+              decoration: BoxDecoration(
+                color: CustomColors.primaryColor,
+              ),
+              child: Consumer<WeeklyPlanProvider>(
+                  builder: (context,weeklyPlanProvider,_) {
+                    return TextFromFieldWithPrefixSuffix(
+                      applyPrefix: true,
+                      prefixIcon: Icon(Icons.search),
+                      applySuffixIcon: true,
+                      suffixIcon: Icon(Icons.arrow_drop_down),
+                      controller: searchForDistrictTextEditingController,
+                      labelText: 'Select District',
+                      onTap: () {
+                        // weeklyPlanProvider.setDistrictList();
+                      },
+                      onChange: (value) => weeklyPlanProvider.runDistrictSearchFilter(searchForDistrictTextEditingController.value.text),
+                      validator: (Value) {},
+                    );
+                  }
+              ),
             ),
-            // Consumer<WeeklyPlanProvider>(
-            //     builder: (context,weeklyPlanProvider,_) {
-            //       return TextFromFieldWithPrefixSuffix(
-            //         applyPrefix: true,
-            //         prefixIcon: Icon(Icons.search),
-            //         applySuffixIcon: true,
-            //         suffixIcon: Icon(Icons.arrow_drop_down),
-            //         controller: searchForDistrictTextEditingController,
-            //         labelText: 'Select District',
-            //         onTap: () {
-            //           // weeklyPlanProvider.setDistrictList();
-            //         },
-            //         onChange: (value) => weeklyPlanProvider.runDistrictSearchFilter(searchForDistrictTextEditingController.value.text),
-            //         validator: (Value) {},
-            //       );
-            //     }
-            // ),
             Container(
               child: ListView.builder(
                   physics: ScrollPhysics(),
