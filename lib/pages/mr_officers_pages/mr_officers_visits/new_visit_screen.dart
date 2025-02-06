@@ -88,9 +88,7 @@ class _MrOfficerNewVisitScreenState extends State<MrOfficerNewVisitScreen> {
                   TextFromFieldWithPrefixSuffix(
                     controller: createVisitProvider.nameController,
                     labelText: 'Full Name *',
-                    validator: (newValue) {
-
-                    },
+                    validator: (newValue) {},
                   ),
                   SizedBox(
                     height: 16,
@@ -127,9 +125,9 @@ class _MrOfficerNewVisitScreenState extends State<MrOfficerNewVisitScreen> {
                           labelText: 'Number *',
                           onTap: () {},
                           validator: (value) {
-                            return value!.isEmpty
-                                ? 'Phone number Required'
-                                : null;
+                            // return value!.isEmpty
+                            //     ? 'Phone number Required'
+                            //     : null;
                           },
                           onChange: (value) {},
                         ),
