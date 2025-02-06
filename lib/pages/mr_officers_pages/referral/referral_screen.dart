@@ -111,65 +111,70 @@ class _MrOfficerReferralScreenState extends State<MrOfficerReferralScreen> {
   }
 
   Widget _buildUI(context) {
-    return SingleChildScrollView(
-      child: Form(
-        key: _formState,
-        child: Column(
-          children: [
-            SizedBox(
-              height: 16,
-            ),
-            _patientDetails(context),
-            SizedBox(
-              height: 16,
-            ),
-            _referredBy(context),
-            SizedBox(
-              height: 16,
-            ),
-            _ambulanceDetails(context),
-            SizedBox(
-              height: 16,
-            ),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16.0),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  CustomElevatedButton(
-                    borderRadius: 16,
-                    backgroundColor: Colors.redAccent,
-                    onPressed: () {
-                      Navigator.pop(context);
-                    },
-                    widget: CustomText(
-                      text: 'Back',
-                      fontWeight: FontWeight.w600,
-                      size: 16,
-                    ),
-                  ),
-                  Consumer<WeeklyPlanProvider>(
-                      builder: (context, weeklyPlanProvider, _) {
-                    return CustomElevatedButton(
-                      borderRadius: 16,
-                      backgroundColor: CustomColors.primaryColor,
-                      onPressed: () {
-                        // weeklyPlanProvider.setList()
-                        _formState.currentState!.validate();
-                      },
-                      widget: CustomText(
-                        text: 'Submit',
-                        fontWeight: FontWeight.w600,
-                        size: 16,
+    return Consumer<ReferralsDetailProvider>(
+      builder: (context,referralsDetailProvider,_) {
+        return SingleChildScrollView(
+          child: Form(
+            key: _formState,
+            child: Column(
+              children: [
+                SizedBox(
+                  height: 16,
+                ),
+                _patientDetails(context),
+                SizedBox(
+                  height: 16,
+                ),
+                _referredBy(context),
+                SizedBox(
+                  height: 16,
+                ),
+                _ambulanceDetails(context),
+                SizedBox(
+                  height: 16,
+                ),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      CustomElevatedButton(
+                        borderRadius: 16,
+                        backgroundColor: Colors.redAccent,
+                        onPressed: () {
+                          Navigator.pop(context);
+                        },
+                        widget: CustomText(
+                          text: 'Back',
+                          fontWeight: FontWeight.w600,
+                          size: 16,
+                        ),
                       ),
-                    );
-                  }),
-                ],
-              ),
+                      Consumer<WeeklyPlanProvider>(
+                          builder: (context, weeklyPlanProvider, _) {
+                        return CustomElevatedButton(
+                          borderRadius: 16,
+                          backgroundColor: CustomColors.primaryColor,
+                          onPressed: () {
+                            // weeklyPlanProvider.setList()
+                            referralsDetailProvider.PostReferralPOCList(context);
+                            _formState.currentState!.validate();
+                          },
+                          widget: CustomText(
+                            text: 'Submit',
+                            fontWeight: FontWeight.w600,
+                            size: 16,
+                          ),
+                        );
+                      }),
+                    ],
+                  ),
+                ),
+              ],
             ),
-          ],
-        ),
-      ),
+          ),
+        );
+      }
     );
   }
 
@@ -306,7 +311,7 @@ class _MrOfficerReferralScreenState extends State<MrOfficerReferralScreen> {
                 autoFocus: false,
                 hintText: 'City',
                 labelText: 'City',
-                controller: referralsDetailProvider.patientCityTextController,
+                controller: cityText,
                 onTap: () {
                   _AddTaskBottomSheetForCities(context);
                 },
