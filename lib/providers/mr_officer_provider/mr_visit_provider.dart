@@ -362,6 +362,7 @@ class MrOfficerVisitProvider with ChangeNotifier {
     _searchController.text = "";
     _organizationController.text = "";
     _remarksController.text = "";
+    _ambulanceNumberController.text = "";
     _selectedDistrict = '';
     _selectedState = '';
     _selectedCity = '';
