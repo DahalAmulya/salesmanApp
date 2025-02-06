@@ -98,14 +98,19 @@ class _MrOfficerReferralScreenState extends State<MrOfficerReferralScreen> {
   PreferredSize _appBar(context) {
     return PreferredSize(
       preferredSize: Size.fromHeight(kToolbarHeight),
-      child: CustomAppBar(
-        tabName: 'Referral',
-        centerTitle: true,
-        automaticallyImplyLeading: true,
-        onTapLeadingIcon: () {
-          Navigator.of(context)
-              .pop(MarketingOfficerConstants.mrStaffDashboardConst);
-        },
+      child: Consumer<ReferralsDetailProvider>(
+        builder: (context,referralsDetailProvider,_) {
+          return CustomAppBar(
+            tabName: 'Referral',
+            centerTitle: true,
+            automaticallyImplyLeading: true,
+            onTapLeadingIcon: () {
+              referralsDetailProvider.clearValues();
+              Navigator.of(context)
+                  .pop(MarketingOfficerConstants.mrStaffDashboardConst);
+            },
+          );
+        }
       ),
     );
   }
@@ -142,6 +147,7 @@ class _MrOfficerReferralScreenState extends State<MrOfficerReferralScreen> {
                         borderRadius: 16,
                         backgroundColor: Colors.redAccent,
                         onPressed: () {
+                          referralsDetailProvider.clearValues();
                           Navigator.pop(context);
                         },
                         widget: CustomText(
@@ -159,6 +165,7 @@ class _MrOfficerReferralScreenState extends State<MrOfficerReferralScreen> {
                             // weeklyPlanProvider.setList()
                             referralsDetailProvider.PostReferralPOCList(context);
                             _formState.currentState!.validate();
+                            referralsDetailProvider.clearValues();
                           },
                           widget: CustomText(
                             text: 'Submit',
