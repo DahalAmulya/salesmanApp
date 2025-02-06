@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
+import 'package:intl/intl.dart';
 
 import '../../consts.dart';
 import '../../routes/marketing_officer_consts.dart';
@@ -127,14 +128,18 @@ String get pocId => _pocId;
  }
 
  void PostReferralPOCList(context) async{
+  DateTime now = DateTime.now();
+  String mobileTime = DateFormat('HH:mm:ss dd-MM-yyyy').format(now);
+  String dateTime = DateFormat('yyyy-MM-d HH:mm:ss').format(now);
+
   Map<String,dynamic> _body = {
    "fullName": _patientNameTextController.value.text,
    "age": _patientAgeTextController.value.text,
    "gender": _patientGenderTextController.value.text,
-   "country": _patientCountryTextController,
-   "region": "Morang",
+   "country": _patientCountryTextController.value.text,
+   "region": _patientDistrictTextController.value.text,
    "city": _patientCityTextController.value.text,
-   "address": _patientAddressTextController,
+   "address": _patientAddressTextController.value.text,
    "createdById": userId,
    "createdByName": userName,
    "pocId": _pocId,
@@ -146,11 +151,16 @@ String get pocId => _pocId;
    "ambNumber": _ambulanceNumText.value.text,
    "latitude": 26.4577518899581,
    "longitude": 87.27941914017262,
-   "mobileTime": "11:21:31 21-01-2025",
-   "dateTime": "2025-02-5 17:58:22"
+   "mobileTime": mobileTime,
+   "dateTime": dateTime
   };
-    ERPResponse response = await ERPServices.postRequest('/referral?createdById=$userId', _body);
-    print(response.statusCode);
-    print(response.body);
+
+  print(_body);
+    // ERPResponse response = await ERPServices.postRequest('/referral?createdById=$userId', _body);
+    // print(response.statusCode);
+    // print(response.body);
+    // if(response.statusCode == 200){
+    //
+    // }
  }
 }
