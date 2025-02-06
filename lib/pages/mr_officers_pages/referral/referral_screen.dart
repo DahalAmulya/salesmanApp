@@ -77,6 +77,8 @@ class _MrOfficerReferralScreenState extends State<MrOfficerReferralScreen> {
     print('response = ${response.body}');
   }
 
+  // final weeklyPlanProvider = Provider.of<WeeklyPlanProvider>(context, listen: false);
+
   @override
   void initState() {
     getDataForDistrict();
@@ -608,69 +610,89 @@ class _MrOfficerReferralScreenState extends State<MrOfficerReferralScreen> {
       builder: (context,referralsDetailProvider,_) {
         return ListView(
           children: [
-
             Container(
+              padding: EdgeInsets.symmetric(horizontal: 8),
+              height: MediaQuery.of(context).size.height * 0.10,
               decoration: BoxDecoration(
                 color: CustomColors.primaryColor,
+                borderRadius: BorderRadius.only(topLeft: Radius.circular(16),topRight: Radius.circular(16)),
               ),
-              child: Consumer<WeeklyPlanProvider>(
-                  builder: (context,weeklyPlanProvider,_) {
-                    return TextFromFieldWithPrefixSuffix(
-                      applyPrefix: true,
-                      prefixIcon: Icon(Icons.search),
-                      applySuffixIcon: true,
-                      suffixIcon: Icon(Icons.arrow_drop_down),
-                      controller: searchForDistrictTextEditingController,
-                      labelText: 'Select District',
-                      onTap: () {
-                        // weeklyPlanProvider.setDistrictList();
-                      },
-                      onChange: (value) => weeklyPlanProvider.runDistrictSearchFilter(searchForDistrictTextEditingController.value.text),
-                      validator: (Value) {},
-                    );
-                  }
-              ),
-            ),
-            Container(
-              child: ListView.builder(
-                  physics: ScrollPhysics(),
-                  shrinkWrap: true,
-                  itemCount: districtList.length,
-                  itemBuilder: (context, index) {
-                    return ListTile(
-                      title: CustomText(
-                        text: districtList[index]['district'],
-                      ),
-                      onTap: () {
-                        // print(districtList);
-                        // referralsDetailProvider.updateDistrict(district);
-                        selectedDistrict = districtList[index]['district'];
-                        citiesList = districtList[index]['cities'];
-                        print(citiesList);
-                        referralsDetailProvider.updateDistrict(selectedDistrict);
+              child: Row(
+                children: [
+                  InkWell(
+                      onTap: (){
                         Navigator.pop(context);
                       },
-                    );
-                  }),
+                      child: Icon(Icons.arrow_back)
+                  ),
+                  SizedBox(width: 8,),
+                  Expanded(
+                    child: Consumer<WeeklyPlanProvider>(
+                        builder: (context,weeklyPlanProvider,_) {
+                          return TextFromFieldWithPrefixSuffix(
+                            applyPrefix: true,
+                            prefixIcon: Icon(Icons.search),
+                            applySuffixIcon: true,
+                            suffixIcon: Icon(Icons.arrow_drop_down),
+                            controller: searchForDistrictTextEditingController,
+                            labelText: 'Select District',
+                            onTap: () {
+                              weeklyPlanProvider.runDistrictSearchFilter('');
+                              // weeklyPlanProvider.setDistrictList();
+                            },
+                            onChange: (value) => weeklyPlanProvider.runDistrictSearchFilter(searchForDistrictTextEditingController.value.text),
+                            validator: (Value) {},
+                          );
+                        }
+                    ),
+                  ),
+                ],
+              ),
             ),
-            // Consumer<WeeklyPlanProvider>(builder: (context, weeklyPlanProvider, _) {
-            //   return Container(
-            //     child: ListView.builder(
-            //         shrinkWrap: true,
-            //         itemCount: weeklyPlanProvider.foundDistrict.length,
-            //         itemBuilder: (context, index) {
-            //           return ListTile(
-            //             title: CustomText(
-            //                 text: weeklyPlanProvider.foundDistrict[index].toString()),
-            //             onTap: () {
-            //               selectedState = weeklyPlanProvider.foundDistrict[index];
-            //               districtTextEditingController.text = selectedState;
-            //               Navigator.pop(context);
-            //             },
-            //           );
-            //         }),
-            //   );
-            // })
+            Consumer<WeeklyPlanProvider>(
+              builder: (context,weeklyPlanProvider,_) {
+                return Container(
+                  child: ListView.builder(
+                      physics: ScrollPhysics(),
+                      shrinkWrap: true,
+                      itemCount:weeklyPlanProvider.foundDistrict.length,
+                      itemBuilder: (context, index) {
+                        return ListTile(
+                          title: CustomText(
+                            text: weeklyPlanProvider.foundDistrict[index].toString(),
+                          ),
+                          onTap: () {
+                            // print(districtList);
+                            // referralsDetailProvider.updateDistrict(district);
+                            selectedDistrict = weeklyPlanProvider.foundDistrict[index];
+                            citiesList = districtList[index]['cities'];
+                            print(citiesList);
+                            referralsDetailProvider.updateDistrict(selectedDistrict);
+                            Navigator.pop(context);
+                          },
+                        );
+                      }),
+                );
+              }
+            ),
+            Consumer<WeeklyPlanProvider>(builder: (context, weeklyPlanProvider, _) {
+              return Container(
+                child: ListView.builder(
+                    shrinkWrap: true,
+                    itemCount: weeklyPlanProvider.foundDistrict.length,
+                    itemBuilder: (context, index) {
+                      return ListTile(
+                        title: CustomText(
+                            text: weeklyPlanProvider.foundDistrict[index].toString()),
+                        onTap: () {
+                          selectedDistrict = weeklyPlanProvider.foundDistrict[index];
+                          districtTextEditingController.text = selectedDistrict;
+                          Navigator.pop(context);
+                        },
+                      );
+                    }),
+              );
+            })
           ],
         );
       }
@@ -688,7 +710,7 @@ class _MrOfficerReferralScreenState extends State<MrOfficerReferralScreen> {
           height: MediaQuery.of(context).size.height * 0.90,
           child: Scaffold(
             backgroundColor: Colors.grey.shade200,
-            appBar: _AddTaskBottomSheetForStatesAppBar(context),
+            // appBar: _AddTaskBottomSheetForStatesAppBar(context),
             body: _AddTaskBottomSheetForStatesBody(context),
           ),
         ),
@@ -696,48 +718,106 @@ class _MrOfficerReferralScreenState extends State<MrOfficerReferralScreen> {
     );
   }
 
-  PreferredSize _AddTaskBottomSheetForStatesAppBar(context) {
-    return PreferredSize(
-        preferredSize: Size.fromHeight(kToolbarHeight),
-        child: CustomAppBar(
-          showLeading: true,
-          leadingIcon: FontAwesomeIcons.arrowLeft,
-          backgroundColor: CustomColors.primaryColor,
-          tabName: 'Select State',
-          onTapLeadingIcon: () {
-            Navigator.pop(context);
-          },
-        ));
-  }
+  // PreferredSize _AddTaskBottomSheetForStatesAppBar(context) {
+  //   return PreferredSize(
+  //       preferredSize: Size.fromHeight(kToolbarHeight),
+  //       child: CustomAppBar(
+  //         showLeading: true,
+  //         leadingIcon: FontAwesomeIcons.arrowLeft,
+  //         backgroundColor: CustomColors.primaryColor,
+  //         tabName: 'Select State',
+  //         onTapLeadingIcon: () {
+  //           Navigator.pop(context);
+  //         },
+  //       ));
+  // }
 
   Widget _AddTaskBottomSheetForStatesBody(context) {
     return Consumer<ReferralsDetailProvider>(
       builder: (context,referralsDetailProvider,_) {
         return ListView(
           children: [
-            SizedBox(
-              height: 16,
-            ),
             Container(
-              child: ListView.builder(
-                  physics: ScrollPhysics(),
-                  shrinkWrap: true,
-                  itemCount: stateList.length,
-                  itemBuilder: (context, index) {
-                    return ListTile(
-                      title: CustomText(
-                        text: stateList[index]['states'],
-                      ),
-                      onTap: () {
-                        // print(districtList);
-                        selectedState = stateList[index]['states'];
-                        referralsDetailProvider.updateState(selectedState);
-                        // stateTextEditingController.text = selectedState;
+              padding: EdgeInsets.symmetric(horizontal: 8,vertical: 8),
+              height: MediaQuery.of(context).size.height * 0.10,
+              decoration: BoxDecoration(
+                color: CustomColors.primaryColor,
+                borderRadius: BorderRadius.only(topLeft: Radius.circular(16),topRight: Radius.circular(16)),
+              ),
+              child: Row(
+                children: [
+                  InkWell(
+                      onTap: (){
                         Navigator.pop(context);
                       },
-                    );
-                  }),
+                      child: Icon(Icons.arrow_back)
+                  ),
+                  SizedBox(width: 8,),
+                  Expanded(
+                    child: Consumer<WeeklyPlanProvider>(
+                        builder: (context,weeklyPlanProvider,_) {
+                          return TextFromFieldWithPrefixSuffix(
+                            applyPrefix: true,
+                            prefixIcon: Icon(Icons.search),
+                            applySuffixIcon: true,
+                            suffixIcon: Icon(Icons.arrow_drop_down),
+                            controller: searchForStatesTextEditingController,
+                            labelText: 'Select States',
+                            onTap: () {
+                              weeklyPlanProvider.runStateSearchFilter('');
+                              // weeklyPlanProvider.setDistrictList();
+                            },
+                            onChange: (value) => weeklyPlanProvider.runStateSearchFilter(searchForStatesTextEditingController.value.text),
+                            validator: (Value) {},
+                          );
+                        }
+                    ),
+                  ),
+                ],
+              ),
             ),
+            Consumer<WeeklyPlanProvider>(
+              builder: (context,weeklyPlanProvider,_) {
+                return Container(
+                  child: ListView.builder(
+                      physics: ScrollPhysics(),
+                      shrinkWrap: true,
+                      itemCount: weeklyPlanProvider.foundStates.length,
+                      itemBuilder: (context, index) {
+                        return ListTile(
+                          title: CustomText(
+                            text: weeklyPlanProvider.foundStates[index].toString(),
+                          ),
+                          onTap: () {
+                            // print(districtList);
+                            selectedState = weeklyPlanProvider.foundStates[index];;
+                            referralsDetailProvider.updateState(selectedState);
+                            // stateTextEditingController.text = selectedState;
+                            Navigator.pop(context);
+                          },
+                        );
+                      }),
+                );
+              }
+            ),
+            Consumer<WeeklyPlanProvider>(builder: (context, weeklyPlanProvider, _) {
+              return Container(
+                child: ListView.builder(
+                    shrinkWrap: true,
+                    itemCount: weeklyPlanProvider.foundStates.length,
+                    itemBuilder: (context, index) {
+                      return ListTile(
+                        title: CustomText(
+                            text: weeklyPlanProvider.foundStates[index].toString()),
+                        onTap: () {
+                          selectedState = weeklyPlanProvider.foundStates[index];
+                          stateTextEditingController.text = selectedState;
+                          Navigator.pop(context);
+                        },
+                      );
+                    }),
+              );
+            })
           ],
         );
       }
