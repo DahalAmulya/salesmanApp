@@ -1,11 +1,13 @@
 import 'package:deskgoo/consts.dart';
 import 'package:deskgoo/pages/mr_officers_pages/weeklyplan/weeklyplan_screen.dart';
+import 'package:deskgoo/providers/profile_provider/profile_provider.dart';
 import 'package:deskgoo/routes/route_generator_constants.dart';
 import 'package:deskgoo/themes/custom_colors.dart';
 import 'package:deskgoo/widgets/drawers/drawers_items/custom_listTile.dart';
 import 'package:deskgoo/widgets/texts/custom_text.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:provider/provider.dart';
 // import 'package:go_router/go_router.dart';
 
 class CustomDrawer extends StatelessWidget {
@@ -17,6 +19,8 @@ class CustomDrawer extends StatelessWidget {
     // this.userName = 'John Cena',
     // this.userRole = 'Wrestler',
     this.isHomeActive = false,
+    this.isLocationActive = false,
+    this.isSettingActive = false,
     this.isWeeklyPlanActive = false,
     this.isVisitActive = false,
     this.isAttendanceActive = false,
@@ -27,6 +31,8 @@ class CustomDrawer extends StatelessWidget {
   // final String userName;
   // final String userRole;
   final bool isHomeActive;
+  final bool isLocationActive;
+  final bool isSettingActive;
   final bool isWeeklyPlanActive;
   final bool isVisitActive;
   final bool isAttendanceActive;
@@ -123,6 +129,32 @@ class CustomDrawer extends StatelessWidget {
                       isTabActive: isHomeActive,
                       icon: FontAwesomeIcons.house,
                       text: 'Dashboard',
+                    ),
+                    CustomListTile(
+                      onTap: () {
+                        // GoRouter.of(context).pushReplacementNamed(
+                        //     MyAppRouteConstants.homeNavBarRouteName);
+                        Navigator.of(context)
+                            .pushNamed(MarketingManagerConstants.liveTrackingPage);
+                      },
+                      isTabActive: isLocationActive,
+                      icon: FontAwesomeIcons.mapLocation,
+                      text: 'Location',
+                    ),
+                    Consumer<UserProfileProvider>(
+                      builder: (context,userProfileProvider,_) {
+                        return CustomListTile(
+                          onTap: () {
+                            // GoRouter.of(context).pushReplacementNamed(
+                            //     MyAppRouteConstants.homeNavBarRouteName);
+                            Navigator.of(context)
+                                .pushNamed(MarketingManagerConstants.profilePage);
+                          },
+                          isTabActive: isSettingActive,
+                          icon: Icons.person,
+                          text: 'Account',
+                        );
+                      }
                     ),
                     // CustomListTile(
                     //   onTap: () {
