@@ -4,14 +4,11 @@ import 'package:background_task/background_task.dart';
 import 'package:battery_plus/battery_plus.dart';
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:deskgoo/consts.dart';
-import 'package:deskgoo/providers/deviceInfo_provider/deviceInfo_provider.dart';
-import 'package:deskgoo/services/erp_services.dart';
 import 'package:device_info_plus/device_info_plus.dart';
 import 'package:geolocator/geolocator.dart';
 // import 'package:deskgoo/utils/notification.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:http/http.dart' as http;
-import 'package:provider/provider.dart';
 import 'dart:math';
 
 double _previousLatitude = 0;
@@ -112,11 +109,12 @@ void backgroundHandler(Location data) async {
     // '_id': userId
   };
   final response = await http.post(
-    Uri.parse(
-        'http://202.51.3.49:8002/api/location/latest?_id=67a58f5cf064e3e542714d4d'),
+    Uri.parse('$apiURL/location/latest?_id=$userId'),
     headers: header,
     body: jsonEncode(_body),
   );
+  print('$apiURL/location/latest?_id=$userId');
+
   print(response.statusCode);
   print(response.body);
   print(
