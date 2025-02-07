@@ -279,6 +279,15 @@ class _LoginPageState extends State<LoginPage> {
       refreshToken = data['refreshToken'];
       userId = data['user']['_id'];
       userName = data['user']['username'];
+      userDob = data['user']['dob'];
+      userGender = data['user']['gender'];
+      userNationality = data['user']['nationality'];
+      userAddress = data['user']['address'];
+      userMaritalStatus = data['user']['maritalStatus'];
+      userEmail = data['user']['email'];
+      userDoj = data['user']['doj'].toString().split('T')[0];
+      userDepartment = data['user']['department'];
+      userDesignation = data['user']['designation'];
       isFirstLogin = data['user']['isFirstLogin'];
       isResetMobile = data['user']['reset'];
       role = data['user']['role']['role'];
