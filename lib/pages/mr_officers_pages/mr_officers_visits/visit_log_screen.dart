@@ -23,7 +23,7 @@ class _MrOfficerVisitLogStateScreen extends State<MrOfficerVisitLogScreen> {
   String selectedDate = "";
   bool isVisible = false;
 
-  Future<void> selectDate() async {
+  Future<void> selectDate(BuildContext context,MrOfficeVisitLogProvider visitLogProvider) async {
     DateTime? picked = await showDatePicker(
       context: context,
       initialDate: DateTime.now(),
@@ -35,12 +35,15 @@ class _MrOfficerVisitLogStateScreen extends State<MrOfficerVisitLogScreen> {
     } else {
       setState(() {
         selectedDate = "${picked.year}-${picked.month}-${picked.day}";
+
+        visitLogProvider.setSelectedDate(selectedDate);
       });
     }
     print(selectedDate);
   }
 
   void updateSelectedDate(String newValue) {
+    final visitLogProvider = Provider.of<MrOfficeVisitLogProvider>(context, listen: false);
     setState(() {
       selectedDate = newValue;
       if (selectedDate == "Today") {
@@ -48,12 +51,15 @@ class _MrOfficerVisitLogStateScreen extends State<MrOfficerVisitLogScreen> {
             "${DateTime.now().year}-${DateTime.now().month}-${DateTime.now().day}";
       } else if (selectedDate == "Yesterday") {
         DateTime yesterday = DateTime.now().subtract(Duration(days: 1));
+        visitLogProvider.setSelectedDate(selectedDate);
+        print(yesterday);
         selectedDate = "${yesterday.year}-${yesterday.month}-${yesterday.day}";
       } else if (selectedDate == "Custom") {
-        selectDate(); // Open date picker for custom date selection
+       // Open date picker for custom date selection
       }
       print("Selected Date: $selectedDate");
     });
+    selectDate(context, visitLogProvider);
   }
 
   MrOfficeVisitLogProvider? _visitLogProvider;

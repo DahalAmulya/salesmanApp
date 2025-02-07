@@ -147,12 +147,14 @@ class CustomDrawer extends StatelessWidget {
                           onTap: () {
                             // GoRouter.of(context).pushReplacementNamed(
                             //     MyAppRouteConstants.homeNavBarRouteName);
+                            // Navigator.of(context)
+                            //     .pushNamed(MarketingManagerConstants.profilePage);
                             Navigator.of(context)
-                                .pushNamed(MarketingManagerConstants.profilePage);
+                                .pushNamed(MarketingManagerConstants.settingPage);
                           },
                           isTabActive: isSettingActive,
-                          icon: Icons.person,
-                          text: 'Account',
+                          icon: Icons.settings,
+                          text: 'Settings',
                         );
                       }
                     ),

@@ -5,6 +5,7 @@ import 'package:deskgoo/classes/notification_controller.dart';
 import 'package:deskgoo/consts.dart';
 import 'package:deskgoo/firebase_options.dart';
 import 'package:deskgoo/models/environment.dart';
+import 'package:deskgoo/pages/mr_admin/mr_admin_providers/mr_admin_createuser_provider.dart';
 import 'package:deskgoo/providers/attendance_provider/remote_attendance_provider.dart';
 import 'package:deskgoo/providers/auth_provider/change_password_provider.dart';
 import 'package:deskgoo/providers/camera_provider/camera_provider.dart';
@@ -146,6 +147,7 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
         ChangeNotifierProvider(create: (context) => UserProvider()),
         ChangeNotifierProvider(create: (context) => ReferralsDetailProvider()),
         ChangeNotifierProvider(create: (context) => UserProfileProvider()),
+        ChangeNotifierProvider(create: (context) => CreateUserProvider()),
       ],
       child: Builder(
         builder: (BuildContext context) {
