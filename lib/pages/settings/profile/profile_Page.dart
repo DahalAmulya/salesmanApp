@@ -27,50 +27,6 @@ class _Profile_pageState extends State<Profile_page> {
   FontWeight fontWeight = FontWeight.w600;
   int index = 2;
 
-  void logIn () async{
-    Map<String,dynamic> body = {
-      "email": "shuvam@gmail.com",
-      "password": "shuvam123@"
-    };
-     ERPResponse response = await ERPServices.ERPlogin(body);
-     // print(response.body);
-     print(response.statusCode);
-     if(response.statusCode == 200){
-       final decodedBody = jsonDecode(response.body);
-       setState(() {
-         Map<String,dynamic> data = decodedBody;
-         print(data['user']);
-         accessToken = data['accessToken'];
-         refreshToken = data['refreshToken'];
-         userId = data['user']['_id'];
-         userName = data['user']['username'];
-         userDob = data['user']['dob'];
-         userGender = data['user']['gender'];
-         userNationality = data['user']['nationality'];
-         userAddress = data['user']['address'];
-         userMaritalStatus = data['user']['maritalStatus'];
-         userEmail = data['user']['email'];
-         userDoj = data['user']['doj'].toString().split('T')[0];
-         userDepartment = data['user']['department'];
-         userDesignation = data['user']['designation'];
-         isFirstLogin = data['user']['isFirstLogin'];
-         isResetMobile = data['user']['reset'];
-         role = data['user']['role']['role'];
-         userEmail = data['user']['email'];
-         roleValue = data['user']['role']['roleValue'];
-       });
-     }
-  }
-
-
-  @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-    logIn();
-
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
