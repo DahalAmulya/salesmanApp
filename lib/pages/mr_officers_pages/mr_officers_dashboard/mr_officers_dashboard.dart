@@ -77,9 +77,9 @@ class _MrOfficersDashboardScreenState extends State<MrOfficersDashboardScreen> {
   }
 
   void getTodayPlan() async {
-    // bool isTokenExpired = isTokenExpired(context);
-    ERPResponse response =
-        await ERPServices.getRequest("/plan/today?userId=$userId&planDate=");
+    String planDate = DateTime.now().toString().split(' ')[0];
+    ERPResponse response = await ERPServices.getRequest(
+        "/plan/today?userId=$userId&planDate=$planDate");
     var decodedData = jsonDecode(response.body);
     print(decodedData);
 
@@ -98,11 +98,10 @@ class _MrOfficersDashboardScreenState extends State<MrOfficersDashboardScreen> {
       }
 
       print(response.statusCode);
-      // print(response.body.runtimeType);
-      // print(response.body);
     } else {
       print(response.body);
     }
+    // }
   }
 
   void getVisitLogs() async {
@@ -114,19 +113,30 @@ class _MrOfficersDashboardScreenState extends State<MrOfficersDashboardScreen> {
         '/visitLogs?visitLogId=$userId&from=$from&to=$to');
     Map<String, dynamic> body = jsonDecode(response.body);
     print(body);
-    List<dynamic> visitLogs = body["visitLogs"]["visitLogs"];
-    setState(() {
-      totalVisit = visitLogs.length;
-    });
-    print(totalVisit);
-    print(response.statusCode);
-    print(response.body);
+    if (response.statusCode == 200) {
+      List<dynamic> visitLogs = body["visitLogs"]["visitLogs"];
+      setState(() {
+        totalVisit = visitLogs.length;
+      });
+      print(totalVisit);
+      print(response.statusCode);
+      print(response.body);
+    }
     // print(_visitLogs);
+  }
+
+  void checkToken() async {
+    await isTokenExpired(context);
   }
 
   @override
   void initState() {
+    print(
+        '*********************************** Checking Token *************************************');
+    // checkToken();
     getTodayPlan();
+    print(
+        '************************************************************************');
     getVisitLogs();
     attendanceProvider =
         Provider.of<AttendanceProvider>(context, listen: false);

@@ -9,30 +9,35 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
 Future<bool> isTokenExpired(context) async {
-  ERPResponse response = await ERPServices.getRequest('/testHello');
+  bool tokenExpired = true;
+  print('Checking if token is expired');
+  ERPResponse response = await ERPServices.getRequest('/hello');
+  print(response.statusCode);
+  print(response.body);
   if (response.statusCode == 200) {
-    return true;
-  } else if (response.statusCode == 403) {
+    print(response.body);
+    tokenExpired = false;
+  } else {
+    print(response.statusCode);
     Map<String, dynamic> data = jsonDecode(response.body);
     if (data['customCode'] == 10) {
       ERPResponse response = await ERPServices.postRequest(
           '/refreshToken', {"_id": userId, "refreshToken": refreshToken});
       if (response.statusCode == 200) {
-        refreshToken = data['accessToken'];
-        return true;
+        accessToken = data['accessToken'];
+        tokenExpired = false;
       } else {
         Navigator.of(context).pushNamed(MarketingManagerConstants.indexPage);
         ToastMessageUtils().showToastMessage(
             'Session expired', ToastGravity.TOP, CustomColors.lightRed);
-        return false;
+        tokenExpired = true;
       }
     } else {
       Navigator.of(context).pushNamed(MarketingManagerConstants.indexPage);
       ToastMessageUtils().showToastMessage(
           'Session expired', ToastGravity.TOP, CustomColors.lightRed);
+      tokenExpired = true;
     }
-    return false;
-  } else {
-    return true;
   }
+  return tokenExpired;
 }

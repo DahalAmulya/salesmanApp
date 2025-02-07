@@ -91,11 +91,11 @@ class _MrOfficerAttendanceBottomSheetState
                         // if (response) {
                         attendanceProvider.switchRemoteAttendanceSwitch();
                         if (attendanceProvider.isRemoteAttendanceSwitched) {
-                          deviceInfoProvider.deviceInfoProvider();
+                          // deviceInfoProvider.deviceInfoProvider();
                           print(
                               'attendanceProvider.isRemoteAttendanceSwitched = ${attendanceProvider.isRemoteAttendanceSwitched}, Posting device information');
                         } else {
-                          deviceInfoProvider.cancelLocationTimer();
+                          // deviceInfoProvider.cancelLocationTimer();
                           print(
                               'attendanceProvider.isRemoteAttendanceSwitched = ${attendanceProvider.isRemoteAttendanceSwitched}, Stop posting device information');
                         }
@@ -136,7 +136,7 @@ class _MrOfficerAttendanceBottomSheetState
                                   print(
                                       'attendanceProvider.isRemoteAttendanceSwitched = ${attendanceProvider.isRemoteAttendanceSwitched}, Posting device information');
                                 } else {
-                                  deviceInfoProvider.cancelLocationTimer();
+                                  // deviceInfoProvider.cancelLocationTimer();
                                   print(
                                       'attendanceProvider.isRemoteAttendanceSwitched = ${attendanceProvider.isRemoteAttendanceSwitched}, Stop posting device information');
                                 }
@@ -306,7 +306,7 @@ class _MrOfficerAttendanceBottomSheetState
                                   print(
                                       'attendanceProvider.isRemoteAttendanceSwitched = ${attendanceProvider.isRemoteAttendanceSwitched}, Posting device information');
                                 } else {
-                                  deviceInfoProvider.cancelLocationTimer();
+                                  // deviceInfoProvider.cancelLocationTimer();
                                   print(
                                       'attendanceProvider.isRemoteAttendanceSwitched = ${attendanceProvider.isRemoteAttendanceSwitched}, Stop posting device information');
                                 }
