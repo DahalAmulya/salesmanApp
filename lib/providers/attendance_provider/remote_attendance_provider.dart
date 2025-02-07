@@ -96,7 +96,7 @@ class AttendanceProvider extends ChangeNotifier {
         '********************************************************************************************');
     try {
       ERPResponse response =
-          await ERPServices.getRequest('/attendance/$userId');
+          await ERPServices.getRequest('/attendance/userId?userId=$userId');
       print(response.body);
       if (response.statusCode == 200) {
         print('StatusCode=${response.statusCode}');
@@ -153,11 +153,12 @@ class AttendanceProvider extends ChangeNotifier {
     try {
       Map<String, dynamic> body = {
         "deviceTime": _time,
+        "attendanceTime": DateTime.now().toIso8601String(),
         "latitude": _latitude,
         "longitude": _longitude
       };
-      ERPResponse response =
-          await ERPServices.postRequest('/attendance/$userId', body);
+      ERPResponse response = await ERPServices.postRequest(
+          '/attendance/userId?userId=$userId', body);
       if (response.statusCode == 200) {
         _isRemoteAttendanceSwitched = !_isRemoteAttendanceSwitched;
         final data = jsonDecode(response.body);
