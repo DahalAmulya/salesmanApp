@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:date_picker_timeline/date_picker_timeline.dart';
+import 'package:deskgoo/classes/is_token_expired.dart';
 import 'package:deskgoo/consts.dart';
 import 'package:deskgoo/services/erp_services.dart';
 import 'package:deskgoo/themes/custom_colors.dart';
@@ -309,8 +310,8 @@ class WeeklyPlanProvider with ChangeNotifier {
       ERPResponse response = await ERPServices.postRequest('/plan', _body);
       print(response.statusCode);
       print(response.body);
+      Map<String, dynamic> body = jsonDecode(response.body);
       if (response.statusCode == 200) {
-        Map<String, dynamic> body = jsonDecode(response.body);
         _taskActivityNoteController.text = body['newPlan']['activity'];
         _taskAreaNoteController.text = body['newPlan']['area'];
         _taskRemarkNoteController.text = body['newPlan']['remark'];

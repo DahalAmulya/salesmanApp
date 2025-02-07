@@ -1,6 +1,11 @@
 import 'dart:convert';
 
 import 'package:deskgoo/consts.dart';
+import 'package:deskgoo/routes/route_generator_constants.dart';
+import 'package:deskgoo/themes/custom_colors.dart';
+import 'package:deskgoo/utils/toast_message.dart';
+import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:http/http.dart' as http;
 
 class ERPResponse {
@@ -50,6 +55,29 @@ class ERPServices {
         headers: header,
         body: jsonEncode(body),
       );
+      // if (response.statusCode == 403) {
+      //   Map<String, dynamic> data = jsonDecode(response.body);
+      //   if (data['customCode'] == 11) {
+      //     Navigator.of(context).pushNamed(MarketingManagerConstants.indexPage);
+      //     ToastMessageUtils().showToastMessage(
+      //         'Session Expired', ToastGravity.TOP, CustomColors.lightRed);
+      //   } else if (data['customCode'] == 10) {
+      //     final response = await http.post(
+      //       Uri.parse('$apiURL$path'),
+      //       headers: {'Content-Type': 'Application/json'},
+      //       body: jsonEncode({"_id": userId, "refreshToken": refreshToken}),
+      //     );
+      //     Map<String, dynamic> decodedBody = jsonDecode(response.body);
+      //     if (response.statusCode == 200) {
+      //       accessToken = decodedBody['accessToken'];
+      //     } else if (response.statusCode == 403) {
+      //       Navigator.of(context)
+      //           .pushNamed(MarketingManagerConstants.indexPage);
+      //       ToastMessageUtils().showToastMessage(
+      //           'Session Expired', ToastGravity.TOP, CustomColors.lightRed);
+      //     }
+      //   }
+      // }
       return ERPResponse(
         statusCode: response.statusCode,
         body: response.body,
@@ -86,7 +114,7 @@ class ERPServices {
       );
     } catch (err) {
       return ERPResponse(
-        statusCode: 400,
+        statusCode: 69,
         body: err.toString(),
       );
     }
