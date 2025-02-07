@@ -6,6 +6,11 @@ import 'package:deskgoo/widgets/buttons/elevated_button.dart';
 import 'package:deskgoo/widgets/containers/custom_container.dart';
 import 'package:deskgoo/widgets/texts/custom_text.dart';
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:provider/provider.dart';
+
+import '../../widgets/drawers/custom_drawer.dart';
+import '../mr_admin/mr_admin_providers/mr_admin_createuser_provider.dart';
 // import 'package:go_router/go_router.dart';
 
 class SettingPage extends StatelessWidget {
@@ -39,7 +44,8 @@ class SettingPage extends StatelessWidget {
           backgroundColor: CustomColors.primaryWhite,
           appBar: _appBar(context),
           body: _buildUI(context),
-          bottomNavigationBar: _bottomNavBar(context),
+          // bottomNavigationBar: _bottomNavBar(context),
+          drawer: _drawer(context),
         ),
       ),
     );
@@ -52,72 +58,113 @@ class SettingPage extends StatelessWidget {
         builder: (context) {
           return CustomAppBar(
             tabName: 'Settings',
+            leadingIcon: FontAwesomeIcons.bars,
+            onTap: () {
+              // Use the context under the Scaffold
+              Scaffold.of(context).openDrawer();
+            },
+            onTapLeadingIcon: () {
+              // Use the context under the Scaffold
+              Scaffold.of(context).openDrawer();
+            },
           );
         },
       ),
     );
   }
 
+  CustomDrawer _drawer(context) {
+    return CustomDrawer(
+      isSettingActive: true,
+    );
+  }
+
+
   Widget _buildUI(context) {
     return Column(
       mainAxisAlignment: MainAxisAlignment.start,
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
-        CustomContainer(
-          borderRadius: 0,
-          verticalMargin: 8,
-          verticalPad: 8,
-          horizontalPad: 0,
-          width: 1,
-          color: Colors.white,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Padding(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 16.0,
-                  vertical: 2,
-                ),
-                child: CustomText(
-                  text: 'Theme',
-                  fontWeight: labelFontWeight,
-                  size: labelSize,
-                ),
-              ),
-              Divider(),
-              GestureDetector(
-                onTap: () {
-                  Navigator.of(context)
-                      .pushNamed(MarketingManagerConstants.profilePage);
-                },
-                child: CustomContainer(
-                  verticalPad: 2,
-                  horizontalMargin: 0,
-                  verticalMargin: 0,
-                  horizontalPad: 16,
-                  width: 1,
-                  // color: Colors.red,
-                  child: CustomText(
-                    text: 'Account',
-                    fontWeight: labelFontWeight,
-                    size: labelSize,
+        Consumer<CreateUserProvider>(
+          builder: (context,createUserProvider,_) {
+            return CustomContainer(
+              borderRadius: 0,
+              verticalMargin: 8,
+              verticalPad: 8,
+              horizontalPad: 0,
+              width: 1,
+              color: Colors.white,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 16.0,
+                      vertical: 2,
+                    ),
+                    child: CustomText(
+                      text: 'Theme',
+                      fontWeight: labelFontWeight,
+                      size: labelSize,
+                    ),
                   ),
-                ),
+                  Divider(),
+                  GestureDetector(
+                    onTap: () {
+                      Navigator.of(context)
+                          .pushNamed(MarketingManagerConstants.profilePage);
+                    },
+                    child: CustomContainer(
+                      verticalPad: 2,
+                      horizontalMargin: 0,
+                      verticalMargin: 0,
+                      horizontalPad: 16,
+                      width: 1,
+                      // color: Colors.red,
+                      child: CustomText(
+                        text: 'Account',
+                        fontWeight: labelFontWeight,
+                        size: labelSize,
+                      ),
+                    ),
+                  ),
+                  Divider(),
+                  GestureDetector(
+                    onTap: () {
+                      createUserProvider.getRoleList(context);
+                      Navigator.of(context)
+                          .pushNamed(MarketingManagerConstants.mrManagerCreateUserPage);
+                    },
+                    child: CustomContainer(
+                      verticalPad: 2,
+                      horizontalMargin: 0,
+                      verticalMargin: 0,
+                      horizontalPad: 16,
+                      width: 1,
+                      // color: Colors.red,
+                      child: CustomText(
+                        text: 'User',
+                        fontWeight: labelFontWeight,
+                        size: labelSize,
+                      ),
+                    ),
+                  ),
+                  Divider(),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 16.0,
+                      vertical: 2,
+                    ),
+                    child: CustomText(
+                      text: 'About us',
+                      fontWeight: labelFontWeight,
+                      size: labelSize,
+                    ),
+                  ),
+                ],
               ),
-              Divider(),
-              Padding(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 16.0,
-                  vertical: 2,
-                ),
-                child: CustomText(
-                  text: 'About us',
-                  fontWeight: labelFontWeight,
-                  size: labelSize,
-                ),
-              ),
-            ],
-          ),
+            );
+          }
         ),
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 0.0),

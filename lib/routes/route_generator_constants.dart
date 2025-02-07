@@ -15,6 +15,7 @@ class MarketingManagerConstants {
   static const String remoteAttendancePage = '/remote_attendance';
   static const String settingPage = '/setting';
   static const String profilePage = '/profile';
+  static const String mrManagerCreateUserPage = '/createUserPage';
   static const String marketingOfficers = '/marketing_officers';
   static const String officerDescriptionPage = '/officerDescriptionPage';
   static const String officerVisitDetailPage = '/officerVisitDetailPage';
