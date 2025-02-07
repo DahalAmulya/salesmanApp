@@ -24,6 +24,7 @@ class ERPServices {
   };
 
   static Future<ERPResponse> getRequest(String path) async {
+    print('$apiURL$path');
     try {
       Map<String, String> header = {
         'Content-Type': 'Application/json',
@@ -34,6 +35,8 @@ class ERPServices {
         Uri.parse('$apiURL$path'),
         headers: header,
       );
+      print(response.body);
+      print(response.statusCode);
       return ERPResponse(
         statusCode: response.statusCode,
         body: response.body,

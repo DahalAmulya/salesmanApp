@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 import 'package:deskgoo/consts.dart';
+import 'package:deskgoo/services/erp_services.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
@@ -104,7 +105,7 @@ class DeviceInfoProvider extends ChangeNotifier {
     getUniqueIdentifier();
     getBatteryLevel();
     getLocation();
-    updateLocation();
+    // updateLocation();
   }
 
   void cancelLocationTimer() {
@@ -189,25 +190,46 @@ class DeviceInfoProvider extends ChangeNotifier {
       'distance': _distance,
     };
 
-    try {
-      final response = await http.post(
-        url,
-        headers: {'Content-Type': 'application/json'},
-        body: jsonEncode(data),
-      );
-      if (response.statusCode == 200 || response.statusCode == 201) {
-        _connectivityStatus = 'connected';
-        print('Data Post successfull');
-        print('identifier = ${_uniqueIdentifier}');
-        notifyListeners();
-      } else {
-        print(response.statusCode);
-      }
-    } catch (e) {
-      _connectivityStatus = 'no internet';
-      notifyListeners();
-      print('Error: $e');
-    }
+    // try {
+    //   final response = await http.post(
+    //     url,
+    //     headers: {'Content-Type': 'application/json'},
+    //     body: jsonEncode(data),
+    //   );
+    //   if (response.statusCode == 200 || response.statusCode == 201) {
+    //     _connectivityStatus = 'connected';
+    //     print('Data Post successfull');
+    //     print('identifier = ${_uniqueIdentifier}');
+    //     notifyListeners();
+    //   } else {
+    //     print(response.statusCode);
+    //   }
+    // } catch (e) {
+    //   _connectivityStatus = 'no internet';
+    //   notifyListeners();
+    //   print('Error: $e');
+    // }
+
+    String formattedDateTime =
+        '${DateTime.now().toString().split('.')[1]} ${DateTime.now().toString().split('.')[0]}';
+    Map<String, dynamic> _body = {
+      "latitude": _liveLatitude,
+      "longitude": _liveLongitude,
+      "batteryPercentage": _batteryLevel,
+      "accuracy": _accuracy,
+      "localTime": formattedDateTime,
+      "mobileTime": DateTime.now().toString(),
+      "connectivityType": _connectivityType,
+      "connectivityStatus": _connectionStatus,
+      "distance": _distance
+    };
+    print(
+        'Location LatLng = ${_liveLatitude}, ${_liveLatitude}, ${DateTime.now().toString().split('.')[0]}');
+    print(_body);
+    ERPResponse response =
+        await ERPServices.postRequest('/location/latest?_id=$userId', _body);
+    print(response.statusCode);
+    print(response.body);
     print('****************************************************************');
   }
 

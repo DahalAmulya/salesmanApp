@@ -253,10 +253,10 @@ class _LoginPageState extends State<LoginPage> {
   void login() async {
     Map<String, dynamic> body = {
       'email': emailController.value.text.isEmpty
-          ? 'shuvam@gmail.com'
+          ? 'farhan@gmail.com'
           : emailController.value.text,
       'password': passwordController.value.text.isEmpty
-          ? 'shuvam123@'
+          ? 'farhan123@'
           : passwordController.value.text,
       // shuvam@gmail.com
       // shuvam123@
@@ -264,9 +264,14 @@ class _LoginPageState extends State<LoginPage> {
       // farhan123@
       // nimesh@gmail.com
       // nimesh123@
+      // location@gmail.com
+      // location123@
     };
 
+    print('Called login api');
     ERPResponse response = await ERPServices.ERPlogin(body);
+    print(response.statusCode);
+    print(response.body);
     if (response.statusCode == 200) {
       ToastMessageUtils().showToastMessage(
           'Login successful', ToastGravity.TOP, CustomColors.jadeGreen);
