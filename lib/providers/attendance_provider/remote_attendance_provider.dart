@@ -153,7 +153,7 @@ class AttendanceProvider extends ChangeNotifier {
     try {
       Map<String, dynamic> body = {
         "deviceTime": _time,
-        "attendanceTime": DateTime.now().toIso8601String(),
+        "attendanceTime": DateTime.now().toString(),
         "latitude": _latitude,
         "longitude": _longitude
       };

@@ -168,7 +168,10 @@ class _WeeklyPlanScreenState extends State<WeeklyPlanScreen> {
                             color: Colors.black,
                             size: 16,
                           ),
-                          CustomText(text: ' Create Plan'),
+                          CustomText(
+                            text: ' Create Plan',
+                            isContent: true,
+                          ),
                         ],
                       ),
                     );

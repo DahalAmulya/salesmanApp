@@ -40,9 +40,8 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:provider/provider.dart';
 
 Future<void> main() async {
-  await dotenv.load(
-    fileName: Environment.fileName,
-  ); // fileName: '.env', is default fileName so no need to specify it
+  await dotenv.load(fileName: Environment.fileName);
+
   if (kIsWeb) {
     print('Running on browser');
     runApp(
@@ -53,73 +52,19 @@ Future<void> main() async {
     NotificationController.getPermissions();
     print('Not Running on browser');
     WidgetsFlutterBinding.ensureInitialized();
-    // await Firebase.initializeApp(
-    //     options: DefaultFirebaseOptions.currentPlatform);
-    // await FirebaseApi().initNotifications();
+
     BackgroundTask.instance.setAndroidNotification(
       title: 'Deskgoo',
       message: 'Running in the background',
-      // icon: 'assets/icons/deskgoo.png',
     );
-    BackgroundTask.instance
-        .setBackgroundHandler(backgroundHandler); // 👈 Set callback handler.
+    BackgroundTask.instance.setBackgroundHandler(backgroundHandler);
+
     runApp(const MyApp());
   }
 }
 
-class MyApp extends StatefulWidget {
+class MyApp extends StatelessWidget {
   const MyApp({super.key});
-
-  @override
-  State<MyApp> createState() => _MyAppState();
-}
-
-class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
-  @override
-  void initState() {
-    super.initState();
-    WidgetsBinding.instance.addObserver(this);
-    stopBackgroundServices();
-  }
-
-  void stopBackgroundServices() async {
-    await BackgroundTask.instance.stop();
-  }
-
-  @override
-  void dispose() {
-    WidgetsBinding.instance.removeObserver(this);
-    super.dispose();
-  }
-
-  @override
-  void didChangeAppLifecycleState(AppLifecycleState state) async {
-    super.didChangeAppLifecycleState(state);
-
-    if (state == AppLifecycleState.inactive ||
-        state == AppLifecycleState.detached) return;
-
-    if (state == AppLifecycleState.paused) {
-      getBackgroundLocation();
-      print('----------------------------------------------------------------');
-      print('\t\tApp is in background');
-      isBackground = true;
-      print('----------------------------------------------------------------');
-    } else if (state == AppLifecycleState.resumed) {
-      print('----------------------------------------------------------------');
-      await BackgroundTask.instance.stop();
-      isBackground = false;
-      print('\t\tApp is in Foreground');
-      print('----------------------------------------------------------------');
-    }
-
-    // final isBackground = state == AppLifecycleState.paused;
-    // if (isBackground) {
-    //   getBackgroundLocation();
-    // } else {
-    //   await BackgroundTask.instance.stop();
-    // }
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -156,19 +101,13 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
           return MaterialApp(
             debugShowCheckedModeBanner: false,
             themeMode: themeChangerProvider.themeMode,
-            darkTheme: ThemeData(
-              brightness: Brightness.dark,
-            ),
+            darkTheme: ThemeData(brightness: Brightness.dark),
             theme: ThemeData(
               brightness: Brightness.light,
               primarySwatch: Colors.blue,
               useMaterial3: true,
             ),
-            // home: TestingDecodingAndEncoding(),
             initialRoute: MarketingManagerConstants.indexPage,
-            // initialRoute: MarketingOfficerConstants.mrStaffDashboardConst,
-            // initialRoute: MarketingManagerConstants.homePage,
-            // initialRoute: MarketingOfficerConstants.mrStaffDashboardConst,
             onGenerateRoute: RouteGenerator.generateRoute,
           );
         },

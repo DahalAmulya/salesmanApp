@@ -1,3 +1,5 @@
+import 'package:background_task/background_task.dart';
+import 'package:deskgoo/classes/background_task_handler.dart';
 import 'package:deskgoo/classes/is_token_expired.dart';
 import 'package:deskgoo/classes/secure_storage.dart';
 import 'package:deskgoo/consts.dart';
@@ -31,7 +33,8 @@ class MrOfficersDashboardScreen extends StatefulWidget {
       _MrOfficersDashboardScreenState();
 }
 
-class _MrOfficersDashboardScreenState extends State<MrOfficersDashboardScreen> {
+class _MrOfficersDashboardScreenState extends State<MrOfficersDashboardScreen>
+    with WidgetsBindingObserver {
   AttendanceProvider? attendanceProvider;
   DeviceInfoProvider? deviceInfoProvider;
   List<String> colors = ['red', 'yellow', 'green'];
@@ -129,8 +132,31 @@ class _MrOfficersDashboardScreenState extends State<MrOfficersDashboardScreen> {
     await isTokenExpired(context);
   }
 
+  // @override
+  // void initState() {
+  //   print(
+  //       '*********************************** Checking Token *************************************');
+  //   // checkToken();
+  //   getTodayPlan();
+  //   print(
+  //       '************************************************************************');
+  //   getVisitLogs();
+  //   attendanceProvider =
+  //       Provider.of<AttendanceProvider>(context, listen: false);
+  //   deviceInfoProvider =
+  //       Provider.of<DeviceInfoProvider>(context, listen: false);
+  //   attendanceProvider?.getAttendanceStatus();
+  //   deviceInfoProvider
+  //       ?.setIsAttendance(attendanceProvider!.isRemoteAttendanceSwitched);
+  //   UserCred().readUserCred();
+  //   super.initState();
+  // }
+
   @override
   void initState() {
+    super.initState();
+    WidgetsBinding.instance.addObserver(this);
+    stopBackgroundServices();
     print(
         '*********************************** Checking Token *************************************');
     // checkToken();
@@ -142,11 +168,50 @@ class _MrOfficersDashboardScreenState extends State<MrOfficersDashboardScreen> {
         Provider.of<AttendanceProvider>(context, listen: false);
     deviceInfoProvider =
         Provider.of<DeviceInfoProvider>(context, listen: false);
+    attendanceProvider?.getCurrentLocation();
     attendanceProvider?.getAttendanceStatus();
     deviceInfoProvider
         ?.setIsAttendance(attendanceProvider!.isRemoteAttendanceSwitched);
     UserCred().readUserCred();
-    super.initState();
+  }
+
+  void stopBackgroundServices() async {
+    await BackgroundTask.instance.stop();
+  }
+
+  @override
+  void dispose() {
+    WidgetsBinding.instance.removeObserver(this);
+    super.dispose();
+  }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) async {
+    super.didChangeAppLifecycleState(state);
+
+    if (state == AppLifecycleState.inactive ||
+        state == AppLifecycleState.detached) return;
+
+    if (state == AppLifecycleState.paused) {
+      getBackgroundLocation();
+      print('----------------------------------------------------------------');
+      print('\t\tApp is in background');
+      isBackground = true;
+      print('----------------------------------------------------------------');
+    } else if (state == AppLifecycleState.resumed) {
+      print('----------------------------------------------------------------');
+      await BackgroundTask.instance.stop();
+      isBackground = false;
+      print('\t\tApp is in Foreground');
+      print('----------------------------------------------------------------');
+    }
+
+    // final isBackground = state == AppLifecycleState.paused;
+    // if (isBackground) {
+    //   getBackgroundLocation();
+    // } else {
+    //   await BackgroundTask.instance.stop();
+    // }
   }
 
   @override

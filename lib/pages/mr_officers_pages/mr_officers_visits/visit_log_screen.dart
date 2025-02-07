@@ -125,7 +125,13 @@ class _MrOfficerVisitLogStateScreen extends State<MrOfficerVisitLogScreen> {
               padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 0),
               child: Row(
                 children: [
-                  Expanded(flex: 1, child: CustomText(text: 'Select Date : ')),
+                  Expanded(
+                    flex: 1,
+                    child: CustomText(
+                      text: 'Select Date : ',
+                      isContent: true,
+                    ),
+                  ),
                   Expanded(
                     flex: 2,
                     child: CustomDropdown(
@@ -146,72 +152,88 @@ class _MrOfficerVisitLogStateScreen extends State<MrOfficerVisitLogScreen> {
             SizedBox(
               height: 16,
             ),
-            ListView.builder(
-              shrinkWrap:
-                  true, // This allows it to take only the required height
-              physics:
-                  NeverScrollableScrollPhysics(), // Disables scrolling for outer ListView, so the inner ListViews can handle scrolling
-              padding: EdgeInsets.all(0),
-              itemCount: visitLogProvider.visitLog.length,
-              itemBuilder: (context, index) {
-                String pocName = visitLogProvider.visitLog[index]['pocName'];
-                String dateTime =
-                    visitLogProvider.visitLog[index]['mobileTime'];
-                String time = dateTime.split(' ')[0];
-                String date = dateTime.split(' ')[1];
-                String remarks = visitLogProvider.visitLog[index]['remarks'];
-                return ListTile(
-                  onTap: () {},
-                  title: CustomContainer(
-                    applyShadow: true,
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Row(
-                          children: [
-                            Expanded(
-                              flex: 1,
-                              child: CustomText(text: 'Name', isContent: true),
-                            ),
-                            Expanded(
-                              flex: 3,
-                              child: CustomText(text: pocName, isContent: true),
-                            ),
-                          ],
+            visitLogProvider.visitLog.length != 0
+                ? ListView.builder(
+                    shrinkWrap:
+                        true, // This allows it to take only the required height
+                    physics:
+                        NeverScrollableScrollPhysics(), // Disables scrolling for outer ListView, so the inner ListViews can handle scrolling
+                    padding: EdgeInsets.all(0),
+                    itemCount: visitLogProvider.visitLog.length,
+                    itemBuilder: (context, index) {
+                      String pocName =
+                          visitLogProvider.visitLog[index]['pocName'];
+                      String dateTime =
+                          visitLogProvider.visitLog[index]['mobileTime'];
+                      String time = dateTime.split(' ')[0];
+                      String date = dateTime.split(' ')[1];
+                      String remarks =
+                          visitLogProvider.visitLog[index]['remarks'];
+                      return ListTile(
+                        onTap: () {},
+                        title: CustomContainer(
+                          applyShadow: true,
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Row(
+                                children: [
+                                  Expanded(
+                                    flex: 1,
+                                    child: CustomText(
+                                        text: 'Name', isContent: true),
+                                  ),
+                                  Expanded(
+                                    flex: 3,
+                                    child: CustomText(
+                                        text: pocName, isContent: true),
+                                  ),
+                                ],
+                              ),
+                              Row(
+                                children: [
+                                  Expanded(
+                                    flex: 1,
+                                    child: CustomText(
+                                        text: 'Remarks', isContent: true),
+                                  ),
+                                  Expanded(
+                                    flex: 3,
+                                    child: CustomText(
+                                        text: remarks, isContent: true),
+                                  ),
+                                ],
+                              ),
+                              Row(
+                                children: [
+                                  Expanded(
+                                    flex: 1,
+                                    child: CustomText(
+                                        text: 'Time', isContent: true),
+                                  ),
+                                  Expanded(
+                                    flex: 3,
+                                    child: CustomText(
+                                        text: '$time  $date', isContent: true),
+                                  ),
+                                ],
+                              ),
+                            ],
+                          ),
                         ),
-                        Row(
-                          children: [
-                            Expanded(
-                              flex: 1,
-                              child:
-                                  CustomText(text: 'Remarks', isContent: true),
-                            ),
-                            Expanded(
-                              flex: 3,
-                              child: CustomText(text: remarks, isContent: true),
-                            ),
-                          ],
-                        ),
-                        Row(
-                          children: [
-                            Expanded(
-                              flex: 1,
-                              child: CustomText(text: 'Time', isContent: true),
-                            ),
-                            Expanded(
-                              flex: 3,
-                              child: CustomText(
-                                  text: '$time  $date', isContent: true),
-                            ),
-                          ],
-                        ),
-                      ],
+                      );
+                    },
+                  )
+                : Center(
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 160.0),
+                      child: CustomText(
+                        text: 'No visit logs found for today',
+                        isSubHeading: true,
+                      ),
                     ),
                   ),
-                );
-              },
-            ),
           ],
         );
       },

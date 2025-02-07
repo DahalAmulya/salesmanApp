@@ -26,7 +26,7 @@ class AddTaskScreen extends StatelessWidget {
             .pushNamed(MarketingOfficerConstants.weeklyPlanConst);
       }),
       child: GestureDetector(
-        onTap: (){
+        onTap: () {
           FocusScopeNode currentFocus = FocusScope.of(context);
           if (!currentFocus.hasPrimaryFocus) {
             FocusScope.of(context).unfocus();
@@ -45,26 +45,24 @@ class AddTaskScreen extends StatelessWidget {
   }
 }
 
-PreferredSize _appbar(context){
+PreferredSize _appbar(context) {
   return PreferredSize(
     preferredSize: Size.fromHeight(kToolbarHeight),
-    child: Builder(
-        builder: (context) {
-          return CustomAppBar(
-            tabName: 'New Task',
-            showLeading: true,
-            leadingIcon: FontAwesomeIcons.arrowLeft,
-            onTapLeadingIcon: (){
-              Navigator.of(context)
-                  .pushNamed(MarketingOfficerConstants.weeklyPlanConst);
-            },
-          );
-        }
-    ),
+    child: Builder(builder: (context) {
+      return CustomAppBar(
+        tabName: 'New Task',
+        showLeading: true,
+        leadingIcon: FontAwesomeIcons.arrowLeft,
+        onTapLeadingIcon: () {
+          Navigator.of(context)
+              .pushNamed(MarketingOfficerConstants.weeklyPlanConst);
+        },
+      );
+    }),
   );
 }
 
-Widget _body(context){
+Widget _body(context) {
   final _addTaskFormKey = GlobalKey<FormState>();
   final taskActivityController = TextEditingController();
   final taskAreaController = TextEditingController();
@@ -74,7 +72,7 @@ Widget _body(context){
     key: _addTaskFormKey,
     child: SingleChildScrollView(
       child: Column(
-       mainAxisAlignment: MainAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.center,
         children: [
           CustomContainer(
             applyShadow: true,
@@ -89,22 +87,29 @@ Widget _body(context){
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Consumer<WeeklyPlanProvider>(
-                        builder: (context,weeklyPlanProvider,_) {
-                          return Container(
-                            padding: EdgeInsets.symmetric(horizontal: 8,vertical: 8),
-                            child: CustomText(
-                              text:'Task For : ${weeklyPlanProvider.getFormattedDate()}',
-                              size: 20,
-                              fontWeight: FontWeight.w600,
-                            ),
-                          );
-                        }
-                    ),
+                        builder: (context, weeklyPlanProvider, _) {
+                      return Container(
+                        padding:
+                            EdgeInsets.symmetric(horizontal: 8, vertical: 8),
+                        child: CustomText(
+                          text:
+                              'Task For : ${weeklyPlanProvider.getFormattedDate()}',
+                          size: 20,
+                          fontWeight: FontWeight.w600,
+                        ),
+                      );
+                    }),
                   ],
                 ),
                 // SizedBox(height: 8,),
-                CustomText(text: 'Activity',fontWeight: FontWeight.w600,size: 18,),
-                SizedBox(height: 8,),
+                CustomText(
+                  text: 'Activity',
+                  fontWeight: FontWeight.w600,
+                  size: 18,
+                ),
+                SizedBox(
+                  height: 8,
+                ),
                 TextFromFieldWithPrefixSuffix(
                   controller: taskActivityController,
                   autoFocus: false,
@@ -116,17 +121,25 @@ Widget _body(context){
                     return value!.isEmpty
                         ? 'Activity note is required'
                         : value.length < 3
-                        ? 'Enter at least 3 characters'
-                        : null;
+                            ? 'Enter at least 3 characters'
+                            : null;
                   },
                   onChange: (value) {
                     // visitScreenProvider.setFollowUpNote(value!);
                   },
                   onTap: () {},
                 ),
-                SizedBox(height: 8,),
-                CustomText(text: 'Area',fontWeight: FontWeight.w600,size: 18,),
-                SizedBox(height: 8,),
+                SizedBox(
+                  height: 8,
+                ),
+                CustomText(
+                  text: 'Area',
+                  fontWeight: FontWeight.w600,
+                  size: 18,
+                ),
+                SizedBox(
+                  height: 8,
+                ),
                 TextFromFieldWithPrefixSuffix(
                   controller: taskAreaController,
                   autoFocus: false,
@@ -138,17 +151,25 @@ Widget _body(context){
                     return value!.isEmpty
                         ? 'Visiting Area name is required'
                         : value.length < 3
-                        ? 'Enter at least 3 characters'
-                        : null;
+                            ? 'Enter at least 3 characters'
+                            : null;
                   },
                   onChange: (value) {
                     // visitScreenProvider.setFollowUpNote(value!);
                   },
                   onTap: () {},
                 ),
-                SizedBox(height: 8,),
-                CustomText(text: 'Remark',fontWeight: FontWeight.w600,size: 18,),
-                SizedBox(height: 8,),
+                SizedBox(
+                  height: 8,
+                ),
+                CustomText(
+                  text: 'Remark',
+                  fontWeight: FontWeight.w600,
+                  size: 18,
+                ),
+                SizedBox(
+                  height: 8,
+                ),
                 TextFromFieldWithPrefixSuffix(
                   controller: taskRemarkController,
                   autoFocus: false,
@@ -160,24 +181,27 @@ Widget _body(context){
                     return value!.isEmpty
                         ? 'Remark note is required'
                         : value.length < 3
-                        ? 'Enter at least 3 characters'
-                        : null;
+                            ? 'Enter at least 3 characters'
+                            : null;
                   },
                   onChange: (value) {
                     // visitScreenProvider.setFollowUpNote(value!);
                   },
                   onTap: () {},
                 ),
-                SizedBox(height: 8,),
+                SizedBox(
+                  height: 8,
+                ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
                     CustomElevatedButton(
-                        onPressed: (){},
-                        backgroundColor: CustomColors.primaryColor,
-                        widget: CustomText(
-                            text: 'Submit'
-                        )
+                      onPressed: () {},
+                      backgroundColor: CustomColors.primaryColor,
+                      widget: CustomText(
+                        text: 'Submit',
+                        isContent: true,
+                      ),
                     ),
                   ],
                 )
