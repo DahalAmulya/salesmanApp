@@ -9,6 +9,7 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
 
+import '../../widgets/bottom_sheets/mr_officer_sheets/mr_admin_sheets/select_user_visit_type.dart';
 import '../../widgets/drawers/custom_drawer.dart';
 import '../mr_admin/mr_admin_providers/mr_admin_createuser_provider.dart';
 // import 'package:go_router/go_router.dart';
@@ -131,9 +132,17 @@ class SettingPage extends StatelessWidget {
                   Divider(),
                   GestureDetector(
                     onTap: () {
-                      createUserProvider.getRoleList(context);
-                      Navigator.of(context)
-                          .pushNamed(MarketingManagerConstants.mrManagerCreateUserPage);
+                      // Navigator.pop(context);
+                      showModalBottomSheet(
+                        isScrollControlled: true,
+                        useSafeArea: true,
+                        context: context,
+                        builder: (context) =>
+                            MrAdminSelectUserTypeBottomSheet(),
+                      );
+                      // createUserProvider.getRoleList(context);
+                      // Navigator.of(context)
+                      //     .pushNamed(MarketingManagerConstants.mrManagerCreateUserPage);
                     },
                     child: CustomContainer(
                       verticalPad: 2,
