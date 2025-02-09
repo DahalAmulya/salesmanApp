@@ -22,8 +22,11 @@ class CreateUserProvider extends ChangeNotifier{
   List<dynamic> _roles = [];
   List<String> _selectedRole = [];
   String _role = '';
+  String _selectedGender = '';
   String _selectedDepartment = '';
   String _selectedDesignation = '';
+  String _selectedMaritalStatus = '';
+  String _selectedNationality = '';
   List<String> _department = ["Marketing","Doctors",];
   List<String> _designation = ["Mr Manager", "Mr Staff"];
   List<String> _gender = ["Male", "Female","Other"];
@@ -55,6 +58,9 @@ class CreateUserProvider extends ChangeNotifier{
   List<String> get maritalStatus => _maritalStatus;
   List<String> get nationality => _nationality;
   List<String> get selectedRole => _selectedRole;
+  String get selectedGender => _selectedGender;
+  String get selectedMaritalStatus => _selectedMaritalStatus;
+  String get selectedNationality => _selectedNationality;
 
   String get designationDefaultValue => _designationDefaultValue;
   String get departmentDefaultValue => _departmentDefaultValue;
@@ -82,17 +88,17 @@ class CreateUserProvider extends ChangeNotifier{
   }
 
   void setGender(newValue){
-    _gender = newValue;
+    _selectedGender = newValue;
     notifyListeners();
   }
 
   void setMaritalStatus(newValue){
-    _maritalStatus = newValue;
+    _selectedMaritalStatus = newValue;
     notifyListeners();
   }
 
   void setNationality(newValue){
-    _nationality = newValue;
+    _selectedNationality = newValue;
     notifyListeners();
   }
 
@@ -111,12 +117,27 @@ class CreateUserProvider extends ChangeNotifier{
 
   void PostUserDetails(context) async{
     Map<String,dynamic> body = {
+
         "username": _userNameTextController.value.text,
         "email": _userEmailTextController.value.text,
         "password": _userPasswordTextController.value.text,
-        "role": _role,
+        "role":  { "role": "Marketing Staff", "roleValue": 3031 },
         "department": _selectedDepartment,
-        "designation": _selectedDesignation
+        "designation": _selectedDesignation,
+        "number": _userNumberTextController.value.text,
+        "address":_userAddressTextController.value.text,
+        "nationality": _selectedNationality,
+        "dob": _userDobController.value.text,
+        "doj": _userDojTextController.value.text,
+        "maritalStatus": _selectedMaritalStatus,
+        "gender": _selectedGender,
+
+        // "username": _userNameTextController.value.text,
+        // "password": _userPasswordTextController.value.text,
+        // "role": _role,
+        // "department": _selectedDepartment,
+        // "email": _userEmailTextController.value.text,
+        // "designation": _selectedDesignation
     };
     print(body);
     ERPResponse response = await ERPServices.postRequest('/users', body);
