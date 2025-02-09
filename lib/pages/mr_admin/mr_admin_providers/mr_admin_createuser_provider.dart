@@ -1,10 +1,8 @@
 import 'dart:convert';
-
 import 'package:deskgoo/services/erp_services.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-
 import '../../../themes/custom_colors.dart';
 import '../../../utils/toast_message.dart';
 
@@ -27,11 +25,16 @@ class CreateUserProvider extends ChangeNotifier{
   String _selectedDesignation = '';
   String _selectedMaritalStatus = '';
   String _selectedNationality = '';
+  String _selectedUserVisitType = '';
+  String _radioGroupValue = '';
+  int _tabIndex = 0;
   List<String> _department = ["Marketing","Doctors",];
   List<String> _designation = ["Mr Manager", "Mr Staff"];
   List<String> _gender = ["Male", "Female","Other"];
   List<String> _maritalStatus = ["Unmarried","Married","Divorced"];
   List<String> _nationality = ["Nepali","Indian"];
+  List<String> _userTypeList = ['Create User', 'View User'];
+  List<String> _selectedUserVisitTypeList = ['none', 'More Detail'];
 
   String _designationDefaultValue = "Mr Manager";
   String _departmentDefaultValue = "Marketing";
@@ -58,9 +61,15 @@ class CreateUserProvider extends ChangeNotifier{
   List<String> get maritalStatus => _maritalStatus;
   List<String> get nationality => _nationality;
   List<String> get selectedRole => _selectedRole;
+  List<String> get userTypeList => _userTypeList;
+  List<String> get selectedUserVisitTypeList => _selectedUserVisitTypeList;
   String get selectedGender => _selectedGender;
   String get selectedMaritalStatus => _selectedMaritalStatus;
   String get selectedNationality => _selectedNationality;
+
+  String get selectedUserVisitType => _selectedUserVisitType;
+  String get radioGroupValue => _radioGroupValue;
+  int get tabIndex => _tabIndex;
 
   String get designationDefaultValue => _designationDefaultValue;
   String get departmentDefaultValue => _departmentDefaultValue;
@@ -71,6 +80,31 @@ class CreateUserProvider extends ChangeNotifier{
   String get role => _role;
   String get selectedDepartment => _selectedDepartment;
   String get selectedDesignation => _selectedDesignation;
+
+  void selectUserVisitType(value) {
+    _radioGroupValue = value;
+    notifyListeners();
+  }
+
+  void unSelectUserVisitType() {
+    _radioGroupValue = '';
+    _selectedUserVisitType = '';
+    notifyListeners();
+  }
+
+  bool setSelectedUserVisitType(){
+    _selectedUserVisitType = _radioGroupValue;
+    if (_selectedUserVisitType.isEmpty) {
+      ToastMessageUtils().showToastMessage('Please select User visit type');
+      notifyListeners();
+      return false;
+    }else{
+      _selectedUserVisitTypeList[0] = _selectedUserVisitType;
+      notifyListeners();
+      return true;
+    }
+  }
+
 
   void setRole(newValue){
     _role = newValue;
