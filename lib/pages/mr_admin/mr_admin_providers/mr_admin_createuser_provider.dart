@@ -17,6 +17,7 @@ class CreateUserProvider extends ChangeNotifier{
   final _userDojTextController = TextEditingController();
 
   Map<String,dynamic> _data = {};
+  Map<String,dynamic> _userData = {};
   List<dynamic> _roles = [];
   List<String> _selectedRole = [];
   String _role = '';
@@ -54,6 +55,7 @@ class CreateUserProvider extends ChangeNotifier{
   TextEditingController get userDojTextController => _userDojTextController;
 
   Map<String,dynamic> get data => _data;
+  Map<String,dynamic> get userData => _userData;
   List<dynamic> get roles => _roles;
   List<String> get department => _department;
   List<String> get designation => _designation;
@@ -186,6 +188,10 @@ class CreateUserProvider extends ChangeNotifier{
           'Something went wrong', ToastGravity.TOP, CustomColors.lightRed);
       print('something is missing');
     }
+  }
+
+  void getUserDetails()async{
+  ERPResponse response = await ERPServices.getRequest('/users');
   }
 
 }

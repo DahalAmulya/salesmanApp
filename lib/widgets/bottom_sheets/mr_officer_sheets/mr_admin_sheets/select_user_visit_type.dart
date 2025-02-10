@@ -80,32 +80,36 @@ class _MrAdminSelectUserTypeBottomSheetState
                             widget: CustomText(text: 'Cancel',color: CustomColors.primaryBlack, fontWeight: FontWeight.w500,),
                             backgroundColor: CustomColors.lightRed,
                         ),
-                        CustomElevatedButton(
-                          onPressed: ()async{
-                            createUserProvider.unSelectUserVisitType();
-                            bool isSelected = createUserProvider.setSelectedUserVisitType();
-                            if(isSelected){
-                              if(createUserProvider.selectedUserVisitType == createUserProvider.userTypeList[0]){
-                                createUserProvider.getRoleList(context);
-                                Navigator.pop(context);
-                               print('next');
-                                Navigator.of(context)
-                                    .pushNamed(MarketingManagerConstants.mrManagerCreateUserPage);
+                        Consumer<CreateUserProvider>(
+                          builder: (context,createUserProvider,_) {
+                            return CustomElevatedButton(
+                              onPressed: ()async{
+                                // createUserProvider.unSelectUserVisitType();
+                                bool isSelected = createUserProvider.setSelectedUserVisitType();
+                                if(isSelected){
+                                  if(createUserProvider.selectedUserVisitType == createUserProvider.userTypeList[0]){
+                                    createUserProvider.getRoleList(context);
+                                    Navigator.pop(context);
+                                    print('next');
+                                    Navigator.of(context)
+                                        .pushNamed(MarketingManagerConstants.mrManagerCreateUserPage);
 
-                              }else if(createUserProvider.selectedUserVisitType == createUserProvider.userTypeList[1]){
-                                Navigator.pop(context);
-                                Navigator.of(context)
-                                    .pushNamed(MarketingManagerConstants.mrManagerViewUserPage);
-                              }else{
-                                Navigator.pop(context);
-                                Navigator.of(context).pushNamed(
-                                    MarketingManagerConstants.settingPage);
-                              }
-                            }
+                                  }else if(createUserProvider.selectedUserVisitType == createUserProvider.userTypeList[1]){
+                                    Navigator.pop(context);
+                                    Navigator.of(context)
+                                        .pushNamed(MarketingManagerConstants.mrManagerViewUserPage);
+                                  }else{
+                                    Navigator.pop(context);
+                                    Navigator.of(context).pushNamed(
+                                        MarketingManagerConstants.settingPage);
+                                  }
+                                }
 
-                          },
-                          widget: CustomText(text: 'Next',color: CustomColors.primaryBlack, fontWeight: FontWeight.w500,),
-                          backgroundColor: CustomColors.primaryColor,
+                              },
+                              widget: CustomText(text: 'Next',color: CustomColors.primaryBlack, fontWeight: FontWeight.w500,),
+                              backgroundColor: CustomColors.primaryColor,
+                            );
+                          }
                         )
                       ],
                     )
