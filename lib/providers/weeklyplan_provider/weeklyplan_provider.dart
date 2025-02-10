@@ -330,6 +330,13 @@ class WeeklyPlanProvider with ChangeNotifier {
     notifyListeners();
   }
 
+  void clearValue(){
+    _taskActivityNoteController.text = '';
+    _taskAreaNoteController.text = '';
+    _taskRemarkNoteController.text = '';
+    notifyListeners();
+  }
+
   void getAllPlans() async {
     ERPResponse response = await ERPServices.getRequest(
         '/plan?userId=679b632e4c526fbfe839ada5&from=2025-02-05&to=2025-02-05');

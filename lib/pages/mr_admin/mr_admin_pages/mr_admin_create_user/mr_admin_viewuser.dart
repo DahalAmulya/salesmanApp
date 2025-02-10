@@ -1,8 +1,9 @@
+import 'package:deskgoo/pages/mr_admin/mr_admin_providers/mr_admin_createuser_provider.dart';
 import 'package:deskgoo/widgets/containers/custom_container.dart';
 import 'package:deskgoo/widgets/texts/custom_text.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-
+import 'package:provider/provider.dart';
 import '../../../../routes/route_generator_constants.dart';
 import '../../../../themes/custom_colors.dart';
 import '../../../../widgets/app_bars/custom_app_bars.dart';
@@ -15,6 +16,14 @@ class MarketingAdminViewUser extends StatefulWidget {
 }
 
 class _MarketingAdminViewUserState extends State<MarketingAdminViewUser> {
+  @override
+  void initState() {
+    final createUserProvider = Provider.of<CreateUserProvider>(context,listen: false);
+    createUserProvider.getUserDetails();
+    // TODO: implement initState
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -44,260 +53,265 @@ class _MarketingAdminViewUserState extends State<MarketingAdminViewUser> {
 
   Widget _buildUI(BuildContext context){
     return Scaffold(
-      body: Column(
-        children: [
-          Expanded(
-            child: ListView.builder(
-                itemCount: 3, // replace with actual number of users.
-                itemBuilder: (context,index){
-              return ListTile(
-                title:  CustomContainer(
-                  applyShadow: true,
-                  child: Column(
-                    children: [
-                      Row(
+      body: Consumer<CreateUserProvider>(
+        builder: (context,createUserProvider,_) {
+          return Column(
+            children: [
+              Expanded(
+                child: ListView.builder(
+                    itemCount: 3, // replace with actual number of users.
+                    itemBuilder: (context,index){
+                      String userName = createUserProvider.userData['users'][index]['username'];
+                      String userRole = createUserProvider.userData['users'][index]['role']['role'];
+                      String userDepartment = createUserProvider.userData['users'][index]['department'];
+                      String userDesignation = createUserProvider.userData['users'][index]['designation'];
+                      String userEmail = createUserProvider.userData['users'][index]['email'];
+                      String userAddress = createUserProvider.userData['users'][index]['address'];
+                      String userDOB = createUserProvider.userData['users'][index]['dob'];
+                      String userNumber = createUserProvider.userData['users'][index]['number'];
+                      String userGender = createUserProvider.userData['users'][index]['gender'];
+                      String userMaritalStatus = createUserProvider.userData['users'][index]['maritalStatus'];
+                      String userDOJ = createUserProvider.userData['users'][index]['doj'];
+                      String userNationality = createUserProvider.userData['users'][index]['nationality'];
+
+                      print(userName);
+                      print(userRole);
+                      print(userDepartment);
+                      print(userEmail);
+
+
+                  return ListTile(
+                    title:  CustomContainer(
+                      applyShadow: true,
+                      child: Column(
                         children: [
-                          Expanded(
-                            flex: 1,
-                            child: CustomText(
-                              text: 'Name :',
-                              isContent: true,
-                            ),
+                          Row(
+                            children: [
+                              Expanded(
+                                flex: 1,
+                                child: CustomText(
+                                  text: 'Name :',
+                                  isContent: true,
+                                ),
+                              ),
+                              Expanded(
+                                flex: 2,
+                                child: CustomText(
+                                  text: 'Shuvam',
+                                  isContent: true,
+                                ),
+                              ),
+                              Spacer(),
+                              FaIcon(FontAwesomeIcons.pen,size: 16,)
+                            ],
                           ),
-                          Expanded(
-                            flex: 2,
-                            child: CustomText(
-                              text: 'Shuvam',
-                              isContent: true,
-                            ),
+                          Row(
+                            children: [
+                              Expanded(
+                                flex: 1,
+                                child: CustomText(
+                                  text: 'Role :',
+                                  isContent: true,
+                                ),
+                              ),
+                              Expanded(
+                                flex: 2,
+                                child: CustomText(
+                                  text: '',
+                                  isContent: true,
+                                ),
+                              ),
+                            ],
                           ),
-                          Spacer(),
-                          FaIcon(FontAwesomeIcons.pen,size: 16,)
+                          Row(
+                            children: [
+                              Expanded(
+                                flex: 1,
+                                child: CustomText(
+                                  text: 'Department :',
+                                  isContent: true,
+                                ),
+                              ),
+                              Expanded(
+                                flex: 2,
+                                child: CustomText(
+                                  text: '',
+                                  isContent: true,
+                                ),
+                              ),
+                            ],
+                          ),
+                          Row(
+                            children: [
+                              Expanded(
+                                flex: 1,
+                                child: CustomText(
+                                  text: 'Email :',
+                                  isContent: true,
+                                ),
+                              ),
+                              Expanded(
+                                flex: 2,
+                                child: CustomText(
+                                  text: '',
+                                  isContent: true,
+                                ),
+                              ),
+                            ],
+                          ),
+                          Row(
+                            children: [
+                              Expanded(
+                                flex: 1,
+                                child: CustomText(
+                                  text: 'Designation :',
+                                  isContent: true,
+                                ),
+                              ),
+                              Expanded(
+                                flex: 2,
+                                child: CustomText(
+                                  text: '',
+                                  isContent: true,
+                                ),
+                              ),
+                            ],
+                          ),
+                          Row(
+                            children: [
+                              Expanded(
+                                flex: 1,
+                                child: CustomText(
+                                  text: 'Address :',
+                                  isContent: true,
+                                ),
+                              ),
+                              Expanded(
+                                flex: 2,
+                                child: CustomText(
+                                  text: '',
+                                  isContent: true,
+                                ),
+                              ),
+                            ],
+                          ),
+                          Row(
+                            children: [
+                              Expanded(
+                                flex: 1,
+                                child: CustomText(
+                                  text: 'DOB :',
+                                  isContent: true,
+                                ),
+                              ),
+                              Expanded(
+                                flex: 2,
+                                child: CustomText(
+                                  text: '',
+                                  isContent: true,
+                                ),
+                              ),
+                            ],
+                          ),
+                          Row(
+                            children: [
+                              Expanded(
+                                flex: 1,
+                                child: CustomText(
+                                  text: 'Number :',
+                                  isContent: true,
+                                ),
+                              ),
+                              Expanded(
+                                flex: 2,
+                                child: CustomText(
+                                  text: '',
+                                  isContent: true,
+                                ),
+                              ),
+                            ],
+                          ),
+                          Row(
+                            children: [
+                              Expanded(
+                                flex: 1,
+                                child: CustomText(
+                                  text: 'Gender :',
+                                  isContent: true,
+                                ),
+                              ),
+                              Expanded(
+                                flex: 2,
+                                child: CustomText(
+                                  text: '',
+                                  isContent: true,
+                                ),
+                              ),
+                            ],
+                          ),
+                          Row(
+                            children: [
+                              Expanded(
+                                flex: 1,
+                                child: CustomText(
+                                  text: 'Marital Status :',
+                                  isContent: true,
+                                ),
+                              ),
+                              Expanded(
+                                flex: 2,
+                                child: CustomText(
+                                  text: '',
+                                  isContent: true,
+                                ),
+                              ),
+                            ],
+                          ),
+                          Row(
+                            children: [
+                              Expanded(
+                                flex: 1,
+                                child: CustomText(
+                                  text: 'DOJ :',
+                                  isContent: true,
+                                ),
+                              ),
+                              Expanded(
+                                flex: 2,
+                                child: CustomText(
+                                  text: '',
+                                  isContent: true,
+                                ),
+                              ),
+                            ],
+                          ),
+                          Row(
+                            children: [
+                              Expanded(
+                                flex: 1,
+                                child: CustomText(
+                                  text: 'Nationality :',
+                                  isContent: true,
+                                ),
+                              ),
+                              Expanded(
+                                flex: 2,
+                                child: CustomText(
+                                  text: '',
+                                  isContent: true,
+                                ),
+                              ),
+                            ],
+                          )
                         ],
                       ),
-                      Row(
-                        children: [
-                          Expanded(
-                            flex: 1,
-                            child: CustomText(
-                              text: 'Password :',
-                              isContent: true,
-                            ),
-                          ),
-                          Expanded(
-                            flex: 2,
-                            child: CustomText(
-                              text: '',
-                              isContent: true,
-                            ),
-                          ),
-                        ],
-                      ),
-                      Row(
-                        children: [
-                          Expanded(
-                            flex: 1,
-                            child: CustomText(
-                              text: 'Role :',
-                              isContent: true,
-                            ),
-                          ),
-                          Expanded(
-                            flex: 2,
-                            child: CustomText(
-                              text: '',
-                              isContent: true,
-                            ),
-                          ),
-                        ],
-                      ),
-                      Row(
-                        children: [
-                          Expanded(
-                            flex: 1,
-                            child: CustomText(
-                              text: 'Department :',
-                              isContent: true,
-                            ),
-                          ),
-                          Expanded(
-                            flex: 2,
-                            child: CustomText(
-                              text: '',
-                              isContent: true,
-                            ),
-                          ),
-                        ],
-                      ),
-                      Row(
-                        children: [
-                          Expanded(
-                            flex: 1,
-                            child: CustomText(
-                              text: 'Email :',
-                              isContent: true,
-                            ),
-                          ),
-                          Expanded(
-                            flex: 2,
-                            child: CustomText(
-                              text: '',
-                              isContent: true,
-                            ),
-                          ),
-                        ],
-                      ),
-                      Row(
-                        children: [
-                          Expanded(
-                            flex: 1,
-                            child: CustomText(
-                              text: 'Designation :',
-                              isContent: true,
-                            ),
-                          ),
-                          Expanded(
-                            flex: 2,
-                            child: CustomText(
-                              text: '',
-                              isContent: true,
-                            ),
-                          ),
-                        ],
-                      ),
-                      Row(
-                        children: [
-                          Expanded(
-                            flex: 1,
-                            child: CustomText(
-                              text: 'Address :',
-                              isContent: true,
-                            ),
-                          ),
-                          Expanded(
-                            flex: 2,
-                            child: CustomText(
-                              text: '',
-                              isContent: true,
-                            ),
-                          ),
-                        ],
-                      ),
-                      Row(
-                        children: [
-                          Expanded(
-                            flex: 1,
-                            child: CustomText(
-                              text: 'DOB :',
-                              isContent: true,
-                            ),
-                          ),
-                          Expanded(
-                            flex: 2,
-                            child: CustomText(
-                              text: '',
-                              isContent: true,
-                            ),
-                          ),
-                        ],
-                      ),
-                      Row(
-                        children: [
-                          Expanded(
-                            flex: 1,
-                            child: CustomText(
-                              text: 'Number :',
-                              isContent: true,
-                            ),
-                          ),
-                          Expanded(
-                            flex: 2,
-                            child: CustomText(
-                              text: '',
-                              isContent: true,
-                            ),
-                          ),
-                        ],
-                      ),
-                      Row(
-                        children: [
-                          Expanded(
-                            flex: 1,
-                            child: CustomText(
-                              text: 'Gender :',
-                              isContent: true,
-                            ),
-                          ),
-                          Expanded(
-                            flex: 2,
-                            child: CustomText(
-                              text: '',
-                              isContent: true,
-                            ),
-                          ),
-                        ],
-                      ),
-                      Row(
-                        children: [
-                          Expanded(
-                            flex: 1,
-                            child: CustomText(
-                              text: 'Marital Sataus :',
-                              isContent: true,
-                            ),
-                          ),
-                          Expanded(
-                            flex: 2,
-                            child: CustomText(
-                              text: '',
-                              isContent: true,
-                            ),
-                          ),
-                        ],
-                      ),
-                      Row(
-                        children: [
-                          Expanded(
-                            flex: 1,
-                            child: CustomText(
-                              text: 'DOJ :',
-                              isContent: true,
-                            ),
-                          ),
-                          Expanded(
-                            flex: 2,
-                            child: CustomText(
-                              text: '',
-                              isContent: true,
-                            ),
-                          ),
-                        ],
-                      ),
-                      Row(
-                        children: [
-                          Expanded(
-                            flex: 1,
-                            child: CustomText(
-                              text: 'Nationality :',
-                              isContent: true,
-                            ),
-                          ),
-                          Expanded(
-                            flex: 2,
-                            child: CustomText(
-                              text: '',
-                              isContent: true,
-                            ),
-                          ),
-                        ],
-                      )
-                    ],
-                  ),
-                ),
-              );
-            }),
-          ),
-        ],
+                    ),
+                  );
+                }),
+              ),
+            ],
+          );
+        }
       ),
     );
   }

@@ -145,7 +145,8 @@ class _WeeklyPlanScreenState extends State<WeeklyPlanScreen> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   CustomText(
-                    text: (DateFormat('dd MMM y, EE').format(DateTime.now())),
+                    text: (
+                    weeklyPlanProvider.updatedDate.toString().split(" ")[0]),
                     size: 20,
                     fontWeight: FontWeight.w600,
                   ),
@@ -462,6 +463,7 @@ class _WeeklyPlanScreenState extends State<WeeklyPlanScreen> {
                           // weeklyPlanProvider.setNewTask();
                           weeklyPlanProvider.postRequest(context);
                           weeklyPlanProvider.getAllPlans();
+                          weeklyPlanProvider.clearValue();
                           Navigator.pop(context);
                         },
                         backgroundColor: CustomColors.primaryColor,
@@ -472,5 +474,6 @@ class _WeeklyPlanScreenState extends State<WeeklyPlanScreen> {
             ],
           );
         });
+    // DateFormat('dd MMM y, EE').format(DateTime.now())
   }
 }

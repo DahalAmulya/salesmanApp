@@ -96,6 +96,7 @@ class _MrAdminSelectUserTypeBottomSheetState
 
                                   }else if(createUserProvider.selectedUserVisitType == createUserProvider.userTypeList[1]){
                                     Navigator.pop(context);
+                                    createUserProvider.getUserDetails();
                                     Navigator.of(context)
                                         .pushNamed(MarketingManagerConstants.mrManagerViewUserPage);
                                   }else{
