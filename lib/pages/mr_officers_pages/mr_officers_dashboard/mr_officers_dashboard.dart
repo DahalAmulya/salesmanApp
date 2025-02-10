@@ -1,6 +1,9 @@
+import 'dart:developer';
+
 import 'package:background_task/background_task.dart';
 import 'package:deskgoo/classes/background_task_handler.dart';
 import 'package:deskgoo/classes/is_token_expired.dart';
+import 'package:deskgoo/classes/notification_controller.dart';
 import 'package:deskgoo/classes/secure_storage.dart';
 import 'package:deskgoo/consts.dart';
 import 'package:deskgoo/providers/attendance_provider/remote_attendance_provider.dart';
@@ -18,6 +21,7 @@ import 'package:deskgoo/widgets/containers/custom_container.dart';
 import 'package:deskgoo/widgets/drawers/mr_officer_custom_drawer.dart';
 import 'package:deskgoo/widgets/texts/custom_text.dart';
 import 'package:flutter/material.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'dart:convert';
@@ -59,6 +63,19 @@ class _MrOfficersDashboardScreenState extends State<MrOfficersDashboardScreen>
     // Decode the JSON into a List of Maps
     final List<dynamic> data = json.decode(response);
     return List<Map<String, dynamic>>.from(data);
+  }
+
+  void getLocationPermission() async {
+    LocationPermission permission = await Geolocator.checkPermission();
+    if (permission == LocationPermission.denied ||
+        permission == LocationPermission.deniedForever) {
+      log('Location Denied');
+      LocationPermission askPermission = await Geolocator.requestPermission();
+    }
+    // else {
+    //   Position currentPosiont = await Geolocator.getCurrentPosition(
+    //       desiredAccuracy: LocationAccuracy.best);
+    // }
   }
 
   void loadData() async {
@@ -132,31 +149,24 @@ class _MrOfficersDashboardScreenState extends State<MrOfficersDashboardScreen>
     await isTokenExpired(context);
   }
 
-  // @override
-  // void initState() {
-  //   print(
-  //       '*********************************** Checking Token *************************************');
-  //   // checkToken();
-  //   getTodayPlan();
-  //   print(
-  //       '************************************************************************');
-  //   getVisitLogs();
-  //   attendanceProvider =
-  //       Provider.of<AttendanceProvider>(context, listen: false);
-  //   deviceInfoProvider =
-  //       Provider.of<DeviceInfoProvider>(context, listen: false);
-  //   attendanceProvider?.getAttendanceStatus();
-  //   deviceInfoProvider
-  //       ?.setIsAttendance(attendanceProvider!.isRemoteAttendanceSwitched);
-  //   UserCred().readUserCred();
-  //   super.initState();
-  // }
-
   @override
   void initState() {
     super.initState();
+    WidgetsFlutterBinding
+        .ensureInitialized(); // Ensure Flutter bindings are initialized
+    NotificationController.getPermissions();
+    print('Not Running on browser');
+    // WidgetsFlutterBinding.ensureInitialized();
+
+    BackgroundTask.instance.setAndroidNotification(
+      title: 'Deskgoo',
+      message: 'Running in the background',
+    );
+    BackgroundTask.instance.setBackgroundHandler(backgroundHandler);
+
     WidgetsBinding.instance.addObserver(this);
     stopBackgroundServices();
+    getLocationPermission();
     print(
         '*********************************** Checking Token *************************************');
     // checkToken();
@@ -196,6 +206,7 @@ class _MrOfficersDashboardScreenState extends State<MrOfficersDashboardScreen>
       getBackgroundLocation();
       print('----------------------------------------------------------------');
       print('\t\tApp is in background');
+      print('userID = $userId');
       isBackground = true;
       print('----------------------------------------------------------------');
     } else if (state == AppLifecycleState.resumed) {
@@ -205,13 +216,6 @@ class _MrOfficersDashboardScreenState extends State<MrOfficersDashboardScreen>
       print('\t\tApp is in Foreground');
       print('----------------------------------------------------------------');
     }
-
-    // final isBackground = state == AppLifecycleState.paused;
-    // if (isBackground) {
-    //   getBackgroundLocation();
-    // } else {
-    //   await BackgroundTask.instance.stop();
-    // }
   }
 
   @override
@@ -393,6 +397,7 @@ class _MrOfficersDashboardScreenState extends State<MrOfficersDashboardScreen>
                           child: CustomText(
                             text: activity,
                             isContent: true,
+                            maxLines: 2,
                           ),
                         ),
                       ],
@@ -432,6 +437,7 @@ class _MrOfficersDashboardScreenState extends State<MrOfficersDashboardScreen>
                           child: CustomText(
                             text: 'Remarks',
                             isSubHeading: true,
+                            maxLines: 2,
                           ),
                         ),
                         Expanded(

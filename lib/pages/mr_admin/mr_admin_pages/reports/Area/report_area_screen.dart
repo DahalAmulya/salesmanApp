@@ -35,11 +35,11 @@ class _MrAdminAreaReportScreenState extends State<MrAdminAreaReportScreen> {
   bool _isVisibleForState = false;
   bool _isVisibleForDistrict = true;
 
- TextEditingController stateTextEditingController = TextEditingController();
- TextEditingController districtTextEditingController = TextEditingController();
- TextEditingController cityTextEditingController = TextEditingController();
+  TextEditingController stateTextEditingController = TextEditingController();
+  TextEditingController districtTextEditingController = TextEditingController();
+  TextEditingController cityTextEditingController = TextEditingController();
 
-  void getDataForDistrict()async{
+  void getDataForDistrict() async {
     final respose = await rootBundle.loadString('assets/district.json');
     print(respose.runtimeType);
     List<dynamic> districtData = json.decode(respose);
@@ -47,7 +47,7 @@ class _MrAdminAreaReportScreenState extends State<MrAdminAreaReportScreen> {
     districtList = districtData;
   }
 
-  void getDataForState()async{
+  void getDataForState() async {
     final respose = await rootBundle.loadString('assets/states.json');
     List<dynamic> stateData = json.decode(respose);
     stateList = stateData;
@@ -113,128 +113,152 @@ class _MrAdminAreaReportScreenState extends State<MrAdminAreaReportScreen> {
               horizontalMargin: 18,
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              SizedBox(height: 16,),
-              CustomText(text: 'Apply Filter',fontWeight: FontWeight.w600,size: 20,),
-              SizedBox(height: 16,),
-              Row(
                 children: [
-                  Expanded(
-                    flex: 1,
-                    child: CustomText(text: 'Country',),
+                  SizedBox(
+                    height: 16,
                   ),
-                  Expanded(
-                    flex: 2,
-                      child:  CustomDropdown(
-                          labelText: 'Select Country',
-                          items: country,
-                          value: defaultValue,
-                          applyCountryFlag: true,
-                          onChanged: (newValue) {
-                            setState(() {
-                              selectedCountry = newValue!;
-                              if (selectedCountry == country[0]) {
-                                _isVisibleForDistrict = true;
-                                _isVisibleForState = false;
-                                _AddTaskBottomSheetForDistrict(context);
-                              } else {
-                                _isVisibleForDistrict = false;
-                                _isVisibleForState = true;
-                                _AddTaskBottomSheetForStates(context);
-                                // print(country[1]);
-                              }
-                            });
-                          }),
+                  CustomText(
+                    text: 'Apply Filter',
+                    fontWeight: FontWeight.w600,
+                    size: 20,
                   ),
-                ],
-              ),
-              SizedBox(height: 16,),
-              Visibility(
-                visible: _isVisibleForDistrict,
-                child: Row(
-                  children: [
-                    Expanded(
-                      flex: 1,
-                      child: CustomText(text: 'District',),
-                    ),
-                    Expanded(
-                      flex: 2,
-                      child:  TextFromFieldWithPrefixSuffix(
-                        controller: districtTextEditingController,
-                        labelText: 'District',
-                        readOnly: true,
-                        onTap: () {
-                          // weeklyPlanProvider.setStateList();
-                          _AddTaskBottomSheetForDistrict(context);
-                        },
-                        onChange: (value) => (){},
-                        validator: (Value) {},
+                  SizedBox(
+                    height: 16,
+                  ),
+                  Row(
+                    children: [
+                      Expanded(
+                        flex: 1,
+                        child: CustomText(
+                          text: 'Country',
+                        ),
                       ),
-                    ),
-                  ],
-                ),
-              ),
-              SizedBox(height: 16,),
-              Visibility(
-                visible: _isVisibleForState,
-                child: Row(
-                  children: [
-                    Expanded(
-                      flex: 1,
-                      child: CustomText(text: 'States',),
-                    ),
-                    Expanded(
-                      flex: 2,
-                      child:  TextFromFieldWithPrefixSuffix(
-                        controller: stateTextEditingController,
-                        labelText: 'State',
-                        readOnly: true,
-                        onTap: () {
-                          // weeklyPlanProvider.setStateList();
-                          _AddTaskBottomSheetForStates(context);
-                        },
-                        onChange: (value) => (){},
-                        validator: (Value) {},
+                      Expanded(
+                        flex: 2,
+                        child: CustomDropdown(
+                            labelText: 'Select Country',
+                            items: country,
+                            value: defaultValue,
+                            applyCountryFlag: true,
+                            onChanged: (newValue) {
+                              setState(() {
+                                selectedCountry = newValue!;
+                                if (selectedCountry == country[0]) {
+                                  _isVisibleForDistrict = true;
+                                  _isVisibleForState = false;
+                                  _AddTaskBottomSheetForDistrict(context);
+                                } else {
+                                  _isVisibleForDistrict = false;
+                                  _isVisibleForState = true;
+                                  _AddTaskBottomSheetForStates(context);
+                                  // print(country[1]);
+                                }
+                              });
+                            }),
                       ),
-                    ),
-                  ],
-                ),
-              ),
-              SizedBox(height: 16,),
-              Row(
-                children: [
-                  Expanded(
-                    flex: 1,
-                    child: CustomText(text: 'City',),
+                    ],
                   ),
-                  Expanded(
-                    flex: 2,
-                    child:  TextFromFieldWithPrefixSuffix(
-                      controller: cityTextEditingController,
-                      labelText: 'City',
-                      readOnly: true,
-                      onTap: () {
-                        // weeklyPlanProvider.setStateList();
-                        _AddTaskBottomSheetForCities(context);
-                      },
-                      onChange: (value) => (){},
-                      validator: (Value) {},
+                  SizedBox(
+                    height: 16,
+                  ),
+                  Visibility(
+                    visible: _isVisibleForDistrict,
+                    child: Row(
+                      children: [
+                        Expanded(
+                          flex: 1,
+                          child: CustomText(
+                            text: 'District',
+                          ),
+                        ),
+                        Expanded(
+                          flex: 2,
+                          child: TextFromFieldWithPrefixSuffix(
+                            controller: districtTextEditingController,
+                            labelText: 'District',
+                            readOnly: true,
+                            onTap: () {
+                              // weeklyPlanProvider.setStateList();
+                              _AddTaskBottomSheetForDistrict(context);
+                            },
+                            onChange: (value) => () {},
+                            validator: (Value) {},
+                          ),
+                        ),
+                      ],
                     ),
                   ),
+                  SizedBox(
+                    height: 16,
+                  ),
+                  Visibility(
+                    visible: _isVisibleForState,
+                    child: Row(
+                      children: [
+                        Expanded(
+                          flex: 1,
+                          child: CustomText(
+                            text: 'States',
+                          ),
+                        ),
+                        Expanded(
+                          flex: 2,
+                          child: TextFromFieldWithPrefixSuffix(
+                            controller: stateTextEditingController,
+                            labelText: 'State',
+                            readOnly: true,
+                            onTap: () {
+                              // weeklyPlanProvider.setStateList();
+                              _AddTaskBottomSheetForStates(context);
+                            },
+                            onChange: (value) => () {},
+                            validator: (Value) {},
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  SizedBox(
+                    height: 16,
+                  ),
+                  Row(
+                    children: [
+                      Expanded(
+                        flex: 1,
+                        child: CustomText(
+                          text: 'City',
+                        ),
+                      ),
+                      Expanded(
+                        flex: 2,
+                        child: TextFromFieldWithPrefixSuffix(
+                          controller: cityTextEditingController,
+                          labelText: 'City',
+                          readOnly: true,
+                          onTap: () {
+                            // weeklyPlanProvider.setStateList();
+                            _AddTaskBottomSheetForCities(context);
+                          },
+                          onChange: (value) => () {},
+                          validator: (Value) {},
+                        ),
+                      ),
+                    ],
+                  ),
+                  SizedBox(
+                    height: 24,
+                  ),
+                  Container(
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(16),
+                      color: CustomColors.primaryColor,
+                    ),
+                    height: MediaQuery.of(context).size.height * 0.3,
+                    width: MediaQuery.of(context).size.width * 0.9,
+                    child: Center(child: CustomText(text: 'coming soon')),
+                  )
                 ],
-              ),
-              SizedBox(height: 24,),
-              Container(
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(16),
-                  color: CustomColors.primaryColor,
-                ),
-                height: MediaQuery.of(context).size.height* 0.3,
-                width: MediaQuery.of(context).size.width* 0.9,
-                child: Center(child: CustomText(text: 'coming soon')),
-              )
-            ],
-          ))
+              ))
         ],
       ),
     );
@@ -259,7 +283,7 @@ class _MrAdminAreaReportScreenState extends State<MrAdminAreaReportScreen> {
     );
   }
 
-  PreferredSize _AddTaskBottomSheetForDistrictAppBar(context){
+  PreferredSize _AddTaskBottomSheetForDistrictAppBar(context) {
     return PreferredSize(
         preferredSize: Size.fromHeight(kToolbarHeight),
         child: CustomAppBar(
@@ -273,16 +297,18 @@ class _MrAdminAreaReportScreenState extends State<MrAdminAreaReportScreen> {
         ));
   }
 
-  Widget _AddTaskBottomSheetForDistrictBody(context){
+  Widget _AddTaskBottomSheetForDistrictBody(context) {
     return ListView(
       children: [
-        SizedBox(height: 16,),
+        SizedBox(
+          height: 16,
+        ),
         Container(
           child: ListView.builder(
               physics: ScrollPhysics(),
               shrinkWrap: true,
               itemCount: districtList.length,
-              itemBuilder: (context,index){
+              itemBuilder: (context, index) {
                 return ListTile(
                   title: CustomText(
                     text: districtList[index]['district'],
@@ -299,6 +325,7 @@ class _MrAdminAreaReportScreenState extends State<MrAdminAreaReportScreen> {
       ],
     );
   }
+
   //--------------------------------------------------------------------------------------------------------------------------------//
   Future<void> _AddTaskBottomSheetForStates(context) {
     return showModalBottomSheet(
@@ -343,7 +370,7 @@ class _MrAdminAreaReportScreenState extends State<MrAdminAreaReportScreen> {
               physics: ScrollPhysics(),
               shrinkWrap: true,
               itemCount: stateList.length,
-              itemBuilder: (context,index){
+              itemBuilder: (context, index) {
                 return ListTile(
                   title: CustomText(
                     text: stateList[index]['states'],
@@ -394,6 +421,7 @@ class _MrAdminAreaReportScreenState extends State<MrAdminAreaReportScreen> {
       ),
     );
   }
+
   Widget _AddTaskBottomSheetForCitiesBody(context) {
     return ListView(
       children: [
@@ -405,7 +433,7 @@ class _MrAdminAreaReportScreenState extends State<MrAdminAreaReportScreen> {
               physics: ScrollPhysics(),
               shrinkWrap: true,
               itemCount: citiesList.length,
-              itemBuilder: (context,index){
+              itemBuilder: (context, index) {
                 return ListTile(
                   title: CustomText(
                     text: citiesList[index].toString(),
@@ -422,7 +450,4 @@ class _MrAdminAreaReportScreenState extends State<MrAdminAreaReportScreen> {
       ],
     );
   }
-
-
-
 }

@@ -1,5 +1,8 @@
 import 'dart:convert';
 
+import 'package:background_task/background_task.dart';
+import 'package:deskgoo/classes/background_task_handler.dart';
+import 'package:deskgoo/classes/notification_controller.dart';
 import 'package:deskgoo/classes/secure_storage.dart';
 import 'package:deskgoo/consts.dart';
 import 'package:deskgoo/pages/auth_screens/change_passowrd/change_password_screen.dart';
@@ -253,10 +256,10 @@ class _LoginPageState extends State<LoginPage> {
   void login() async {
     Map<String, dynamic> body = {
       'email': emailController.value.text.isEmpty
-          ? 'location@gmail.com'
+          ? 'hemnarayan@gmail.com'
           : emailController.value.text,
       'password': passwordController.value.text.isEmpty
-          ? 'location123@'
+          ? 'hemnarayan123@'
           : passwordController.value.text,
       // shuvam@gmail.com
       // shuvam123@
@@ -266,6 +269,10 @@ class _LoginPageState extends State<LoginPage> {
       // nimesh123@
       // location@gmail.com
       // location123@
+      // jyoti@gmail.com
+      // jyoti123@
+      // hemnarayan@gmail.com
+      // hemnarayan123@
     };
 
     print('Called login api');
@@ -307,11 +314,11 @@ class _LoginPageState extends State<LoginPage> {
       SecureStorage()
           .writeLoginCredentials(SecureStorage.refreshToken, refreshToken);
       SecureStorage().writeLoginCredentials(SecureStorage.userId, userId);
-      SecureStorage().writeLoginCredentials(SecureStorage.role, role);
-      SecureStorage()
-          .writeLoginCredentials(SecureStorage.roleValue, roleValue.toString());
-      SecureStorage()
-          .writeLoginCredentials(SecureStorage.rememberMe, '$rememberMe');
+      // SecureStorage().writeLoginCredentials(SecureStorage.role, role);
+      // SecureStorage()
+      //     .writeLoginCredentials(SecureStorage.roleValue, roleValue.toString());
+      // SecureStorage()
+      //     .writeLoginCredentials(SecureStorage.rememberMe, '$rememberMe');
       print(data);
       if (isFirstLogin || isResetMobile) {
         print('$isFirstLogin, $isResetMobile');

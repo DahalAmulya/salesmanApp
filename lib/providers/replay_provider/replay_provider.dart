@@ -13,6 +13,7 @@ class ReplayProvider extends ChangeNotifier {
   double _longitude = 0.0;
   String _mobileDate = '';
   String _mobileTime = '';
+  String _mobileDateTime = '';
   int _battery = 0;
   double _distance = 0.0;
   double _totalDistance = 0.0;
@@ -37,6 +38,7 @@ class ReplayProvider extends ChangeNotifier {
   double get longitude => _longitude;
   String get mobileDate => _mobileDate;
   String get mobileTime => _mobileTime;
+  String get mobileDateTime => _mobileDateTime;
   int get battery => _battery;
   double get distance => _distance;
   double get totalDistance => _totalDistance;
@@ -102,15 +104,23 @@ class ReplayProvider extends ChangeNotifier {
         await _provider.getBytesFromAsset('assets/images/finish.png', 100);
   }
 
-  void getEmployeeLocationById(int id) async {
+  void getEmployeeLocationById(String _id) async {
     resetValues();
-    ERPResponse response = await ERPServices.getRequest('location/$id');
+    String from = '2025-02-01 00:00:00';
+    String to = '${DateTime.now().toString().split(' ')[0]} 23:59:59';
+    ERPResponse response = await ERPServices.getRequest(
+        '/location/latestByDate?_id=$_id&from=2025-02-01&to=$to');
+    print('****************************************************************');
+    print('/location/latestByDate?_id=$_id&from=2025-02-01&to=$to');
     print(response.statusCode);
     Map<String, dynamic> body = jsonDecode(response.body);
-    _name = body['employee_name'];
+    print('replay body = $body');
+    _name = body['username'];
     _locations = body['locations'];
+    print('Location length = ${_locations.length}');
     notifyListeners();
     print(locations);
+    print('****************************************************************');
     locationReplay();
   }
 
@@ -170,6 +180,7 @@ class ReplayProvider extends ChangeNotifier {
 
     outerLoop:
     for (int i = 0; i < _locations.length; i++) {
+      print('index $i = ${_locations[i]}');
       if (_isLeavePage || _isRestartReplay) {
         break outerLoop;
       }
@@ -182,7 +193,7 @@ class ReplayProvider extends ChangeNotifier {
           break outerLoop;
         }
         await Future.delayed(
-            const Duration(milliseconds: 500)); // Small delay while paused
+            const Duration(milliseconds: 300)); // Small delay while paused
       }
 
       if (_isLeavePage || _isRestartReplay) {
@@ -191,13 +202,16 @@ class ReplayProvider extends ChangeNotifier {
 
       _latitude = _locations[i]['latitude'];
       _longitude = _locations[i]['longitude'];
-      _distance = _locations[i]['distance'];
+      final dis = _locations[i]['distance'];
+      print('$dis = ${dis.runtimeType}');
+      _distance = double.parse(dis.toString());
       _totalDistance += _distance;
-      List<String> splitByMillisecond =
-          locations[i]['deviceTime'].toString().split('.');
-      List<String> splitDateTime = splitByMillisecond[0].split('T');
-      _mobileDate = splitDateTime[0];
-      _mobileTime = splitDateTime[1];
+      // List<String> splitByMillisecond =
+      //     locations[i]['deviceTime'].toString().split('.');
+      // List<String> splitDateTime = splitByMillisecond[0].split('T');
+      _mobileDate = _locations[i]['mobileTime'][0];
+      _mobileTime = _locations[i]['mobileTime'][1];
+      _mobileDateTime = _locations[i]['mobileTime'];
 
       // Add to polyline coordinates
       _polylineCoordinates.add(LatLng(_latitude, _longitude));
@@ -242,7 +256,7 @@ class ReplayProvider extends ChangeNotifier {
       // }
 
       await Future.delayed(
-          const Duration(milliseconds: 500)); // Simulate location replay delay
+          const Duration(milliseconds: 300)); // Simulate location replay delay
     }
   }
 }

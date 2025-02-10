@@ -96,7 +96,9 @@ class CustomBottomSheet {
 
                             String image = liveTrackingProvider.images[index];
                             String name = liveTrackingProvider
-                                .employeeSearchResults[index]['employee_name'];
+                                .employeeSearchResults[index]['username'];
+                            print(liveTrackingProvider
+                                .employeeSearchResults[index]);
                             return ListTile(
                               onTap: () {
                                 print(liveTrackingProvider
