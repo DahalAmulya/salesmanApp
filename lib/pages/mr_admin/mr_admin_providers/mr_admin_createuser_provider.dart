@@ -29,6 +29,21 @@ class CreateUserProvider extends ChangeNotifier{
   String _selectedUserVisitType = '';
   String _radioGroupValue = '';
   int _tabIndex = 0;
+
+  String _userName = '';
+  String _userPassword = '';
+  String _userRole = '';
+  String _userDepartment = '';
+  String _userEmail = '';
+  String _userDesignation = '';
+  String _userAddress = '';
+  String _userDOB = '';
+  String _userNumber = '';
+  String _userGender = '';
+  String _userMaritalStatus = '';
+  String _userDOJ = '';
+  String _userNationality = '';
+
   List<String> _department = ["Marketing","Doctors",];
   List<String> _designation = ["Mr Manager", "Mr Staff"];
   List<String> _gender = ["Male", "Female","Other"];
@@ -68,6 +83,20 @@ class CreateUserProvider extends ChangeNotifier{
   String get selectedGender => _selectedGender;
   String get selectedMaritalStatus => _selectedMaritalStatus;
   String get selectedNationality => _selectedNationality;
+
+  String get userName => _userName;
+  String get userPassword => _userPassword;
+  String get userRole => _userRole;
+  String get userDepartment => _userDepartment;
+  String get userEmail => _userEmail;
+  String get userDesignation => _userDesignation;
+  String get userAddress => _userAddress;
+  String get userDOB => _userDOB;
+  String get userNumber => _userNumber;
+  String get userGender => _userGender;
+  String get userMaritalStatus => _userMaritalStatus;
+  String get userDOJ => _userDOJ;
+  String get userNationality => _userNationality;
 
   String get selectedUserVisitType => _selectedUserVisitType;
   String get radioGroupValue => _radioGroupValue;
@@ -192,6 +221,13 @@ class CreateUserProvider extends ChangeNotifier{
 
   void getUserDetails()async{
   ERPResponse response = await ERPServices.getRequest('/users');
+  _userData = jsonDecode(response.body);
+  print(response.statusCode);
+  // print(response.body);
+  if (response.statusCode == 200) {
+    // _userName = _userData['users'][0]['username'];
+    print(_userName);
+  }
   }
 
 }
