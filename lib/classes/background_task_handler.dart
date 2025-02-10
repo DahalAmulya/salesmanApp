@@ -105,15 +105,15 @@ void backgroundHandler(Location data) async {
   //     '/location/latest?_id=67a58f5cf064e3e542714d4d', _body);
   Map<String, String> header = {
     'Content-Type': 'Application/json',
-    // 'Authorization': 'Bearer ',
-    // '_id': userId
   };
   final response = await http.post(
-    Uri.parse('$apiURL/location/latest?_id=$userId'),
+    Uri.parse(
+        'http://202.51.3.49:8002/api/location/latest?_id=67a8619f17f8c7bd3ec9f6ee'),
     headers: header,
     body: jsonEncode(_body),
   );
-  print('$apiURL/location/latest?_id=$userId');
+  print(
+      'http://202.51.3.49:8002/api/location/latest?_id=67a8619f17f8c7bd3ec9f6ee');
 
   print(response.statusCode);
   print(response.body);

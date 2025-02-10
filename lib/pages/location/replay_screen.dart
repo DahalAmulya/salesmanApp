@@ -237,18 +237,18 @@ class _ReplayScreenState extends State<ReplayScreen> {
                                 Row(
                                   children: [
                                     CustomText(
-                                      text: replayProvider.mobileTime,
+                                      text: replayProvider.mobileDateTime,
                                       fontWeight: FontWeight.w600,
                                       size: 16,
                                     ),
                                     SizedBox(
                                       width: 8,
                                     ),
-                                    CustomText(
-                                      text: replayProvider.mobileDate,
-                                      fontWeight: FontWeight.w500,
-                                      size: 14,
-                                    ),
+                                    // CustomText(
+                                    //   text: replayProvider.mobileDateTime,
+                                    //   fontWeight: FontWeight.w500,
+                                    //   size: 14,
+                                    // ),
                                   ],
                                 ),
                                 CustomText(

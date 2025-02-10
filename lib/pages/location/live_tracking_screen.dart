@@ -154,7 +154,7 @@ class _LiveTrackingScreenState extends State<LiveTrackingScreen> {
   // PreferredSize _appBar(context) {
   CustomDrawer _drawer(context) {
     return CustomDrawer(
-      isHomeActive: true,
+      isLocationActive: true,
     );
   }
 

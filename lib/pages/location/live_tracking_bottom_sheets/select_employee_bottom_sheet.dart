@@ -11,8 +11,6 @@ import 'package:provider/provider.dart';
 
 class SelectEmployeeBottomSheet {
   static void showBottomSheetForm(context) {
-    ReplayProvider _replayProvider =
-        Provider.of<ReplayProvider>(context, listen: false);
     showModalBottomSheet(
       isScrollControlled: true,
       useSafeArea: true,
@@ -54,72 +52,84 @@ class SelectEmployeeBottomSheet {
                     const SizedBox(
                       height: 12.0,
                     ),
-                    Expanded(
-                      child: ListView.builder(
-                        itemCount: liveTrackingProvider.employeeLiveData.length,
-                        itemBuilder: (context, index) {
-                          String capitalize(String s) {
-                            if (s.isEmpty) return s;
-                            return s[0].toUpperCase() + s.substring(1);
-                          }
+                    Consumer<ReplayProvider>(
+                        builder: (context, replayProvider, _) {
+                      return Expanded(
+                        child: ListView.builder(
+                          itemCount:
+                              liveTrackingProvider.employeeLiveData.length,
+                          itemBuilder: (context, index) {
+                            String capitalize(String s) {
+                              if (s.isEmpty) return s;
+                              return s[0].toUpperCase() + s.substring(1);
+                            }
 
-                          String name = liveTrackingProvider
-                              .employeeLiveData[index]['employee_name'];
-                          String image = liveTrackingProvider.images[index];
-                          return InkWell(
-                            onTap: () {
-                              Navigator.pop(context);
-                              print(liveTrackingProvider.employeeLiveData[index]
-                                  ['mobile_id']);
-                              try {
-                                liveTrackingProvider.setSelectedImage(
-                                    liveTrackingProvider.images[index]);
-                                _replayProvider.cacheIcons(
-                                    liveTrackingProvider.images[index]);
-                              } catch (err) {
-                                liveTrackingProvider.setSelectedImage('');
-                                _replayProvider.cacheIcons('');
-                              }
-                              print(liveTrackingProvider.selecetedImg);
-                              _replayProvider.getEmployeeLocationById(
-                                  liveTrackingProvider.employeeLiveData[index]
-                                      ['mobile_id']);
-                              Navigator.of(context).pushNamed(
-                                  MarketingManagerConstants.replayPage);
-                            },
-                            child: CustomContainer(
-                              width: 0.90,
-                              verticalPad: 8,
-                              verticalMargin: 4,
-                              horizontalMargin: 8,
-                              horizontalPad: 8,
-                              child: Row(
-                                children: [
-                                  ClipRRect(
-                                    borderRadius: BorderRadius.circular(100),
-                                    child: SizedBox(
-                                      height: 36,
-                                      width: 36,
-                                      child: Image.asset(
-                                        image,
-                                        fit: BoxFit.cover,
+                            String name = liveTrackingProvider
+                                .employeeLiveData[index]['username'];
+                            String image = liveTrackingProvider.images[index];
+                            return InkWell(
+                              onTap: () {
+                                Navigator.pop(context);
+                                print(liveTrackingProvider
+                                    .employeeLiveData[index]['_id']);
+                                try {
+                                  liveTrackingProvider.setSelectedImage(
+                                      liveTrackingProvider.images[index]);
+                                  replayProvider.cacheIcons(
+                                      liveTrackingProvider.images[index]);
+                                } catch (err) {
+                                  liveTrackingProvider.setSelectedImage('');
+                                  replayProvider.cacheIcons('');
+                                }
+                                print(liveTrackingProvider.selecetedImg);
+                                print(
+                                    '****************************************************************');
+                                print(
+                                    'Locations = ${liveTrackingProvider.employeeLiveData[index]}');
+                                print(
+                                    'LocationId = ${liveTrackingProvider.employeeLiveData[index]['_id']}');
+                                print(
+                                    '****************************************************************');
+                                replayProvider.getEmployeeLocationById(
+                                    liveTrackingProvider.employeeLiveData[index]
+                                        ['_id']);
+                                Navigator.of(context).pushNamed(
+                                    MarketingManagerConstants.replayPage);
+                              },
+                              child: CustomContainer(
+                                width: 0.90,
+                                verticalPad: 8,
+                                verticalMargin: 4,
+                                horizontalMargin: 8,
+                                horizontalPad: 8,
+                                child: Row(
+                                  children: [
+                                    ClipRRect(
+                                      borderRadius: BorderRadius.circular(100),
+                                      child: SizedBox(
+                                        height: 36,
+                                        width: 36,
+                                        child: Image.asset(
+                                          image,
+                                          fit: BoxFit.cover,
+                                        ),
                                       ),
                                     ),
-                                  ),
-                                  SizedBox(
-                                    width: 12,
-                                  ),
-                                  CustomText(
-                                    text: capitalize(name),
-                                    fontWeight: FontWeight.w500,
-                                  ),
-                                ],
+                                    SizedBox(
+                                      width: 12,
+                                    ),
+                                    CustomText(
+                                      text: capitalize(name),
+                                      fontWeight: FontWeight.w500,
+                                    ),
+                                  ],
+                                ),
                               ),
-                            ),
-                          );
-                        },
-                      ),
-                    ),
+                            );
+                          },
+                        ),
+                      );
+                    }),
                     Padding(
                       padding: const EdgeInsets.all(16.0),
                       child: Row(

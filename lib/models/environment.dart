@@ -9,11 +9,6 @@ class Environment {
     return '.env.production';
   }
 
-  // dotenv.env['API_URL'] ?? 'API_URL not found' is same as dotenv.get('API_URL', fallback: 'API_URL not found');
-  static String get frappeApiUrl {
-    return dotenv.env['API_URL_FRAPPE'] ?? 'frappe url not found';
-  }
-
   static String get apiUrl {
     return dotenv.env['API_URL'] ?? 'api url not found';
   }
@@ -27,8 +22,12 @@ class Environment {
     return dotenv.get('KEY_SID', fallback: 'sid not found');
   }
 
-  static String get tooken {
-    return dotenv.get('KEY_TOKEN', fallback: 'token not found');
+  static String get keyAccessToken {
+    return dotenv.get('KEY_ACCESS_TOKEN', fallback: 'token not found');
+  }
+
+  static String get keyRefreshToken {
+    return dotenv.get('KEY_ACCESS_TOKEN', fallback: 'token not found');
   }
 
   static String get email {
@@ -41,6 +40,10 @@ class Environment {
 
   static String get role {
     return dotenv.get('KEY_ROLE', fallback: 'role not found');
+  }
+
+  static String get roleValue {
+    return dotenv.get('KEY_VALUE', fallback: 'role value not found');
   }
 
   static String get administrator {

@@ -40,24 +40,27 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:provider/provider.dart';
 
 Future<void> main() async {
-  await dotenv.load(fileName: Environment.fileName);
-
+  await dotenv.load(
+    fileName: Environment.fileName,
+  ); // fileName: '.env', is default fileName so no need to specify it
   if (kIsWeb) {
     print('Running on browser');
     runApp(
       DevicePreview(builder: (context) => const MyApp()),
     );
   } else {
+    // WidgetsFlutterBinding
+    //     .ensureInitialized(); // Ensure Flutter bindings are initialized
     UserCred().readUserCred();
-    NotificationController.getPermissions();
-    print('Not Running on browser');
-    WidgetsFlutterBinding.ensureInitialized();
+    // NotificationController.getPermissions();
+    // print('Not Running on browser');
+    // // WidgetsFlutterBinding.ensureInitialized();
 
-    BackgroundTask.instance.setAndroidNotification(
-      title: 'Deskgoo',
-      message: 'Running in the background',
-    );
-    BackgroundTask.instance.setBackgroundHandler(backgroundHandler);
+    // BackgroundTask.instance.setAndroidNotification(
+    //   title: 'Deskgoo',
+    //   message: 'Running in the background',
+    // );
+    // BackgroundTask.instance.setBackgroundHandler(backgroundHandler);
 
     runApp(const MyApp());
   }

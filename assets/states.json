@@ -94,121 +94,203 @@
   },
   {
     "states": "Chattisgarh",
-    "cities": [
-      "Raipur",
-      "Durg",
-      "Bilaspur",
-      "Bhilai",
-      "Jagdalpur",
-      "Korba"
-    ]
+    "cities": ["Raipur", "Durg", "Bilaspur", "Bhilai", "Jagdalpur", "Korba"]
   },
   {
     "states": "Goa",
-    "cities": [
-      "Panaji",
-      "Margao,",
-      "Vasco-Mormugao",
-      "Mapusa",
-      "Ponda"
-      ]
+    "cities": ["Panaji", "Margao,", "Vasco-Mormugao", "Mapusa", "Ponda"]
   },
   {
     "states": "Gujrat",
-    "cities": [
-      "Ahmedabad",
-      "Gandhinagar",
-      "Rajkot",
-      "Surat"
-    ]
+    "cities": ["Ahmedabad", "Gandhinagar", "Rajkot", "Surat"]
   },
   {
     "states": "Haryana",
-    "cities": [
-      "Ambala",
-      "Gurugram",
-      "Panipat",
-      "Sonipat"
-    ]
+    "cities": ["Ambala", "Gurugram", "Panipat", "Sonipat"]
   },
   {
     "states": "Himachal Pradesh",
-    "cities": ["Dharamshala","Kullu","Mamit","Mandi"]
+    "cities": ["Dharamshala", "Kullu", "Mamit", "Mandi"]
   },
   {
     "states": "Jharkhand",
-    "cities": ["farhan","rahul"]
+    "cities": ["farhan", "rahul"]
   },
   {
     "states": "Karnataka",
-    "cities": ["farhan","rahul"]
+    "cities": ["farhan", "rahul"]
   },
   {
     "states": "Kerala",
-    "cities": ["farhan","rahul"]
+    "cities": ["farhan", "rahul"]
   },
   {
     "states": "Madhya Pradesh",
-    "cities": ["farhan","rahul"]
+    "cities": ["farhan", "rahul"]
   },
   {
     "states": "Maharashtra",
-    "cities": ["farhan","rahul"]
+    "cities": ["farhan", "rahul"]
   },
   {
     "states": "Manipur",
-    "cities": ["farhan","rahul"]
+    "cities": ["farhan", "rahul"]
   },
   {
     "states": "Meghalaya",
-    "cities": ["farhan","rahul"]
+    "cities": ["farhan", "rahul"]
   },
   {
     "states": "Mizoram",
-    "cities": ["farhan","rahul"]
+    "cities": ["farhan", "rahul"]
   },
   {
     "states": "Nagaland",
-    "cities": ["farhan","rahul"]
+    "cities": ["farhan", "rahul"]
   },
   {
     "states": "Odisha",
-    "cities": ["farhan","rahul"]
+    "cities": ["farhan", "rahul"]
   },
   {
     "states": "Punjab",
-    "cities": ["farhan","rahul"]
+    "cities": ["farhan", "rahul"]
   },
   {
     "states": "Rajasthan",
-    "cities": ["farhan","rahul"]
+    "cities": ["farhan", "rahul"]
   },
   {
     "states": "Sikkim",
-    "cities": ["Ahale","Akhria","Amba","Amlai","Aritar","Aritar Barbati","Arubote","Asangthang","Baijak","Baisalu","Bara Pathing","Bareng","Barmiak","Bhalukhop","Bhasme","Bhurtuk","Bikmat","Bokrong","","","","",""]
+    "cities": [
+      "Ahale",
+      "Akhria",
+      "Amba",
+      "Amlai",
+      "Aritar",
+      "Aritar Barbati",
+      "Arubote",
+      "Asangthang",
+      "Baijak",
+      "Baisalu",
+      "Bara Pathing",
+      "Bareng",
+      "Barmiak",
+      "Bhalukhop",
+      "Bhasme",
+      "Bhurtuk",
+      "Bikmat",
+      "Bokrong",
+      "",
+      "",
+      "",
+      "",
+      ""
+    ]
   },
   {
     "states": "Tamil Nadu",
-    "cities": ["farhan","rahul"]
+    "cities": ["farhan", "rahul"]
   },
   {
     "states": "Telangana",
-    "cities": ["farhan","rahul"]
+    "cities": ["farhan", "rahul"]
   },
   {
     "states": "Tripura",
-    "cities": ["farhan","rahul"]
+    "cities": ["farhan", "rahul"]
   },
   {
     "states": "Uttar Pradesh",
-    "cities": ["Kanpur","Lucknow","Ghaziabad","Agra","Meerut","Varanasi","Prayagraj","Bareilly","Aligarh","Moradabad","Saharanpur","Gorakhpur","Gautam Buddha Nagar","Firozabad","Jhansi","Muzaffarnagar","Mathura","Badaun","Rampur","Shahjahanpur","Farrukhabad","Ayodhya","Mau","Hapur","Etawah","Mirzapur","Bulandshahr","Sambhal","Amroha","Hardoi","Fatehpur","Raebareli","Jalaun","Sitapur","Bahraich","Ghaziabad","Unnao","Jaunpur","Lakhimpur Kheri","Hathras","Banda","Pilibhit","Barabanki","Bulandshahr","Gonda","Mainpuri","Lalitpur","Etah","Deoria","Ghazipur","Sultanpur","Azamgarh","Bijnor","Budaun","Basti","Sambhal","Ambedkar Nagar","Ballia","Ambedkar Nagar","Gautam Budh Nagar","Firozabad","Shamli","Etah","Kasganj"]
+    "cities": [
+      "Kanpur",
+      "Lucknow",
+      "Ghaziabad",
+      "Agra",
+      "Meerut",
+      "Varanasi",
+      "Prayagraj",
+      "Bareilly",
+      "Aligarh",
+      "Moradabad",
+      "Saharanpur",
+      "Gorakhpur",
+      "Gautam Buddha Nagar",
+      "Firozabad",
+      "Jhansi",
+      "Muzaffarnagar",
+      "Mathura",
+      "Badaun",
+      "Rampur",
+      "Shahjahanpur",
+      "Farrukhabad",
+      "Ayodhya",
+      "Mau",
+      "Hapur",
+      "Etawah",
+      "Mirzapur",
+      "Bulandshahr",
+      "Sambhal",
+      "Amroha",
+      "Hardoi",
+      "Fatehpur",
+      "Raebareli",
+      "Jalaun",
+      "Sitapur",
+      "Bahraich",
+      "Ghaziabad",
+      "Unnao",
+      "Jaunpur",
+      "Lakhimpur Kheri",
+      "Hathras",
+      "Banda",
+      "Pilibhit",
+      "Barabanki",
+      "Bulandshahr",
+      "Gonda",
+      "Mainpuri",
+      "Lalitpur",
+      "Etah",
+      "Deoria",
+      "Ghazipur",
+      "Sultanpur",
+      "Azamgarh",
+      "Bijnor",
+      "Budaun",
+      "Basti",
+      "Sambhal",
+      "Ambedkar Nagar",
+      "Ballia",
+      "Ambedkar Nagar",
+      "Gautam Budh Nagar",
+      "Firozabad",
+      "Shamli",
+      "Etah",
+      "Kasganj"
+    ]
   },
   {
     "states": "Uttarakhand",
-    "cities": ["Almora","Dehradun","Haldwani","Haridwar","Jaspur","Kichha","Kashipur","Kotdwara","Manglaur","Nainital","Pithoragarh","Rishikesh","Rudrapur","Ramnagar","Roorkee"]
+    "cities": [
+      "Almora",
+      "Dehradun",
+      "Haldwani",
+      "Haridwar",
+      "Jaspur",
+      "Kichha",
+      "Kashipur",
+      "Kotdwara",
+      "Manglaur",
+      "Nainital",
+      "Pithoragarh",
+      "Rishikesh",
+      "Rudrapur",
+      "Ramnagar",
+      "Roorkee"
+    ]
   },
   {
     "states": "West Bangal",
-    "cities": ["Asansol","Bardhaman","Durgapur","Howrah","Kolkata"]
+    "cities": ["Asansol", "Bardhaman", "Durgapur", "Howrah", "Kolkata"]
   }
 ]

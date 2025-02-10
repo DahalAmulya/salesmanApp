@@ -91,34 +91,41 @@ class LiveTrackingProvider extends ChangeNotifier {
     Map<String, String> headersJson = {
       'Content-Type': 'Application/json',
     };
-    final response = await http.get(
-      Uri.parse('http://202.51.3.49:8002/api/location'),
-      headers: headersJson,
-    );
+    // final response = await http.get(
+    //   Uri.parse('http://202.51.3.49:8002/api/location'),
+    //   headers: headersJson,
+    // );
+    ERPResponse response = await ERPServices.getRequest('/location/latest');
+    // print('response = ${response.statusCode}');
+    // print('response = ${response.body}');
     // print(response.statusCode);
-    Map<String, dynamic> body = jsonDecode(response.body);
-    _employeeLiveData = body['latestData'];
+    // List<String> body = ;
+    _employeeLiveData = jsonDecode(response.body);
     _employeeSearchResults = _employeeLiveData;
 
     // Clear the markers set before adding new markers
     _liveTrakingMarkers.clear();
 
     for (int i = 0; i < _employeeLiveData.length; i++) {
+      print(employeeLiveData[i]['latestLocation']);
       Map<String, dynamic> latestLocation =
           _employeeLiveData[i]['latestLocation'];
+      if (latestLocation.isEmpty) {
+        continue;
+      }
 
-      _employeeName = _employeeLiveData[i]['employee_name'];
+      _employeeName = _employeeLiveData[i]['username'];
       _latitude = latestLocation['latitude'];
       _longitude = latestLocation['longitude'];
       _batteryPercentage = latestLocation['batteryPercentage'];
-      _mobileTime = latestLocation['deviceTime'];
+      _mobileTime = latestLocation['mobileTime'];
 
       print('_employeeName = $_employeeName');
 
       if (i < _images.length) {
         // _img = images[i];
         // _img = images[i];
-        print('inside if = ${i < _images.length}');
+        // print('inside if = ${i < _images.length}');
       } else {
         _images.add('assets/images/userLocation.png');
         // _img = 'assets/images/location.png';
@@ -128,7 +135,7 @@ class LiveTrackingProvider extends ChangeNotifier {
       final Uint8List? icon = await getBytesFromAsset('${_images[i]}', 120);
 
       // Create a unique marker ID using the employee name or another identifier
-      String markerId = 'marker_${_employeeLiveData[i]['employee_name']}';
+      String markerId = 'marker_${_employeeLiveData[i]['username']}';
 
       _liveTrakingMarkers.add(
         Marker(
@@ -139,8 +146,7 @@ class LiveTrackingProvider extends ChangeNotifier {
             imagePixelRatio: 2.3,
           ),
           onTap: () {
-            print(
-                'name = ${_employeeLiveData[i]['employee_name']}, index = $i');
+            print('name = ${_employeeLiveData[i]['username']}, index = $i');
             if (_customInfoWindowController.addInfoWindow != null) {
               _customInfoWindowController.addInfoWindow!(
                 Container(
@@ -168,7 +174,7 @@ class LiveTrackingProvider extends ChangeNotifier {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             CustomText(
-                              text: '${_employeeLiveData[i]['employee_name']}',
+                              text: '${_employeeLiveData[i]['username']}',
                               fontWeight: ui.FontWeight.w500,
                             ),
                             CustomText(
@@ -180,8 +186,10 @@ class LiveTrackingProvider extends ChangeNotifier {
                               fontWeight: ui.FontWeight.w500,
                             ),
                             CustomText(
+                              // text:
+                              //     '${latestLocation['mobileTime'].toString().split('.')[0].split('T')[1]}',
                               text:
-                                  '${latestLocation['deviceTime'].toString().split('.')[0].split('T')[1]}',
+                                  '${latestLocation['mobileTime'].toString()}',
                               fontWeight: ui.FontWeight.w500,
                             ),
                           ],
