@@ -306,6 +306,7 @@ class _MrOfficerFollowUpVisitScreenState
                               followUpProvider.pocList[index]['address'];
                           String organization =
                               followUpProvider.pocList[index]['organization'];
+
                           followUpProvider.setPOCDetails(
                               id,
                               name,

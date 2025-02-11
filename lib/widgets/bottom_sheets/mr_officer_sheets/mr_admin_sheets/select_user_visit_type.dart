@@ -90,7 +90,7 @@ class _MrAdminSelectUserTypeBottomSheetState
                                   if(createUserProvider.selectedUserVisitType == createUserProvider.userTypeList[0]){
                                     createUserProvider.getRoleList(context);
                                     Navigator.pop(context);
-                                    print('next');
+                                    // print('next');
                                     Navigator.of(context)
                                         .pushNamed(MarketingManagerConstants.mrManagerCreateUserPage);
 

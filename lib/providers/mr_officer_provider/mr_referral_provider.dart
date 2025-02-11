@@ -1,10 +1,8 @@
 import 'dart:convert';
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:intl/intl.dart';
-
 import '../../consts.dart';
 import '../../routes/marketing_officer_consts.dart';
 import '../../services/erp_services.dart';
@@ -41,6 +39,12 @@ class ReferralsDetailProvider extends ChangeNotifier {
  final _ambPhoneNumberTextController = TextEditingController();
 
  List<dynamic> _pocList = [];
+ List<String> _citiesList = [];
+ List<String> _gender = ["Male", "Female"];
+
+ String _selectedGender = '';
+ String _defaultGenderValue = 'Male';
+
  String _pocId = '';
  String _ambId = '';
 
@@ -76,8 +80,14 @@ class ReferralsDetailProvider extends ChangeNotifier {
  TextEditingController get ambPhoneNumberTextController => _ambPhoneNumberTextController;
 
  List<dynamic> get pocList => _pocList;
-String get pocId => _pocId;
+ List<String> get citiesList => _citiesList;
+
+ List<String> get gender => _gender;
+ String get selectedGender => _selectedGender;
+
+ String get pocId => _pocId;
  String get ambId => _ambId;
+ String get defaultGenderValue => _defaultGenderValue;
 
  void updateCountry(String country) {
   _patientCountryTextController.text = country;
@@ -94,8 +104,19 @@ String get pocId => _pocId;
   notifyListeners();
  }
 
+ void updateCitiesList(List<String> newCities) {
+  _citiesList = newCities;
+  notifyListeners(); // Ensures UI rebuilds when citiesList changes
+ }
+
+
  void updateCity(String city) {
   _patientCityTextController.text = city;
+  notifyListeners();
+ }
+
+ void setGender(gender){
+  _selectedGender = gender;
   notifyListeners();
  }
 
@@ -176,7 +197,7 @@ String get pocId => _pocId;
   Map<String,dynamic> _body = {
    "fullName": _patientNameTextController.value.text,
    "age": _patientAgeTextController.value.text,
-   "gender": _patientGenderTextController.value.text,
+   "gender": _selectedGender,
    "provisionalDiagnosis": _patientProvisionalDiagnosisTextController.value.text,
    "country": _patientCountryTextController.value.text.isEmpty ? "Nepal": _patientCountryTextController.value.text,
    "region": _patientDistrictTextController.value.text,

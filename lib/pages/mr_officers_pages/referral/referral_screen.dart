@@ -75,6 +75,13 @@ class _MrOfficerReferralScreenState extends State<MrOfficerReferralScreen> {
   Future<void> getByCountry() async {
     ERPResponse response = await ERPServices.getRequest(link);
     print('response = ${response.body}');
+    // if (response.statusCode == 200) {
+    //   List<dynamic> data = jsonDecode(response.body); // Convert response to list
+    //   List<String> cityNames = data.map((e) => e.toString()).toList(); // Ensure it's a list of strings
+    //
+    //   // Update the provider with the correct city list
+    //   Provider.of<ReferralsDetailProvider>(context, listen: false).updateCitiesList(cityNames);
+    // }
   }
 
   // final weeklyPlanProvider = Provider.of<WeeklyPlanProvider>(context, listen: false);
@@ -235,19 +242,27 @@ class _MrOfficerReferralScreenState extends State<MrOfficerReferralScreen> {
               SizedBox(
                 height: 16,
               ),
-              TextFromFieldWithPrefixSuffix(
-                autoFocus: false,
-                hintText: 'Gender',
-                labelText: 'Gender',
-                controller: referralsDetailProvider.patientGenderTextController,
-                validator: (value) {
-                  return value!.isEmpty
-                      ? 'Gender is required'
-                      : value.length < 3
-                          ? 'Enter at least 3 characters'
-                          : null;
-                },
+              CustomDropdown(
+                  labelText: 'Select Gender',
+                  items: referralsDetailProvider.gender,
+                  value: referralsDetailProvider.defaultGenderValue,
+                  onChanged: (selectedGender){
+                    referralsDetailProvider.setGender(selectedGender);
+                  }
               ),
+              // TextFromFieldWithPrefixSuffix(
+              //   autoFocus: false,
+              //   hintText: 'Gender',
+              //   labelText: 'Gender',
+              //   controller: referralsDetailProvider.patientGenderTextController,
+              //   validator: (value) {
+              //     return value!.isEmpty
+              //         ? 'Gender is required'
+              //         : value.length < 3
+              //             ? 'Enter at least 3 characters'
+              //             : null;
+              //   },
+              // ),
               SizedBox(
                 height: 16,
               ),
@@ -879,6 +894,7 @@ class _MrOfficerReferralScreenState extends State<MrOfficerReferralScreen> {
                       onTap: () {
                         // print(districtList);
                         selectedCity = citiesList[index];
+                        // referralsDetailProvider.updateCity(citiesList[index]);
                         referralsDetailProvider.updateCity(selectedCity);
                         Navigator.pop(context);
                       },

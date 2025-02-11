@@ -60,6 +60,9 @@ class SettingPage extends StatelessWidget {
           return CustomAppBar(
             tabName: 'Settings',
             leadingIcon: FontAwesomeIcons.bars,
+            titleColor: CustomColors.primaryBlack,
+            backgroundColor: CustomColors.primaryColor,
+            showLeading: true,
             onTap: () {
               // Use the context under the Scaffold
               Scaffold.of(context).openDrawer();
