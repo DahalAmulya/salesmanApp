@@ -271,8 +271,9 @@ class _MarketingManagerDashboardState extends State<MarketingManagerDashboard> {
               titleColor: CustomColors.primaryBlack,
               backgroundColor: CustomColors.primaryColor,
               showLeading: true,
-              isLeadingImage: true,
-              imageName: 'assets/images/userLocation.png',
+              // isLeadingImage: true,
+              leadingIcon: FontAwesomeIcons.bars,
+              // imageName: 'assets/images/userLocation.png',
               leadingIconColor: CustomColors.primaryBlack,
               onTap: () {
                 // Use the context under the Scaffold

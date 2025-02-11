@@ -18,6 +18,7 @@ class CreateUserProvider extends ChangeNotifier{
 
   Map<String,dynamic> _data = {};
   Map<String,dynamic> _userData = {};
+  List<dynamic> _userList = [];
   List<dynamic> _roles = [];
   List<String> _selectedRole = [];
   String _role = '';
@@ -30,19 +31,19 @@ class CreateUserProvider extends ChangeNotifier{
   String _radioGroupValue = '';
   int _tabIndex = 0;
 
-  String _userName = '';
-  String _userPassword = '';
-  String _userRole = '';
-  String _userDepartment = '';
-  String _userEmail = '';
-  String _userDesignation = '';
-  String _userAddress = '';
-  String _userDOB = '';
-  String _userNumber = '';
-  String _userGender = '';
-  String _userMaritalStatus = '';
-  String _userDOJ = '';
-  String _userNationality = '';
+  // String _userName = '';
+  // String _userPassword = '';
+  // String _userRole = '';
+  // String _userDepartment = '';
+  // String _userEmail = '';
+  // String _userDesignation = '';
+  // String _userAddress = '';
+  // String _userDOB = '';
+  // String _userNumber = '';
+  // String _userGender = '';
+  // String _userMaritalStatus = '';
+  // String _userDOJ = '';
+  // String _userNationality = '';
 
   List<String> _department = ["Marketing","Doctors",];
   List<String> _designation = ["Mr Manager", "Mr Staff"];
@@ -80,23 +81,24 @@ class CreateUserProvider extends ChangeNotifier{
   List<String> get selectedRole => _selectedRole;
   List<String> get userTypeList => _userTypeList;
   List<String> get selectedUserVisitTypeList => _selectedUserVisitTypeList;
+  List<dynamic> get userList => _userList;
   String get selectedGender => _selectedGender;
   String get selectedMaritalStatus => _selectedMaritalStatus;
   String get selectedNationality => _selectedNationality;
 
-  String get userName => _userName;
-  String get userPassword => _userPassword;
-  String get userRole => _userRole;
-  String get userDepartment => _userDepartment;
-  String get userEmail => _userEmail;
-  String get userDesignation => _userDesignation;
-  String get userAddress => _userAddress;
-  String get userDOB => _userDOB;
-  String get userNumber => _userNumber;
-  String get userGender => _userGender;
-  String get userMaritalStatus => _userMaritalStatus;
-  String get userDOJ => _userDOJ;
-  String get userNationality => _userNationality;
+  // String get userName => _userName;
+  // String get userPassword => _userPassword;
+  // String get userRole => _userRole;
+  // String get userDepartment => _userDepartment;
+  // String get userEmail => _userEmail;
+  // String get userDesignation => _userDesignation;
+  // String get userAddress => _userAddress;
+  // String get userDOB => _userDOB;
+  // String get userNumber => _userNumber;
+  // String get userGender => _userGender;
+  // String get userMaritalStatus => _userMaritalStatus;
+  // String get userDOJ => _userDOJ;
+  // String get userNationality => _userNationality;
 
   String get selectedUserVisitType => _selectedUserVisitType;
   String get radioGroupValue => _radioGroupValue;
@@ -176,7 +178,7 @@ class CreateUserProvider extends ChangeNotifier{
         for (var role in _roles) {
           _selectedRole.add(role['role'].toString());
         }
-      print(_selectedRole);
+      // print(_selectedRole);
     }
   }
 
@@ -204,7 +206,7 @@ class CreateUserProvider extends ChangeNotifier{
         // "email": _userEmailTextController.value.text,
         // "designation": _selectedDesignation
     };
-    print(body);
+    // print(body);
     ERPResponse response = await ERPServices.postRequest('/users', body);
     print(response.statusCode);
     print(response.body);
@@ -224,10 +226,28 @@ class CreateUserProvider extends ChangeNotifier{
   _userData = jsonDecode(response.body);
   print(response.statusCode);
   // print(response.body);
+  _userList = _userData['users'];
+  print(_userList.length);
   if (response.statusCode == 200) {
     // _userName = _userData['users'][0]['username'];
-    print(_userName);
+    // print(_userName);
   }
+  }
+
+  void setUserDetails(name ,role , department ,email,designation,address,dob,number,gender,maritalStatus,doj,nationality){
+    _userNameTextController.text = name;
+    _role = role;
+    _selectedDepartment = department;
+    _userEmailTextController.text = email;
+    _selectedDesignation = designation;
+    _userAddressTextController.text = address;
+    _userDobController.text = dob;
+    _userNumberTextController.text = number;
+    _selectedGender = gender;
+    _selectedMaritalStatus = maritalStatus;
+    _userDojTextController.text = doj;
+    _selectedNationality = nationality;
+    notifyListeners();
   }
 
 }

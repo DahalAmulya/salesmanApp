@@ -59,7 +59,7 @@ class _MarketingAdminViewUserState extends State<MarketingAdminViewUser> {
             children: [
               Expanded(
                 child: ListView.builder(
-                    itemCount: 3, // replace with actual number of users.
+                    itemCount: createUserProvider.userList.length, // replace with actual number of users.
                     itemBuilder: (context,index){
                       String userName = createUserProvider.userData['users'][index]['username'];
                       String userRole = createUserProvider.userData['users'][index]['role']['role'];
@@ -74,13 +74,10 @@ class _MarketingAdminViewUserState extends State<MarketingAdminViewUser> {
                       String userDOJ = createUserProvider.userData['users'][index]['doj'];
                       String userNationality = createUserProvider.userData['users'][index]['nationality'];
 
-                      print(userName);
-                      print(userRole);
-                      print(userDepartment);
-                      print(userEmail);
-
 
                   return ListTile(
+                    onTap: (){
+                    },
                     title:  CustomContainer(
                       applyShadow: true,
                       child: Column(
@@ -97,12 +94,32 @@ class _MarketingAdminViewUserState extends State<MarketingAdminViewUser> {
                               Expanded(
                                 flex: 2,
                                 child: CustomText(
-                                  text: 'Shuvam',
+                                  text: userName,
                                   isContent: true,
                                 ),
                               ),
                               Spacer(),
-                              FaIcon(FontAwesomeIcons.pen,size: 16,)
+                              InkWell(
+                                onTap: (){
+                                  String name = createUserProvider.userData['users'][index]['username'];
+                                  String role = createUserProvider.userData['users'][index]['role']['role'];
+                                  String department = createUserProvider.userData['users'][index]['department'];
+                                  String email = createUserProvider.userData['users'][index]['email'];
+                                  String designation = createUserProvider.userData['users'][index]['designation'];
+                                  String address = createUserProvider.userData['users'][index]['address'];
+                                  String dob = createUserProvider.userData['users'][index]['dob'];
+                                  String number = createUserProvider.userData['users'][index]['number'];
+                                  String gender = createUserProvider.userData['users'][index]['gender'];
+                                  String maritalStatus = createUserProvider.userData['users'][index]['maritalStatus'];
+                                  String doj = createUserProvider.userData['users'][index]['doj'].split('T')[0];
+                                  String nationality = createUserProvider.userData['users'][index]['nationality'];
+
+                                  createUserProvider.setUserDetails(name, role, department, email, designation, address, dob, number, gender, maritalStatus, doj, nationality);
+                                  Navigator.of(context)
+                                      .pushNamed(MarketingManagerConstants.mrManagerCreateUserPage);
+                                },
+                                  child: FaIcon(FontAwesomeIcons.pen,size: 16,),
+                              )
                             ],
                           ),
                           Row(
@@ -117,7 +134,7 @@ class _MarketingAdminViewUserState extends State<MarketingAdminViewUser> {
                               Expanded(
                                 flex: 2,
                                 child: CustomText(
-                                  text: '',
+                                  text: userRole,
                                   isContent: true,
                                 ),
                               ),
@@ -135,7 +152,7 @@ class _MarketingAdminViewUserState extends State<MarketingAdminViewUser> {
                               Expanded(
                                 flex: 2,
                                 child: CustomText(
-                                  text: '',
+                                  text: userDepartment,
                                   isContent: true,
                                 ),
                               ),
@@ -153,7 +170,7 @@ class _MarketingAdminViewUserState extends State<MarketingAdminViewUser> {
                               Expanded(
                                 flex: 2,
                                 child: CustomText(
-                                  text: '',
+                                  text: userEmail,
                                   isContent: true,
                                 ),
                               ),
@@ -171,7 +188,7 @@ class _MarketingAdminViewUserState extends State<MarketingAdminViewUser> {
                               Expanded(
                                 flex: 2,
                                 child: CustomText(
-                                  text: '',
+                                  text: userDesignation,
                                   isContent: true,
                                 ),
                               ),
@@ -189,7 +206,7 @@ class _MarketingAdminViewUserState extends State<MarketingAdminViewUser> {
                               Expanded(
                                 flex: 2,
                                 child: CustomText(
-                                  text: '',
+                                  text: userAddress,
                                   isContent: true,
                                 ),
                               ),
@@ -207,7 +224,7 @@ class _MarketingAdminViewUserState extends State<MarketingAdminViewUser> {
                               Expanded(
                                 flex: 2,
                                 child: CustomText(
-                                  text: '',
+                                  text: userDOB,
                                   isContent: true,
                                 ),
                               ),
@@ -225,7 +242,7 @@ class _MarketingAdminViewUserState extends State<MarketingAdminViewUser> {
                               Expanded(
                                 flex: 2,
                                 child: CustomText(
-                                  text: '',
+                                  text: userNumber,
                                   isContent: true,
                                 ),
                               ),
@@ -243,7 +260,7 @@ class _MarketingAdminViewUserState extends State<MarketingAdminViewUser> {
                               Expanded(
                                 flex: 2,
                                 child: CustomText(
-                                  text: '',
+                                  text: userGender,
                                   isContent: true,
                                 ),
                               ),
@@ -261,7 +278,7 @@ class _MarketingAdminViewUserState extends State<MarketingAdminViewUser> {
                               Expanded(
                                 flex: 2,
                                 child: CustomText(
-                                  text: '',
+                                  text: userMaritalStatus,
                                   isContent: true,
                                 ),
                               ),
@@ -279,7 +296,7 @@ class _MarketingAdminViewUserState extends State<MarketingAdminViewUser> {
                               Expanded(
                                 flex: 2,
                                 child: CustomText(
-                                  text: '',
+                                  text: userDOJ.toString().split('T')[0],
                                   isContent: true,
                                 ),
                               ),
@@ -297,7 +314,7 @@ class _MarketingAdminViewUserState extends State<MarketingAdminViewUser> {
                               Expanded(
                                 flex: 2,
                                 child: CustomText(
-                                  text: '',
+                                  text: userNationality,
                                   isContent: true,
                                 ),
                               ),
