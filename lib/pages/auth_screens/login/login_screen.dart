@@ -256,10 +256,10 @@ class _LoginPageState extends State<LoginPage> {
   void login() async {
     Map<String, dynamic> body = {
       'email': emailController.value.text.isEmpty
-          ? 'shuvam@gmail.com'
+          ? 'amulya@gmail.com'
           : emailController.value.text,
       'password': passwordController.value.text.isEmpty
-          ? 'shuvam123@'
+          ? 'amulya123@'
           : passwordController.value.text,
       // shuvam@gmail.com
       // shuvam123@
@@ -273,6 +273,8 @@ class _LoginPageState extends State<LoginPage> {
       // jyoti123@
       // hemnarayan@gmail.com
       // hemnarayan123@
+      // amulya@gmail.com
+      // amulya123@
     };
 
     print('Called login api');
