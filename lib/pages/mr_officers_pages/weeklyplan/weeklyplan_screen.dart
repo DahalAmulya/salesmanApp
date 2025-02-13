@@ -215,8 +215,10 @@ class _WeeklyPlanScreenState extends State<WeeklyPlanScreen> {
                   ),
                   onDateChange: (newDate) {
                     _weeklyPlanProvider.updateDate(newDate);
-                    getTodayPlan(newDate.toString().split(" ")[0]);
-                    print(newDate);
+                    _weeklyPlanProvider
+                        .getTodayPlan(newDate.toString().split(" ")[0]);
+                    // getTodayPlan(newDate.toString().split(" ")[0]);
+                    // print(newDate);
                   },
                 ),
               ),
@@ -438,9 +440,9 @@ class _WeeklyPlanScreenState extends State<WeeklyPlanScreen> {
                     CustomElevatedButton(
                         onPressed: () {
                           // weeklyPlanProvider.setNewTask();
-                          weeklyPlanProvider.postRequest(context);
+                          weeklyPlanProvider.createPlan(context);
                           weeklyPlanProvider.getAllPlans();
-                          weeklyPlanProvider.clearValue();
+                          weeklyPlanProvider.clearCreatePlanValue();
                           Navigator.pop(context);
                         },
                         backgroundColor: CustomColors.primaryColor,
