@@ -23,7 +23,8 @@ class _MrOfficerVisitLogStateScreen extends State<MrOfficerVisitLogScreen> {
   String selectedDate = "";
   bool isVisible = false;
 
-  Future<void> selectDate(BuildContext context,MrOfficeVisitLogProvider visitLogProvider) async {
+  Future<void> selectDate(
+      BuildContext context, MrOfficeVisitLogProvider visitLogProvider) async {
     DateTime? picked = await showDatePicker(
       context: context,
       initialDate: DateTime.now(),
@@ -43,7 +44,8 @@ class _MrOfficerVisitLogStateScreen extends State<MrOfficerVisitLogScreen> {
   }
 
   void updateSelectedDate(String newValue) {
-    final visitLogProvider = Provider.of<MrOfficeVisitLogProvider>(context, listen: false);
+    final visitLogProvider =
+        Provider.of<MrOfficeVisitLogProvider>(context, listen: false);
     setState(() {
       selectedDate = newValue;
       if (selectedDate == "Today") {
@@ -54,12 +56,12 @@ class _MrOfficerVisitLogStateScreen extends State<MrOfficerVisitLogScreen> {
         visitLogProvider.setSelectedDate(selectedDate);
         print(yesterday);
         selectedDate = "${yesterday.year}-${yesterday.month}-${yesterday.day}";
-      } else if (selectedDate == "Custom") {
-       // Open date picker for custom date selection
+      } else {
+        // Open date picker for custom date selection
+        selectDate(context, visitLogProvider);
       }
       print("Selected Date: $selectedDate");
     });
-    selectDate(context, visitLogProvider);
   }
 
   MrOfficeVisitLogProvider? _visitLogProvider;
@@ -68,7 +70,7 @@ class _MrOfficerVisitLogStateScreen extends State<MrOfficerVisitLogScreen> {
   void initState() {
     _visitLogProvider =
         Provider.of<MrOfficeVisitLogProvider>(context, listen: false);
-    _visitLogProvider?.getVisitLogs();
+    _visitLogProvider?.getVisitLogs(DateTime.now().toString().split(" ")[0]);
     super.initState();
   }
 
@@ -140,9 +142,11 @@ class _MrOfficerVisitLogStateScreen extends State<MrOfficerVisitLogScreen> {
                         value: defaultValue,
                         onChanged: (newValue) {
                           if (newValue != null) {
-                            updateSelectedDate(newValue);
-                            print(newValue);
-                            visitLogProvider.getVisitLogs();
+                            print('newValue = $newValue');
+                            updateSelectedDate(
+                                newValue.toString().split(' ')[0]);
+                            // visitLogProvider.getVisitLogs(
+                            //     newValue.toString().split(' ')[0]);
                           }
                         }),
                   )

@@ -197,7 +197,7 @@ class _MrOfficerFollowUpVisitScreenState
                           ),
                           CustomElevatedButton(
                             onPressed: () {
-                              followUpProvider.postFollowUp();
+                              followUpProvider.postFollowUp(context);
                               // followUpProvider.GetPOCList();
                               // followUpProvider.getCurrentLocation();
                             },

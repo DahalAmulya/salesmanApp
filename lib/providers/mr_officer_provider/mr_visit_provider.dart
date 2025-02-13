@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:deskgoo/consts.dart';
+import 'package:deskgoo/routes/marketing_officer_consts.dart';
 import 'package:deskgoo/services/erp_services.dart';
 import 'package:deskgoo/themes/custom_colors.dart';
 import 'package:deskgoo/utils/toast_message.dart';
@@ -378,6 +379,8 @@ class MrOfficerVisitProvider with ChangeNotifier {
           ToastGravity.TOP, CustomColors.jadeGreen);
       clearTextControllersValue();
       Navigator.pop(context);
+      Navigator.of(context)
+          .popAndPushNamed(MarketingOfficerConstants.mrStaffDashboardConst);
     } else {
       ToastMessageUtils()
           .showToastMessage(jsonDecode(response.body)['message']);
