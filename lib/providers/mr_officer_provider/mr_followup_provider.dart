@@ -47,9 +47,11 @@ class MrOfficerFollowUpProvider extends ChangeNotifier {
     if (response.statusCode == 200) {
       _pocList = jsonDecode(response.body)['poc'];
       print(_pocList);
-      Navigator.of(context).pushNamed(MarketingOfficerConstants.followUpVisit);
-    } else {
-      print('Error: ${response.statusCode} - ${response.body}');
+      if(context.mounted){
+        Navigator.of(context).pushNamed(MarketingOfficerConstants.followUpVisit);
+      }else{
+        print('Error: ${response.statusCode} - ${response.body}');
+      }
     }
     notifyListeners();
   }

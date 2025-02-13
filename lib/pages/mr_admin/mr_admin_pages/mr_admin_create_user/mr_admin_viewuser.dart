@@ -76,8 +76,6 @@ class _MarketingAdminViewUserState extends State<MarketingAdminViewUser> {
 
 
                   return ListTile(
-                    onTap: (){
-                    },
                     title:  CustomContainer(
                       applyShadow: true,
                       child: Column(
