@@ -142,6 +142,7 @@ class WeeklyPlanProvider with ChangeNotifier {
   List<String> _foundStates = [];
   List<String> _foundDistrict = [];
   String _selectedCountry = '';
+  Map<String, dynamic> _todaysPlan = {};
   int _selectedIndex = 0;
   DateTime _updatedDate = DateTime.now();
 
@@ -172,6 +173,7 @@ class WeeklyPlanProvider with ChangeNotifier {
   List<String> get districtList => _districtList;
   int get selectedIndex => _selectedIndex;
   DateTime get updatedDate => _updatedDate;
+  Map<String, dynamic> get todaysPlan => _todaysPlan;
 
   TextEditingController get stateTextEditingController =>
       _stateTextEditingController;
@@ -291,7 +293,7 @@ class WeeklyPlanProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  void postRequest(context) async {
+  void createPlan(context) async {
     DateTime now = DateTime.now();
     String mobileTime = DateFormat('yyyy/MM/dd, EEEE').format(_updatedDate);
     String planDate = DateFormat('yyyy-MM-dd').format(_updatedDate);
@@ -318,6 +320,7 @@ class WeeklyPlanProvider with ChangeNotifier {
         ToastMessageUtils().showToastMessage('Plan created successfully',
             ToastGravity.TOP, CustomColors.jadeGreen);
         print('success');
+        clearCreatePlanValue();
       } else {
         ToastMessageUtils().showToastMessage(
             'Something went wrong', ToastGravity.TOP, CustomColors.lightRed);
@@ -330,10 +333,10 @@ class WeeklyPlanProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  void clearValue(){
-    _taskActivityNoteController.text = '';
-    _taskAreaNoteController.text = '';
-    _taskRemarkNoteController.text = '';
+  void clearCreatePlanValue() {
+    _taskActivityController.clear();
+    _taskAreaController.clear();
+    _taskRemarkController.clear();
     notifyListeners();
   }
 
@@ -341,6 +344,26 @@ class WeeklyPlanProvider with ChangeNotifier {
     ERPResponse response = await ERPServices.getRequest(
         '/plan?userId=679b632e4c526fbfe839ada5&from=2025-02-05&to=2025-02-05');
     print(response.body);
+    notifyListeners();
+  }
+
+  void getTodayPlan(planDate) async {
+    ERPResponse response = await ERPServices.getRequest(
+        "/plan/today?userId=$userId&planDate=$planDate");
+    var decodedData = jsonDecode(response.body);
+    print(decodedData);
+
+    if (response.statusCode == 200) {
+      _todaysPlan = decodedData;
+      print(todaysPlan);
+      _taskActivityNoteController.text = todaysPlan['todaysPlan']['activity'];
+      _taskAreaNoteController.text = todaysPlan['todaysPlan']['area'];
+      _taskRemarkNoteController = todaysPlan['todaysPlan']['remark'];
+    } else {
+      _taskActivityNoteController.text = 'No Activity';
+      _taskAreaNoteController.text = 'No Area';
+      _taskRemarkNoteController.text = 'No Remark';
+    }
     notifyListeners();
   }
 }
