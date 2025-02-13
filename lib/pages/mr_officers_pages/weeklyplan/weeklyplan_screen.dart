@@ -131,198 +131,175 @@ class _WeeklyPlanScreenState extends State<WeeklyPlanScreen> {
   }
 
   Widget _body(context) {
-    final weeklyPlanProvider =
-        Provider.of<WeeklyPlanProvider>(context, listen: false);
     return SingleChildScrollView(
       scrollDirection: Axis.vertical,
-      child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 8.0),
-          child: Column(
+      child: Consumer<WeeklyPlanProvider>(
+        builder: (context, _weeklyPlanProvider, _) {
+          return Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  CustomText(
-                    text: (
-                    weeklyPlanProvider.updatedDate.toString().split(" ")[0]),
-                    size: 20,
-                    fontWeight: FontWeight.w600,
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        CustomText(
+                          text: (_weeklyPlanProvider.updatedDate
+                              .toString()
+                              .split(" ")[0]),
+                          size: 20,
+                          fontWeight: FontWeight.w600,
+                        ),
+                        CustomElevatedButton(
+                          onPressed: () {
+                            // weeklyPlanProvider.setSelectedDate(_selectedDate);
+                            // Navigator.of(context)
+                            //     .pushNamed(MarketingOfficerConstants.addTaskConst);
+                            openAlertDialog(context);
+                            // getTodayPlan();
+                            // print('hhello');
+                          },
+                          backgroundColor: CustomColors.primaryColor,
+                          widget: Row(
+                            children: [
+                              Icon(
+                                Icons.add,
+                                color: Colors.black,
+                                size: 16,
+                              ),
+                              CustomText(
+                                text: ' Create Plan',
+                                isContent: true,
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
+                    CustomText(
+                      text: 'Today',
+                      size: 24,
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ],
+                ),
+              ),
+              Container(
+                margin: EdgeInsets.symmetric(horizontal: 8),
+                child: DatePicker(
+                  DateTime.now(),
+                  height: 100,
+                  width: 80,
+                  initialSelectedDate: DateTime.now(),
+                  selectionColor: CustomColors.primaryColor,
+                  dateTextStyle: GoogleFonts.lato(
+                    textStyle: TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.w600,
+                    ),
                   ),
-                  Consumer<WeeklyPlanProvider>(
-                      builder: (context, weeklyPlanProvider, _) {
-                    return CustomElevatedButton(
-                      onPressed: () {
-                        // weeklyPlanProvider.setSelectedDate(_selectedDate);
-                        // Navigator.of(context)
-                        //     .pushNamed(MarketingOfficerConstants.addTaskConst);
-                        openAlertDialog(context);
-                        // getTodayPlan();
-                        // print('hhello');
-                      },
-                      backgroundColor: CustomColors.primaryColor,
-                      widget: Row(
-                        children: [
-                          Icon(
-                            Icons.add,
-                            color: Colors.black,
-                            size: 16,
-                          ),
-                          CustomText(
-                            text: ' Create Plan',
-                            isContent: true,
-                          ),
-                        ],
-                      ),
-                    );
-                  }),
-                ],
-              ),
-              CustomText(
-                text: 'Today',
-                size: 24,
-                fontWeight: FontWeight.w600,
-              ),
-            ],
-          ),
-        ),
-        Consumer<WeeklyPlanProvider>(builder: (context, weeklyPlanProvider, _) {
-          return Container(
-            margin: EdgeInsets.symmetric(horizontal: 8),
-            child: DatePicker(
-              DateTime.now(),
-              height: 100,
-              width: 80,
-              initialSelectedDate: DateTime.now(),
-              selectionColor: CustomColors.primaryColor,
-              dateTextStyle: GoogleFonts.lato(
-                textStyle: TextStyle(
-                  fontSize: 16,
-                  fontWeight: FontWeight.w600,
-                ),
-              ),
-              dayTextStyle: GoogleFonts.lato(
-                textStyle: TextStyle(
-                  fontSize: 14,
-                  fontWeight: FontWeight.w600,
-                ),
-              ),
-              monthTextStyle: GoogleFonts.lato(
-                textStyle: TextStyle(
-                  fontSize: 12,
-                  fontWeight: FontWeight.w600,
-                ),
-              ),
-              onDateChange: (newDate) {
-                weeklyPlanProvider.updateDate(newDate);
-                getTodayPlan(newDate.toString().split(" ")[0]);
-                print(newDate);
-              },
-            ),
-          );
-        }),
-        SizedBox(
-          height: 56,
-        ),
-        CustomContainer(
-            applyShadow: true,
-            verticalPad: 18,
-            horizontalPad: 24,
-            verticalMargin: 18,
-            horizontalMargin: 18,
-            child: Column(
-              children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    CustomText(
-                      text: 'Activity:',
+                  dayTextStyle: GoogleFonts.lato(
+                    textStyle: TextStyle(
+                      fontSize: 14,
                       fontWeight: FontWeight.w600,
-                      size: 18,
                     ),
-                  ],
-                ),
-                SizedBox(
-                  height: 8,
-                ),
-                Consumer<WeeklyPlanProvider>(
-                    builder: (context, weeklyPlanProvider, _) {
-                  return TextFromFieldWithPrefixSuffix(
-                      readOnly: true,
-                      hintText: '$activity',
-                      controller: weeklyPlanProvider.taskActivityNoteController,
-                      validator: (validator) {});
-                }),
-                SizedBox(
-                  height: 8,
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    CustomText(
-                      text: 'Area:',
+                  ),
+                  monthTextStyle: GoogleFonts.lato(
+                    textStyle: TextStyle(
+                      fontSize: 12,
                       fontWeight: FontWeight.w600,
-                      size: 18,
                     ),
-                  ],
+                  ),
+                  onDateChange: (newDate) {
+                    _weeklyPlanProvider.updateDate(newDate);
+                    getTodayPlan(newDate.toString().split(" ")[0]);
+                    print(newDate);
+                  },
                 ),
-                SizedBox(
-                  height: 8,
-                ),
-                Consumer<WeeklyPlanProvider>(
-                    builder: (context, weeklyPlanProvider, _) {
-                  return TextFromFieldWithPrefixSuffix(
-                      readOnly: true,
-                      hintText: '$area',
-                      controller: weeklyPlanProvider.taskAreaNoteController,
-                      validator: (validator) {});
-                }),
-                SizedBox(
-                  height: 8,
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
+              ),
+              SizedBox(
+                height: 56,
+              ),
+              CustomContainer(
+                applyShadow: true,
+                verticalPad: 18,
+                horizontalPad: 24,
+                verticalMargin: 18,
+                horizontalMargin: 18,
+                child: Column(
                   children: [
-                    CustomText(
-                      text: 'Remark:',
-                      fontWeight: FontWeight.w600,
-                      size: 18,
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        CustomText(
+                          text: 'Activity:',
+                          fontWeight: FontWeight.w600,
+                          size: 18,
+                        ),
+                      ],
                     ),
-                  ],
-                ),
-                SizedBox(
-                  height: 8,
-                ),
-                Consumer<WeeklyPlanProvider>(
-                    builder: (context, weeklyPlanProvider, _) {
-                  return TextFromFieldWithPrefixSuffix(
+                    SizedBox(
+                      height: 8,
+                    ),
+                    TextFromFieldWithPrefixSuffix(
+                        readOnly: true,
+                        hintText: '$activity',
+                        controller:
+                            _weeklyPlanProvider.taskActivityNoteController,
+                        validator: (validator) {}),
+                    SizedBox(
+                      height: 8,
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        CustomText(
+                          text: 'Area:',
+                          fontWeight: FontWeight.w600,
+                          size: 18,
+                        ),
+                      ],
+                    ),
+                    SizedBox(
+                      height: 8,
+                    ),
+                    TextFromFieldWithPrefixSuffix(
+                        readOnly: true,
+                        hintText: '$area',
+                        controller: _weeklyPlanProvider.taskAreaNoteController,
+                        validator: (validator) {}),
+                    SizedBox(
+                      height: 8,
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        CustomText(
+                          text: 'Remark:',
+                          fontWeight: FontWeight.w600,
+                          size: 18,
+                        ),
+                      ],
+                    ),
+                    SizedBox(
+                      height: 8,
+                    ),
+                    TextFromFieldWithPrefixSuffix(
                       readOnly: true,
                       hintText: '$remark',
-                      controller: weeklyPlanProvider.taskRemarkNoteController,
-                      validator: (validator) {});
-                }),
-              ],
-            )),
-        // SizedBox(height: 8,),
-        // Column(
-        //   crossAxisAlignment: CrossAxisAlignment.center,
-        //   children: [
-        //     Center(child: CustomText(text: 'Plan not created for')),
-        //     Consumer<WeeklyPlanProvider>(
-        //         builder: (context, weeklyPlanProvider, _) {
-        //           return Container(
-        //             child: Center(
-        //               child: CustomText(
-        //                 text:
-        //                 '${DateFormat('dd MMM y, EE').format(DateTime.now())}',
-        //               ),
-        //             ),
-        //           );
-        //         }),
-        //   ],
-        // ),
-      ]),
+                      controller: _weeklyPlanProvider.taskRemarkNoteController,
+                      validator: (validator) {},
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          );
+        },
+      ),
     );
   }
   //----------------------------------------------------------------AlertDialog----------------------------------------------------------------//

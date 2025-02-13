@@ -74,6 +74,7 @@ class _TextFromFieldWithPrefixSuffixState
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+      textCapitalization: TextCapitalization.sentences,
       keyboardType: widget.keyboardType,
       controller: widget.controller,
       obscureText: widget.obscure,
