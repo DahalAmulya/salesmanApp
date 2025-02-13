@@ -358,7 +358,7 @@ class WeeklyPlanProvider with ChangeNotifier {
       print(todaysPlan);
       _taskActivityNoteController.text = todaysPlan['todaysPlan']['activity'];
       _taskAreaNoteController.text = todaysPlan['todaysPlan']['area'];
-      _taskRemarkNoteController = todaysPlan['todaysPlan']['remark'];
+      _taskRemarkNoteController.text = todaysPlan['todaysPlan']['remark'];
     } else {
       _taskActivityNoteController.text = 'No Activity';
       _taskAreaNoteController.text = 'No Area';
