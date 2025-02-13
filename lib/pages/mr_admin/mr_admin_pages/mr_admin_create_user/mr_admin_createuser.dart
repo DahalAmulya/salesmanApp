@@ -1,5 +1,4 @@
 import 'dart:convert';
-
 import 'package:deskgoo/widgets/buttons/elevated_button.dart';
 import 'package:deskgoo/widgets/containers/custom_container.dart';
 import 'package:deskgoo/widgets/drop_downs/custom_dropdown.dart';
@@ -7,7 +6,6 @@ import 'package:deskgoo/widgets/texts/custom_text.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
-
 import '../../../../routes/route_generator_constants.dart';
 import '../../../../services/erp_services.dart';
 import '../../../../themes/custom_colors.dart';
@@ -28,7 +26,7 @@ class _MarketingAdminCreateUserState extends State<MarketingAdminCreateUser> {
   List<dynamic> _roles = [];
   List<String> _role = [];
   String selectedDate = '';
-
+  String selectedDateForDoj = '';
   final _formState = GlobalKey<FormState>();
 
   Future<void> selectDate() async {
@@ -46,12 +44,29 @@ class _MarketingAdminCreateUserState extends State<MarketingAdminCreateUser> {
         selectedDate = "${picked.year}-${picked.month}-${picked.day}";
         print(selectedDate);
         visitLogProvider.userDobController.text = "${picked.year}-${picked.month}-${picked.day}";
-        visitLogProvider.userDojTextController.text = "${picked.year}-${picked.month}-${picked.day}";
-
-        // visitLogProvider.setSelectedDate(selectedDate);
       });
     }
     print(selectedDate);
+  }
+
+  Future<void> selectDateForDoj() async {
+    final visitLogProvider = Provider.of<CreateUserProvider>(context ,listen: false);
+    DateTime? picked = await showDatePicker(
+      context: context,
+      initialDate: DateTime.now(),
+      firstDate: DateTime(2000),
+      lastDate: DateTime(2040),
+    );
+    if (picked == null) {
+      return;
+    } else {
+      setState(() {
+        selectedDateForDoj = "${picked.year}-${picked.month}-${picked.day}";
+        print(selectedDateForDoj);
+        visitLogProvider.userDojTextController.text = "${picked.year}-${picked.month}-${picked.day}";
+      });
+    }
+    print(selectedDateForDoj);
   }
 
 
@@ -83,7 +98,6 @@ class _MarketingAdminCreateUserState extends State<MarketingAdminCreateUser> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     getRoleList();
   }
@@ -392,7 +406,7 @@ class _MarketingAdminCreateUserState extends State<MarketingAdminCreateUser> {
 
                                   },
                                   onTap: (){
-                                    selectDate();
+                                    selectDateForDoj();
                                   },
                                 ),
                               ),

@@ -184,27 +184,66 @@ class _MrOfficerAttendanceBottomSheetState
                         ),
                         attendanceProvider.isAttendance
                             ? Row(
-                                children: [
-                                  CustomText(
-                                    text:
-                                        '${attendanceProvider.checkInTimeStr.split(' ')[0]} ',
+                          children: [
+                            // Split the check-in time string
+                            if (attendanceProvider.checkInTimeStr.isNotEmpty)
+                              ...attendanceProvider.checkInTimeStr.split(' ').map((part) {
+                                // Check if the part is the first element (date) or second element (time)
+                                if (part == attendanceProvider.checkInTimeStr.split(' ')[0]) {
+                                  return CustomText(
+                                    text: '$part ',
                                     isContent: true,
-                                  ),
-                                  CustomText(
-                                    text:
-                                        '${attendanceProvider.checkInTimeStr.split(' ')[1]} ',
+                                  );
+                                } else {
+                                  return CustomText(
+                                    text: '$part ',
                                     isSubContent: true,
-                                  ),
-                                ],
-                              )
+                                  );
+                                }
+                              }).toList(),
+                          ],
+                        )
                             : CustomText(
-                                text: attendanceProvider.checkInTimeStr,
-                                isContent: true,
-                              ),
+                          text: attendanceProvider.checkInTimeStr,
+                          isContent: true,
+                        ),
                       ],
                     );
                   },
                 ),
+                // Consumer<AttendanceProvider>(
+                //   builder: (context, attendanceProvider, _) {
+                //     return Row(
+                //       mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                //       crossAxisAlignment: CrossAxisAlignment.start,
+                //       children: [
+                //         CustomText(
+                //           text: 'Check-in Time',
+                //           isContent: true,
+                //         ),
+                //         attendanceProvider.isAttendance
+                //             ? Row(
+                //                 children: [
+                //                   CustomText(
+                //                     text:
+                //                         '${attendanceProvider.checkInTimeStr.split(' ')[0]} ',
+                //                     isContent: true,
+                //                   ),
+                //                   CustomText(
+                //                     text:
+                //                         '${attendanceProvider.checkInTimeStr.split(' ')[1]} ',
+                //                     isSubContent: true,
+                //                   ),
+                //                 ],
+                //               )
+                //             : CustomText(
+                //                 text: attendanceProvider.checkInTimeStr,
+                //                 isContent: true,
+                //               ),
+                //       ],
+                //     );
+                //   },
+                // ),
                 SizedBox(
                   height: 12,
                 ),
