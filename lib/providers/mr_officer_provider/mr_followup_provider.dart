@@ -30,7 +30,8 @@ class MrOfficerFollowUpProvider extends ChangeNotifier {
 
   TextEditingController get fullNameController => _fullNameController;
   TextEditingController get categoryController => _categoryController;
-  TextEditingController get specializationController => _specializationController;
+  TextEditingController get specializationController =>
+      _specializationController;
   TextEditingController get ageController => _ageController;
   TextEditingController get numberController => _numberController;
   TextEditingController get addressController => _addressController;
@@ -47,9 +48,10 @@ class MrOfficerFollowUpProvider extends ChangeNotifier {
     if (response.statusCode == 200) {
       _pocList = jsonDecode(response.body)['poc'];
       print(_pocList);
-      if(context.mounted){
-        Navigator.of(context).pushNamed(MarketingOfficerConstants.followUpVisit);
-      }else{
+      if (context.mounted) {
+        Navigator.of(context)
+            .pushNamed(MarketingOfficerConstants.followUpVisit);
+      } else {
         print('Error: ${response.statusCode} - ${response.body}');
       }
     }
@@ -135,7 +137,7 @@ class MrOfficerFollowUpProvider extends ChangeNotifier {
     _remarksController.text = '';
   }
 
-  void postFollowUp() async {
+  void postFollowUp(context) async {
     DateTime now = DateTime.now();
     String mobileTime = DateFormat('HH:mm:ss MM-dd-yyyy').format(now);
     // print(mobileTime);
@@ -161,6 +163,8 @@ class MrOfficerFollowUpProvider extends ChangeNotifier {
       clearValue();
       ToastMessageUtils().showToastMessage(
           'Follow Up successful', ToastGravity.TOP, CustomColors.jadeGreen);
+      Navigator.of(context)
+          .popAndPushNamed(MarketingOfficerConstants.mrStaffDashboardConst);
     } else {
       ToastMessageUtils().showToastMessage('Something went wrong');
     }
