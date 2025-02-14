@@ -9,13 +9,14 @@ import 'package:deskgoo/routes/marketing_officer_consts.dart';
 import 'package:deskgoo/routes/route_generator_constants.dart';
 import 'package:deskgoo/themes/custom_colors.dart';
 import 'package:deskgoo/widgets/bottom_sheets/mr_officer_sheets/attendance.dart';
+import 'package:deskgoo/widgets/bottom_sheets/mr_officer_sheets/select_referral_type.dart';
 import 'package:deskgoo/widgets/bottom_sheets/mr_officer_sheets/select_visit_type.dart';
 import 'package:deskgoo/widgets/drawers/drawers_items/custom_listTile.dart';
 import 'package:deskgoo/widgets/texts/custom_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:intl/intl.dart';
+
 import 'package:provider/provider.dart';
 import '../buttons/elevated_button.dart';
 // import 'package:go_router/go_router.dart';
@@ -242,23 +243,13 @@ class MrOfficerCustomDrawer extends StatelessWidget {
                         CustomListTile(
                           onTap: () {
                             Navigator.pop(context);
-                            AttendanceProvider? attendanceProvider;
-                            MrOfficerVisitProvider? mrOfficerVisitProvider;
-                            ChangePasswordProvider? changePasswordProvider;
-                            attendanceProvider =
-                                Provider.of<AttendanceProvider>(context,
-                                    listen: false);
-                            mrOfficerVisitProvider =
-                                Provider.of<MrOfficerVisitProvider>(context,
-                                    listen: false);
-                            changePasswordProvider =
-                                Provider.of<ChangePasswordProvider>(context,
-                                    listen: false);
-                            attendanceProvider.resetValue();
-                            mrOfficerVisitProvider.clearTextControllersValue();
-                            changePasswordProvider.resetValues();
-                            Navigator.of(context)
-                                .pushNamed(MarketingOfficerConstants.referral);
+                            showModalBottomSheet(
+                              isScrollControlled: true,
+                              useSafeArea: true,
+                              context: context,
+                              builder: (context) =>
+                                  MrOfficerSelectReferralTypeBottomSheet(),
+                            );
                           },
                           isTabActive: isAlertDialog,
                           text: 'Referral',
@@ -309,6 +300,29 @@ class MrOfficerCustomDrawer extends StatelessWidget {
                                             // Navigator.pop(context, false);
 
                                             // SystemNavigator.pop();
+                                            AttendanceProvider?
+                                                attendanceProvider;
+                                            MrOfficerVisitProvider?
+                                                mrOfficerVisitProvider;
+                                            ChangePasswordProvider?
+                                                changePasswordProvider;
+                                            attendanceProvider =
+                                                Provider.of<AttendanceProvider>(
+                                                    context,
+                                                    listen: false);
+                                            mrOfficerVisitProvider = Provider
+                                                .of<MrOfficerVisitProvider>(
+                                                    context,
+                                                    listen: false);
+                                            changePasswordProvider = Provider
+                                                .of<ChangePasswordProvider>(
+                                                    context,
+                                                    listen: false);
+                                            attendanceProvider.resetValue();
+                                            mrOfficerVisitProvider
+                                                .clearTextControllersValue();
+                                            changePasswordProvider
+                                                .resetValues();
                                             Navigator.pop(context);
                                             Navigator.of(context).pushNamed(
                                                 MarketingManagerConstants
