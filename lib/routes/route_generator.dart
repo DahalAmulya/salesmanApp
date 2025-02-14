@@ -28,6 +28,7 @@ import '../pages/mr_admin/mr_admin_pages/mr_admin_create_user/mr_admin_createuse
 import '../pages/mr_admin/mr_admin_pages/mr_admin_create_user/mr_admin_viewuser.dart';
 import '../pages/mr_admin/mr_admin_pages/reports/Area/report_area_screen.dart';
 import '../pages/mr_officers_pages/mr_officers_visits/product.dart';
+import '../pages/mr_officers_pages/referral/referral_logscreen.dart';
 import '../pages/settings/profile/profile_Page.dart';
 
 class RouteGenerator {
@@ -131,6 +132,8 @@ class RouteGenerator {
         return MaterialPageRoute(builder: (_) => MrOfficerVisitLogScreen());
       case MarketingOfficerConstants.referral:
         return MaterialPageRoute(builder: (_) => MrOfficerReferralScreen());
+      case MarketingOfficerConstants.referralLog:
+        return MaterialPageRoute(builder: (_) => MarketingOfficerReferralLogScreen());
       case MarketingOfficerConstants.productConst:
         return MaterialPageRoute(builder: (_) => ProductPage());
       default:
