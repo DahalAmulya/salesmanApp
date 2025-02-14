@@ -103,7 +103,7 @@ class _MrOfficerSelectReferralTypeBottomSheetState
                                 } else {
                                   Navigator.pop(context);
                                   Navigator.of(context).pushNamed(
-                                      MarketingOfficerConstants.visitLog);
+                                      MarketingOfficerConstants.referralLog);
                                 }
                               }
                             },
