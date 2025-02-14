@@ -256,10 +256,10 @@ class _LoginPageState extends State<LoginPage> {
   void login() async {
     Map<String, dynamic> body = {
       'email': emailController.value.text.isEmpty
-          ? 'farhan@gmail.com'
+          ? 'jyoti@gmail.com'
           : emailController.value.text,
       'password': passwordController.value.text.isEmpty
-          ? 'farhan123@'
+          ? 'jyoti123@'
           : passwordController.value.text,
       // shuvam@gmail.com
       // shuvam123@
