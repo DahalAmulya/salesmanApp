@@ -1,4 +1,3 @@
-import 'package:date_picker_timeline/date_picker_widget.dart';
 import 'package:deskgoo/providers/mr_officer_provider/mr_visitLog_provider.dart';
 import 'package:deskgoo/themes/custom_colors.dart';
 import 'package:deskgoo/widgets/app_bars/custom_app_bars.dart';
@@ -6,7 +5,6 @@ import 'package:deskgoo/widgets/containers/custom_container.dart';
 import 'package:deskgoo/widgets/drop_downs/custom_dropdown.dart';
 import 'package:deskgoo/widgets/texts/custom_text.dart';
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
 class MrOfficerVisitLogScreen extends StatefulWidget {
@@ -41,6 +39,7 @@ class _MrOfficerVisitLogStateScreen extends State<MrOfficerVisitLogScreen> {
       });
     }
     print(selectedDate);
+    visitLogProvider.getVisitLogs();
   }
 
   void updateSelectedDate(String newValue) {
@@ -51,10 +50,10 @@ class _MrOfficerVisitLogStateScreen extends State<MrOfficerVisitLogScreen> {
       if (selectedDate == "Today") {
         selectedDate =
             "${DateTime.now().year}-${DateTime.now().month}-${DateTime.now().day}";
+        visitLogProvider.setSelectedDate(selectedDate.toString().split(" ")[0]);
       } else if (selectedDate == "Yesterday") {
         DateTime yesterday = DateTime.now().subtract(Duration(days: 1));
-        visitLogProvider.setSelectedDate(selectedDate);
-        print(yesterday);
+        visitLogProvider.setSelectedDate(yesterday.toString().split(" ")[0]);
         selectedDate = "${yesterday.year}-${yesterday.month}-${yesterday.day}";
       } else {
         // Open date picker for custom date selection
@@ -62,6 +61,7 @@ class _MrOfficerVisitLogStateScreen extends State<MrOfficerVisitLogScreen> {
       }
       print("Selected Date: $selectedDate");
     });
+    visitLogProvider.getVisitLogs();
   }
 
   MrOfficeVisitLogProvider? _visitLogProvider;
@@ -70,7 +70,7 @@ class _MrOfficerVisitLogStateScreen extends State<MrOfficerVisitLogScreen> {
   void initState() {
     _visitLogProvider =
         Provider.of<MrOfficeVisitLogProvider>(context, listen: false);
-    _visitLogProvider?.getVisitLogs(DateTime.now().toString().split(" ")[0]);
+    _visitLogProvider?.getVisitLogs();
     super.initState();
   }
 
