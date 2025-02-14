@@ -145,8 +145,6 @@ class _MrOfficerVisitLogStateScreen extends State<MrOfficerVisitLogScreen> {
                             print('newValue = $newValue');
                             updateSelectedDate(
                                 newValue.toString().split(' ')[0]);
-                            // visitLogProvider.getVisitLogs(
-                            //     newValue.toString().split(' ')[0]);
                           }
                         }),
                   )
@@ -174,7 +172,9 @@ class _MrOfficerVisitLogStateScreen extends State<MrOfficerVisitLogScreen> {
                       String remarks =
                           visitLogProvider.visitLog[index]['remarks'];
                       return ListTile(
-                        onTap: () {},
+                        onTap: () {
+                          print(visitLogProvider.visitLog[index]);
+                        },
                         title: CustomContainer(
                           applyShadow: true,
                           child: Column(

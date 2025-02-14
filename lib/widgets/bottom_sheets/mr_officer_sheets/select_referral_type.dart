@@ -1,5 +1,5 @@
 import 'package:deskgoo/providers/mr_officer_provider/mr_followup_provider.dart';
-import 'package:deskgoo/providers/mr_officer_provider/mr_visit_provider.dart';
+import 'package:deskgoo/providers/mr_officer_provider/mr_referral_provider.dart';
 import 'package:deskgoo/routes/marketing_officer_consts.dart';
 import 'package:deskgoo/routes/route_generator_constants.dart';
 import 'package:deskgoo/themes/custom_colors.dart';
@@ -29,8 +29,8 @@ class _MrOfficerSelectReferralTypeBottomSheetState
     return CustomContainer(
       width: 1,
       verticalPad: 12,
-      child: Consumer<MrOfficerVisitProvider>(
-        builder: (context, visitProvider, _) {
+      child: Consumer<ReferralsDetailProvider>(
+        builder: (context, referralProvider, _) {
           return SingleChildScrollView(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -51,31 +51,21 @@ class _MrOfficerSelectReferralTypeBottomSheetState
                       height: 0,
                     ),
                     CustomRadioButton(
-                      radioGroupValue: visitProvider.radioGroupValue,
-                      radioValue: visitProvider.visitTypeList[0],
-                      radioTitle: visitProvider.visitTypeList[0],
+                      radioGroupValue: referralProvider.radioGroupValue,
+                      radioValue: referralProvider.referralTypeList[0],
+                      radioTitle: referralProvider.referralTypeList[0],
                       onChange: (value) {
-                        visitProvider.selectVisitType(value);
+                        referralProvider.selectVisitType(value);
                       },
                     ),
                     CustomRadioButton(
-                      radioGroupValue: visitProvider.radioGroupValue,
-                      radioValue: visitProvider.visitTypeList[1],
-                      radioTitle: visitProvider.visitTypeList[1],
+                      radioGroupValue: referralProvider.radioGroupValue,
+                      radioValue: referralProvider.referralTypeList[1],
+                      radioTitle: referralProvider.referralTypeList[1],
                       // showTrailingWidget: true,
                       // trailingWidgetTitle: '15',
                       onChange: (value) {
-                        visitProvider.selectVisitType(value);
-                      },
-                    ),
-                    CustomRadioButton(
-                      radioGroupValue: visitProvider.radioGroupValue,
-                      radioValue: visitProvider.visitTypeList[2],
-                      radioTitle: visitProvider.visitTypeList[2],
-                      // showTrailingWidget: true,
-                      // trailingWidgetTitle: '15',
-                      onChange: (value) {
-                        visitProvider.selectVisitType(value);
+                        referralProvider.selectVisitType(value);
                       },
                     ),
                     SizedBox(
@@ -86,7 +76,7 @@ class _MrOfficerSelectReferralTypeBottomSheetState
                       children: [
                         CustomElevatedButton(
                           onPressed: () {
-                            visitProvider.unSelectVisitType();
+                            referralProvider.unSelectVisitType();
                             Navigator.of(context)
                                 .pop(MarketingManagerConstants.homePage);
                           },
@@ -103,19 +93,13 @@ class _MrOfficerSelectReferralTypeBottomSheetState
                           return CustomElevatedButton(
                             onPressed: () async {
                               bool isSelected =
-                                  visitProvider.setSelectedVisitType();
+                                  referralProvider.setSelectedVisitType();
                               if (isSelected) {
-                                if (visitProvider.selectedVisitType ==
-                                    visitProvider.visitTypeList[0]) {
+                                if (referralProvider.selectedReferralType ==
+                                    referralProvider.referralTypeList[0]) {
                                   Navigator.pop(context);
                                   Navigator.of(context).pushNamed(
-                                      MarketingOfficerConstants.newVisit);
-                                } else if (visitProvider.selectedVisitType ==
-                                    visitProvider.visitTypeList[1]) {
-                                  Navigator.pop(context);
-                                  followUpProvider.GetPOCList(context);
-                                  // Navigator.of(context).pushNamed(
-                                  //     MarketingOfficerConstants.followUpVisit);
+                                      MarketingOfficerConstants.referral);
                                 } else {
                                   Navigator.pop(context);
                                   Navigator.of(context).pushNamed(
