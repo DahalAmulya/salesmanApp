@@ -1,7 +1,6 @@
+import 'package:deskgoo/providers/mr_officer_provider/mr_referral_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-
-import '../../../providers/mr_officer_provider/mr_visitLog_provider.dart';
 import '../../../themes/custom_colors.dart';
 import '../../../widgets/app_bars/custom_app_bars.dart';
 import '../../../widgets/drop_downs/custom_dropdown.dart';
@@ -11,38 +10,59 @@ class MarketingOfficerReferralLogScreen extends StatefulWidget {
   const MarketingOfficerReferralLogScreen({super.key});
 
   @override
-  State<MarketingOfficerReferralLogScreen> createState() => _MarketingOfficerReferralLogScreenState();
+  State<MarketingOfficerReferralLogScreen> createState() =>
+      _MarketingOfficerReferralLogScreenState();
 }
 
-class _MarketingOfficerReferralLogScreenState extends State<MarketingOfficerReferralLogScreen> {
-
+class _MarketingOfficerReferralLogScreenState
+    extends State<MarketingOfficerReferralLogScreen> {
   List<String> dateList = ["Today", "Yesterday", "Custom"];
   String defaultValue = "Today";
   String selectedDate = "";
   bool isVisible = false;
 
+  Future<void> selectDate(
+      BuildContext context, ReferralsDetailProvider referralProvider) async {
+    DateTime? picked = await showDatePicker(
+      context: context,
+      initialDate: DateTime.now(),
+      firstDate: DateTime(2000),
+      lastDate: DateTime(2040),
+    );
+    if (picked == null) {
+      return;
+    } else {
+      setState(() {
+        selectedDate = "${picked.year}-${picked.month}-${picked.day}";
+
+        referralProvider.setSelectedDate(selectedDate);
+      });
+    }
+    print(selectedDate);
+    referralProvider.getReferralLogs();
+  }
+
   void updateSelectedDate(String newValue) {
-    final visitLogProvider =
-    Provider.of<MrOfficeVisitLogProvider>(context, listen: false);
+    final referralProvider =
+        Provider.of<ReferralsDetailProvider>(context, listen: false);
     setState(() {
       selectedDate = newValue;
       if (selectedDate == "Today") {
         selectedDate =
-        "${DateTime.now().year}-${DateTime.now().month}-${DateTime.now().day}";
-        visitLogProvider.setSelectedDate(selectedDate.toString().split(" ")[0]);
+            "${DateTime.now().year}-${DateTime.now().month}-${DateTime.now().day}";
+        referralProvider.setSelectedDate(selectedDate.toString().split(" ")[0]);
       } else if (selectedDate == "Yesterday") {
         DateTime yesterday = DateTime.now().subtract(Duration(days: 1));
-        visitLogProvider.setSelectedDate(yesterday.toString().split(" ")[0]);
+        referralProvider.setSelectedDate(yesterday.toString().split(" ")[0]);
         selectedDate = "${yesterday.year}-${yesterday.month}-${yesterday.day}";
       } else {
         // Open date picker for custom date selection
-        // selectDate(context, visitLogProvider);
+        selectDate(context, referralProvider);
       }
       print("Selected Date: $selectedDate");
     });
-    visitLogProvider.getVisitLogs();
+    referralProvider.getReferralLogs();
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -112,8 +132,7 @@ class _MarketingOfficerReferralLogScreenState extends State<MarketingOfficerRefe
                       onChanged: (newValue) {
                         if (newValue != null) {
                           print('newValue = $newValue');
-                          updateSelectedDate(
-                              newValue.toString().split(' ')[0]);
+                          updateSelectedDate(newValue.toString().split(' ')[0]);
                         }
                       }),
                 )
@@ -124,5 +143,4 @@ class _MarketingOfficerReferralLogScreenState extends State<MarketingOfficerRefe
       ),
     );
   }
-
 }
