@@ -235,11 +235,6 @@ class _MrOfficerReferralScreenState extends State<MrOfficerReferralScreen> {
               keyboardType: TextInputType.number,
               controller: referralsDetailProvider.patientAgeTextController,
               validator: (value) {
-                // return value!.isEmpty
-                //     ? 'Age is required'
-                //     : value.length < 3
-                //         ? 'Enter at least 1 characters'
-                //         : null;
               },
             ),
             SizedBox(
@@ -252,19 +247,6 @@ class _MrOfficerReferralScreenState extends State<MrOfficerReferralScreen> {
                 onChanged: (selectedGender) {
                   referralsDetailProvider.setGender(selectedGender);
                 }),
-            // TextFromFieldWithPrefixSuffix(
-            //   autoFocus: false,
-            //   hintText: 'Gender',
-            //   labelText: 'Gender',
-            //   controller: referralsDetailProvider.patientGenderTextController,
-            //   validator: (value) {
-            //     return value!.isEmpty
-            //         ? 'Gender is required'
-            //         : value.length < 3
-            //             ? 'Enter at least 3 characters'
-            //             : null;
-            //   },
-            // ),
             SizedBox(
               height: 16,
             ),
@@ -289,11 +271,11 @@ class _MrOfficerReferralScreenState extends State<MrOfficerReferralScreen> {
               builder: (context,createVisitProvider,_) {
                 return CustomDropdown(
                   labelText: 'Country',
-                  items: createVisitProvider.country,
-                  value: createVisitProvider.selectedCountry,
+                  items: country,
+                  value: defaultValue,
                   applyCountryFlag: true,
                   onChanged: (newValue) {
-                    createVisitProvider.setCountry(newValue);
+                    referralsDetailProvider.updateCountry(selectedCountry);
                   },
                 );
               }
@@ -328,8 +310,8 @@ class _MrOfficerReferralScreenState extends State<MrOfficerReferralScreen> {
                 return TextFromFieldWithPrefixSuffix(
                   controller: createVisitProvider.selectedCountry ==
                       createVisitProvider.country[0]
-                      ? createVisitProvider.districtController
-                      : createVisitProvider.stateController,
+                      ?  referralsDetailProvider.patientDistrictTextController
+                      : referralsDetailProvider.patientStateTextController,
                   readOnly: true,
                   labelText: createVisitProvider.selectedCountry ==
                       createVisitProvider.country[0]
@@ -398,9 +380,7 @@ class _MrOfficerReferralScreenState extends State<MrOfficerReferralScreen> {
                   controller: referralsDetailProvider.patientCityTextController,
                   onTap: () {
                     createVisitProvider.searchController.text = '';
-                    createVisitProvider.searchAddressResult(
-                        createVisitProvider.searchController.value.text,
-                        createVisitProvider.cities);
+                    createVisitProvider.searchAddressResult(createVisitProvider.searchController.value.text, createVisitProvider.cities);
                     showModalBottomSheet(
                         isScrollControlled: true,
                         useSafeArea: true,
