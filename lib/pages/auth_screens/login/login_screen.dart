@@ -1,8 +1,5 @@
 import 'dart:convert';
 
-import 'package:background_task/background_task.dart';
-import 'package:deskgoo/classes/background_task_handler.dart';
-import 'package:deskgoo/classes/notification_controller.dart';
 import 'package:deskgoo/classes/secure_storage.dart';
 import 'package:deskgoo/consts.dart';
 import 'package:deskgoo/pages/auth_screens/change_passowrd/change_password_screen.dart';
@@ -256,10 +253,10 @@ class _LoginPageState extends State<LoginPage> {
   void login() async {
     Map<String, dynamic> body = {
       'email': emailController.value.text.isEmpty
-          ? 'farhan@gmail.com'
+          ? 'shuvam@gmail.com'
           : emailController.value.text,
       'password': passwordController.value.text.isEmpty
-          ? 'farhan123@'
+          ? 'shuvam123@'
           : passwordController.value.text,
       // shuvam@gmail.com
       // shuvam123@
