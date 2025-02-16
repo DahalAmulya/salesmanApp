@@ -73,8 +73,6 @@ class _MarketingAdminViewUserState extends State<MarketingAdminViewUser> {
                       String userMaritalStatus = createUserProvider.userData['users'][index]['maritalStatus'];
                       String userDOJ = createUserProvider.userData['users'][index]['doj'];
                       String userNationality = createUserProvider.userData['users'][index]['nationality'];
-
-
                   return ListTile(
                     title:  CustomContainer(
                       applyShadow: true,
