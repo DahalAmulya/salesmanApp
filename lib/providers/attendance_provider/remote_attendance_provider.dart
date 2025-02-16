@@ -150,7 +150,10 @@ class AttendanceProvider extends ChangeNotifier {
   }
 
   void switchRemoteAttendanceSwitch() async {
+    getCurrentLocation();
     try {
+      _time =
+          '${DateTime.now().toString().split(' ')[1].split('.')[0]} ${DateTime.now().toString().split(' ')[0]}';
       Map<String, dynamic> body = {
         "deviceTime": _time,
         "attendanceTime": DateTime.now().toString(),
@@ -229,6 +232,7 @@ class AttendanceProvider extends ChangeNotifier {
     _checkOutTimeStr = 'Unknown';
     _hours = '00';
     _minutes = '00';
+    notifyListeners();
   }
 
   Future<void> confirmCheckout(context) => showDialog(
