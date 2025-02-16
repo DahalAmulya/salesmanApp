@@ -19,6 +19,7 @@ class ReferralsDetailProvider extends ChangeNotifier {
   double _referralLatitude = 0;
   double _referralLongitude = 0;
   List<dynamic> _referralLogs = [];
+  Map<String,dynamic> _body = {};
 
   final _districtTextEditingController = TextEditingController();
   final _searchForStatesTextEditingController = TextEditingController();
@@ -115,6 +116,8 @@ class ReferralsDetailProvider extends ChangeNotifier {
       _ambPhoneNumberTextController;
 
   List<dynamic> get pocList => _pocList;
+  List<dynamic> get referralLogs  => _referralLogs;
+  Map<String,dynamic> get body => _body;
   List<String> get citiesList => _citiesList;
 
   List<String> get gender => _gender;
@@ -314,16 +317,19 @@ class ReferralsDetailProvider extends ChangeNotifier {
     _selectedDate = selectedDate.isEmpty ? date : _selectedDate;
     print('selectedDate = ${_selectedDate}');
     ERPResponse response = await ERPServices.getRequest(
-        '/visitLogs?visitLogId=$userId&from=$_selectedDate&to=$_selectedDate');
+        '/referral?_id=$userId&from=$_selectedDate&to=$_selectedDate');
     print(response.statusCode);
-    print(response.body);
-    Map<String, dynamic> body = jsonDecode(response.body);
-    if (body["visitLogs"].containsKey('visitLogs')) {
-      _referralLogs = body["visitLogs"]["visitLogs"];
-    } else {
-      _referralLogs = [];
-    }
-    print(_referralLogs);
+    // print(response.body);
+     _body = jsonDecode(response.body);
+    // print(body);
+    print(body['referralLogs'][0]['patientName']);
+    _referralLogs = body['referralLogs'];
+    // if (body["visitLogs"].containsKey('visitLogs')) {
+    //   _referralLogs = body["visitLogs"]["visitLogs"];
+    // } else {
+    //   _referralLogs = [];
+    // }
+    // print(_referralLogs);
     notifyListeners();
   }
 }

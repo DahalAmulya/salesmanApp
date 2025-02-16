@@ -1,4 +1,5 @@
 import 'package:deskgoo/providers/mr_officer_provider/mr_referral_provider.dart';
+import 'package:deskgoo/widgets/containers/custom_container.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../../themes/custom_colors.dart';
@@ -43,8 +44,7 @@ class _MarketingOfficerReferralLogScreenState
   }
 
   void updateSelectedDate(String newValue) {
-    final referralProvider =
-        Provider.of<ReferralsDetailProvider>(context, listen: false);
+    final referralProvider = Provider.of<ReferralsDetailProvider>(context, listen: false);
     setState(() {
       selectedDate = newValue;
       if (selectedDate == "Today") {
@@ -62,6 +62,13 @@ class _MarketingOfficerReferralLogScreenState
       print("Selected Date: $selectedDate");
     });
     referralProvider.getReferralLogs();
+  }
+
+  @override
+  void initState() {
+    final referralProvider = Provider.of<ReferralsDetailProvider>(context, listen: false);
+    referralProvider.getReferralLogs();
+    super.initState();
   }
 
   @override
@@ -107,39 +114,296 @@ class _MarketingOfficerReferralLogScreenState
 
   Widget _buildUI(context) {
     return Scaffold(
-      body: ListView(
-        children: [
-          SizedBox(
-            height: 16,
-          ),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 0),
-            child: Row(
-              children: [
-                Expanded(
-                  flex: 1,
-                  child: CustomText(
-                    text: 'Select Date : ',
-                    isContent: true,
+      body: Consumer<ReferralsDetailProvider>(
+        builder: (context,referralsDetailProvider,_) {
+          return ListView(
+            children: [
+              SizedBox(
+                height: 16,
+              ),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 0),
+                child: CustomContainer(
+                  applyShadow: true,
+                  child: Row(
+                    children: [
+                      Expanded(
+                        flex: 1,
+                        child: CustomText(
+                          text: 'Select Date : ',
+                          isContent: true,
+                        ),
+                      ),
+                      Expanded(
+                        flex: 2,
+                        child: CustomDropdown(
+                            labelText: 'Select Date',
+                            items: dateList,
+                            value: defaultValue,
+                            onChanged: (newValue) {
+                              if (newValue != null) {
+                                print('newValue = $newValue');
+                                updateSelectedDate(newValue.toString().split(' ')[0]);
+                              }
+                            }),
+                      )
+                    ],
                   ),
                 ),
-                Expanded(
-                  flex: 2,
-                  child: CustomDropdown(
-                      labelText: 'Select Date',
-                      items: dateList,
-                      value: defaultValue,
-                      onChanged: (newValue) {
-                        if (newValue != null) {
-                          print('newValue = $newValue');
-                          updateSelectedDate(newValue.toString().split(' ')[0]);
-                        }
-                      }),
-                )
-              ],
-            ),
-          ),
-        ],
+              ),
+              SizedBox(height: 8,),
+              ListView.builder(
+                  shrinkWrap: true, // This allows it to take only the required height
+                  physics: NeverScrollableScrollPhysics(),
+                  itemCount: referralsDetailProvider.referralLogs.length,
+                  itemBuilder: (context,index){
+                    String patientId = referralsDetailProvider.body['referralLogs'][index]['patientId'];
+                    String patientName = referralsDetailProvider.body['referralLogs'][index]['patientName'];
+                    String patientCreatorId = referralsDetailProvider.body['referralLogs'][index]['createdById'];
+                    String patientCreatorName = referralsDetailProvider.body['referralLogs'][index]['createdByName'];
+                    String pocId = referralsDetailProvider.body['referralLogs'][index]['pocId'];
+                    String pocName = referralsDetailProvider.body['referralLogs'][index]['pocName'];
+                    String pocNumber = referralsDetailProvider.body['referralLogs'][index]['pocNumber'];
+                    String ambulanceId = referralsDetailProvider.body['referralLogs'][index]['ambId'];
+                    String ambulanceDriverName = referralsDetailProvider.body['referralLogs'][index]['ambDriverName'];
+                    String ambulanceDriverNumber = referralsDetailProvider.body['referralLogs'][index]['ambDriverNumber'];
+                    String ambulanceNumber = referralsDetailProvider.body['referralLogs'][index]['ambNumber'];
+                    String latitude = referralsDetailProvider.body['referralLogs'][index]['latitude'].toString();
+                    String longitude = referralsDetailProvider.body['referralLogs'][index]['longitude'].toString();
+                    String mobileTime = referralsDetailProvider.body['referralLogs'][index]['mobileTime'].toString().split(' ')[0];
+                    String referralDate = referralsDetailProvider.body['referralLogs'][index]['referralDate'].toString().split('T')[0];
+                    String id = referralsDetailProvider.body['referralLogs'][index]['_id'];
+                    String createdAt = referralsDetailProvider.body['referralLogs'][index]['createdAt'].toString().split('T')[0];
+                    String updatedAt = referralsDetailProvider.body['referralLogs'][index]['updatedAt'].toString().split('T')[0];
+                return ListTile(
+                  title: CustomContainer(
+                      applyShadow: true,
+                      child: Column(
+                        children: [
+                          Row(
+                            children: [
+                              Expanded(
+                                flex: 3,
+                                child: CustomText(text: 'Patient Id',isContent: true,),
+                              ),
+                              Expanded(
+                                flex: 3,
+                                child: CustomText(text: patientId,isContent: true,),
+                              ),
+                            ],
+                          ),
+                          Row(
+                            children: [
+                              Expanded(
+                                flex: 3,
+                                child: CustomText(text: 'Patient Name',isContent: true,),
+                              ),
+                              Expanded(
+                                flex: 3,
+                                child: CustomText(text: patientName,isContent: true),
+                              ),
+                            ],
+                          ),
+                          Row(
+                            children: [
+                              Expanded(
+                                flex: 3,
+                                child: CustomText(text: 'Patient Creator Id',isContent: true),
+                              ),
+                              Expanded(
+                                flex: 3,
+                                child: CustomText(text: patientCreatorId,isContent: true),
+                              ),
+                            ],
+                          ),
+                          Row(
+                            children: [
+                              Expanded(
+                                flex: 3,
+                                child: CustomText(text: 'Patient Creator Name',isContent: true),
+                              ),
+                              Expanded(
+                                flex: 3,
+                                child: CustomText(text: patientCreatorName,isContent: true),
+                              ),
+                            ],
+                          ),
+                          Row(
+                            children: [
+                              Expanded(
+                                flex: 3,
+                                child: CustomText(text: 'POC Id',isContent: true),
+                              ),
+                              Expanded(
+                                flex: 3,
+                                child: CustomText(text: pocId,isContent: true),
+                              ),
+                            ],
+                          ),
+                          Row(
+                            children: [
+                              Expanded(
+                                flex: 3,
+                                child: CustomText(text: 'POC Name',isContent: true),
+                              ),
+                              Expanded(
+                                flex: 3,
+                                child: CustomText(text: pocName,isContent: true),
+                              ),
+                            ],
+                          ),
+                          Row(
+                            children: [
+                              Expanded(
+                                flex: 3,
+                                child: CustomText(text: 'POC Number',isContent: true),
+                              ),
+                              Expanded(
+                                flex: 3,
+                                child: CustomText(text: pocNumber,isContent: true),
+                              ),
+                            ],
+                          ),
+                          Row(
+                            children: [
+                              Expanded(
+                                flex: 3,
+                                child: CustomText(text: 'Ambulance Id',isContent: true),
+                              ),
+                              Expanded(
+                                flex: 3,
+                                child: CustomText(text: ambulanceId,isContent: true),
+                              ),
+                            ],
+                          ),
+                          Row(
+                            children: [
+                              Expanded(
+                                flex: 3,
+                                child: CustomText(text: 'Ambulance Driver Name',isContent: true),
+                              ),
+                              Expanded(
+                                flex: 3,
+                                child: CustomText(text: ambulanceDriverName,isContent: true),
+                              ),
+                            ],
+                          ),
+                          Row(
+                            children: [
+                              Expanded(
+                                flex: 3,
+                                child: CustomText(text: 'Ambulance Driver Number',isContent: true),
+                              ),
+                              Expanded(
+                                flex: 3,
+                                child: CustomText(text: ambulanceDriverNumber,isContent: true),
+                              ),
+                            ],
+                          ),
+                          Row(
+                            children: [
+                              Expanded(
+                                flex: 3,
+                                child: CustomText(text: 'Ambulance Number',isContent: true),
+                              ),
+                              Expanded(
+                                flex: 3,
+                                child: CustomText(text: ambulanceNumber,isContent: true),
+                              ),
+                            ],
+                          ),
+                          Row(
+                            children: [
+                              Expanded(
+                                flex: 3,
+                                child: CustomText(text: 'Latitude',isContent: true),
+                              ),
+                              Expanded(
+                                flex: 3,
+                                child: CustomText(text: latitude,isContent: true),
+                              ),
+                            ],
+                          ),
+                          Row(
+                            children: [
+                              Expanded(
+                                flex: 3,
+                                child: CustomText(text: 'Longitude',isContent: true),
+                              ),
+                              Expanded(
+                                flex: 3,
+                                child: CustomText(text: longitude,isContent: true),
+                              ),
+                            ],
+                          ),
+                          Row(
+                            children: [
+                              Expanded(
+                                flex: 3,
+                                child: CustomText(text: 'mobile Time',isContent: true),
+                              ),
+                              Expanded(
+                                flex: 3,
+                                child: CustomText(text: mobileTime,isContent: true),
+                              ),
+                            ],
+                          ),
+                          Row(
+                            children: [
+                              Expanded(
+                                flex: 3,
+                                child: CustomText(text: 'Referral Date',isContent: true),
+                              ),
+                              Expanded(
+                                flex: 3,
+                                child: CustomText(text: referralDate,isContent: true),
+                              ),
+                            ],
+                          ),
+                          Row(
+                            children: [
+                              Expanded(
+                                flex: 3,
+                                child: CustomText(text: 'Id',isContent: true),
+                              ),
+                              Expanded(
+                                flex: 3,
+                                child: CustomText(text: id,isContent: true),
+                              ),
+                            ],
+                          ),
+                          Row(
+                            children: [
+                              Expanded(
+                                flex: 3,
+                                child: CustomText(text: 'Created At',isContent: true),
+                              ),
+                              Expanded(
+                                flex: 3,
+                                child: CustomText(text: createdAt,isContent: true),
+                              ),
+                            ],
+                          ),
+                          Row(
+                            children: [
+                              Expanded(
+                                flex: 3,
+                                child: CustomText(text: 'Updated At',isContent: true),
+                              ),
+                              Expanded(
+                                flex: 3,
+                                child: CustomText(text: updatedAt,isContent: true),
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
+                  ),
+                );
+              })
+            ],
+          );
+        }
       ),
     );
   }
