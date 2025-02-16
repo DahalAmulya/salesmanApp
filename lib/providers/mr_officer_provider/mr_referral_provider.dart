@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:intl/intl.dart';
 import '../../consts.dart';
 import '../../routes/marketing_officer_consts.dart';
@@ -14,6 +15,10 @@ class ReferralsDetailProvider extends ChangeNotifier {
   List<String> _referralTypeList = ['Create Referral', 'Referral Log'];
   String _selectedReferralType = '';
   String _radioGroupValue = '';
+  String _selectedDate = '';
+  double _referralLatitude = 0;
+  double _referralLongitude = 0;
+  List<dynamic> _referralLogs = [];
 
   final _districtTextEditingController = TextEditingController();
   final _searchForStatesTextEditingController = TextEditingController();
@@ -46,10 +51,12 @@ class ReferralsDetailProvider extends ChangeNotifier {
   List<String> get referralTypeList => _referralTypeList;
   String get selectedReferralType => _selectedReferralType;
   String get radioGroupValue => _radioGroupValue;
-
+  String get selectedDate => _selectedDate;
+  double get referralLatitude => _referralLatitude;
+  double get referralLongitude => _referralLongitude;
   List<dynamic> _pocList = [];
   List<String> _citiesList = [];
-  List<String> _gender = ["Male", "Female"];
+  List<String> _gender = ["Male", "Female", "Others"];
 
   String _selectedGender = '';
   String _defaultGenderValue = 'Male';
@@ -119,6 +126,11 @@ class ReferralsDetailProvider extends ChangeNotifier {
 
   void selectVisitType(value) {
     _radioGroupValue = value;
+    notifyListeners();
+  }
+
+  void setSelectedDate(String date) {
+    _selectedDate = date;
     notifyListeners();
   }
 
@@ -192,6 +204,14 @@ class ReferralsDetailProvider extends ChangeNotifier {
     } else {
       print('Error: ${response.statusCode} - ${response.body}');
     }
+    Position position = await Geolocator.getCurrentPosition(
+      locationSettings: LocationSettings(
+        accuracy: LocationAccuracy.best,
+        distanceFilter: 0,
+      ),
+    );
+    _referralLatitude = position.latitude;
+    _referralLongitude = position.longitude;
     notifyListeners();
   }
 
@@ -254,9 +274,6 @@ class ReferralsDetailProvider extends ChangeNotifier {
           : _patientCountryTextController.value.text,
       "region": _patientDistrictTextController.value.text,
       "city": _patientCityTextController.value.text,
-      // "country": "Nepal",
-      // "region": "Morang",
-      // "city": "Biratnagar",
       "address": _patientAddressTextController.value.text,
       "createdById": userId,
       "createdByName": userName,
@@ -267,8 +284,8 @@ class ReferralsDetailProvider extends ChangeNotifier {
       "ambDriverName": _ambDriverNameTextController.value.text,
       "ambDriverNumber": _ambPhoneNumberTextController.value.text,
       "ambNumber": _ambNumberTextController.value.text,
-      "latitude": 26.4577518899581,
-      "longitude": 87.27941914017262,
+      "latitude": _referralLatitude,
+      "longitude": _referralLongitude,
       "mobileTime": mobileTime,
       "dateTime": dateTime
     };
@@ -281,11 +298,32 @@ class ReferralsDetailProvider extends ChangeNotifier {
     if (response.statusCode == 200) {
       ToastMessageUtils().showToastMessage('Referral created successfully',
           ToastGravity.TOP, CustomColors.jadeGreen);
+      Navigator.of(context)
+          .popAndPushNamed(MarketingOfficerConstants.mrStaffDashboardConst);
       print('success');
     } else {
       ToastMessageUtils().showToastMessage(
           'Something went wrong', ToastGravity.TOP, CustomColors.lightRed);
       print('something is missing');
     }
+  }
+
+  void getReferralLogs() async {
+    DateTime now = DateTime.now();
+    String date = now.toString().split(' ')[0];
+    _selectedDate = selectedDate.isEmpty ? date : _selectedDate;
+    print('selectedDate = ${_selectedDate}');
+    ERPResponse response = await ERPServices.getRequest(
+        '/visitLogs?visitLogId=$userId&from=$_selectedDate&to=$_selectedDate');
+    print(response.statusCode);
+    print(response.body);
+    Map<String, dynamic> body = jsonDecode(response.body);
+    if (body["visitLogs"].containsKey('visitLogs')) {
+      _referralLogs = body["visitLogs"]["visitLogs"];
+    } else {
+      _referralLogs = [];
+    }
+    print(_referralLogs);
+    notifyListeners();
   }
 }

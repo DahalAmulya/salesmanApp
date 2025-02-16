@@ -14,6 +14,7 @@ import 'package:deskgoo/pages/mr_officers_pages/mr_officers_dashboard/mr_officer
 import 'package:deskgoo/pages/mr_officers_pages/mr_officers_visits/followUp_visit_screen.dart';
 import 'package:deskgoo/pages/mr_officers_pages/mr_officers_visits/new_visit_screen.dart';
 import 'package:deskgoo/pages/mr_officers_pages/mr_officers_visits/visit_log_screen.dart';
+import 'package:deskgoo/pages/mr_officers_pages/referral/referral_log_screen.dart';
 import 'package:deskgoo/pages/mr_officers_pages/referral/referral_screen.dart';
 import 'package:deskgoo/pages/mr_officers_pages/weeklyplan/addtask_screen.dart';
 import 'package:deskgoo/pages/mr_officers_pages/weeklyplan/weeklyplan_screen.dart';
@@ -28,7 +29,6 @@ import '../pages/mr_admin/mr_admin_pages/mr_admin_create_user/mr_admin_createuse
 import '../pages/mr_admin/mr_admin_pages/mr_admin_create_user/mr_admin_viewuser.dart';
 import '../pages/mr_admin/mr_admin_pages/reports/Area/report_area_screen.dart';
 import '../pages/mr_officers_pages/mr_officers_visits/product.dart';
-import '../pages/mr_officers_pages/referral/referral_logscreen.dart';
 import '../pages/settings/profile/profile_Page.dart';
 
 class RouteGenerator {
@@ -106,17 +106,15 @@ class RouteGenerator {
           builder: (_) => MrAdminAreaReportScreen(),
         );
       case MarketingManagerConstants.mrManagerCreateUserPage:
-       return MaterialPageRoute(
-         builder: (_) => MarketingAdminCreateUser(),
-      );
+        return MaterialPageRoute(
+          builder: (_) => MarketingAdminCreateUser(),
+        );
       case MarketingManagerConstants.mrManagerViewUserPage:
         return MaterialPageRoute(
           builder: (_) => MarketingAdminViewUser(),
         );
 
-
-
-    // Routes for MarketingStaff
+      // Routes for MarketingStaff
       case MarketingOfficerConstants.mrStaffDashboardConst:
         return MaterialPageRoute(builder: (_) => MrOfficersDashboardScreen());
       case MarketingOfficerConstants.weeklyPlanConst:
@@ -133,7 +131,8 @@ class RouteGenerator {
       case MarketingOfficerConstants.referral:
         return MaterialPageRoute(builder: (_) => MrOfficerReferralScreen());
       case MarketingOfficerConstants.referralLog:
-        return MaterialPageRoute(builder: (_) => MarketingOfficerReferralLogScreen());
+        return MaterialPageRoute(
+            builder: (_) => MarketingOfficerReferralLogScreen());
       case MarketingOfficerConstants.productConst:
         return MaterialPageRoute(builder: (_) => ProductPage());
       default:
