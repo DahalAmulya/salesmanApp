@@ -17,6 +17,7 @@ import '../../../../widgets/text_fields/text_from_field.dart';
 import 'package:http/http.dart' as http;
 
 import '../../../providers/mr_officer_provider/mr_referral_provider.dart';
+import '../../../providers/mr_officer_provider/mr_visit_provider.dart';
 
 class MrOfficerReferralScreen extends StatefulWidget {
   const MrOfficerReferralScreen({super.key});
@@ -284,76 +285,138 @@ class _MrOfficerReferralScreenState extends State<MrOfficerReferralScreen> {
             SizedBox(
               height: 16,
             ),
-            CustomDropdown(
-                labelText: 'Country',
-                items: country,
-                value: defaultValue,
-                applyCountryFlag: true,
-                onChanged: (newValue) {
-                  selectedCountry = newValue!;
-                  referralsDetailProvider.updateCountry(selectedCountry);
-                  setState(() {
-                    if (selectedCountry == country[0]) {
-                      _isVisibleForDistrict = true;
-                      _isVisibleForState = false;
-                      _AddTaskBottomSheetForDistrict(context);
-                    } else {
-                      _isVisibleForDistrict = false;
-                      _isVisibleForState = true;
-                      _AddTaskBottomSheetForStates(context);
-                      // print(country[1]);
-                    }
-                  });
-                }),
+            Consumer<MrOfficerVisitProvider>(
+              builder: (context,createVisitProvider,_) {
+                return CustomDropdown(
+                  labelText: 'Country',
+                  items: createVisitProvider.country,
+                  value: createVisitProvider.selectedCountry,
+                  applyCountryFlag: true,
+                  onChanged: (newValue) {
+                    createVisitProvider.setCountry(newValue);
+                  },
+                );
+              }
+            ),
+
+            // CustomDropdown(
+            //     labelText: 'Country',
+            //     items: country,
+            //     value: defaultValue,
+            //     applyCountryFlag: true,
+            //     onChanged: (newValue) {
+            //       selectedCountry = newValue!;
+            //       referralsDetailProvider.updateCountry(selectedCountry);
+            //       setState(() {
+            //         if (selectedCountry == country[0]) {
+            //           _isVisibleForDistrict = true;
+            //           _isVisibleForState = false;
+            //           _AddTaskBottomSheetForDistrict(context);
+            //         } else {
+            //           _isVisibleForDistrict = false;
+            //           _isVisibleForState = true;
+            //           _AddTaskBottomSheetForStates(context);
+            //           // print(country[1]);
+            //         }
+            //       });
+            //     }),
             SizedBox(
               height: 16,
             ),
-            Visibility(
-              visible: _isVisibleForDistrict,
-              child: TextFromFieldWithPrefixSuffix(
-                controller:
-                    referralsDetailProvider.patientDistrictTextController,
-                labelText: 'District',
-                onTap: () {
-                  // weeklyPlanProvider.setDistrictList();
-                  _AddTaskBottomSheetForDistrict(context);
-                },
-                onChange: (value) => () {},
-                validator: (Value) {},
-              ),
+            Consumer<MrOfficerVisitProvider>(
+              builder: (context,createVisitProvider,_) {
+                return TextFromFieldWithPrefixSuffix(
+                  controller: createVisitProvider.selectedCountry ==
+                      createVisitProvider.country[0]
+                      ? createVisitProvider.districtController
+                      : createVisitProvider.stateController,
+                  readOnly: true,
+                  labelText: createVisitProvider.selectedCountry ==
+                      createVisitProvider.country[0]
+                      ? 'District *'
+                      : 'State *',
+                  validator: (newValue) {},
+                  onTap: () async {
+                    String fileName = createVisitProvider.selectedCountry ==
+                        createVisitProvider.country[0]
+                        ? 'district'
+                        : 'states';
+                    final file =
+                    await rootBundle.loadString('assets/$fileName.json');
+                    final content = await jsonDecode(file);
+                    showModalBottomSheet(
+                        isScrollControlled: true,
+                        useSafeArea: true,
+                        context: context,
+                        builder: (context) => districtBottomSheet(
+                            context, '$fileName', content));
+                    createVisitProvider.searchController.text = '';
+                    createVisitProvider.searchAddressResult(
+                        createVisitProvider.searchController.value.text,
+                        content);
+                  },
+                );
+              }
             ),
-            Visibility(
-              visible: _isVisibleForState,
-              child: TextFromFieldWithPrefixSuffix(
-                controller: referralsDetailProvider.patientStateTextController,
-                labelText: 'State',
-                readOnly: true,
-                onTap: () {
-                  // weeklyPlanProvider.setStateList();
-                  _AddTaskBottomSheetForStates(context);
-                },
-                onChange: (value) => () {},
-                validator: (Value) {},
-              ),
-            ),
+            // Visibility(
+            //   visible: _isVisibleForDistrict,
+            //   child: TextFromFieldWithPrefixSuffix(
+            //     controller:
+            //         referralsDetailProvider.patientDistrictTextController,
+            //     labelText: 'District',
+            //     onTap: () {
+            //       // weeklyPlanProvider.setDistrictList();
+            //       _AddTaskBottomSheetForDistrict(context);
+            //     },
+            //     onChange: (value) => () {},
+            //     validator: (Value) {},
+            //   ),
+            // ),
+            // Visibility(
+            //   visible: _isVisibleForState,
+            //   child: TextFromFieldWithPrefixSuffix(
+            //     controller: referralsDetailProvider.patientStateTextController,
+            //     labelText: 'State',
+            //     readOnly: true,
+            //     onTap: () {
+            //       // weeklyPlanProvider.setStateList();
+            //       _AddTaskBottomSheetForStates(context);
+            //     },
+            //     onChange: (value) => () {},
+            //     validator: (Value) {},
+            //   ),
+            // ),
             SizedBox(
               height: 16,
             ),
-            TextFromFieldWithPrefixSuffix(
-              autoFocus: false,
-              hintText: 'City',
-              labelText: 'City',
-              controller: referralsDetailProvider.patientCityTextController,
-              onTap: () {
-                _AddTaskBottomSheetForCities(context);
-              },
-              validator: (value) {
-                return value!.isEmpty
-                    ? 'Activity note is required'
-                    : value.length < 3
-                        ? 'Enter at least 3 characters'
-                        : null;
-              },
+            Consumer<MrOfficerVisitProvider>(
+              builder: (context,createVisitProvider,_) {
+                return TextFromFieldWithPrefixSuffix(
+                  autoFocus: false,
+                  hintText: 'City',
+                  labelText: 'City',
+                  controller: referralsDetailProvider.patientCityTextController,
+                  onTap: () {
+                    createVisitProvider.searchController.text = '';
+                    createVisitProvider.searchAddressResult(
+                        createVisitProvider.searchController.value.text,
+                        createVisitProvider.cities);
+                    showModalBottomSheet(
+                        isScrollControlled: true,
+                        useSafeArea: true,
+                        context: context,
+                        builder: (context) => citiesBottomSheet(
+                            context, createVisitProvider.cities));
+                  },
+                  validator: (value) {
+                    return value!.isEmpty
+                        ? 'Activity note is required'
+                        : value.length < 3
+                            ? 'Enter at least 3 characters'
+                            : null;
+                  },
+                );
+              }
             ),
             SizedBox(
               height: 16,
@@ -605,139 +668,220 @@ class _MrOfficerReferralScreenState extends State<MrOfficerReferralScreen> {
   }
 
   //------------------------------------------------------------------------------------------------------------------------//
-  Future<void> _AddTaskBottomSheetForDistrict(context) {
-    return showModalBottomSheet(
-      context: context,
-      isScrollControlled: true, // Allows the sheet to take up more space
-      builder: (context) => ClipRRect(
-        borderRadius: BorderRadius.circular(16.0),
-        child: SizedBox(
-          height: MediaQuery.of(context).size.height * 0.90,
-          child: Scaffold(
-            backgroundColor: Colors.grey.shade200,
-            // appBar: _AddTaskBottomSheetForDistrictAppBar(context),
-            body: _AddTaskBottomSheetForDistrictBody(context),
+
+  Widget districtBottomSheet(context, String type, List<dynamic> content) {
+    return Consumer<MrOfficerVisitProvider>(
+      builder: (context, visitProvider, _) {
+        return Container(
+          color: CustomColors.primaryWhite,
+          height: MediaQuery.of(context).size.height * 0.80,
+          child: Column(
+            children: [
+              // SizedBox(
+              //   height: 16,
+              // ),
+              Container(
+                padding: const EdgeInsets.only(
+                  top: 8,
+                  right: 12.0,
+                  bottom: 8,
+                ),
+                decoration: BoxDecoration(
+                  color: CustomColors.primaryColor,
+                ),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Expanded(
+                      flex: 1,
+                      child: InkWell(
+                          onTap: () {
+                            print('Pressed');
+                            Navigator.pop(context);
+                          },
+                          child: Icon(FontAwesomeIcons.arrowLeft)),
+                    ),
+                    // ),
+                    Expanded(
+                      flex: 7,
+                      child: TextFromFieldWithPrefixSuffix(
+                        controller: visitProvider.searchController,
+                        labelText: 'Search District',
+                        applySuffixIcon: true,
+                        suffixIcon: Icon(Icons.search),
+                        validator: (value) {},
+                        onChange: (value) => visitProvider.searchAddressResult(
+                            visitProvider.searchController.value.text, content),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              SizedBox(
+                height: 16,
+              ),
+              Expanded(
+                child: ListView.builder(
+                  itemCount: visitProvider.searchResult.length,
+                  itemBuilder: (context, index) {
+                    String name = visitProvider.searchResult[index]['$type'];
+                    return ListTile(
+                      onTap: () {
+                        Navigator.pop(context);
+                        type == 'district'
+                            ? visitProvider.setSelectedDistrict(name)
+                            : visitProvider.setSelectedState(name);
+                        visitProvider.getCities(
+                            visitProvider.searchResult[index]['cities']);
+                      },
+                      title: CustomText(
+                        text: name,
+                        isContent: true,
+                      ),
+                    );
+                  },
+                ),
+              ),
+            ],
           ),
-        ),
-      ),
+        );
+      },
     );
   }
 
-  PreferredSize _AddTaskBottomSheetForDistrictAppBar(context) {
-    return PreferredSize(
-        preferredSize: Size.fromHeight(kToolbarHeight),
-        child: CustomAppBar(
-          showLeading: true,
-          leadingIcon: FontAwesomeIcons.arrowLeft,
-          backgroundColor: CustomColors.primaryColor,
-          tabName: 'Select District',
-          onTapLeadingIcon: () {
-            Navigator.pop(context);
-          },
-        ));
-  }
-
-  Widget _AddTaskBottomSheetForDistrictBody(context) {
-    return Consumer<ReferralsDetailProvider>(
-        builder: (context, referralsDetailProvider, _) {
-      return ListView(
-        children: [
-          Container(
-            padding: EdgeInsets.symmetric(horizontal: 8),
-            height: MediaQuery.of(context).size.height * 0.10,
-            decoration: BoxDecoration(
-              color: CustomColors.primaryColor,
-              borderRadius: BorderRadius.only(
-                  topLeft: Radius.circular(16), topRight: Radius.circular(16)),
-            ),
-            child: Row(
-              children: [
-                InkWell(
-                    onTap: () {
-                      Navigator.pop(context);
-                    },
-                    child: Icon(Icons.arrow_back)),
-                SizedBox(
-                  width: 8,
-                ),
-                Expanded(
-                  child: Consumer<WeeklyPlanProvider>(
-                      builder: (context, weeklyPlanProvider, _) {
-                    return TextFromFieldWithPrefixSuffix(
-                      applyPrefix: true,
-                      prefixIcon: Icon(Icons.search),
-                      applySuffixIcon: true,
-                      suffixIcon: Icon(Icons.arrow_drop_down),
-                      controller: searchForDistrictTextEditingController,
-                      labelText: 'Select District',
-                      onTap: () {
-                        weeklyPlanProvider.runDistrictSearchFilter('');
-                        // weeklyPlanProvider.setDistrictList();
-                      },
-                      onChange: (value) =>
-                          weeklyPlanProvider.runDistrictSearchFilter(
-                              searchForDistrictTextEditingController
-                                  .value.text),
-                      validator: (Value) {},
-                    );
-                  }),
-                ),
-              ],
-            ),
-          ),
-          Consumer<WeeklyPlanProvider>(
-              builder: (context, weeklyPlanProvider, _) {
-            return Container(
-              child: ListView.builder(
-                  physics: ScrollPhysics(),
-                  shrinkWrap: true,
-                  itemCount: weeklyPlanProvider.foundDistrict.length,
-                  itemBuilder: (context, index) {
-                    return ListTile(
-                      title: CustomText(
-                        text:
-                            weeklyPlanProvider.foundDistrict[index].toString(),
-                      ),
-                      onTap: () {
-                        // print(districtList);
-                        // referralsDetailProvider.updateDistrict(district);
-                        selectedDistrict =
-                            weeklyPlanProvider.foundDistrict[index];
-                        citiesList = districtList[index]['cities'];
-                        print(citiesList);
-                        referralsDetailProvider
-                            .updateDistrict(selectedDistrict);
-                        Navigator.pop(context);
-                      },
-                    );
-                  }),
-            );
-          }),
-          Consumer<WeeklyPlanProvider>(
-              builder: (context, weeklyPlanProvider, _) {
-            return Container(
-              child: ListView.builder(
-                  shrinkWrap: true,
-                  itemCount: weeklyPlanProvider.foundDistrict.length,
-                  itemBuilder: (context, index) {
-                    return ListTile(
-                      title: CustomText(
-                          text: weeklyPlanProvider.foundDistrict[index]
-                              .toString()),
-                      onTap: () {
-                        selectedDistrict =
-                            weeklyPlanProvider.foundDistrict[index];
-                        districtTextEditingController.text = selectedDistrict;
-                        Navigator.pop(context);
-                      },
-                    );
-                  }),
-            );
-          })
-        ],
-      );
-    });
-  }
+  // Future<void> _AddTaskBottomSheetForDistrict(context) {
+  //   return showModalBottomSheet(
+  //     context: context,
+  //     isScrollControlled: true, // Allows the sheet to take up more space
+  //     builder: (context) => ClipRRect(
+  //       borderRadius: BorderRadius.circular(16.0),
+  //       child: SizedBox(
+  //         height: MediaQuery.of(context).size.height * 0.90,
+  //         child: Scaffold(
+  //           backgroundColor: Colors.grey.shade200,
+  //           // appBar: _AddTaskBottomSheetForDistrictAppBar(context),
+  //           body: _AddTaskBottomSheetForDistrictBody(context),
+  //         ),
+  //       ),
+  //     ),
+  //   );
+  // }
+  //
+  // PreferredSize _AddTaskBottomSheetForDistrictAppBar(context) {
+  //   return PreferredSize(
+  //       preferredSize: Size.fromHeight(kToolbarHeight),
+  //       child: CustomAppBar(
+  //         showLeading: true,
+  //         leadingIcon: FontAwesomeIcons.arrowLeft,
+  //         backgroundColor: CustomColors.primaryColor,
+  //         tabName: 'Select District',
+  //         onTapLeadingIcon: () {
+  //           Navigator.pop(context);
+  //         },
+  //       ));
+  // }
+  //
+  // Widget _AddTaskBottomSheetForDistrictBody(context) {
+  //   return Consumer<ReferralsDetailProvider>(
+  //       builder: (context, referralsDetailProvider, _) {
+  //     return ListView(
+  //       children: [
+  //         Container(
+  //           padding: EdgeInsets.symmetric(horizontal: 8),
+  //           height: MediaQuery.of(context).size.height * 0.10,
+  //           decoration: BoxDecoration(
+  //             color: CustomColors.primaryColor,
+  //             borderRadius: BorderRadius.only(
+  //                 topLeft: Radius.circular(16), topRight: Radius.circular(16)),
+  //           ),
+  //           child: Row(
+  //             children: [
+  //               InkWell(
+  //                   onTap: () {
+  //                     Navigator.pop(context);
+  //                   },
+  //                   child: Icon(Icons.arrow_back)),
+  //               SizedBox(
+  //                 width: 8,
+  //               ),
+  //               Expanded(
+  //                 child: Consumer<WeeklyPlanProvider>(
+  //                     builder: (context, weeklyPlanProvider, _) {
+  //                   return TextFromFieldWithPrefixSuffix(
+  //                     applyPrefix: true,
+  //                     prefixIcon: Icon(Icons.search),
+  //                     applySuffixIcon: true,
+  //                     suffixIcon: Icon(Icons.arrow_drop_down),
+  //                     controller: searchForDistrictTextEditingController,
+  //                     labelText: 'Select District',
+  //                     onTap: () {
+  //                       weeklyPlanProvider.runDistrictSearchFilter('');
+  //                       // weeklyPlanProvider.setDistrictList();
+  //                     },
+  //                     onChange: (value) =>
+  //                         weeklyPlanProvider.runDistrictSearchFilter(
+  //                             searchForDistrictTextEditingController
+  //                                 .value.text),
+  //                     validator: (Value) {},
+  //                   );
+  //                 }),
+  //               ),
+  //             ],
+  //           ),
+  //         ),
+  //         Consumer<WeeklyPlanProvider>(
+  //             builder: (context, weeklyPlanProvider, _) {
+  //           return Container(
+  //             child: ListView.builder(
+  //                 physics: ScrollPhysics(),
+  //                 shrinkWrap: true,
+  //                 itemCount: weeklyPlanProvider.foundDistrict.length,
+  //                 itemBuilder: (context, index) {
+  //                   return ListTile(
+  //                     title: CustomText(
+  //                       text:
+  //                           weeklyPlanProvider.foundDistrict[index].toString(),
+  //                     ),
+  //                     onTap: () {
+  //                       // print(districtList);
+  //                       // referralsDetailProvider.updateDistrict(district);
+  //                       selectedDistrict =
+  //                           weeklyPlanProvider.foundDistrict[index];
+  //                       citiesList = districtList[index]['cities'];
+  //                       print(citiesList);
+  //                       referralsDetailProvider
+  //                           .updateDistrict(selectedDistrict);
+  //                       Navigator.pop(context);
+  //                     },
+  //                   );
+  //                 }),
+  //           );
+  //         }),
+  //         Consumer<WeeklyPlanProvider>(
+  //             builder: (context, weeklyPlanProvider, _) {
+  //           return Container(
+  //             child: ListView.builder(
+  //                 shrinkWrap: true,
+  //                 itemCount: weeklyPlanProvider.foundDistrict.length,
+  //                 itemBuilder: (context, index) {
+  //                   return ListTile(
+  //                     title: CustomText(
+  //                         text: weeklyPlanProvider.foundDistrict[index]
+  //                             .toString()),
+  //                     onTap: () {
+  //                       selectedDistrict =
+  //                           weeklyPlanProvider.foundDistrict[index];
+  //                       districtTextEditingController.text = selectedDistrict;
+  //                       Navigator.pop(context);
+  //                     },
+  //                   );
+  //                 }),
+  //           );
+  //         })
+  //       ],
+  //     );
+  //   });
+  // }
   //------------------------------------------------------------------------------------------------------------------------//
 
   Future<void> _AddTaskBottomSheetForStates(context) {
@@ -869,71 +1013,145 @@ class _MrOfficerReferralScreenState extends State<MrOfficerReferralScreen> {
   }
   //------------------------------------------------------------------------------------------------------------------------//
 
-  Future<void> _AddTaskBottomSheetForCities(context) {
-    return showModalBottomSheet(
-      context: context,
-      isScrollControlled: true, // Allows the sheet to take up more space
-      builder: (context) => ClipRRect(
-        borderRadius: BorderRadius.circular(16.0),
-        child: SizedBox(
-          height: MediaQuery.of(context).size.height * 0.90,
-          child: Scaffold(
-            backgroundColor: Colors.grey.shade200,
-            appBar: _AddTaskBottomSheetForCitiesAppBar(context),
-            body: _AddTaskBottomSheetForCitiesBody(context),
-          ),
-        ),
-      ),
-    );
-  }
-
-  PreferredSize _AddTaskBottomSheetForCitiesAppBar(context) {
-    return PreferredSize(
-      preferredSize: Size.fromHeight(kToolbarHeight),
-      child: CustomAppBar(
-        showLeading: true,
-        leadingIcon: FontAwesomeIcons.arrowLeft,
-        backgroundColor: CustomColors.primaryColor,
-        tabName: 'Select Cities',
-        onTapLeadingIcon: () {
-          Navigator.pop(context);
-        },
-      ),
-    );
-  }
-
-  Widget _AddTaskBottomSheetForCitiesBody(context) {
-    return Consumer<ReferralsDetailProvider>(
-        builder: (context, referralsDetailProvider, _) {
-      return ListView(
-        children: [
-          SizedBox(
-            height: 16,
-          ),
-          Container(
-            child: ListView.builder(
-                physics: ScrollPhysics(),
-                shrinkWrap: true,
-                itemCount: citiesList.length,
-                itemBuilder: (context, index) {
-                  return ListTile(
-                    title: CustomText(
-                      text: citiesList[index].toString(),
+  Widget citiesBottomSheet(context, List<dynamic> content) {
+    return Consumer<MrOfficerVisitProvider>(
+      builder: (context, visitProvider, _) {
+        return SizedBox(
+          height: MediaQuery.of(context).size.height * 0.80,
+          child: Column(
+            children: [
+              Container(
+                padding: const EdgeInsets.only(
+                  top: 8,
+                  right: 12.0,
+                  bottom: 8,
+                ),
+                decoration: BoxDecoration(
+                  color: CustomColors.primaryColor,
+                ),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Expanded(
+                      flex: 1,
+                      child: InkWell(
+                          onTap: () {
+                            print('Pressed');
+                            Navigator.pop(context);
+                          },
+                          child: Icon(FontAwesomeIcons.arrowLeft)),
                     ),
-                    onTap: () {
-                      // print(districtList);
-                      selectedCity = citiesList[index];
-                      // referralsDetailProvider.updateCity(citiesList[index]);
-                      referralsDetailProvider.updateCity(selectedCity);
-                      Navigator.pop(context);
-                    },
-                  );
-                }),
+                    // ),
+                    Expanded(
+                      flex: 7,
+                      child: TextFromFieldWithPrefixSuffix(
+                        controller: visitProvider.searchController,
+                        labelText: 'Search City',
+                        applySuffixIcon: true,
+                        suffixIcon: Icon(Icons.search),
+                        validator: (value) {},
+                        onChange: (value) => visitProvider.searchAddressResult(
+                            visitProvider.searchController.value.text, content),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              SizedBox(
+                height: 16,
+              ),
+              Expanded(
+                child: ListView.builder(
+                  itemCount: visitProvider.searchResult.length,
+                  itemBuilder: (context, index) {
+                    String cityName = visitProvider.searchResult[index];
+                    return ListTile(
+                      onTap: () {
+                        Navigator.pop(context);
+                        visitProvider.setSelectedCity(cityName);
+                        print(visitProvider.searchResult[index]);
+                      },
+                      title: CustomText(
+                        text: cityName,
+                        isContent: true,
+                      ),
+                    );
+                  },
+                ),
+              ),
+            ],
           ),
-        ],
-      );
-    });
+        );
+      },
+    );
   }
+
+
+  // Future<void> _AddTaskBottomSheetForCities(context) {
+  //   return showModalBottomSheet(
+  //     context: context,
+  //     isScrollControlled: true, // Allows the sheet to take up more space
+  //     builder: (context) => ClipRRect(
+  //       borderRadius: BorderRadius.circular(16.0),
+  //       child: SizedBox(
+  //         height: MediaQuery.of(context).size.height * 0.90,
+  //         child: Scaffold(
+  //           backgroundColor: Colors.grey.shade200,
+  //           appBar: _AddTaskBottomSheetForCitiesAppBar(context),
+  //           body: _AddTaskBottomSheetForCitiesBody(context),
+  //         ),
+  //       ),
+  //     ),
+  //   );
+  // }
+  //
+  // PreferredSize _AddTaskBottomSheetForCitiesAppBar(context) {
+  //   return PreferredSize(
+  //     preferredSize: Size.fromHeight(kToolbarHeight),
+  //     child: CustomAppBar(
+  //       showLeading: true,
+  //       leadingIcon: FontAwesomeIcons.arrowLeft,
+  //       backgroundColor: CustomColors.primaryColor,
+  //       tabName: 'Select Cities',
+  //       onTapLeadingIcon: () {
+  //         Navigator.pop(context);
+  //       },
+  //     ),
+  //   );
+  // }
+  //
+  // Widget _AddTaskBottomSheetForCitiesBody(context) {
+  //   return Consumer<ReferralsDetailProvider>(
+  //       builder: (context, referralsDetailProvider, _) {
+  //     return ListView(
+  //       children: [
+  //         SizedBox(
+  //           height: 16,
+  //         ),
+  //         Container(
+  //           child: ListView.builder(
+  //               physics: ScrollPhysics(),
+  //               shrinkWrap: true,
+  //               itemCount: citiesList.length,
+  //               itemBuilder: (context, index) {
+  //                 return ListTile(
+  //                   title: CustomText(
+  //                     text: citiesList[index].toString(),
+  //                   ),
+  //                   onTap: () {
+  //                     // print(districtList);
+  //                     selectedCity = citiesList[index];
+  //                     // referralsDetailProvider.updateCity(citiesList[index]);
+  //                     referralsDetailProvider.updateCity(selectedCity);
+  //                     Navigator.pop(context);
+  //                   },
+  //                 );
+  //               }),
+  //         ),
+  //       ],
+  //     );
+  //   });
+  // }
   //------------------------------------------------------------------------------------------------------------------------//
 
   Widget _ReferralBottomSheet(context) {
