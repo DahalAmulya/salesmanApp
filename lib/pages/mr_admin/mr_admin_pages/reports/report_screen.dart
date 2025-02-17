@@ -19,14 +19,6 @@ class MrAdminReportScreen extends StatefulWidget {
 }
 
 class _MrAdminReportScreenState extends State<MrAdminReportScreen> {
-  List<String> filterBy = [
-    'Area-wise',
-    'Coverage-wise',
-    'Officer-wise',
-    'visit-wise',
-  ];
-  String selectedFilter = '';
-
   @override
   Widget build(BuildContext context) {
     return PopScope(
@@ -69,7 +61,6 @@ class _MrAdminReportScreenState extends State<MrAdminReportScreen> {
   }
 
   Widget _buildI(context) {
-    selectedFilter = filterBy[0];
     return Consumer<MrAdminVisitLogProvider>(
         builder: (context, adminVisitLogsProvider, _) {
       return ListView(
@@ -90,9 +81,12 @@ class _MrAdminReportScreenState extends State<MrAdminReportScreen> {
                     ),
                     CustomDropdown(
                       labelText: 'Select User',
-                      items: ['Ram', 'Hari', 'Shyam'],
-                      value: 'Ram',
-                      onChanged: (value) {},
+                      items: adminVisitLogsProvider.visitLogsUserList,
+                      value: adminVisitLogsProvider.selectedUser,
+                      onChanged: (value) {
+                        print('');
+                        adminVisitLogsProvider.setSelectedUser(value);
+                      },
                     ),
                     SizedBox(
                       height: 16,
@@ -103,35 +97,41 @@ class _MrAdminReportScreenState extends State<MrAdminReportScreen> {
                       value: adminVisitLogsProvider.selectedVisitType,
                       onChanged: (value) {
                         adminVisitLogsProvider.setSelectedVisitType(value);
+                        adminVisitLogsProvider.getVisitLogs();
                       },
                     ),
                     SizedBox(
                       height: 16,
                     ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Expanded(
-                          flex: 1,
-                          child: TextFromFieldWithPrefixSuffix(
-                            controller: adminVisitLogsProvider
-                                .fromTextEditingController,
-                            validator: (value) {},
+                    if (adminVisitLogsProvider.selectedVisitType == 'Custom')
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Expanded(
+                            flex: 1,
+                            child: TextFromFieldWithPrefixSuffix(
+                              labelText: 'From',
+                              readOnly: true,
+                              controller: adminVisitLogsProvider
+                                  .fromTextEditingController,
+                              validator: (value) {},
+                            ),
                           ),
-                        ),
-                        SizedBox(
-                          width: 12,
-                        ),
-                        Expanded(
-                          flex: 1,
-                          child: TextFromFieldWithPrefixSuffix(
-                            controller:
-                                adminVisitLogsProvider.toTextEditingController,
-                            validator: (value) {},
+                          SizedBox(
+                            width: 12,
                           ),
-                        ),
-                      ],
-                    ),
+                          Expanded(
+                            flex: 1,
+                            child: TextFromFieldWithPrefixSuffix(
+                              labelText: 'To',
+                              readOnly: true,
+                              controller: adminVisitLogsProvider
+                                  .toTextEditingController,
+                              validator: (value) {},
+                            ),
+                          ),
+                        ],
+                      ),
                   ],
                 ),
               ),
