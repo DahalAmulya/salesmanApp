@@ -175,9 +175,7 @@ class _MrOfficerNewVisitScreenState extends State<MrOfficerNewVisitScreen> {
                           builder: (context) => districtBottomSheet(
                               context, '$fileName', content));
                       createVisitProvider.searchController.text = '';
-                      createVisitProvider.searchAddressResult(
-                          createVisitProvider.searchController.value.text,
-                          content);
+                      createVisitProvider.searchAddressResult(createVisitProvider.searchController.value.text,content);
                     },
                   ),
                   SizedBox(
@@ -688,8 +686,7 @@ class _MrOfficerNewVisitScreenState extends State<MrOfficerNewVisitScreen> {
                         applySuffixIcon: true,
                         suffixIcon: Icon(Icons.search),
                         validator: (value) {},
-                        onChange: (value) => visitProvider.searchAddressResult(
-                            visitProvider.searchController.value.text, content),
+                        onChange: (value) => visitProvider.searchAddressResult(visitProvider.searchController.value.text, content),
                       ),
                     ),
                   ],
@@ -764,8 +761,7 @@ class _MrOfficerNewVisitScreenState extends State<MrOfficerNewVisitScreen> {
                         applySuffixIcon: true,
                         suffixIcon: Icon(Icons.search),
                         validator: (value) {},
-                        onChange: (value) => visitProvider.searchAddressResult(
-                            visitProvider.searchController.value.text, content),
+                        onChange: (value) => visitProvider.searchAddressResult(visitProvider.searchController.value.text, content),
                       ),
                     ),
                   ],
