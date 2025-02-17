@@ -10,6 +10,7 @@ class SecureStorageResponse {
 
 class SecureStorage {
   static String userEmail = 'userEmail';
+  static String userName = 'name';
   static String password = 'password';
   static String accessToken = 'accessToken';
   static String refreshToken = 'refreshToken';
@@ -17,6 +18,14 @@ class SecureStorage {
   static String roleValue = 'roleValue';
   static String userId = 'userId';
   static String rememberMe = 'false';
+  static String userDob = 'userDob';
+  static String userDoj = 'userDoj';
+  static String userDepartment = 'userDepartment';
+  static String userDesignation = 'userDesignation';
+  static String userGender = 'userGender';
+  static String userMaritalStatus = 'userMaritalStatus';
+  static String userNationality = 'userNationality';
+  static String userAddress = 'userAddress';
 
   static FlutterSecureStorage storage = const FlutterSecureStorage();
 

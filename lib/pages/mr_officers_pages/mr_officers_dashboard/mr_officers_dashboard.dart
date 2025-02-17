@@ -206,7 +206,7 @@ class _MrOfficersDashboardScreenState extends State<MrOfficersDashboardScreen>
       getBackgroundLocation();
       print('----------------------------------------------------------------');
       print('\t\tApp is in background');
-      print('userID = $userId');
+      print('\t\tUserId = ${UserCred().userId}');
       isBackground = true;
       print('----------------------------------------------------------------');
     } else if (state == AppLifecycleState.resumed) {
