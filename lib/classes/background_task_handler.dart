@@ -3,7 +3,9 @@ import 'dart:convert';
 import 'package:background_task/background_task.dart';
 import 'package:battery_plus/battery_plus.dart';
 import 'package:connectivity_plus/connectivity_plus.dart';
+import 'package:deskgoo/classes/secure_storage.dart';
 import 'package:deskgoo/consts.dart';
+import 'package:deskgoo/models/environment.dart';
 import 'package:device_info_plus/device_info_plus.dart';
 import 'package:geolocator/geolocator.dart';
 // import 'package:deskgoo/utils/notification.dart';
@@ -32,6 +34,8 @@ double calculateDistance(double lat1, double lon1, double lat2, double lon2) {
 
 @pragma('vm:entry-point')
 void backgroundHandler(Location data) async {
+  SecureStorageResponse _id =
+      await SecureStorage().readLoginCredentials(SecureStorage.userId);
   DeviceInfoPlugin deviceInfo = DeviceInfoPlugin();
   Connectivity _connectivity = Connectivity();
   List<ConnectivityResult> _connectionStatus = [ConnectivityResult.none];
@@ -98,29 +102,25 @@ void backgroundHandler(Location data) async {
   };
   _previousLatitude = _liveLatitude;
   _previousLongitude = _liveLongitude;
-  print(
-      'Location LatLng = ${_liveLatitude}, ${_liveLatitude}, ${DateTime.now().toString().split('.')[0]}');
-  print(_body);
   // ERPResponse response = await ERPServices.postRequest(
   //     '/location/latest?_id=67a58f5cf064e3e542714d4d', _body);
   Map<String, String> header = {
     'Content-Type': 'Application/json',
   };
-  final response = await http.post(
-    Uri.parse(
-        'http://202.51.3.49:8002/api/location/latest?_id=67a89799c073b088471b1286'),
-    headers: header,
-    body: jsonEncode(_body),
-  );
-  print(
-      'http://202.51.3.49:8002/api/location/latest?_id=67a89799c073b088471b1286');
+  if (_distance >= 5.0) {
+    final response = await http.post(
+      Uri.parse('${Environment.apiUrl}/location/latest?_id=${_id.value}'),
+      headers: header,
+      body: jsonEncode(_body),
+    );
 
-  print(response.statusCode);
-  print(response.body);
+    print(response.statusCode);
+    print(response.body);
+  }
+  print('_id = ${_id.value}');
+  print('${Environment.apiUrl}/location/latest?_id=${_id.value}');
   print(
       'Location LatLng = ${data.lat}, ${data.lng}, ${DateTime.now().toString().split('.')[0]}');
-  // NotificationUtils.sendNotification(
-  //     1, 'Background Notification', '${data.lat}, ${data.lng}');
 }
 
 void getBackgroundLocation() async {

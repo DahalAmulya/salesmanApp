@@ -46,11 +46,14 @@ class _LoginPageState extends State<LoginPage> {
   void initState() {
     emailController.text = UserCred().email;
     passwordController.text = UserCred().password;
-    print('***********************************************************');
+    print(
+        '********************* Login Screen **************************************');
     print(emailController.text);
     print(passwordController.text);
     print(UserCred().email);
     print(UserCred().password);
+    print(UserCred().userId);
+    print(UserCred().accessToken);
     print('***********************************************************');
     _userProvider = Provider.of<UserProvider>(context, listen: false);
     super.initState();
@@ -253,10 +256,10 @@ class _LoginPageState extends State<LoginPage> {
   void login() async {
     Map<String, dynamic> body = {
       'email': emailController.value.text.isEmpty
-          ? 'farhan@gmail.com'
+          ? 'amulya@gmail.com'
           : emailController.value.text,
       'password': passwordController.value.text.isEmpty
-          ? 'farhan123@'
+          ? 'amulya123@'
           : passwordController.value.text,
       // shuvam@gmail.com
       // shuvam123@
@@ -311,13 +314,30 @@ class _LoginPageState extends State<LoginPage> {
             SecureStorage.password, passwordController.value.text);
       }
       SecureStorage()
+          .writeLoginCredentials(SecureStorage.accessToken, accessToken);
+      SecureStorage().writeLoginCredentials(SecureStorage.userName, userName);
+      SecureStorage()
           .writeLoginCredentials(SecureStorage.refreshToken, refreshToken);
       SecureStorage().writeLoginCredentials(SecureStorage.userId, userId);
-      // SecureStorage().writeLoginCredentials(SecureStorage.role, role);
-      // SecureStorage()
-      //     .writeLoginCredentials(SecureStorage.roleValue, roleValue.toString());
-      // SecureStorage()
-      //     .writeLoginCredentials(SecureStorage.rememberMe, '$rememberMe');
+      SecureStorage().writeLoginCredentials(SecureStorage.userDoj, userDoj);
+      SecureStorage().writeLoginCredentials(SecureStorage.userDob, userDob);
+      SecureStorage()
+          .writeLoginCredentials(SecureStorage.userAddress, userAddress);
+      SecureStorage()
+          .writeLoginCredentials(SecureStorage.userGender, userGender);
+      SecureStorage().writeLoginCredentials(
+          SecureStorage.userMaritalStatus, userMaritalStatus);
+      SecureStorage().writeLoginCredentials(
+          SecureStorage.userNationality, userNationality);
+      SecureStorage()
+          .writeLoginCredentials(SecureStorage.userDepartment, userDepartment);
+      SecureStorage().writeLoginCredentials(
+          SecureStorage.userDesignation, userDesignation);
+      SecureStorage().writeLoginCredentials(SecureStorage.role, role);
+      SecureStorage()
+          .writeLoginCredentials(SecureStorage.roleValue, roleValue.toString());
+      SecureStorage().writeLoginCredentials(
+          SecureStorage.rememberMe, rememberMe.toString());
       print(data);
       if (isFirstLogin || isResetMobile) {
         print('$isFirstLogin, $isResetMobile');

@@ -22,6 +22,7 @@ import 'package:deskgoo/pages/settings/setting.dart';
 import 'package:deskgoo/pages/visit/visit_screen.dart';
 import 'package:deskgoo/routes/marketing_officer_consts.dart';
 import 'package:deskgoo/routes/route_generator_constants.dart';
+import 'package:deskgoo/splash_screen.dart';
 import 'package:flutter/material.dart';
 import '../pages/home/DescriptionPage/officer_DescriptionPage.dart';
 import '../pages/home/DescriptionPage/officer_VisitDetailPage.dart';
@@ -37,6 +38,10 @@ class RouteGenerator {
     final args = settings.arguments;
     switch (settings.name) {
       // Routes for MarketingManager
+      case MarketingManagerConstants.splash:
+        return MaterialPageRoute(
+          builder: (_) => SplashScreenPage(),
+        );
       case MarketingManagerConstants.indexPage:
         return MaterialPageRoute(
           builder: (_) => LoginPage(),
@@ -65,7 +70,7 @@ class RouteGenerator {
         return MaterialPageRoute(
           builder: (_) => LiveTrackingScreen(),
         );
-      case MarketingManagerConstants.ownliveLocationPage:
+      case MarketingManagerConstants.ownLiveLocationPage:
         return MaterialPageRoute(
           builder: (_) => OwnLiveLocationScreen(),
         );

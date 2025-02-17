@@ -29,12 +29,21 @@ class _Profile_pageState extends State<Profile_page> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: CustomColors.primaryWhite,
-      appBar: _appBar(context),
-      body: _buildUI(context),
-      bottomNavigationBar: _bottomNavBar(context),
-      // body:
+    return PopScope(
+      canPop: false,
+      onPopInvoked: ((didpop) {
+        if (didpop) {
+          return;
+        }
+        Navigator.of(context).pop();
+      }),
+      child: Scaffold(
+        backgroundColor: CustomColors.primaryWhite,
+        appBar: _appBar(context),
+        body: _buildUI(context),
+        // bottomNavigationBar: _bottomNavBar(context),
+        // body:
+      ),
     );
   }
 
@@ -129,14 +138,12 @@ class _Profile_pageState extends State<Profile_page> {
                             fontWeight: fontWeight,
                           ),
                           CustomText(
-                            text:
-                                "Marital Status: ${userMaritalStatus}",
+                            text: "Marital Status: ${userMaritalStatus}",
                             size: textFontSize,
                             fontWeight: fontWeight,
                           ),
                           CustomText(
-                            text:
-                                "Email: ${userEmail}",
+                            text: "Email: ${userEmail}",
                             size: textFontSize,
                             fontWeight: fontWeight,
                           ),

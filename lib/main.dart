@@ -112,7 +112,7 @@ class MyApp extends StatelessWidget {
               primarySwatch: Colors.blue,
               useMaterial3: true,
             ),
-            initialRoute: MarketingManagerConstants.indexPage,
+            initialRoute: MarketingManagerConstants.splash,
             onGenerateRoute: RouteGenerator.generateRoute,
           );
         },
