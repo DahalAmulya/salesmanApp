@@ -213,6 +213,11 @@ class WeeklyPlanProvider with ChangeNotifier {
     notifyListeners();
   }
 
+  void updateSelectedCountry(newValue){
+    _selectedCountry = newValue;
+    notifyListeners();
+  }
+
   void setDropDownValue(newValue) {
     _selectedCountry = newValue;
     if (selectedCountry == _country[0]) {
@@ -227,26 +232,6 @@ class WeeklyPlanProvider with ChangeNotifier {
 
       notifyListeners();
     }
-  }
-
-  void setStateList() {
-    _isVisibleForStateList = true;
-    notifyListeners();
-  }
-
-  void setDistrictList() {
-    _isVisibleForDistrictList = true;
-    notifyListeners();
-  }
-
-  void setSelectedDate(newDate) {
-    _SelectedDate = newDate;
-    notifyListeners();
-  }
-
-  void setIndex(newIndex) {
-    _selectedIndex = newIndex;
-    notifyListeners();
   }
 
   String formattedDateTime() {
