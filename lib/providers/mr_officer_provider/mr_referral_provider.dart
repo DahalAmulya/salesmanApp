@@ -22,9 +22,9 @@ class ReferralsDetailProvider extends ChangeNotifier {
   List<dynamic> _referralLogs = [];
   List<dynamic> _searchResult = [];
   List<dynamic> _cities = [];
-  List<String> _country = ["Nepal","India"];
+  List<String> _country = ["Nepal", "India"];
   String _selectedCountry = "Nepal";
-  Map<String,dynamic> _body = {};
+  Map<String, dynamic> _body = {};
   String _selectedCity = '';
   String _selectedDistrict = '';
   String _selectedState = '';
@@ -86,9 +86,7 @@ class ReferralsDetailProvider extends ChangeNotifier {
       _searchForCityTextEditingController;
   TextEditingController get searchForDistrictTextEditingController =>
       _searchForDistrictTextEditingController;
-TextEditingController get searchController =>
-    _searchController;
-
+  TextEditingController get searchController => _searchController;
 
   TextEditingController get patientNameTextController =>
       _patientNameTextController;
@@ -135,13 +133,13 @@ TextEditingController get searchController =>
       _ambPhoneNumberTextController;
 
   List<dynamic> get pocList => _pocList;
-  List<dynamic> get referralLogs  => _referralLogs;
-  List<dynamic> get searchResult  => _searchResult;
-  List<dynamic> get cities  => _cities;
-  List<String> get country  => _country;
+  List<dynamic> get referralLogs => _referralLogs;
+  List<dynamic> get searchResult => _searchResult;
+  List<dynamic> get cities => _cities;
+  List<String> get country => _country;
   String get selectedCountry => _selectedCountry;
 
-  Map<String,dynamic> get body => _body;
+  Map<String, dynamic> get body => _body;
   List<String> get citiesList => _citiesList;
 
   List<String> get gender => _gender;
@@ -371,7 +369,7 @@ TextEditingController get searchController =>
         '/referral?_id=$userId&from=$_selectedDate&to=$_selectedDate');
     print(response.statusCode);
     // print(response.body);
-     _body = jsonDecode(response.body);
+    _body = jsonDecode(response.body);
     // print(body);
     print(body['referralLogs'][0]['patientName']);
     _referralLogs = body['referralLogs'];
@@ -394,25 +392,25 @@ TextEditingController get searchController =>
           print('List of cities');
           _searchResult = addressList
               .where((city) => city
-              .toString()
-              .toLowerCase()
-              .contains(enteredKeyWord.toLowerCase()))
+                  .toString()
+                  .toLowerCase()
+                  .contains(enteredKeyWord.toLowerCase()))
               .toList();
         } else if (addressList[0].containsKey('district')) {
           print('List of district');
           _searchResult = addressList
               .where((district) => district['district']
-              .toString()
-              .toLowerCase()
-              .contains(enteredKeyWord.toLowerCase()))
+                  .toString()
+                  .toLowerCase()
+                  .contains(enteredKeyWord.toLowerCase()))
               .toList();
         } else if (addressList[0].containsKey('states')) {
           print('List of states');
           _searchResult = addressList
               .where((states) => states['states']
-              .toString()
-              .toLowerCase()
-              .contains(enteredKeyWord.toLowerCase()))
+                  .toString()
+                  .toLowerCase()
+                  .contains(enteredKeyWord.toLowerCase()))
               .toList();
         }
       } catch (err) {
