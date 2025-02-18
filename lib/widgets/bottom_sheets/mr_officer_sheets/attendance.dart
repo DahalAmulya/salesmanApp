@@ -184,29 +184,34 @@ class _MrOfficerAttendanceBottomSheetState
                         ),
                         attendanceProvider.isAttendance
                             ? Row(
-                          children: [
-                            // Split the check-in time string
-                            if (attendanceProvider.checkInTimeStr.isNotEmpty)
-                              ...attendanceProvider.checkInTimeStr.split(' ').map((part) {
-                                // Check if the part is the first element (date) or second element (time)
-                                if (part == attendanceProvider.checkInTimeStr.split(' ')[0]) {
-                                  return CustomText(
-                                    text: '$part ',
-                                    isContent: true,
-                                  );
-                                } else {
-                                  return CustomText(
-                                    text: '$part ',
-                                    isSubContent: true,
-                                  );
-                                }
-                              }).toList(),
-                          ],
-                        )
+                                children: [
+                                  // Split the check-in time string
+                                  if (attendanceProvider
+                                      .checkInTimeStr.isNotEmpty)
+                                    ...attendanceProvider.checkInTimeStr
+                                        .split(' ')
+                                        .map((part) {
+                                      // Check if the part is the first element (date) or second element (time)
+                                      if (part ==
+                                          attendanceProvider.checkInTimeStr
+                                              .split(' ')[0]) {
+                                        return CustomText(
+                                          text: '$part ',
+                                          isContent: true,
+                                        );
+                                      } else {
+                                        return CustomText(
+                                          text: '$part ',
+                                          isSubContent: true,
+                                        );
+                                      }
+                                    }).toList(),
+                                ],
+                              )
                             : CustomText(
-                          text: attendanceProvider.checkInTimeStr,
-                          isContent: true,
-                        ),
+                                text: attendanceProvider.checkInTimeStr,
+                                isContent: true,
+                              ),
                       ],
                     );
                   },
@@ -322,57 +327,57 @@ class _MrOfficerAttendanceBottomSheetState
                 SizedBox(
                   height: 16,
                 ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Consumer<AttendanceProvider>(
-                      builder: (context, attendanceProvider, _) {
-                        return Container(
-                          decoration: BoxDecoration(
-                            color: CustomColors.primaryColor,
-                            borderRadius: BorderRadius.circular(100),
-                          ),
-                          child: IconButton(
-                            onPressed: () async {
-                              // attendanceProvider.confirmCheckout(context);
-                              bool response = await biometricAuthentication();
-                              if (response) {
-                                attendanceProvider
-                                    .switchRemoteAttendanceSwitch();
-                                if (attendanceProvider
-                                    .isRemoteAttendanceSwitched) {
-                                  deviceInfoProvider.deviceInfoProvider();
-                                  print(
-                                      'attendanceProvider.isRemoteAttendanceSwitched = ${attendanceProvider.isRemoteAttendanceSwitched}, Posting device information');
-                                } else {
-                                  // deviceInfoProvider.cancelLocationTimer();
-                                  print(
-                                      'attendanceProvider.isRemoteAttendanceSwitched = ${attendanceProvider.isRemoteAttendanceSwitched}, Stop posting device information');
-                                }
-                              }
-                              print('response = $response');
-                              print('valid form printed');
-                            },
-                            icon: Platform.isAndroid
-                                ? Icon(
-                                    Icons.fingerprint,
-                                    size: 48,
-                                  )
-                                : CircleAvatar(
-                                    radius: 24,
-                                    backgroundColor: CustomColors.primaryColor,
-                                    child: Image.asset(
-                                      'assets/icons/faceid.png',
-                                      width: 50,
-                                      height: 50,
-                                    ),
-                                  ),
-                          ),
-                        );
-                      },
-                    ),
-                  ],
-                ),
+                // Row(
+                //   mainAxisAlignment: MainAxisAlignment.center,
+                //   children: [
+                //     Consumer<AttendanceProvider>(
+                //       builder: (context, attendanceProvider, _) {
+                //         return Container(
+                //           decoration: BoxDecoration(
+                //             color: CustomColors.primaryColor,
+                //             borderRadius: BorderRadius.circular(100),
+                //           ),
+                //           child: IconButton(
+                //             onPressed: () async {
+                //               // attendanceProvider.confirmCheckout(context);
+                //               bool response = await biometricAuthentication();
+                //               if (response) {
+                //                 attendanceProvider
+                //                     .switchRemoteAttendanceSwitch();
+                //                 if (attendanceProvider
+                //                     .isRemoteAttendanceSwitched) {
+                //                   deviceInfoProvider.deviceInfoProvider();
+                //                   print(
+                //                       'attendanceProvider.isRemoteAttendanceSwitched = ${attendanceProvider.isRemoteAttendanceSwitched}, Posting device information');
+                //                 } else {
+                //                   // deviceInfoProvider.cancelLocationTimer();
+                //                   print(
+                //                       'attendanceProvider.isRemoteAttendanceSwitched = ${attendanceProvider.isRemoteAttendanceSwitched}, Stop posting device information');
+                //                 }
+                //               }
+                //               print('response = $response');
+                //               print('valid form printed');
+                //             },
+                //             icon: Platform.isAndroid
+                //                 ? Icon(
+                //                     Icons.fingerprint,
+                //                     size: 48,
+                //                   )
+                //                 : CircleAvatar(
+                //                     radius: 24,
+                //                     backgroundColor: CustomColors.primaryColor,
+                //                     child: Image.asset(
+                //                       'assets/icons/faceid.png',
+                //                       width: 50,
+                //                       height: 50,
+                //                     ),
+                //                   ),
+                //           ),
+                //         );
+                //       },
+                //     ),
+                //   ],
+                // ),
                 const SizedBox(
                   height: 8,
                 ),

@@ -62,7 +62,8 @@ class _MrOfficerReferralScreenState extends State<MrOfficerReferralScreen> {
     List<dynamic> districtData = json.decode(respose);
     // print(districtData);
     districtList = districtData;
-   foundDistrictList = districtData.map((item) => item['district'] as String).toList();
+    foundDistrictList =
+        districtData.map((item) => item['district'] as String).toList();
     // print(foundDistrictList);
   }
 
@@ -100,6 +101,7 @@ class _MrOfficerReferralScreenState extends State<MrOfficerReferralScreen> {
     // Print the result for debugging
     // print("Cities for $selectedItem: $foundCities");
   }
+
   @override
   void initState() {
     getDataForDistrict();
@@ -117,9 +119,9 @@ class _MrOfficerReferralScreenState extends State<MrOfficerReferralScreen> {
     } else {
       districtResult = foundDistrictList
           .where((district) => district
-          .toString()
-          .toLowerCase()
-          .contains(enteredKeyword.toLowerCase()))
+              .toString()
+              .toLowerCase()
+              .contains(enteredKeyword.toLowerCase()))
           .toList();
       print("Filtered District Result: $districtResult");
     }
@@ -135,9 +137,9 @@ class _MrOfficerReferralScreenState extends State<MrOfficerReferralScreen> {
     } else {
       stateResult = foundStateList
           .where((state) => state
-          .toString()
-          .toLowerCase()
-          .contains(enteredKeyword.toLowerCase()))
+              .toString()
+              .toLowerCase()
+              .contains(enteredKeyword.toLowerCase()))
           .cast<String>()
           .toList();
     }
@@ -326,15 +328,15 @@ class _MrOfficerReferralScreenState extends State<MrOfficerReferralScreen> {
                   applyCountryFlag: true,
                   onChanged: (newValue) {
                     SelectedCountry = newValue!;
-                   setState(() {
-                     if (SelectedCountry == country[0]) {
-                       _isVisibleForDistrict = true;
-                       _isVisibleForState = false;
-                     } else {
-                       _isVisibleForState = true;
-                       _isVisibleForDistrict = false;
-                     }
-                   });
+                    setState(() {
+                      if (SelectedCountry == country[0]) {
+                        _isVisibleForDistrict = true;
+                        _isVisibleForState = false;
+                      } else {
+                        _isVisibleForState = true;
+                        _isVisibleForDistrict = false;
+                      }
+                    });
                   });
             }),
             SizedBox(
@@ -344,7 +346,7 @@ class _MrOfficerReferralScreenState extends State<MrOfficerReferralScreen> {
               visible: _isVisibleForDistrict,
               child: TextFromFieldWithPrefixSuffix(
                 controller:
-                referralsDetailProvider.patientDistrictTextController,
+                    referralsDetailProvider.patientDistrictTextController,
                 labelText: 'District',
                 readOnly: true,
                 onTap: () {
@@ -353,7 +355,9 @@ class _MrOfficerReferralScreenState extends State<MrOfficerReferralScreen> {
                   showModalBottomSheet(
                       isScrollControlled: true,
                       useSafeArea: true,
-                      context: context, builder: (context) =>  _AddTaskBottomSheetForDistrictBody(context));
+                      context: context,
+                      builder: (context) =>
+                          _AddTaskBottomSheetForDistrictBody(context));
                 },
                 onChange: (value) => () {},
                 validator: (Value) {},
@@ -370,7 +374,9 @@ class _MrOfficerReferralScreenState extends State<MrOfficerReferralScreen> {
                   showModalBottomSheet(
                       isScrollControlled: true,
                       useSafeArea: true,
-                      context: context, builder: (context) =>   _AddTaskBottomSheetForStatesBody(context));
+                      context: context,
+                      builder: (context) =>
+                          _AddTaskBottomSheetForStatesBody(context));
                 },
                 onChange: (value) => () {},
                 validator: (Value) {},
@@ -690,19 +696,20 @@ class _MrOfficerReferralScreenState extends State<MrOfficerReferralScreen> {
                       ),
                       Expanded(
                         child: Consumer<ReferralsDetailProvider>(
-                          builder: (context,referralsDetailProvider,_) {
-                            return TextFromFieldWithPrefixSuffix(
-                              applyPrefix: true,
-                              prefixIcon: Icon(Icons.search),
-                              applySuffixIcon: true,
-                              suffixIcon: Icon(Icons.arrow_drop_down),
-                              controller: searchForDistrictTextEditingController,
-                              labelText: 'Select District',
-                              onChange: (value) => runDistrictSearchFilter(searchForDistrictTextEditingController.value.text),
-                              validator: (Value) {},
-                            );
-                          }
-                        ),
+                            builder: (context, referralsDetailProvider, _) {
+                          return TextFromFieldWithPrefixSuffix(
+                            applyPrefix: true,
+                            prefixIcon: Icon(Icons.search),
+                            applySuffixIcon: true,
+                            suffixIcon: Icon(Icons.arrow_drop_down),
+                            controller: searchForDistrictTextEditingController,
+                            labelText: 'Select District',
+                            onChange: (value) => runDistrictSearchFilter(
+                                searchForDistrictTextEditingController
+                                    .value.text),
+                            validator: (Value) {},
+                          );
+                        }),
                       ),
                     ],
                   ),
@@ -723,11 +730,11 @@ class _MrOfficerReferralScreenState extends State<MrOfficerReferralScreen> {
                             onTap: () {
                               // selectedDistrict =
                               //     weeklyPlanProvider.foundDistrict[index];
-                              getCitiesForSelection(foundDistrict[index]
-                                  .toString());
-                              referralsDetailProvider.patientDistrictTextController.text =
-                                  foundDistrict[index]
-                                      .toString();
+                              getCitiesForSelection(
+                                  foundDistrict[index].toString());
+                              referralsDetailProvider
+                                  .patientDistrictTextController
+                                  .text = foundDistrict[index].toString();
                               // print(weeklyPlanProvider.foundDistrict);
                               Navigator.pop(context);
                             },
@@ -782,9 +789,8 @@ class _MrOfficerReferralScreenState extends State<MrOfficerReferralScreen> {
                         runStateSearchFilter('');
                         // weeklyPlanProvider.setDistrictList();
                       },
-                      onChange: (value) =>
-                         runStateSearchFilter(
-                              searchForStatesTextEditingController.value.text),
+                      onChange: (value) => runStateSearchFilter(
+                          searchForStatesTextEditingController.value.text),
                       validator: (Value) {},
                     );
                   }),
@@ -809,7 +815,8 @@ class _MrOfficerReferralScreenState extends State<MrOfficerReferralScreen> {
                         selectedState = foundState[index];
                         getCitiesForSelection(foundState[index].toString());
                         referralsDetailProvider.updateState(selectedState);
-                        referralsDetailProvider.patientStateTextController.text = foundState[index].toString();
+                        referralsDetailProvider.patientStateTextController
+                            .text = foundState[index].toString();
                         Navigator.pop(context);
                       },
                     );
@@ -829,7 +836,8 @@ class _MrOfficerReferralScreenState extends State<MrOfficerReferralScreen> {
                               weeklyPlanProvider.foundStates[index].toString()),
                       onTap: () {
                         selectedState = weeklyPlanProvider.foundStates[index];
-                        referralsDetailProvider.patientStateTextController.text = selectedState;
+                        referralsDetailProvider
+                            .patientStateTextController.text = selectedState;
                         Navigator.pop(context);
                       },
                     );
@@ -891,31 +899,31 @@ class _MrOfficerReferralScreenState extends State<MrOfficerReferralScreen> {
               height: 8,
             ),
             Consumer<ReferralsDetailProvider>(
-              builder: (context,referralsDetailProvider,_) {
-                return Container(
-                  child: ListView.builder(
-                      physics: ScrollPhysics(),
-                      shrinkWrap: true,
-                      itemCount: foundCities.length,
-                      itemBuilder: (context, index) {
-                        return ListTile(
-                          title: CustomText(
-                            text: foundCities[index].toString(),
-                          ),
-                          onTap: () {
-                            // print(districtList);
-                            Navigator.pop(context);
-                            // referralsDetailProvider.setSelectedCity(cityName);
-                            selectedCity = foundCities[index];
-                            referralsDetailProvider.patientCityTextController.text = selectedCity;
-                            // referralsDetailProvider.updateCity(citiesList[index]);
-                            // referralsDetailProvider.updateCity(selectedCity);
-                          },
-                        );
-                      }),
-                );
-              }
-            ),
+                builder: (context, referralsDetailProvider, _) {
+              return Container(
+                child: ListView.builder(
+                    physics: ScrollPhysics(),
+                    shrinkWrap: true,
+                    itemCount: foundCities.length,
+                    itemBuilder: (context, index) {
+                      return ListTile(
+                        title: CustomText(
+                          text: foundCities[index].toString(),
+                        ),
+                        onTap: () {
+                          // print(districtList);
+                          Navigator.pop(context);
+                          // referralsDetailProvider.setSelectedCity(cityName);
+                          selectedCity = foundCities[index];
+                          referralsDetailProvider
+                              .patientCityTextController.text = selectedCity;
+                          // referralsDetailProvider.updateCity(citiesList[index]);
+                          // referralsDetailProvider.updateCity(selectedCity);
+                        },
+                      );
+                    }),
+              );
+            }),
           ],
         ),
       );
