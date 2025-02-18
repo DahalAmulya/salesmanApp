@@ -28,6 +28,7 @@ class WeeklyPlanProvider with ChangeNotifier {
   DateTime? _SelectedDate = DateTime.now();
   DateTime? get selectedDate => _SelectedDate;
   List<String> _country = ['Nepal', 'India'];
+  String _defaultCountry = 'Nepal';
   List<String> _states = [
     'Andhra Pradesh',
     'Arunachal Pradesh',
@@ -165,6 +166,7 @@ class WeeklyPlanProvider with ChangeNotifier {
   bool get isVisibleForDistrictList => _isVisibleForDistrictList;
   bool get isVisibleForStateList => _isVisibleForStateList;
   String get selectedCountry => _selectedCountry;
+  String get defaultCountry => _defaultCountry;
   List<String> get country => _country;
   List<String> get states => _states;
   List<String> get districts => _districts;
@@ -214,12 +216,15 @@ class WeeklyPlanProvider with ChangeNotifier {
   void setDropDownValue(newValue) {
     _selectedCountry = newValue;
     if (selectedCountry == _country[0]) {
-      print('nepal');
+      // print('nepal');
+      _isVisibleForDistrict = true;
+      _isVisibleForState = false;
     }
     if (selectedCountry == _country[1]) {
-      _isVisibleForState = !_isVisibleForState;
-      _isVisibleForStateList = !_isVisibleForStateList;
+
+      _isVisibleForStateList = true;
       _isVisibleForDistrict = false;
+
       notifyListeners();
     }
   }
@@ -231,7 +236,6 @@ class WeeklyPlanProvider with ChangeNotifier {
 
   void setDistrictList() {
     _isVisibleForDistrictList = true;
-    _isVisibleForStateList = false;
     notifyListeners();
   }
 
