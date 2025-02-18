@@ -109,7 +109,7 @@ void backgroundHandler(Location data) async {
   };
   if (_distance >= 5.0) {
     final response = await http.post(
-      Uri.parse('${Environment.apiUrl}/location/latest?_id=${_id.value}'),
+      Uri.parse('http://202.51.3.49:8002/api/location/latest?_id=${_id.value}'),
       headers: header,
       body: jsonEncode(_body),
     );
@@ -118,7 +118,7 @@ void backgroundHandler(Location data) async {
     print(response.body);
   }
   print('_id = ${_id.value}');
-  print('${Environment.apiUrl}/location/latest?_id=${_id.value}');
+  print('http://202.51.3.49:8002/api/location/latest?_id=${_id.value}');
   print(
       'Location LatLng = ${data.lat}, ${data.lng}, ${DateTime.now().toString().split('.')[0]}');
 }
