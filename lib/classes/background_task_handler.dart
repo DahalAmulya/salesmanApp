@@ -124,26 +124,39 @@ void backgroundHandler(Location data) async {
 }
 
 void getBackgroundLocation() async {
-  await BackgroundTask.instance.stop();
-  final status = await Permission.location.request();
-  final statusAlways = await Permission.locationAlways.request();
+  await BackgroundTask.instance
+      .stop(); // Ensure the background task is stopped before requesting permissions
 
-  if (status.isGranted && statusAlways.isGranted) {
-    if (isBackground) {
-      await BackgroundTask.instance.start(
-        // distanceFilter: 0,
-        isEnabledEvenIfKilled: true,
-        pausesLocationUpdatesAutomatically: true,
-        updateIntervalInMilliseconds: 1000,
-        iOSDesiredAccuracy: DesiredAccuracy.best,
-        androidDesiredAccuracy:
-            AndroidDesiredAccuracy.priorityBalancedPowerAccuracy,
-      );
-      if (!isBackground) {
-        await BackgroundTask.instance.stop();
-      }
-    } else {
-      await BackgroundTask.instance.stop();
+  PermissionStatus locationStatus = await Permission.location.status;
+  PermissionStatus alwaysStatus = await Permission.locationAlways.status;
+
+  if (locationStatus.isGranted && alwaysStatus.isGranted) {
+    print("Location permissions already granted. Starting background task...");
+  } else {
+    print("Requesting location permissions...");
+
+    Map<Permission, PermissionStatus> statuses = await [
+      Permission.location,
+      Permission.locationAlways,
+    ].request();
+
+    if (statuses[Permission.location] != PermissionStatus.granted ||
+        statuses[Permission.locationAlways] != PermissionStatus.granted) {
+      print("Location permission not granted. Background task cannot start.");
+      return;
     }
+  }
+
+  if (isBackground) {
+    await BackgroundTask.instance.start(
+      isEnabledEvenIfKilled: true,
+      pausesLocationUpdatesAutomatically: true,
+      updateIntervalInMilliseconds: 1000,
+      iOSDesiredAccuracy: DesiredAccuracy.best,
+      androidDesiredAccuracy:
+          AndroidDesiredAccuracy.priorityBalancedPowerAccuracy,
+    );
+  } else {
+    await BackgroundTask.instance.stop();
   }
 }

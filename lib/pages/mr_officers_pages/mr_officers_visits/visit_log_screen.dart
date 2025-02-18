@@ -125,18 +125,20 @@ class _MrOfficerVisitLogStateScreen extends State<MrOfficerVisitLogScreen> {
             ),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 0),
-              child: Row(
-                children: [
-                  Expanded(
-                    flex: 1,
-                    child: CustomText(
-                      text: 'Select Date : ',
-                      isContent: true,
+              child: CustomContainer(
+                applyShadow: true,
+                child: Row(
+                  children: [
+                    Expanded(
+                      flex: 1,
+                      child: CustomText(
+                        text: 'Select Date : ',
+                        isContent: true,
+                      ),
                     ),
-                  ),
-                  Expanded(
-                    flex: 2,
-                    child: CustomDropdown(
+                    Expanded(
+                      flex: 2,
+                      child: CustomDropdown(
                         labelText: 'Select Date',
                         items: dateList,
                         value: defaultValue,
@@ -146,9 +148,11 @@ class _MrOfficerVisitLogStateScreen extends State<MrOfficerVisitLogScreen> {
                             updateSelectedDate(
                                 newValue.toString().split(' ')[0]);
                           }
-                        }),
-                  )
-                ],
+                        },
+                      ),
+                    )
+                  ],
+                ),
               ),
             ),
             SizedBox(
@@ -233,7 +237,8 @@ class _MrOfficerVisitLogStateScreen extends State<MrOfficerVisitLogScreen> {
                     child: Padding(
                       padding: const EdgeInsets.symmetric(vertical: 160.0),
                       child: CustomText(
-                        text: 'No visit logs found for today',
+                        text:
+                            'No visit logs found for ${visitLogProvider.selectedDate}',
                         isSubHeading: true,
                       ),
                     ),
