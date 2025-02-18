@@ -340,6 +340,8 @@ class _LoginPageState extends State<LoginPage> {
           .writeLoginCredentials(SecureStorage.roleValue, roleValue.toString());
       SecureStorage().writeLoginCredentials(
           SecureStorage.rememberMe, rememberMe.toString());
+      emailController.clear();
+      passwordController.clear();
       print(data);
       if (isFirstLogin || isResetMobile) {
         print('$isFirstLogin, $isResetMobile');
@@ -356,8 +358,8 @@ class _LoginPageState extends State<LoginPage> {
         }
       }
     } else {
-      ToastMessageUtils()
-          .showToastMessage('Something went wrong', ToastGravity.TOP);
+      ToastMessageUtils().showToastMessage(
+          jsonDecode(response.body)['message'], ToastGravity.TOP);
     }
   }
 }

@@ -61,9 +61,7 @@ class _SplashScreenState extends State<SplashScreenPage> {
     userId = _id.value;
     accessToken = accessTok.value;
     role = roleN.value;
-    roleValue = int.parse(roleVal.value);
     userName = name.value;
-    roleValue = int.parse(roleVal.value);
     userAddress = addr.value;
     userDepartment = depart.value;
     userGender = gen.value;
@@ -75,15 +73,14 @@ class _SplashScreenState extends State<SplashScreenPage> {
     userId = _id.value;
     accessToken = accessTok.value;
     role = roleN.value;
-    roleValue = int.parse(roleVal.value);
     userName = name.value;
-    roleValue = int.parse(roleVal.value);
     Map<String, String> header = {
       'Content-Type': 'Application/json',
       'Authorization': 'Bearer $accessToken',
       '_id': userId
     };
     if (userId.isNotEmpty) {
+      roleValue = int.parse(roleVal.value);
       final response = await http.get(
         Uri.parse('${Environment.apiUrl}/hello'),
         headers: header,
