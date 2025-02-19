@@ -37,7 +37,8 @@ class _MrOfficerReferralScreenState extends State<MrOfficerReferralScreen> {
   String? SelectedCountry = '';
   String selectedCity = '';
   List<String> country = ['Nepal', 'India'];
-  List<dynamic> districtList = [];
+
+  // List<dynamic> districtList = [];
   List<dynamic> foundDistrictList = [];
   List<dynamic> foundStateList = [];
   List<dynamic> foundDistrict = [];
@@ -48,66 +49,12 @@ class _MrOfficerReferralScreenState extends State<MrOfficerReferralScreen> {
   final _formState = GlobalKey<FormState>();
   final link = 'http://108.181.195.185:5000/api/country/Nepal';
 
-  final districtTextEditingController = TextEditingController();
-  final searchForDistrictTextEditingController = TextEditingController();
-  final stateTextEditingController = TextEditingController();
-  final searchForStatesTextEditingController = TextEditingController();
-  final searchForCityTextEditingController = TextEditingController();
-
-  TextEditingController cityText = TextEditingController();
-
-  void getDataForDistrict() async {
-    final respose = await rootBundle.loadString('assets/district.json');
-    // print(respose.runtimeType);
-    List<dynamic> districtData = json.decode(respose);
-    // print(districtData);
-    districtList = districtData;
-    foundDistrictList =
-        districtData.map((item) => item['district'] as String).toList();
-    // print(foundDistrictList);
-  }
-
-  void getDataForState() async {
-    final respose = await rootBundle.loadString('assets/states.json');
-    List<dynamic> stateData = json.decode(respose);
-    stateList = stateData;
-    foundStateList = stateData.map((item) => item['states'] as String).toList();
-    // print(stateList);
-  }
-
-  void getCitiesForSelection(String selectedItem, ) {
-    // Clear the previous list of cities
-    foundCities.clear();
-
-
-      // Search for the state in the stateList
-      for (var stateData in stateList) {
-        if (stateData["states"] == selectedItem) {
-          // Extract the cities list
-          foundCities = List<String>.from(stateData["cities"] ?? []);
-          print("Found Cities for State: $foundCities");
-          break; // Exit the loop once the state is found
-        }
-      }
-
-      // Search for the district in the districtList
-      for (var districtData in districtList) {
-        if (districtData["district"] == selectedItem) {
-          // Extract the cities list
-          foundCities = List<String>.from(districtData["cities"] ?? []);
-          break; // Exit the loop once the district is found
-        }
-      }
-
-    // Print the result for debugging
-    // print("Cities for $selectedItem: $foundCities");
-  }
 
   @override
   void initState() {
-    getDataForDistrict();
-    getDataForState();
-    foundDistrict = foundDistrictList;
+    final referralsDetailProvider = Provider.of<ReferralsDetailProvider>(context,listen: false);
+    referralsDetailProvider.getDataForDistrict();
+    referralsDetailProvider.getDataForState();
     super.initState();
   }
 
@@ -120,9 +67,9 @@ class _MrOfficerReferralScreenState extends State<MrOfficerReferralScreen> {
     } else {
       districtResult = foundDistrictList
           .where((district) => district
-              .toString()
-              .toLowerCase()
-              .contains(enteredKeyword.toLowerCase()))
+          .toString()
+          .toLowerCase()
+          .contains(enteredKeyword.toLowerCase()))
           .toList();
       print("Filtered District Result: $districtResult");
     }
@@ -138,9 +85,9 @@ class _MrOfficerReferralScreenState extends State<MrOfficerReferralScreen> {
     } else {
       stateResult = foundStateList
           .where((state) => state
-              .toString()
-              .toLowerCase()
-              .contains(enteredKeyword.toLowerCase()))
+          .toString()
+          .toLowerCase()
+          .contains(enteredKeyword.toLowerCase()))
           .cast<String>()
           .toList();
     }
@@ -163,90 +110,90 @@ class _MrOfficerReferralScreenState extends State<MrOfficerReferralScreen> {
       preferredSize: Size.fromHeight(kToolbarHeight),
       child: Consumer<ReferralsDetailProvider>(
           builder: (context, referralsDetailProvider, _) {
-        return CustomAppBar(
-          tabName: 'Referral',
-          centerTitle: true,
-          automaticallyImplyLeading: true,
-          onTapLeadingIcon: () {
-            referralsDetailProvider.clearValues();
-            Navigator.of(context)
-                .pop(MarketingOfficerConstants.mrStaffDashboardConst);
-          },
-        );
-      }),
+            return CustomAppBar(
+              tabName: 'Referral',
+              centerTitle: true,
+              automaticallyImplyLeading: true,
+              onTapLeadingIcon: () {
+                referralsDetailProvider.clearValues();
+                Navigator.of(context)
+                    .pop(MarketingOfficerConstants.mrStaffDashboardConst);
+              },
+            );
+          }),
     );
   }
 
   Widget _buildUI(context) {
     return Consumer<ReferralsDetailProvider>(
         builder: (context, referralsDetailProvider, _) {
-      return SingleChildScrollView(
-        child: Form(
-          key: _formState,
-          child: Column(
-            children: [
-              SizedBox(
-                height: 16,
-              ),
-              _patientDetails(context),
-              SizedBox(
-                height: 16,
-              ),
-              _referredBy(context),
-              SizedBox(
-                height: 16,
-              ),
-              _ambulanceDetails(context),
-              SizedBox(
-                height: 16,
-              ),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    CustomElevatedButton(
-                      borderRadius: 16,
-                      backgroundColor: Colors.redAccent,
-                      onPressed: () {
-                        referralsDetailProvider.clearValues();
-                        Navigator.pop(context);
-                      },
-                      widget: CustomText(
-                        text: 'Back',
-                        fontWeight: FontWeight.w600,
-                        size: 16,
-                      ),
-                    ),
-                    Consumer<WeeklyPlanProvider>(
-                        builder: (context, weeklyPlanProvider, _) {
-                      return CustomElevatedButton(
-                        borderRadius: 16,
-                        backgroundColor: CustomColors.primaryColor,
-                        onPressed: () {
-                          // weeklyPlanProvider.setList()
-                          referralsDetailProvider.PostReferralPOCList(context);
-                          referralsDetailProvider.clearValues();
-                          _formState.currentState!.validate();
-                        },
-                        widget: CustomText(
-                          text: 'Submit',
-                          fontWeight: FontWeight.w600,
-                          size: 16,
+          return SingleChildScrollView(
+            child: Form(
+              key: _formState,
+              child: Column(
+                children: [
+                  SizedBox(
+                    height: 16,
+                  ),
+                  _patientDetails(context),
+                  SizedBox(
+                    height: 16,
+                  ),
+                  _referredBy(context),
+                  SizedBox(
+                    height: 16,
+                  ),
+                  _ambulanceDetails(context),
+                  SizedBox(
+                    height: 16,
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        CustomElevatedButton(
+                          borderRadius: 16,
+                          backgroundColor: Colors.redAccent,
+                          onPressed: () {
+                            referralsDetailProvider.clearValues();
+                            Navigator.pop(context);
+                          },
+                          widget: CustomText(
+                            text: 'Back',
+                            fontWeight: FontWeight.w600,
+                            size: 16,
+                          ),
                         ),
-                      );
-                    }),
-                  ],
-                ),
+                        Consumer<WeeklyPlanProvider>(
+                            builder: (context, weeklyPlanProvider, _) {
+                              return CustomElevatedButton(
+                                borderRadius: 16,
+                                backgroundColor: CustomColors.primaryColor,
+                                onPressed: () {
+                                  // weeklyPlanProvider.setList()
+                                  referralsDetailProvider.PostReferralPOCList(context);
+                                  referralsDetailProvider.clearValues();
+                                  _formState.currentState!.validate();
+                                },
+                                widget: CustomText(
+                                  text: 'Submit',
+                                  fontWeight: FontWeight.w600,
+                                  size: 16,
+                                ),
+                              );
+                            }),
+                      ],
+                    ),
+                  ),
+                  SizedBox(
+                    height: 24,
+                  ),
+                ],
               ),
-              SizedBox(
-                height: 24,
-              ),
-            ],
-          ),
-        ),
-      );
-    });
+            ),
+          );
+        });
   }
 
   //------------------------------------------------------patients details----------------------------------------------------//
@@ -254,434 +201,432 @@ class _MrOfficerReferralScreenState extends State<MrOfficerReferralScreen> {
   Widget _patientDetails(context) {
     return Consumer<ReferralsDetailProvider>(
         builder: (context, referralsDetailProvider, _) {
-      return Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 8.0),
-        child: CustomExpansionTile(
-          initiallyExpanded: true,
-          applyAllBorderRadius: true,
-          title: 'Patient Details',
-          size: 20,
-          fontWeight: FontWeight.w600,
-          children: [
-            SizedBox(
-              height: 4,
-            ),
-            TextFromFieldWithPrefixSuffix(
-              autoFocus: false,
-              hintText: 'Patient Name',
-              labelText: 'Patient Name',
-              controller: referralsDetailProvider.patientNameTextController,
-              validator: (value) {
-                return value!.isEmpty
-                    ? 'Name is required'
-                    : value.length < 3
+          return Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 8.0),
+            child: CustomExpansionTile(
+              initiallyExpanded: true,
+              applyAllBorderRadius: true,
+              title: 'Patient Details',
+              size: 20,
+              fontWeight: FontWeight.w600,
+              children: [
+                SizedBox(
+                  height: 4,
+                ),
+                TextFromFieldWithPrefixSuffix(
+                  autoFocus: false,
+                  hintText: 'Patient Name',
+                  labelText: 'Patient Name',
+                  controller: referralsDetailProvider.patientNameTextController,
+                  validator: (value) {
+                    return value!.isEmpty
+                        ? 'Name is required'
+                        : value.length < 3
                         ? 'Enter at least 3 characters'
                         : null;
-              },
-            ),
-            SizedBox(
-              height: 16,
-            ),
-            TextFromFieldWithPrefixSuffix(
-              autoFocus: false,
-              hintText: 'Age',
-              labelText: 'Age',
-              keyboardType: TextInputType.number,
-              controller: referralsDetailProvider.patientAgeTextController,
-              validator: (value) {},
-            ),
-            SizedBox(
-              height: 16,
-            ),
-            CustomDropdown(
-                labelText: 'Select Gender',
-                items: referralsDetailProvider.gender,
-                value: referralsDetailProvider.defaultGenderValue,
-                onChanged: (selectedGender) {
-                  referralsDetailProvider.setGender(selectedGender);
-                }),
-            SizedBox(
-              height: 16,
-            ),
-            TextFromFieldWithPrefixSuffix(
-              autoFocus: false,
-              hintText: 'Provisional Diagnosis',
-              labelText: 'Provisional Diagnosis',
-              controller: referralsDetailProvider
-                  .patientProvisionalDiagnosisTextController,
-              validator: (value) {
-                return value!.isEmpty
-                    ? 'Provisional Diagnosis is required'
-                    : value.length < 3
+                  },
+                ),
+                SizedBox(
+                  height: 16,
+                ),
+                TextFromFieldWithPrefixSuffix(
+                  autoFocus: false,
+                  hintText: 'Age',
+                  labelText: 'Age',
+                  keyboardType: TextInputType.number,
+                  controller: referralsDetailProvider.patientAgeTextController,
+                  validator: (value) {},
+                ),
+                SizedBox(
+                  height: 16,
+                ),
+                CustomDropdown(
+                    labelText: 'Select Gender',
+                    items: referralsDetailProvider.gender,
+                    value: referralsDetailProvider.defaultGenderValue,
+                    onChanged: (selectedGender) {
+                      referralsDetailProvider.setGender(selectedGender);
+                    }),
+                SizedBox(
+                  height: 16,
+                ),
+                TextFromFieldWithPrefixSuffix(
+                  autoFocus: false,
+                  hintText: 'Provisional Diagnosis',
+                  labelText: 'Provisional Diagnosis',
+                  controller: referralsDetailProvider
+                      .patientProvisionalDiagnosisTextController,
+                  validator: (value) {
+                    return value!.isEmpty
+                        ? 'Provisional Diagnosis is required'
+                        : value.length < 3
                         ? 'Enter at least 3 characters'
                         : null;
-              },
-            ),
-            SizedBox(
-              height: 16,
-            ),
-            Consumer<WeeklyPlanProvider>(
-                builder: (context, weeklyPlanProvider, _) {
-              return CustomDropdown(
-                  labelText: 'Country',
-                  items: country,
-                  value: defaultValue,
-                  applyCountryFlag: true,
-                  onChanged: (newValue) {
-                    SelectedCountry = newValue!;
-                    setState(() {
-                      if (SelectedCountry == country[0]) {
-                        _isVisibleForDistrict = true;
-                        _isVisibleForState = false;
-                      } else {
-                        _isVisibleForState = true;
-                        _isVisibleForDistrict = false;
-                      }
-                    });
-                  });
-            }),
-            SizedBox(
-              height: 16,
-            ),
-            Visibility(
-              visible: _isVisibleForDistrict,
-              child: TextFromFieldWithPrefixSuffix(
-                controller:
+                  },
+                ),
+                SizedBox(
+                  height: 16,
+                ),
+                Consumer<WeeklyPlanProvider>(
+                    builder: (context, weeklyPlanProvider, _) {
+                      return CustomDropdown(
+                          labelText: 'Country',
+                          items: country,
+                          value: defaultValue,
+                          applyCountryFlag: true,
+                          onChanged: (newValue) {
+                            SelectedCountry = newValue!;
+                            setState(() {
+                              if (SelectedCountry == country[0]) {
+                                _isVisibleForDistrict = true;
+                                _isVisibleForState = false;
+                              } else {
+                                _isVisibleForState = true;
+                                _isVisibleForDistrict = false;
+                              }
+                            });
+                          });
+                    }),
+                SizedBox(
+                  height: 16,
+                ),
+                Visibility(
+                  visible: _isVisibleForDistrict,
+                  child: TextFromFieldWithPrefixSuffix(
+                    controller:
                     referralsDetailProvider.patientDistrictTextController,
-                labelText: 'District',
-                readOnly: true,
-                onTap: () {
-                  // weeklyPlanProvider.setDistrictList();
-                  showModalBottomSheet(
-                      isScrollControlled: true,
-                      useSafeArea: true,
-                      context: context,
-                      builder: (context) =>
-                          _AddTaskBottomSheetForDistrictBody(context));
-                },
-                onChange: (value) => () {},
-                validator: (Value) {},
-              ),
-            ),
-            Visibility(
-              visible: _isVisibleForState,
-              child: TextFromFieldWithPrefixSuffix(
-                controller: referralsDetailProvider.patientStateTextController,
-                labelText: 'State',
-                readOnly: true,
-                onTap: () {
-                  // weeklyPlanProvider.setStateList();
-                  showModalBottomSheet(
-                      isScrollControlled: true,
-                      useSafeArea: true,
-                      context: context,
-                      builder: (context) =>
-                          _AddTaskBottomSheetForStatesBody(context));
-                },
-                onChange: (value) => () {},
-                validator: (Value) {},
-              ),
-            ),
-            SizedBox(
-              height: 16,
-            ),
-            Consumer<MrOfficerVisitProvider>(
-                builder: (context, createVisitProvider, _) {
-              return TextFromFieldWithPrefixSuffix(
-                autoFocus: false,
-                hintText: 'City',
-                labelText: 'City',
-                controller: referralsDetailProvider.patientCityTextController,
-                onTap: () {
-                  referralsDetailProvider.patientCityTextController.clear();
-                  referralsDetailProvider.searchAddressResult(
-                      referralsDetailProvider
-                          .patientCityTextController.value.text,
-                      createVisitProvider.cities);
-                  showModalBottomSheet(
-                      isScrollControlled: true,
-                      useSafeArea: true,
-                      context: context,
-                      builder: (context) =>
-                          _AddTaskBottomSheetForCitiesBody(context));
-                },
-                validator: (value) {
-                  return value!.isEmpty
-                      ? 'Activity note is required'
-                      : value.length < 3
-                          ? 'Enter at least 3 characters'
-                          : null;
-                },
-              );
-            }),
-            SizedBox(
-              height: 16,
-            ),
-            TextFromFieldWithPrefixSuffix(
-              autoFocus: false,
-              hintText: 'Address',
-              labelText: 'Address',
-              controller: referralsDetailProvider.patientAddressTextController,
-              validator: (value) {
-                return value!.isEmpty
-                    ? 'Address is required'
-                    : value.length < 3
+                    labelText: 'District',
+                    readOnly: true,
+                    onTap: () {
+                      // weeklyPlanProvider.setDistrictList();
+                      showModalBottomSheet(
+                          isScrollControlled: true,
+                          useSafeArea: true,
+                          context: context,
+                          builder: (context) =>
+                              _DistrictBottomSheet(context));
+                    },
+                    onChange: (value) => () {},
+                    validator: (Value) {},
+                  ),
+                ),
+                Visibility(
+                  visible: _isVisibleForState,
+                  child: TextFromFieldWithPrefixSuffix(
+                    controller: referralsDetailProvider.patientStateTextController,
+                    labelText: 'State',
+                    readOnly: true,
+                    onTap: () {
+                      // weeklyPlanProvider.setStateList();
+                      showModalBottomSheet(
+                          isScrollControlled: true,
+                          useSafeArea: true,
+                          context: context,
+                          builder: (context) =>
+
+                              _StateBottomSheet(context));
+                    },
+                    onChange: (value) => () {},
+                    validator: (Value) {},
+                  ),
+                ),
+                SizedBox(
+                  height: 16,
+                ),
+                Consumer<MrOfficerVisitProvider>(
+                    builder: (context, createVisitProvider, _) {
+                      return TextFromFieldWithPrefixSuffix(
+                        autoFocus: false,
+                        hintText: 'City',
+                        labelText: 'City',
+                        controller: referralsDetailProvider.patientCityTextController,
+                        onTap: () {
+                          referralsDetailProvider.patientCityTextController.clear();
+                          referralsDetailProvider.searchAddressResult(
+                              referralsDetailProvider
+                                  .patientCityTextController.value.text,
+                              createVisitProvider.cities);
+                          showModalBottomSheet(
+                              isScrollControlled: true,
+                              useSafeArea: true,
+                              context: context,
+                              builder: (context) =>
+                              // _AddTaskBottomSheetForCitiesBody(context));
+                              _CitiesBottomSheet(context));
+                        },
+                        validator: (value) {
+                          return value!.isEmpty
+                              ? 'Activity note is required'
+                              : value.length < 3
+                              ? 'Enter at least 3 characters'
+                              : null;
+                        },
+                      );
+                    }),
+                SizedBox(
+                  height: 16,
+                ),
+                TextFromFieldWithPrefixSuffix(
+                  autoFocus: false,
+                  hintText: 'Address',
+                  labelText: 'Address',
+                  controller: referralsDetailProvider.patientAddressTextController,
+                  validator: (value) {
+                    return value!.isEmpty
+                        ? 'Address is required'
+                        : value.length < 3
                         ? 'Enter at least 3 characters'
                         : null;
-              },
+                  },
+                ),
+                SizedBox(
+                  height: 16,
+                ),
+              ],
             ),
-            SizedBox(
-              height: 16,
-            ),
-          ],
-        ),
-      );
-    });
+          );
+        });
   }
   //------------------------------------------------------Referred by----------------------------------------------------//
 
   Widget _referredBy(context) {
     return Consumer<ReferralsDetailProvider>(
         builder: (context, referralsDetailProvider, _) {
-      return Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 8.0),
-        child: CustomExpansionTile(
-          applyAllBorderRadius: true,
-          radiusTopLeft: 16,
-          radiusTopRight: 16,
-          radiusBottomLeft: 16,
-          radiusBottomRight: 16,
-          title: 'Referred By',
-          size: 20,
-          fontWeight: FontWeight.w600,
-          children: [
-            SizedBox(
-              height: 4,
-            ),
-            TextFromFieldWithPrefixSuffix(
-              autoFocus: false,
-              readOnly: true,
-              hintText: 'Full Name *',
-              labelText: 'Full Name *',
-              controller: referralsDetailProvider.referralNameTextController,
-              validator: (value) {
-                return value!.isEmpty
-                    ? 'Name is required'
-                    : value.length < 3
+          return Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 8.0),
+            child: CustomExpansionTile(
+              applyAllBorderRadius: true,
+              radiusTopLeft: 16,
+              radiusTopRight: 16,
+              radiusBottomLeft: 16,
+              radiusBottomRight: 16,
+              title: 'Referred By',
+              size: 20,
+              fontWeight: FontWeight.w600,
+              children: [
+                SizedBox(
+                  height: 4,
+                ),
+                TextFromFieldWithPrefixSuffix(
+                  autoFocus: false,
+                  readOnly: true,
+                  hintText: 'Full Name *',
+                  labelText: 'Full Name *',
+                  controller: referralsDetailProvider.referralNameTextController,
+                  validator: (value) {
+                    return value!.isEmpty
+                        ? 'Name is required'
+                        : value.length < 3
                         ? 'Enter at least 3 characters'
                         : null;
-              },
-              onTap: () {
-                showModalBottomSheet(
-                  isScrollControlled: true,
-                  useSafeArea: true,
-                  context: context,
-                  builder: (context) => _ReferralBottomSheet(context),
-                );
-                referralsDetailProvider.GetPOCList(context);
-              },
-            ),
-            SizedBox(
-              height: 16,
-            ),
-            TextFromFieldWithPrefixSuffix(
-              autoFocus: false,
-              readOnly: true,
-              labelText: 'Category',
-              hintText: 'Category',
-              controller:
+                  },
+                  onTap: () {
+                    showModalBottomSheet(
+                      isScrollControlled: true,
+                      useSafeArea: true,
+                      context: context,
+                      builder: (context) => _ReferralBottomSheet(context),
+                    );
+                    referralsDetailProvider.GetPOCList(context);
+                  },
+                ),
+                SizedBox(
+                  height: 16,
+                ),
+                TextFromFieldWithPrefixSuffix(
+                  autoFocus: false,
+                  readOnly: true,
+                  labelText: 'Category',
+                  hintText: 'Category',
+                  controller:
                   referralsDetailProvider.referredCategoryTextController,
-              validator: (value) {
-                return value!.isEmpty
-                    ? 'Category is required'
-                    : value.length < 3
+                  validator: (value) {
+                    return value!.isEmpty
+                        ? 'Category is required'
+                        : value.length < 3
                         ? 'Enter at least 3 characters'
                         : null;
-              },
-            ),
-            SizedBox(
-              height: 16,
-            ),
-            TextFromFieldWithPrefixSuffix(
-              autoFocus: false,
-              readOnly: true,
-              labelText: 'Specialization',
-              hintText: 'Specialization',
-              controller:
+                  },
+                ),
+                SizedBox(
+                  height: 16,
+                ),
+                TextFromFieldWithPrefixSuffix(
+                  autoFocus: false,
+                  readOnly: true,
+                  labelText: 'Specialization',
+                  hintText: 'Specialization',
+                  controller:
                   referralsDetailProvider.referredSpecializationTextController,
-              validator: (value) {
-                return value!.isEmpty
-                    ? 'Specialization is required'
-                    : value.length < 3
+                  validator: (value) {
+                    return value!.isEmpty
+                        ? 'Specialization is required'
+                        : value.length < 3
                         ? 'Enter at least 3 characters'
                         : null;
-              },
-            ),
-            SizedBox(
-              height: 16,
-            ),
-            TextFromFieldWithPrefixSuffix(
-              autoFocus: false,
-              readOnly: true,
-              labelText: 'Age',
-              hintText: 'Age',
-              controller: referralsDetailProvider.referralAgeTextController,
-              validator: (value) {
-                return value!.isEmpty
-                    ? 'Number is required'
-                    : value.length < 1
+                  },
+                ),
+                SizedBox(
+                  height: 16,
+                ),
+                TextFromFieldWithPrefixSuffix(
+                  autoFocus: false,
+                  readOnly: true,
+                  labelText: 'Age',
+                  hintText: 'Age',
+                  controller: referralsDetailProvider.referralAgeTextController,
+                  validator: (value) {
+                    return value!.isEmpty
+                        ? 'Number is required'
+                        : value.length < 1
                         ? 'Enter at least 2 characters'
                         : null;
-              },
-            ),
-            SizedBox(
-              height: 16,
-            ),
-            TextFromFieldWithPrefixSuffix(
-              autoFocus: false,
-              readOnly: true,
-              labelText: 'Number',
-              hintText: 'Number',
-              controller: referralsDetailProvider.referredNumberTextController,
-              validator: (value) {
-                return value!.isEmpty
-                    ? 'Address is required'
-                    : value.length < 3
+                  },
+                ),
+                SizedBox(
+                  height: 16,
+                ),
+                TextFromFieldWithPrefixSuffix(
+                  autoFocus: false,
+                  readOnly: true,
+                  labelText: 'Number',
+                  hintText: 'Number',
+                  controller: referralsDetailProvider.referredNumberTextController,
+                  validator: (value) {
+                    return value!.isEmpty
+                        ? 'Address is required'
+                        : value.length < 3
                         ? 'Enter at least 3 characters'
                         : null;
-              },
-            ),
-            SizedBox(
-              height: 16,
-            ),
-            TextFromFieldWithPrefixSuffix(
-              autoFocus: false,
-              readOnly: true,
-              maxLines: 2,
-              labelText: 'Address',
-              hintText: 'Address',
-              controller: referralsDetailProvider.referredAddressTextController,
-              validator: (value) {
-                return value!.isEmpty
-                    ? 'Address is required'
-                    : value.length < 3
+                  },
+                ),
+                SizedBox(
+                  height: 16,
+                ),
+                TextFromFieldWithPrefixSuffix(
+                  autoFocus: false,
+                  readOnly: true,
+                  maxLines: 2,
+                  labelText: 'Address',
+                  hintText: 'Address',
+                  controller: referralsDetailProvider.referredAddressTextController,
+                  validator: (value) {
+                    return value!.isEmpty
+                        ? 'Address is required'
+                        : value.length < 3
                         ? 'Enter at least 3 characters'
                         : null;
-              },
+                  },
+                ),
+                SizedBox(
+                  height: 16,
+                ),
+              ],
             ),
-            SizedBox(
-              height: 16,
-            ),
-          ],
-        ),
-      );
-    });
+          );
+        });
   }
   //------------------------------------------------------ambulance details----------------------------------------------------//
 
   Widget _ambulanceDetails(context) {
     return Consumer<ReferralsDetailProvider>(
         builder: (context, referralsDetailProvider, _) {
-      return Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 8.0),
-        child: CustomExpansionTile(
-          applyAllBorderRadius: true,
-          radiusTopLeft: 16,
-          radiusTopRight: 16,
-          radiusBottomLeft: 16,
-          radiusBottomRight: 16,
-          title: 'Ambulance Details',
-          size: 20,
-          fontWeight: FontWeight.w600,
-          children: [
-            SizedBox(
-              height: 4,
-            ),
-            TextFromFieldWithPrefixSuffix(
-              autoFocus: false,
-              readOnly: true,
-              hintText: 'Driver Name',
-              labelText: 'Driver Name',
-              controller: referralsDetailProvider.ambDriverNameTextController,
-              validator: (value) {
-                return value!.isEmpty
-                    ? 'Driver Name is required'
-                    : value.length < 3
+          return Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 8.0),
+            child: CustomExpansionTile(
+              applyAllBorderRadius: true,
+              radiusTopLeft: 16,
+              radiusTopRight: 16,
+              radiusBottomLeft: 16,
+              radiusBottomRight: 16,
+              title: 'Ambulance Details',
+              size: 20,
+              fontWeight: FontWeight.w600,
+              children: [
+                SizedBox(
+                  height: 4,
+                ),
+                TextFromFieldWithPrefixSuffix(
+                  autoFocus: false,
+                  readOnly: true,
+                  hintText: 'Driver Name',
+                  labelText: 'Driver Name',
+                  controller: referralsDetailProvider.ambDriverNameTextController,
+                  validator: (value) {
+                    return value!.isEmpty
+                        ? 'Driver Name is required'
+                        : value.length < 3
                         ? 'Enter at least 3 characters'
                         : null;
-              },
-              onTap: () {
-                showModalBottomSheet(
-                  isScrollControlled: true,
-                  useSafeArea: true,
-                  context: context,
-                  builder: (context) => _AmbulanceBottomSheet(context),
-                );
-                referralsDetailProvider.GetAmbulancePOCList(context);
-              },
-            ),
-            SizedBox(
-              height: 16,
-            ),
-            TextFromFieldWithPrefixSuffix(
-              autoFocus: false,
-              readOnly: true,
-              labelText: 'Ambulance Number',
-              hintText: 'Ambulance Number',
-              controller: referralsDetailProvider.ambNumberTextController,
-              validator: (value) {
-                return value!.isEmpty
-                    ? 'Ambulance Number is required'
-                    : value.length < 3
+                  },
+                  onTap: () {
+                    showModalBottomSheet(
+                      isScrollControlled: true,
+                      useSafeArea: true,
+                      context: context,
+                      builder: (context) => _AmbulanceBottomSheet(context),
+                    );
+                    referralsDetailProvider.GetAmbulancePOCList(context);
+                  },
+                ),
+                SizedBox(
+                  height: 16,
+                ),
+                TextFromFieldWithPrefixSuffix(
+                  autoFocus: false,
+                  readOnly: true,
+                  labelText: 'Ambulance Number',
+                  hintText: 'Ambulance Number',
+                  controller: referralsDetailProvider.ambNumberTextController,
+                  validator: (value) {
+                    return value!.isEmpty
+                        ? 'Ambulance Number is required'
+                        : value.length < 3
                         ? 'Enter at least 4 characters'
                         : null;
-              },
-            ),
-            SizedBox(
-              height: 16,
-            ),
-            TextFromFieldWithPrefixSuffix(
-              autoFocus: false,
-              readOnly: true,
-              labelText: 'Phone Number',
-              hintText: 'Phone Number',
-              controller: referralsDetailProvider.ambPhoneNumberTextController,
-              validator: (value) {
-                return value!.isEmpty
-                    ? 'Phone Number is required'
-                    : value.length < 3
+                  },
+                ),
+                SizedBox(
+                  height: 16,
+                ),
+                TextFromFieldWithPrefixSuffix(
+                  autoFocus: false,
+                  readOnly: true,
+                  labelText: 'Phone Number',
+                  hintText: 'Phone Number',
+                  controller: referralsDetailProvider.ambPhoneNumberTextController,
+                  validator: (value) {
+                    return value!.isEmpty
+                        ? 'Phone Number is required'
+                        : value.length < 3
                         ? 'Enter at least 10 characters'
                         : null;
-              },
+                  },
+                ),
+                SizedBox(
+                  height: 16,
+                ),
+              ],
             ),
-            SizedBox(
-              height: 16,
-            ),
-          ],
-        ),
-      );
-    });
+          );
+        });
   }
 
   //-------------------------------------------------------------------District Bottom Sheet-----------------------------------------------------//
 
-  Widget _AddTaskBottomSheetForDistrictBody(context) {
-    return Consumer<WeeklyPlanProvider>(
-        builder: (context, weeklyPlanProvider, _) {
-      return Container(
-        color: CustomColors.primaryWhite,
-        height: MediaQuery.of(context).size.height * 0.80,
-        child: ListView(
-          children: [
-            Column(
+  Widget _DistrictBottomSheet(context) {
+    return Consumer<ReferralsDetailProvider>(
+        builder: (context, referralsDetailProvider, _) {
+          return Container(
+            child: Column(
               children: [
                 Container(
-                  padding: const EdgeInsets.only(
-                    top: 8,
-                    right: 12.0,
-                    bottom: 8,
-                  ),
+                  padding: EdgeInsets.symmetric(horizontal: 8),
+                  height: MediaQuery.of(context).size.height * 0.10,
                   decoration: BoxDecoration(
+                    borderRadius: BorderRadius.only(
+                        topLeft: Radius.circular(16),
+                        topRight: Radius.circular(16)),
                     color: CustomColors.primaryColor,
                   ),
                   child: Row(
@@ -695,183 +640,17 @@ class _MrOfficerReferralScreenState extends State<MrOfficerReferralScreen> {
                         width: 8,
                       ),
                       Expanded(
-                        child: Consumer<ReferralsDetailProvider>(
-                            builder: (context, referralsDetailProvider, _) {
-                          return TextFromFieldWithPrefixSuffix(
-                            applyPrefix: true,
-                            prefixIcon: Icon(Icons.search),
-                            applySuffixIcon: true,
-                            suffixIcon: Icon(Icons.arrow_drop_down),
-                            controller: searchForDistrictTextEditingController,
-                            labelText: 'Select District',
-                            onChange: (value) => runDistrictSearchFilter(
-                                searchForDistrictTextEditingController
-                                    .value.text),
-                            validator: (Value) {},
-                          );
-                        }),
-                      ),
-                    ],
-                  ),
-                ),
-                SizedBox(
-                  height: 16,
-                ),
-                Consumer<ReferralsDetailProvider>(
-                    builder: (context, referralsDetailProvider, _) {
-                  return Container(
-                    child: ListView.builder(
-                        shrinkWrap: true,
-                        itemCount: foundDistrictList.length,
-                        itemBuilder: (context, index) {
-                          return ListTile(
-                            title: CustomText(
-                                text: foundDistrictList[index].toString()),
-                            onTap: () {
-                              // selectedDistrict =
-                              //     weeklyPlanProvider.foundDistrict[index];
-                              getCitiesForSelection(
-                                  foundDistrictList[index].toString());
-                              referralsDetailProvider
-                                  .patientDistrictTextController
-                                  .text = foundDistrictList[index].toString();
-                              // print(weeklyPlanProvider.foundDistrict);
-                              Navigator.pop(context);
-                            },
-                          );
-                        }),
-                  );
-                }),
-              ],
-            ),
-          ],
-        ),
-      );
-    });
-  }
-
-  //-----------------------------------------------------------------State Bottom Sheet-------------------------------------------------------//
-
-  Widget _AddTaskBottomSheetForStatesBody(context) {
-    return Consumer<ReferralsDetailProvider>(
-        builder: (context, referralsDetailProvider, _) {
-      return ListView(
-        children: [
-          Container(
-            padding: EdgeInsets.symmetric(horizontal: 8, vertical: 8),
-            height: MediaQuery.of(context).size.height * 0.10,
-            decoration: BoxDecoration(
-              color: CustomColors.primaryColor,
-              borderRadius: BorderRadius.only(
-                  topLeft: Radius.circular(16), topRight: Radius.circular(16)),
-            ),
-            child: Row(
-              children: [
-                InkWell(
-                    onTap: () {
-                      Navigator.pop(context);
-                    },
-                    child: Icon(Icons.arrow_back)),
-                SizedBox(
-                  width: 8,
-                ),
-                Expanded(
-                  child: Consumer<WeeklyPlanProvider>(
-                      builder: (context, weeklyPlanProvider, _) {
-                    return TextFromFieldWithPrefixSuffix(
-                      applyPrefix: true,
-                      prefixIcon: Icon(Icons.search),
-                      applySuffixIcon: true,
-                      suffixIcon: Icon(Icons.arrow_drop_down),
-                      controller: searchForStatesTextEditingController,
-                      labelText: 'Select States',
-                      onTap: () {
-                        runStateSearchFilter('');
-                        // weeklyPlanProvider.setDistrictList();
-                      },
-                      onChange: (value) => runStateSearchFilter(
-                          searchForStatesTextEditingController.value.text),
-                      validator: (Value) {},
-                    );
-                  }),
-                ),
-              ],
-            ),
-          ),
-          Consumer<WeeklyPlanProvider>(
-              builder: (context, weeklyPlanProvider, _) {
-            return Container(
-              child: ListView.builder(
-                  physics: ScrollPhysics(),
-                  shrinkWrap: true,
-                  itemCount: foundStateList.length,
-                  itemBuilder: (context, index) {
-                    return ListTile(
-                      title: CustomText(
-                        text: foundStateList[index].toString(),
-                      ),
-                      onTap: () {
-                        // print(districtList);
-                        selectedState = foundStateList[index];
-                        getCitiesForSelection(foundStateList[index].toString());
-                        // referralsDetailProvider.updateState(selectedState);
-                        referralsDetailProvider.patientStateTextController
-                            .text = foundStateList[index].toString();
-                        Navigator.pop(context);
-                      },
-                    );
-                  }),
-            );
-          }),
-        ],
-      );
-    });
-  }
-
-  //-------------------------------------------------------------------City Bottom Sheet-----------------------------------------------------//
-  Widget _AddTaskBottomSheetForCitiesBody(context) {
-    return Consumer<WeeklyPlanProvider>(
-        builder: (context, weeklyPlanProvider, _) {
-      return SizedBox(
-        height: MediaQuery.of(context).size.height * 0.80,
-        child: ListView(
-          children: [
-            Column(
-              children: [
-                Container(
-                  padding: const EdgeInsets.only(
-                    top: 8,
-                    right: 12.0,
-                    bottom: 8,
-                  ),
-                  decoration: BoxDecoration(
-                    color: CustomColors.primaryColor,
-                  ),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Expanded(
-                        flex: 1,
-                        child: InkWell(
-                            onTap: () {
-                              print('Pressed');
-                              Navigator.pop(context);
-                            },
-                            child: Icon(FontAwesomeIcons.arrowLeft)),
-                      ),
-                      // ),
-                      Expanded(
-                        flex: 7,
                         child: TextFromFieldWithPrefixSuffix(
-                          controller: searchForCityTextEditingController,
-                          labelText: 'Search City',
+                          applyPrefix: true,
+                          prefixIcon: Icon(Icons.search),
                           applySuffixIcon: true,
-                          suffixIcon: Icon(Icons.search),
-                          validator: (value) {},
-                          onChange: (value) =>
-                              weeklyPlanProvider.runStateSearchFilter(
-                                  searchForStatesTextEditingController
-                                      .value.text),
+                          suffixIcon: Icon(Icons.arrow_drop_down),
+                          controller: referralsDetailProvider.searchForDistrictTextEditingController,
+                          labelText: 'Select District',
+                          onChange: (value) => runDistrictSearchFilter(
+                              referralsDetailProvider.searchForDistrictTextEditingController
+                                  .value.text),
+                          validator: (Value) {},
                         ),
                       ),
                     ],
@@ -880,183 +659,306 @@ class _MrOfficerReferralScreenState extends State<MrOfficerReferralScreen> {
                 SizedBox(
                   height: 8,
                 ),
-                Consumer<ReferralsDetailProvider>(
-                    builder: (context, referralsDetailProvider, _) {
-                  return Container(
-                    child: ListView.builder(
-                        physics: ScrollPhysics(),
-                        shrinkWrap: true,
-                        itemCount: foundCities.length,
-                        itemBuilder: (context, index) {
-                          return ListTile(
-                            title: CustomText(
-                              text: foundCities[index].toString(),
-                            ),
-                            onTap: () {
-                              // print(districtList);
-                              Navigator.pop(context);
-                              // referralsDetailProvider.setSelectedCity(cityName);
-                              selectedCity = foundCities[index];
-                              print('cities = ${foundCities[index].toString()}');
-                              referralsDetailProvider.patientCityTextController.text = selectedCity;
-                              // referralsDetailProvider.updateCity(citiesList[index]);
-                              // referralsDetailProvider.updateCity(selectedCity);
-                            },
-                          );
-                        }),
-                  );
-                }),
+                Expanded(
+                  child: ListView.builder(
+                      itemCount: referralsDetailProvider.foundDistrictList.length,
+                      itemBuilder: (context, index) {
+                        return ListTile(
+                          title: CustomText(
+                              text: referralsDetailProvider.foundDistrictList[index].toString()),
+                          onTap: (){
+                            print(referralsDetailProvider.foundDistrictList[index].toString());
+                            referralsDetailProvider.getCitiesForSelection(referralsDetailProvider.foundDistrictList[index].toString());
+                            referralsDetailProvider.patientDistrictTextController.text = referralsDetailProvider.foundDistrictList[index].toString();
+
+                            Navigator.pop(context);
+                          },
+                        );
+                      }),
+                ),
               ],
             ),
-          ],
-        ),
-      );
-    });
+          );
+        });
   }
+
+  //-----------------------------------------------------------------State Bottom Sheet-------------------------------------------------------//
+
+  Widget _StateBottomSheet(context) {
+    return Consumer<ReferralsDetailProvider>(
+        builder: (context, referralsDetailProvider, _) {
+          return Container(
+            child: Column(
+              children: [
+                Container(
+                  padding: EdgeInsets.symmetric(horizontal: 8),
+                  height: MediaQuery.of(context).size.height * 0.10,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.only(
+                        topLeft: Radius.circular(16),
+                        topRight: Radius.circular(16)),
+                    color: CustomColors.primaryColor,
+                  ),
+                  child: Row(
+                    children: [
+                      InkWell(
+                          onTap: () {
+                            Navigator.pop(context);
+                          },
+                          child: Icon(Icons.arrow_back)),
+                      SizedBox(
+                        width: 8,
+                      ),
+                      Expanded(
+                        child: TextFromFieldWithPrefixSuffix(
+                          applyPrefix: true,
+                          prefixIcon: Icon(Icons.search),
+                          applySuffixIcon: true,
+                          suffixIcon: Icon(Icons.arrow_drop_down),
+                          controller: referralsDetailProvider.searchForStatesTextEditingController,
+                          labelText: 'Select State',
+                          onChange: (value) => runStateSearchFilter(
+                              referralsDetailProvider.searchForStatesTextEditingController
+                                  .value.text),
+                          validator: (Value) {},
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                SizedBox(
+                  height: 8,
+                ),
+                Expanded(
+                  child: ListView.builder(
+                      itemCount: referralsDetailProvider.foundStateList.length,
+                      itemBuilder: (context, index) {
+                        return ListTile(
+                          title: CustomText(
+                              text: referralsDetailProvider.foundStateList[index].toString()),
+                          onTap: (){
+                            referralsDetailProvider.getCitiesForSelection(referralsDetailProvider.foundStateList[index].toString());
+                            referralsDetailProvider.patientStateTextController.text = referralsDetailProvider.foundStateList[index].toString();
+                            Navigator.pop(context);
+                          },
+                        );
+                      }),
+                ),
+              ],
+            ),
+          );
+        });
+  }
+
+  //-------------------------------------------------------------------City Bottom Sheet-----------------------------------------------------//
+
+  Widget _CitiesBottomSheet(context) {
+    return Consumer<ReferralsDetailProvider>(
+        builder: (context, referralsDetailProvider, _) {
+          return Container(
+            child: Column(
+              children: [
+                Container(
+                  padding: EdgeInsets.symmetric(horizontal: 8),
+                  height: MediaQuery.of(context).size.height * 0.10,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.only(
+                        topLeft: Radius.circular(16),
+                        topRight: Radius.circular(16)),
+                    color: CustomColors.primaryColor,
+                  ),
+                  child: Row(
+                    children: [
+                      InkWell(
+                          onTap: () {
+                            Navigator.pop(context);
+                          },
+                          child: Icon(Icons.arrow_back)),
+                      SizedBox(
+                        width: 8,
+                      ),
+                      Expanded(
+                        child: TextFromFieldWithPrefixSuffix(
+                          applyPrefix: true,
+                          prefixIcon: Icon(Icons.search),
+                          applySuffixIcon: true,
+                          suffixIcon: Icon(Icons.arrow_drop_down),
+                          controller: referralsDetailProvider.searchForCityTextEditingController,
+                          labelText: 'Select City',
+                          onChange: (value) {},
+                          validator: (Value) {},
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                SizedBox(
+                  height: 8,
+                ),
+                Expanded(
+                  child: ListView.builder(
+                      itemCount: referralsDetailProvider.foundCities.length,
+                      itemBuilder: (context, index) {
+                        return ListTile(
+                          title: CustomText(
+                              text: referralsDetailProvider.foundCities[index].toString()),
+                          onTap: (){
+                            referralsDetailProvider.patientCityTextController.text = referralsDetailProvider.foundCities[index].toString();
+                            Navigator.pop(context);
+                          },
+                        );
+                      }),
+                ),
+              ],
+            ),
+          );
+        });
+  }
+
   //------------------------------------------------------------------------------------------------------------------------//
 
   Widget _ReferralBottomSheet(context) {
     return Consumer<ReferralsDetailProvider>(
         builder: (context, referralsDetailProvider, _) {
-      return Container(
-        child: Column(
-          children: [
-            Container(
-              padding: EdgeInsets.symmetric(horizontal: 8),
-              height: MediaQuery.of(context).size.height * 0.10,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.only(
-                    topLeft: Radius.circular(16),
-                    topRight: Radius.circular(16)),
-                color: CustomColors.primaryColor,
-              ),
-              child: Row(
-                children: [
-                  InkWell(
-                      onTap: () {
-                        Navigator.pop(context);
-                      },
-                      child: Icon(Icons.arrow_back)),
-                  SizedBox(
-                    width: 8,
+          return Container(
+            child: Column(
+              children: [
+                Container(
+                  padding: EdgeInsets.symmetric(horizontal: 8),
+                  height: MediaQuery.of(context).size.height * 0.10,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.only(
+                        topLeft: Radius.circular(16),
+                        topRight: Radius.circular(16)),
+                    color: CustomColors.primaryColor,
                   ),
-                  Expanded(
-                    child: TextFromFieldWithPrefixSuffix(
-                      controller:
+                  child: Row(
+                    children: [
+                      InkWell(
+                          onTap: () {
+                            Navigator.pop(context);
+                          },
+                          child: Icon(Icons.arrow_back)),
+                      SizedBox(
+                        width: 8,
+                      ),
+                      Expanded(
+                        child: TextFromFieldWithPrefixSuffix(
+                          controller:
                           referralsDetailProvider.searchByNameController,
-                      labelText: 'Search POC name',
-                      applySuffixIcon: true,
-                      suffixIcon: Icon(Icons.search),
-                      validator: (newValue) {},
-                    ),
-                  ),
-                ],
-              ),
-            ),
-            SizedBox(
-              height: 8,
-            ),
-            Expanded(
-              child: ListView.builder(
-                  itemCount: referralsDetailProvider.pocList.length,
-                  itemBuilder: (context, index) {
-                    return ListTile(
-                      onTap: () {
-                        referralsDetailProvider.GetPOCList(context);
-                        String id =
-                            referralsDetailProvider.pocList[index]['_id'];
-                        String name =
-                            referralsDetailProvider.pocList[index]['pocName'];
-                        String category =
-                            referralsDetailProvider.pocList[index]['category'];
-                        String specialization = referralsDetailProvider
-                            .pocList[index]['specialization'];
-                        String age = referralsDetailProvider.pocList[index]
-                                ['age']
-                            .toString();
-                        String number =
-                            referralsDetailProvider.pocList[index]['number'];
-                        String country =
-                            referralsDetailProvider.pocList[index]['country'];
-                        String region =
-                            referralsDetailProvider.pocList[index]['region'];
-                        String city =
-                            referralsDetailProvider.pocList[index]['city'];
-                        String address =
-                            referralsDetailProvider.pocList[index]['address'];
-                        String fullAddress =
-                            '$country, $region, $city, $address';
-                        // String organization = referralsDetailProvider.pocList[index]['organization'];
-                        referralsDetailProvider.setPOCDetails(id, name,
-                            category, specialization, age, number, fullAddress);
-                        print(referralsDetailProvider.pocList[index]);
-                        Navigator.pop(context);
-                      },
-                      title: CustomContainer(
-                        applyShadow: true,
-                        child: Column(
-                          children: [
-                            Row(
-                              children: [
-                                Expanded(
-                                    flex: 1,
-                                    child: CustomText(
-                                      text: 'Name ',
-                                    )),
-                                Expanded(
-                                    flex: 2,
-                                    child: CustomText(
-                                      text: referralsDetailProvider
-                                          .pocList[index]['pocName'],
-                                    )),
-                              ],
-                            ),
-                            SizedBox(
-                              height: 8,
-                            ),
-                            Row(
-                              children: [
-                                Expanded(
-                                    flex: 1,
-                                    child: CustomText(
-                                      text: 'Number',
-                                    )),
-                                Expanded(
-                                    flex: 2,
-                                    child: CustomText(
-                                      text: referralsDetailProvider
-                                          .pocList[index]['number'],
-                                    )),
-                              ],
-                            ),
-                            SizedBox(
-                              height: 8,
-                            ),
-                            Row(
-                              children: [
-                                Expanded(
-                                    flex: 1,
-                                    child: CustomText(
-                                      text: 'Address',
-                                    )),
-                                Expanded(
-                                    flex: 2,
-                                    child: CustomText(
-                                      text: referralsDetailProvider
-                                          .pocList[index]['address'],
-                                    )),
-                              ],
-                            ),
-                          ],
+                          labelText: 'Search POC name',
+                          applySuffixIcon: true,
+                          suffixIcon: Icon(Icons.search),
+                          validator: (newValue) {},
                         ),
                       ),
-                    );
-                  }),
+                    ],
+                  ),
+                ),
+                SizedBox(
+                  height: 8,
+                ),
+                Expanded(
+                  child: ListView.builder(
+                      itemCount: referralsDetailProvider.pocList.length,
+                      itemBuilder: (context, index) {
+                        return ListTile(
+                          onTap: () {
+                            referralsDetailProvider.GetPOCList(context);
+                            String id =
+                            referralsDetailProvider.pocList[index]['_id'];
+                            String name =
+                            referralsDetailProvider.pocList[index]['pocName'];
+                            String category =
+                            referralsDetailProvider.pocList[index]['category'];
+                            String specialization = referralsDetailProvider
+                                .pocList[index]['specialization'];
+                            String age = referralsDetailProvider.pocList[index]
+                            ['age']
+                                .toString();
+                            String number =
+                            referralsDetailProvider.pocList[index]['number'];
+                            String country =
+                            referralsDetailProvider.pocList[index]['country'];
+                            String region =
+                            referralsDetailProvider.pocList[index]['region'];
+                            String city =
+                            referralsDetailProvider.pocList[index]['city'];
+                            String address =
+                            referralsDetailProvider.pocList[index]['address'];
+                            String fullAddress =
+                                '$country, $region, $city, $address';
+                            // String organization = referralsDetailProvider.pocList[index]['organization'];
+                            referralsDetailProvider.setPOCDetails(id, name,
+                                category, specialization, age, number, fullAddress);
+                            print(referralsDetailProvider.pocList[index]);
+                            Navigator.pop(context);
+                          },
+                          title: CustomContainer(
+                            applyShadow: true,
+                            child: Column(
+                              children: [
+                                Row(
+                                  children: [
+                                    Expanded(
+                                        flex: 1,
+                                        child: CustomText(
+                                          text: 'Name ',
+                                        )),
+                                    Expanded(
+                                        flex: 2,
+                                        child: CustomText(
+                                          text: referralsDetailProvider
+                                              .pocList[index]['pocName'],
+                                        )),
+                                  ],
+                                ),
+                                SizedBox(
+                                  height: 8,
+                                ),
+                                Row(
+                                  children: [
+                                    Expanded(
+                                        flex: 1,
+                                        child: CustomText(
+                                          text: 'Number',
+                                        )),
+                                    Expanded(
+                                        flex: 2,
+                                        child: CustomText(
+                                          text: referralsDetailProvider
+                                              .pocList[index]['number'],
+                                        )),
+                                  ],
+                                ),
+                                SizedBox(
+                                  height: 8,
+                                ),
+                                Row(
+                                  children: [
+                                    Expanded(
+                                        flex: 1,
+                                        child: CustomText(
+                                          text: 'Address',
+                                        )),
+                                    Expanded(
+                                        flex: 2,
+                                        child: CustomText(
+                                          text: referralsDetailProvider
+                                              .pocList[index]['address'],
+                                        )),
+                                  ],
+                                ),
+                              ],
+                            ),
+                          ),
+                        );
+                      }),
+                ),
+              ],
             ),
-          ],
-        ),
-      );
-    });
+          );
+        });
   }
 
   //----------------------------------------------------------------Ambulance BottomSheet----------------------------------------------------------------//
@@ -1064,138 +966,138 @@ class _MrOfficerReferralScreenState extends State<MrOfficerReferralScreen> {
   Widget _AmbulanceBottomSheet(context) {
     return Consumer<ReferralsDetailProvider>(
         builder: (context, referralsDetailProvider, _) {
-      return Container(
-        child: Column(
-          children: [
-            Container(
-              padding: EdgeInsets.symmetric(horizontal: 8),
-              height: MediaQuery.of(context).size.height * 0.10,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.only(
-                    topLeft: Radius.circular(16),
-                    topRight: Radius.circular(16)),
-                color: CustomColors.primaryColor,
-              ),
-              child: Row(
-                children: [
-                  InkWell(
-                      onTap: () {
-                        Navigator.pop(context);
-                      },
-                      child: Icon(Icons.arrow_back)),
-                  SizedBox(
-                    width: 8,
+          return Container(
+            child: Column(
+              children: [
+                Container(
+                  padding: EdgeInsets.symmetric(horizontal: 8),
+                  height: MediaQuery.of(context).size.height * 0.10,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.only(
+                        topLeft: Radius.circular(16),
+                        topRight: Radius.circular(16)),
+                    color: CustomColors.primaryColor,
                   ),
-                  Expanded(
-                    child: TextFromFieldWithPrefixSuffix(
-                      controller:
+                  child: Row(
+                    children: [
+                      InkWell(
+                          onTap: () {
+                            Navigator.pop(context);
+                          },
+                          child: Icon(Icons.arrow_back)),
+                      SizedBox(
+                        width: 8,
+                      ),
+                      Expanded(
+                        child: TextFromFieldWithPrefixSuffix(
+                          controller:
                           referralsDetailProvider.searchByNameController,
-                      labelText: 'Search POC name',
-                      applySuffixIcon: true,
-                      suffixIcon: Icon(Icons.search),
-                      validator: (newValue) {},
-                    ),
-                  ),
-                ],
-              ),
-            ),
-            SizedBox(
-              height: 8,
-            ),
-            Expanded(
-              child: ListView.builder(
-                  itemCount: referralsDetailProvider.pocList.length,
-                  itemBuilder: (context, index) {
-                    return ListTile(
-                      onTap: () {
-                        referralsDetailProvider.GetAmbulancePOCList(context);
-                        String id =
-                            referralsDetailProvider.pocList[index]['_id'];
-                        String name =
-                            referralsDetailProvider.pocList[index]['pocName'];
-                        String category =
-                            referralsDetailProvider.pocList[index]['category'];
-                        String specialization = referralsDetailProvider
-                            .pocList[index]['specialization'];
-                        String age = referralsDetailProvider.pocList[index]
-                                ['age']
-                            .toString();
-                        String number =
-                            referralsDetailProvider.pocList[index]['number'];
-                        String address =
-                            referralsDetailProvider.pocList[index]['address'];
-                        String ambNumber =
-                            referralsDetailProvider.pocList[index]['ambNumber'];
-                        // String organization = referralsDetailProvider.pocList[index]['organization'];
-                        referralsDetailProvider.setAmbulancePOCDetails(
-                            id, name, ambNumber, number);
-                        print(referralsDetailProvider.pocList[index]);
-                        Navigator.pop(context);
-                      },
-                      title: CustomContainer(
-                        applyShadow: true,
-                        child: Column(
-                          children: [
-                            Row(
-                              children: [
-                                Expanded(
-                                    flex: 1,
-                                    child: CustomText(
-                                      text: 'Name ',
-                                    )),
-                                Expanded(
-                                    flex: 2,
-                                    child: CustomText(
-                                      text: referralsDetailProvider
-                                          .pocList[index]['pocName'],
-                                    )),
-                              ],
-                            ),
-                            SizedBox(
-                              height: 8,
-                            ),
-                            Row(
-                              children: [
-                                Expanded(
-                                    flex: 1,
-                                    child: CustomText(
-                                      text: 'Number',
-                                    )),
-                                Expanded(
-                                    flex: 2,
-                                    child: CustomText(
-                                      text: referralsDetailProvider
-                                          .pocList[index]['number'],
-                                    )),
-                              ],
-                            ),
-                            SizedBox(
-                              height: 8,
-                            ),
-                            Row(
-                              children: [
-                                Expanded(
-                                    flex: 1,
-                                    child: CustomText(
-                                      text: 'Address',
-                                    )),
-                                Expanded(
-                                    flex: 2,
-                                    child: CustomText(
-                                      text: referralsDetailProvider
-                                          .pocList[index]['address'],
-                                    )),
-                              ],
-                            ),
-                          ],
+                          labelText: 'Search POC name',
+                          applySuffixIcon: true,
+                          suffixIcon: Icon(Icons.search),
+                          validator: (newValue) {},
                         ),
                       ),
-                    );
-                  }),
+                    ],
+                  ),
+                ),
+                SizedBox(
+                  height: 8,
+                ),
+                Expanded(
+                  child: ListView.builder(
+                      itemCount: referralsDetailProvider.pocList.length,
+                      itemBuilder: (context, index) {
+                        return ListTile(
+                          onTap: () {
+                            referralsDetailProvider.GetAmbulancePOCList(context);
+                            String id =
+                            referralsDetailProvider.pocList[index]['_id'];
+                            String name =
+                            referralsDetailProvider.pocList[index]['pocName'];
+                            String category =
+                            referralsDetailProvider.pocList[index]['category'];
+                            String specialization = referralsDetailProvider
+                                .pocList[index]['specialization'];
+                            String age = referralsDetailProvider.pocList[index]
+                            ['age']
+                                .toString();
+                            String number =
+                            referralsDetailProvider.pocList[index]['number'];
+                            String address =
+                            referralsDetailProvider.pocList[index]['address'];
+                            String ambNumber =
+                            referralsDetailProvider.pocList[index]['ambNumber'];
+                            // String organization = referralsDetailProvider.pocList[index]['organization'];
+                            referralsDetailProvider.setAmbulancePOCDetails(
+                                id, name, ambNumber, number);
+                            print(referralsDetailProvider.pocList[index]);
+                            Navigator.pop(context);
+                          },
+                          title: CustomContainer(
+                            applyShadow: true,
+                            child: Column(
+                              children: [
+                                Row(
+                                  children: [
+                                    Expanded(
+                                        flex: 1,
+                                        child: CustomText(
+                                          text: 'Name ',
+                                        )),
+                                    Expanded(
+                                        flex: 2,
+                                        child: CustomText(
+                                          text: referralsDetailProvider
+                                              .pocList[index]['pocName'],
+                                        )),
+                                  ],
+                                ),
+                                SizedBox(
+                                  height: 8,
+                                ),
+                                Row(
+                                  children: [
+                                    Expanded(
+                                        flex: 1,
+                                        child: CustomText(
+                                          text: 'Number',
+                                        )),
+                                    Expanded(
+                                        flex: 2,
+                                        child: CustomText(
+                                          text: referralsDetailProvider
+                                              .pocList[index]['number'],
+                                        )),
+                                  ],
+                                ),
+                                SizedBox(
+                                  height: 8,
+                                ),
+                                Row(
+                                  children: [
+                                    Expanded(
+                                        flex: 1,
+                                        child: CustomText(
+                                          text: 'Address',
+                                        )),
+                                    Expanded(
+                                        flex: 2,
+                                        child: CustomText(
+                                          text: referralsDetailProvider
+                                              .pocList[index]['address'],
+                                        )),
+                                  ],
+                                ),
+                              ],
+                            ),
+                          ),
+                        );
+                      }),
+                ),
+              ],
             ),
-          ],
-        ),
-      );
-    });
+          );
+        });
   }
 }
