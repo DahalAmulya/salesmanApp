@@ -1,6 +1,8 @@
 import 'package:deskgoo/providers/mr_admin_provider/mr_admin_visit_logProvider.dart';
 import 'package:deskgoo/routes/route_generator_constants.dart';
+import 'package:deskgoo/themes/custom_colors.dart';
 import 'package:deskgoo/widgets/app_bars/custom_app_bars.dart';
+import 'package:deskgoo/widgets/buttons/elevated_button.dart';
 import 'package:deskgoo/widgets/containers/custom_container.dart';
 import 'package:deskgoo/widgets/drop_downs/custom_dropdown.dart';
 import 'package:deskgoo/widgets/text_fields/text_from_field.dart';
@@ -17,6 +19,14 @@ class MrAdminReportScreen extends StatefulWidget {
 }
 
 class _MrAdminReportScreenState extends State<MrAdminReportScreen> {
+  @override
+  void initState() {
+    super.initState();
+    MrAdminVisitLogProvider mrAdminVisitLogProvider =
+        Provider.of<MrAdminVisitLogProvider>(context, listen: false);
+    mrAdminVisitLogProvider.getVisitLogsList();
+  }
+
   @override
   Widget build(BuildContext context) {
     return PopScope(
@@ -82,7 +92,6 @@ class _MrAdminReportScreenState extends State<MrAdminReportScreen> {
                       items: adminVisitLogsProvider.visitLogsUserList,
                       value: adminVisitLogsProvider.selectedUser,
                       onChanged: (value) {
-                        print('');
                         adminVisitLogsProvider.setSelectedUser(value);
                       },
                     ),
@@ -95,7 +104,6 @@ class _MrAdminReportScreenState extends State<MrAdminReportScreen> {
                       value: adminVisitLogsProvider.selectedVisitType,
                       onChanged: (value) {
                         adminVisitLogsProvider.setSelectedVisitType(value);
-                        adminVisitLogsProvider.getVisitLogs();
                       },
                     ),
                     SizedBox(
@@ -112,6 +120,9 @@ class _MrAdminReportScreenState extends State<MrAdminReportScreen> {
                               readOnly: true,
                               controller: adminVisitLogsProvider
                                   .fromTextEditingController,
+                              onTap: () {
+                                adminVisitLogsProvider.selectDateFrom(context);
+                              },
                               validator: (value) {},
                             ),
                           ),
@@ -125,11 +136,31 @@ class _MrAdminReportScreenState extends State<MrAdminReportScreen> {
                               readOnly: true,
                               controller: adminVisitLogsProvider
                                   .toTextEditingController,
+                              onTap: () {
+                                adminVisitLogsProvider.selectDateTo(context);
+                              },
                               validator: (value) {},
                             ),
                           ),
                         ],
                       ),
+                    SizedBox(
+                      height: 16,
+                    ),
+                    CustomElevatedButton(
+                      onPressed: () {
+                        adminVisitLogsProvider.getVisitLogsById();
+                      },
+                      width: 0.90,
+                      height: 50,
+                      backgroundColor: CustomColors.primaryColor,
+                      widget: CustomText(
+                        text: 'Submit',
+                        fontWeight: FontWeight.w600,
+                        color: CustomColors.primaryBlack,
+                        size: 20.0,
+                      ),
+                    ),
                   ],
                 ),
               ),
@@ -142,8 +173,14 @@ class _MrAdminReportScreenState extends State<MrAdminReportScreen> {
             shrinkWrap: true, // This allows it to take only the required height
             physics:
                 NeverScrollableScrollPhysics(), // Disables scrolling for outer ListView, so the inner ListViews can handle scrolling
-            itemCount: 4,
+            itemCount: adminVisitLogsProvider.visitList.length,
             itemBuilder: (context, index) {
+              String pocName =
+                  adminVisitLogsProvider.visitList[index]['pocName'];
+              String remarks =
+                  adminVisitLogsProvider.visitList[index]['pocName'];
+              String mobileTime =
+                  adminVisitLogsProvider.visitList[index]['mobileTime'];
               return InkWell(
                 onTap: () {
                   print('Tapped $index');
@@ -168,7 +205,7 @@ class _MrAdminReportScreenState extends State<MrAdminReportScreen> {
                                 ),
                                 Expanded(
                                   child: CustomText(
-                                    text: '6/25/2024 18:10',
+                                    text: mobileTime,
                                     isContent: true,
                                   ),
                                 ),
@@ -185,7 +222,7 @@ class _MrAdminReportScreenState extends State<MrAdminReportScreen> {
                                 ),
                                 Expanded(
                                   child: CustomText(
-                                    text: 'Dr. B.N Khatiwada',
+                                    text: pocName,
                                     isContent: true,
                                   ),
                                 ),
