@@ -22,6 +22,7 @@ class MrOfficerFollowUpProvider extends ChangeNotifier {
   final _remarksController = TextEditingController();
   final _searchByNameController = TextEditingController();
   List<dynamic> _pocList = [];
+  List<dynamic> _pocSearchResult = [];
   String _pocId = '';
   double _latitude = 0;
   double _longitude = 0;
@@ -39,6 +40,7 @@ class MrOfficerFollowUpProvider extends ChangeNotifier {
   TextEditingController get remarksController => _remarksController;
   TextEditingController get searchByNameController => _searchByNameController;
   List<dynamic> get pocList => _pocList;
+  List<dynamic> get pocSearchResult => _pocSearchResult;
   String get pocId => _pocId;
   DateTime get updatedDate => _updatedDate;
 
@@ -137,11 +139,25 @@ class MrOfficerFollowUpProvider extends ChangeNotifier {
     _remarksController.text = '';
   }
 
+  void searchPocName(String enteredKeyWord, List<dynamic> pocNames) {
+    _pocSearchResult = pocNames;
+    if (enteredKeyWord.isEmpty) {
+      _pocSearchResult = pocNames;
+    } else {
+      _pocSearchResult = pocNames
+          .where((poc) => poc['pocName']
+              .toString()
+              .toLowerCase()
+              .contains(enteredKeyWord.toLowerCase()))
+          .toList();
+    }
+    print('Search Result = $_pocSearchResult');
+    notifyListeners();
+  }
+
   void postFollowUp(context) async {
     DateTime now = DateTime.now();
-    String mobileTime = DateFormat('HH:mm:ss MM-dd-yyyy').format(now);
-    // print(mobileTime);
-    String userName = pocList[0]['pocName'];
+    String mobileTime = DateFormat('HH:mm:ss yyyy-MM-dd').format(now);
     DateTime currentTime = DateTime.now();
 
     Map<String, dynamic> body = {
@@ -155,18 +171,20 @@ class MrOfficerFollowUpProvider extends ChangeNotifier {
       "longitude": _longitude,
     };
 
-    ERPResponse response = await ERPServices.postRequest('/poc/followup', body);
-    print(response.statusCode);
-    print(response.body);
-    print("response : ${body}");
-    if (response.statusCode == 200) {
-      clearValue();
-      ToastMessageUtils().showToastMessage(
-          'Follow Up successful', ToastGravity.TOP, CustomColors.jadeGreen);
-      Navigator.of(context)
-          .popAndPushNamed(MarketingOfficerConstants.mrStaffDashboardConst);
-    } else {
-      ToastMessageUtils().showToastMessage('Something went wrong');
-    }
+    print(body);
+
+    // ERPResponse response = await ERPServices.postRequest('/poc/followup', body);
+    // print(response.statusCode);
+    // print(response.body);
+    // print("response : ${body}");
+    // if (response.statusCode == 200) {
+    //   clearValue();
+    //   ToastMessageUtils().showToastMessage(
+    //       'Follow Up successful', ToastGravity.TOP, CustomColors.jadeGreen);
+    //   Navigator.of(context)
+    //       .popAndPushNamed(MarketingOfficerConstants.mrStaffDashboardConst);
+    // } else {
+    //   ToastMessageUtils().showToastMessage('Something went wrong');
+    // }
   }
 }

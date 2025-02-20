@@ -101,6 +101,17 @@ class _MrOfficerNewVisitScreenState extends State<MrOfficerNewVisitScreen> {
                   SizedBox(
                     height: 16,
                   ),
+                  CustomDropdown(
+                    labelText: 'Gender',
+                    items: createVisitProvider.genderList,
+                    value: createVisitProvider.selectedGender,
+                    onChanged: (value) {
+                      createVisitProvider.setSelectedGender(value!);
+                    },
+                  ),
+                  SizedBox(
+                    height: 16,
+                  ),
                   Row(
                     children: [
                       SizedBox(
@@ -175,7 +186,9 @@ class _MrOfficerNewVisitScreenState extends State<MrOfficerNewVisitScreen> {
                           builder: (context) => districtBottomSheet(
                               context, '$fileName', content));
                       createVisitProvider.searchController.text = '';
-                      createVisitProvider.searchAddressResult(createVisitProvider.searchController.value.text,content);
+                      createVisitProvider.searchAddressResult(
+                          createVisitProvider.searchController.value.text,
+                          content);
                     },
                   ),
                   SizedBox(
@@ -380,6 +393,27 @@ class _MrOfficerNewVisitScreenState extends State<MrOfficerNewVisitScreen> {
                           child: CustomText(
                             maxLines: 3,
                             text: mrOfficerVisitProvider.body['age'],
+                            isContent: true,
+                          ),
+                        ),
+                      ],
+                    ),
+                    SizedBox(
+                      height: 10,
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Expanded(
+                          child: CustomText(
+                            text: 'Gender',
+                            isContent: true,
+                          ),
+                        ),
+                        Expanded(
+                          child: CustomText(
+                            maxLines: 3,
+                            text: mrOfficerVisitProvider.body['gender'],
                             isContent: true,
                           ),
                         ),
@@ -658,9 +692,9 @@ class _MrOfficerNewVisitScreenState extends State<MrOfficerNewVisitScreen> {
               // ),
               Container(
                 padding: const EdgeInsets.only(
-                  top: 8,
+                  top: 16,
                   right: 12.0,
-                  bottom: 8,
+                  bottom: 12,
                 ),
                 decoration: BoxDecoration(
                   color: CustomColors.primaryColor,
@@ -682,11 +716,14 @@ class _MrOfficerNewVisitScreenState extends State<MrOfficerNewVisitScreen> {
                       flex: 7,
                       child: TextFromFieldWithPrefixSuffix(
                         controller: visitProvider.searchController,
-                        labelText: 'Search District',
+                        labelText: visitProvider.selectedCountry == 'Nepal'
+                            ? 'Search District'
+                            : 'Search State',
                         applySuffixIcon: true,
                         suffixIcon: Icon(Icons.search),
                         validator: (value) {},
-                        onChange: (value) => visitProvider.searchAddressResult(visitProvider.searchController.value.text, content),
+                        onChange: (value) => visitProvider.searchAddressResult(
+                            visitProvider.searchController.value.text, content),
                       ),
                     ),
                   ],
@@ -727,15 +764,16 @@ class _MrOfficerNewVisitScreenState extends State<MrOfficerNewVisitScreen> {
   Widget citiesBottomSheet(context, List<dynamic> content) {
     return Consumer<MrOfficerVisitProvider>(
       builder: (context, visitProvider, _) {
-        return SizedBox(
+        return Container(
+          color: CustomColors.primaryWhite,
           height: MediaQuery.of(context).size.height * 0.80,
           child: Column(
             children: [
               Container(
                 padding: const EdgeInsets.only(
-                  top: 8,
+                  top: 16,
                   right: 12.0,
-                  bottom: 8,
+                  bottom: 12,
                 ),
                 decoration: BoxDecoration(
                   color: CustomColors.primaryColor,
@@ -761,7 +799,8 @@ class _MrOfficerNewVisitScreenState extends State<MrOfficerNewVisitScreen> {
                         applySuffixIcon: true,
                         suffixIcon: Icon(Icons.search),
                         validator: (value) {},
-                        onChange: (value) => visitProvider.searchAddressResult(visitProvider.searchController.value.text, content),
+                        onChange: (value) => visitProvider.searchAddressResult(
+                            visitProvider.searchController.value.text, content),
                       ),
                     ),
                   ],

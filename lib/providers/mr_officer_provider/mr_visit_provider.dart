@@ -30,6 +30,8 @@ class MrOfficerVisitProvider with ChangeNotifier {
   final _remarksController = TextEditingController();
   bool _isVisitFormValid = false;
   bool _isSwitched = false;
+  List<String> _genderList = ['Male', 'Female', 'Others'];
+  String _selectedGender = 'Male';
   List<String> _countryCode = ['+977', '+91'];
   String _selectedCountryCode = '+977';
   List<String> _country = ['Nepal', 'India'];
@@ -37,9 +39,11 @@ class MrOfficerVisitProvider with ChangeNotifier {
   List<String> _category = [
     'Doctor',
     'Ambulance',
+    'Pharmacist',
     'Practitioner',
     'Police',
-    'Politician'
+    'Politician',
+    'Others'
   ];
   String _selectedCategory = 'Doctor';
   List<String> _specialization = [
@@ -77,6 +81,7 @@ class MrOfficerVisitProvider with ChangeNotifier {
   Map<String, dynamic> _body = {
     "pocName": '',
     "age": '',
+    'gender': '',
     "number": '',
     "country": '',
     "region": '',
@@ -117,6 +122,8 @@ class MrOfficerVisitProvider with ChangeNotifier {
   // GlobalKey<FormState> get createVisitFormKey => _createVisitFormKey;
   bool get isVisitFormValid => _isVisitFormValid;
   bool get isSwitched => _isSwitched;
+  List<String> get genderList => _genderList;
+  String get selectedGender => _selectedGender;
   List<String> get countryCode => _countryCode;
   String get selectedCountryCode => _selectedCountryCode;
   List<String> get country => _country;
@@ -146,6 +153,11 @@ class MrOfficerVisitProvider with ChangeNotifier {
     List timeList =
         DateTime.now().toString().split('.')[0].toString().split(' ');
     _dateTime = '${timeList[1]} ${timeList[0]}';
+    notifyListeners();
+  }
+
+  void setSelectedGender(String gender) {
+    _selectedGender = gender;
     notifyListeners();
   }
 
@@ -330,6 +342,7 @@ class MrOfficerVisitProvider with ChangeNotifier {
     _body = {
       "pocName": _nameController.value.text,
       "age": _ageController.value.text,
+      "gender": _selectedGender,
       "number": '$_selectedCountryCode${_phoneNoController.value.text}',
       "country": _selectedCountry,
       "region":
@@ -360,6 +373,7 @@ class MrOfficerVisitProvider with ChangeNotifier {
     _addressController.text = "";
     _phoneNoController.text = "";
     _ageController.text = "";
+    _selectedGender = 'Male';
     _searchController.text = "";
     _organizationController.text = "";
     _remarksController.text = "";
