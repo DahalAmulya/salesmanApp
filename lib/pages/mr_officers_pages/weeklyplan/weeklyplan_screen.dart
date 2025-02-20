@@ -168,8 +168,8 @@ class _WeeklyPlanScreenState extends State<WeeklyPlanScreen> {
                           backgroundColor: CustomColors.primaryColor,
                           widget: Row(
                             children: [
-                              Icon(
-                                Icons.add,
+                              FaIcon(
+                                FontAwesomeIcons.plus,
                                 color: Colors.black,
                                 size: 16,
                               ),

@@ -215,137 +215,81 @@ class _MarketingOfficerReferralLogScreenState
                           child: Column(
                             children: [
                               Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                 children: [
                                   Expanded(
-                                    flex: 3,
-                                    child: CustomText(
-                                      text: 'Patient Id',
-                                      isContent: true,
-                                    ),
-                                  ),
-                                  Expanded(
-                                    flex: 3,
-                                    child: CustomText(
-                                      text: patientId,
-                                      isContent: true,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                              Row(
-                                children: [
-                                  Expanded(
-                                    flex: 3,
+                                    flex : 2,
                                     child: CustomText(
                                       text: 'Patient Name',
                                       isContent: true,
+                                      size: 16,
                                     ),
                                   ),
                                   Expanded(
-                                    flex: 3,
+                                    flex : 2,
                                     child: CustomText(
                                         text: patientName, isContent: true),
                                   ),
                                 ],
                               ),
                               Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                 children: [
                                   Expanded(
-                                    flex: 3,
+                                    flex : 2,
                                     child: CustomText(
-                                        text: 'Patient Creator Id',
-                                        isContent: true),
+                                        text: 'M.O Name',
+                                        isContent: true,size: 16,),
                                   ),
                                   Expanded(
-                                    flex: 3,
-                                    child: CustomText(
-                                        text: patientCreatorId,
-                                        isContent: true),
-                                  ),
-                                ],
-                              ),
-                              Row(
-                                children: [
-                                  Expanded(
-                                    flex: 3,
-                                    child: CustomText(
-                                        text: 'Patient Creator Name',
-                                        isContent: true),
-                                  ),
-                                  Expanded(
-                                    flex: 3,
+                                    flex : 2,
                                     child: CustomText(
                                         text: patientCreatorName,
-                                        isContent: true),
+                                        isContent: true,),
                                   ),
                                 ],
                               ),
                               Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                 children: [
                                   Expanded(
-                                    flex: 3,
+                                    flex : 2,
                                     child: CustomText(
-                                        text: 'POC Id', isContent: true),
+                                        text: 'POC Name', isContent: true,size: 16,),
                                   ),
                                   Expanded(
-                                    flex: 3,
-                                    child: CustomText(
-                                        text: pocId, isContent: true),
-                                  ),
-                                ],
-                              ),
-                              Row(
-                                children: [
-                                  Expanded(
-                                    flex: 3,
-                                    child: CustomText(
-                                        text: 'POC Name', isContent: true),
-                                  ),
-                                  Expanded(
-                                    flex: 3,
+                                    flex : 2,
                                     child: CustomText(
                                         text: pocName, isContent: true),
                                   ),
                                 ],
                               ),
                               Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                 children: [
                                   Expanded(
-                                    flex: 3,
+                                    flex : 2,
                                     child: CustomText(
-                                        text: 'POC Number', isContent: true),
+                                        text: 'POC Number', isContent: true,size: 16,),
                                   ),
                                   Expanded(
-                                    flex: 3,
+                                    flex : 2,
                                     child: CustomText(
                                         text: pocNumber, isContent: true),
                                   ),
                                 ],
                               ),
                               Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                 children: [
                                   Expanded(
-                                    flex: 3,
-                                    child: CustomText(
-                                        text: 'Ambulance Id', isContent: true),
-                                  ),
-                                  Expanded(
-                                    flex: 3,
-                                    child: CustomText(
-                                        text: ambulanceId, isContent: true),
-                                  ),
-                                ],
-                              ),
-                              Row(
-                                children: [
-                                  Expanded(
-                                    flex: 3,
+                                    flex: 2,
                                     child: CustomText(
                                         text: 'Ambulance Driver Name',
-                                        isContent: true),
+                                        isContent: true,size: 16,maxLines: 3,),
                                   ),
                                   Expanded(
-                                    flex: 3,
+                                    flex: 2,
                                     child: CustomText(
                                         text: ambulanceDriverName,
                                         isContent: true),
@@ -353,131 +297,71 @@ class _MarketingOfficerReferralLogScreenState
                                 ],
                               ),
                               Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                 children: [
                                   Expanded(
-                                    flex: 3,
+                                    flex : 2,
                                     child: CustomText(
                                         text: 'Ambulance Driver Number',
-                                        isContent: true),
+                                        isContent: true,size: 16,maxLines: 3,),
                                   ),
                                   Expanded(
-                                    flex: 3,
+                                    flex : 2,
                                     child: CustomText(
                                         text: ambulanceDriverNumber,
-                                        isContent: true),
+                                        isContent: true,
+                                      size: 16,
+                                    ),
                                   ),
                                 ],
                               ),
                               Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                 children: [
                                   Expanded(
-                                    flex: 3,
+                                    flex : 2,
                                     child: CustomText(
                                         text: 'Ambulance Number',
-                                        isContent: true),
+                                        isContent: true,
+                                      size: 16,
+                                      maxLines: 3,
+                                    ),
                                   ),
                                   Expanded(
-                                    flex: 3,
+                                    flex : 2,
                                     child: CustomText(
-                                        text: ambulanceNumber, isContent: true),
+                                        text: ambulanceNumber, isContent: true,),
                                   ),
                                 ],
                               ),
                               Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                 children: [
                                   Expanded(
-                                    flex: 3,
+                                    flex : 2,
                                     child: CustomText(
-                                        text: 'Latitude', isContent: true),
+                                        text: 'Mobile Time', isContent: true,size: 16,),
                                   ),
                                   Expanded(
-                                    flex: 3,
-                                    child: CustomText(
-                                        text: latitude, isContent: true),
-                                  ),
-                                ],
-                              ),
-                              Row(
-                                children: [
-                                  Expanded(
-                                    flex: 3,
-                                    child: CustomText(
-                                        text: 'Longitude', isContent: true),
-                                  ),
-                                  Expanded(
-                                    flex: 3,
-                                    child: CustomText(
-                                        text: longitude, isContent: true),
-                                  ),
-                                ],
-                              ),
-                              Row(
-                                children: [
-                                  Expanded(
-                                    flex: 3,
-                                    child: CustomText(
-                                        text: 'mobile Time', isContent: true),
-                                  ),
-                                  Expanded(
-                                    flex: 3,
+                                    flex : 2,
                                     child: CustomText(
                                         text: mobileTime, isContent: true),
                                   ),
                                 ],
                               ),
                               Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                 children: [
                                   Expanded(
-                                    flex: 3,
+                                    flex : 2,
                                     child: CustomText(
-                                        text: 'Referral Date', isContent: true),
+                                        text: 'Referral Date', isContent: true,size: 16,),
                                   ),
                                   Expanded(
-                                    flex: 3,
+                                    flex : 2,
                                     child: CustomText(
-                                        text: referralDate, isContent: true),
-                                  ),
-                                ],
-                              ),
-                              Row(
-                                children: [
-                                  Expanded(
-                                    flex: 3,
-                                    child:
-                                        CustomText(text: 'Id', isContent: true),
-                                  ),
-                                  Expanded(
-                                    flex: 3,
-                                    child:
-                                        CustomText(text: id, isContent: true),
-                                  ),
-                                ],
-                              ),
-                              Row(
-                                children: [
-                                  Expanded(
-                                    flex: 3,
-                                    child: CustomText(
-                                        text: 'Created At', isContent: true),
-                                  ),
-                                  Expanded(
-                                    flex: 3,
-                                    child: CustomText(
-                                        text: createdAt, isContent: true),
-                                  ),
-                                ],
-                              ),
-                              Row(
-                                children: [
-                                  Expanded(
-                                    flex: 3,
-                                    child: CustomText(
-                                        text: 'Updated At', isContent: true),
-                                  ),
-                                  Expanded(
-                                    flex: 3,
-                                    child: CustomText(
-                                        text: updatedAt, isContent: true),
+                                        text: referralDate,
+                                        isContent: true),
                                   ),
                                 ],
                               ),
