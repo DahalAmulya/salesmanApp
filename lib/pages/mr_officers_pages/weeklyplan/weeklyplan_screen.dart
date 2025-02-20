@@ -39,12 +39,14 @@ class _WeeklyPlanScreenState extends State<WeeklyPlanScreen> {
   final taskAreaNoteController = TextEditingController();
   final taskRemarkNoteController = TextEditingController();
 
-  final Url =
-      'http://202.51.3.49:8002/api/plan/today?userId=679b632e4c526fbfe839ada5';
+  final Url = 'http://202.51.3.49:8002/api/plan/today?userId=679b632e4c526fbfe839ada5';
   Map<String, dynamic> todaysPlan = {};
   String activity = '';
   String area = '';
   String remark = '';
+  String dateString = '';
+  String formattedDate = '';
+
 
   Future<void> getTodayPlan(planDate) async {
     ERPResponse response = await ERPServices.getRequest(
@@ -135,6 +137,9 @@ class _WeeklyPlanScreenState extends State<WeeklyPlanScreen> {
       scrollDirection: Axis.vertical,
       child: Consumer<WeeklyPlanProvider>(
         builder: (context, _weeklyPlanProvider, _) {
+          dateString = _weeklyPlanProvider.updatedDate.toString().split(" ")[0];
+          DateTime dateTime = DateTime.parse(dateString);
+          formattedDate = DateFormat('MMMM d, y').format(dateTime);
           return Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -147,11 +152,9 @@ class _WeeklyPlanScreenState extends State<WeeklyPlanScreen> {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         CustomText(
-                          text: (_weeklyPlanProvider.updatedDate
-                              .toString()
-                              .split(" ")[0]),
-                          size: 20,
-                          fontWeight: FontWeight.w600,
+                          text: (formattedDate),
+                          size: 18,
+                          fontWeight: FontWeight.w800,
                         ),
                         CustomElevatedButton(
                           onPressed: () {
