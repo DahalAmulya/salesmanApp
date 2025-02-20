@@ -76,140 +76,145 @@ class _MrOfficerFollowUpVisitScreenState
           child: Center(
             child: Stack(
               children: [
-                CustomContainer(
-                  verticalMargin: 24,
-                  applyShadow: true,
-                  child: Column(
-                    children: [
-                      CustomText(
-                        text: 'POC Details',
-                        isSubHeading: true,
-                      ),
-                      SizedBox(
-                        height: 16,
-                      ),
-                      TextFromFieldWithPrefixSuffix(
-                        controller: followUpProvider.fullNameController,
-                        labelText: 'Full Name *',
-                        readOnly: true,
-                        validator: (newValue) {},
-                        onTap: () {
-                          // followUpProvider.GetPOCList(context);
-                          showModalBottomSheet(
-                              isScrollControlled: true,
-                              useSafeArea: true,
-                              context: context,
-                              builder: (context) =>
-                                  _POCModalBottomSheet(context));
-                        },
-                      ),
-                      SizedBox(
-                        height: 16,
-                      ),
-                      TextFromFieldWithPrefixSuffix(
-                        controller: followUpProvider.categoryController,
-                        labelText: 'Category',
-                        readOnly: true,
-                        validator: (newValue) {},
-                      ),
-                      SizedBox(
-                        height: 16,
-                      ),
-                      TextFromFieldWithPrefixSuffix(
-                        controller: followUpProvider.specializationController,
-                        labelText: 'Specialization',
-                        maxLines: 2,
-                        readOnly: true,
-                        validator: (newValue) {},
-                      ),
-                      SizedBox(
-                        height: 16,
-                      ),
-                      TextFromFieldWithPrefixSuffix(
-                        controller: followUpProvider.ageController,
-                        labelText: 'Age',
-                        readOnly: true,
-                        validator: (newValue) {},
-                      ),
-                      SizedBox(
-                        height: 16,
-                      ),
-                      TextFromFieldWithPrefixSuffix(
-                        controller: followUpProvider.numberController,
-                        keyboardType: TextInputType.number,
-                        readOnly: true,
-                        labelText: 'Number',
-                        onTap: () {},
-                        validator: (value) {
-                          // return value!.isEmpty
-                          //     ? 'Phone number Required'
-                          //     : null;
-                        },
-                        onChange: (value) {},
-                      ),
-                      SizedBox(
-                        height: 16,
-                      ),
-                      TextFromFieldWithPrefixSuffix(
-                        controller: followUpProvider.addressController,
-                        readOnly: true,
-                        labelText: 'Address',
-                        maxLines: 2,
-                        validator: (newValue) {},
-                      ),
-                      SizedBox(
-                        height: 16,
-                      ),
-                      TextFromFieldWithPrefixSuffix(
-                        controller: followUpProvider.organizationController,
-                        readOnly: true,
-                        labelText: 'Organization',
-                        maxLines: 2,
-                        validator: (newValue) {},
-                      ),
-                      SizedBox(
-                        height: 16,
-                      ),
-                      TextFromFieldWithPrefixSuffix(
-                        controller: followUpProvider.remarksController,
-                        maxLines: 3,
-                        labelText: 'Remarks *',
-                        validator: (newValue) {},
-                      ),
-                      SizedBox(
-                        height: 16,
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: [
-                          CustomElevatedButton(
-                            onPressed: () async {
-                              final file = await rootBundle
-                                  .loadString('assets/district.json');
-                              final content = await jsonDecode(file);
-                              Navigator.of(context).pop();
-                            },
-                            widget: CustomText(
-                              text: 'Back',
-                              isContent: true,
+                Form(
+                  key: _createVisitFormKey,
+                  child: CustomContainer(
+                    verticalMargin: 24,
+                    applyShadow: true,
+                    child: Column(
+                      children: [
+                        CustomText(
+                          text: 'POC Details',
+                          isSubHeading: true,
+                        ),
+                        SizedBox(
+                          height: 16,
+                        ),
+                        TextFromFieldWithPrefixSuffix(
+                          controller: followUpProvider.fullNameController,
+                          labelText: 'Full Name *',
+                          readOnly: true,
+                          validator: (newValue) {},
+                          onTap: () {
+                            // followUpProvider.GetPOCList(context);
+                            showModalBottomSheet(
+                                isScrollControlled: true,
+                                useSafeArea: true,
+                                context: context,
+                                builder: (context) =>
+                                    _POCModalBottomSheet(context));
+                          },
+                        ),
+                        SizedBox(
+                          height: 16,
+                        ),
+                        TextFromFieldWithPrefixSuffix(
+                          controller: followUpProvider.categoryController,
+                          labelText: 'Category',
+                          readOnly: true,
+                          validator: (newValue) {},
+                        ),
+                        SizedBox(
+                          height: 16,
+                        ),
+                        TextFromFieldWithPrefixSuffix(
+                          controller: followUpProvider.specializationController,
+                          labelText: 'Specialization',
+                          maxLines: 2,
+                          readOnly: true,
+                          validator: (newValue) {},
+                        ),
+                        SizedBox(
+                          height: 16,
+                        ),
+                        TextFromFieldWithPrefixSuffix(
+                          controller: followUpProvider.ageController,
+                          labelText: 'Age',
+                          readOnly: true,
+                          validator: (newValue) {},
+                        ),
+                        SizedBox(
+                          height: 16,
+                        ),
+                        TextFromFieldWithPrefixSuffix(
+                          controller: followUpProvider.numberController,
+                          keyboardType: TextInputType.number,
+                          readOnly: true,
+                          labelText: 'Number',
+                          onTap: () {},
+                          validator: (value) {
+                            // return value!.isEmpty
+                            //     ? 'Phone number Required'
+                            //     : null;
+                          },
+                          onChange: (value) {},
+                        ),
+                        SizedBox(
+                          height: 16,
+                        ),
+                        TextFromFieldWithPrefixSuffix(
+                          controller: followUpProvider.addressController,
+                          readOnly: true,
+                          labelText: 'Address',
+                          maxLines: 2,
+                          validator: (newValue) {},
+                        ),
+                        SizedBox(
+                          height: 16,
+                        ),
+                        TextFromFieldWithPrefixSuffix(
+                          controller: followUpProvider.organizationController,
+                          readOnly: true,
+                          labelText: 'Organization',
+                          maxLines: 2,
+                          validator: (newValue) {},
+                        ),
+                        SizedBox(
+                          height: 16,
+                        ),
+                        TextFromFieldWithPrefixSuffix(
+                          controller: followUpProvider.remarksController,
+                          maxLines: 3,
+                          labelText: 'Remarks *',
+                          validator: (newValue) {},
+                        ),
+                        SizedBox(
+                          height: 16,
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          children: [
+                            CustomElevatedButton(
+                              onPressed: () async {
+                                final file = await rootBundle
+                                    .loadString('assets/district.json');
+                                final content = await jsonDecode(file);
+                                Navigator.of(context).pop();
+                              },
+                              widget: CustomText(
+                                text: 'Back',
+                                isContent: true,
+                              ),
+                              backgroundColor: CustomColors.lightRed,
                             ),
-                            backgroundColor: CustomColors.lightRed,
-                          ),
-                          CustomElevatedButton(
-                            onPressed: () {
-                              followUpProvider.postFollowUp(context);
-                              // followUpProvider.GetPOCList();
-                              // followUpProvider.getCurrentLocation();
-                            },
-                            widget: CustomText(
-                              text: 'Submit',
-                              isContent: true,
+                            CustomElevatedButton(
+                              onPressed: () {
+                                if(_createVisitFormKey.currentState!.validate()){
+                                  followUpProvider.postFollowUp(context);
+                                }
+                                // followUpProvider.GetPOCList();
+                                // followUpProvider.getCurrentLocation();
+                              },
+                              widget: CustomText(
+                                text: 'Submit',
+                                isContent: true,
+                              ),
+                              backgroundColor: CustomColors.primaryColor,
                             ),
-                            backgroundColor: CustomColors.primaryColor,
-                          ),
-                        ],
-                      ),
-                    ],
+                          ],
+                        ),
+                      ],
+                    ),
                   ),
                 ),
                 Positioned(
