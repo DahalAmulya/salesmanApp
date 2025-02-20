@@ -23,22 +23,13 @@ class ReferralsDetailProvider extends ChangeNotifier {
   List<dynamic> _referralLogs = [];
   List<dynamic> _pocSearchResult = [];
   List<dynamic> _ambSearchResult = [];
-  List<dynamic> _cities = [];
-
-  List<dynamic> _districtList = [];
   List<dynamic> _foundDistrictList = [];
 
   List<dynamic> _stateList = [];
   List<dynamic> _foundStateList = [];
 
   List<dynamic> _foundCities = [];
-
-  List<String> _country = ["Nepal", "India"];
-  String _selectedCountry = "Nepal";
   Map<String, dynamic> _body = {};
-  String _selectedCity = '';
-  String _selectedDistrict = '';
-  String _selectedState = '';
 
   final _districtTextEditingController = TextEditingController();
 
@@ -149,11 +140,7 @@ class ReferralsDetailProvider extends ChangeNotifier {
   List<dynamic> get referralLogs => _referralLogs;
   List<dynamic> get pocSearchResult => _pocSearchResult;
   List<dynamic> get ambSearchResult => _ambSearchResult;
-  List<dynamic> get cities => _cities;
-  List<String> get country => _country;
-  String get selectedCountry => _selectedCountry;
 
-  List<dynamic> get districtList => _districtList;
   List<dynamic> get foundDistrictList => _foundDistrictList;
 
   List<dynamic> get stateList => _stateList;
@@ -167,10 +154,6 @@ class ReferralsDetailProvider extends ChangeNotifier {
   List<String> get gender => _gender;
   String get selectedGender => _selectedGender;
 
-  String get selectedCity => _selectedCity;
-  String get selectedDistrict => _selectedDistrict;
-  String get selectedState => _selectedState;
-
   String get pocId => _pocId;
   String get ambId => _ambId;
   String get defaultGenderValue => _defaultGenderValue;
@@ -180,6 +163,102 @@ class ReferralsDetailProvider extends ChangeNotifier {
   final _ambDriverSearchController = TextEditingController();
   TextEditingController get ambDriverSearchController =>
       _ambDriverSearchController;
+
+  List<String> _country = ['Nepal', 'India'];
+  String _selectedCountry = 'Nepal';
+  List<String> get country => _country;
+  String get selectedCountry => _selectedCountry;
+
+  final _districtController = TextEditingController();
+  final _stateController = TextEditingController();
+  final _cityController = TextEditingController();
+  TextEditingController get districtController => _districtController;
+  TextEditingController get stateController => _stateController;
+  TextEditingController get cityController => _cityController;
+
+  List<dynamic> _districts = [];
+  String _selectedDistrict = '';
+  List<dynamic> _states = [];
+  String _selectedState = '';
+  List<dynamic> _cities = [];
+  String _selectedCity = '';
+  List<dynamic> get districts => _districts;
+  String get selectedDistrict => _selectedDistrict;
+  List<dynamic> get states => _states;
+  String get selectedState => _selectedState;
+  List<dynamic> get cities => _cities;
+  String get selectedCity => _selectedCity;
+  List<dynamic> _searchResult = [];
+  List<dynamic> get searchResult => _searchResult;
+
+  void setCountry(value) {
+    _selectedCountry = value;
+    notifyListeners();
+  }
+
+  void getCities(List<dynamic> citiesList) {
+    _cities = citiesList;
+    notifyListeners();
+  }
+
+  void setSelectedDistrict(value) {
+    _selectedDistrict = value;
+    _districtController.text = _selectedDistrict;
+    notifyListeners();
+  }
+
+  void setSelectedState(value) {
+    _selectedState = value;
+    _stateController.text = _selectedState;
+    notifyListeners();
+  }
+
+  void setSelectedCity(value) {
+    _selectedCity = value;
+    _cityController.text = _selectedCity;
+    notifyListeners();
+  }
+
+  void searchAddressResult(String enteredKeyWord, List<dynamic> addressList) {
+    _searchResult = addressList;
+    if (enteredKeyWord.isEmpty) {
+      _searchResult = addressList;
+    } else {
+      try {
+        if (addressList[0] is String) {
+          print('List of cities');
+          _searchResult = addressList
+              .where((city) => city
+                  .toString()
+                  .toLowerCase()
+                  .contains(enteredKeyWord.toLowerCase()))
+              .toList();
+        } else if (addressList[0].containsKey('district')) {
+          print('List of district');
+          _searchResult = addressList
+              .where((district) => district['district']
+                  .toString()
+                  .toLowerCase()
+                  .contains(enteredKeyWord.toLowerCase()))
+              .toList();
+        } else if (addressList[0].containsKey('states')) {
+          print('List of states');
+          _searchResult = addressList
+              .where((states) => states['states']
+                  .toString()
+                  .toLowerCase()
+                  .contains(enteredKeyWord.toLowerCase()))
+              .toList();
+        }
+      } catch (err) {
+        print('Error as $err');
+      }
+    }
+    // print(enteredKeyWord);
+    print('search result = $_searchResult');
+    // _searchController.text = '';
+    notifyListeners();
+  }
 
   void selectVisitType(value) {
     _radioGroupValue = value;
@@ -215,7 +294,7 @@ class ReferralsDetailProvider extends ChangeNotifier {
     // print(respose.runtimeType);
     List<dynamic> districtData = json.decode(respose);
     // print(districtData);
-    _districtList = districtData;
+    _districts = districtData;
     _foundDistrictList =
         districtData.map((item) => item['district'] as String).toList();
     // print(foundDistrictList);
@@ -249,7 +328,7 @@ class ReferralsDetailProvider extends ChangeNotifier {
     }
 
     // Search for the district in the districtList
-    for (var districtData in _districtList) {
+    for (var districtData in _districts) {
       if (districtData["district"] == selectedItem) {
         // Extract the cities list
         _foundCities = List<String>.from(districtData["cities"] ?? []);
@@ -280,29 +359,6 @@ class ReferralsDetailProvider extends ChangeNotifier {
   void updateCitiesList(List<String> newCities) {
     _citiesList = newCities;
     notifyListeners(); // Ensures UI rebuilds when citiesList changes
-  }
-
-  void setSelectedCity(value) {
-    _selectedCity = value;
-    _searchForCityTextEditingController.text = _selectedCity;
-    notifyListeners();
-  }
-
-  void setSelectedDistrict(value) {
-    _selectedDistrict = value;
-    _searchForDistrictTextEditingController.text = _selectedDistrict;
-    notifyListeners();
-  }
-
-  void setSelectedState(value) {
-    _selectedState = value;
-    _searchForStatesTextEditingController.text = _selectedState;
-    notifyListeners();
-  }
-
-  void getCities(List<dynamic> citiesList) {
-    _cities = citiesList;
-    notifyListeners();
   }
 
   void updateCity(String city) {
@@ -385,6 +441,7 @@ class ReferralsDetailProvider extends ChangeNotifier {
     _referredNumberTextController.text = '';
     _referredAddressTextController.text = '';
 
+    _ambDriverSearchController.text = '';
     _ambDriverNameTextController.text = '';
     _ambPhoneNumberTextController.text = '';
     _ambNumberTextController.text = '';
@@ -396,6 +453,15 @@ class ReferralsDetailProvider extends ChangeNotifier {
     DateTime now = DateTime.now();
     String mobileTime = DateFormat('HH:mm:ss yyyy-MM-dd').format(now);
     String dateTime = DateFormat('yyyy-MM-d HH:mm:ss').format(now);
+    String region = '';
+
+    if (_selectedCountry == _country[0]) {
+      region = _districtController.value.text;
+    } else {
+      region = _stateController.value.text;
+    }
+    print(region);
+    print(_selectedCountry);
 
     Map<String, dynamic> _body = {
       "fullName": _patientNameTextController.value.text,
@@ -406,8 +472,8 @@ class ReferralsDetailProvider extends ChangeNotifier {
       "country": _patientCountryTextController.value.text.isEmpty
           ? "Nepal"
           : _patientCountryTextController.value.text,
-      "region": _patientDistrictTextController.value.text,
-      "city": _patientCityTextController.value.text,
+      "region": region,
+      "city": _cityController.value.text,
       "address": _patientAddressTextController.value.text,
       "createdById": userId,
       "createdByName": userName,
@@ -461,47 +527,6 @@ class ReferralsDetailProvider extends ChangeNotifier {
     //   _referralLogs = [];
     // }
     // print(_referralLogs);
-    notifyListeners();
-  }
-
-  void searchAddressResult(String enteredKeyWord, List<dynamic> addressList) {
-    _pocSearchResult = addressList;
-    if (enteredKeyWord.isEmpty) {
-      _pocSearchResult = addressList;
-    } else {
-      try {
-        if (addressList[0] is String) {
-          print('List of cities');
-          _pocSearchResult = addressList
-              .where((city) => city
-                  .toString()
-                  .toLowerCase()
-                  .contains(enteredKeyWord.toLowerCase()))
-              .toList();
-        } else if (addressList[0].containsKey('district')) {
-          print('List of district');
-          _pocSearchResult = addressList
-              .where((district) => district['district']
-                  .toString()
-                  .toLowerCase()
-                  .contains(enteredKeyWord.toLowerCase()))
-              .toList();
-        } else if (addressList[0].containsKey('states')) {
-          print('List of states');
-          _pocSearchResult = addressList
-              .where((states) => states['states']
-                  .toString()
-                  .toLowerCase()
-                  .contains(enteredKeyWord.toLowerCase()))
-              .toList();
-        }
-      } catch (err) {
-        print('Error as $err');
-      }
-    }
-    // print(enteredKeyWord);
-    print('search result = $_pocSearchResult');
-    // _searchController.text = '';
     notifyListeners();
   }
 
