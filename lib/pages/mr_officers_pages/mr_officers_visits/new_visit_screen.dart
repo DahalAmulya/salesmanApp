@@ -95,6 +95,7 @@ class _MrOfficerNewVisitScreenState extends State<MrOfficerNewVisitScreen> {
                   ),
                   TextFromFieldWithPrefixSuffix(
                     controller: createVisitProvider.ageController,
+                    keyboardType: TextInputType.number,
                     labelText: 'Age',
                     validator: (newValue) {},
                   ),
