@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:deskgoo/providers/mr_officer_provider/mr_followup_provider.dart';
 import 'package:deskgoo/themes/custom_colors.dart';
+import 'package:deskgoo/utils/toast_message.dart';
 import 'package:deskgoo/widgets/app_bars/custom_app_bars.dart';
 import 'package:deskgoo/widgets/buttons/elevated_button.dart';
 import 'package:deskgoo/widgets/containers/custom_container.dart';
@@ -8,6 +9,7 @@ import 'package:deskgoo/widgets/text_fields/text_from_field.dart';
 import 'package:deskgoo/widgets/texts/custom_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
 
@@ -22,7 +24,7 @@ class MrOfficerFollowUpVisitScreen extends StatefulWidget {
 class _MrOfficerFollowUpVisitScreenState
     extends State<MrOfficerFollowUpVisitScreen> {
   TextEditingController fullNameController = TextEditingController();
-  final _createVisitFormKey = GlobalKey<FormState>();
+  final _followUpFromKey = GlobalKey<FormState>();
   List<String> country = ['Nepal', 'India'];
   String selectedCountry = '';
 
@@ -71,16 +73,15 @@ class _MrOfficerFollowUpVisitScreenState
     selectedCountry = country[0];
     return Consumer<MrOfficerFollowUpProvider>(
       builder: (context, followUpProvider, _) {
-        followUpProvider.getCurrentTimeAndLocation();
         return SingleChildScrollView(
           child: Center(
             child: Stack(
               children: [
-                Form(
-                  key: _createVisitFormKey,
-                  child: CustomContainer(
-                    verticalMargin: 24,
-                    applyShadow: true,
+                CustomContainer(
+                  verticalMargin: 24,
+                  applyShadow: true,
+                  child: Form(
+                    key: _followUpFromKey,
                     child: Column(
                       children: [
                         CustomText(
@@ -94,7 +95,9 @@ class _MrOfficerFollowUpVisitScreenState
                           controller: followUpProvider.fullNameController,
                           labelText: 'Full Name *',
                           readOnly: true,
-                          validator: (newValue) {},
+                          validator: (value) {
+                            return value!.isEmpty ? 'Name is required' : null;
+                          },
                           onTap: () {
                             // followUpProvider.GetPOCList(context);
                             showModalBottomSheet(
@@ -176,7 +179,11 @@ class _MrOfficerFollowUpVisitScreenState
                           controller: followUpProvider.remarksController,
                           maxLines: 3,
                           labelText: 'Remarks *',
-                          validator: (newValue) {},
+                          validator: (value) {
+                            return value!.isEmpty
+                                ? 'Remarks is required'
+                                : null;
+                          },
                         ),
                         SizedBox(
                           height: 16,
@@ -199,8 +206,13 @@ class _MrOfficerFollowUpVisitScreenState
                             ),
                             CustomElevatedButton(
                               onPressed: () {
-                                if(_createVisitFormKey.currentState!.validate()){
+                                if (_followUpFromKey.currentState!.validate()) {
                                   followUpProvider.postFollowUp(context);
+                                } else {
+                                  ToastMessageUtils().showToastMessage(
+                                      'Please fill the form',
+                                      ToastGravity.TOP,
+                                      CustomColors.lightRed);
                                 }
                                 // followUpProvider.GetPOCList();
                                 // followUpProvider.getCurrentLocation();
@@ -222,7 +234,8 @@ class _MrOfficerFollowUpVisitScreenState
                   top: 28,
                   child: IconButton(
                     onPressed: () {
-                      print('Pressed on edit');
+                      followUpProvider.clearValue();
+                      // print('Pressed on edit');
                     },
                     icon: Icon(FontAwesomeIcons.edit),
                   ),
@@ -247,9 +260,9 @@ class _MrOfficerFollowUpVisitScreenState
               children: [
                 Container(
                   padding: const EdgeInsets.only(
-                    top: 8,
+                    top: 16,
                     right: 12.0,
-                    bottom: 8,
+                    bottom: 12,
                   ),
                   decoration: BoxDecoration(
                     color: CustomColors.primaryColor,
@@ -275,8 +288,10 @@ class _MrOfficerFollowUpVisitScreenState
                           applySuffixIcon: true,
                           suffixIcon: Icon(Icons.search),
                           validator: (value) {},
-                          // onChange: (value) => visitProvider.searchAddressResult(
-                          //     visitProvider.searchController.value.text, content),
+                          onChange: (value) => followUpProvider.searchPocName(
+                              followUpProvider
+                                  .searchByNameController.value.text,
+                              followUpProvider.pocList),
                         ),
                       ),
                     ],
@@ -287,30 +302,30 @@ class _MrOfficerFollowUpVisitScreenState
                 ),
                 Expanded(
                   child: ListView.builder(
-                    itemCount: followUpProvider.pocList.length,
+                    itemCount: followUpProvider.pocSearchResult.length,
                     itemBuilder: (context, index) {
                       // String cityName = visitProvider.searchResult[index];
+                      String id =
+                          followUpProvider.pocSearchResult[index]['_id'];
+                      String name =
+                          followUpProvider.pocSearchResult[index]['pocName'];
+                      String category =
+                          followUpProvider.pocSearchResult[index]['category'];
+                      String specialization = followUpProvider
+                          .pocSearchResult[index]['specialization'];
+                      String age = followUpProvider.pocSearchResult[index]
+                              ['age']
+                          .toString();
+                      String number =
+                          followUpProvider.pocSearchResult[index]['number'];
+                      String address =
+                          followUpProvider.pocSearchResult[index]['address'];
+                      String organization = followUpProvider
+                          .pocSearchResult[index]['organization'];
                       return ListTile(
                         onTap: () {
-                          // print(followUpProvider.pocList[index]);
-                          // followUpProvider.getPOCDetailByID(
-                          //     followUpProvider.pocList[index]['_id']);
-                          print(followUpProvider.pocList[index]);
-                          String id = followUpProvider.pocList[index]['_id'];
-                          String name =
-                              followUpProvider.pocList[index]['pocName'];
-                          String category =
-                              followUpProvider.pocList[index]['category'];
-                          String specialization =
-                              followUpProvider.pocList[index]['specialization'];
-                          String age =
-                              followUpProvider.pocList[index]['age'].toString();
-                          String number =
-                              followUpProvider.pocList[index]['number'];
-                          String address =
-                              followUpProvider.pocList[index]['address'];
-                          String organization =
-                              followUpProvider.pocList[index]['organization'];
+                          followUpProvider.getCurrentTimeAndLocation();
+                          // print(followUpProvider.pocSearchResult[index]);
 
                           followUpProvider.setPOCDetails(
                               id,
@@ -343,8 +358,7 @@ class _MrOfficerFollowUpVisitScreenState
                                   Expanded(
                                     flex: 2,
                                     child: CustomText(
-                                      text: followUpProvider.pocList[index]
-                                          ['pocName'],
+                                      text: name,
                                       isContent: true,
                                       maxLines: 2,
                                     ),
@@ -366,8 +380,7 @@ class _MrOfficerFollowUpVisitScreenState
                                   Expanded(
                                     flex: 2,
                                     child: CustomText(
-                                      text: followUpProvider.pocList[index]
-                                          ['number'],
+                                      text: number,
                                       isContent: true,
                                       maxLines: 2,
                                     ),
@@ -389,8 +402,7 @@ class _MrOfficerFollowUpVisitScreenState
                                   Expanded(
                                     flex: 2,
                                     child: CustomText(
-                                      text: followUpProvider.pocList[index]
-                                          ['address'],
+                                      text: address,
                                       isContent: true,
                                       maxLines: 2,
                                     ),

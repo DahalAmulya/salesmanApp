@@ -32,9 +32,9 @@ class ReferralsDetailProvider extends ChangeNotifier {
 
   List<dynamic> _foundCities = [];
 
-  List<String> _country = ["Nepal","India"];
+  List<String> _country = ["Nepal", "India"];
   String _selectedCountry = "Nepal";
-  Map<String,dynamic> _body = {};
+  Map<String, dynamic> _body = {};
   String _selectedCity = '';
   String _selectedDistrict = '';
   String _selectedState = '';
@@ -98,9 +98,7 @@ class ReferralsDetailProvider extends ChangeNotifier {
       _searchForCityTextEditingController;
   TextEditingController get searchForDistrictTextEditingController =>
       _searchForDistrictTextEditingController;
-  TextEditingController get searchController =>
-      _searchController;
-
+  TextEditingController get searchController => _searchController;
 
   TextEditingController get patientNameTextController =>
       _patientNameTextController;
@@ -147,21 +145,21 @@ class ReferralsDetailProvider extends ChangeNotifier {
       _ambPhoneNumberTextController;
 
   List<dynamic> get pocList => _pocList;
-  List<dynamic> get referralLogs  => _referralLogs;
-  List<dynamic> get searchResult  => _searchResult;
-  List<dynamic> get cities  => _cities;
-  List<String> get country  => _country;
+  List<dynamic> get referralLogs => _referralLogs;
+  List<dynamic> get searchResult => _searchResult;
+  List<dynamic> get cities => _cities;
+  List<String> get country => _country;
   String get selectedCountry => _selectedCountry;
 
-  List<dynamic> get districtList  => _districtList;
-  List<dynamic> get foundDistrictList  => _foundDistrictList;
+  List<dynamic> get districtList => _districtList;
+  List<dynamic> get foundDistrictList => _foundDistrictList;
 
-  List<dynamic> get stateList  => _stateList;
-  List<dynamic> get foundStateList  => _foundStateList;
+  List<dynamic> get stateList => _stateList;
+  List<dynamic> get foundStateList => _foundStateList;
 
-  List<dynamic> get foundCities  => _foundCities;
+  List<dynamic> get foundCities => _foundCities;
 
-  Map<String,dynamic> get body => _body;
+  Map<String, dynamic> get body => _body;
   List<String> get citiesList => _citiesList;
 
   List<String> get gender => _gender;
@@ -210,7 +208,8 @@ class ReferralsDetailProvider extends ChangeNotifier {
     List<dynamic> districtData = json.decode(respose);
     // print(districtData);
     _districtList = districtData;
-    _foundDistrictList = districtData.map((item) => item['district'] as String).toList();
+    _foundDistrictList =
+        districtData.map((item) => item['district'] as String).toList();
     // print(foundDistrictList);
     notifyListeners();
   }
@@ -219,12 +218,15 @@ class ReferralsDetailProvider extends ChangeNotifier {
     final respose = await rootBundle.loadString('assets/states.json');
     List<dynamic> stateData = json.decode(respose);
     _stateList = stateData;
-    _foundStateList = stateData.map((item) => item['states'] as String).toList();
+    _foundStateList =
+        stateData.map((item) => item['states'] as String).toList();
     // print(stateList);
     notifyListeners();
   }
 
-  void getCitiesForSelection(String selectedItem, ) {
+  void getCitiesForSelection(
+    String selectedItem,
+  ) {
     // Clear the previous list of cities
     _foundCities.clear();
 
@@ -251,7 +253,6 @@ class ReferralsDetailProvider extends ChangeNotifier {
     // Print the result for debugging
     // print("Cities for $selectedItem: $foundCities");
   }
-
 
   void updateCountry(String country) {
     _patientCountryTextController.text = country;
@@ -383,7 +384,7 @@ class ReferralsDetailProvider extends ChangeNotifier {
 
   void PostReferralPOCList(context) async {
     DateTime now = DateTime.now();
-    String mobileTime = DateFormat('HH:mm:ss dd-MM-yyyy').format(now);
+    String mobileTime = DateFormat('HH:mm:ss yyyy-MM-dd').format(now);
     String dateTime = DateFormat('yyyy-MM-d HH:mm:ss').format(now);
 
     Map<String, dynamic> _body = {
@@ -391,7 +392,7 @@ class ReferralsDetailProvider extends ChangeNotifier {
       "age": _patientAgeTextController.value.text,
       "gender": _selectedGender,
       "provisionalDiagnosis":
-      _patientProvisionalDiagnosisTextController.value.text,
+          _patientProvisionalDiagnosisTextController.value.text,
       "country": _patientCountryTextController.value.text.isEmpty
           ? "Nepal"
           : _patientCountryTextController.value.text,
@@ -415,7 +416,7 @@ class ReferralsDetailProvider extends ChangeNotifier {
 
     print(_body);
     ERPResponse response =
-    await ERPServices.postRequest('/referral?createdById=$userId', _body);
+        await ERPServices.postRequest('/referral?createdById=$userId', _body);
     print(response.statusCode);
     print(response.body);
     if (response.statusCode == 200) {
@@ -463,25 +464,25 @@ class ReferralsDetailProvider extends ChangeNotifier {
           print('List of cities');
           _searchResult = addressList
               .where((city) => city
-              .toString()
-              .toLowerCase()
-              .contains(enteredKeyWord.toLowerCase()))
+                  .toString()
+                  .toLowerCase()
+                  .contains(enteredKeyWord.toLowerCase()))
               .toList();
         } else if (addressList[0].containsKey('district')) {
           print('List of district');
           _searchResult = addressList
               .where((district) => district['district']
-              .toString()
-              .toLowerCase()
-              .contains(enteredKeyWord.toLowerCase()))
+                  .toString()
+                  .toLowerCase()
+                  .contains(enteredKeyWord.toLowerCase()))
               .toList();
         } else if (addressList[0].containsKey('states')) {
           print('List of states');
           _searchResult = addressList
               .where((states) => states['states']
-              .toString()
-              .toLowerCase()
-              .contains(enteredKeyWord.toLowerCase()))
+                  .toString()
+                  .toLowerCase()
+                  .contains(enteredKeyWord.toLowerCase()))
               .toList();
         }
       } catch (err) {
