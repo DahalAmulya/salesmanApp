@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:deskgoo/providers/mr_officer_provider/mr_followup_provider.dart';
+import 'package:deskgoo/providers/visit_provider/visit_type/follow_up_visit_provider.dart';
 import 'package:deskgoo/themes/custom_colors.dart';
 import 'package:deskgoo/utils/toast_message.dart';
 import 'package:deskgoo/widgets/app_bars/custom_app_bars.dart';
@@ -27,6 +28,13 @@ class _MrOfficerFollowUpVisitScreenState
   final _followUpFromKey = GlobalKey<FormState>();
   List<String> country = ['Nepal', 'India'];
   String selectedCountry = '';
+  MrOfficerFollowUpProvider? _followUp;
+
+  @override
+  void initState() {
+    super.initState();
+    _followUp = Provider.of<MrOfficerFollowUpProvider>(context, listen: false);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -64,6 +72,7 @@ class _MrOfficerFollowUpVisitScreenState
         automaticallyImplyLeading: true,
         onTapLeadingIcon: () {
           Navigator.of(context).pop();
+          _followUp!.clearValue();
         },
       ),
     );
@@ -133,6 +142,15 @@ class _MrOfficerFollowUpVisitScreenState
                         TextFromFieldWithPrefixSuffix(
                           controller: followUpProvider.ageController,
                           labelText: 'Age',
+                          readOnly: true,
+                          validator: (newValue) {},
+                        ),
+                        SizedBox(
+                          height: 16,
+                        ),
+                        TextFromFieldWithPrefixSuffix(
+                          controller: followUpProvider.genderController,
+                          labelText: 'Gender',
                           readOnly: true,
                           validator: (newValue) {},
                         ),
@@ -316,6 +334,8 @@ class _MrOfficerFollowUpVisitScreenState
                       String age = followUpProvider.pocSearchResult[index]
                               ['age']
                           .toString();
+                      String gender =
+                          followUpProvider.pocSearchResult[index]['gender'];
                       String number =
                           followUpProvider.pocSearchResult[index]['number'];
                       String address =
@@ -333,6 +353,7 @@ class _MrOfficerFollowUpVisitScreenState
                               category,
                               specialization,
                               age,
+                              gender,
                               number,
                               address,
                               organization);

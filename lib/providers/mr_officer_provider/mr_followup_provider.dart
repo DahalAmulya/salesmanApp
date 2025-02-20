@@ -5,7 +5,6 @@ import 'package:deskgoo/routes/marketing_officer_consts.dart';
 import 'package:deskgoo/services/erp_services.dart';
 import 'package:deskgoo/themes/custom_colors.dart';
 import 'package:deskgoo/utils/toast_message.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:geolocator/geolocator.dart';
@@ -16,6 +15,7 @@ class MrOfficerFollowUpProvider extends ChangeNotifier {
   final _categoryController = TextEditingController();
   final _specializationController = TextEditingController();
   final _ageController = TextEditingController();
+  final _genderController = TextEditingController();
   final _numberController = TextEditingController();
   final _addressController = TextEditingController();
   final _organizationController = TextEditingController();
@@ -34,6 +34,7 @@ class MrOfficerFollowUpProvider extends ChangeNotifier {
   TextEditingController get specializationController =>
       _specializationController;
   TextEditingController get ageController => _ageController;
+  TextEditingController get genderController => _genderController;
   TextEditingController get numberController => _numberController;
   TextEditingController get addressController => _addressController;
   TextEditingController get organizationController => _organizationController;
@@ -49,6 +50,7 @@ class MrOfficerFollowUpProvider extends ChangeNotifier {
         await ERPServices.getRequest('/poc/createdBy?createdById=$userId');
     if (response.statusCode == 200) {
       _pocList = jsonDecode(response.body)['poc'];
+      _pocSearchResult = _pocList;
       print(_pocList);
       if (context.mounted) {
         Navigator.of(context)
@@ -114,13 +116,14 @@ class MrOfficerFollowUpProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  void setPOCDetails(
-      id, name, category, specialization, age, number, address, organization) {
+  void setPOCDetails(id, name, category, specialization, age, gender, number,
+      address, organization) {
     _pocId = id;
     _fullNameController.text = name;
     _categoryController.text = category;
     _specializationController.text = specialization;
     _ageController.text = age;
+    _genderController.text = gender;
     _numberController.text = number;
     _addressController.text = address;
     _organizationController.text = organization;
@@ -133,10 +136,12 @@ class MrOfficerFollowUpProvider extends ChangeNotifier {
     _categoryController.text = '';
     _specializationController.text = '';
     _ageController.text = '';
+    _genderController.text = '';
     _numberController.text = '';
     _addressController.text = '';
     _organizationController.text = '';
     _remarksController.text = '';
+    notifyListeners();
   }
 
   void searchPocName(String enteredKeyWord, List<dynamic> pocNames) {
@@ -171,20 +176,18 @@ class MrOfficerFollowUpProvider extends ChangeNotifier {
       "longitude": _longitude,
     };
 
-    print(body);
-
-    // ERPResponse response = await ERPServices.postRequest('/poc/followup', body);
-    // print(response.statusCode);
-    // print(response.body);
-    // print("response : ${body}");
-    // if (response.statusCode == 200) {
-    //   clearValue();
-    //   ToastMessageUtils().showToastMessage(
-    //       'Follow Up successful', ToastGravity.TOP, CustomColors.jadeGreen);
-    //   Navigator.of(context)
-    //       .popAndPushNamed(MarketingOfficerConstants.mrStaffDashboardConst);
-    // } else {
-    //   ToastMessageUtils().showToastMessage('Something went wrong');
-    // }
+    ERPResponse response = await ERPServices.postRequest('/poc/followup', body);
+    print(response.statusCode);
+    print(response.body);
+    print("response : ${body}");
+    if (response.statusCode == 200) {
+      clearValue();
+      ToastMessageUtils().showToastMessage(
+          'Follow Up successful', ToastGravity.TOP, CustomColors.jadeGreen);
+      Navigator.of(context)
+          .popAndPushNamed(MarketingOfficerConstants.mrStaffDashboardConst);
+    } else {
+      ToastMessageUtils().showToastMessage('Something went wrong');
+    }
   }
 }

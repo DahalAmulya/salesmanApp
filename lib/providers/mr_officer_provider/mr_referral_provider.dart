@@ -21,7 +21,8 @@ class ReferralsDetailProvider extends ChangeNotifier {
   double _referralLatitude = 0;
   double _referralLongitude = 0;
   List<dynamic> _referralLogs = [];
-  List<dynamic> _searchResult = [];
+  List<dynamic> _pocSearchResult = [];
+  List<dynamic> _ambSearchResult = [];
   List<dynamic> _cities = [];
 
   List<dynamic> _districtList = [];
@@ -146,7 +147,8 @@ class ReferralsDetailProvider extends ChangeNotifier {
 
   List<dynamic> get pocList => _pocList;
   List<dynamic> get referralLogs => _referralLogs;
-  List<dynamic> get searchResult => _searchResult;
+  List<dynamic> get pocSearchResult => _pocSearchResult;
+  List<dynamic> get ambSearchResult => _ambSearchResult;
   List<dynamic> get cities => _cities;
   List<String> get country => _country;
   String get selectedCountry => _selectedCountry;
@@ -172,6 +174,12 @@ class ReferralsDetailProvider extends ChangeNotifier {
   String get pocId => _pocId;
   String get ambId => _ambId;
   String get defaultGenderValue => _defaultGenderValue;
+
+  List<dynamic> _ambDriverList = [];
+  List<dynamic> get ambDriverList => _ambDriverList;
+  final _ambDriverSearchController = TextEditingController();
+  TextEditingController get ambDriverSearchController =>
+      _ambDriverSearchController;
 
   void selectVisitType(value) {
     _radioGroupValue = value;
@@ -323,6 +331,7 @@ class ReferralsDetailProvider extends ChangeNotifier {
         '/poc/category?createdById=$userId&category=');
     if (response.statusCode == 200) {
       _pocList = jsonDecode(response.body)['poc'];
+      _pocSearchResult = _pocList;
       // print(_pocList);
       // Navigator.of(context).pushNamed(MarketingOfficerConstants.followUpVisit);
     } else {
@@ -351,8 +360,9 @@ class ReferralsDetailProvider extends ChangeNotifier {
     ERPResponse response = await ERPServices.getRequest(
         '/poc/category?createdById=$userId&category=Ambulance');
     if (response.statusCode == 200) {
-      _pocList = jsonDecode(response.body)['poc'];
-      print(_pocList);
+      _ambDriverList = jsonDecode(response.body)['poc'];
+      _ambSearchResult = _ambDriverList;
+      print('ambDriverList = ${_ambDriverList}');
       // Navigator.of(context).pushNamed(MarketingOfficerConstants.followUpVisit);
     } else {
       print('Error: ${response.statusCode} - ${response.body}');
@@ -455,14 +465,14 @@ class ReferralsDetailProvider extends ChangeNotifier {
   }
 
   void searchAddressResult(String enteredKeyWord, List<dynamic> addressList) {
-    _searchResult = addressList;
+    _pocSearchResult = addressList;
     if (enteredKeyWord.isEmpty) {
-      _searchResult = addressList;
+      _pocSearchResult = addressList;
     } else {
       try {
         if (addressList[0] is String) {
           print('List of cities');
-          _searchResult = addressList
+          _pocSearchResult = addressList
               .where((city) => city
                   .toString()
                   .toLowerCase()
@@ -470,7 +480,7 @@ class ReferralsDetailProvider extends ChangeNotifier {
               .toList();
         } else if (addressList[0].containsKey('district')) {
           print('List of district');
-          _searchResult = addressList
+          _pocSearchResult = addressList
               .where((district) => district['district']
                   .toString()
                   .toLowerCase()
@@ -478,7 +488,7 @@ class ReferralsDetailProvider extends ChangeNotifier {
               .toList();
         } else if (addressList[0].containsKey('states')) {
           print('List of states');
-          _searchResult = addressList
+          _pocSearchResult = addressList
               .where((states) => states['states']
                   .toString()
                   .toLowerCase()
@@ -490,8 +500,40 @@ class ReferralsDetailProvider extends ChangeNotifier {
       }
     }
     // print(enteredKeyWord);
-    print('search result = $_searchResult');
+    print('search result = $_pocSearchResult');
     // _searchController.text = '';
+    notifyListeners();
+  }
+
+  void searchPocName(String enteredKeyWord, List<dynamic> pocNames) {
+    _pocSearchResult = pocNames;
+    if (enteredKeyWord.isEmpty) {
+      _pocSearchResult = pocNames;
+    } else {
+      _pocSearchResult = pocNames
+          .where((poc) => poc['pocName']
+              .toString()
+              .toLowerCase()
+              .contains(enteredKeyWord.toLowerCase()))
+          .toList();
+    }
+    print('Search Result = $_pocSearchResult');
+    notifyListeners();
+  }
+
+  void searchAmbPocName(String enteredKeyWord, List<dynamic> pocNames) {
+    _ambSearchResult = pocNames;
+    if (enteredKeyWord.isEmpty) {
+      _ambSearchResult = pocNames;
+    } else {
+      _ambSearchResult = pocNames
+          .where((poc) => poc['pocName']
+              .toString()
+              .toLowerCase()
+              .contains(enteredKeyWord.toLowerCase()))
+          .toList();
+    }
+    print('Search Result = $_ambSearchResult');
     notifyListeners();
   }
 }
