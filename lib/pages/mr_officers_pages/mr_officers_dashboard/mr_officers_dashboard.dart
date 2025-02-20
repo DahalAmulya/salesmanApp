@@ -1,5 +1,4 @@
 import 'dart:developer';
-
 import 'package:background_task/background_task.dart';
 import 'package:deskgoo/classes/background_task_handler.dart';
 import 'package:deskgoo/classes/is_token_expired.dart';
