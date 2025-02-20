@@ -523,6 +523,7 @@ class _MrOfficersDashboardScreenState extends State<MrOfficersDashboardScreen>
                             child: CustomText(
                               text: 'Status',
                               isSubHeading: true,
+                              maxLines: 3,
                             ),
                           ),
                           Expanded(
@@ -545,6 +546,7 @@ class _MrOfficersDashboardScreenState extends State<MrOfficersDashboardScreen>
                             child: CustomText(
                               text: 'Check-in Time',
                               isSubHeading: true,
+                              maxLines: 3,
                             ),
                           ),
                           Expanded(
@@ -567,6 +569,7 @@ class _MrOfficersDashboardScreenState extends State<MrOfficersDashboardScreen>
                             child: CustomText(
                               text: 'Check-out Time',
                               isSubHeading: true,
+                              maxLines: 3,
                             ),
                           ),
                           Expanded(
@@ -589,6 +592,7 @@ class _MrOfficersDashboardScreenState extends State<MrOfficersDashboardScreen>
                             child: CustomText(
                               text: 'Total Time',
                               isSubHeading: true,
+                              maxLines: 3,
                             ),
                           ),
                           Expanded(
