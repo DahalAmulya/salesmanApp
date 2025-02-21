@@ -285,7 +285,7 @@ class _MarketingOfficerReferralLogScreenState
                                   Expanded(
                                     flex: 2,
                                     child: CustomText(
-                                        text: 'Ambulance Driver Name',
+                                        text: 'AMB Driver Name',
                                         isContent: true,size: 16,maxLines: 3,),
                                   ),
                                   Expanded(
@@ -302,7 +302,7 @@ class _MarketingOfficerReferralLogScreenState
                                   Expanded(
                                     flex : 2,
                                     child: CustomText(
-                                        text: 'Ambulance Driver Number',
+                                        text: 'AMB Driver Number',
                                         isContent: true,size: 16,maxLines: 3,),
                                   ),
                                   Expanded(
@@ -321,7 +321,7 @@ class _MarketingOfficerReferralLogScreenState
                                   Expanded(
                                     flex : 2,
                                     child: CustomText(
-                                        text: 'Ambulance Number',
+                                        text: 'AMB Number',
                                         isContent: true,
                                       size: 16,
                                       maxLines: 3,
