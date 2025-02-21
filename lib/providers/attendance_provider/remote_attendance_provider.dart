@@ -68,15 +68,25 @@ class AttendanceProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  void calculateTimeDifference(String createdAtString) {
-    // Parse createdAt to DateTime
-    DateTime createdAt = DateTime.parse(createdAtString);
+  void calculateTimeDifference(String checkInTime) {
+    // Parse checkInTime as DateTime
+    DateTime inTime = DateTime.parse(checkInTime);
 
     // Get the current DateTime
     DateTime currentTime = DateTime.now();
 
+    // Ensure both are in the same format (without time zone adjustments)
+    inTime = DateTime(inTime.year, inTime.month, inTime.day, inTime.hour,
+        inTime.minute, inTime.second);
+    currentTime = DateTime(currentTime.year, currentTime.month, currentTime.day,
+        currentTime.hour, currentTime.minute, currentTime.second);
+
     // Calculate the difference
-    Duration difference = currentTime.difference(createdAt);
+    Duration difference = currentTime.difference(inTime);
+
+    print('checkInTime = $inTime');
+    print('currentTime = $currentTime');
+    print('difference = $difference');
 
     // Convert the difference to hours and minutes
     int hours = difference.inHours;
@@ -85,8 +95,6 @@ class AttendanceProvider extends ChangeNotifier {
     // Format hours and minutes with zero-padding
     _hours = hours.toString().padLeft(2, '0');
     _minutes = minutes.toString().padLeft(2, '0');
-    // String formattedTime =
-    //     '${hours.toString().padLeft(2, '0')}:${minutes.toString().padLeft(2, '0')}';
 
     notifyListeners();
   }
@@ -101,6 +109,7 @@ class AttendanceProvider extends ChangeNotifier {
       if (response.statusCode == 200) {
         print('StatusCode=${response.statusCode}');
         final data = jsonDecode(response.body);
+        print(data['status']);
         if (data.isEmpty) {
           _isAttendance = false;
           _isRemoteAttendanceSwitched = false;
@@ -115,23 +124,24 @@ class AttendanceProvider extends ChangeNotifier {
           _isAttendance = true;
           _isRemoteAttendanceSwitched = true;
           _isBiometricAuthenticated = true;
-          _status = data[data.length - 1]['status'];
+          _status = data['status'];
           if (_status == 'check-in') {
-            _checkInTimeStr = data[0]['checkIn']['deviceInTime'];
+            print('check-in data = ${data['checkIn']}');
+            _checkInTimeStr = data['checkIn']['deviceInTime'];
             _checkOutTimeStr = 'Not Check-out yet';
             _totalHours = 'In progress';
             _isCheckedOut = false;
-            calculateTimeDifference(data[0]['createdAt']);
+            calculateTimeDifference(data['checkIn']['inTime']);
           } else {
             if (_checkOutConfirmation) {}
             _isCheckedOut = true;
             _isRemoteAttendanceSwitched = false;
             _isBiometricAuthenticated = true;
-            _checkInTimeStr = data[data.length - 1]['checkIn']['deviceInTime'];
-            _checkOutTimeStr =
-                data[data.length - 1]['checkOut']['deviceOutTime'];
+            print('check-out data = ${data['checkOut']}');
+            _checkInTimeStr = data['checkIn']['deviceInTime'];
+            _checkOutTimeStr = data['checkOut']['checkOut']['outTime'];
             // calculateTotalTime(data[0]['createdAt']);
-            _totalHours = hoursToHMS(data[data.length - 1]['totalHours']);
+            _totalHours = hoursToHMS(data['totalHours']);
             _hours = _totalHours.split(':')[0];
             _minutes = _totalHours.split(':')[1];
           }

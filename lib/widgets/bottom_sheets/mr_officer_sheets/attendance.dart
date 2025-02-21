@@ -163,6 +163,7 @@ class _MrOfficerAttendanceBottomSheetState
                         ),
                         CustomText(
                           text: attendanceProvider.status,
+                          maxLines: 2,
                           isContent: true,
                         ),
                       ],
@@ -211,6 +212,7 @@ class _MrOfficerAttendanceBottomSheetState
                             : CustomText(
                                 text: attendanceProvider.checkInTimeStr,
                                 isContent: true,
+                                maxLines: 2,
                               ),
                       ],
                     );
@@ -281,6 +283,8 @@ class _MrOfficerAttendanceBottomSheetState
                             : CustomText(
                                 text: attendanceProvider.checkOutTimeStr,
                                 isContent: true,
+                                textOverflow: TextOverflow.clip,
+                                maxLines: 2,
                               ),
                       ],
                     );
