@@ -133,7 +133,7 @@ class AttendanceProvider extends ChangeNotifier {
             _isCheckedOut = false;
             calculateTimeDifference(data['checkIn']['inTime']);
           } else {
-            if (_checkOutConfirmation) {}
+            // if (_checkOutConfirmation) {}
             _isCheckedOut = true;
             _isRemoteAttendanceSwitched = false;
             _isBiometricAuthenticated = true;
