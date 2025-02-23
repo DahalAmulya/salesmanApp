@@ -516,17 +516,9 @@ class ReferralsDetailProvider extends ChangeNotifier {
     ERPResponse response = await ERPServices.getRequest(
         '/referral?_id=$userId&from=$_selectedDate&to=$_selectedDate');
     print(response.statusCode);
-    // print(response.body);
     _body = jsonDecode(response.body);
-    // print(body);
-    print(body['referralLogs'][0]['patientName']);
     _referralLogs = body['referralLogs'];
-    // if (body["visitLogs"].containsKey('visitLogs')) {
-    //   _referralLogs = body["visitLogs"]["visitLogs"];
-    // } else {
-    //   _referralLogs = [];
-    // }
-    // print(_referralLogs);
+    print(_referralLogs);
     notifyListeners();
   }
 
