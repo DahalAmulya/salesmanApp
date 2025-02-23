@@ -452,7 +452,7 @@ class ReferralsDetailProvider extends ChangeNotifier {
   void PostReferralPOCList(context) async {
     DateTime now = DateTime.now();
     String mobileTime = DateFormat('HH:mm:ss yyyy-MM-dd').format(now);
-    String dateTime = DateFormat('yyyy-MM-d HH:mm:ss').format(now);
+    String dateTime = DateFormat('yyyy-MM-dd HH:mm:ss').format(now);
     String region = '';
 
     if (_selectedCountry == _country[0]) {

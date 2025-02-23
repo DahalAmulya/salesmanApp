@@ -8,6 +8,7 @@ import 'package:deskgoo/widgets/buttons/elevated_button.dart';
 import 'package:deskgoo/widgets/texts/custom_text.dart';
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:intl/intl.dart';
 import 'package:nepali_utils/nepali_utils.dart';
 
 class AttendanceProvider extends ChangeNotifier {
@@ -139,7 +140,7 @@ class AttendanceProvider extends ChangeNotifier {
             _isBiometricAuthenticated = true;
             print('check-out data = ${data['checkOut']}');
             _checkInTimeStr = data['checkIn']['deviceInTime'];
-            _checkOutTimeStr = data['checkOut']['checkOut']['outTime'];
+            _checkOutTimeStr = data['checkOut']['deviceOutTime'];
             // calculateTotalTime(data[0]['createdAt']);
             _totalHours = hoursToHMS(data['totalHours']);
             _hours = _totalHours.split(':')[0];
@@ -162,14 +163,14 @@ class AttendanceProvider extends ChangeNotifier {
   void switchRemoteAttendanceSwitch() async {
     getCurrentLocation();
     try {
-      _time =
-          '${DateTime.now().toString().split(' ')[1].split('.')[0]} ${DateTime.now().toString().split(' ')[0]}';
+      _time = '${DateFormat('HH:mm:ss dd/MM/yyyy').format(DateTime.now())}';
       Map<String, dynamic> body = {
         "deviceTime": _time,
         "attendanceTime": DateTime.now().toString(),
         "latitude": _latitude,
         "longitude": _longitude
       };
+      print(body);
       ERPResponse response = await ERPServices.postRequest(
           '/attendance/userId?userId=$userId', body);
       if (response.statusCode == 200) {
