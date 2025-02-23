@@ -56,7 +56,6 @@ class _WeeklyPlanScreenState extends State<WeeklyPlanScreen> {
 
     if (response.statusCode == 200) {
       todaysPlan = decodedData;
-      // print(todaysPlan['activity'] ?? 'key not found');
       print(todaysPlan);
       setState(() {
         activity = todaysPlan['todaysPlan']['activity'];
