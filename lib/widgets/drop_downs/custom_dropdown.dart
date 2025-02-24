@@ -63,7 +63,7 @@ class CustomDropdown extends StatelessWidget {
                             height: 28,
                             width: 28,
                             child: Image.asset(
-                              item == 'Nepal'
+                              item == 'Nepal' || item == 'Nepali'
                                   ? 'assets/flag_img/nepal.png'
                                   : 'assets/flag_img/india.png',
                               fit: BoxFit.scaleDown,

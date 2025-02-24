@@ -93,6 +93,7 @@ class _MrAdminSelectUserTypeBottomSheetState
                               if (isSelected) {
                                 if (createUserProvider.selectedUserVisitType ==
                                     createUserProvider.userTypeList[0]) {
+                                  createUserProvider.resetRoles();
                                   createUserProvider.getRoleList(context);
                                   Navigator.pop(context);
                                   Navigator.of(context).pushNamed(

@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:deskgoo/routes/route_generator_constants.dart';
 import 'package:deskgoo/services/erp_services.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
@@ -12,7 +13,7 @@ class CreateUserProvider extends ChangeNotifier {
   final _userEmailTextController = TextEditingController();
   final _userAddressTextController = TextEditingController();
   final _userDobController = TextEditingController();
-  final _userNumberTextController = TextEditingController();
+  final _phoneNoController = TextEditingController();
   final _userDojTextController = TextEditingController();
 
   Map<String, dynamic> _data = {};
@@ -20,6 +21,8 @@ class CreateUserProvider extends ChangeNotifier {
   List<dynamic> _userList = [];
   List<dynamic> _rolesList = [];
   List<String> _selectedRole = [];
+  List<String> _country = ['Nepali', 'Indian'];
+  String _selectedCountry = 'Nepali';
   String _role = '';
   String _selectedGender = '';
   String _selectedDepartment = '';
@@ -48,19 +51,24 @@ class CreateUserProvider extends ChangeNotifier {
     "Marketing",
     "Administrator",
   ];
-  List<String> _designation = ["Mr Manager", "Mr Staff"];
+  List<String> _designation = ["Marketing Manager", "Marketing Staff"];
   List<String> _gender = ["Male", "Female", "Other"];
-  List<String> _maritalStatus = ["Unmarried", "Married", "Divorced"];
+  List<String> _maritalStatus = ["Unmarried", "Married"];
   List<String> _nationality = ["Nepali", "Indian"];
   List<String> _userTypeList = ['Create User', 'View User'];
   List<String> _selectedUserVisitTypeList = ['none', 'More Detail'];
+  List<String> _countryCode = ['+977', '+91'];
+  List<String> get country => _country;
+  String get selectedCountry => _selectedCountry;
+  Map<String, dynamic> _selectedRoleMap = {};
 
-  String _designationDefaultValue = "Mr Manager";
+  String _designationDefaultValue = "Marketing Staff";
   String _departmentDefaultValue = "Marketing";
   String _genderDefaultValue = "Male";
   String _maritalStatusDefaultValue = "Unmarried";
   String _nationalityDefaultValue = "Nepali";
-  String _roleDefaultValue = "Admin";
+  String _roleDefaultValue = "";
+  String _selectedCountryCode = '+977';
 
   TextEditingController get userNameTextController => _userNameTextController;
   TextEditingController get userPasswordTextController =>
@@ -69,8 +77,7 @@ class CreateUserProvider extends ChangeNotifier {
   TextEditingController get userAddressTextController =>
       _userAddressTextController;
   TextEditingController get userDobController => _userDobController;
-  TextEditingController get userNumberTextController =>
-      _userNumberTextController;
+  TextEditingController get phoneNoController => _phoneNoController;
   TextEditingController get userDojTextController => _userDojTextController;
 
   Map<String, dynamic> get data => _data;
@@ -78,6 +85,8 @@ class CreateUserProvider extends ChangeNotifier {
   List<dynamic> get rolesList => _rolesList;
   List<String> get department => _department;
   List<String> get designation => _designation;
+  List<String> get countryCode => _countryCode;
+  String get selectedCountryCode => _selectedCountryCode;
   List<String> get gender => _gender;
   List<String> get maritalStatus => _maritalStatus;
   List<String> get nationality => _nationality;
@@ -143,6 +152,12 @@ class CreateUserProvider extends ChangeNotifier {
 
   void setRole(newValue) {
     _role = newValue;
+    for (int i = 0; i < _rolesList.length; i++) {
+      if (_rolesList[i]['role'] == _role) {
+        _selectedRoleMap = _rolesList[i];
+        print(_selectedRoleMap);
+      }
+    }
     notifyListeners();
   }
 
@@ -166,8 +181,29 @@ class CreateUserProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  void setNationality(newValue) {
-    _selectedNationality = newValue;
+  void setNationality(value) {
+    _selectedNationality = value;
+    notifyListeners();
+  }
+
+  void resetForm() {
+    resetRoles();
+    _userNameTextController.text = '';
+    _userEmailTextController.text = '';
+    _userPasswordTextController.text = '';
+    _selectedRoleMap = {};
+    _phoneNoController.text = '';
+    _userAddressTextController.text = '';
+    _userDobController.text = '';
+    _userDojTextController.text = '';
+    notifyListeners();
+  }
+
+  void resetRoles() {
+    _selectedRole = [];
+    _roleDefaultValue = '';
+    _rolesList = [];
+    _role = '';
     notifyListeners();
   }
 
@@ -176,12 +212,18 @@ class CreateUserProvider extends ChangeNotifier {
     _data = jsonDecode(response.body);
     if (response.statusCode == 200) {
       _rolesList = _data['roles'];
-      // print(_data);
+      print(_rolesList);
       for (var role in _rolesList) {
         _selectedRole.add(role['role'].toString());
       }
-      // print(_selectedRole);
+      _roleDefaultValue = _selectedRole[_selectedRole.length - 1];
     }
+    notifyListeners();
+  }
+
+  void setCountryCode(value) {
+    _selectedCountryCode = value;
+    notifyListeners();
   }
 
   void PostUserDetails(context) async {
@@ -189,36 +231,31 @@ class CreateUserProvider extends ChangeNotifier {
       "username": _userNameTextController.value.text,
       "email": _userEmailTextController.value.text,
       "password": _userPasswordTextController.value.text,
-      "role": {"role": "Marketing Staff", "roleValue": 3031},
+      "role": _selectedRoleMap,
       "department": _selectedDepartment,
       "designation": _selectedDesignation,
-      "number": _userNumberTextController.value.text,
+      "number": '$_selectedCountryCode${_phoneNoController.value.text}',
       "address": _userAddressTextController.value.text,
       "nationality": _selectedNationality,
       "dob": _userDobController.value.text,
       "doj": _userDojTextController.value.text,
       "maritalStatus": _selectedMaritalStatus,
       "gender": _selectedGender,
-
-      // "username": _userNameTextController.value.text,
-      // "password": _userPasswordTextController.value.text,
-      // "role": _role,
-      // "department": _selectedDepartment,
-      // "email": _userEmailTextController.value.text,
-      // "designation": _selectedDesignation
     };
-    // print(body);
+    print(body);
     ERPResponse response = await ERPServices.postRequest('/users', body);
     print(response.statusCode);
     print(response.body);
     if (response.statusCode == 200) {
       ToastMessageUtils().showToastMessage('User created successfully',
           ToastGravity.TOP, CustomColors.jadeGreen);
+      Navigator.of(context)
+          .pushReplacementNamed(MarketingManagerConstants.homePage);
+      resetForm();
       print('success');
     } else {
       ToastMessageUtils().showToastMessage(
           'Something went wrong', ToastGravity.TOP, CustomColors.lightRed);
-      print('something is missing');
     }
   }
 
@@ -244,7 +281,7 @@ class CreateUserProvider extends ChangeNotifier {
     _selectedDesignation = designation;
     _userAddressTextController.text = address;
     _userDobController.text = dob;
-    _userNumberTextController.text = number;
+    _phoneNoController.text = number;
     _selectedGender = gender;
     _selectedMaritalStatus = maritalStatus;
     _userDojTextController.text = doj;

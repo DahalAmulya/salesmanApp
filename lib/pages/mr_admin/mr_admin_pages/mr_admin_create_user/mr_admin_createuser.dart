@@ -1,9 +1,11 @@
 import 'dart:convert';
+import 'package:deskgoo/utils/toast_message.dart';
 import 'package:deskgoo/widgets/buttons/elevated_button.dart';
 import 'package:deskgoo/widgets/containers/custom_container.dart';
 import 'package:deskgoo/widgets/drop_downs/custom_dropdown.dart';
 import 'package:deskgoo/widgets/texts/custom_text.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
 import '../../../../routes/route_generator_constants.dart';
@@ -28,15 +30,14 @@ class _MarketingAdminCreateUserState extends State<MarketingAdminCreateUser> {
   String selectedDate = '';
   String selectedDateForDoj = '';
   final _formState = GlobalKey<FormState>();
+  CreateUserProvider? createUserProvider;
 
   Future<void> selectDate() async {
-    final visitLogProvider =
-        Provider.of<CreateUserProvider>(context, listen: false);
     DateTime? picked = await showDatePicker(
       context: context,
       initialDate: DateTime.now(),
-      firstDate: DateTime(2000),
-      lastDate: DateTime(2040),
+      firstDate: DateTime(1900),
+      lastDate: DateTime(2099),
     );
     if (picked == null) {
       return;
@@ -44,7 +45,7 @@ class _MarketingAdminCreateUserState extends State<MarketingAdminCreateUser> {
       setState(() {
         selectedDate = "${picked.year}-${picked.month}-${picked.day}";
         print(selectedDate);
-        visitLogProvider.userDobController.text =
+        createUserProvider!.userDobController.text =
             "${picked.year}-${picked.month}-${picked.day}";
       });
     }
@@ -52,13 +53,11 @@ class _MarketingAdminCreateUserState extends State<MarketingAdminCreateUser> {
   }
 
   Future<void> selectDateForDoj() async {
-    final visitLogProvider =
-        Provider.of<CreateUserProvider>(context, listen: false);
     DateTime? picked = await showDatePicker(
       context: context,
       initialDate: DateTime.now(),
-      firstDate: DateTime(2000),
-      lastDate: DateTime(2040),
+      firstDate: DateTime(1900),
+      lastDate: DateTime(2099),
     );
     if (picked == null) {
       return;
@@ -66,7 +65,7 @@ class _MarketingAdminCreateUserState extends State<MarketingAdminCreateUser> {
       setState(() {
         selectedDateForDoj = "${picked.year}-${picked.month}-${picked.day}";
         print(selectedDateForDoj);
-        visitLogProvider.userDojTextController.text =
+        createUserProvider!.userDojTextController.text =
             "${picked.year}-${picked.month}-${picked.day}";
       });
     }
@@ -102,15 +101,37 @@ class _MarketingAdminCreateUserState extends State<MarketingAdminCreateUser> {
   @override
   void initState() {
     super.initState();
+    createUserProvider =
+        Provider.of<CreateUserProvider>(context, listen: false);
     getRoleList();
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: CustomColors.primaryWhite,
-      appBar: _appBar(context),
-      body: _body(context),
+    return PopScope(
+      canPop: false,
+      onPopInvoked: ((didpop) {
+        if (didpop) {
+          return;
+        }
+        Navigator.of(context)
+            .pushReplacementNamed(MarketingManagerConstants.homePage);
+        createUserProvider!.resetForm();
+      }),
+      child: GestureDetector(
+        onTap: () {
+          // Dismiss the keyboard when tapping outside TextFormFields
+          FocusScopeNode currentFocus = FocusScope.of(context);
+          if (!currentFocus.hasPrimaryFocus) {
+            FocusScope.of(context).unfocus();
+          }
+        },
+        child: Scaffold(
+          backgroundColor: CustomColors.primaryWhite,
+          appBar: _appBar(context),
+          body: _body(context),
+        ),
+      ),
     );
   }
 
@@ -125,7 +146,8 @@ class _MarketingAdminCreateUserState extends State<MarketingAdminCreateUser> {
             leadingIcon: FontAwesomeIcons.arrowLeft,
             leadingIconColor: CustomColors.primaryBlack,
             onTapLeadingIcon: () {
-              Navigator.of(context).pop(MarketingManagerConstants.settingPage);
+              Navigator.of(context).pop(MarketingManagerConstants.homePage);
+              createUserProvider!.resetForm();
             },
           );
         },
@@ -151,82 +173,89 @@ class _MarketingAdminCreateUserState extends State<MarketingAdminCreateUser> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
-                        Row(
-                          children: [
-                            Expanded(
-                              flex: 1,
-                              child: CustomText(
-                                text: 'Name',
-                                isContent: true,
-                              ),
-                            ),
-                            SizedBox(
-                              height: 8,
-                            ),
-                            Expanded(
-                              flex: 2,
-                              child: TextFromFieldWithPrefixSuffix(
-                                controller:
-                                    createUserProvider.userNameTextController,
-                                validator: (value) {
-                                  return value!.isEmpty
-                                      ? 'Name is required'
-                                      : value.length < 3
-                                          ? 'Enter at least 3 characters'
-                                          : null;
-                                },
-                              ),
-                            ),
-                          ],
+                        CustomText(
+                          text: 'Personal Details',
+                          isSubHeading: true,
+                        ),
+                        SizedBox(
+                          height: 16,
+                        ),
+                        TextFromFieldWithPrefixSuffix(
+                          controller: createUserProvider.userNameTextController,
+                          labelText: 'Full Name *',
+                          validator: (value) {
+                            return value!.isEmpty
+                                ? 'Name is required'
+                                : value.length < 3
+                                    ? 'Enter at least 3 characters'
+                                    : null;
+                          },
+                        ),
+                        SizedBox(
+                          height: 16,
+                        ),
+                        CustomDropdown(
+                          labelText: 'Gender *',
+                          items: createUserProvider.gender,
+                          value: createUserProvider.genderDefaultValue,
+                          onChanged: (newValue) {
+                            createUserProvider.setGender(newValue);
+                          },
+                        ),
+                        SizedBox(
+                          height: 16,
+                        ),
+                        CustomDropdown(
+                          labelText: 'Nationality *',
+                          items: createUserProvider.country,
+                          value: createUserProvider.selectedCountry,
+                          applyCountryFlag: true,
+                          onChanged: (newValue) {
+                            createUserProvider.setNationality(newValue);
+                          },
+                        ),
+                        SizedBox(
+                          height: 16,
+                        ),
+                        TextFromFieldWithPrefixSuffix(
+                          controller:
+                              createUserProvider.userAddressTextController,
+                          labelText: 'Address *',
+                          validator: (value) {
+                            return value!.isEmpty
+                                ? 'Address is required'
+                                : value.length < 5
+                                    ? 'Enter at least 5 characters'
+                                    : null;
+                          },
                         ),
                         SizedBox(
                           height: 16,
                         ),
                         Row(
                           children: [
-                            Expanded(
-                              flex: 1,
-                              child: CustomText(
-                                text: 'Gender',
-                                isContent: true,
-                              ),
-                            ),
                             SizedBox(
-                              height: 8,
-                            ),
-                            Expanded(
-                              flex: 2,
+                              width: 125,
                               child: CustomDropdown(
-                                labelText: 'Gender',
-                                items: createUserProvider.gender,
-                                value: createUserProvider.genderDefaultValue,
+                                withPrefixIcon: true,
+                                labelText: 'Country Code *',
+                                items: createUserProvider.countryCode,
+                                value: createUserProvider.selectedCountryCode,
                                 onChanged: (newValue) {
-                                  createUserProvider.setGender(newValue);
+                                  createUserProvider.setCountryCode(newValue);
                                 },
                               ),
                             ),
-                          ],
-                        ),
-                        SizedBox(
-                          height: 16,
-                        ),
-                        Row(
-                          children: [
-                            Expanded(
-                              flex: 1,
-                              child: CustomText(
-                                text: 'Number',
-                                isContent: true,
-                              ),
-                            ),
                             SizedBox(
-                              height: 8,
+                              width: 8,
                             ),
                             Expanded(
-                              flex: 2,
                               child: TextFromFieldWithPrefixSuffix(
                                 controller:
-                                    createUserProvider.userNumberTextController,
+                                    createUserProvider.phoneNoController,
+                                keyboardType: TextInputType.number,
+                                labelText: 'Number *',
+                                onTap: () {},
                                 validator: (value) {
                                   return value!.isEmpty
                                       ? 'Number is required'
@@ -234,6 +263,7 @@ class _MarketingAdminCreateUserState extends State<MarketingAdminCreateUser> {
                                           ? 'Enter at least 10 characters'
                                           : null;
                                 },
+                                onChange: (value) {},
                               ),
                             ),
                           ],
@@ -241,321 +271,164 @@ class _MarketingAdminCreateUserState extends State<MarketingAdminCreateUser> {
                         SizedBox(
                           height: 16,
                         ),
-                        Row(
-                          children: [
-                            Expanded(
-                              flex: 1,
-                              child: CustomText(
-                                text: 'Email',
-                                isContent: true,
-                              ),
-                            ),
-                            SizedBox(
-                              height: 8,
-                            ),
-                            Expanded(
-                              flex: 2,
-                              child: TextFromFieldWithPrefixSuffix(
-                                controller:
-                                    createUserProvider.userEmailTextController,
-                                validator: (value) {
-                                  return value!.isEmpty
-                                      ? 'Email is required'
-                                      : value.length < 6
-                                          ? 'Enter at least 6 characters'
-                                          : null;
-                                },
-                              ),
-                            ),
-                          ],
+                        CustomDropdown(
+                          labelText: 'Marital Status *',
+                          items: createUserProvider.maritalStatus,
+                          value: createUserProvider.maritalStatusDefaultValue,
+                          onChanged: (newValue) {
+                            createUserProvider.setMaritalStatus(newValue);
+                          },
                         ),
                         SizedBox(
                           height: 16,
                         ),
-                        Row(
-                          children: [
-                            Expanded(
-                              flex: 1,
-                              child: CustomText(
-                                text: 'Password',
-                                isContent: true,
-                              ),
-                            ),
-                            SizedBox(
-                              height: 8,
-                            ),
-                            Expanded(
-                              flex: 2,
-                              child: TextFromFieldWithPrefixSuffix(
-                                controller: createUserProvider
-                                    .userPasswordTextController,
-                                validator: (value) {
-                                  return value!.isEmpty
-                                      ? 'Password is required'
-                                      : value.length < 8
-                                          ? 'Enter at least 8 characters'
-                                          : null;
-                                },
-                              ),
-                            ),
-                          ],
+                        TextFromFieldWithPrefixSuffix(
+                          controller: createUserProvider.userDobController,
+                          labelText: 'Date of Birth *',
+                          applySuffixIcon: true,
+                          suffixIcon: Icon(Icons.calendar_month),
+                          validator: (value) {
+                            return value!.isEmpty
+                                ? 'Date of birth is required'
+                                : value.length < 5
+                                    ? 'Enter at least 5 characters'
+                                    : null;
+                          },
+                          onTap: () {
+                            selectDate();
+                          },
                         ),
                         SizedBox(
                           height: 16,
                         ),
-                        Row(
-                          children: [
-                            Expanded(
-                              flex: 1,
-                              child: CustomText(
-                                text: 'Department',
-                                isContent: true,
-                              ),
-                            ),
-                            SizedBox(
-                              height: 8,
-                            ),
-                            Expanded(
-                              flex: 2,
-                              child: CustomDropdown(
-                                labelText: 'Department',
-                                items: createUserProvider.department,
-                                value:
-                                    createUserProvider.departmentDefaultValue,
+                        TextFromFieldWithPrefixSuffix(
+                          controller:
+                              createUserProvider.userEmailTextController,
+                          labelText: 'Email *',
+                          validator: (value) {
+                            return value!.isEmpty
+                                ? 'Email is required'
+                                : value.length < 6
+                                    ? 'Enter at least 6 characters'
+                                    : null;
+                          },
+                        ),
+                        SizedBox(
+                          height: 16,
+                        ),
+                        TextFromFieldWithPrefixSuffix(
+                          controller:
+                              createUserProvider.userPasswordTextController,
+                          labelText: 'Password *',
+                          validator: (value) {
+                            return value!.isEmpty
+                                ? 'Password is required'
+                                : value.length < 8
+                                    ? 'Enter at least 8 characters'
+                                    : null;
+                          },
+                        ),
+                        SizedBox(
+                          height: 16,
+                        ),
+                        CustomText(
+                          text: 'Professional Details',
+                          isSubHeading: true,
+                        ),
+                        SizedBox(
+                          height: 16,
+                        ),
+                        CustomDropdown(
+                          labelText: 'Department *',
+                          items: createUserProvider.department,
+                          value: createUserProvider.departmentDefaultValue,
+                          onChanged: (newValue) {
+                            createUserProvider.setDepartment(newValue);
+                          },
+                        ),
+                        SizedBox(
+                          height: 16,
+                        ),
+                        createUserProvider.roleDefaultValue.isNotEmpty
+                            ? CustomDropdown(
+                                labelText: 'Role *',
+                                items: createUserProvider.selectedRole,
+                                value: createUserProvider.roleDefaultValue,
                                 onChanged: (newValue) {
-                                  createUserProvider.setDepartment(newValue);
+                                  createUserProvider.setRole(newValue);
                                 },
+                              )
+                            : Center(
+                                child: CircularProgressIndicator(),
                               ),
-                            ),
-                          ],
+                        SizedBox(
+                          height: 16,
+                        ),
+                        CustomDropdown(
+                          labelText: 'Designation *',
+                          items: createUserProvider.designation,
+                          value: createUserProvider.designationDefaultValue,
+                          onChanged: (newValue) {
+                            createUserProvider.setDesignation(newValue);
+                          },
+                        ),
+                        SizedBox(
+                          height: 16,
+                        ),
+                        TextFromFieldWithPrefixSuffix(
+                          controller: createUserProvider.userDojTextController,
+                          labelText: 'Date of Joining *',
+                          applySuffixIcon: true,
+                          suffixIcon: Icon(Icons.calendar_month),
+                          validator: (value) {
+                            return value!.isEmpty
+                                ? 'Date of joining is required'
+                                : null;
+                          },
+                          onTap: () {
+                            selectDateForDoj();
+                          },
                         ),
                         SizedBox(
                           height: 16,
                         ),
                         Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           children: [
-                            Expanded(
-                              flex: 1,
-                              child: CustomText(
-                                text: 'Role',
+                            CustomElevatedButton(
+                              onPressed: () {
+                                // _formState.currentState!.validate();
+                                // createUserProvider.PostUserDetails(context);
+                                createUserProvider.resetForm();
+                                Navigator.of(context).pushReplacementNamed(
+                                    MarketingManagerConstants.homePage);
+                              },
+                              widget: CustomText(
+                                text: 'Back',
                                 isContent: true,
                               ),
+                              backgroundColor: CustomColors.lightRed,
                             ),
-                            SizedBox(
-                              height: 8,
-                            ),
-                            createUserProvider.selectedRole.isNotEmpty
-                                ? Expanded(
-                                    flex: 2,
-                                    child: CustomDropdown(
-                                      labelText: 'Role',
-                                      items: createUserProvider.selectedRole,
-                                      value:
-                                          createUserProvider.roleDefaultValue,
-                                      onChanged: (newValue) {
-                                        createUserProvider.setRole(newValue);
-                                      },
-                                    ),
-                                  )
-                                : Center(
-                                    child: CircularProgressIndicator(),
-                                  ),
-                          ],
-                        ),
-                        SizedBox(
-                          height: 16,
-                        ),
-                        Row(
-                          children: [
-                            Expanded(
-                              flex: 1,
-                              child: CustomText(
-                                text: 'Designation',
+                            CustomElevatedButton(
+                              onPressed: () {
+                                // _formState.currentState!.validate();
+                                if (_formState.currentState!.validate()) {
+                                  createUserProvider.PostUserDetails(context);
+                                } else {
+                                  ToastMessageUtils().showToastMessage(
+                                      'Please fill all the required fields',
+                                      ToastGravity.TOP,
+                                      CustomColors.lightRed);
+                                }
+                              },
+                              widget: CustomText(
+                                text: 'Create',
                                 isContent: true,
                               ),
-                            ),
-                            SizedBox(
-                              height: 8,
-                            ),
-                            Expanded(
-                              flex: 2,
-                              child: CustomDropdown(
-                                labelText: 'Designation',
-                                items: createUserProvider.designation,
-                                value:
-                                    createUserProvider.designationDefaultValue,
-                                onChanged: (newValue) {
-                                  createUserProvider.setDesignation(newValue);
-                                },
-                              ),
+                              backgroundColor: CustomColors.primaryColor,
                             ),
                           ],
                         ),
-                        SizedBox(
-                          height: 16,
-                        ),
-                        Row(
-                          children: [
-                            Expanded(
-                              flex: 1,
-                              child: CustomText(
-                                text: 'Address',
-                                isContent: true,
-                              ),
-                            ),
-                            SizedBox(
-                              height: 8,
-                            ),
-                            Expanded(
-                              flex: 2,
-                              child: TextFromFieldWithPrefixSuffix(
-                                controller: createUserProvider
-                                    .userAddressTextController,
-                                validator: (value) {
-                                  return value!.isEmpty
-                                      ? 'Address is required'
-                                      : value.length < 5
-                                          ? 'Enter at least 5 characters'
-                                          : null;
-                                },
-                              ),
-                            ),
-                          ],
-                        ),
-                        SizedBox(
-                          height: 16,
-                        ),
-                        Row(
-                          children: [
-                            Expanded(
-                              flex: 1,
-                              child: CustomText(
-                                text: 'DOB',
-                                isContent: true,
-                              ),
-                            ),
-                            SizedBox(
-                              height: 8,
-                            ),
-                            Expanded(
-                              flex: 2,
-                              child: TextFromFieldWithPrefixSuffix(
-                                controller:
-                                    createUserProvider.userDobController,
-                                applySuffixIcon: true,
-                                suffixIcon: Icon(Icons.calendar_month),
-                                validator: (value) {
-                                  return value!.isEmpty
-                                      ? 'Address is required'
-                                      : value.length < 5
-                                          ? 'Enter at least 5 characters'
-                                          : null;
-                                },
-                                onTap: () {
-                                  selectDate();
-                                },
-                              ),
-                            ),
-                          ],
-                        ),
-                        SizedBox(
-                          height: 16,
-                        ),
-                        Row(
-                          children: [
-                            Expanded(
-                              flex: 1,
-                              child: CustomText(
-                                text: 'Marital Status',
-                                isContent: true,
-                              ),
-                            ),
-                            SizedBox(
-                              height: 8,
-                            ),
-                            Expanded(
-                              flex: 2,
-                              child: CustomDropdown(
-                                labelText: 'Marital Status',
-                                items: createUserProvider.maritalStatus,
-                                value: createUserProvider
-                                    .maritalStatusDefaultValue,
-                                onChanged: (newValue) {
-                                  createUserProvider.setMaritalStatus(newValue);
-                                },
-                              ),
-                            ),
-                          ],
-                        ),
-                        SizedBox(
-                          height: 16,
-                        ),
-                        Row(
-                          children: [
-                            Expanded(
-                              flex: 1,
-                              child: CustomText(
-                                text: 'DOJ',
-                                isContent: true,
-                              ),
-                            ),
-                            SizedBox(
-                              height: 8,
-                            ),
-                            Expanded(
-                              flex: 2,
-                              child: TextFromFieldWithPrefixSuffix(
-                                controller:
-                                    createUserProvider.userDojTextController,
-                                applySuffixIcon: true,
-                                suffixIcon: Icon(Icons.calendar_month),
-                                validator: (value) {},
-                                onTap: () {
-                                  selectDateForDoj();
-                                },
-                              ),
-                            ),
-                          ],
-                        ),
-                        SizedBox(
-                          height: 16,
-                        ),
-                        Row(
-                          children: [
-                            Expanded(
-                              flex: 1,
-                              child: CustomText(
-                                text: 'Nationality',
-                                isContent: true,
-                              ),
-                            ),
-                            SizedBox(
-                              height: 8,
-                            ),
-                            Expanded(
-                              flex: 2,
-                              child: CustomDropdown(
-                                labelText: 'Marital Status',
-                                items: createUserProvider.nationality,
-                                value:
-                                    createUserProvider.nationalityDefaultValue,
-                                onChanged: (newValue) {
-                                  createUserProvider.setNationality(newValue);
-                                },
-                              ),
-                            ),
-                          ],
-                        ),
-                        SizedBox(
-                          height: 16,
-                        ),
-                        CustomElevatedButton(
-                            onPressed: () {
-                              // _formState.currentState!.validate();
-                              createUserProvider.PostUserDetails(context);
-                            },
-                            widget: CustomText(text: 'Create'),
-                            backgroundColor: CustomColors.primaryColor),
                       ],
                     ),
                   )
