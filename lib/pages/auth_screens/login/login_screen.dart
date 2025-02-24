@@ -54,6 +54,7 @@ class _LoginPageState extends State<LoginPage> {
     print(UserCred().password);
     print(UserCred().userId);
     print(UserCred().accessToken);
+    print('User Creds');
     print('***********************************************************');
     _userProvider = Provider.of<UserProvider>(context, listen: false);
     super.initState();
