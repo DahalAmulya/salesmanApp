@@ -255,8 +255,8 @@ class _LoginPageState extends State<LoginPage> {
 
   void login() async {
     Map<String, dynamic> body = {
-      'email': emailController.value.text,
-      'password': passwordController.value.text,
+      'email': emailController.value.text.toLowerCase().trim(),
+      'password': passwordController.value.text.trim(),
       // 'email': emailController.value.text.isEmpty
       //     ? 'farhan@gmail.com'
       //     : emailController.value.text,
@@ -280,6 +280,7 @@ class _LoginPageState extends State<LoginPage> {
     };
 
     print('Called login api');
+    print(body);
     ERPResponse response = await ERPServices.ERPlogin(body);
     print(response.statusCode);
     print(response.body);
@@ -311,9 +312,9 @@ class _LoginPageState extends State<LoginPage> {
       roleValue = data['user']['role']['roleValue'];
       if (rememberMe) {
         SecureStorage().writeLoginCredentials(
-            SecureStorage.userEmail, emailController.value.text);
+            SecureStorage.userEmail, emailController.value.text.toLowerCase().trim());
         SecureStorage().writeLoginCredentials(
-            SecureStorage.password, passwordController.value.text);
+            SecureStorage.password, passwordController.value.text.trim());
       }
       SecureStorage()
           .writeLoginCredentials(SecureStorage.accessToken, accessToken);

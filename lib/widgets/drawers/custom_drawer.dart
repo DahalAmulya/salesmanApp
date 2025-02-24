@@ -3,6 +3,7 @@ import 'package:deskgoo/pages/mr_officers_pages/weeklyplan/weeklyplan_screen.dar
 import 'package:deskgoo/providers/profile_provider/profile_provider.dart';
 import 'package:deskgoo/routes/route_generator_constants.dart';
 import 'package:deskgoo/themes/custom_colors.dart';
+import 'package:deskgoo/widgets/bottom_sheets/mr_officer_sheets/mr_admin_sheets/select_user_visit_type.dart';
 import 'package:deskgoo/widgets/drawers/drawers_items/custom_listTile.dart';
 import 'package:deskgoo/widgets/texts/custom_text.dart';
 import 'package:flutter/material.dart';
@@ -24,6 +25,7 @@ class CustomDrawer extends StatelessWidget {
     this.isWeeklyPlanActive = false,
     this.isVisitActive = false,
     this.isAttendanceActive = false,
+    this.isUsersActive = false,
   });
 
   final bool hasImage;
@@ -36,6 +38,7 @@ class CustomDrawer extends StatelessWidget {
   final bool isWeeklyPlanActive;
   final bool isVisitActive;
   final bool isAttendanceActive;
+  final bool isUsersActive;
 
   @override
   Widget build(BuildContext context) {
@@ -134,29 +137,72 @@ class CustomDrawer extends StatelessWidget {
                       onTap: () {
                         // GoRouter.of(context).pushReplacementNamed(
                         //     MyAppRouteConstants.homeNavBarRouteName);
-                        Navigator.of(context)
-                            .pushNamed(MarketingManagerConstants.liveTrackingPage);
+                        Navigator.of(context).pushNamed(
+                            MarketingManagerConstants.liveTrackingPage);
                       },
                       isTabActive: isLocationActive,
                       icon: FontAwesomeIcons.mapLocation,
                       text: 'Location',
                     ),
                     Consumer<UserProfileProvider>(
-                      builder: (context,userProfileProvider,_) {
+                      builder: (context, userProfileProvider, _) {
                         return CustomListTile(
                           onTap: () {
                             // GoRouter.of(context).pushReplacementNamed(
                             //     MyAppRouteConstants.homeNavBarRouteName);
                             // Navigator.of(context)
                             //     .pushNamed(MarketingManagerConstants.profilePage);
-                            Navigator.of(context)
-                                .pushNamed(MarketingManagerConstants.settingPage);
+                            // createUserProvider.getUserDetails();
+                            Navigator.pop(context);
+                            showModalBottomSheet(
+                              isScrollControlled: true,
+                              useSafeArea: true,
+                              context: context,
+                              builder: (context) =>
+                                  MrAdminSelectUserTypeBottomSheet(),
+                            );
+                            // Navigator.of(context).pushNamed(
+                            //     MarketingManagerConstants.settingPage);
                           },
                           isTabActive: isSettingActive,
-                          icon: Icons.settings,
+                          icon: FontAwesomeIcons.userLarge,
+                          text: 'Users',
+                        );
+                      },
+                    ),
+                    Consumer<UserProfileProvider>(
+                      builder: (context, userProfileProvider, _) {
+                        return CustomListTile(
+                          onTap: () {
+                            // GoRouter.of(context).pushReplacementNamed(
+                            //     MyAppRouteConstants.homeNavBarRouteName);
+                            // Navigator.of(context)
+                            //     .pushNamed(MarketingManagerConstants.profilePage);
+                            Navigator.of(context).pushNamed(
+                                MarketingManagerConstants.settingPage);
+                          },
+                          isTabActive: isSettingActive,
+                          icon: FontAwesomeIcons.gear,
                           text: 'Settings',
                         );
-                      }
+                      },
+                    ),
+                    Consumer<UserProfileProvider>(
+                      builder: (context, userProfileProvider, _) {
+                        return CustomListTile(
+                          onTap: () {
+                            // GoRouter.of(context).pushReplacementNamed(
+                            //     MyAppRouteConstants.homeNavBarRouteName);
+                            // Navigator.of(context)
+                            //     .pushNamed(MarketingManagerConstants.profilePage);
+                            Navigator.of(context).pushNamed(
+                                MarketingManagerConstants.settingPage);
+                          },
+                          isTabActive: isSettingActive,
+                          icon: FontAwesomeIcons.arrowRightFromBracket,
+                          text: 'Logout',
+                        );
+                      },
                     ),
                     // CustomListTile(
                     //   onTap: () {
