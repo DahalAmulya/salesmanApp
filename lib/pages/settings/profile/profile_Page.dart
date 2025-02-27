@@ -85,7 +85,7 @@ class _Profile_pageState extends State<Profile_page> {
                       child: CircleAvatar(
                         radius: 40,
                         backgroundImage:
-                            AssetImage('assets/images/johnCena.jpg'),
+                            AssetImage('assets/images/userLocation.png'),
                       ),
                     ),
                   ),
@@ -162,7 +162,7 @@ class _Profile_pageState extends State<Profile_page> {
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
                               CustomText(
-                                text: 'Work Info',
+                                text: 'Professional Info',
                                 size: 18,
                                 fontWeight: fontWeight,
                               ),

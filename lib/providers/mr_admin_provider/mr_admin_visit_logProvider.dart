@@ -130,6 +130,9 @@ class MrAdminVisitLogProvider extends ChangeNotifier {
         _visitList = _foundVisit['visitLogs'];
         print(_visitList);
       }
+      else{
+        _visitList = [];
+      }
     }
     notifyListeners();
   }

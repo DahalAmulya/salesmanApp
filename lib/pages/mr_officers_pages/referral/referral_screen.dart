@@ -31,23 +31,8 @@ class _MrOfficerReferralScreenState extends State<MrOfficerReferralScreen> {
   bool _isVisibleForState = false;
   bool _isVisibleForDistrict = true;
 
-  String selectedDistrict = 'Baglung';
-  String defaultValue = 'Nepal';
-  String selectedState = 'Achham';
-  String? SelectedCountry = '';
-  String selectedCity = '';
-  List<String> country = ['Nepal', 'India'];
-
-  // List<dynamic> districtList = [];
-  List<dynamic> foundDistrictList = [];
-  List<dynamic> foundStateList = [];
-  List<dynamic> foundDistrict = [];
-  List<dynamic> foundState = [];
-  List<dynamic> foundCities = [];
-  List<dynamic> stateList = [];
-  List<dynamic> citiesList = [];
   final _formState = GlobalKey<FormState>();
-  final link = 'http://108.181.195.185:5000/api/country/Nepal';
+  // final link = 'http://108.181.195.185:5000/api/country/Nepal';
 
   @override
   void initState() {
@@ -56,44 +41,6 @@ class _MrOfficerReferralScreenState extends State<MrOfficerReferralScreen> {
     referralsDetailProvider.getDataForDistrict();
     referralsDetailProvider.getDataForState();
     super.initState();
-  }
-
-  void runDistrictSearchFilter(String enteredKeyword) {
-    List<dynamic> districtResult = [];
-    print("Entered Keyword: $enteredKeyword");
-    // print("Found District List: $foundDistrictList");
-    if (enteredKeyword.isEmpty) {
-      districtResult = foundDistrictList;
-    } else {
-      districtResult = foundDistrictList
-          .where((district) => district
-              .toString()
-              .toLowerCase()
-              .contains(enteredKeyword.toLowerCase()))
-          .toList();
-      print("Filtered District Result: $districtResult");
-    }
-    setState(() {
-      foundDistrict = districtResult;
-    });
-  }
-
-  void runStateSearchFilter(String enteredKeyword) {
-    List<String> stateResult = [];
-    if (enteredKeyword.isEmpty) {
-      stateResult = foundStateList.cast<String>();
-    } else {
-      stateResult = foundStateList
-          .where((state) => state
-              .toString()
-              .toLowerCase()
-              .contains(enteredKeyword.toLowerCase()))
-          .cast<String>()
-          .toList();
-    }
-    setState(() {
-      foundState = stateResult;
-    });
   }
 
   @override
