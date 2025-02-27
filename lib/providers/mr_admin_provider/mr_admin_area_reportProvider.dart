@@ -8,7 +8,17 @@ class MrAdminAreaReportProvider extends ChangeNotifier {
 
   List<String> _country = ['Nepal', 'India'];
   String _defaultValue = 'Nepal';
+
+  String _selectedDistrict = '';
+  String _selectedState = '';
+  String _selectedCity = '';
+
   List<dynamic> _districtList = [];
+  List<dynamic> _stateList = [];
+  List<dynamic> _cityList = [];
+  List<dynamic> _cities = [];
+  List<dynamic> _districts = [];
+  List<dynamic> _foundCities = [];
   List<dynamic> _searchResult = [];
 
   final _stateTextEditingController = TextEditingController();
@@ -25,9 +35,19 @@ class MrAdminAreaReportProvider extends ChangeNotifier {
   List<String> get country => _country;
 
   List<dynamic> get districtList => _districtList;
+  List<dynamic> get stateList => _stateList;
+  List<dynamic> get cityList => _cityList;
+  List<dynamic> get districts => _districts;
+  List<dynamic> get foundCities => _foundCities;
+  List<dynamic> get cities => _cities;
+
   List<dynamic> get searchResult => _searchResult;
 
   String get defaultValue => _defaultValue;
+
+  String get selectedDistrict => _selectedDistrict;
+  String get selectedState => _selectedState;
+  String get selectedCity => _selectedCity;
 
 
   void getDataForDistrict() async {
@@ -38,10 +58,33 @@ class MrAdminAreaReportProvider extends ChangeNotifier {
     _districtList = districtData;
   }
 
+  void getCities(List<dynamic> citiesList) {
+    _cityList = citiesList;
+    notifyListeners();
+  }
+
   void setCountry(value){
     _defaultValue = value;
     notifyListeners();
   }
+
+  void setSelectedDistrict(value){
+    _selectedDistrict = value;
+    _districtTextEditingController.text = _selectedDistrict;
+    notifyListeners();
+  }
+  void setSelectedState(value) {
+    _selectedState = value;
+    _stateTextEditingController.text = _selectedState;
+    notifyListeners();
+  }
+
+  void setSelectedCity(value) {
+    _selectedCity = value;
+    _cityTextEditingController.text = _selectedCity;
+    notifyListeners();
+  }
+
   void searchAddressResult(String enteredKeyWord, List<dynamic> addressList) {
     _searchResult = addressList;
     if (enteredKeyWord.isEmpty) {
@@ -81,6 +124,36 @@ class MrAdminAreaReportProvider extends ChangeNotifier {
     print('search result = $_searchResult');
     // _searchController.text = '';
     notifyListeners();
+  }
+
+  void getCitiesForSelection(
+      String selectedItem,
+      ) {
+    // Clear the previous list of cities
+    _foundCities.clear();
+
+    // Search for the state in the stateList
+    for (var stateData in _stateList) {
+      if (stateData["states"] == selectedItem) {
+        // Extract the cities list
+        _foundCities = List<String>.from(stateData["cities"] ?? []);
+        print("Found Cities for State: $_foundCities");
+        break; // Exit the loop once the state is found
+      }
+    }
+
+    // Search for the district in the districtList
+    for (var districtData in _districts) {
+      if (districtData["district"] == selectedItem) {
+        // Extract the cities list
+        _foundCities = List<String>.from(districtData["cities"] ?? []);
+        break; // Exit the loop once the district is found
+      }
+    }
+    notifyListeners();
+
+    // Print the result for debugging
+    // print("Cities for $selectedItem: $foundCities");
   }
 
 }

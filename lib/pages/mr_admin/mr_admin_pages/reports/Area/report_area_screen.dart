@@ -190,6 +190,16 @@ class _MrAdminAreaReportScreenState extends State<MrAdminAreaReportScreen> {
                               final file = await rootBundle
                                   .loadString('assets/$fileName.json');
                               final content = await jsonDecode(file);
+                              showModalBottomSheet(
+                                  isScrollControlled: true,
+                                  useSafeArea: true,
+                                  context: context,
+                                  builder: (context) =>
+                                      _DistrictBottomSheet(context, '$fileName', content));
+                              mrAdminAreaReportProvider.searchController.text = '';
+                              mrAdminAreaReportProvider.searchAddressResult(
+                                  mrAdminAreaReportProvider.searchController.value.text,
+                                  content);
                             },
                             onChange: (value) => () {},
                             validator: (Value) {},
@@ -241,12 +251,22 @@ class _MrAdminAreaReportScreenState extends State<MrAdminAreaReportScreen> {
                         Expanded(
                           flex: 2,
                           child: TextFromFieldWithPrefixSuffix(
-                            controller: cityTextEditingController,
+                            controller: mrAdminAreaReportProvider.cityTextEditingController,
                             labelText: 'City',
                             readOnly: true,
-                            onTap: () {
+                            onTap: () async {
                               // weeklyPlanProvider.setStateList();
-                              _AddTaskBottomSheetForCities(context);
+                              // _AddTaskBottomSheetForCities(context);
+                              mrAdminAreaReportProvider.searchController.text = '';
+                              mrAdminAreaReportProvider.searchAddressResult(
+                                  mrAdminAreaReportProvider.searchController.value.text,
+                                  mrAdminAreaReportProvider.cities);
+                              showModalBottomSheet(
+                                  isScrollControlled: true,
+                                  useSafeArea: true,
+                                  context: context,
+                                  builder: (context) => citiesBottomSheet(
+                                      context, mrAdminAreaReportProvider.cities));
                             },
                             onChange: (value) => () {},
                             validator: (Value) {},
@@ -273,39 +293,7 @@ class _MrAdminAreaReportScreenState extends State<MrAdminAreaReportScreen> {
       }),
     );
   }
-  //----------------------------------------------------------------Bottom Sheets----------------------------------------------------------------//
-
-  // Future<void> _AddTaskBottomSheetForDistrict(context) {
-  //   return showModalBottomSheet(
-  //     context: context,
-  //     isScrollControlled: true, // Allows the sheet to take up more space
-  //     builder: (context) => ClipRRect(
-  //       borderRadius: BorderRadius.circular(16.0),
-  //       child: SizedBox(
-  //         height: MediaQuery.of(context).size.height * 0.90,
-  //         child: Scaffold(
-  //           backgroundColor: Colors.grey.shade200,
-  //           appBar: _AddTaskBottomSheetForDistrictAppBar(context),
-  //           body: _AddTaskBottomSheetForDistrictBody(context),
-  //         ),
-  //       ),
-  //     ),
-  //   );
-  // }
-  //
-  // PreferredSize _AddTaskBottomSheetForDistrictAppBar(context) {
-  //   return PreferredSize(
-  //       preferredSize: Size.fromHeight(kToolbarHeight),
-  //       child: CustomAppBar(
-  //         showLeading: true,
-  //         leadingIcon: FontAwesomeIcons.arrowLeft,
-  //         backgroundColor: CustomColors.primaryColor,
-  //         tabName: 'Select District',
-  //         onTapLeadingIcon: () {
-  //           Navigator.pop(context);
-  //         },
-  //       ));
-  // }
+  //----------------------------------------------------------------District BottomSheets----------------------------------------------------------------//
 
   Widget _DistrictBottomSheet(context, String type, List<dynamic> content) {
     return Consumer<MrAdminAreaReportProvider>(
@@ -325,6 +313,7 @@ class _MrAdminAreaReportScreenState extends State<MrAdminAreaReportScreen> {
                 color: CustomColors.primaryColor,
               ),
               child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Expanded(
                     flex: 1,
@@ -351,31 +340,31 @@ class _MrAdminAreaReportScreenState extends State<MrAdminAreaReportScreen> {
                               content),
                     ),
                   ),
-                  SizedBox(
-                    height: 16,
-                  ),
-                  Expanded(
-                    child: ListView.builder(
-                        physics: ScrollPhysics(),
-                        shrinkWrap: true,
-                        itemCount: mrAdminAreaReportProvider.searchResult.length,
-                        itemBuilder: (context, index) {
-                          String name = mrAdminAreaReportProvider.searchResult[index]['$type'];
-                          return ListTile(
-                            title: CustomText(
-                              text: districtList[index]['district'],
-                            ),
-                            onTap: () {
-                              selectedDistrict = districtList[index]['district'];
-                              citiesList = districtList[index]['cities'];
-                              districtTextEditingController.text = selectedDistrict;
-                              Navigator.pop(context);
-                            },
-                          );
-                        }),
-                  ),
                 ],
               ),
+            ),
+            SizedBox(
+              height: 16,
+            ),
+            Expanded(
+              child: ListView.builder(
+                  physics: ScrollPhysics(),
+                  shrinkWrap: true,
+                  itemCount: mrAdminAreaReportProvider.searchResult.length,
+                  itemBuilder: (context, index) {
+                    String name = mrAdminAreaReportProvider.searchResult[index]['$type'];
+                    return ListTile(
+                      title: CustomText(text: name, isContent: true,),
+                      onTap: () {
+                        // selectedDistrict = districtList[index]['district'];
+                        // citiesList = districtList[index]['cities'];
+                        // districtTextEditingController.text = selectedDistrict;
+                        Navigator.pop(context);
+                        type == 'district' ? mrAdminAreaReportProvider.setSelectedDistrict(name) : mrAdminAreaReportProvider.setSelectedState(name);
+                        mrAdminAreaReportProvider.getCities(mrAdminAreaReportProvider.searchResult[index]['cities']);
+                      },
+                    );
+                  }),
             ),
           ],
         ),
@@ -383,128 +372,83 @@ class _MrAdminAreaReportScreenState extends State<MrAdminAreaReportScreen> {
     });
   }
 
-  //--------------------------------------------------------------------------------------------------------------------------------//
-  Future<void> _AddTaskBottomSheetForStates(context) {
-    return showModalBottomSheet(
-      context: context,
-      isScrollControlled: true, // Allows the sheet to take up more space
-      builder: (context) => ClipRRect(
-        borderRadius: BorderRadius.circular(16.0),
-        child: SizedBox(
-          height: MediaQuery.of(context).size.height * 0.90,
-          child: Scaffold(
-            backgroundColor: Colors.grey.shade200,
-            appBar: _AddTaskBottomSheetForStatesAppBar(context),
-            body: _AddTaskBottomSheetForStatesBody(context),
+  //--------------------------------------------------------------City BottomSheet------------------------------------------------------------------//
+  Widget citiesBottomSheet(context,List<dynamic> content) {
+    return Consumer<MrAdminAreaReportProvider>(
+      builder: (context,mrAdminAreaReportProvider,_) {
+        return Container(
+          color: CustomColors.primaryWhite,
+          height: MediaQuery.of(context).size.height * 0.80,
+          child: Column(
+            children: [
+              Container(
+                padding: const EdgeInsets.only(
+                  top: 16,
+                  right: 12.0,
+                  bottom: 12,
+                ),
+                decoration: BoxDecoration(
+                  color: CustomColors.primaryColor,
+                ),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Expanded(
+                      flex: 1,
+                      child: InkWell(
+                          onTap: () {
+                            print('Pressed');
+                            Navigator.pop(context);
+                          },
+                          child: Icon(FontAwesomeIcons.arrowLeft)),
+                    ),
+                    Expanded(
+                      flex: 7,
+                      child: TextFromFieldWithPrefixSuffix(
+                        controller: mrAdminAreaReportProvider.searchController,
+                        labelText: 'Search City',
+                        applySuffixIcon: true,
+                        suffixIcon: Icon(Icons.search),
+                        validator: (value) {},
+                        onChange: (value) =>
+                            mrAdminAreaReportProvider.searchAddressResult(
+                                mrAdminAreaReportProvider.searchController.value.text,
+                                content),
+                      ),
+                    ),
+                    SizedBox(
+                      height: 16,
+                    ),
+                    Expanded(
+                      child: ListView.builder(
+                          physics: ScrollPhysics(),
+                          shrinkWrap: true,
+                          itemCount: mrAdminAreaReportProvider.searchResult.length,
+                          itemBuilder: (context, index) {
+                            String cityName = mrAdminAreaReportProvider.searchResult[index];
+                            return ListTile(
+                              title: CustomText(
+                                text: cityName,
+                                isContent: true,
+                              ),
+                              onTap: () {
+                                // print(districtList);
+                                // selectedCity = citiesList[index];
+                                // cityTextEditingController.text = selectedCity;
+                                Navigator.pop(context);
+                                mrAdminAreaReportProvider.setSelectedCity(cityName);
+                                print(mrAdminAreaReportProvider.searchResult[index]);
+                              },
+                            );
+                          }),
+                    ),
+                  ],
+                ),
+              ),
+            ],
           ),
-        ),
-      ),
-    );
-  }
-
-  PreferredSize _AddTaskBottomSheetForStatesAppBar(context) {
-    return PreferredSize(
-        preferredSize: Size.fromHeight(kToolbarHeight),
-        child: CustomAppBar(
-          showLeading: true,
-          leadingIcon: FontAwesomeIcons.arrowLeft,
-          backgroundColor: CustomColors.primaryColor,
-          tabName: 'Select State',
-          onTapLeadingIcon: () {
-            Navigator.pop(context);
-          },
-        ));
-  }
-
-  Widget _AddTaskBottomSheetForStatesBody(context) {
-    return ListView(
-      children: [
-        SizedBox(
-          height: 16,
-        ),
-        Container(
-          child: ListView.builder(
-              physics: ScrollPhysics(),
-              shrinkWrap: true,
-              itemCount: stateList.length,
-              itemBuilder: (context, index) {
-                return ListTile(
-                  title: CustomText(
-                    text: stateList[index]['states'],
-                  ),
-                  onTap: () {
-                    // print(districtList);
-                    selectedState = stateList[index]['states'];
-                    stateTextEditingController.text = selectedState;
-                    Navigator.pop(context);
-                  },
-                );
-              }),
-        ),
-      ],
-    );
-  }
-  //--------------------------------------------------------------------------------------------------------------------------------//
-
-  Future<void> _AddTaskBottomSheetForCities(context) {
-    return showModalBottomSheet(
-      context: context,
-      isScrollControlled: true, // Allows the sheet to take up more space
-      builder: (context) => ClipRRect(
-        borderRadius: BorderRadius.circular(16.0),
-        child: SizedBox(
-          height: MediaQuery.of(context).size.height * 0.90,
-          child: Scaffold(
-            backgroundColor: Colors.grey.shade200,
-            appBar: _AddTaskBottomSheetForCitiesAppBar(context),
-            body: _AddTaskBottomSheetForCitiesBody(context),
-          ),
-        ),
-      ),
-    );
-  }
-
-  PreferredSize _AddTaskBottomSheetForCitiesAppBar(context) {
-    return PreferredSize(
-      preferredSize: Size.fromHeight(kToolbarHeight),
-      child: CustomAppBar(
-        showLeading: true,
-        leadingIcon: FontAwesomeIcons.arrowLeft,
-        backgroundColor: CustomColors.primaryColor,
-        tabName: 'Select Cities',
-        onTapLeadingIcon: () {
-          Navigator.pop(context);
-        },
-      ),
-    );
-  }
-
-  Widget _AddTaskBottomSheetForCitiesBody(context) {
-    return ListView(
-      children: [
-        SizedBox(
-          height: 16,
-        ),
-        Container(
-          child: ListView.builder(
-              physics: ScrollPhysics(),
-              shrinkWrap: true,
-              itemCount: citiesList.length,
-              itemBuilder: (context, index) {
-                return ListTile(
-                  title: CustomText(
-                    text: citiesList[index].toString(),
-                  ),
-                  onTap: () {
-                    // print(districtList);
-                    selectedCity = citiesList[index];
-                    cityTextEditingController.text = selectedCity;
-                    Navigator.pop(context);
-                  },
-                );
-              }),
-        ),
-      ],
+        );
+      }
     );
   }
 }
