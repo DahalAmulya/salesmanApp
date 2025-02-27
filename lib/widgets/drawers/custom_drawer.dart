@@ -9,6 +9,8 @@ import 'package:deskgoo/widgets/texts/custom_text.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
+
+import '../buttons/elevated_button.dart';
 // import 'package:go_router/go_router.dart';
 
 class CustomDrawer extends StatelessWidget {
@@ -16,7 +18,7 @@ class CustomDrawer extends StatelessWidget {
     super.key,
     this.hasImage = true,
     // this.userImg,
-    this.userImg = 'assets/images/johnCena.jpg',
+    this.userImg = 'assets/images/userLocation.png',
     // this.userName = 'John Cena',
     // this.userRole = 'Wrestler',
     this.isHomeActive = false,
@@ -24,7 +26,7 @@ class CustomDrawer extends StatelessWidget {
     this.isSettingActive = false,
     this.isWeeklyPlanActive = false,
     this.isVisitActive = false,
-    this.isAttendanceActive = false,
+    this.isLogoutActive = false,
     this.isUsersActive = false,
   });
 
@@ -37,7 +39,7 @@ class CustomDrawer extends StatelessWidget {
   final bool isSettingActive;
   final bool isWeeklyPlanActive;
   final bool isVisitActive;
-  final bool isAttendanceActive;
+  final bool isLogoutActive;
   final bool isUsersActive;
 
   @override
@@ -164,7 +166,7 @@ class CustomDrawer extends StatelessWidget {
                             // Navigator.of(context).pushNamed(
                             //     MarketingManagerConstants.settingPage);
                           },
-                          isTabActive: isSettingActive,
+                          isTabActive: isUsersActive,
                           icon: FontAwesomeIcons.userLarge,
                           text: 'Users',
                         );
@@ -190,80 +192,82 @@ class CustomDrawer extends StatelessWidget {
                     Consumer<UserProfileProvider>(
                       builder: (context, userProfileProvider, _) {
                         return CustomListTile(
+
                           onTap: () {
                             // GoRouter.of(context).pushReplacementNamed(
                             //     MyAppRouteConstants.homeNavBarRouteName);
                             // Navigator.of(context)
                             //     .pushNamed(MarketingManagerConstants.profilePage);
-                            Navigator.of(context).pushNamed(
-                                MarketingManagerConstants.settingPage);
+                            // Navigator.of(context).pushNamed(
+                            //     MarketingManagerConstants.settingPage);
+                            showDialog(
+                              context: context,
+                              builder: (_) {
+                                return AlertDialog(
+                                  elevation: 10,
+                                  backgroundColor: CustomColors.primaryWhite,
+                                  title: CustomText(
+                                    text: 'Logout ?',
+                                    isHeading: true,
+                                    // fontWeight: FontWeight.bold,
+                                    // size: 24.0,
+                                    // color: Colors.red,
+                                  ),
+                                  content: CustomText(
+                                    text: 'Are you sure you want to logout ?',
+                                    maxLines: 2,
+                                    isSubHeading: true,
+                                  ),
+                                  actions: [
+                                    Row(
+                                      mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        CustomElevatedButton(
+                                          onPressed: () {
+                                            Navigator.pop(context, false);
+                                          },
+                                          // backgroundColor: Colors.green,
+                                          backgroundColor:
+                                          CustomColors.primaryColor,
+                                          widget: CustomText(
+                                            text: 'No',
+                                            isContent: true,
+                                          ),
+                                        ),
+                                        CustomElevatedButton(
+                                          onPressed: () {
+                                            // First navigate to the root page '/' and remove all other pages from the stack.
+                                            // Navigate to the root page ('/') using GoRouter
+                                            // context.go(MyAppRouteConstants.loginRouteName); // Navigates to the initial page (home)
+                                            // Navigator.pop(context, false);
+                                            Navigator.pop(context);
+                                            Navigator.of(context).pushNamed(
+                                                MarketingManagerConstants
+                                                    .indexPage);
+                                            // exit(0);
+                                          },
+                                          // backgroundColor: Colors.red,
+                                          backgroundColor:
+                                          CustomColors.lightRed,
+                                          widget: CustomText(
+                                            text: 'Yes',
+                                            isContent: true,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ],
+                                );
+                              },
+                            );
                           },
-                          isTabActive: isSettingActive,
+                          isTabActive: isLogoutActive,
                           icon: FontAwesomeIcons.arrowRightFromBracket,
                           text: 'Logout',
                         );
                       },
                     ),
-                    // CustomListTile(
-                    //   onTap: () {
-                    //     Navigator.push(
-                    //         context,
-                    //         MaterialPageRoute(
-                    //             builder: (context) => WeeklyPlanScreen()));
-                    //   },
-                    //   isTabActive: isWeeklyPlanActive,
-                    //   text: 'Weekly Plan',
-                    //   icon: Icons.add,
-                    // ),
-                    // CustomListTile(
-                    //   onTap: () {
-                    //     GoRouter.of(context).pushReplacementNamed(
-                    //         MyAppRouteConstants.remoteAttendanceRouteName);
-                    //   },
-                    //   isTabActive: isAttendanceActive,
-                    //   isIcon: false,
-                    //   imgName: 'assets/images/dashboard-monitor.png',
-                    //   imgBoxFit: BoxFit.scaleDown,
-                    //   imgHeigt: 32,
-                    //   imgWidth: 32,
-                    //   // imgColor: Colors.transparent,
-                    //   text: 'Dashboard',
-                    //   textColor: Colors.white,
-                    // ),
-                    // CustomListTile(
-                    //   onTap: () {
-                    //     // GoRouter.of(context).pushReplacementNamed(
-                    //     //     MyAppRouteConstants.visitRouteName);
-                    //     Navigator.of(context)
-                    //         .pushNamed(MarketingManagerConstants.visitPage);
-                    //   },
-                    //   isTabActive: isVisitActive,
-                    //   isIcon: false,
-                    //   imgName: 'assets/images/visit.png',
-                    //   imgBoxFit: BoxFit.scaleDown,
-                    //   imgHeigt: 32,
-                    //   imgWidth: 32,
-                    //   // imgColor: Colors.transparent,
-                    //   text: 'Visit',
-                    //   textColor: CustomColors.primaryBlack,
-                    // ),
-                    // CustomListTile(
-                    //   onTap: () {
-                    //     // GoRouter.of(context).pushReplacementNamed(
-                    //     //     MyAppRouteConstants.remoteAttendanceRouteName);
-                    //     Navigator.of(context).pushNamed(
-                    //         MarketingManagerConstants.remoteAttendancePage);
-                    //   },
-                    //   isTabActive: isAttendanceActive,
-                    //   isIcon: false,
-                    //   imgName: 'assets/images/biometricattendenceBold.png',
-                    //   imgBoxFit: BoxFit.scaleDown,
-                    //   imgHeigt: 32,
-                    //   imgWidth: 32,
-                    //   imgColor: CustomColors.primaryBlack,
-                    //   text: 'Attendance',
-                    //   textColor: CustomColors.primaryBlack,
-                    // ),
                   ],
                 ),
               ),
