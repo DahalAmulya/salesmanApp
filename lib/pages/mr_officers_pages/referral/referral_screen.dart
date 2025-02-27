@@ -592,9 +592,6 @@ class _MrOfficerReferralScreenState extends State<MrOfficerReferralScreen> {
           height: MediaQuery.of(context).size.height * 0.80,
           child: Column(
             children: [
-              // SizedBox(
-              //   height: 16,
-              // ),
               Container(
                 padding: const EdgeInsets.only(
                   top: 16,
@@ -629,8 +626,7 @@ class _MrOfficerReferralScreenState extends State<MrOfficerReferralScreen> {
                         validator: (value) {},
                         onChange: (value) =>
                             referralProvider.searchAddressResult(
-                                referralProvider.searchController.value.text,
-                                content),
+                                referralProvider.searchController.value.text, content),
                       ),
                     ),
                   ],

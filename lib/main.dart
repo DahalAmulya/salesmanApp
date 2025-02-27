@@ -12,6 +12,7 @@ import 'package:deskgoo/providers/camera_provider/camera_provider.dart';
 import 'package:deskgoo/providers/deviceInfo_provider/deviceInfo_provider.dart';
 import 'package:deskgoo/providers/live_tracking_provider/live_tracking_provider.dart';
 import 'package:deskgoo/providers/login_provider/login_provider.dart';
+import 'package:deskgoo/providers/mr_admin_provider/mr_admin_area_reportProvider.dart';
 import 'package:deskgoo/providers/mr_admin_provider/mr_admin_visit_logProvider.dart';
 import 'package:deskgoo/providers/mr_officer_provider/mr_followup_provider.dart';
 import 'package:deskgoo/providers/mr_officer_provider/mr_referral_provider.dart';
@@ -98,6 +99,7 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(create: (context) => ReferralsDetailProvider()),
         ChangeNotifierProvider(create: (context) => UserProfileProvider()),
         ChangeNotifierProvider(create: (context) => CreateUserProvider()),
+        ChangeNotifierProvider(create: (context) => MrAdminAreaReportProvider()),
       ],
       child: Builder(
         builder: (BuildContext context) {
