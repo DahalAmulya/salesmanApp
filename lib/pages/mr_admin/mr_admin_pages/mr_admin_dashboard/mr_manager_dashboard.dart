@@ -588,7 +588,8 @@ class _MarketingManagerDashboardState extends State<MarketingManagerDashboard> {
               imgName: 'referral',
               title: 'Referral',
               onTap: () {
-                print('Tapped Referral');
+                Navigator.of(context).pushNamed(
+                    MarketingManagerConstants.mrManagerReferralLogPage);
               },
             ),
             _reportRows(
