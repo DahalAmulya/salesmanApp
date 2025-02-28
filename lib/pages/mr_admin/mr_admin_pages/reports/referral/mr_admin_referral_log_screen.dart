@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-
 import '../../../../../routes/route_generator_constants.dart';
 import '../../../../../themes/custom_colors.dart';
 import '../../../../../widgets/app_bars/custom_app_bars.dart';
@@ -176,14 +175,18 @@ class _ReferralLogScreenState extends State<ReferralLogScreen> {
                  physics: NeverScrollableScrollPhysics(),
                itemCount: mrAdminReferralLogProvider.foundReferral.length,
                  itemBuilder: (context,index){
-                 String patientName = mrAdminReferralLogProvider.foundReferral[index]['patientName'];
-                 String createdById = mrAdminReferralLogProvider.foundReferral[index]['createdById'];
-                 String createdByName = mrAdminReferralLogProvider.foundReferral[index]['createdByName'];
-                 String pocId = mrAdminReferralLogProvider.foundReferral[index]['pocId'];
-                 String pocName = mrAdminReferralLogProvider.foundReferral[index]['pocName'];
-                 String pocNumber = mrAdminReferralLogProvider.foundReferral[index]['pocNumber'];
-                 String ambId = mrAdminReferralLogProvider.foundReferral[index]['ambId'];
-                 String ambDriverName = mrAdminReferralLogProvider.foundReferral[index]['ambDriverName'];
+                 String patientName = mrAdminReferralLogProvider.foundReferral[index]['referral']['patientName'];
+                 String createdById = mrAdminReferralLogProvider.foundReferral[index]['referral']['createdById'];
+                 String createdByName = mrAdminReferralLogProvider.foundReferral[index]['referral']['createdByName'];
+                 String pocId = mrAdminReferralLogProvider.foundReferral[index]['referral']['pocId'];
+                 String pocName = mrAdminReferralLogProvider.foundReferral[index]['referral']['pocName'];
+                 String pocNumber = mrAdminReferralLogProvider.foundReferral[index]['referral']['pocNumber'];
+                 String ambId = mrAdminReferralLogProvider.foundReferral[index]['referral']['ambId'];
+                 String ambDriverName = mrAdminReferralLogProvider.foundReferral[index]['referral']['ambDriverName'];
+                 String ambDriverNumber = mrAdminReferralLogProvider.foundReferral[index]['referral']['ambDriverNumber'];
+                 String ambNumber = mrAdminReferralLogProvider.foundReferral[index]['referral']['ambNumber'];
+                 String mobileTime = mrAdminReferralLogProvider.foundReferral[index]['referral']['mobileTime'].toString().split(' ')[0];
+                 String referralDate = mrAdminReferralLogProvider.foundReferral[index]['referral']['referralDate'].toString().split('T')[0];
                return Column(
                  children: [
                    CustomContainer(
@@ -193,84 +196,108 @@ class _ReferralLogScreenState extends State<ReferralLogScreen> {
                            Row(
                              children: [
                                Expanded(
-                                 flex: 1,
-                                   child: CustomText(text: 'patientName'),
+                                 flex: 2,
+                                   child: CustomText(text: 'Patient Name',isContent: true,size: 16,),
                                ),
                                Expanded(
                                    flex:2,
-                                   child: CustomText(text: patientName),
+                                   child: CustomText(text: patientName,isContent: true,size: 16,),
                                ),
                              ],
                            ),
                            Row(
                              children: [
                                Expanded(
-                                 flex: 1,
-                                   child: CustomText(text: 'Mr Officer ID'),
+                                 flex: 2,
+                                   child: CustomText(text: 'M.O Name',isContent: true,size: 16,),
                                ),
                                Expanded(
                                    flex:2,
-                                   child: CustomText(text: createdById),
+                                   child: CustomText(text: createdByName,isContent: true,size: 16,),
                                ),
                              ],
                            ),
                            Row(
                              children: [
                                Expanded(
-                                 flex: 1,
-                                   child: CustomText(text: 'Mr Officer Name'),
+                                 flex: 2,
+                                   child: CustomText(text: 'POC Name',isContent: true,size: 16,),
                                ),
                                Expanded(
                                    flex:2,
-                                   child: CustomText(text: createdByName),
+                                   child: CustomText(text: pocName,isContent: true,size: 16,),
                                ),
                              ],
                            ),
                            Row(
                              children: [
                                Expanded(
-                                 flex: 1,
-                                   child: CustomText(text: 'pocId'),
+                                 flex: 2,
+                                   child: CustomText(text: 'POC Number',isContent: true,size: 16,),
                                ),
                                Expanded(
                                    flex:2,
-                                   child: CustomText(text: pocId),
+                                   child: CustomText(text: pocNumber,isContent: true,size: 16,),
                                ),
                              ],
                            ),
                            Row(
                              children: [
                                Expanded(
-                                 flex: 1,
-                                   child: CustomText(text: 'pocName'),
+                                 flex: 2,
+                                   child: CustomText(text: 'AMB Driver Name',isContent: true,size: 16,),
                                ),
                                Expanded(
                                    flex:2,
-                                   child: CustomText(text: pocName),
+                                   child: CustomText(text: ambDriverName,isContent: true,size: 16,),
                                ),
                              ],
                            ),
                            Row(
                              children: [
                                Expanded(
-                                 flex: 1,
-                                   child: CustomText(text: 'pocNumber'),
+                                 flex: 2,
+                                   child: CustomText(text: 'AMB Driver Number',isContent: true,size: 16,),
                                ),
                                Expanded(
                                    flex:2,
-                                   child: CustomText(text: pocNumber),
+                                   child: CustomText(text: ambDriverNumber,isContent: true,size: 16,),
                                ),
                              ],
                            ),
                            Row(
                              children: [
                                Expanded(
-                                 flex: 1,
-                                   child: CustomText(text: 'ambId'),
+                                 flex: 2,
+                                   child: CustomText(text: 'AMB Number',isContent: true,size: 16,),
                                ),
                                Expanded(
                                    flex:2,
-                                   child: CustomText(text: ambId),
+                                   child: CustomText(text: ambNumber,isContent: true,size: 16,),
+                               ),
+                             ],
+                           ),
+                           Row(
+                             children: [
+                               Expanded(
+                                 flex: 2,
+                                   child: CustomText(text: 'Mobile Time',isContent: true,size: 16,),
+                               ),
+                               Expanded(
+                                   flex:2,
+                                   child: CustomText(text: mobileTime,isContent: true,size: 16,),
+                               ),
+                             ],
+                           ),
+                           Row(
+                             children: [
+                               Expanded(
+                                 flex: 2,
+                                   child: CustomText(text: 'Referral Date',isContent: true,size: 16,),
+                               ),
+                               Expanded(
+                                   flex:2,
+                                   child: CustomText(text: referralDate,isContent: true,size: 16,),
                                ),
                              ],
                            ),
