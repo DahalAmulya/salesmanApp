@@ -264,12 +264,15 @@ class CreateUserProvider extends ChangeNotifier {
     _userData = jsonDecode(response.body);
     print(response.statusCode);
     // print(response.body);
-    _userList = _userData['users'];
     print(_userList.length);
     if (response.statusCode == 200) {
+      _userList = _userData['users'];
       // _userName = _userData['users'][0]['username'];
       // print(_userName);
+    }else{
+      _userList = [];
     }
+    notifyListeners();
   }
 
   void setUserDetails(name, role, department, email, designation, address, dob,

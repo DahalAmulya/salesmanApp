@@ -6,6 +6,7 @@ import 'package:deskgoo/consts.dart';
 import 'package:deskgoo/firebase_options.dart';
 import 'package:deskgoo/models/environment.dart';
 import 'package:deskgoo/pages/mr_admin/mr_admin_providers/mr_admin_createuser_provider.dart';
+import 'package:deskgoo/pages/mr_admin/mr_admin_providers/mr_admin_referral%20log_provider.dart';
 import 'package:deskgoo/providers/attendance_provider/remote_attendance_provider.dart';
 import 'package:deskgoo/providers/auth_provider/change_password_provider.dart';
 import 'package:deskgoo/providers/camera_provider/camera_provider.dart';
@@ -100,6 +101,7 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(create: (context) => UserProfileProvider()),
         ChangeNotifierProvider(create: (context) => CreateUserProvider()),
         ChangeNotifierProvider(create: (context) => MrAdminAreaReportProvider()),
+        ChangeNotifierProvider(create: (context) => MrAdminReferralLogProvider()),
       ],
       child: Builder(
         builder: (BuildContext context) {
