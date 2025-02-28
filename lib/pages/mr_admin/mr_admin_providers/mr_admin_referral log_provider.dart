@@ -124,13 +124,13 @@ class MrAdminReferralLogProvider extends ChangeNotifier{
       ToastMessageUtils().showToastMessage('Please select a user');
     } else {
       ERPResponse response = await ERPServices.getRequest(
-          '/referral?_id=$_selectedUserId&from=$_from&to=$_to');
+          '/referral/area?_id=$_selectedUserId&from=$_from&to=$_to&country=Nepal&region=Morang');
       if (response.statusCode == 200) {
         final body = jsonDecode(response.body);
         _foundReferral = body['referralLogs'];
         // _referralList = _foundReferral['visitLogs'];
-        print(_foundReferral[0]['patientName']);
-        print(_foundReferral.runtimeType);
+        print(_foundReferral[0]['referral']['patientName']);
+        // print(_foundReferral.runtimeType);
         // print(response.body);
 
       }

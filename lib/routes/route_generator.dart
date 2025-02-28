@@ -29,7 +29,8 @@ import '../pages/home/DescriptionPage/officer_VisitDetailPage.dart';
 import '../pages/mr_admin/mr_admin_pages/mr_admin_create_user/mr_admin_createuser.dart';
 import '../pages/mr_admin/mr_admin_pages/mr_admin_create_user/mr_admin_viewuser.dart';
 import '../pages/mr_admin/mr_admin_pages/reports/Area/report_area_screen.dart';
-import '../pages/mr_admin/mr_admin_pages/reports/referral/referral_log_screen.dart';
+
+import '../pages/mr_admin/mr_admin_pages/reports/referral/mr_admin_referral_log_screen.dart';
 import '../pages/mr_officers_pages/mr_officers_visits/product.dart';
 import '../pages/settings/profile/profile_Page.dart';
 
