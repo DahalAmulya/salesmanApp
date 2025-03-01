@@ -71,7 +71,7 @@ class AttendanceProvider extends ChangeNotifier {
 
   void calculateTimeDifference(String checkInTime) {
     // Parse checkInTime as DateTime and ensure it stays in local time
-    DateTime inTime = DateTime.parse(checkInTime).toLocal();
+    DateTime inTime = DateTime.parse(checkInTime);
 
     // Get the current DateTime without timezone adjustments
     DateTime currentTime = DateTime.now();
