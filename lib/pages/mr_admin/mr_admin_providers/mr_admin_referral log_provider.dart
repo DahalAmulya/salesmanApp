@@ -123,6 +123,17 @@ class MrAdminReferralLogProvider extends ChangeNotifier{
     if (_selectedUserId.isEmpty) {
       ToastMessageUtils().showToastMessage('Please select a user');
     } else {
+
+      if (_selectedUserId.isEmpty || _from.isEmpty || _to.isEmpty) {
+        ToastMessageUtils().showToastMessage('Please select a user and provide valid dates');
+        return;
+      }
+
+      String endpoint = '/referral/area?_id=$_selectedUserId&from=$_from&to=$_to&country=Nepal&region=Morang';
+      print('User: $_selectedUserId');
+      print('date from: $_from');
+      print('date to: $_to');
+
       ERPResponse response = await ERPServices.getRequest(
           '/referral/area?_id=$_selectedUserId&from=$_from&to=$_to&country=Nepal&region=Morang');
       if (response.statusCode == 200) {

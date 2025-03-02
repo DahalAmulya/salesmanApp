@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
 import '../../../../../routes/route_generator_constants.dart';
 import '../../../../../themes/custom_colors.dart';
@@ -195,6 +196,7 @@ class _ReferralLogScreenState extends State<ReferralLogScreen> {
                          children: [
                            Row(
                              children: [
+                               Icon(Icons.person),
                                Expanded(
                                  flex: 2,
                                    child: CustomText(text: 'Patient Name',isContent: true,size: 16,),
@@ -207,6 +209,7 @@ class _ReferralLogScreenState extends State<ReferralLogScreen> {
                            ),
                            Row(
                              children: [
+                               Icon(Icons.person),
                                Expanded(
                                  flex: 2,
                                    child: CustomText(text: 'M.O Name',isContent: true,size: 16,),
@@ -219,6 +222,7 @@ class _ReferralLogScreenState extends State<ReferralLogScreen> {
                            ),
                            Row(
                              children: [
+                               Icon(Icons.person),
                                Expanded(
                                  flex: 2,
                                    child: CustomText(text: 'POC Name',isContent: true,size: 16,),
@@ -231,6 +235,7 @@ class _ReferralLogScreenState extends State<ReferralLogScreen> {
                            ),
                            Row(
                              children: [
+                               Icon(Icons.call),
                                Expanded(
                                  flex: 2,
                                    child: CustomText(text: 'POC Number',isContent: true,size: 16,),
@@ -243,6 +248,7 @@ class _ReferralLogScreenState extends State<ReferralLogScreen> {
                            ),
                            Row(
                              children: [
+                               Icon(Icons.person),
                                Expanded(
                                  flex: 2,
                                    child: CustomText(text: 'AMB Driver Name',isContent: true,size: 16,),
@@ -255,6 +261,7 @@ class _ReferralLogScreenState extends State<ReferralLogScreen> {
                            ),
                            Row(
                              children: [
+                               Icon(Icons.call),
                                Expanded(
                                  flex: 2,
                                    child: CustomText(text: 'AMB Driver Number',isContent: true,size: 16,),
@@ -267,6 +274,7 @@ class _ReferralLogScreenState extends State<ReferralLogScreen> {
                            ),
                            Row(
                              children: [
+                               FaIcon(FontAwesomeIcons.truckMedical),
                                Expanded(
                                  flex: 2,
                                    child: CustomText(text: 'AMB Number',isContent: true,size: 16,),
@@ -279,6 +287,7 @@ class _ReferralLogScreenState extends State<ReferralLogScreen> {
                            ),
                            Row(
                              children: [
+                               FaIcon(FontAwesomeIcons.clock),
                                Expanded(
                                  flex: 2,
                                    child: CustomText(text: 'Mobile Time',isContent: true,size: 16,),
