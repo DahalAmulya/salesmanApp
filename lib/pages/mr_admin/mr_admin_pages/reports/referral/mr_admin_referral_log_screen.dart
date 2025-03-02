@@ -20,6 +20,10 @@ class ReferralLogScreen extends StatefulWidget {
 }
 
 class _ReferralLogScreenState extends State<ReferralLogScreen> {
+  List<String> referralType = ["Country","Region","City"];
+  String selectedReferralType = "Country";
+
+
   @override
   void initState() {
     super.initState();
@@ -95,7 +99,7 @@ class _ReferralLogScreenState extends State<ReferralLogScreen> {
                           items:
                               mrAdminReferralLogProvider.referralDateTypeList,
                           value:
-                              mrAdminReferralLogProvider.selectedReferralType,
+                              mrAdminReferralLogProvider.selectedDateReferralType,
                           onChanged: (value) {
                             mrAdminReferralLogProvider
                                 .setSelectedVisitType(value);
@@ -104,8 +108,17 @@ class _ReferralLogScreenState extends State<ReferralLogScreen> {
                         SizedBox(
                           height: 16,
                         ),
-                        if (mrAdminReferralLogProvider.selectedReferralType ==
-                            'Custom')
+                        CustomDropdown(
+                          labelText: 'Select Referral Type',
+                          items: referralType,
+                          value: selectedReferralType,
+                          onChanged: (value){
+                            mrAdminReferralLogProvider.setSelectedReferralType(value);
+                          },),
+                        SizedBox(
+                          height: 16,
+                        ),
+                        if (mrAdminReferralLogProvider.selectedDateReferralType == 'Custom')
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
@@ -176,18 +189,20 @@ class _ReferralLogScreenState extends State<ReferralLogScreen> {
                  physics: NeverScrollableScrollPhysics(),
                itemCount: mrAdminReferralLogProvider.foundReferral.length,
                  itemBuilder: (context,index){
-                 String patientName = mrAdminReferralLogProvider.foundReferral[index]['referral']['patientName'];
-                 String createdById = mrAdminReferralLogProvider.foundReferral[index]['referral']['createdById'];
-                 String createdByName = mrAdminReferralLogProvider.foundReferral[index]['referral']['createdByName'];
-                 String pocId = mrAdminReferralLogProvider.foundReferral[index]['referral']['pocId'];
-                 String pocName = mrAdminReferralLogProvider.foundReferral[index]['referral']['pocName'];
-                 String pocNumber = mrAdminReferralLogProvider.foundReferral[index]['referral']['pocNumber'];
-                 String ambId = mrAdminReferralLogProvider.foundReferral[index]['referral']['ambId'];
-                 String ambDriverName = mrAdminReferralLogProvider.foundReferral[index]['referral']['ambDriverName'];
-                 String ambDriverNumber = mrAdminReferralLogProvider.foundReferral[index]['referral']['ambDriverNumber'];
-                 String ambNumber = mrAdminReferralLogProvider.foundReferral[index]['referral']['ambNumber'];
-                 String mobileTime = mrAdminReferralLogProvider.foundReferral[index]['referral']['mobileTime'].toString().split(' ')[0];
-                 String referralDate = mrAdminReferralLogProvider.foundReferral[index]['referral']['referralDate'].toString().split('T')[0];
+                 String patientName = mrAdminReferralLogProvider.foundReferral[index]['patientName'];
+                 String createdById = mrAdminReferralLogProvider.foundReferral[index]['createdById'].toString();
+                 String createdByName = mrAdminReferralLogProvider.foundReferral[index]['createdBy'];
+                 String patientId = mrAdminReferralLogProvider.foundReferral[index]['patientId'].toString();
+                 String patientAge = mrAdminReferralLogProvider.foundReferral[index]['patientAge'].toString();
+                 String pocName = mrAdminReferralLogProvider.foundReferral[index]['pocName'];
+                 String pocNumber = mrAdminReferralLogProvider.foundReferral[index]['pocNumber'];
+                 String ambId = mrAdminReferralLogProvider.foundReferral[index]['ambId'];
+                 String ambDriverName = mrAdminReferralLogProvider.foundReferral[index]['ambName'];
+                 String ambDriverNumber = mrAdminReferralLogProvider.foundReferral[index]['ambNumber'];
+                 String ambNumber = mrAdminReferralLogProvider.foundReferral[index]['ambVehicleNumber'];
+                 String mobileTime = mrAdminReferralLogProvider.foundReferral[index]['mobileTime'].toString().split(' ')[0];
+                 String referralDate = mrAdminReferralLogProvider.foundReferral[index]['referralDate'].toString().split('T')[0];
+                 String provisionalDiagnosis = mrAdminReferralLogProvider.foundReferral[index]['provisionalDiagnosis'];
                return Column(
                  children: [
                    CustomContainer(
@@ -196,7 +211,6 @@ class _ReferralLogScreenState extends State<ReferralLogScreen> {
                          children: [
                            Row(
                              children: [
-                               Icon(Icons.person),
                                Expanded(
                                  flex: 2,
                                    child: CustomText(text: 'Patient Name',isContent: true,size: 16,),
@@ -209,7 +223,6 @@ class _ReferralLogScreenState extends State<ReferralLogScreen> {
                            ),
                            Row(
                              children: [
-                               Icon(Icons.person),
                                Expanded(
                                  flex: 2,
                                    child: CustomText(text: 'M.O Name',isContent: true,size: 16,),
@@ -222,7 +235,6 @@ class _ReferralLogScreenState extends State<ReferralLogScreen> {
                            ),
                            Row(
                              children: [
-                               Icon(Icons.person),
                                Expanded(
                                  flex: 2,
                                    child: CustomText(text: 'POC Name',isContent: true,size: 16,),
@@ -235,7 +247,6 @@ class _ReferralLogScreenState extends State<ReferralLogScreen> {
                            ),
                            Row(
                              children: [
-                               Icon(Icons.call),
                                Expanded(
                                  flex: 2,
                                    child: CustomText(text: 'POC Number',isContent: true,size: 16,),
@@ -248,7 +259,6 @@ class _ReferralLogScreenState extends State<ReferralLogScreen> {
                            ),
                            Row(
                              children: [
-                               Icon(Icons.person),
                                Expanded(
                                  flex: 2,
                                    child: CustomText(text: 'AMB Driver Name',isContent: true,size: 16,),
@@ -261,7 +271,6 @@ class _ReferralLogScreenState extends State<ReferralLogScreen> {
                            ),
                            Row(
                              children: [
-                               Icon(Icons.call),
                                Expanded(
                                  flex: 2,
                                    child: CustomText(text: 'AMB Driver Number',isContent: true,size: 16,),
@@ -274,7 +283,6 @@ class _ReferralLogScreenState extends State<ReferralLogScreen> {
                            ),
                            Row(
                              children: [
-                               FaIcon(FontAwesomeIcons.truckMedical),
                                Expanded(
                                  flex: 2,
                                    child: CustomText(text: 'AMB Number',isContent: true,size: 16,),
@@ -287,7 +295,6 @@ class _ReferralLogScreenState extends State<ReferralLogScreen> {
                            ),
                            Row(
                              children: [
-                               FaIcon(FontAwesomeIcons.clock),
                                Expanded(
                                  flex: 2,
                                    child: CustomText(text: 'Mobile Time',isContent: true,size: 16,),
