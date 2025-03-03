@@ -9,13 +9,19 @@ import '../../../utils/toast_message.dart';
 class MrAdminReferralLogProvider extends ChangeNotifier{
   List<String> _referralLogsUsersList = ["Select User"];
   List<String> _referralDateTypeList = ['Today', 'Yesterday', 'Custom'];
-  List<String> _referralType = ['Country','Region', 'City'];
+  List<String> _referralType = ["City","Region","Country"];
+  List<String> _countryList = ['Nepal','India',];
+  List<String> _regionList = ['Morang','Sunsari','Inrwa'];
+  List<String> _cityList = ['Biratnagar','Duhabi','Hatkhola'];
   List<dynamic> _usersReferralList = [];
   List<dynamic> _referralList = [];
 
   String _selectedUser = 'Select User';
   String _selectedDateReferralType = 'Today';
-  String _selectedReferralType = 'Country';
+  String _selectedReferralType = 'City';
+  String _selectedCountry = 'Nepal';
+  String _selectedRegion = 'Morang';
+  String _selectedCity = 'Biratnagar';
   String _selectedUserId = '';
   String _from = '';
   String _to = '';
@@ -30,11 +36,17 @@ class MrAdminReferralLogProvider extends ChangeNotifier{
   List<String> get referralLogsUsersList => _referralLogsUsersList;
   List<String> get referralDateTypeList => _referralDateTypeList;
   List<String> get referralType => _referralType;
+  List<String> get countryList => _countryList;
+  List<String> get regionList => _regionList;
+  List<String> get cityList => _cityList;
 
   String get selectedUser => _selectedUser;
   String get selectedUserId => _selectedUserId;
   String get selectedDateReferralType => _selectedDateReferralType;
   String get selectedReferralType => _selectedReferralType;
+  String get selectedCountry => _selectedCountry;
+  String get selectedRegion => _selectedRegion;
+  String get selectedCity => _selectedCity;
   String get from => _from;
   String get to => _to;
 
@@ -62,6 +74,23 @@ class MrAdminReferralLogProvider extends ChangeNotifier{
     _selectedReferralType = newValue;
     notifyListeners();
   }
+
+  void setSelectedCountry(newValue){
+    _selectedCountry = newValue;
+    notifyListeners();
+  }
+
+  void setSelectedRegion(newValue){
+    _selectedRegion = newValue;
+    notifyListeners();
+  }
+
+  void setSelectedCity(newValue){
+    _selectedCity = newValue;
+    notifyListeners();
+  }
+
+
 
   void setSelectedVisitType(visitType) {
     DateTime currentDate = DateTime.now();

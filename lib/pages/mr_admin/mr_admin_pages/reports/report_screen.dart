@@ -139,8 +139,7 @@ class _MrAdminReportScreenState extends State<MrAdminReportScreen> {
                           SizedBox(
                             height: 16,
                           ),
-                          if (adminVisitLogsProvider.selectedVisitType ==
-                              'Custom')
+                          if (adminVisitLogsProvider.selectedVisitType == 'Custom')
                             Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [

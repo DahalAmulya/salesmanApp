@@ -20,8 +20,8 @@ class ReferralLogScreen extends StatefulWidget {
 }
 
 class _ReferralLogScreenState extends State<ReferralLogScreen> {
-  List<String> referralType = ["Country","Region","City"];
-  String selectedReferralType = "Country";
+  List<String> referralType = ["City","Region","Country"];
+  String selectedReferralType = "City";
 
 
   @override
@@ -108,16 +108,6 @@ class _ReferralLogScreenState extends State<ReferralLogScreen> {
                         SizedBox(
                           height: 16,
                         ),
-                        CustomDropdown(
-                          labelText: 'Select Referral Type',
-                          items: referralType,
-                          value: selectedReferralType,
-                          onChanged: (value){
-                            mrAdminReferralLogProvider.setSelectedReferralType(value);
-                          },),
-                        SizedBox(
-                          height: 16,
-                        ),
                         if (mrAdminReferralLogProvider.selectedDateReferralType == 'Custom')
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -152,6 +142,69 @@ class _ReferralLogScreenState extends State<ReferralLogScreen> {
                                   },
                                   validator: (value) {},
                                 ),
+                              ),
+                            ],
+                          ),
+                        SizedBox(
+                          height: 16,
+                        ),
+                        CustomDropdown(
+                          labelText: 'Select Referral Type',
+                          items: mrAdminReferralLogProvider.referralType,
+                          value: mrAdminReferralLogProvider.selectedReferralType,
+                          onChanged: (value){
+                            mrAdminReferralLogProvider.setSelectedReferralType(value);
+                          },),
+                        SizedBox(
+                          height: 16,
+                        ),
+                        if(mrAdminReferralLogProvider.selectedReferralType == 'Country')
+                          Column(
+                            children: [
+                              CustomDropdown(
+                                labelText: 'Select Country',
+                                items: mrAdminReferralLogProvider.countryList,
+                                value: mrAdminReferralLogProvider.selectedCountry,
+                                onChanged: (value) {
+                                  mrAdminReferralLogProvider.setSelectedCountry(value);
+                                },),
+                              SizedBox(
+                                height: 16,
+                              ),
+                              CustomDropdown(
+                                labelText: 'Select Region',
+                                items: mrAdminReferralLogProvider.regionList,
+                                value: mrAdminReferralLogProvider.selectedRegion,
+                                onChanged: (value) {
+                                  mrAdminReferralLogProvider.setSelectedRegion(value);
+                                },
+                              ),
+                            ],
+                          ),
+                        if (mrAdminReferralLogProvider.selectedReferralType == 'Region')
+                          Column(
+                            children: [
+                              CustomDropdown(
+                                labelText: 'Select Region',
+                                items: mrAdminReferralLogProvider.regionList,
+                                value: mrAdminReferralLogProvider.selectedRegion,
+                                onChanged: (value) {
+                                  mrAdminReferralLogProvider.setSelectedRegion(value);
+                                },
+                              ),
+                            ],
+                          ),
+                        // Condition for City
+                        if (mrAdminReferralLogProvider.selectedReferralType == 'City')
+                          Column(
+                            children: [
+                              CustomDropdown(
+                                labelText: 'Select City',
+                                items: mrAdminReferralLogProvider.cityList,
+                                value: mrAdminReferralLogProvider.selectedCity,
+                                onChanged: (value) {
+                                  mrAdminReferralLogProvider.setSelectedCity(value);
+                                },
                               ),
                             ],
                           ),
