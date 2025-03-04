@@ -20,11 +20,11 @@ class ReferralLogScreen extends StatefulWidget {
 }
 
 class _ReferralLogScreenState extends State<ReferralLogScreen> {
-
   @override
   void initState() {
     super.initState();
-    MrAdminReferralLogProvider mrAdminReferralLogProvider = Provider.of<MrAdminReferralLogProvider>(context, listen: false);
+    MrAdminReferralLogProvider mrAdminReferralLogProvider =
+        Provider.of<MrAdminReferralLogProvider>(context, listen: false);
     mrAdminReferralLogProvider.getDataForDistrict();
     mrAdminReferralLogProvider.getDataForState();
     mrAdminReferralLogProvider.getVisitLogsList();
@@ -105,7 +105,12 @@ class _ReferralLogScreenState extends State<ReferralLogScreen> {
                             },
                           ),
                           SizedBox(
-                            height: 16,
+                            height: mrAdminReferralLogProvider
+                                        .selectedDateReferralType ==
+                                    mrAdminReferralLogProvider
+                                        .referralDateTypeList[2]
+                                ? 16
+                                : 0,
                           ),
                           if (mrAdminReferralLogProvider
                                   .selectedDateReferralType ==
@@ -186,7 +191,8 @@ class _ReferralLogScreenState extends State<ReferralLogScreen> {
                                 CustomDropdown(
                                   labelText: 'Country',
                                   items: mrAdminReferralLogProvider.countryList,
-                                  value: mrAdminReferralLogProvider.selectedCountry,
+                                  value: mrAdminReferralLogProvider
+                                      .selectedCountry,
                                   applyCountryFlag: true,
                                   onChanged: (newValue) {
                                     mrAdminReferralLogProvider
@@ -198,8 +204,22 @@ class _ReferralLogScreenState extends State<ReferralLogScreen> {
                                 ),
                                 CustomDropdown(
                                   labelText: 'Select Region',
-                                  items: mrAdminReferralLogProvider.selectedCountry ==  mrAdminReferralLogProvider.countryList[0] ? mrAdminReferralLogProvider.foundDistrictList : mrAdminReferralLogProvider.foundStateList,
-                                  value: mrAdminReferralLogProvider.selectedCountry ==  mrAdminReferralLogProvider.countryList[0] ? mrAdminReferralLogProvider.selectedDistrict : mrAdminReferralLogProvider.selectedStates ,
+                                  items: mrAdminReferralLogProvider
+                                              .selectedCountry ==
+                                          mrAdminReferralLogProvider
+                                              .countryList[0]
+                                      ? mrAdminReferralLogProvider
+                                          .foundDistrictList
+                                      : mrAdminReferralLogProvider
+                                          .foundStateList,
+                                  value: mrAdminReferralLogProvider
+                                              .selectedCountry ==
+                                          mrAdminReferralLogProvider
+                                              .countryList[0]
+                                      ? mrAdminReferralLogProvider
+                                          .selectedDistrict
+                                      : mrAdminReferralLogProvider
+                                          .selectedStates,
                                   onChanged: (value) {
                                     mrAdminReferralLogProvider
                                         .setSelectedRegion(value!);
@@ -228,8 +248,22 @@ class _ReferralLogScreenState extends State<ReferralLogScreen> {
                                 ),
                                 CustomDropdown(
                                   labelText: 'Select Region',
-                                  items: mrAdminReferralLogProvider.selectedCountry ==  mrAdminReferralLogProvider.countryList[0] ? mrAdminReferralLogProvider.foundDistrictList : mrAdminReferralLogProvider.foundStateList,
-                                  value: mrAdminReferralLogProvider.selectedCountry ==  mrAdminReferralLogProvider.countryList[0] ? mrAdminReferralLogProvider.selectedDistrict : mrAdminReferralLogProvider.selectedStates ,
+                                  items: mrAdminReferralLogProvider
+                                              .selectedCountry ==
+                                          mrAdminReferralLogProvider
+                                              .countryList[0]
+                                      ? mrAdminReferralLogProvider
+                                          .foundDistrictList
+                                      : mrAdminReferralLogProvider
+                                          .foundStateList,
+                                  value: mrAdminReferralLogProvider
+                                              .selectedCountry ==
+                                          mrAdminReferralLogProvider
+                                              .countryList[0]
+                                      ? mrAdminReferralLogProvider
+                                          .selectedDistrict
+                                      : mrAdminReferralLogProvider
+                                          .selectedStates,
                                   onChanged: (value) {
                                     mrAdminReferralLogProvider
                                         .setSelectedRegion(value!);
@@ -293,9 +327,9 @@ class _ReferralLogScreenState extends State<ReferralLogScreen> {
                 ),
                 mrAdminReferralLogProvider.foundReferral.length != 0
                     ? CustomContainer(
-                  horizontalPad: 0,
-                  verticalPad: 0,
-                  color: Colors.transparent,
+                        horizontalPad: 0,
+                        verticalPad: 0,
+                        color: Colors.transparent,
                         child: CustomExpansionTile(
                           title: 'Referral Log',
                           applyAllBorderRadius: true,
@@ -396,7 +430,7 @@ class _ReferralLogScreenState extends State<ReferralLogScreen> {
                                       flex: 3,
                                       child: CustomText(
                                         text:
-                                        "${mrAdminReferralLogProvider.from} to ${mrAdminReferralLogProvider.to}",
+                                            "${mrAdminReferralLogProvider.from} to ${mrAdminReferralLogProvider.to}",
                                         isContent: true,
                                       ),
                                     ),
@@ -468,6 +502,7 @@ class _ReferralLogScreenState extends State<ReferralLogScreen> {
                           return Column(
                             children: [
                               CustomContainer(
+                                horizontalMargin: 16,
                                 applyShadow: true,
                                 child: Column(
                                   children: [
