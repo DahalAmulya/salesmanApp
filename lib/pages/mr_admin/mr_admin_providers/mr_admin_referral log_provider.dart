@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 import '../../../services/erp_services.dart';
 import '../../../utils/toast_message.dart';
@@ -9,30 +10,45 @@ import '../../../utils/toast_message.dart';
 class MrAdminReferralLogProvider extends ChangeNotifier{
   List<String> _referralLogsUsersList = ["Select User"];
   List<String> _referralDateTypeList = ['Today', 'Yesterday', 'Custom'];
-  List<String> _referralType = ["City","Region","Country"];
+  List<String> _referralType = ["Country","Region","City"];
   List<String> _countryList = ['Nepal','India',];
   List<String> _regionList = ['Morang','Sunsari','Inrwa'];
   List<String> _cityList = ['Biratnagar','Duhabi','Hatkhola'];
+  List<dynamic> _districts = [];
+  List<dynamic> _stateList = [];
+  List<String> _foundDistrictList = [];
+  List<String> _foundStateList = [];
+  bool _isExpanded = true;
+  bool get isExpanded => _isExpanded;
+
   List<dynamic> _usersReferralList = [];
   List<dynamic> _referralList = [];
 
   String _selectedUser = 'Select User';
   String _selectedDateReferralType = 'Today';
-  String _selectedReferralType = 'City';
+  String _selectedReferralType = 'Country';
   String _selectedCountry = 'Nepal';
-  String _selectedRegion = 'Morang';
+  String _selectedDistrict = 'Morang';
+  String _selectedStates = 'Andhra Pradesh';
   String _selectedCity = 'Biratnagar';
   String _selectedUserId = '';
+  String _selectedRegion = '';
   String _from = '';
   String _to = '';
 
   List<dynamic> _foundReferral = [];
+  List<dynamic> _foundReferralByCountry = [];
+  List<dynamic> _foundReferralByCity = [];
 
   TextEditingController _fromTextEditingController = TextEditingController();
   TextEditingController _toTextEditingController = TextEditingController();
 
   List<dynamic> get usersReferralList => _usersReferralList;
   List<dynamic> get referralList => _referralList;
+  List<dynamic> get districts => _districts;
+  List<dynamic> get stateList => _stateList;
+  List<String> get foundDistrictList => _foundDistrictList;
+  List<String> get foundStateList => _foundStateList;
   List<String> get referralLogsUsersList => _referralLogsUsersList;
   List<String> get referralDateTypeList => _referralDateTypeList;
   List<String> get referralType => _referralType;
@@ -42,18 +58,44 @@ class MrAdminReferralLogProvider extends ChangeNotifier{
 
   String get selectedUser => _selectedUser;
   String get selectedUserId => _selectedUserId;
+  String get selectedRegion => _selectedRegion;
   String get selectedDateReferralType => _selectedDateReferralType;
   String get selectedReferralType => _selectedReferralType;
   String get selectedCountry => _selectedCountry;
-  String get selectedRegion => _selectedRegion;
+  String get selectedDistrict => _selectedDistrict;
+  String get selectedStates => _selectedStates;
   String get selectedCity => _selectedCity;
   String get from => _from;
   String get to => _to;
 
   List<dynamic> get foundReferral => _foundReferral;
+  List<dynamic> get foundReferralByCountry => _foundReferralByCountry;
+  List<dynamic> get foundReferralByCity => _foundReferralByCity;
 
   TextEditingController get fromTextEditingController => _fromTextEditingController;
   TextEditingController get toTextEditingController => _toTextEditingController;
+
+  void getDataForDistrict() async {
+    final respose = await rootBundle.loadString('assets/district.json');
+    // print(respose.runtimeType);
+    List<dynamic> districtData = json.decode(respose);
+    // print(districtData);
+    _districts = districtData;
+    _foundDistrictList =
+        districtData.map((item) => item['district'] as String).toList();
+    // print(foundDistrictList);
+    notifyListeners();
+  }
+
+  void getDataForState() async {
+    final respose = await rootBundle.loadString('assets/states.json');
+    List<dynamic> stateData = json.decode(respose);
+    _stateList = stateData;
+    _foundStateList =
+        stateData.map((item) => item['states'] as String).toList();
+    // print(stateList);
+    notifyListeners();
+  }
 
 
   void setSelectedUser(user) {
@@ -80,8 +122,8 @@ class MrAdminReferralLogProvider extends ChangeNotifier{
     notifyListeners();
   }
 
-  void setSelectedRegion(newValue){
-    _selectedRegion = newValue;
+  void setSelectedRegion(String newValue){
+     _selectedRegion = newValue;
     notifyListeners();
   }
 
@@ -157,7 +199,7 @@ class MrAdminReferralLogProvider extends ChangeNotifier{
     notifyListeners();
   }
 
-  void getReferralLogsById() async {
+  void getReferralLogsByRegion() async {
     if (_selectedUserId.isEmpty) {
       ToastMessageUtils().showToastMessage('Please select a user');
     } else {
@@ -166,38 +208,51 @@ class MrAdminReferralLogProvider extends ChangeNotifier{
         ToastMessageUtils().showToastMessage('Please select a user and provide valid dates');
         return;
       }
-
-      // String endpoint = '/referral/area?_id=$_selectedUserId&from=$_from&to=$_to&country=Nepal&region=Morang';
-      // print('User: $_selectedUserId');
-      // print('date from: $_from');
-      // print('date to: $_to');
-
       ERPResponse response = await ERPServices.getRequest(
-          // '/referral/area?_id=$_selectedUserId&from=$_from&to=$_to&country=Nepal&region=Morang'
-        '/referral/area/region?_id=$_selectedUserId&from=$_from&to=$_to&country=Nepal&region=Morang',
+        '/referral/area/region?_id=$_selectedUserId&from=$_from&to=$_to&country=$_selectedCountry&region=$_selectedRegion',
       );
       if (response.statusCode == 200) {
         final body = jsonDecode(response.body);
         _foundReferral = body['referralLogs'];
-        // _referralList = _foundReferral['visitLogs'];
-        print(_foundReferral[0]['_id']);
-        print(_foundReferral[0]['createdById']);
-        print(_foundReferral[0]['createdBy']);
-        print(_foundReferral[0]['referralDate']);
-        print(_foundReferral[0]['mobileTime']);
-        print(_foundReferral[0]['patientId']);
-        print(_foundReferral[0]['patientAge']);
-        print(_foundReferral[0]['provisionalDiagnosis']);
-        print(_foundReferral[0]['country']);
         // print(_foundReferral.runtimeType);
         // print(response.body);
-
       }
       else{
         _referralList = [];
       }
     }
     notifyListeners();
+  }
+
+  void getReferralByCountry()async{
+    if (_selectedUserId.isEmpty) {
+      ToastMessageUtils().showToastMessage('Please select a user');
+      }else{
+      if (_selectedUserId.isEmpty || _from.isEmpty || _to.isEmpty) {
+        ToastMessageUtils().showToastMessage('Please select a user and provide valid dates');
+        return;
+      }
+      ERPResponse response = await ERPServices.getRequest('/referral/area/country?_id=$_selectedUserId&from=$_from&to=$_to&country=$_selectedCountry');
+      final body = jsonDecode(response.body);
+      _foundReferral = body['referralLogs'];
+      // print(_foundReferralByCountry[0]['createdBy']);
+    }
+    notifyListeners();
+  }
+
+  void getReferralLogByCity()async{
+    if (_selectedUserId.isEmpty) {
+      ToastMessageUtils().showToastMessage('Please select a user');
+    }else{
+      if (_selectedUserId.isEmpty || _from.isEmpty || _to.isEmpty) {
+        ToastMessageUtils().showToastMessage('Please select a user and provide valid dates');
+        return;
+      }
+      ERPResponse response = await ERPServices.getRequest('http://202.51.3.49:8002/api/referral/area/city?_id=$_selectedUserId&from=$_from&to=$_to&country=$_selectedCountry&region=$_selectedRegion&city=$_selectedCity');
+      final body = jsonDecode(response.body);
+      _foundReferral = body['referralLogs'];
+
+    }
   }
 
 
