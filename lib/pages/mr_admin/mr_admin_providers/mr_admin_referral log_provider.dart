@@ -12,12 +12,13 @@ class MrAdminReferralLogProvider extends ChangeNotifier{
   List<String> _referralDateTypeList = ['Today', 'Yesterday', 'Custom'];
   List<String> _referralType = ["Country","Region","City"];
   List<String> _countryList = ['Nepal','India',];
-  List<String> _regionList = ['Morang','Sunsari','Inrwa'];
-  List<String> _cityList = ['Biratnagar','Duhabi','Hatkhola'];
   List<dynamic> _districts = [];
   List<dynamic> _stateList = [];
+  List<dynamic> _searchResult = [];
   List<String> _foundDistrictList = [];
   List<String> _foundStateList = [];
+  List<String> _foundCities = [];
+  List<dynamic> _cities = [];
   bool _isExpanded = true;
   bool get isExpanded => _isExpanded;
 
@@ -33,6 +34,8 @@ class MrAdminReferralLogProvider extends ChangeNotifier{
   String _selectedCity = 'Biratnagar';
   String _selectedUserId = '';
   String _selectedRegion = '';
+  String _selectedCities = '';
+  String _selectedState = '';
   String _from = '';
   String _to = '';
 
@@ -42,19 +45,26 @@ class MrAdminReferralLogProvider extends ChangeNotifier{
 
   TextEditingController _fromTextEditingController = TextEditingController();
   TextEditingController _toTextEditingController = TextEditingController();
+  TextEditingController _searchController = TextEditingController();
+  TextEditingController _cityController = TextEditingController();
+  TextEditingController _districtController = TextEditingController();
+  TextEditingController _stateController = TextEditingController();
+
 
   List<dynamic> get usersReferralList => _usersReferralList;
   List<dynamic> get referralList => _referralList;
   List<dynamic> get districts => _districts;
   List<dynamic> get stateList => _stateList;
+  List<dynamic> get searchResult => _searchResult;
+
+  List<String> get foundCities => _foundCities;
   List<String> get foundDistrictList => _foundDistrictList;
   List<String> get foundStateList => _foundStateList;
   List<String> get referralLogsUsersList => _referralLogsUsersList;
   List<String> get referralDateTypeList => _referralDateTypeList;
   List<String> get referralType => _referralType;
   List<String> get countryList => _countryList;
-  List<String> get regionList => _regionList;
-  List<String> get cityList => _cityList;
+  List<dynamic> get cities => _cities;
 
   String get selectedUser => _selectedUser;
   String get selectedUserId => _selectedUserId;
@@ -65,6 +75,8 @@ class MrAdminReferralLogProvider extends ChangeNotifier{
   String get selectedDistrict => _selectedDistrict;
   String get selectedStates => _selectedStates;
   String get selectedCity => _selectedCity;
+  String get selectedCities => _selectedCities;
+  String get selectedState => _selectedState;
   String get from => _from;
   String get to => _to;
 
@@ -74,6 +86,10 @@ class MrAdminReferralLogProvider extends ChangeNotifier{
 
   TextEditingController get fromTextEditingController => _fromTextEditingController;
   TextEditingController get toTextEditingController => _toTextEditingController;
+  TextEditingController get searchController => _searchController;
+  TextEditingController get cityController => _cityController;
+  TextEditingController get districtController => _districtController;
+  TextEditingController get stateController => _stateController;
 
   void getDataForDistrict() async {
     final respose = await rootBundle.loadString('assets/district.json');
@@ -94,6 +110,77 @@ class MrAdminReferralLogProvider extends ChangeNotifier{
     _foundStateList =
         stateData.map((item) => item['states'] as String).toList();
     // print(stateList);
+    notifyListeners();
+  }
+
+  void getCitiesForSelection(
+      String selectedItem,
+      ) {
+    // Clear the previous list of cities
+    _foundCities.clear();
+
+    // Search for the state in the stateList
+    for (var stateData in _stateList) {
+      if (stateData["states"] == selectedItem) {
+        // Extract the cities list
+        _foundCities = List<String>.from(stateData["cities"] ?? []);
+        print("Found Cities for State: $_foundCities");
+        break; // Exit the loop once the state is found
+      }
+    }
+
+    // Search for the district in the districtList
+    for (var districtData in _districts) {
+      if (districtData["district"] == selectedItem) {
+        // Extract the cities list
+        _foundCities = List<String>.from(districtData["cities"] ?? []);
+        break; // Exit the loop once the district is found
+      }
+    }
+    notifyListeners();
+
+    // Print the result for debugging
+    // print("Cities for $selectedItem: $foundCities");
+  }
+
+  void searchAddressResult(String enteredKeyWord, List<dynamic> addressList) {
+    _searchResult = addressList;
+    if (enteredKeyWord.isEmpty) {
+      _searchResult = addressList;
+    } else {
+      try {
+        if (addressList[0] is String) {
+          print('List of cities');
+          _searchResult = addressList
+              .where((city) => city
+              .toString()
+              .toLowerCase()
+              .contains(enteredKeyWord.toLowerCase()))
+              .toList();
+        } else if (addressList[0].containsKey('district')) {
+          print('List of district');
+          _searchResult = addressList
+              .where((district) => district['district']
+              .toString()
+              .toLowerCase()
+              .contains(enteredKeyWord.toLowerCase()))
+              .toList();
+        } else if (addressList[0].containsKey('states')) {
+          print('List of states');
+          _searchResult = addressList
+              .where((states) => states['states']
+              .toString()
+              .toLowerCase()
+              .contains(enteredKeyWord.toLowerCase()))
+              .toList();
+        }
+      } catch (err) {
+        print('Error as $err');
+      }
+    }
+    // print(enteredKeyWord);
+    print('search result = $_searchResult');
+    // _searchController.text = '';
     notifyListeners();
   }
 
@@ -122,13 +209,27 @@ class MrAdminReferralLogProvider extends ChangeNotifier{
     notifyListeners();
   }
 
-  void setSelectedRegion(String newValue){
-     _selectedRegion = newValue;
+  void setSelectedDistrict(value) {
+    _selectedRegion = value;
+    _districtController.text = _selectedRegion;
     notifyListeners();
   }
 
-  void setSelectedCity(newValue){
-    _selectedCity = newValue;
+  void setSelectedState(value) {
+    _selectedRegion = value;
+    _stateController.text = _selectedRegion;
+    notifyListeners();
+  }
+
+  void getCities(List<dynamic> citiesList) {
+    _cities = citiesList;
+    notifyListeners();
+  }
+
+
+  void setSelectedCity(value) {
+    _selectedCities = value;
+    _cityController.text = _selectedCities;
     notifyListeners();
   }
 
@@ -248,11 +349,19 @@ class MrAdminReferralLogProvider extends ChangeNotifier{
         ToastMessageUtils().showToastMessage('Please select a user and provide valid dates');
         return;
       }
-      ERPResponse response = await ERPServices.getRequest('http://202.51.3.49:8002/api/referral/area/city?_id=$_selectedUserId&from=$_from&to=$_to&country=$_selectedCountry&region=$_selectedRegion&city=$_selectedCity');
+      ERPResponse response = await ERPServices.getRequest('/referral/area/city?_id=$_selectedUserId&from=$_from&to=$_to&country=$_selectedCountry&region=$_selectedRegion&city=$_selectedCities');
       final body = jsonDecode(response.body);
       _foundReferral = body['referralLogs'];
 
     }
+  }
+
+  void exportData()async{
+    ERPResponse response = await ERPServices.getRequest('/referral/area/export');
+    print(response.statusCode);
+    print(response.body);
+
+
   }
 
 
