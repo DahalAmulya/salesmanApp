@@ -352,8 +352,10 @@ class MrAdminReferralLogProvider extends ChangeNotifier{
       ERPResponse response = await ERPServices.getRequest('/referral/area/city?_id=$_selectedUserId&from=$_from&to=$_to&country=$_selectedCountry&region=$_selectedRegion&city=$_selectedCities');
       final body = jsonDecode(response.body);
       _foundReferral = body['referralLogs'];
+      print(selectedCities);
 
     }
+    notifyListeners();
   }
 
   void exportData()async{
