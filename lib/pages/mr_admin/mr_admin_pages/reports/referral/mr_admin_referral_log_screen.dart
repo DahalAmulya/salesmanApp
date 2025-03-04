@@ -31,6 +31,9 @@ class _ReferralLogScreenState extends State<ReferralLogScreen> {
     mrAdminReferralLogProvider.getDataForDistrict();
     mrAdminReferralLogProvider.getDataForState();
     mrAdminReferralLogProvider.getVisitLogsList();
+    // mrAdminReferralLogProvider.getReferralByCountry();
+    // mrAdminReferralLogProvider.getReferralLogsByRegion();
+    // mrAdminReferralLogProvider.getReferralLogByCity();
   }
 
   @override
@@ -355,7 +358,9 @@ class _ReferralLogScreenState extends State<ReferralLogScreen> {
                                   mrAdminReferralLogProvider.referralType[1]) {
                                 mrAdminReferralLogProvider
                                     .getReferralLogsByRegion();
-                              } else {
+                              } else if(mrAdminReferralLogProvider
+                                  .selectedReferralType ==
+                                  mrAdminReferralLogProvider.referralType[2]) {
                                 mrAdminReferralLogProvider
                                     .getReferralLogByCity();
                               }
