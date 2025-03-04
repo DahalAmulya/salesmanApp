@@ -1,4 +1,7 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
 import '../../../../../routes/route_generator_constants.dart';
@@ -202,27 +205,47 @@ class _ReferralLogScreenState extends State<ReferralLogScreen> {
                                 SizedBox(
                                   height: 16,
                                 ),
-                                CustomDropdown(
-                                  labelText: 'Select Region',
-                                  items: mrAdminReferralLogProvider
+                                TextFromFieldWithPrefixSuffix(
+                                  controller: mrAdminReferralLogProvider
                                               .selectedCountry ==
                                           mrAdminReferralLogProvider
                                               .countryList[0]
                                       ? mrAdminReferralLogProvider
-                                          .foundDistrictList
+                                          .districtController
                                       : mrAdminReferralLogProvider
-                                          .foundStateList,
-                                  value: mrAdminReferralLogProvider
+                                          .stateController,
+                                  readOnly: true,
+                                  labelText: mrAdminReferralLogProvider
                                               .selectedCountry ==
                                           mrAdminReferralLogProvider
                                               .countryList[0]
-                                      ? mrAdminReferralLogProvider
-                                          .selectedDistrict
-                                      : mrAdminReferralLogProvider
-                                          .selectedStates,
-                                  onChanged: (value) {
+                                      ? 'District *'
+                                      : 'State *',
+                                  validator: (newValue) {},
+                                  onTap: () async {
+                                    String fileName = mrAdminReferralLogProvider
+                                                .selectedCountry ==
+                                            mrAdminReferralLogProvider
+                                                .countryList[0]
+                                        ? 'district'
+                                        : 'states';
+                                    final file = await rootBundle
+                                        .loadString('assets/$fileName.json');
+                                    final content = await jsonDecode(file);
+                                    showModalBottomSheet(
+                                        isScrollControlled: true,
+                                        useSafeArea: true,
+                                        context: context,
+                                        builder: (context) =>
+                                            districtBottomSheet(
+                                                context, '$fileName', content));
                                     mrAdminReferralLogProvider
-                                        .setSelectedRegion(value!);
+                                        .searchController.text = '';
+                                    mrAdminReferralLogProvider
+                                        .searchAddressResult(
+                                            mrAdminReferralLogProvider
+                                                .searchController.value.text,
+                                            content);
                                   },
                                 ),
                               ],
@@ -246,40 +269,73 @@ class _ReferralLogScreenState extends State<ReferralLogScreen> {
                                 SizedBox(
                                   height: 16,
                                 ),
-                                CustomDropdown(
-                                  labelText: 'Select Region',
-                                  items: mrAdminReferralLogProvider
+                                TextFromFieldWithPrefixSuffix(
+                                  controller: mrAdminReferralLogProvider
                                               .selectedCountry ==
                                           mrAdminReferralLogProvider
                                               .countryList[0]
                                       ? mrAdminReferralLogProvider
-                                          .foundDistrictList
+                                          .districtController
                                       : mrAdminReferralLogProvider
-                                          .foundStateList,
-                                  value: mrAdminReferralLogProvider
+                                          .stateController,
+                                  readOnly: true,
+                                  labelText: mrAdminReferralLogProvider
                                               .selectedCountry ==
                                           mrAdminReferralLogProvider
                                               .countryList[0]
-                                      ? mrAdminReferralLogProvider
-                                          .selectedDistrict
-                                      : mrAdminReferralLogProvider
-                                          .selectedStates,
-                                  onChanged: (value) {
+                                      ? 'District *'
+                                      : 'State *',
+                                  validator: (newValue) {},
+                                  onTap: () async {
+                                    String fileName = mrAdminReferralLogProvider
+                                                .selectedCountry ==
+                                            mrAdminReferralLogProvider
+                                                .countryList[0]
+                                        ? 'district'
+                                        : 'states';
+                                    final file = await rootBundle
+                                        .loadString('assets/$fileName.json');
+                                    final content = await jsonDecode(file);
+                                    showModalBottomSheet(
+                                        isScrollControlled: true,
+                                        useSafeArea: true,
+                                        context: context,
+                                        builder: (context) =>
+                                            districtBottomSheet(
+                                                context, '$fileName', content));
                                     mrAdminReferralLogProvider
-                                        .setSelectedRegion(value!);
+                                        .searchController.text = '';
+                                    mrAdminReferralLogProvider
+                                        .searchAddressResult(
+                                            mrAdminReferralLogProvider
+                                                .searchController.value.text,
+                                            content);
                                   },
                                 ),
                                 SizedBox(
                                   height: 16,
                                 ),
-                                CustomDropdown(
-                                  labelText: 'Select City',
-                                  items: mrAdminReferralLogProvider.cityList,
-                                  value:
-                                      mrAdminReferralLogProvider.selectedCity,
-                                  onChanged: (value) {
+                                TextFromFieldWithPrefixSuffix(
+                                  controller:
+                                      mrAdminReferralLogProvider.cityController,
+                                  readOnly: true,
+                                  labelText: 'City *',
+                                  validator: (newValue) {},
+                                  onTap: () async {
                                     mrAdminReferralLogProvider
-                                        .setSelectedCity(value);
+                                        .searchController.text = '';
+                                    mrAdminReferralLogProvider
+                                        .searchAddressResult(
+                                            mrAdminReferralLogProvider
+                                                .searchController.value.text,
+                                            mrAdminReferralLogProvider.cities);
+                                    showModalBottomSheet(
+                                        isScrollControlled: true,
+                                        useSafeArea: true,
+                                        context: context,
+                                        builder: (context) => citiesBottomSheet(
+                                            context,
+                                            mrAdminReferralLogProvider.cities));
                                   },
                                 ),
                               ],
@@ -406,11 +462,16 @@ class _ReferralLogScreenState extends State<ReferralLogScreen> {
                                                 .selectedCountry
                                             : (mrAdminReferralLogProvider
                                                         .selectedReferralType ==
-                                                    'Region'
+                                                    'City'
                                                 ? mrAdminReferralLogProvider
-                                                    .selectedRegion
-                                                : mrAdminReferralLogProvider
-                                                    .selectedCity),
+                                                    .selectedCities
+                                                : (mrAdminReferralLogProvider
+                                                            .selectedReferralType ==
+                                                        'Region'
+                                                    ? mrAdminReferralLogProvider
+                                                        .selectedDistrict
+                                                    : mrAdminReferralLogProvider
+                                                        .selectedState)),
                                         isContent: true,
                                       ),
                                     ),
@@ -707,6 +768,172 @@ class _ReferralLogScreenState extends State<ReferralLogScreen> {
               ],
             ),
           ],
+        );
+      },
+    );
+  }
+
+  //----------------------------------------------------------------City Bottom Sheet-------------------------------------------------------------------------------------------------------------------------------------------------------//
+  Widget citiesBottomSheet(context, List<dynamic> content) {
+    return Consumer<MrAdminReferralLogProvider>(
+      builder: (context, mrAdminReferralLogProvider, _) {
+        return Container(
+          color: CustomColors.primaryWhite,
+          height: MediaQuery.of(context).size.height * 0.80,
+          child: Column(
+            children: [
+              Container(
+                padding: const EdgeInsets.only(
+                  top: 16,
+                  right: 12.0,
+                  bottom: 12,
+                ),
+                decoration: BoxDecoration(
+                  color: CustomColors.primaryColor,
+                ),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Expanded(
+                      flex: 1,
+                      child: InkWell(
+                          onTap: () {
+                            print('Pressed');
+                            Navigator.pop(context);
+                          },
+                          child: Icon(FontAwesomeIcons.arrowLeft)),
+                    ),
+                    // ),
+                    Expanded(
+                      flex: 7,
+                      child: TextFromFieldWithPrefixSuffix(
+                        controller: mrAdminReferralLogProvider.searchController,
+                        labelText: 'Search City',
+                        applySuffixIcon: true,
+                        suffixIcon: Icon(Icons.search),
+                        validator: (value) {},
+                        onChange: (value) =>
+                            mrAdminReferralLogProvider.searchAddressResult(
+                                mrAdminReferralLogProvider
+                                    .searchController.value.text,
+                                content),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              SizedBox(
+                height: 16,
+              ),
+              Expanded(
+                child: ListView.builder(
+                  itemCount: mrAdminReferralLogProvider.searchResult.length,
+                  itemBuilder: (context, index) {
+                    String cityName =
+                        mrAdminReferralLogProvider.searchResult[index];
+                    return ListTile(
+                      onTap: () {
+                        Navigator.pop(context);
+                        mrAdminReferralLogProvider.setSelectedCity(cityName);
+                        print(mrAdminReferralLogProvider.searchResult[index]);
+                      },
+                      title: CustomText(
+                        text: cityName,
+                        isContent: true,
+                      ),
+                    );
+                  },
+                ),
+              ),
+            ],
+          ),
+        );
+      },
+    );
+  }
+  //----------------------------------------------------------------City Bottom Sheet-------------------------------------------------------------------------------------------------------------------------------------------------------//
+
+  Widget districtBottomSheet(context, String type, List<dynamic> content) {
+    return Consumer<MrAdminReferralLogProvider>(
+      builder: (context, mrAdminReferralLogProvider, _) {
+        return Container(
+          color: CustomColors.primaryWhite,
+          height: MediaQuery.of(context).size.height * 0.80,
+          child: Column(
+            children: [
+              Container(
+                padding: const EdgeInsets.only(
+                  top: 16,
+                  right: 12.0,
+                  bottom: 12,
+                ),
+                decoration: BoxDecoration(
+                  color: CustomColors.primaryColor,
+                ),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Expanded(
+                      flex: 1,
+                      child: InkWell(
+                          onTap: () {
+                            print('Pressed');
+                            Navigator.pop(context);
+                          },
+                          child: Icon(FontAwesomeIcons.arrowLeft)),
+                    ),
+                    // ),
+                    Expanded(
+                      flex: 7,
+                      child: TextFromFieldWithPrefixSuffix(
+                        controller: mrAdminReferralLogProvider.searchController,
+                        labelText: mrAdminReferralLogProvider.selectedCountry ==
+                                'Nepal'
+                            ? 'Search District'
+                            : 'Search State',
+                        applySuffixIcon: true,
+                        suffixIcon: Icon(Icons.search),
+                        validator: (value) {},
+                        onChange: (value) =>
+                            mrAdminReferralLogProvider.searchAddressResult(
+                                mrAdminReferralLogProvider
+                                    .searchController.value.text,
+                                content),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              SizedBox(
+                height: 16,
+              ),
+              Expanded(
+                child: ListView.builder(
+                  itemCount: mrAdminReferralLogProvider.searchResult.length,
+                  itemBuilder: (context, index) {
+                    String name =
+                        mrAdminReferralLogProvider.searchResult[index]['$type'];
+                    return ListTile(
+                      onTap: () {
+                        Navigator.pop(context);
+                        type == 'district'
+                            ? mrAdminReferralLogProvider
+                                .setSelectedDistrict(name)
+                            : mrAdminReferralLogProvider.setSelectedState(name);
+                        mrAdminReferralLogProvider.getCities(
+                            mrAdminReferralLogProvider.searchResult[index]
+                                ['cities']);
+                      },
+                      title: CustomText(
+                        text: name,
+                        isContent: true,
+                      ),
+                    );
+                  },
+                ),
+              ),
+            ],
+          ),
         );
       },
     );
