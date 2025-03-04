@@ -524,23 +524,20 @@ class _ReferralLogScreenState extends State<ReferralLogScreen> {
                         itemCount:
                             mrAdminReferralLogProvider.foundReferral.length,
                         itemBuilder: (context, index) {
-                          String patientName = mrAdminReferralLogProvider
-                              .foundReferral[index]['patientName'];
-                          String createdById = mrAdminReferralLogProvider
-                              .foundReferral[index]['createdById']
-                              .toString();
-                          String createdByName = mrAdminReferralLogProvider
-                              .foundReferral[index]['createdBy'];
-                          String patientId = mrAdminReferralLogProvider
-                              .foundReferral[index]['patientId']
-                              .toString();
-                          String patientAge = mrAdminReferralLogProvider
-                              .foundReferral[index]['patientAge']
-                              .toString();
-                          String pocName = mrAdminReferralLogProvider
-                              .foundReferral[index]['pocName'];
-                          String pocNumber = mrAdminReferralLogProvider
-                              .foundReferral[index]['pocNumber'];
+                          String patientName = mrAdminReferralLogProvider.foundReferral[index]['patientName'];
+                          String patientAge = mrAdminReferralLogProvider.foundReferral[index]['patientAge'].toString();
+                          String provisionalDiagnosis = mrAdminReferralLogProvider.foundReferral[index]['provisionalDiagnosis'];
+                          String country = mrAdminReferralLogProvider.foundReferral[index]['country'];
+                          String region = mrAdminReferralLogProvider.foundReferral[index]['region'];
+                          String city = mrAdminReferralLogProvider.foundReferral[index]['city'];
+
+                          String createdById = mrAdminReferralLogProvider.foundReferral[index]['createdById'].toString();
+                          String createdByName = mrAdminReferralLogProvider.foundReferral[index]['createdBy'];
+
+                          String pocName = mrAdminReferralLogProvider.foundReferral[index]['pocName'];
+                          String pocNumber = mrAdminReferralLogProvider.foundReferral[index]['pocNumber'];
+                          String pocCategory = mrAdminReferralLogProvider.foundReferral[index]['pocCategory'];
+
                           String ambId = mrAdminReferralLogProvider
                               .foundReferral[index]['ambId'];
                           String ambDriverName = mrAdminReferralLogProvider
@@ -557,9 +554,7 @@ class _ReferralLogScreenState extends State<ReferralLogScreen> {
                               .foundReferral[index]['referralDate']
                               .toString()
                               .split('T')[0];
-                          String provisionalDiagnosis =
-                              mrAdminReferralLogProvider.foundReferral[index]
-                                  ['provisionalDiagnosis'];
+
                           return Column(
                             children: [
                               CustomContainer(
@@ -592,7 +587,7 @@ class _ReferralLogScreenState extends State<ReferralLogScreen> {
                                         Expanded(
                                           flex: 2,
                                           child: CustomText(
-                                            text: 'M.O Name',
+                                            text: 'Patient Age',
                                             isContent: true,
                                             size: 16,
                                           ),
@@ -600,7 +595,87 @@ class _ReferralLogScreenState extends State<ReferralLogScreen> {
                                         Expanded(
                                           flex: 2,
                                           child: CustomText(
-                                            text: createdByName,
+                                            text: patientAge,
+                                            isContent: true,
+                                            size: 16,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                    Row(
+                                      children: [
+                                        Expanded(
+                                          flex: 2,
+                                          child: CustomText(
+                                            text: 'Provisional Diagnosis ',
+                                            isContent: true,
+                                            size: 16,
+                                          ),
+                                        ),
+                                        Expanded(
+                                          flex: 2,
+                                          child: CustomText(
+                                            text: provisionalDiagnosis,
+                                            isContent: true,
+                                            size: 16,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                    Row(
+                                      children: [
+                                        Expanded(
+                                          flex: 2,
+                                          child: CustomText(
+                                            text: 'Country',
+                                            isContent: true,
+                                            size: 16,
+                                          ),
+                                        ),
+                                        Expanded(
+                                          flex: 2,
+                                          child: CustomText(
+                                            text: country,
+                                            isContent: true,
+                                            size: 16,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                    Row(
+                                      children: [
+                                        Expanded(
+                                          flex: 2,
+                                          child: CustomText(
+                                            text: 'Region',
+                                            isContent: true,
+                                            size: 16,
+                                          ),
+                                        ),
+                                        Expanded(
+                                          flex: 2,
+                                          child: CustomText(
+                                            text: region,
+                                            isContent: true,
+                                            size: 16,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                    Row(
+                                      children: [
+                                        Expanded(
+                                          flex: 2,
+                                          child: CustomText(
+                                            text: 'City',
+                                            isContent: true,
+                                            size: 16,
+                                          ),
+                                        ),
+                                        Expanded(
+                                          flex: 2,
+                                          child: CustomText(
+                                            text: city,
                                             isContent: true,
                                             size: 16,
                                           ),
@@ -641,6 +716,26 @@ class _ReferralLogScreenState extends State<ReferralLogScreen> {
                                           flex: 2,
                                           child: CustomText(
                                             text: pocNumber,
+                                            isContent: true,
+                                            size: 16,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                    Row(
+                                      children: [
+                                        Expanded(
+                                          flex: 2,
+                                          child: CustomText(
+                                            text: 'POC Category',
+                                            isContent: true,
+                                            size: 16,
+                                          ),
+                                        ),
+                                        Expanded(
+                                          flex: 2,
+                                          child: CustomText(
+                                            text: pocCategory,
                                             isContent: true,
                                             size: 16,
                                           ),
@@ -707,46 +802,47 @@ class _ReferralLogScreenState extends State<ReferralLogScreen> {
                                         ),
                                       ],
                                     ),
-                                    Row(
-                                      children: [
-                                        Expanded(
-                                          flex: 2,
-                                          child: CustomText(
-                                            text: 'Mobile Time',
-                                            isContent: true,
-                                            size: 16,
-                                          ),
-                                        ),
-                                        Expanded(
-                                          flex: 2,
-                                          child: CustomText(
-                                            text: mobileTime,
-                                            isContent: true,
-                                            size: 16,
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                    Row(
-                                      children: [
-                                        Expanded(
-                                          flex: 2,
-                                          child: CustomText(
-                                            text: 'Referral Date',
-                                            isContent: true,
-                                            size: 16,
-                                          ),
-                                        ),
-                                        Expanded(
-                                          flex: 2,
-                                          child: CustomText(
-                                            text: referralDate,
-                                            isContent: true,
-                                            size: 16,
-                                          ),
-                                        ),
-                                      ],
-                                    ),
+
+                                    // Row(
+                                    //   children: [
+                                    //     Expanded(
+                                    //       flex: 2,
+                                    //       child: CustomText(
+                                    //         text: 'Mobile Time',
+                                    //         isContent: true,
+                                    //         size: 16,
+                                    //       ),
+                                    //     ),
+                                    //     Expanded(
+                                    //       flex: 2,
+                                    //       child: CustomText(
+                                    //         text: mobileTime,
+                                    //         isContent: true,
+                                    //         size: 16,
+                                    //       ),
+                                    //     ),
+                                    //   ],
+                                    // ),
+                                    // Row(
+                                    //   children: [
+                                    //     Expanded(
+                                    //       flex: 2,
+                                    //       child: CustomText(
+                                    //         text: 'Referral Date',
+                                    //         isContent: true,
+                                    //         size: 16,
+                                    //       ),
+                                    //     ),
+                                    //     Expanded(
+                                    //       flex: 2,
+                                    //       child: CustomText(
+                                    //         text: referralDate,
+                                    //         isContent: true,
+                                    //         size: 16,
+                                    //       ),
+                                    //     ),
+                                    //   ],
+                                    // ),
                                   ],
                                 ),
                               ),
