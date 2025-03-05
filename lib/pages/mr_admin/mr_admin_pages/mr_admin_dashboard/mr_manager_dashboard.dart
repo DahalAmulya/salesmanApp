@@ -607,7 +607,8 @@ class _MarketingManagerDashboardState extends State<MarketingManagerDashboard> {
               imgName: 'visits',
               title: 'Average Visits',
               onTap: () {
-                print('Tapped Average Visits');
+                Navigator.of(context).pushNamed(MarketingManagerConstants
+                    .MrAdminAttendanceReportScreen);
               },
             ),
           ],

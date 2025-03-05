@@ -27,8 +27,7 @@ class _MrAdminReportScreenState extends State<MrAdminReportScreen> {
   @override
   void initState() {
     super.initState();
-    MrAdminVisitLogProvider mrAdminVisitLogProvider =
-        Provider.of<MrAdminVisitLogProvider>(context, listen: false);
+    MrAdminVisitLogProvider mrAdminVisitLogProvider = Provider.of<MrAdminVisitLogProvider>(context, listen: false);
     mrAdminVisitLogProvider.getVisitLogsList();
   }
 
