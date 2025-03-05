@@ -11,18 +11,22 @@ class MrAdminAttendanceProvider extends ChangeNotifier {
   List<String> _visitDateTypeList = ['Today', 'Yesterday', 'Custom'];
 
   List<dynamic> _usersList = [];
-  List<dynamic> _usersAttendanceList = [];
+  List<dynamic> _attendanceLogs = [];
+  Map<String, dynamic> _foundAttendance = {};
+
 
   String _selectedUser = 'Select User';
   String _selectedVisitType = 'Today';
   String _selectedUserId = '';
   String _from = '';
   String _to = '';
+  String _totalHours = '';
 
   List<String> get attendanceLogsUsersList => _attendanceLogsUsersList;
   List<String> get visitDateTypeList => _visitDateTypeList;
   List<dynamic> get usersList => _usersList;
-  List<dynamic> get usersAttendanceList => _usersAttendanceList;
+  List<dynamic> get attendanceLogs => _attendanceLogs;
+  Map<String, dynamic> get foundAttendance => _foundAttendance;
 
   TextEditingController _fromTextEditingController = TextEditingController();
   TextEditingController _toTextEditingController = TextEditingController();
@@ -34,6 +38,7 @@ class MrAdminAttendanceProvider extends ChangeNotifier {
   String get selectedUserId => _selectedUserId;
   String get from => _from;
   String get to => _to;
+  String get totalHours => _totalHours;
   String get selectedVisitType => _selectedVisitType;
 
 
@@ -108,20 +113,27 @@ class MrAdminAttendanceProvider extends ChangeNotifier {
     // print(response.body);
     if (response.statusCode == 200) {
       Map<String, dynamic> body = jsonDecode(response.body);
-      _usersAttendanceList = body['logs'];
-      for (int i = 0; i < _usersAttendanceList.length; i++) {
-        _attendanceLogsUsersList.add(_usersAttendanceList[i]['username']);
+      _usersList = body['logs'];
+      for (int i = 0; i < _usersList.length; i++) {
+        _attendanceLogsUsersList.add(_usersList[i]['username']);
       }
     }
     notifyListeners();
   }
 
   void getAttendanceReport()async{
+    if (_selectedUserId.isEmpty) {
+      print("User ID is required");
+      return;
+    }
     ERPResponse response = await ERPServices.getRequest('/attendance/date?userId=$_selectedUserId&from=$_from&to=$_to');
-    print(selectedUserId);
-    print(response.body);
-    print(response.runtimeType);
+    _foundAttendance = jsonDecode(response.body);
+    // print(_foundAttendance['attendance']['username']);
+    _attendanceLogs = _foundAttendance['attendance']['attendanceLogs'];
+
     if (response.statusCode == 200) {
+      print(_attendanceLogs[0]);
+      _totalHours = foundAttendance['totalHours'].toString().split('.')[0];
 
     }
     notifyListeners();
