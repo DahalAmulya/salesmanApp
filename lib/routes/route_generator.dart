@@ -30,6 +30,7 @@ import '../pages/mr_admin/mr_admin_pages/mr_admin_create_user/mr_admin_createuse
 import '../pages/mr_admin/mr_admin_pages/mr_admin_create_user/mr_admin_viewuser.dart';
 import '../pages/mr_admin/mr_admin_pages/reports/Area/report_area_screen.dart';
 
+import '../pages/mr_admin/mr_admin_pages/reports/mr_admin_attendance_report/mr_admin_attendance_report_screen.dart';
 import '../pages/mr_admin/mr_admin_pages/reports/referral/mr_admin_referral_log_screen.dart';
 import '../pages/mr_officers_pages/mr_officers_visits/product.dart';
 import '../pages/settings/profile/profile_Page.dart';
@@ -123,6 +124,10 @@ class RouteGenerator {
       case MarketingManagerConstants.mrManagerReferralLogPage:
         return MaterialPageRoute(
           builder: (_) => ReferralLogScreen(),
+        );
+      case MarketingManagerConstants.MrAdminAttendanceReportScreen:
+        return MaterialPageRoute(
+          builder: (_) => MrAdminAttendanceReportScreen(),
         );
 
       // Routes for MarketingStaff
