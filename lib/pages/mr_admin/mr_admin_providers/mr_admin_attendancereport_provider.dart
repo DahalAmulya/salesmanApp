@@ -133,7 +133,7 @@ class MrAdminAttendanceProvider extends ChangeNotifier {
 
     if (response.statusCode == 200) {
       print(_attendanceLogs[0]);
-      _totalHours = foundAttendance['totalHours'].toString().split('.')[0];
+      _totalHours = foundAttendance['totalTime'];
 
     }
     notifyListeners();
