@@ -136,7 +136,7 @@ class _MrAdminReportScreenState extends State<MrAdminReportScreen> {
                             },
                           ),
                           SizedBox(
-                            height: 16,
+                            height: adminVisitLogsProvider.selectedVisitType == 'Custom' ? 16 : 0,
                           ),
                           if (adminVisitLogsProvider.selectedVisitType == 'Custom')
                             Row(
