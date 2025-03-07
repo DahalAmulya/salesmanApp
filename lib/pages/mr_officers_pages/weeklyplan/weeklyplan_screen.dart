@@ -173,8 +173,9 @@ class _WeeklyPlanScreenState extends State<WeeklyPlanScreen> {
                                 size: 16,
                               ),
                               CustomText(
-                                text: ' Create Plan',
-                                isContent: true,
+                                text: 'Create Plan',
+                                // isContent: true,
+                                fontWeight: FontWeight.w600,
                               ),
                             ],
                           ),
@@ -220,7 +221,6 @@ class _WeeklyPlanScreenState extends State<WeeklyPlanScreen> {
                     _weeklyPlanProvider
                         .getTodayPlan(newDate.toString().split(" ")[0]);
                     // getTodayPlan(newDate.toString().split(" ")[0]);
-                    // print(newDate);
                   },
                 ),
               ),

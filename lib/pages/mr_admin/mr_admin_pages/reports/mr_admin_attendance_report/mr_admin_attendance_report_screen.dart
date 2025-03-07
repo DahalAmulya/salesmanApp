@@ -95,7 +95,7 @@ class _MrAdminAttendanceReportScreenState
                     Column(
                       children: [
                         SizedBox(
-                          height: 16,
+                          height: 8,
                         ),
                         CustomDropdown(
                           labelText: 'Select User',
