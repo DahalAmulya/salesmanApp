@@ -1,9 +1,7 @@
 import 'dart:convert';
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-
 import '../../../services/erp_services.dart';
 
 class MrAdminAttendanceProvider extends ChangeNotifier {
@@ -110,7 +108,6 @@ class MrAdminAttendanceProvider extends ChangeNotifier {
     _selectedVisitType = 'Today';
     _selectedUserId = '';
     ERPResponse response = await ERPServices.getRequest('/visitLogs/users');
-    // print(response.body);
     if (response.statusCode == 200) {
       Map<String, dynamic> body = jsonDecode(response.body);
       _usersList = body['logs'];
@@ -128,7 +125,6 @@ class MrAdminAttendanceProvider extends ChangeNotifier {
     }
     ERPResponse response = await ERPServices.getRequest('/attendance/date?userId=$_selectedUserId&from=$_from&to=$_to');
     _foundAttendance = jsonDecode(response.body);
-    // print(_foundAttendance['attendance']['username']);
     _attendanceLogs = _foundAttendance['attendance']['attendanceLogs'];
 
     if (response.statusCode == 200) {
