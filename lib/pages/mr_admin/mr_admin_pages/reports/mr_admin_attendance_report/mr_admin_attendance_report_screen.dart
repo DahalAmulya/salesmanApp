@@ -168,7 +168,6 @@ class _MrAdminAttendanceReportScreenState
                         CustomElevatedButton(
                           onPressed: () {
                             mrAdminAttendanceProvider.getAttendanceReport();
-                            // adminVisitLogsProvider.getVisitLogsById();
                           },
                           width: 0.90,
                           height: 50,
