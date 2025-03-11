@@ -34,13 +34,13 @@ class _MrAdminAttendanceReportScreenState
 
   void _triggerAnimation() {
     setState(() {
-      myAnimation = false; // Reset animation
+      myAnimation = false;
     });
 
-    // Start the animation after a short delay
+
     Future.delayed(const Duration(milliseconds: 200), () {
       setState(() {
-        myAnimation = true; // Trigger the animation
+        myAnimation = true;
       });
     });
   }
