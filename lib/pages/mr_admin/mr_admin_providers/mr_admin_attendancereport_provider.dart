@@ -19,6 +19,7 @@ class MrAdminAttendanceProvider extends ChangeNotifier {
   String _from = '';
   String _to = '';
   String _totalHours = '';
+  bool _isExpanded = true;
 
   List<String> get attendanceLogsUsersList => _attendanceLogsUsersList;
   List<String> get visitDateTypeList => _visitDateTypeList;
@@ -38,6 +39,15 @@ class MrAdminAttendanceProvider extends ChangeNotifier {
   String get to => _to;
   String get totalHours => _totalHours;
   String get selectedVisitType => _selectedVisitType;
+  bool get isExpanded => _isExpanded;
+
+
+  void setExpanded() {
+    _isExpanded = false;
+    notifyListeners();
+  }
+
+
 
 
   Future<void> selectDateFrom(context) async {
