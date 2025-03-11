@@ -439,7 +439,7 @@ class _MrAdminReportScreenState extends State<MrAdminReportScreen> {
                                 height: 180,
                                 decoration: BoxDecoration(
                                   // color: Colors.red,
-                                  borderRadius: BorderRadius.only(
+                                  borderRadius: const BorderRadius.only(
                                     bottomLeft: Radius.circular(16),
                                     bottomRight: Radius.circular(16),
                                   ),
@@ -453,7 +453,7 @@ class _MrAdminReportScreenState extends State<MrAdminReportScreen> {
                                   ],
                                 ),
                                 child: ClipRRect(
-                                  borderRadius: BorderRadius.only(
+                                  borderRadius: const BorderRadius.only(
                                     bottomLeft: Radius.circular(16),
                                     bottomRight: Radius.circular(16),
                                   ),
