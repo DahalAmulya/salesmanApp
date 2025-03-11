@@ -401,7 +401,7 @@ class _MrAdminAttendanceReportScreenState
                                       Expanded(
                                         flex: 2,
                                         child: CustomText(
-                                          text: 'check Out Time',
+                                          text: 'Check Out Time',
                                           isContent: true,
                                           size: 16,
                                         ),
