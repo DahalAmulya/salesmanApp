@@ -66,6 +66,7 @@ class _MrAdminAttendanceReportScreenState
           }
         },
         child: Scaffold(
+          backgroundColor: CustomColors.primaryWhite,
           appBar: _appBar(context),
           body: _body(context),
         ),
