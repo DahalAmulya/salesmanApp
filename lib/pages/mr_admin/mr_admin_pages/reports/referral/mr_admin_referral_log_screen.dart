@@ -51,10 +51,28 @@ class _ReferralLogScreenState extends State<ReferralLogScreen> {
   @override
   Widget build(BuildContext context) {
     width = MediaQuery.of(context).size.width;
-    return Scaffold(
-      backgroundColor: CustomColors.primaryWhite,
-      appBar: _appBar(context),
-      body: _body(context),
+    return PopScope(
+      canPop: false,
+      onPopInvoked: ((didpop) {
+        if (didpop) {
+          return;
+        }
+        Navigator.of(context).pop(MarketingManagerConstants.homePage);
+      }),
+      child: GestureDetector(
+        onTap: () {
+          // Dismiss the keyboard when tapping outside TextFormFields
+          FocusScopeNode currentFocus = FocusScope.of(context);
+          if (!currentFocus.hasPrimaryFocus) {
+            FocusScope.of(context).unfocus();
+          }
+        },
+        child: Scaffold(
+          backgroundColor: CustomColors.primaryWhite,
+          appBar: _appBar(context),
+          body: _body(context),
+        ),
+      ),
     );
   }
 

@@ -45,10 +45,28 @@ class _MrOfficerReferralScreenState extends State<MrOfficerReferralScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: CustomColors.primaryWhite,
-      appBar: _appBar(context),
-      body: _buildUI(context),
+    return PopScope(
+      canPop: false,
+      onPopInvoked: ((didpop) {
+        if (didpop) {
+          return;
+        }
+        Navigator.of(context).pop();
+      }),
+      child: GestureDetector(
+        onTap: () {
+          // Dismiss the keyboard when tapping outside TextFormFields
+          FocusScopeNode currentFocus = FocusScope.of(context);
+          if (!currentFocus.hasPrimaryFocus) {
+            FocusScope.of(context).unfocus();
+          }
+        },
+        child: Scaffold(
+          backgroundColor: CustomColors.primaryWhite,
+          appBar: _appBar(context),
+          body: _buildUI(context),
+        ),
+      ),
     );
   }
 
