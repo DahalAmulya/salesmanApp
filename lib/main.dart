@@ -42,6 +42,9 @@ import 'package:device_preview/device_preview.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:provider/provider.dart';
+import 'package:cloudinary_flutter/cloudinary_context.dart';
+import 'package:cloudinary_flutter/image/cld_image.dart';
+import 'package:cloudinary_url_gen/cloudinary.dart';
 
 Future<void> main() async {
   await dotenv.load(
