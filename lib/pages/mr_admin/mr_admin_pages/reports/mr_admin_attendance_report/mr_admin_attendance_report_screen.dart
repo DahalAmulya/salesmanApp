@@ -37,14 +37,12 @@ class _MrAdminAttendanceReportScreenState
       myAnimation = false;
     });
 
-
     Future.delayed(const Duration(milliseconds: 200), () {
       setState(() {
         myAnimation = true;
       });
     });
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -96,7 +94,9 @@ class _MrAdminAttendanceReportScreenState
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            SizedBox(height: 16,),
+            const SizedBox(
+              height: 16,
+            ),
             CustomContainer(
               horizontalPad: 0,
               verticalPad: 0,
@@ -206,7 +206,6 @@ class _MrAdminAttendanceReportScreenState
             SizedBox(
               height: 16,
             ),
-
             mrAdminAttendanceProvider.foundAttendance.length != 0
                 ? CustomContainer(
                     horizontalPad: 0,
