@@ -76,20 +76,27 @@ class _Profile_pageState extends State<Profile_page> {
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  SizedBox(
+                  const SizedBox(
                     height: 16,
                   ),
                   Container(
-                    padding: EdgeInsets.symmetric(horizontal: 8),
+                    padding: const EdgeInsets.symmetric(horizontal: 8),
                     child: Center(
-                      child: CircleAvatar(
-                        radius: 40,
-                        backgroundImage:
-                            AssetImage('assets/images/userLocation.png'),
+                      child: InkWell(
+                        onTap: (){
+                          print('Tapped on image');
+                        },
+                        child: CircleAvatar(
+                          radius: 40,
+                          backgroundImage: NetworkImage('https://res.cloudinary.com/dfpxa2e7r/image/upload/uploads/dafgwbbzksxru0u15wpz.jpg'),
+                          onBackgroundImageError: (exception, stackTrace) {
+                            print("Failed to load image: $exception");
+                          },
+                        ),
                       ),
                     ),
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 8,
                   ),
                   CustomContainer(
