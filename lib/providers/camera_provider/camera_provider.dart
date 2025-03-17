@@ -1,4 +1,5 @@
 import 'package:camera/camera.dart';
+import 'package:deskgoo/services/erp_services.dart';
 import 'package:flutter/material.dart';
 
 class CameraProvider extends ChangeNotifier {
@@ -73,6 +74,16 @@ class CameraProvider extends ChangeNotifier {
     _followUpSelectedPhoto = '';
     _newVisitPhotos = [];
     _newVisitSelectedPhoto = '';
+  }
+
+
+
+  void postProfileImage()async{
+    Map<String, dynamic> body= {};
+    ERPResponse response = await ERPServices.postRequest('/api/img/upload',
+      body,
+    );
+    try{}catch(err){}
   }
 
   // void offsetY(double y) {
