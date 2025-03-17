@@ -13,6 +13,10 @@ class Environment {
     return dotenv.env['API_URL'] ?? 'api url not found';
   }
 
+  static String get cloudinaryName {
+    return dotenv.env['CLOUDINARY_NAME'] ?? 'api url not found';
+  }
+
   static String get googleMapApiKey {
     return dotenv.get('GOOGLE_MAP_API_KEY',
         fallback: 'google map api key not found');

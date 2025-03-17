@@ -11,6 +11,7 @@ class UserCred extends ChangeNotifier {
   static String _rememberMe = '';
   static String _role = '';
   static String _roleValue = '';
+  static String _profileImage = '';
 
   String get email => _email;
   String get name => _name;
@@ -21,6 +22,7 @@ class UserCred extends ChangeNotifier {
   String get rememberMe => _rememberMe;
   String get role => _role;
   String get roleValue => _roleValue;
+  String get profileImage => _profileImage;
 
   void readUserCred() async {
     SecureStorageResponse email =
@@ -41,6 +43,8 @@ class UserCred extends ChangeNotifier {
         await SecureStorage().readLoginCredentials(SecureStorage.role);
     SecureStorageResponse roleValue =
         await SecureStorage().readLoginCredentials(SecureStorage.roleValue);
+    SecureStorageResponse profileImage =
+        await SecureStorage().readLoginCredentials(SecureStorage.userProfileImage);
 
     _email = email.value;
     _name = name.value;
@@ -51,6 +55,7 @@ class UserCred extends ChangeNotifier {
     _rememberMe = rememberMe.value;
     _role = role.value;
     _roleValue = roleValue.value;
+    _profileImage = profileImage.value;
     notifyListeners();
 
     print('****************************************************************');
@@ -62,6 +67,7 @@ class UserCred extends ChangeNotifier {
     print('rememberMe: ${_rememberMe}');
     print('role: ${_role}');
     print('roleValue: ${_roleValue}');
+    print('roleValue: ${_profileImage}');
     print('****************************************************************');
   }
 }

@@ -67,6 +67,7 @@ class _Profile_pageState extends State<Profile_page> {
   }
 
   Widget _buildUI(context) {
+    print("Profile image = " + profileImage);
     return SafeArea(
       child: Consumer<ProfileProvider>(
         builder: (context, profileProvider, _) {
@@ -83,15 +84,32 @@ class _Profile_pageState extends State<Profile_page> {
                     padding: const EdgeInsets.symmetric(horizontal: 8),
                     child: Center(
                       child: InkWell(
-                        onTap: (){
+                        onTap: () {
                           print('Tapped on image');
                         },
-                        child: CircleAvatar(
-                          radius: 40,
-                          backgroundImage: NetworkImage('https://res.cloudinary.com/dfpxa2e7r/image/upload/uploads/dafgwbbzksxru0u15wpz.jpg'),
-                          onBackgroundImageError: (exception, stackTrace) {
-                            print("Failed to load image: $exception");
-                          },
+                        child: ClipRRect(
+                          borderRadius: BorderRadius.circular(100), // Circular border
+                          child: profileImage.isNotEmpty
+                              ? Image.network(
+                            profileImage,
+                            fit: BoxFit.cover,
+                            width: 80,
+                            height: 80,
+                          )
+                              : Container(
+                            width: 80,
+                            height: 80,
+                            decoration: BoxDecoration(
+                              color: CustomColors.primaryColor,
+                            ),
+                            alignment: Alignment.center,
+                            child: CustomText(
+                              text: '${userName.split(' ')[0][0]}${userName.split(' ')[1][0]}',
+                              size: 24,
+                              color: CustomColors.primaryBlack,
+                              fontWeight: FontWeight.w600,
+                            ),
+                          ),
                         ),
                       ),
                     ),

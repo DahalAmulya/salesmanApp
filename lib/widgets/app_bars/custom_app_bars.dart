@@ -3,6 +3,8 @@ import 'package:deskgoo/widgets/texts/custom_text.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
+import '../../consts.dart';
+
 class CustomAppBar extends StatelessWidget {
   CustomAppBar(
       {required this.tabName,
@@ -123,13 +125,34 @@ class CustomAppBar extends StatelessWidget {
             ? isLeadingImage
                 ? InkWell(
                     onTap: onTap,
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 8.0,vertical: 4),
-                      child: Image(
-                        height: 32,
-                        width: 32,
-                        image: AssetImage(
-                            imageName ?? 'assets/images/deskgooBlack.png'),
+                    child: Container(
+                      // margin: const EdgeInsets.symmetric(horizontal: 16),
+                      padding: const EdgeInsets.symmetric(horizontal: 0),
+                      child: Center(
+                        child: ClipRRect(
+                          borderRadius: BorderRadius.circular(100), // Circular border
+                          child: profileImage.isNotEmpty
+                              ? Image.network(
+                            profileImage,
+                            fit: BoxFit.fill,
+                            width: 48,
+                            height: 48,
+                          )
+                              : Container(
+                            width: 48,
+                            height: 48,
+                            decoration: BoxDecoration(
+                              color: CustomColors.primaryBlack,
+                            ),
+                            alignment: Alignment.center,
+                            child: CustomText(
+                              text: '${userName.split(' ')[0][0]}${userName.split(' ')[1][0]}',
+                              size: 24,
+                              color: CustomColors.primaryWhite,
+                              fontWeight: FontWeight.w600,
+                            ),
+                          ),
+                        ),
                       ),
                     ),
                   )

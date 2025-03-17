@@ -50,6 +50,7 @@ Future<void> main() async {
   await dotenv.load(
     fileName: Environment.fileName,
   ); // fileName: '.env', is default fileName so no need to specify it
+  CloudinaryContext.cloudinary = Cloudinary.fromCloudName(cloudName: cloudinaryName);
   if (kIsWeb) {
     print('Running on browser');
     runApp(

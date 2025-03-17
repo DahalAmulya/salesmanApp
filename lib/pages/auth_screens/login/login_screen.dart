@@ -54,6 +54,7 @@ class _LoginPageState extends State<LoginPage> {
     print(UserCred().password);
     print(UserCred().userId);
     print(UserCred().accessToken);
+    print(UserCred().profileImage);
     print('User Creds');
     print('***********************************************************');
     _userProvider = Provider.of<UserProvider>(context, listen: false);
@@ -303,6 +304,7 @@ class _LoginPageState extends State<LoginPage> {
       userAddress = data['user']['address'];
       userMaritalStatus = data['user']['maritalStatus'];
       userEmail = data['user']['email'];
+      profileImage = data['user']['profileImage'];
       userDoj = data['user']['doj'].toString().split('T')[0];
       userDepartment = data['user']['department'];
       userDesignation = data['user']['designation'];
@@ -342,6 +344,8 @@ class _LoginPageState extends State<LoginPage> {
           .writeLoginCredentials(SecureStorage.roleValue, roleValue.toString());
       SecureStorage().writeLoginCredentials(
           SecureStorage.rememberMe, rememberMe.toString());
+      SecureStorage().writeLoginCredentials(
+          SecureStorage.userProfileImage, profileImage);
       emailController.clear();
       passwordController.clear();
       print(data);

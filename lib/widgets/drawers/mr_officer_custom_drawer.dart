@@ -96,33 +96,37 @@ class MrOfficerCustomDrawer extends StatelessWidget {
                       ),
                       child: Row(
                         children: [
-                          CircleAvatar(
-                            radius: 34,
-                            backgroundColor: CustomColors.primaryWhite,
-                            child: Padding(
-                              padding: const EdgeInsets.all(2),
-                              child: ClipRRect(
-                                borderRadius: BorderRadius.circular(100),
-                                child: hasImage
-                                    ? Image.asset(
-                                        userImg!,
-                                        fit: BoxFit.scaleDown,
-                                      )
-                                    : Container(
-                                        color: Colors.black,
-                                        width: double.infinity,
-                                        height: double.infinity,
-                                        padding: EdgeInsets.all(4),
-                                        child: Center(
-                                          child: CustomText(
-                                            text:
-                                                '${userName.split(' ')[0][0]} ${userName.split(' ')[1][0]}',
-                                            size: 24,
-                                            color: CustomColors.primaryWhite,
-                                            fontWeight: FontWeight.w600,
-                                          ),
-                                        ),
-                                      ),
+                          Container(
+                            padding: const EdgeInsets.symmetric(horizontal: 8),
+                            child: Center(
+                              child: InkWell(
+                                onTap: () {
+                                  print('Tapped on image');
+                                },
+                                child: ClipRRect(
+                                  borderRadius: BorderRadius.circular(100), // Circular border
+                                  child: profileImage.isNotEmpty
+                                      ? Image.network(
+                                    profileImage,
+                                    fit: BoxFit.cover,
+                                    width: 80,
+                                    height: 80,
+                                  )
+                                      : Container(
+                                    width: 80,
+                                    height: 80,
+                                    decoration: BoxDecoration(
+                                      color: CustomColors.primaryBlack,
+                                    ),
+                                    alignment: Alignment.center,
+                                    child: CustomText(
+                                      text: '${userName.split(' ')[0][0]}${userName.split(' ')[1][0]}',
+                                      size: 24,
+                                      color: CustomColors.primaryWhite,
+                                      fontWeight: FontWeight.w600,
+                                    ),
+                                  ),
+                                ),
                               ),
                             ),
                           ),
