@@ -87,13 +87,13 @@ class CustomDrawer extends StatelessWidget {
                                 width: 80,
                                 height: 80,
                                 decoration: BoxDecoration(
-                                  color: CustomColors.primaryColor,
+                                  color: CustomColors.primaryBlack,
                                 ),
                                 alignment: Alignment.center,
                                 child: CustomText(
                                   text: '${userName.split(' ')[0][0]}${userName.split(' ')[1][0]}',
                                   size: 24,
-                                  color: CustomColors.primaryBlack,
+                                  color: CustomColors.primaryWhite,
                                   fontWeight: FontWeight.w600,
                                 ),
                               ),
@@ -110,12 +110,12 @@ class CustomDrawer extends StatelessWidget {
                           CustomText(
                             text: userName,
                             color: CustomColors.primaryBlack,
-                            fontWeight: FontWeight.w600,
+                            fontWeight: FontWeight.w700,
                           ),
                           CustomText(
                             text: role,
                             color: CustomColors.primaryBlack,
-                            fontWeight: FontWeight.w500,
+                            fontWeight: FontWeight.w600,
                             size: 14,
                           ),
                         ],

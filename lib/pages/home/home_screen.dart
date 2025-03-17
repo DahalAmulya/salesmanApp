@@ -18,6 +18,8 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:local_auth/local_auth.dart';
 import 'package:provider/provider.dart';
+import '../../consts.dart';
+import '../../providers/login_provider/login_provider.dart';
 import '../../providers/marketing_provider/officerName_provider.dart';
 import '../../providers/marketing_provider/officersDescription_provider.dart';
 import '../../utils/ScreenWIdth.dart';
@@ -171,23 +173,47 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
+  // PreferredSize _appBar(context) {
+  //   return PreferredSize(
+  //     preferredSize: Size.fromHeight(kToolbarHeight),
+  //     child: Builder(
+  //       builder: (context) => CustomAppBar(
+  //         tabName: 'Dashboard',
+  //         // titleColor: CustomColors.primaryBlack,
+  //         titleColor: CustomColors.primaryBlack,
+  //         backgroundColor: CustomColors.primaryColor,
+  //         showLeading: true,
+  //         leadingIcon: FontAwesomeIcons.bars,
+  //         leadingIconColor: CustomColors.primaryBlack,
+  //         onTapLeadingIcon: () {
+  //           // Use the context under the Scaffold
+  //           Scaffold.of(context).openDrawer();
+  //         },
+  //       ),
+  //     ),
+  //   );
+  // }
+
   PreferredSize _appBar(context) {
     return PreferredSize(
       preferredSize: Size.fromHeight(kToolbarHeight),
       child: Builder(
-        builder: (context) => CustomAppBar(
-          tabName: 'Dashboard',
-          // titleColor: CustomColors.primaryBlack,
-          titleColor: CustomColors.primaryBlack,
-          backgroundColor: CustomColors.primaryColor,
-          showLeading: true,
-          leadingIcon: FontAwesomeIcons.bars,
-          leadingIconColor: CustomColors.primaryBlack,
-          onTapLeadingIcon: () {
-            // Use the context under the Scaffold
-            Scaffold.of(context).openDrawer();
-          },
-        ),
+        builder: (context) =>
+            Consumer<UserProvider>(builder: (context, userProvider, _) {
+              return CustomAppBar(
+                tabName: 'Hi, ${userName.split(' ')[0][0]}',
+                centerTitle: false,
+                titleColor: CustomColors.primaryBlack,
+                backgroundColor: CustomColors.primaryColor,
+                showLeading: true,
+                isLeadingImage: true,
+                imageName: 'assets/images/man.png',
+                leadingIconColor: CustomColors.primaryBlack,
+                onTap: () {
+                  Scaffold.of(context).openDrawer();
+                },
+              );
+            }),
       ),
     );
   }
