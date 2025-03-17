@@ -201,50 +201,6 @@ class _MarketingManagerDashboardState extends State<MarketingManagerDashboard> {
           appBar: _appBar(context),
           drawer: _drawer(context),
           body: _buildUI(context),
-          // floatingActionButton: Consumer<DeviceInfoProvider>(
-          //   builder: (context, location, _) {
-          //     return FloatingActionButton(
-          //       backgroundColor: CustomColors.primaryColor,
-          //       onPressed: () async {
-          //         // location.deviceInfoProvider();
-          //         // location.postDeviceInfo();
-          //         // Navigator.of(context).push(
-          //         //     MaterialPageRoute(builder: (context) => WeeklyPlanScreen()));
-          //         // Navigator.of(context).push(MaterialPageRoute(
-          //         //     builder: (context) => MROfficersVisitsScreen()));
-          //         // Uri url =
-          //         //     Uri.parse('http://108.181.195.185:5000/api/location');
-          //         // Map<String, dynamic> data = {
-          //         //   'mobileIdentifier': '_uniqueIdentifier',
-          //         //   'employeeName': '_name',
-          //         //   'latitude': 23.55454,
-          //         //   'longitude': 87.415454,
-          //         //   'batteryPercentage': 85,
-          //         //   'accuracy': '_accuracy',
-          //         //   'deviceTime': '_deviceTime',
-          //         //   'connectivityType': '_connectivityType',
-          //         //   'connectivityStatus': '_connectivityStatus',
-          //         //   'distance': 69.69,
-          //         // };
-
-          //         // try {
-          //         //   final response = await http.post(
-          //         //     url,
-          //         //     headers: {'Content-Type': 'application/json'},
-          //         //     body: jsonEncode(data),
-          //         //   );
-          //         //   print(response.body);
-          //         //   print(response.statusCode);
-          //         // } catch (err) {
-          //         //   print('Err = $err');
-          //         // }
-          //       },
-          //       child: Icon(
-          //         Icons.gps_fixed,
-          //       ),
-          //     );
-          //   },
-          // ),
           floatingActionButton: FloatingActionButton.small(
             backgroundColor: CustomColors.primaryColor,
             onPressed: () {
@@ -263,29 +219,22 @@ class _MarketingManagerDashboardState extends State<MarketingManagerDashboard> {
     return PreferredSize(
       preferredSize: Size.fromHeight(kToolbarHeight),
       child: Builder(
-        builder: (context) => Consumer<UserProvider>(
-          builder: (context, userProvider, _) {
-            return CustomAppBar(
-              tabName: 'Hi, ${userName.split(' ')[0]}',
-              centerTitle: false,
-              titleColor: CustomColors.primaryBlack,
-              backgroundColor: CustomColors.primaryColor,
-              showLeading: true,
-              // isLeadingImage: true,
-              leadingIcon: FontAwesomeIcons.bars,
-              // imageName: 'assets/images/userLocation.png',
-              leadingIconColor: CustomColors.primaryBlack,
-              onTap: () {
-                // Use the context under the Scaffold
-                Scaffold.of(context).openDrawer();
-              },
-              onTapLeadingIcon: () {
-                // Use the context under the Scaffold
-                Scaffold.of(context).openDrawer();
-              },
-            );
-          },
-        ),
+        builder: (context) =>
+            Consumer<UserProvider>(builder: (context, userProvider, _) {
+              return CustomAppBar(
+                tabName: 'Hi, ${userName.split(' ')[0]}',
+                centerTitle: false,
+                titleColor: CustomColors.primaryBlack,
+                backgroundColor: CustomColors.primaryColor,
+                showLeading: true,
+                isLeadingImage: true,
+                imageName: 'assets/images/man.png',
+                leadingIconColor: CustomColors.primaryBlack,
+                onTap: () {
+                  Scaffold.of(context).openDrawer();
+                },
+              );
+            }),
       ),
     );
   }
