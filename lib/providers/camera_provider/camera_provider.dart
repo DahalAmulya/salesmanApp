@@ -76,16 +76,6 @@ class CameraProvider extends ChangeNotifier {
     _newVisitSelectedPhoto = '';
   }
 
-
-
-  void postProfileImage()async{
-    Map<String, dynamic> body= {};
-    ERPResponse response = await ERPServices.postRequest('/api/img/upload',
-      body,
-    );
-    try{}catch(err){}
-  }
-
   // void offsetY(double y) {
   //   notifyListeners();
   // }
