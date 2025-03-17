@@ -1,7 +1,8 @@
 import 'package:deskgoo/models/environment.dart';
 
 String apiURL = Environment.apiUrl;
-String googlMapApiKey = Environment.googleMapApiKey;
+String googleMapApiKey = Environment.googleMapApiKey;
+String cloudinaryName = Environment.cloudinaryName;
 bool isIOS = false;
 bool isAndroid = false;
 bool isBackground = false;
@@ -24,5 +25,6 @@ String userDepartment = '';
 String userDesignation = '';
 String userDor = '';
 String userNationality = '';
+String profileImage = '';
 
 int roleValue = 0;

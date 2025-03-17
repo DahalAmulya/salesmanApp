@@ -56,6 +56,8 @@ class _SplashScreenState extends State<SplashScreenPage> {
         .readLoginCredentials(SecureStorage.userMaritalStatus);
     SecureStorageResponse addr =
         await SecureStorage().readLoginCredentials(SecureStorage.userAddress);
+    SecureStorageResponse profileImg =
+        await SecureStorage().readLoginCredentials(SecureStorage.userProfileImage);
     SecureStorageResponse depart = await SecureStorage()
         .readLoginCredentials(SecureStorage.userDepartment);
     userId = _id.value;
@@ -69,6 +71,7 @@ class _SplashScreenState extends State<SplashScreenPage> {
     userDob = dob.value;
     userNationality = national.value;
     userMaritalStatus = marStat.value;
+    profileImage = profileImg.value;
 
     userId = _id.value;
     accessToken = accessTok.value;

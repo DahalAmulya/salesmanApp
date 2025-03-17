@@ -1,3 +1,4 @@
+import 'package:cloudinary_url_gen/asset/cld_image.dart';
 import 'package:deskgoo/consts.dart';
 import 'package:deskgoo/pages/mr_officers_pages/weeklyplan/weeklyplan_screen.dart';
 import 'package:deskgoo/providers/profile_provider/profile_provider.dart';
@@ -66,36 +67,41 @@ class CustomDrawer extends StatelessWidget {
                   ),
                   child: Row(
                     children: [
-                      CircleAvatar(
-                        radius: 34,
-                        backgroundColor: CustomColors.primaryWhite,
-                        child: Padding(
-                          padding: const EdgeInsets.all(2),
-                          child: ClipRRect(
-                            borderRadius: BorderRadius.circular(100),
-                            child: hasImage
-                                ? Image.asset(
-                                    userImg!,
-                                    fit: BoxFit.scaleDown,
-                                  )
-                                : Container(
-                                    color: Colors.black,
-                                    width: double.infinity,
-                                    height: double.infinity,
-                                    padding: EdgeInsets.all(4),
-                                    child: Center(
-                                      child: CustomText(
-                                        text: userName,
-                                        size: 24,
-                                        color: CustomColors.primaryWhite,
-                                        fontWeight: FontWeight.w600,
-                                      ),
-                                    ),
-                                  ),
+                      Container(
+                        padding: const EdgeInsets.symmetric(horizontal: 8),
+                        child: Center(
+                          child: InkWell(
+                            onTap: () {
+                              print('Tapped on image');
+                            },
+                            child: ClipRRect(
+                              borderRadius: BorderRadius.circular(100), // Circular border
+                              child: profileImage.isNotEmpty
+                                  ? Image.network(
+                                profileImage,
+                                fit: BoxFit.cover,
+                                width: 80,
+                                height: 80,
+                              )
+                                  : Container(
+                                width: 80,
+                                height: 80,
+                                decoration: BoxDecoration(
+                                  color: CustomColors.primaryColor,
+                                ),
+                                alignment: Alignment.center,
+                                child: CustomText(
+                                  text: '${userName.split(' ')[0][0]}${userName.split(' ')[1][0]}',
+                                  size: 24,
+                                  color: CustomColors.primaryBlack,
+                                  fontWeight: FontWeight.w600,
+                                ),
+                              ),
+                            ),
                           ),
                         ),
                       ),
-                      SizedBox(
+                      const SizedBox(
                         width: 16.0,
                       ),
                       Column(
@@ -192,7 +198,6 @@ class CustomDrawer extends StatelessWidget {
                     Consumer<UserProfileProvider>(
                       builder: (context, userProfileProvider, _) {
                         return CustomListTile(
-
                           onTap: () {
                             // GoRouter.of(context).pushReplacementNamed(
                             //     MyAppRouteConstants.homeNavBarRouteName);
@@ -221,7 +226,7 @@ class CustomDrawer extends StatelessWidget {
                                   actions: [
                                     Row(
                                       mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
+                                          MainAxisAlignment.spaceBetween,
                                       children: [
                                         CustomElevatedButton(
                                           onPressed: () {
@@ -229,7 +234,7 @@ class CustomDrawer extends StatelessWidget {
                                           },
                                           // backgroundColor: Colors.green,
                                           backgroundColor:
-                                          CustomColors.primaryColor,
+                                              CustomColors.primaryColor,
                                           widget: CustomText(
                                             text: 'No',
                                             isContent: true,
@@ -249,7 +254,7 @@ class CustomDrawer extends StatelessWidget {
                                           },
                                           // backgroundColor: Colors.red,
                                           backgroundColor:
-                                          CustomColors.lightRed,
+                                              CustomColors.lightRed,
                                           widget: CustomText(
                                             text: 'Yes',
                                             isContent: true,

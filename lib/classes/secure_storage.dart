@@ -26,6 +26,7 @@ class SecureStorage {
   static String userMaritalStatus = 'userMaritalStatus';
   static String userNationality = 'userNationality';
   static String userAddress = 'userAddress';
+  static String userProfileImage = 'userProfileImage';
 
   static FlutterSecureStorage storage = const FlutterSecureStorage();
 
