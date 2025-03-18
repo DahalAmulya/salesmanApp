@@ -142,13 +142,13 @@ class CustomAppBar extends StatelessWidget {
                             width: 48,
                             height: 48,
                             decoration: BoxDecoration(
-                              color: CustomColors.primaryBlack,
+                              color: CustomColors.darkBlue,
                             ),
                             alignment: Alignment.center,
                             child: CustomText(
                               text: '${userName.split(' ')[0][0]}${userName.split(' ')[1][0]}',
                               size: 24,
-                              color: CustomColors.primaryWhite,
+                              color: CustomColors.primaryBlack,
                               fontWeight: FontWeight.w600,
                             ),
                           ),

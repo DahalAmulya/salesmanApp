@@ -86,6 +86,12 @@ class _Profile_pageState extends State<Profile_page> {
                       child: InkWell(
                         onTap: () {
                           print('Tapped on image');
+                          showModalBottomSheet(
+                            isScrollControlled: true,
+                            useSafeArea: true,
+                            context: context,
+                            builder: (context) => SelectProfile(context),
+                          );
                         },
                         child: ClipRRect(
                           borderRadius: BorderRadius.circular(100), // Circular border
@@ -239,6 +245,15 @@ class _Profile_pageState extends State<Profile_page> {
       ),
     );
   }
+
+  //----------------------------------------------------------------Bottom Sheet----------------------------------------------------------------//
+
+   Widget SelectProfile(context){
+    return Container(
+      color: CustomColors.primaryWhite,
+      height: MediaQuery.of(context).size.height * 0.80,
+    );
+   }
 
   CustomGNavBar _bottomNavBar(context) {
     return CustomGNavBar(
