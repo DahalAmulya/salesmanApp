@@ -12,4 +12,5 @@ class CustomColors {
   static Color lightGreen = const Color(0xffa1e44d).withOpacity(0.5);
   static Color lightGrey = const Color(0xffced0ce);
   static Color lightYellow = const Color(0xffff9dc5c);
+  static Color darkBlue = const Color(0xff318CE7);
 }

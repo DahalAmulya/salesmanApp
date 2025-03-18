@@ -1,0 +1,94 @@
+Flutter crash report.
+Please report a bug at https://github.com/flutter/flutter/issues.
+
+## command
+
+flutter --no-color run --machine --track-widget-creation --device-id=5E42FECA-D08A-48F4-9E09-1B2F3C2B8EDD --start-paused --dart-define=flutter.inspector.structuredErrors=true lib/main.dart
+
+## exception
+
+SocketException: SocketException: Write failed (OS Error: Broken pipe, errno = 32), port = 0
+
+```
+#0      _NativeSocket.write (dart:io-patch/socket_patch.dart:1252:34)
+#1      _RawSocket.write (dart:io-patch/socket_patch.dart:2010:15)
+#2      _Socket._write (dart:io-patch/socket_patch.dart:2487:18)
+#3      _SocketStreamConsumer.write (dart:io-patch/socket_patch.dart:2222:28)
+#4      _SocketStreamConsumer.addStream.<anonymous closure> (dart:io-patch/socket_patch.dart:2174:11)
+#5      _rootRunUnary (dart:async/zone.dart:1422:47)
+#6      _CustomZone.runUnary (dart:async/zone.dart:1324:19)
+#7      _CustomZone.runUnaryGuarded (dart:async/zone.dart:1233:7)
+#8      _BufferingStreamSubscription._sendData (dart:async/stream_impl.dart:366:11)
+#9      _BufferingStreamSubscription._add (dart:async/stream_impl.dart:297:7)
+#10     _SyncStreamControllerDispatch._sendData (dart:async/stream_controller.dart:777:19)
+#11     _StreamController._add (dart:async/stream_controller.dart:651:7)
+#12     _StreamController.add (dart:async/stream_controller.dart:606:5)
+#13     _StreamSinkImpl.add (dart:io/io_sink.dart:154:17)
+#14     _IOSinkImpl.write (dart:io/io_sink.dart:287:5)
+#15     _Socket.write (dart:io-patch/socket_patch.dart:2320:36)
+#16     _StdSink.writeln (dart:io/stdio.dart:426:13)
+#17     DefaultResidentCompiler._compile (package:flutter_tools/src/compile.dart:902:20)
+<asynchronous suspension>
+#18     _CompilationRequest.run (package:flutter_tools/src/compile.dart:393:24)
+<asynchronous suspension>
+#19     DefaultResidentCompiler._handleCompilationRequest (package:flutter_tools/src/compile.dart:779:9)
+<asynchronous suspension>
+```
+
+## flutter doctor
+
+```
+[✓] Flutter (Channel stable, 3.27.0, on macOS 14.5 23F79 darwin-arm64, locale en-NP)
+    • Flutter version 3.27.0 on channel stable at /Users/farhanansari/Documents/flutter
+    • Upstream repository https://github.com/flutter/flutter.git
+    • Framework revision 8495dee1fd (3 months ago), 2024-12-10 14:23:39 -0800
+    • Engine revision 83bacfc525
+    • Dart version 3.6.0
+    • DevTools version 2.40.2
+
+[✓] Android toolchain - develop for Android devices (Android SDK version 34.0.0)
+    • Android SDK at /Users/farhanansari/Library/Android/sdk
+    • Platform android-35, build-tools 34.0.0
+    • Java binary at: /Applications/Android Studio.app/Contents/jbr/Contents/Home/bin/java
+    • Java version OpenJDK Runtime Environment (build 21.0.3+-79915917-b509.11)
+    • All Android licenses accepted.
+
+[✓] Xcode - develop for iOS and macOS (Xcode 16.2)
+    • Xcode at /Applications/Xcode.app/Contents/Developer
+    • Build 16C5032a
+    • CocoaPods version 1.16.2
+
+[✓] Chrome - develop for the web
+    • CHROME_EXECUTABLE = /Applications/Google Chrome.app/Contents/MacOS/Google Chrome
+
+[✓] Android Studio (version 2024.2)
+    • Android Studio at /Applications/Android Studio.app/Contents
+    • Flutter plugin can be installed from:
+      🔨 https://plugins.jetbrains.com/plugin/9212-flutter
+    • Dart plugin can be installed from:
+      🔨 https://plugins.jetbrains.com/plugin/6351-dart
+    • Java version OpenJDK Runtime Environment (build 21.0.3+-79915917-b509.11)
+
+[✓] VS Code (version 1.97.0)
+    • VS Code at /Applications/Visual Studio Code.app/Contents
+    • Flutter extension version 3.102.0
+
+[✓] VS Code (version 1.84.2)
+    • VS Code at /Users/farhanansari/Downloads/Visual Studio Code.app/Contents
+    • Flutter extension version 3.102.0
+
+[✓] VS Code (version 1.97.0)
+    • VS Code at /Applications/visual studio code.app/Contents
+    • Flutter extension version 3.102.0
+
+[✓] Connected device (4 available)
+    • iPhone 16 Pro Max (mobile)      • 5E42FECA-D08A-48F4-9E09-1B2F3C2B8EDD • ios            • com.apple.CoreSimulator.SimRuntime.iOS-18-2 (simulator)
+    • macOS (desktop)                 • macos                                • darwin-arm64   • macOS 14.5 23F79 darwin-arm64
+    • Mac Designed for iPad (desktop) • mac-designed-for-ipad                • darwin         • macOS 14.5 23F79 darwin-arm64
+    • Chrome (web)                    • chrome                               • web-javascript • Google Chrome 134.0.6998.89
+
+[✓] Network resources
+    • All expected network resources are available.
+
+• No issues found!
+```
