@@ -19,7 +19,7 @@ class MarketingManagerConstants {
   static const String mrManagerCreateUserPage = '/createUserPage';
   static const String mrManagerViewUserPage = '/ViewUserPage';
   static const String mrManagerReferralLogPage = '/ReferralLogPage';
-  static const String MrAdminAttendanceReportScreen = '/AttendanceReportPage';
+  static const String mrAdminAttendanceReportScreen = '/AttendanceReportPage';
   static const String marketingOfficers = '/marketing_officers';
   static const String officerDescriptionPage = '/officerDescriptionPage';
   static const String officerVisitDetailPage = '/officerVisitDetailPage';
@@ -28,4 +28,6 @@ class MarketingManagerConstants {
       '/report_marketing_offices_screen';
   static const String areaReportMarketingOfficersScreen =
       '/area_report_marketing_offices_screen';
+  static const String pickProfilePic =
+      '/pick_profile_pic_screen';
 }
