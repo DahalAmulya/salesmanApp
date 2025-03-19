@@ -18,6 +18,7 @@ import 'package:deskgoo/pages/mr_officers_pages/referral/referral_log_screen.dar
 import 'package:deskgoo/pages/mr_officers_pages/referral/referral_screen.dart';
 import 'package:deskgoo/pages/mr_officers_pages/weeklyplan/addtask_screen.dart';
 import 'package:deskgoo/pages/mr_officers_pages/weeklyplan/weeklyplan_screen.dart';
+import 'package:deskgoo/pages/settings/profile/pick_profile_pic_screen.dart';
 import 'package:deskgoo/pages/settings/setting.dart';
 import 'package:deskgoo/pages/visit/visit_screen.dart';
 import 'package:deskgoo/routes/marketing_officer_consts.dart';
@@ -43,7 +44,7 @@ class RouteGenerator {
       // Routes for MarketingManager
       case MarketingManagerConstants.splash:
         return MaterialPageRoute(
-          builder: (_) => SplashScreenPage(),
+          builder: (_) => const SplashScreenPage(),
         );
       case MarketingManagerConstants.indexPage:
         return MaterialPageRoute(
@@ -59,15 +60,15 @@ class RouteGenerator {
         );
       case MarketingManagerConstants.cameraPage:
         return MaterialPageRoute(
-          builder: (_) => CameraPage(),
+          builder: (_) => const CameraPage(),
         );
       case MarketingManagerConstants.previewCapturedPhotoPage:
         return MaterialPageRoute(
-          builder: (_) => PreviewCapturedPhotos(),
+          builder: (_) => const PreviewCapturedPhotos(),
         );
       case MarketingManagerConstants.previewSelectedPhotoPage:
         return MaterialPageRoute(
-          builder: (_) => PreviewSelectedPhoto(),
+          builder: (_) => const PreviewSelectedPhoto(),
         );
       case MarketingManagerConstants.liveTrackingPage:
         return MaterialPageRoute(
@@ -91,43 +92,47 @@ class RouteGenerator {
         );
       case MarketingManagerConstants.profilePage:
         return MaterialPageRoute(
-          builder: (_) => Profile_page(),
+          builder: (_) => const Profile_page(),
         );
       case MarketingManagerConstants.officerDescriptionPage:
         return MaterialPageRoute(
-          builder: (_) => OfficerDescriptionPage(),
+          builder: (_) => const OfficerDescriptionPage(),
         );
       case MarketingManagerConstants.marketingOfficers:
         return MaterialPageRoute(
-          builder: (_) => MarketingOfficersScreen(),
+          builder: (_) => const MarketingOfficersScreen(),
         );
       case MarketingManagerConstants.officerVisitDetailPage:
         return MaterialPageRoute(
-          builder: (_) => OfficerVisitDetailPage(),
+          builder: (_) => const OfficerVisitDetailPage(),
         );
       case MarketingManagerConstants.reportMarketingOfficersScreen:
         return MaterialPageRoute(
-          builder: (_) => MrAdminReportScreen(),
+          builder: (_) => const MrAdminReportScreen(),
         );
       case MarketingManagerConstants.areaReportMarketingOfficersScreen:
         return MaterialPageRoute(
-          builder: (_) => MrAdminAreaReportScreen(),
+          builder: (_) => const MrAdminAreaReportScreen(),
         );
       case MarketingManagerConstants.mrManagerCreateUserPage:
         return MaterialPageRoute(
-          builder: (_) => MarketingAdminCreateUser(),
+          builder: (_) => const MarketingAdminCreateUser(),
         );
       case MarketingManagerConstants.mrManagerViewUserPage:
         return MaterialPageRoute(
-          builder: (_) => MarketingAdminViewUser(),
+          builder: (_) => const MarketingAdminViewUser(),
         );
       case MarketingManagerConstants.mrManagerReferralLogPage:
         return MaterialPageRoute(
-          builder: (_) => ReferralLogScreen(),
+          builder: (_) => const ReferralLogScreen(),
         );
-      case MarketingManagerConstants.MrAdminAttendanceReportScreen:
+      case MarketingManagerConstants.mrAdminAttendanceReportScreen:
         return MaterialPageRoute(
-          builder: (_) => MrAdminAttendanceReportScreen(),
+          builder: (_) => const MrAdminAttendanceReportScreen(),
+        );
+      case MarketingManagerConstants.pickProfilePic:
+        return MaterialPageRoute(
+          builder: (_) => const PickProfilePicScreen(),
         );
 
       // Routes for MarketingStaff

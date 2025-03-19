@@ -70,7 +70,6 @@ class _Profile_pageState extends State<Profile_page> {
   }
 
   Widget _buildUI(context) {
-    print("Profile image = " + profileImage);
     return SafeArea(
       child: Consumer<ProfileProvider>(
         builder: (context, profileProvider, _) {
@@ -89,14 +88,7 @@ class _Profile_pageState extends State<Profile_page> {
                       child: InkWell(
                         onTap: () {
                           print('Tapped on image');
-                          // _pickImageFromGallery();
-                          _pickImageFromCamera();
-                          // showModalBottomSheet(
-                          //   isScrollControlled: true,
-                          //   useSafeArea: true,
-                          //   context: context,
-                          //   builder: (context) => SelectProfile(context),
-                          // );
+                          Navigator.of(context).pushNamed(MarketingManagerConstants.pickProfilePic);
                         },
                         child: ClipRRect(
                           borderRadius: BorderRadius.circular(100), // Circular border
@@ -125,7 +117,6 @@ class _Profile_pageState extends State<Profile_page> {
                       ),
                     ),
                   ),
-                  _selectedImage != null ? Image.file(_selectedImage!) : CustomText(text: 'Please select an image'),
                   const SizedBox(
                     height: 8,
                   ),

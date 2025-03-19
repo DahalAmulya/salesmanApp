@@ -478,7 +478,7 @@ class _MarketingManagerDashboardState extends State<MarketingManagerDashboard> {
               InkWell(
                 onTap: (){
                   Navigator.of(context).pushNamed(MarketingManagerConstants
-                      .MrAdminAttendanceReportScreen);
+                      .mrAdminAttendanceReportScreen);
                 },
                 child: CustomContainer(
                   horizontalMargin: 8,
@@ -626,7 +626,7 @@ class _MarketingManagerDashboardState extends State<MarketingManagerDashboard> {
               title: 'Average Visits',
               onTap: () {
                 Navigator.of(context).pushNamed(MarketingManagerConstants
-                                .MrAdminAttendanceReportScreen);
+                                .mrAdminAttendanceReportScreen);
               },
             ),
           ],
