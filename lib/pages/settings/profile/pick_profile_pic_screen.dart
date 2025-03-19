@@ -7,6 +7,7 @@ import 'package:deskgoo/widgets/buttons/elevated_button.dart';
 import 'package:deskgoo/widgets/containers/custom_container.dart';
 import 'package:deskgoo/widgets/texts/custom_text.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:image_picker/image_picker.dart';
 
@@ -74,7 +75,13 @@ class _PickProfilePicScreenState extends State<PickProfilePicScreen> {
           CustomElevatedButton(
             onPressed: () {
               print('Pressed on upload button');
-              postProfileImage();
+              if(_selectedImage != null){
+                postProfileImage();
+              }else{
+                ToastMessageUtils().showToastMessage('Please select an image',ToastGravity.TOP,
+                    CustomColors.lightRed);
+              }
+
             },
             backgroundColor: CustomColors.primaryColor,
             widget: CustomText(text: 'Upload Image'),
@@ -115,14 +122,18 @@ class _PickProfilePicScreenState extends State<PickProfilePicScreen> {
     try {
       var response = await request.send();
       if (response.statusCode == 200) {
-        ToastMessageUtils().showToastMessage('Image uploaded successfully');
+        ToastMessageUtils().showToastMessage('Image uploaded successfully',ToastGravity.TOP,
+            CustomColors.jadeGreen);
+        Navigator.of(context).pop();
         print("Upload successful!");
       } else {
-        ToastMessageUtils().showToastMessage('Image uploaded failed');
+        ToastMessageUtils().showToastMessage('Image uploaded failed',ToastGravity.TOP,
+            CustomColors.lightRed);
         print("Upload failed with status: ${response.statusCode}");
       }
     } catch (e) {
-      ToastMessageUtils().showToastMessage('Image uploaded failed');
+      ToastMessageUtils().showToastMessage('Image uploaded failed',ToastGravity.TOP,
+          CustomColors.lightRed);
       print("Error uploading: $e");
     }
   }
