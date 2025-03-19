@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:deskgoo/consts.dart';
 import 'package:deskgoo/providers/profile_provider/profile_provider.dart';
@@ -10,6 +11,7 @@ import 'package:deskgoo/widgets/bottom_navigation/gnav_bar.dart';
 import 'package:deskgoo/widgets/texts/custom_text.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
 
 import '../../../routes/route_generator_constants.dart';
@@ -26,6 +28,7 @@ class _Profile_pageState extends State<Profile_page> {
   double textFontSize = 16.0;
   FontWeight fontWeight = FontWeight.w600;
   int index = 2;
+  File ? _selectedImage;
 
   @override
   Widget build(BuildContext context) {
@@ -86,6 +89,8 @@ class _Profile_pageState extends State<Profile_page> {
                       child: InkWell(
                         onTap: () {
                           print('Tapped on image');
+                          // _pickImageFromGallery();
+                          _pickImageFromCamera();
                           // showModalBottomSheet(
                           //   isScrollControlled: true,
                           //   useSafeArea: true,
@@ -120,6 +125,7 @@ class _Profile_pageState extends State<Profile_page> {
                       ),
                     ),
                   ),
+                  _selectedImage != null ? Image.file(_selectedImage!) : CustomText(text: 'Please select an image'),
                   const SizedBox(
                     height: 8,
                   ),
@@ -268,5 +274,23 @@ class _Profile_pageState extends State<Profile_page> {
         print(index);
       },
     );
+  }
+
+  Future _pickImageFromGallery() async {
+    final returnedImage = await ImagePicker().pickImage(source: ImageSource.gallery);
+
+    if(returnedImage == null) return;
+    setState(() {
+      _selectedImage = File(returnedImage!.path);
+    });
+  }
+
+  Future _pickImageFromCamera() async {
+    final returnedImage = await ImagePicker().pickImage(source: ImageSource.camera);
+
+    if(returnedImage == null) return;
+    setState(() {
+      _selectedImage = File(returnedImage!.path);
+    });
   }
 }
