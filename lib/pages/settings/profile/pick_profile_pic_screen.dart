@@ -12,6 +12,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:image_picker/image_picker.dart';
 
+import '../../../classes/secure_storage.dart';
 import '../../../routes/route_generator_constants.dart';
 import '../../../themes/custom_colors.dart';
 import '../../../widgets/app_bars/custom_app_bars.dart';
@@ -66,6 +67,7 @@ class _PickProfilePicScreenState extends State<PickProfilePicScreen> {
             backgroundColor: CustomColors.primaryColor,
             widget: CustomText(text: 'Choose from Gallery'),
           ),
+          const SizedBox(height: 16,),
           CustomElevatedButton(
             onPressed: () {
               _pickImageFromCamera();
@@ -73,12 +75,17 @@ class _PickProfilePicScreenState extends State<PickProfilePicScreen> {
             backgroundColor: CustomColors.lightRed,
             widget: CustomText(text: 'Take a picture'),
           ),
+          const SizedBox(height: 16,),
           _selectedImage != null ? Image.file(_selectedImage!) : Container(),
-          CustomElevatedButton(
+          const SizedBox(height: 16,),
+          uploadingImage ? const Center(child: CircularProgressIndicator(),) : CustomElevatedButton(
             onPressed: () {
               print('Pressed on upload button');
               if(_selectedImage != null){
                 postProfileImage();
+                setState(() {
+                  uploadingImage = true;
+                });
               }else{
                 ToastMessageUtils().showToastMessage('Please select an image',ToastGravity.TOP,
                     CustomColors.lightRed);
@@ -134,9 +141,10 @@ class _PickProfilePicScreenState extends State<PickProfilePicScreen> {
         print("Response Status Code: ${response.statusCode}");
         print("Response Body: ${response.body}");
         Map<String,dynamic> body = jsonDecode(response.body);
-        // setState(() {
         profileImage = body['user']['profileImage'];
-        // });
+        print(profileImage);
+        SecureStorage().writeLoginCredentials(
+            SecureStorage.userProfileImage, profileImage);
         print("Upload successful!");
         Navigator.of(context).pop();
       } else {

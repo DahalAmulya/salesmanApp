@@ -6,6 +6,7 @@ import 'package:deskgoo/providers/profile_provider/profile_provider.dart';
 import 'package:deskgoo/providers/settings_providers/profile_provider/profile_provider.dart';
 import 'package:deskgoo/services/erp_services.dart';
 import 'package:deskgoo/themes/custom_colors.dart';
+import 'package:deskgoo/utils/readUserCred.dart';
 import 'package:deskgoo/widgets/app_bars/custom_app_bars.dart';
 import 'package:deskgoo/widgets/bottom_navigation/gnav_bar.dart';
 import 'package:deskgoo/widgets/texts/custom_text.dart';
@@ -33,7 +34,7 @@ class _Profile_pageState extends State<Profile_page> {
   @override
   void initState(){
     setState(() {
-      profileImage;
+      UserCred().readUserCred();
     });
     super.initState();
   }
