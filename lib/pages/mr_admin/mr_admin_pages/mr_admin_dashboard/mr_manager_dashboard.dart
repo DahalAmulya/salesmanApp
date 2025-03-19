@@ -73,17 +73,17 @@ class _MarketingManagerDashboardState extends State<MarketingManagerDashboard> {
     // }
   }
 
-  void getUser()async{
-    ERPResponse response = await ERPServices.getRequest('/visitLogs/users');
-    // print(response.statusCode);
-    // print(response.body);
-    if(response.statusCode == 200){
-      logs = jsonDecode(response.body);
-      userList = logs["logs"];
-      print(userList);
-      percent = userList.length / 100;
-    }
-  }
+  // void getUser()async{
+  //   ERPResponse response = await ERPServices.getRequest('/visitLogs/users');
+  //   // print(response.statusCode);
+  //   // print(response.body);
+  //   if(response.statusCode == 200){
+  //     logs = jsonDecode(response.body);
+  //     userList = logs["logs"];
+  //     print(userList);
+  //     percent = userList.length / 100;
+  //   }
+  // }
 
   void postData() {
     // Map<String, dynamic> data = {
@@ -117,7 +117,7 @@ class _MarketingManagerDashboardState extends State<MarketingManagerDashboard> {
       onDismissActionReceivedMethod:
           NotificationController.onDismissActionReceivedMethod,
     );
-    getUser();
+    // getUser();
     // NotificationUtils.sendNotification(2, 'Home', 'You are on home screen');
     super.initState();
   }
@@ -280,27 +280,27 @@ class _MarketingManagerDashboardState extends State<MarketingManagerDashboard> {
               SizedBox(
                 height: 8,
               ),
-              Center(
-                child: CustomContainer(
-                  color: Colors.transparent,
-                  borderRadius: 8,
-                  width: 0.90,
-                  verticalPad: 8,
-                  horizontalPad: 0,
-                  child: Row(
-                    children: [
-                      CustomLineBar(),
-                      SizedBox(
-                        width: 8,
-                      ),
-                      CustomText(
-                        text: 'Quick Reports',
-                        isSubHeading: true,
-                      ),
-                    ],
-                  ),
-                ),
-              ),
+              // Center(
+              //   child: CustomContainer(
+              //     color: Colors.transparent,
+              //     borderRadius: 8,
+              //     width: 0.90,
+              //     verticalPad: 8,
+              //     horizontalPad: 0,
+              //     child: Row(
+              //       children: [
+              //         CustomLineBar(),
+              //         SizedBox(
+              //           width: 8,
+              //         ),
+              //         CustomText(
+              //           text: 'Quick Reports',
+              //           isSubHeading: true,
+              //         ),
+              //       ],
+              //     ),
+              //   ),
+              // ),
               // CarouselSlider.builder(
               //   options: CarouselOptions(
               //     height: 220,
@@ -472,9 +472,9 @@ class _MarketingManagerDashboardState extends State<MarketingManagerDashboard> {
               SizedBox(
                 height: 8,
               ),
-              Center(
-                child: buildIndicator(),
-              ),
+              // Center(
+              //   child: buildIndicator(),
+              // ),
               InkWell(
                 onTap: (){
                   Navigator.of(context).pushNamed(MarketingManagerConstants
@@ -482,38 +482,96 @@ class _MarketingManagerDashboardState extends State<MarketingManagerDashboard> {
                 },
                 child: CustomContainer(
                   horizontalMargin: 8,
-                  verticalPad: 24,
-                  horizontalPad: 24,
+                  verticalPad: 16,
+                  horizontalPad: 16,
                   verticalMargin: 0,
-                  color: CustomColors.primaryWhite,
                   borderRadius: 16,
-                  applyShadow: true,
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  child: Column(
+                    // mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: [
-                      CircularPercentIndicator(
-                          radius: 96,
-                          lineWidth: 32,
-                        percent: 0.4,
-                        progressColor: CustomColors.primaryColor,
-                        backgroundColor: Colors.grey.shade300,
-                        circularStrokeCap: CircularStrokeCap.round,
-                        center: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            FittedBox(
-                              fit: BoxFit.scaleDown,
-                              child: CustomText(
-                                text: 'Total Employee',
-                                size: 14,
-                                fontWeight: FontWeight.w600,
-                              ),
-                            ),
-                            CustomText(text:'${userList.length.toString()}',isContent: true,),
-                          ],
-                        ),
+                      // CircularPercentIndicator(
+                      //     radius: 96,
+                      //     lineWidth: 32,
+                      //   percent: 0.4,
+                      //   progressColor: CustomColors.primaryColor,
+                      //   backgroundColor: Colors.grey.shade300,
+                      //   circularStrokeCap: CircularStrokeCap.round,
+                      //   center: Column(
+                      //     mainAxisAlignment: MainAxisAlignment.center,
+                      //     children: [
+                      //       FittedBox(
+                      //         fit: BoxFit.scaleDown,
+                      //         child: CustomText(
+                      //           text: 'Total Employee',
+                      //           size: 14,
+                      //           fontWeight: FontWeight.w600,
+                      //         ),
+                      //       ),
+                      //       CustomText(text:'${userList.length.toString()}',isContent: true,),
+                      //     ],
+                      //   ),
+                      // ),
+                      Row(
+                        children: [
+                          CustomLineBar(),
+                          SizedBox(
+                            width: 8,
+                          ),
+                          CustomText(
+                            text: 'Attendance Reports',
+                            isSubHeading: true,
+                          ),
+                          Spacer(),
+                          Icon(
+                            FontAwesomeIcons.chevronRight,
+                            size: 18,
+                          ),
+                        ],
                       ),
-                      CustomText(text: 'Attendance Report',isContent: true,),
+                      Padding(
+                        padding: const EdgeInsets.only(left: 16.0),
+                        child: Divider(),
+                      ),
+                      Row(
+                        children: [
+                          Image.asset('assets/images/attendance2.png',
+                            height: 80,
+                            width: 80,
+                          ),
+                          SizedBox(width: 48,),
+                          Column(
+                            children: [
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                children: [
+                                  Image.asset('assets/images/check-in.png',
+                                    height: 24,
+                                    width: 24,
+                                    // color: CustomColors.primaryColor,
+                                  ),
+                                  SizedBox(width: 16,),
+                                  CustomText(text: 'Checked In',isContent: true,),
+                                ],
+                              ),
+                              SizedBox(height: 8,),
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                children: [
+                                  Padding(
+                                    padding: const EdgeInsets.only(left: 16),
+                                    child: Image.asset('assets/images/exit.png',
+                                      height: 24,
+                                      width: 24,
+                                    ),
+                                  ),
+                                  SizedBox(width: 10,),
+                                  CustomText(text: 'Checked Out',isContent: true,),
+                                ],
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
                     ],
                   ),
                 ),
