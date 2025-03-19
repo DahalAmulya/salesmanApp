@@ -301,223 +301,223 @@ class _MarketingManagerDashboardState extends State<MarketingManagerDashboard> {
                   ),
                 ),
               ),
-              CarouselSlider.builder(
-                options: CarouselOptions(
-                  height: 220,
-                  enlargeCenterPage: true,
-                  enlargeStrategy: CenterPageEnlargeStrategy.height,
-                  onPageChanged: (index, reason) => setState(
-                    () {
-                      selectedIndex = index;
-                    },
-                  ),
-                ),
-                itemCount: colors.length,
-                itemBuilder: (BuildContext context, index, int realIndex) {
-                  SelectedColors = colors[index];
-                  return InkWell(
-                    onTap: (){
-                      Navigator.of(context).pushNamed(MarketingManagerConstants
-                          .MrAdminAttendanceReportScreen);
-                    },
-                    child: CustomContainer(
-                      horizontalMargin: 8,
-                      verticalPad: 0,
-                      horizontalPad: 0,
-                      verticalMargin: 0,
-                      color: Colors.white,
-                      borderRadius: 16,
-                      applyShadow: true,
-                      child: AspectRatio(
-                        aspectRatio: 1.3,
-                        child: ColoredBox(
-                          color: Colors.transparent,
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Container(
-                                color: Colors.amber,
-                                padding: const EdgeInsets.all(8.0),
-                                child: CustomText(
-                                  text: 'Today\'s Attendance',
-                                  isSubHeading: true,
-                                ),
-                              ),
-                              SizedBox(
-                                height: 24,
-                              ),
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                children: <Widget>[
-                                  const SizedBox(
-                                    height: 16,
-                                  ),
-                                  Expanded(
-                                    child: SizedBox(
-                                      height: 100,
-                                      width: 100,
-                                      // aspectRatio: 1,
-                                      child: PieChart(
-                                        PieChartData(
-                                          pieTouchData: PieTouchData(
-                                              touchCallback: (FlTouchEvent event,
-                                                  pieTouchResponse) {
-                                            setState(() {
-                                              if (!event
-                                                      .isInterestedForInteractions ||
-                                                  pieTouchResponse == null ||
-                                                  pieTouchResponse
-                                                          .touchedSection ==
-                                                      null) {
-                                                touchedIndex = -1;
-                                                return;
-                                              }
-                                              touchedIndex = pieTouchResponse
-                                                  .touchedSection!
-                                                  .touchedSectionIndex;
-                                              print(
-                                                  'touchedIndex = $touchedIndex');
-                                            });
-                                          }),
-                                          borderData: FlBorderData(
-                                            show: false,
-                                          ),
-                                          sectionsSpace: 0,
-                                          centerSpaceRadius: 30,
-                                          sections: showingSections(),
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                  Column(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                    children: <Widget>[
-                                      Indicator(
-                                        color: CustomColors.jadeGreen,
-                                        // noOfObj: '10',
-                                        // objInPercentage: '10',
-                                        text: 'On-Time',
-                                        isSquare: true,
-                                      ),
-                                      SizedBox(
-                                        height: 4,
-                                      ),
-                                      Indicator(
-                                        color: CustomColors.lightYellow,
-                                        text: 'Grace-Time',
-                                        // noOfObj: '10',
-                                        // objInPercentage: '10',
-                                        isSquare: true,
-                                      ),
-                                      SizedBox(
-                                        height: 4,
-                                      ),
-                                      Indicator(
-                                        color: CustomColors.lightRed,
-                                        text: 'Late',
-                                        // noOfObj: '10',
-                                        // objInPercentage: '10',
-                                        isSquare: true,
-                                      ),
-                                      SizedBox(
-                                        height: 18,
-                                      ),
-                                    ],
-                                  ),
-                                  const SizedBox(
-                                    width: 28,
-                                  ),
-                                ],
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-
-                      ////////////////////////////////////////////////////////
-                      // Stack(
-                      //   alignment: Alignment.center,
-                      //   children: [
-                      //     CustomText(text: 'Today\'s Attendance'),
-                      //     PieChart(
-                      //       swapAnimationDuration:
-                      //           const Duration(milliseconds: 500),
-                      //       swapAnimationCurve: Curves.easeInOut,
-                      //       PieChartData(
-                      //         sections: [
-                      //           PieChartSectionData(
-                      //             value: 33,
-                      //             color: CustomColors.lightGreen,
-                      //           ),
-                      //           PieChartSectionData(
-                      //             value: 33,
-                      //             color: CustomColors.lightYellow,
-                      //           ),
-                      //           PieChartSectionData(
-                      //             value: 33,
-                      //             color: CustomColors.lightRed,
-                      //           ),
-                      //         ],
-                      //       ),
-                      //     ),
-                      //   ],
-                      // ),
-                    ),
-                  );
-                },
-              ),
+              // CarouselSlider.builder(
+              //   options: CarouselOptions(
+              //     height: 220,
+              //     enlargeCenterPage: true,
+              //     enlargeStrategy: CenterPageEnlargeStrategy.height,
+              //     onPageChanged: (index, reason) => setState(
+              //       () {
+              //         selectedIndex = index;
+              //       },
+              //     ),
+              //   ),
+              //   itemCount: colors.length,
+              //   itemBuilder: (BuildContext context, index, int realIndex) {
+              //     SelectedColors = colors[index];
+              //     return InkWell(
+              //       onTap: (){
+              //         Navigator.of(context).pushNamed(MarketingManagerConstants
+              //             .MrAdminAttendanceReportScreen);
+              //       },
+              //       child: CustomContainer(
+              //         horizontalMargin: 8,
+              //         verticalPad: 0,
+              //         horizontalPad: 0,
+              //         verticalMargin: 0,
+              //         color: Colors.white,
+              //         borderRadius: 16,
+              //         applyShadow: true,
+              //         child: AspectRatio(
+              //           aspectRatio: 1.3,
+              //           child: ColoredBox(
+              //             color: Colors.transparent,
+              //             child: Column(
+              //               mainAxisAlignment: MainAxisAlignment.start,
+              //               crossAxisAlignment: CrossAxisAlignment.start,
+              //               children: [
+              //                 Container(
+              //                   color: Colors.amber,
+              //                   padding: const EdgeInsets.all(8.0),
+              //                   child: CustomText(
+              //                     text: 'Today\'s Attendance',
+              //                     isSubHeading: true,
+              //                   ),
+              //                 ),
+              //                 SizedBox(
+              //                   height: 24,
+              //                 ),
+              //                 Row(
+              //                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              //                   crossAxisAlignment: CrossAxisAlignment.center,
+              //                   children: <Widget>[
+              //                     const SizedBox(
+              //                       height: 16,
+              //                     ),
+              //                     Expanded(
+              //                       child: SizedBox(
+              //                         height: 100,
+              //                         width: 100,
+              //                         // aspectRatio: 1,
+              //                         child: PieChart(
+              //                           PieChartData(
+              //                             pieTouchData: PieTouchData(
+              //                                 touchCallback: (FlTouchEvent event,
+              //                                     pieTouchResponse) {
+              //                               setState(() {
+              //                                 if (!event
+              //                                         .isInterestedForInteractions ||
+              //                                     pieTouchResponse == null ||
+              //                                     pieTouchResponse
+              //                                             .touchedSection ==
+              //                                         null) {
+              //                                   touchedIndex = -1;
+              //                                   return;
+              //                                 }
+              //                                 touchedIndex = pieTouchResponse
+              //                                     .touchedSection!
+              //                                     .touchedSectionIndex;
+              //                                 print(
+              //                                     'touchedIndex = $touchedIndex');
+              //                               });
+              //                             }),
+              //                             borderData: FlBorderData(
+              //                               show: false,
+              //                             ),
+              //                             sectionsSpace: 0,
+              //                             centerSpaceRadius: 30,
+              //                             sections: showingSections(),
+              //                           ),
+              //                         ),
+              //                       ),
+              //                     ),
+              //                     Column(
+              //                       mainAxisAlignment: MainAxisAlignment.center,
+              //                       crossAxisAlignment: CrossAxisAlignment.start,
+              //                       children: <Widget>[
+              //                         Indicator(
+              //                           color: CustomColors.jadeGreen,
+              //                           // noOfObj: '10',
+              //                           // objInPercentage: '10',
+              //                           text: 'On-Time',
+              //                           isSquare: true,
+              //                         ),
+              //                         SizedBox(
+              //                           height: 4,
+              //                         ),
+              //                         Indicator(
+              //                           color: CustomColors.lightYellow,
+              //                           text: 'Grace-Time',
+              //                           // noOfObj: '10',
+              //                           // objInPercentage: '10',
+              //                           isSquare: true,
+              //                         ),
+              //                         SizedBox(
+              //                           height: 4,
+              //                         ),
+              //                         Indicator(
+              //                           color: CustomColors.lightRed,
+              //                           text: 'Late',
+              //                           // noOfObj: '10',
+              //                           // objInPercentage: '10',
+              //                           isSquare: true,
+              //                         ),
+              //                         SizedBox(
+              //                           height: 18,
+              //                         ),
+              //                       ],
+              //                     ),
+              //                     const SizedBox(
+              //                       width: 28,
+              //                     ),
+              //                   ],
+              //                 ),
+              //               ],
+              //             ),
+              //           ),
+              //         ),
+              //
+              //         ////////////////////////////////////////////////////////
+              //         // Stack(
+              //         //   alignment: Alignment.center,
+              //         //   children: [
+              //         //     CustomText(text: 'Today\'s Attendance'),
+              //         //     PieChart(
+              //         //       swapAnimationDuration:
+              //         //           const Duration(milliseconds: 500),
+              //         //       swapAnimationCurve: Curves.easeInOut,
+              //         //       PieChartData(
+              //         //         sections: [
+              //         //           PieChartSectionData(
+              //         //             value: 33,
+              //         //             color: CustomColors.lightGreen,
+              //         //           ),
+              //         //           PieChartSectionData(
+              //         //             value: 33,
+              //         //             color: CustomColors.lightYellow,
+              //         //           ),
+              //         //           PieChartSectionData(
+              //         //             value: 33,
+              //         //             color: CustomColors.lightRed,
+              //         //           ),
+              //         //         ],
+              //         //       ),
+              //         //     ),
+              //         //   ],
+              //         // ),
+              //       ),
+              //     );
+              //   },
+              // ),
               SizedBox(
                 height: 8,
               ),
-              // Center(
-              //   child: buildIndicator(),
-              // ),
-              // InkWell(
-              //   onTap: (){
-              //     Navigator.of(context).pushNamed(MarketingManagerConstants
-              //         .MrAdminAttendanceReportScreen);
-              //   },
-              //   child: CustomContainer(
-              //     horizontalMargin: 8,
-              //     verticalPad: 24,
-              //     horizontalPad: 24,
-              //     verticalMargin: 0,
-              //     color: CustomColors.primaryWhite,
-              //     borderRadius: 16,
-              //     applyShadow: true,
-              //     child: Row(
-              //       mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              //       children: [
-              //         CircularPercentIndicator(
-              //             radius: 96,
-              //             lineWidth: 32,
-              //           percent: 0.4,
-              //           progressColor: CustomColors.primaryColor,
-              //           backgroundColor: Colors.grey.shade300,
-              //           circularStrokeCap: CircularStrokeCap.round,
-              //           center: Column(
-              //             mainAxisAlignment: MainAxisAlignment.center,
-              //             children: [
-              //               FittedBox(
-              //                 fit: BoxFit.scaleDown,
-              //                 child: CustomText(
-              //                   text: 'Total Employee',
-              //                   size: 14,
-              //                   fontWeight: FontWeight.w600,
-              //                 ),
-              //               ),
-              //               CustomText(text:'${userList.length.toString()}',isContent: true,),
-              //             ],
-              //           ),
-              //         ),
-              //         CustomText(text: 'Attendance Report',isContent: true,),
-              //       ],
-              //     ),
-              //   ),
-              // ),
+              Center(
+                child: buildIndicator(),
+              ),
+              InkWell(
+                onTap: (){
+                  Navigator.of(context).pushNamed(MarketingManagerConstants
+                      .MrAdminAttendanceReportScreen);
+                },
+                child: CustomContainer(
+                  horizontalMargin: 8,
+                  verticalPad: 24,
+                  horizontalPad: 24,
+                  verticalMargin: 0,
+                  color: CustomColors.primaryWhite,
+                  borderRadius: 16,
+                  applyShadow: true,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      CircularPercentIndicator(
+                          radius: 96,
+                          lineWidth: 32,
+                        percent: 0.4,
+                        progressColor: CustomColors.primaryColor,
+                        backgroundColor: Colors.grey.shade300,
+                        circularStrokeCap: CircularStrokeCap.round,
+                        center: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            FittedBox(
+                              fit: BoxFit.scaleDown,
+                              child: CustomText(
+                                text: 'Total Employee',
+                                size: 14,
+                                fontWeight: FontWeight.w600,
+                              ),
+                            ),
+                            CustomText(text:'${userList.length.toString()}',isContent: true,),
+                          ],
+                        ),
+                      ),
+                      CustomText(text: 'Attendance Report',isContent: true,),
+                    ],
+                  ),
+                ),
+              ),
               SizedBox(
                 height: 16,
               ),
