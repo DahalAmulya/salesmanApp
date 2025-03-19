@@ -31,6 +31,14 @@ class _Profile_pageState extends State<Profile_page> {
   File ? _selectedImage;
 
   @override
+  void initState(){
+    setState(() {
+      profileImage;
+    });
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return PopScope(
       canPop: false,

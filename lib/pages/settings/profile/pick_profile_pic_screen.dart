@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:io';
 
 import 'package:deskgoo/consts.dart';
@@ -25,6 +26,7 @@ class PickProfilePicScreen extends StatefulWidget {
 
 class _PickProfilePicScreenState extends State<PickProfilePicScreen> {
   File? _selectedImage;
+  bool uploadingImage = false;
 
   @override
   Widget build(BuildContext context) {
@@ -120,12 +122,23 @@ class _PickProfilePicScreenState extends State<PickProfilePicScreen> {
     ));
 
     try {
-      var response = await request.send();
+      var streamedResponse = await request.send();
+
+      // Convert StreamedResponse to Response
+      var response = await http.Response.fromStream(streamedResponse);
+
       if (response.statusCode == 200) {
         ToastMessageUtils().showToastMessage('Image uploaded successfully',ToastGravity.TOP,
             CustomColors.jadeGreen);
-        Navigator.of(context).pop();
+        // Print the response body
+        print("Response Status Code: ${response.statusCode}");
+        print("Response Body: ${response.body}");
+        Map<String,dynamic> body = jsonDecode(response.body);
+        // setState(() {
+        profileImage = body['user']['profileImage'];
+        // });
         print("Upload successful!");
+        Navigator.of(context).pop();
       } else {
         ToastMessageUtils().showToastMessage('Image uploaded failed',ToastGravity.TOP,
             CustomColors.lightRed);
