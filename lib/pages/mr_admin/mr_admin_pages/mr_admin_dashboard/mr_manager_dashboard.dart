@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:developer';
 import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:carousel_slider/carousel_slider.dart';
@@ -30,6 +31,9 @@ import 'package:local_auth/local_auth.dart';
 import 'package:provider/provider.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import 'package:fl_chart/fl_chart.dart';
+import 'package:percent_indicator/percent_indicator.dart';
+
+import '../../../../services/erp_services.dart';
 
 class MarketingManagerDashboard extends StatefulWidget {
   MarketingManagerDashboard({super.key});
@@ -45,6 +49,9 @@ class _MarketingManagerDashboardState extends State<MarketingManagerDashboard> {
   final LocalAuthentication auth = LocalAuthentication();
   String SelectedColors = '';
   int selectedIndex = 0;
+  double percent = 0.0;
+  Map<String,dynamic> logs = {};
+  List<dynamic> userList = [];
   List<String> colors = ['red', 'yellow', 'green'];
   int index = 0;
   int touchedIndex = -1;
@@ -64,6 +71,18 @@ class _MarketingManagerDashboardState extends State<MarketingManagerDashboard> {
     //   Position currentPosiont = await Geolocator.getCurrentPosition(
     //       desiredAccuracy: LocationAccuracy.best);
     // }
+  }
+
+  void getUser()async{
+    ERPResponse response = await ERPServices.getRequest('/visitLogs/users');
+    // print(response.statusCode);
+    // print(response.body);
+    if(response.statusCode == 200){
+      logs = jsonDecode(response.body);
+      userList = logs["logs"];
+      print(userList);
+      percent = userList.length / 100;
+    }
   }
 
   void postData() {
@@ -98,6 +117,7 @@ class _MarketingManagerDashboardState extends State<MarketingManagerDashboard> {
       onDismissActionReceivedMethod:
           NotificationController.onDismissActionReceivedMethod,
     );
+    getUser();
     // NotificationUtils.sendNotification(2, 'Home', 'You are on home screen');
     super.initState();
   }
@@ -221,20 +241,20 @@ class _MarketingManagerDashboardState extends State<MarketingManagerDashboard> {
       child: Builder(
         builder: (context) =>
             Consumer<UserProvider>(builder: (context, userProvider, _) {
-              return CustomAppBar(
-                tabName: 'Hi, ${userName.split(' ')[0]}',
-                centerTitle: false,
-                titleColor: CustomColors.primaryBlack,
-                backgroundColor: CustomColors.primaryColor,
-                showLeading: true,
-                isLeadingImage: true,
-                imageName: 'assets/images/man.png',
-                leadingIconColor: CustomColors.primaryBlack,
-                onTap: () {
-                  Scaffold.of(context).openDrawer();
-                },
-              );
-            }),
+          return CustomAppBar(
+            tabName: 'Hi, ${userName.split(' ')[0]}',
+            centerTitle: false,
+            titleColor: CustomColors.primaryBlack,
+            backgroundColor: CustomColors.primaryColor,
+            showLeading: true,
+            isLeadingImage: true,
+            imageName: 'assets/images/man.png',
+            leadingIconColor: CustomColors.primaryBlack,
+            onTap: () {
+              Scaffold.of(context).openDrawer();
+            },
+          );
+        }),
       ),
     );
   }
@@ -295,159 +315,208 @@ class _MarketingManagerDashboardState extends State<MarketingManagerDashboard> {
                 itemCount: colors.length,
                 itemBuilder: (BuildContext context, index, int realIndex) {
                   SelectedColors = colors[index];
-                  return CustomContainer(
-                    horizontalMargin: 8,
-                    verticalPad: 0,
-                    horizontalPad: 0,
-                    verticalMargin: 0,
-                    color: Colors.white,
-                    borderRadius: 16,
-                    applyShadow: true,
-                    child: AspectRatio(
-                      aspectRatio: 1.3,
-                      child: ColoredBox(
-                        color: Colors.transparent,
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Container(
-                              color: Colors.amber,
-                              padding: const EdgeInsets.all(8.0),
-                              child: CustomText(
-                                text: 'Today\'s Attendance',
-                                isSubHeading: true,
-                              ),
-                            ),
-                            SizedBox(
-                              height: 24,
-                            ),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              children: <Widget>[
-                                const SizedBox(
-                                  height: 16,
+                  return InkWell(
+                    onTap: (){
+                      Navigator.of(context).pushNamed(MarketingManagerConstants
+                          .MrAdminAttendanceReportScreen);
+                    },
+                    child: CustomContainer(
+                      horizontalMargin: 8,
+                      verticalPad: 0,
+                      horizontalPad: 0,
+                      verticalMargin: 0,
+                      color: Colors.white,
+                      borderRadius: 16,
+                      applyShadow: true,
+                      child: AspectRatio(
+                        aspectRatio: 1.3,
+                        child: ColoredBox(
+                          color: Colors.transparent,
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Container(
+                                color: Colors.amber,
+                                padding: const EdgeInsets.all(8.0),
+                                child: CustomText(
+                                  text: 'Today\'s Attendance',
+                                  isSubHeading: true,
                                 ),
-                                Expanded(
-                                  child: SizedBox(
-                                    height: 100,
-                                    width: 100,
-                                    // aspectRatio: 1,
-                                    child: PieChart(
-                                      PieChartData(
-                                        pieTouchData: PieTouchData(
-                                            touchCallback: (FlTouchEvent event,
-                                                pieTouchResponse) {
-                                          setState(() {
-                                            if (!event
-                                                    .isInterestedForInteractions ||
-                                                pieTouchResponse == null ||
-                                                pieTouchResponse
-                                                        .touchedSection ==
-                                                    null) {
-                                              touchedIndex = -1;
-                                              return;
-                                            }
-                                            touchedIndex = pieTouchResponse
-                                                .touchedSection!
-                                                .touchedSectionIndex;
-                                            print(
-                                                'touchedIndex = $touchedIndex');
-                                          });
-                                        }),
-                                        borderData: FlBorderData(
-                                          show: false,
+                              ),
+                              SizedBox(
+                                height: 24,
+                              ),
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: <Widget>[
+                                  const SizedBox(
+                                    height: 16,
+                                  ),
+                                  Expanded(
+                                    child: SizedBox(
+                                      height: 100,
+                                      width: 100,
+                                      // aspectRatio: 1,
+                                      child: PieChart(
+                                        PieChartData(
+                                          pieTouchData: PieTouchData(
+                                              touchCallback: (FlTouchEvent event,
+                                                  pieTouchResponse) {
+                                            setState(() {
+                                              if (!event
+                                                      .isInterestedForInteractions ||
+                                                  pieTouchResponse == null ||
+                                                  pieTouchResponse
+                                                          .touchedSection ==
+                                                      null) {
+                                                touchedIndex = -1;
+                                                return;
+                                              }
+                                              touchedIndex = pieTouchResponse
+                                                  .touchedSection!
+                                                  .touchedSectionIndex;
+                                              print(
+                                                  'touchedIndex = $touchedIndex');
+                                            });
+                                          }),
+                                          borderData: FlBorderData(
+                                            show: false,
+                                          ),
+                                          sectionsSpace: 0,
+                                          centerSpaceRadius: 30,
+                                          sections: showingSections(),
                                         ),
-                                        sectionsSpace: 0,
-                                        centerSpaceRadius: 30,
-                                        sections: showingSections(),
                                       ),
                                     ),
                                   ),
-                                ),
-                                Column(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: <Widget>[
-                                    Indicator(
-                                      color: CustomColors.jadeGreen,
-                                      // noOfObj: '10',
-                                      // objInPercentage: '10',
-                                      text: 'On-Time',
-                                      isSquare: true,
-                                    ),
-                                    SizedBox(
-                                      height: 4,
-                                    ),
-                                    Indicator(
-                                      color: CustomColors.lightYellow,
-                                      text: 'Grace-Time',
-                                      // noOfObj: '10',
-                                      // objInPercentage: '10',
-                                      isSquare: true,
-                                    ),
-                                    SizedBox(
-                                      height: 4,
-                                    ),
-                                    Indicator(
-                                      color: CustomColors.lightRed,
-                                      text: 'Late',
-                                      // noOfObj: '10',
-                                      // objInPercentage: '10',
-                                      isSquare: true,
-                                    ),
-                                    SizedBox(
-                                      height: 18,
-                                    ),
-                                  ],
-                                ),
-                                const SizedBox(
-                                  width: 28,
-                                ),
-                              ],
-                            ),
-                          ],
+                                  Column(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: <Widget>[
+                                      Indicator(
+                                        color: CustomColors.jadeGreen,
+                                        // noOfObj: '10',
+                                        // objInPercentage: '10',
+                                        text: 'On-Time',
+                                        isSquare: true,
+                                      ),
+                                      SizedBox(
+                                        height: 4,
+                                      ),
+                                      Indicator(
+                                        color: CustomColors.lightYellow,
+                                        text: 'Grace-Time',
+                                        // noOfObj: '10',
+                                        // objInPercentage: '10',
+                                        isSquare: true,
+                                      ),
+                                      SizedBox(
+                                        height: 4,
+                                      ),
+                                      Indicator(
+                                        color: CustomColors.lightRed,
+                                        text: 'Late',
+                                        // noOfObj: '10',
+                                        // objInPercentage: '10',
+                                        isSquare: true,
+                                      ),
+                                      SizedBox(
+                                        height: 18,
+                                      ),
+                                    ],
+                                  ),
+                                  const SizedBox(
+                                    width: 28,
+                                  ),
+                                ],
+                              ),
+                            ],
+                          ),
                         ),
                       ),
-                    ),
 
-                    ////////////////////////////////////////////////////////
-                    // Stack(
-                    //   alignment: Alignment.center,
-                    //   children: [
-                    //     CustomText(text: 'Today\'s Attendance'),
-                    //     PieChart(
-                    //       swapAnimationDuration:
-                    //           const Duration(milliseconds: 500),
-                    //       swapAnimationCurve: Curves.easeInOut,
-                    //       PieChartData(
-                    //         sections: [
-                    //           PieChartSectionData(
-                    //             value: 33,
-                    //             color: CustomColors.lightGreen,
-                    //           ),
-                    //           PieChartSectionData(
-                    //             value: 33,
-                    //             color: CustomColors.lightYellow,
-                    //           ),
-                    //           PieChartSectionData(
-                    //             value: 33,
-                    //             color: CustomColors.lightRed,
-                    //           ),
-                    //         ],
-                    //       ),
-                    //     ),
-                    //   ],
-                    // ),
+                      ////////////////////////////////////////////////////////
+                      // Stack(
+                      //   alignment: Alignment.center,
+                      //   children: [
+                      //     CustomText(text: 'Today\'s Attendance'),
+                      //     PieChart(
+                      //       swapAnimationDuration:
+                      //           const Duration(milliseconds: 500),
+                      //       swapAnimationCurve: Curves.easeInOut,
+                      //       PieChartData(
+                      //         sections: [
+                      //           PieChartSectionData(
+                      //             value: 33,
+                      //             color: CustomColors.lightGreen,
+                      //           ),
+                      //           PieChartSectionData(
+                      //             value: 33,
+                      //             color: CustomColors.lightYellow,
+                      //           ),
+                      //           PieChartSectionData(
+                      //             value: 33,
+                      //             color: CustomColors.lightRed,
+                      //           ),
+                      //         ],
+                      //       ),
+                      //     ),
+                      //   ],
+                      // ),
+                    ),
                   );
                 },
               ),
-              // SizedBox(
-              //   height: 8,
-              // ),
+              SizedBox(
+                height: 8,
+              ),
               // Center(
               //   child: buildIndicator(),
+              // ),
+              // InkWell(
+              //   onTap: (){
+              //     Navigator.of(context).pushNamed(MarketingManagerConstants
+              //         .MrAdminAttendanceReportScreen);
+              //   },
+              //   child: CustomContainer(
+              //     horizontalMargin: 8,
+              //     verticalPad: 24,
+              //     horizontalPad: 24,
+              //     verticalMargin: 0,
+              //     color: CustomColors.primaryWhite,
+              //     borderRadius: 16,
+              //     applyShadow: true,
+              //     child: Row(
+              //       mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              //       children: [
+              //         CircularPercentIndicator(
+              //             radius: 96,
+              //             lineWidth: 32,
+              //           percent: 0.4,
+              //           progressColor: CustomColors.primaryColor,
+              //           backgroundColor: Colors.grey.shade300,
+              //           circularStrokeCap: CircularStrokeCap.round,
+              //           center: Column(
+              //             mainAxisAlignment: MainAxisAlignment.center,
+              //             children: [
+              //               FittedBox(
+              //                 fit: BoxFit.scaleDown,
+              //                 child: CustomText(
+              //                   text: 'Total Employee',
+              //                   size: 14,
+              //                   fontWeight: FontWeight.w600,
+              //                 ),
+              //               ),
+              //               CustomText(text:'${userList.length.toString()}',isContent: true,),
+              //             ],
+              //           ),
+              //         ),
+              //         CustomText(text: 'Attendance Report',isContent: true,),
+              //       ],
+              //     ),
+              //   ),
               // ),
               SizedBox(
                 height: 16,
@@ -557,7 +626,7 @@ class _MarketingManagerDashboardState extends State<MarketingManagerDashboard> {
               title: 'Average Visits',
               onTap: () {
                 Navigator.of(context).pushNamed(MarketingManagerConstants
-                    .MrAdminAttendanceReportScreen);
+                                .MrAdminAttendanceReportScreen);
               },
             ),
           ],
