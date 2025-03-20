@@ -642,8 +642,6 @@ class _MarketingManagerDashboardState extends State<MarketingManagerDashboard> {
               imgName: 'visits',
               title: 'Average Visits',
               onTap: () {
-                Navigator.of(context).pushNamed(MarketingManagerConstants
-                                .mrAdminAttendanceReportScreen);
               },
             ),
           ],
