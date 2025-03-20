@@ -72,19 +72,6 @@ class _MarketingManagerDashboardState extends State<MarketingManagerDashboard> {
     //       desiredAccuracy: LocationAccuracy.best);
     // }
   }
-
-  void getUser()async{
-    ERPResponse response = await ERPServices.getRequest('/visitLogs/users');
-    // print(response.statusCode);
-    // print(response.body);
-    if(response.statusCode == 200){
-      logs = jsonDecode(response.body);
-      userList = logs["logs"];
-      print(userList);
-      percent = userList.length / 100;
-    }
-  }
-
   void postData() {
     // Map<String, dynamic> data = {
     //   'mobileIdentifier': _uniqueIdentifier,
@@ -117,7 +104,6 @@ class _MarketingManagerDashboardState extends State<MarketingManagerDashboard> {
       onDismissActionReceivedMethod:
           NotificationController.onDismissActionReceivedMethod,
     );
-    getUser();
     // NotificationUtils.sendNotification(2, 'Home', 'You are on home screen');
     super.initState();
   }
