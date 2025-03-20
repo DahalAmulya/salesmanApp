@@ -280,27 +280,6 @@ class _MarketingManagerDashboardState extends State<MarketingManagerDashboard> {
               SizedBox(
                 height: 8,
               ),
-              Center(
-                child: CustomContainer(
-                  color: Colors.transparent,
-                  borderRadius: 8,
-                  width: 0.90,
-                  verticalPad: 8,
-                  horizontalPad: 0,
-                  child: Row(
-                    children: [
-                      CustomLineBar(),
-                      SizedBox(
-                        width: 8,
-                      ),
-                      CustomText(
-                        text: 'Quick Reports',
-                        isSubHeading: true,
-                      ),
-                    ],
-                  ),
-                ),
-              ),
               // CarouselSlider.builder(
               //   options: CarouselOptions(
               //     height: 220,
@@ -472,9 +451,6 @@ class _MarketingManagerDashboardState extends State<MarketingManagerDashboard> {
               SizedBox(
                 height: 8,
               ),
-              Center(
-                child: buildIndicator(),
-              ),
               InkWell(
                 onTap: (){
                   Navigator.of(context).pushNamed(MarketingManagerConstants
@@ -482,38 +458,78 @@ class _MarketingManagerDashboardState extends State<MarketingManagerDashboard> {
                 },
                 child: CustomContainer(
                   horizontalMargin: 8,
-                  verticalPad: 24,
-                  horizontalPad: 24,
+                  verticalPad: 12,
+                  horizontalPad: 0,
                   verticalMargin: 0,
-                  color: CustomColors.primaryWhite,
+                  color: Colors.white,
                   borderRadius: 16,
-                  applyShadow: true,
-                  child: Row(
+                  child: Column(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      CircularPercentIndicator(
-                          radius: 96,
-                          lineWidth: 32,
-                        percent: 0.4,
-                        progressColor: CustomColors.primaryColor,
-                        backgroundColor: Colors.grey.shade300,
-                        circularStrokeCap: CircularStrokeCap.round,
-                        center: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            FittedBox(
-                              fit: BoxFit.scaleDown,
-                              child: CustomText(
-                                text: 'Total Employee',
-                                size: 14,
-                                fontWeight: FontWeight.w600,
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Row(
+                            children: [
+                              CustomLineBar(),
+                              SizedBox(
+                                width: 8,
                               ),
+                              CustomText(
+                                text: 'Attendance Reports',
+                                isSubHeading: true,
+                              ),
+                            ],
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.only(right: 12.0),
+                            child: Icon(
+                              FontAwesomeIcons.chevronRight,
+                              size: 18,
                             ),
-                            CustomText(text:'${userList.length.toString()}',isContent: true,),
-                          ],
-                        ),
+                          ),
+                        ],
                       ),
-                      CustomText(text: 'Attendance Report',isContent: true,),
+                      Padding(
+                        padding: const EdgeInsets.only(left: 16.0),
+                        child: Divider(),
+                      ),
+                      Row(
+                        children: [
+                          Image.asset('assets/images/attendance2.png',
+                            height: 88,
+                            width: 88,
+                          ),
+                          SizedBox(width: 32,),
+                          Column(
+                            children: [
+                              Row(
+                                children: [
+                                  Image.asset('assets/images/check-in.png',
+                                    height: 16,
+                                    width: 16,
+                                  ),
+                                  SizedBox(width: MediaQuery.of(context).size.width * 0.02),
+                                  CustomText(text: 'Checked In',isContent: true,),
+                                ],
+                              ),
+                              Row(
+                                children: [
+                                  Padding(
+                                    padding: const EdgeInsets.only(left: 23.0),
+                                    child: Image.asset('assets/images/checkedOut.png',
+                                      height: 16,
+                                      width: 16,
+                                    ),
+                                  ),
+                                  SizedBox(width: MediaQuery.of(context).size.width * 0.02),
+                                  CustomText(text: 'Checked Out',isContent: true,),
+                                ],
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
                     ],
                   ),
                 ),
@@ -551,6 +567,7 @@ class _MarketingManagerDashboardState extends State<MarketingManagerDashboard> {
       child: CustomContainer(
         verticalPad: 12,
         horizontalPad: 0,
+        color: Colors.white,
         // width:,
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
