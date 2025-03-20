@@ -136,7 +136,7 @@ class SettingPage extends StatelessWidget {
                   GestureDetector(
                     onTap: () {
                       // Navigator.pop(context);
-                      createUserProvider.getUserDetails();
+                      createUserProvider.getUserDetails(context);
                       showModalBottomSheet(
                         isScrollControlled: true,
                         useSafeArea: true,

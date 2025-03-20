@@ -47,7 +47,7 @@ class MrOfficerFollowUpProvider extends ChangeNotifier {
 
   void GetPOCList(context) async {
     ERPResponse response =
-        await ERPServices.getRequest('/poc/createdBy?createdById=$userId');
+        await ERPServices.getRequest('/poc/createdBy?createdById=$userId', context);
     if (response.statusCode == 200) {
       _pocList = jsonDecode(response.body)['poc'];
       _pocSearchResult = _pocList;
@@ -84,9 +84,9 @@ class MrOfficerFollowUpProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  void getPOCDetailByID(id) async {
+  void getPOCDetailByID(id, context) async {
     _pocId = id;
-    ERPResponse response = await ERPServices.getRequest('/poc/followup');
+    ERPResponse response = await ERPServices.getRequest('/poc/followup',context);
     print(response.statusCode);
     Map<String, dynamic> data = jsonDecode(response.body);
     print("response : ${data}");
@@ -176,7 +176,7 @@ class MrOfficerFollowUpProvider extends ChangeNotifier {
       "longitude": _longitude,
     };
 
-    ERPResponse response = await ERPServices.postRequest('/poc/followup', body);
+    ERPResponse response = await ERPServices.postRequest('/poc/followup', body, context);
     print(response.statusCode);
     print(response.body);
     print("response : ${body}");

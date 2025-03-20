@@ -208,7 +208,7 @@ class CreateUserProvider extends ChangeNotifier {
   }
 
   void getRoleList(context) async {
-    ERPResponse response = await ERPServices.getRequest('/users/roles');
+    ERPResponse response = await ERPServices.getRequest('/users/roles', context);
     _data = jsonDecode(response.body);
     if (response.statusCode == 200) {
       _rolesList = _data['roles'];
@@ -243,7 +243,7 @@ class CreateUserProvider extends ChangeNotifier {
       "gender": _selectedGender,
     };
     print(body);
-    ERPResponse response = await ERPServices.postRequest('/users', body);
+    ERPResponse response = await ERPServices.postRequest('/users', body, context);
     print(response.statusCode);
     print(response.body);
     if (response.statusCode == 200) {
@@ -259,8 +259,8 @@ class CreateUserProvider extends ChangeNotifier {
     }
   }
 
-  void getUserDetails() async {
-    ERPResponse response = await ERPServices.getRequest('/users');
+  void getUserDetails(context) async {
+    ERPResponse response = await ERPServices.getRequest('/users', context);
     _userData = jsonDecode(response.body);
     print(response.statusCode);
     // print(response.body);

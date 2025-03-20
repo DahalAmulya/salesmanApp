@@ -85,7 +85,7 @@ class _MrOfficersDashboardScreenState extends State<MrOfficersDashboardScreen>
   void updateStopDeviceLocationUpdates() {
     if (attendanceProvider!.isRemoteAttendanceSwitched) {
       deviceInfoProvider?.setIsAttendance(true);
-      deviceInfoProvider?.updateLocation();
+      deviceInfoProvider?.updateLocation(context);
       print(
           'attendanceProvider.isRemoteAttendanceSwitched = ${attendanceProvider!.isRemoteAttendanceSwitched}, Posting device information');
     } else {
@@ -98,7 +98,7 @@ class _MrOfficersDashboardScreenState extends State<MrOfficersDashboardScreen>
   void getTodayPlan() async {
     String planDate = DateTime.now().toString().split(' ')[0];
     ERPResponse response = await ERPServices.getRequest(
-        "/plan/today?userId=$userId&planDate=$planDate");
+        "/plan/today?userId=$userId&planDate=$planDate", context);
     var decodedData = jsonDecode(response.body);
     print(decodedData);
 
@@ -129,7 +129,7 @@ class _MrOfficersDashboardScreenState extends State<MrOfficersDashboardScreen>
     String from = '${date} 00:00:00';
     String to = '${date} 23:59:59';
     ERPResponse response = await ERPServices.getRequest(
-        '/visitLogs?visitLogId=$userId&from=$from&to=$to');
+        '/visitLogs?visitLogId=$userId&from=$from&to=$to', context);
     Map<String, dynamic> body = jsonDecode(response.body);
     print(body);
     if (response.statusCode == 200) {
@@ -144,9 +144,9 @@ class _MrOfficersDashboardScreenState extends State<MrOfficersDashboardScreen>
     // print(_visitLogs);
   }
 
-  void checkToken() async {
-    await isTokenExpired(context);
-  }
+  // void checkToken() async {
+    // await isTokenExpired(context);
+  // }
 
   @override
   void initState() {
@@ -178,7 +178,7 @@ class _MrOfficersDashboardScreenState extends State<MrOfficersDashboardScreen>
     deviceInfoProvider =
         Provider.of<DeviceInfoProvider>(context, listen: false);
     attendanceProvider?.getCurrentLocation();
-    attendanceProvider?.getAttendanceStatus();
+    attendanceProvider?.getAttendanceStatus(context);
     deviceInfoProvider
         ?.setIsAttendance(attendanceProvider!.isRemoteAttendanceSwitched);
     UserCred().readUserCred();

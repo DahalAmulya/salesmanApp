@@ -31,7 +31,7 @@ class _ReferralLogScreenState extends State<ReferralLogScreen> {
         Provider.of<MrAdminReferralLogProvider>(context, listen: false);
     mrAdminReferralLogProvider.getDataForDistrict();
     mrAdminReferralLogProvider.getDataForState();
-    mrAdminReferralLogProvider.getVisitLogsList();
+    mrAdminReferralLogProvider.getVisitLogsList(context);
   }
 
   void _triggerAnimation() {
@@ -383,17 +383,17 @@ class _ReferralLogScreenState extends State<ReferralLogScreen> {
                                       .selectedReferralType ==
                                   mrAdminReferralLogProvider.referralType[0]) {
                                 mrAdminReferralLogProvider
-                                    .getReferralByCountry();
+                                    .getReferralByCountry(context);
                               } else if (mrAdminReferralLogProvider
                                       .selectedReferralType ==
                                   mrAdminReferralLogProvider.referralType[1]) {
                                 mrAdminReferralLogProvider
-                                    .getReferralLogsByRegion();
+                                    .getReferralLogsByRegion(context);
                               } else if(mrAdminReferralLogProvider
                                   .selectedReferralType ==
                                   mrAdminReferralLogProvider.referralType[2]) {
                                 mrAdminReferralLogProvider
-                                    .getReferralLogByCity();
+                                    .getReferralLogByCity(context);
                               }
                               _triggerAnimation();
                             },

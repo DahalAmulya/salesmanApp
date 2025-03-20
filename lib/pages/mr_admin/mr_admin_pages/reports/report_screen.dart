@@ -28,7 +28,7 @@ class _MrAdminReportScreenState extends State<MrAdminReportScreen> {
   void initState() {
     super.initState();
     MrAdminVisitLogProvider mrAdminVisitLogProvider = Provider.of<MrAdminVisitLogProvider>(context, listen: false);
-    mrAdminVisitLogProvider.getVisitLogsList();
+    mrAdminVisitLogProvider.getVisitLogsList(context);
   }
 
   Future<void> _moveCamera(double latitude, double longitude) async {
@@ -180,7 +180,7 @@ class _MrAdminReportScreenState extends State<MrAdminReportScreen> {
                           ),
                           CustomElevatedButton(
                             onPressed: () {
-                              adminVisitLogsProvider.getVisitLogsById();
+                              adminVisitLogsProvider.getVisitLogsById(context);
                             },
                             width: 0.90,
                             height: 50,

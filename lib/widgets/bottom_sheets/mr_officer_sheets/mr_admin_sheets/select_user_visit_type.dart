@@ -103,7 +103,7 @@ class _MrAdminSelectUserTypeBottomSheetState
                                         .selectedUserVisitType ==
                                     createUserProvider.userTypeList[1]) {
                                   Navigator.pop(context);
-                                  createUserProvider.getUserDetails();
+                                  createUserProvider.getUserDetails(context);
                                   Navigator.of(context).pushNamed(
                                       MarketingManagerConstants
                                           .mrManagerViewUserPage);

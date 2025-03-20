@@ -19,7 +19,7 @@ class _MarketingAdminViewUserState extends State<MarketingAdminViewUser> {
   @override
   void initState() {
     final createUserProvider = Provider.of<CreateUserProvider>(context,listen: false);
-    createUserProvider.getUserDetails();
+    createUserProvider.getUserDetails(context);
     // TODO: implement initState
     super.initState();
   }

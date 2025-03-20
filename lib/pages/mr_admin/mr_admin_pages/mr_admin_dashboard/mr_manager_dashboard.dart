@@ -74,7 +74,7 @@ class _MarketingManagerDashboardState extends State<MarketingManagerDashboard> {
   }
 
   void getUser()async{
-    ERPResponse response = await ERPServices.getRequest('/visitLogs/users');
+    ERPResponse response = await ERPServices.getRequest('/visitLogs/users', context);
     // print(response.statusCode);
     // print(response.body);
     if(response.statusCode == 200){

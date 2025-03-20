@@ -39,7 +39,8 @@ class _WeeklyPlanScreenState extends State<WeeklyPlanScreen> {
   final taskAreaNoteController = TextEditingController();
   final taskRemarkNoteController = TextEditingController();
 
-  final Url = 'http://202.51.3.49:8002/api/plan/today?userId=679b632e4c526fbfe839ada5';
+  final Url =
+      'http://202.51.3.49:8002/api/plan/today?userId=679b632e4c526fbfe839ada5';
   Map<String, dynamic> todaysPlan = {};
   String activity = '';
   String area = '';
@@ -47,10 +48,9 @@ class _WeeklyPlanScreenState extends State<WeeklyPlanScreen> {
   String dateString = '';
   String formattedDate = '';
 
-
   Future<void> getTodayPlan(planDate) async {
     ERPResponse response = await ERPServices.getRequest(
-        "/plan/today?userId=$userId&planDate=$planDate");
+        "/plan/today?userId=$userId&planDate=$planDate", context);
     var decodedData = jsonDecode(response.body);
     print(decodedData);
 
@@ -162,15 +162,19 @@ class _WeeklyPlanScreenState extends State<WeeklyPlanScreen> {
                             //     .pushNamed(MarketingOfficerConstants.addTaskConst);
                             openAlertDialog(context);
                             // getTodayPlan();
-                            // print('hhello');
+                            // print('hello');
                           },
                           backgroundColor: CustomColors.primaryColor,
                           widget: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              FaIcon(
+                              const FaIcon(
                                 FontAwesomeIcons.plus,
                                 color: Colors.black,
                                 size: 16,
+                              ),
+                              const SizedBox(
+                                width: 8,
                               ),
                               CustomText(
                                 text: 'Create Plan',
@@ -191,7 +195,7 @@ class _WeeklyPlanScreenState extends State<WeeklyPlanScreen> {
                 ),
               ),
               Container(
-                margin: EdgeInsets.symmetric(horizontal: 8),
+                margin: const EdgeInsets.symmetric(horizontal: 8),
                 child: DatePicker(
                   DateTime.now(),
                   height: 100,
@@ -219,7 +223,7 @@ class _WeeklyPlanScreenState extends State<WeeklyPlanScreen> {
                   onDateChange: (newDate) {
                     _weeklyPlanProvider.updateDate(newDate);
                     _weeklyPlanProvider
-                        .getTodayPlan(newDate.toString().split(" ")[0]);
+                        .getTodayPlan(newDate.toString().split(" ")[0],context);
                     // getTodayPlan(newDate.toString().split(" ")[0]);
                   },
                 ),
@@ -443,7 +447,7 @@ class _WeeklyPlanScreenState extends State<WeeklyPlanScreen> {
                         onPressed: () {
                           // weeklyPlanProvider.setNewTask();
                           weeklyPlanProvider.createPlan(context);
-                          weeklyPlanProvider.getAllPlans();
+                          weeklyPlanProvider.getAllPlans(context);
                           weeklyPlanProvider.clearCreatePlanValue();
                           Navigator.pop(context);
                         },

@@ -29,7 +29,7 @@ class _MrAdminAttendanceReportScreenState
     super.initState();
     MrAdminAttendanceProvider mrAdminAttendanceProvider =
         Provider.of<MrAdminAttendanceProvider>(context, listen: false);
-    mrAdminAttendanceProvider.getVisitLogsList();
+    mrAdminAttendanceProvider.getVisitLogsList(context);
   }
 
   void _triggerAnimation() {
@@ -182,7 +182,7 @@ class _MrAdminAttendanceReportScreenState
                       ),
                       CustomElevatedButton(
                         onPressed: () {
-                          mrAdminAttendanceProvider.getAttendanceReport();
+                          mrAdminAttendanceProvider.getAttendanceReport(context);
                           _triggerAnimation();
                         },
                         width: 0.90,

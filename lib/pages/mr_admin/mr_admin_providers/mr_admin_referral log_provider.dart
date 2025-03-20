@@ -283,12 +283,12 @@ class MrAdminReferralLogProvider extends ChangeNotifier{
     notifyListeners();
   }
 
-  void getVisitLogsList() async {
+  void getVisitLogsList(context) async {
     _referralLogsUsersList = ["Select User"];
     _selectedUser = 'Select User';
     _selectedDateReferralType = 'Today';
     _selectedUserId = '';
-    ERPResponse response = await ERPServices.getRequest('/visitLogs/users');
+    ERPResponse response = await ERPServices.getRequest('/visitLogs/users', context);
     // print(response.body);
     if (response.statusCode == 200) {
       Map<String, dynamic> body = jsonDecode(response.body);
@@ -300,7 +300,7 @@ class MrAdminReferralLogProvider extends ChangeNotifier{
     notifyListeners();
   }
 
-  void getReferralLogsByRegion() async {
+  void getReferralLogsByRegion(context) async {
     if (_selectedUserId.isEmpty) {
       ToastMessageUtils().showToastMessage('Please select a user');
     } else {
@@ -310,7 +310,7 @@ class MrAdminReferralLogProvider extends ChangeNotifier{
         return;
       }
       ERPResponse response = await ERPServices.getRequest(
-        '/referral/area/region?_id=$_selectedUserId&from=$_from&to=$_to&country=$_selectedCountry&region=$_selectedRegion',
+        '/referral/area/region?_id=$_selectedUserId&from=$_from&to=$_to&country=$_selectedCountry&region=$_selectedRegion',context
       );
       if (response.statusCode == 200) {
         final body = jsonDecode(response.body);
@@ -325,7 +325,7 @@ class MrAdminReferralLogProvider extends ChangeNotifier{
     notifyListeners();
   }
 
-  void getReferralByCountry()async{
+  void getReferralByCountry(context)async{
     if (_selectedUserId.isEmpty) {
       ToastMessageUtils().showToastMessage('Please select a user');
       }else{
@@ -333,7 +333,7 @@ class MrAdminReferralLogProvider extends ChangeNotifier{
         ToastMessageUtils().showToastMessage('Please select a user and provide valid dates');
         return;
       }
-      ERPResponse response = await ERPServices.getRequest('/referral/area/country?_id=$_selectedUserId&from=$_from&to=$_to&country=$_selectedCountry');
+      ERPResponse response = await ERPServices.getRequest('/referral/area/country?_id=$_selectedUserId&from=$_from&to=$_to&country=$_selectedCountry',context);
       final body = jsonDecode(response.body);
       _foundReferral = body['referralLogs'];
       // print(_foundReferralByCountry[0]['createdBy']);
@@ -341,7 +341,7 @@ class MrAdminReferralLogProvider extends ChangeNotifier{
     notifyListeners();
   }
 
-  void getReferralLogByCity()async{
+  void getReferralLogByCity(context)async{
     if (_selectedUserId.isEmpty) {
       ToastMessageUtils().showToastMessage('Please select a user');
     }else{
@@ -349,7 +349,7 @@ class MrAdminReferralLogProvider extends ChangeNotifier{
         ToastMessageUtils().showToastMessage('Please select a user and provide valid dates');
         return;
       }
-      ERPResponse response = await ERPServices.getRequest('/referral/area/city?_id=$_selectedUserId&from=$_from&to=$_to&country=$_selectedCountry&region=$_selectedRegion&city=$_selectedCities');
+      ERPResponse response = await ERPServices.getRequest('/referral/area/city?_id=$_selectedUserId&from=$_from&to=$_to&country=$_selectedCountry&region=$_selectedRegion&city=$_selectedCities',context);
       final body = jsonDecode(response.body);
       _foundReferral = body['referralLogs'];
       print(selectedCities);
@@ -358,13 +358,9 @@ class MrAdminReferralLogProvider extends ChangeNotifier{
     notifyListeners();
   }
 
-  void exportData()async{
-    ERPResponse response = await ERPServices.getRequest('/referral/area/export');
+  void exportData(context)async{
+    ERPResponse response = await ERPServices.getRequest('/referral/area/export',context);
     print(response.statusCode);
     print(response.body);
-
-
   }
-
-
 }
