@@ -1,7 +1,13 @@
 import 'dart:convert';
 
 import 'package:deskgoo/consts.dart';
+import 'package:deskgoo/routes/route_generator_constants.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:http/http.dart' as http;
+
+import '../themes/custom_colors.dart';
+import '../utils/toast_message.dart';
 
 class ERPResponse {
   final int statusCode;
@@ -18,7 +24,7 @@ class ERPServices {
     'Content-Type': 'Application/x-www-form-urlencoded',
   };
 
-  static Future<ERPResponse> getRequest(String path) async {
+  static Future<ERPResponse> getRequest(String path, context) async {
     print('$apiURL$path');
     try {
       Map<String, String> header = {
@@ -30,8 +36,11 @@ class ERPServices {
         Uri.parse('$apiURL$path'),
         headers: header,
       );
-      print(response.body);
-      print(response.statusCode);
+      if(response.statusCode == 403){
+        ToastMessageUtils().showToastMessage(
+            'Session Expired', ToastGravity.TOP, CustomColors.lightRed);
+        Navigator.of(context).popAndPushNamed(MarketingManagerConstants.indexPage);
+      }
       return ERPResponse(
         statusCode: response.statusCode,
         body: response.body,
@@ -41,7 +50,7 @@ class ERPServices {
     }
   }
 
-  static Future<ERPResponse> postRequest(String path, Map body) async {
+  static Future<ERPResponse> postRequest(String path, Map body, context) async {
     try {
       Map<String, String> header = {
         'Content-Type': 'Application/json',
@@ -53,6 +62,11 @@ class ERPServices {
         headers: header,
         body: jsonEncode(body),
       );
+      if(response.statusCode == 403){
+        ToastMessageUtils().showToastMessage(
+                  'Session Expired', ToastGravity.TOP, CustomColors.lightRed);
+        Navigator.of(context).pop(MarketingManagerConstants.indexPage);
+      }
       // if (response.statusCode == 403) {
       //   Map<String, dynamic> data = jsonDecode(response.body);
       //   if (data['customCode'] == 11) {

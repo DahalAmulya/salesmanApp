@@ -72,6 +72,19 @@ class _MarketingManagerDashboardState extends State<MarketingManagerDashboard> {
     //       desiredAccuracy: LocationAccuracy.best);
     // }
   }
+
+  void getUser()async{
+    ERPResponse response = await ERPServices.getRequest('/visitLogs/users', context);
+    // print(response.statusCode);
+    // print(response.body);
+    if(response.statusCode == 200){
+      logs = jsonDecode(response.body);
+      userList = logs["logs"];
+      print(userList);
+      percent = userList.length / 100;
+    }
+  }
+
   void postData() {
     // Map<String, dynamic> data = {
     //   'mobileIdentifier': _uniqueIdentifier,

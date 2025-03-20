@@ -40,7 +40,7 @@ class _MarketingOfficerReferralLogScreenState
       });
     }
     print(selectedDate);
-    referralProvider.getReferralLogs();
+    referralProvider.getReferralLogs(context);
   }
 
   void updateSelectedDate(String newValue) {
@@ -62,14 +62,14 @@ class _MarketingOfficerReferralLogScreenState
       }
       print("Selected Date: $selectedDate");
     });
-    referralProvider.getReferralLogs();
+    referralProvider.getReferralLogs(context);
   }
 
   @override
   void initState() {
     final referralProvider =
         Provider.of<ReferralsDetailProvider>(context, listen: false);
-    referralProvider.getReferralLogs();
+    referralProvider.getReferralLogs(context);
     super.initState();
   }
 

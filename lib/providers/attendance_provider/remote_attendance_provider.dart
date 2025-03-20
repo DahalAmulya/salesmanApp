@@ -100,12 +100,12 @@ class AttendanceProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  void getAttendanceStatus() async {
+  void getAttendanceStatus(context) async {
     print(
         '********************************************************************************************');
     try {
       ERPResponse response =
-          await ERPServices.getRequest('/attendance/userId?userId=$userId');
+          await ERPServices.getRequest('/attendance/userId?userId=$userId',context);
       print(response.body);
       if (response.statusCode == 200) {
         print('StatusCode=${response.statusCode}');
@@ -160,7 +160,7 @@ class AttendanceProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  void switchRemoteAttendanceSwitch() async {
+  void switchRemoteAttendanceSwitch(context) async {
     getCurrentLocation();
     try {
       _time = '${DateFormat('HH:mm:ss dd/MM/yyyy').format(DateTime.now())}';
@@ -172,12 +172,12 @@ class AttendanceProvider extends ChangeNotifier {
       };
       print(body);
       ERPResponse response = await ERPServices.postRequest(
-          '/attendance/userId?userId=$userId', body);
+          '/attendance/userId?userId=$userId', body, context);
       if (response.statusCode == 200) {
         _isRemoteAttendanceSwitched = !_isRemoteAttendanceSwitched;
         final data = jsonDecode(response.body);
         print('data = $data');
-        getAttendanceStatus();
+        getAttendanceStatus(context);
       } else {
         print('Error: ${response.statusCode}');
         print('Response: ${response.body}');

@@ -100,11 +100,11 @@ class DeviceInfoProvider extends ChangeNotifier {
     _isAttendance = value;
   }
 
-  deviceInfoProvider() {
+  deviceInfoProvider(context) {
     clearMarkers();
     getUniqueIdentifier();
     getBatteryLevel();
-    getLocation();
+    getLocation(context);
     // updateLocation();
   }
 
@@ -114,14 +114,14 @@ class DeviceInfoProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  void updateLocation() async {
+  void updateLocation(context) async {
     clearMarkers();
     // _locationTimer.cancel();
     if (_isAttendance) {
       _locationTimer = Timer.periodic(const Duration(seconds: 1), (timer) {
         if (_seconds == 3) {
           _seconds = 0;
-          getLocation();
+          getLocation(context);
           // backgroundLocation();
         } else {
           _seconds++;
@@ -173,7 +173,7 @@ class DeviceInfoProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  void postDeviceInfo() async {
+  void postDeviceInfo(context) async {
     print('****************************************************************');
     print('Uploading device information');
     Uri url = Uri.parse(baseApi);
@@ -227,13 +227,13 @@ class DeviceInfoProvider extends ChangeNotifier {
         'Location LatLng = ${_liveLatitude}, ${_liveLatitude}, ${DateTime.now().toString().split('.')[0]}');
     print(_body);
     ERPResponse response =
-        await ERPServices.postRequest('/location/latest?_id=$userId', _body);
+        await ERPServices.postRequest('/location/latest?_id=$userId', _body, context);
     print(response.statusCode);
     print(response.body);
     print('****************************************************************');
   }
 
-  void getLocation() async {
+  void getLocation(context) async {
     initConnectivity();
     var iconPath = 'assets/images/location.png';
     final Uint8List? icon = await getBytesFromAsset(iconPath, 100);
@@ -282,7 +282,7 @@ class DeviceInfoProvider extends ChangeNotifier {
 
     if (_connectivityType != 'none' && _distance > 3) {
       _connectivityStatus = 'connected';
-      postDeviceInfo();
+      postDeviceInfo(context);
       notifyListeners();
     }
     print('distance = $_distance');

@@ -18,7 +18,7 @@ class UserProfileProvider extends ChangeNotifier {
   Map<String, dynamic> get userDetails => _userDetails;
 
   void getUserProfile(context)async{
-    ERPResponse response = await ERPServices.getRequest('/auth');
+    ERPResponse response = await ERPServices.getRequest('/auth', context);
     _userDetails = jsonDecode(response.body);
     print(response.statusCode);
     print(response.body);

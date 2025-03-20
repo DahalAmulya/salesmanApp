@@ -298,7 +298,7 @@ class WeeklyPlanProvider with ChangeNotifier {
       "planDate": planDate,
     };
     try {
-      ERPResponse response = await ERPServices.postRequest('/plan', _body);
+      ERPResponse response = await ERPServices.postRequest('/plan', _body, context);
       print(response.statusCode);
       print(response.body);
       Map<String, dynamic> body = jsonDecode(response.body);
@@ -329,16 +329,16 @@ class WeeklyPlanProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  void getAllPlans() async {
+  void getAllPlans(context) async {
     ERPResponse response = await ERPServices.getRequest(
-        '/plan?userId=679b632e4c526fbfe839ada5&from=2025-02-05&to=2025-02-05');
+        '/plan?userId=679b632e4c526fbfe839ada5&from=2025-02-05&to=2025-02-05',context);
     print(response.body);
     notifyListeners();
   }
 
-  void getTodayPlan(planDate) async {
+  void getTodayPlan(planDate, context) async {
     ERPResponse response = await ERPServices.getRequest(
-        "/plan/today?userId=$userId&planDate=$planDate");
+        "/plan/today?userId=$userId&planDate=$planDate",context);
     var decodedData = jsonDecode(response.body);
     print(decodedData);
 

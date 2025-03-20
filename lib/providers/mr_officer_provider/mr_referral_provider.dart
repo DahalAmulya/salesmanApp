@@ -384,7 +384,7 @@ class ReferralsDetailProvider extends ChangeNotifier {
 
   void GetPOCList(context) async {
     ERPResponse response = await ERPServices.getRequest(
-        '/poc/category?createdById=$userId&category=');
+        '/poc/category?createdById=$userId&category=', context);
     if (response.statusCode == 200) {
       _pocList = jsonDecode(response.body)['poc'];
       _pocSearchResult = _pocList;
@@ -414,7 +414,7 @@ class ReferralsDetailProvider extends ChangeNotifier {
 
   void GetAmbulancePOCList(context) async {
     ERPResponse response = await ERPServices.getRequest(
-        '/poc/category?createdById=$userId&category=Ambulance');
+        '/poc/category?createdById=$userId&category=Ambulance',context);
     if (response.statusCode == 200) {
       _ambDriverList = jsonDecode(response.body)['poc'];
       _ambSearchResult = _ambDriverList;
@@ -492,7 +492,7 @@ class ReferralsDetailProvider extends ChangeNotifier {
 
     print(_body);
     ERPResponse response =
-        await ERPServices.postRequest('/referral?createdById=$userId', _body);
+        await ERPServices.postRequest('/referral?createdById=$userId', _body, context);
     print(response.statusCode);
     print(response.body);
     if (response.statusCode == 200) {
@@ -508,13 +508,13 @@ class ReferralsDetailProvider extends ChangeNotifier {
     }
   }
 
-  void getReferralLogs() async {
+  void getReferralLogs(context) async {
     DateTime now = DateTime.now();
     String date = now.toString().split(' ')[0];
     _selectedDate = selectedDate.isEmpty ? date : _selectedDate;
     print('selectedDate = ${_selectedDate}');
     ERPResponse response = await ERPServices.getRequest(
-        '/referral?_id=$userId&from=$_selectedDate&to=$_selectedDate');
+        '/referral?_id=$userId&from=$_selectedDate&to=$_selectedDate', context);
     print(response.statusCode);
     _body = jsonDecode(response.body);
     _referralLogs = body['referralLogs'];

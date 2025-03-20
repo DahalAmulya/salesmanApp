@@ -101,12 +101,12 @@ class MrAdminVisitLogProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  void getVisitLogsList() async {
+  void getVisitLogsList(context) async {
     _visitLogsUsersList = ["Select User"];
     _selectedUser = 'Select User';
     _selectedVisitType = 'Today';
     _selectedUserId = '';
-    ERPResponse response = await ERPServices.getRequest('/visitLogs/users');
+    ERPResponse response = await ERPServices.getRequest('/visitLogs/users', context);
     // print(response.body);
     if (response.statusCode == 200) {
       Map<String, dynamic> body = jsonDecode(response.body);
@@ -118,12 +118,12 @@ class MrAdminVisitLogProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  void getVisitLogsById() async {
+  void getVisitLogsById(context) async {
     if (_selectedUserId.isEmpty) {
       ToastMessageUtils().showToastMessage('Please select a user');
     } else {
       ERPResponse response = await ERPServices.getRequest(
-          '/visitLogs?visitLogId=$_selectedUserId&from=$_from&to=$_to');
+          '/visitLogs?visitLogId=$_selectedUserId&from=$_from&to=$_to', context);
       if (response.statusCode == 200) {
         final body = jsonDecode(response.body);
         _foundVisit = body['visitLogs'];

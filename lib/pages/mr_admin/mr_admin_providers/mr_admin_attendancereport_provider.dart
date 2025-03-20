@@ -112,12 +112,12 @@ class MrAdminAttendanceProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  void getVisitLogsList() async {
+  void getVisitLogsList(context) async {
     _attendanceLogsUsersList = ["Select User"];
     _selectedUser = 'Select User';
     _selectedVisitType = 'Today';
     _selectedUserId = '';
-    ERPResponse response = await ERPServices.getRequest('/visitLogs/users');
+    ERPResponse response = await ERPServices.getRequest('/visitLogs/users', context);
     if (response.statusCode == 200) {
       Map<String, dynamic> body = jsonDecode(response.body);
       _usersList = body['logs'];
@@ -128,12 +128,12 @@ class MrAdminAttendanceProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  void getAttendanceReport()async{
+  void getAttendanceReport(context)async{
     if (_selectedUserId.isEmpty) {
       print("User ID is required");
       return;
     }
-    ERPResponse response = await ERPServices.getRequest('/attendance/date?userId=$_selectedUserId&from=$_from&to=$_to');
+    ERPResponse response = await ERPServices.getRequest('/attendance/date?userId=$_selectedUserId&from=$_from&to=$_to',context);
     _foundAttendance = jsonDecode(response.body);
     _attendanceLogs = _foundAttendance['attendance']['attendanceLogs'];
 

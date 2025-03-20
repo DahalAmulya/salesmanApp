@@ -53,8 +53,8 @@ class ReplayProvider extends ChangeNotifier {
   bool get isLeavePage => _isLeavePage;
   String get selectedImage => _selectedImage;
 
-  ReplayProvider() {
-    cacheIcons(_selectedImage); // Pre-cache marker icons
+  ReplayProvider(context) {
+    cacheIcons(_selectedImage, context); // Pre-cache marker icons
     _isLeavePage = false;
   }
 
@@ -90,8 +90,8 @@ class ReplayProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  void cacheIcons(String img) async {
-    LiveTrackingProvider _imgprovider = LiveTrackingProvider();
+  void cacheIcons(String img, context) async {
+    LiveTrackingProvider _imgprovider = LiveTrackingProvider(context);
     DeviceInfoProvider _provider = DeviceInfoProvider();
     String tempMarkerImg = img.isEmpty ? 'assets/images/userLocation.png' : img;
     _tempMarkerIcon = await _imgprovider.getBytesFromAsset(tempMarkerImg, 100);
@@ -104,12 +104,12 @@ class ReplayProvider extends ChangeNotifier {
         await _provider.getBytesFromAsset('assets/images/finish.png', 100);
   }
 
-  void getEmployeeLocationById(String _id) async {
+  void getEmployeeLocationById(String _id, context) async {
     resetValues();
     String from = '2025-02-01 00:00:00';
     String to = '${DateTime.now().toString().split(' ')[0]} 23:59:59';
     ERPResponse response = await ERPServices.getRequest(
-        '/location/latestByDate?_id=$_id&from=2025-02-01&to=$to');
+        '/location/latestByDate?_id=$_id&from=2025-02-01&to=$to', context);
     print('****************************************************************');
     print('/location/latestByDate?_id=$_id&from=2025-02-01&to=$to');
     print(response.statusCode);

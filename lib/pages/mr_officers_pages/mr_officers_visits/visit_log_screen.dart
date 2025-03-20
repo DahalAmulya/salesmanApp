@@ -39,7 +39,7 @@ class _MrOfficerVisitLogStateScreen extends State<MrOfficerVisitLogScreen> {
       });
     }
     print(selectedDate);
-    visitLogProvider.getVisitLogs();
+    visitLogProvider.getVisitLogs(context);
   }
 
   void updateSelectedDate(String newValue) {
@@ -61,7 +61,7 @@ class _MrOfficerVisitLogStateScreen extends State<MrOfficerVisitLogScreen> {
       }
       print("Selected Date: $selectedDate");
     });
-    visitLogProvider.getVisitLogs();
+    visitLogProvider.getVisitLogs(context);
   }
 
   MrOfficeVisitLogProvider? _visitLogProvider;
@@ -70,7 +70,7 @@ class _MrOfficerVisitLogStateScreen extends State<MrOfficerVisitLogScreen> {
   void initState() {
     _visitLogProvider =
         Provider.of<MrOfficeVisitLogProvider>(context, listen: false);
-    _visitLogProvider?.getVisitLogs();
+    _visitLogProvider?.getVisitLogs(context);
     super.initState();
   }
 

@@ -57,9 +57,9 @@ class LiveTrackingProvider extends ChangeNotifier {
   String get img => _img;
   List<String> get images => _images;
 
-  LiveTrackingProvider() {
+  LiveTrackingProvider(context) {
     _liveTrakingMarkers.clear();
-    updateLocation();
+    updateLocation(context);
   }
 
   void setSelectedImage(String img) {
@@ -73,12 +73,12 @@ class LiveTrackingProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  void updateLocation() async {
-    getAllEmployeesLocation();
+  void updateLocation(context) async {
+    getAllEmployeesLocation(context);
     _liveLocationTimer = Timer.periodic(const Duration(seconds: 1), (timer) {
       if (_seconds == 10) {
         _seconds = 0;
-        getAllEmployeesLocation();
+        getAllEmployeesLocation(context);
       } else {
         _seconds++;
       }
@@ -86,7 +86,7 @@ class LiveTrackingProvider extends ChangeNotifier {
     });
   }
 
-  void getAllEmployeesLocation() async {
+  void getAllEmployeesLocation(context) async {
     // ERPResponse response = await ERPServices.getRequest('location');
     Map<String, String> headersJson = {
       'Content-Type': 'Application/json',
@@ -95,7 +95,7 @@ class LiveTrackingProvider extends ChangeNotifier {
     //   Uri.parse('http://202.51.3.49:8002/api/location'),
     //   headers: headersJson,
     // );
-    ERPResponse response = await ERPServices.getRequest('/location/latest');
+    ERPResponse response = await ERPServices.getRequest('/location/latest', context);
     // print('response = ${response.statusCode}');
     // print('response = ${response.body}');
     // print(response.statusCode);

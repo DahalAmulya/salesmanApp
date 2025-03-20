@@ -56,16 +56,16 @@ class _MrOfficerAttendanceBottomSheetState
     super.initState();
     _attendanceProvider =
         Provider.of<AttendanceProvider>(context, listen: false);
-    _attendanceProvider?.getAttendanceStatus();
+    _attendanceProvider?.getAttendanceStatus(context);
     _attendanceProvider?.getCurrentLocation();
     _attendanceProvider?.resetCheckOutConfirmation();
     _isAuthenticated = false;
     askPermission();
   }
 
-  void updateDeviceLocation() {
+  void updateDeviceLocation(context) {
     deviceInfoProvider = Provider.of<DeviceInfoProvider>(context, listen: true);
-    deviceInfoProvider?.deviceInfoProvider();
+    deviceInfoProvider?.deviceInfoProvider(context);
   }
 
   @override
@@ -89,7 +89,7 @@ class _MrOfficerAttendanceBottomSheetState
                       onTap: () async {
                         bool response = await biometricAuthentication();
                         // if (response) {
-                        attendanceProvider.switchRemoteAttendanceSwitch();
+                        attendanceProvider.switchRemoteAttendanceSwitch(context);
                         if (attendanceProvider.isRemoteAttendanceSwitched) {
                           // deviceInfoProvider.deviceInfoProvider();
                           print(
@@ -129,10 +129,10 @@ class _MrOfficerAttendanceBottomSheetState
                               bool response = await biometricAuthentication();
                               if (response) {
                                 attendanceProvider
-                                    .switchRemoteAttendanceSwitch();
+                                    .switchRemoteAttendanceSwitch(context);
                                 if (attendanceProvider
                                     .isRemoteAttendanceSwitched) {
-                                  deviceInfoProvider.deviceInfoProvider();
+                                  deviceInfoProvider.deviceInfoProvider(context);
                                   print(
                                       'attendanceProvider.isRemoteAttendanceSwitched = ${attendanceProvider.isRemoteAttendanceSwitched}, Posting device information');
                                 } else {
