@@ -117,7 +117,6 @@ class _MarketingManagerDashboardState extends State<MarketingManagerDashboard> {
       onDismissActionReceivedMethod:
           NotificationController.onDismissActionReceivedMethod,
     );
-    getUser();
     // NotificationUtils.sendNotification(2, 'Home', 'You are on home screen');
     super.initState();
   }
