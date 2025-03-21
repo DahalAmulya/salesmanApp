@@ -67,29 +67,6 @@ class ERPServices {
                   'Session Expired', ToastGravity.TOP, CustomColors.lightRed);
         Navigator.of(context).pop(MarketingManagerConstants.indexPage);
       }
-      // if (response.statusCode == 403) {
-      //   Map<String, dynamic> data = jsonDecode(response.body);
-      //   if (data['customCode'] == 11) {
-      //     Navigator.of(context).pushNamed(MarketingManagerConstants.indexPage);
-      //     ToastMessageUtils().showToastMessage(
-      //         'Session Expired', ToastGravity.TOP, CustomColors.lightRed);
-      //   } else if (data['customCode'] == 10) {
-      //     final response = await http.post(
-      //       Uri.parse('$apiURL$path'),
-      //       headers: {'Content-Type': 'Application/json'},
-      //       body: jsonEncode({"_id": userId, "refreshToken": refreshToken}),
-      //     );
-      //     Map<String, dynamic> decodedBody = jsonDecode(response.body);
-      //     if (response.statusCode == 200) {
-      //       accessToken = decodedBody['accessToken'];
-      //     } else if (response.statusCode == 403) {
-      //       Navigator.of(context)
-      //           .pushNamed(MarketingManagerConstants.indexPage);
-      //       ToastMessageUtils().showToastMessage(
-      //           'Session Expired', ToastGravity.TOP, CustomColors.lightRed);
-      //     }
-      //   }
-      // }
       return ERPResponse(
         statusCode: response.statusCode,
         body: response.body,
