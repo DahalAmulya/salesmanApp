@@ -2,12 +2,12 @@ import 'dart:io' show Platform;
 import 'package:deskgoo/classes/secure_storage.dart';
 import 'package:deskgoo/consts.dart';
 import 'package:deskgoo/models/environment.dart';
+import 'package:deskgoo/providers/profile/profile_provider.dart';
 import 'package:deskgoo/routes/marketing_officer_consts.dart';
 import 'package:deskgoo/routes/route_generator_constants.dart';
-import 'package:deskgoo/services/erp_services.dart';
-import 'package:deskgoo/utils/readUserCred.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:provider/provider.dart';
 
 class SplashScreenPage extends StatefulWidget {
   const SplashScreenPage({super.key});
@@ -19,10 +19,12 @@ class SplashScreenPage extends StatefulWidget {
 class _SplashScreenState extends State<SplashScreenPage> {
   bool loggedIn = false;
   String operatingSystem = Platform.operatingSystem.toLowerCase();
+  ProfileProvider? profileProvider;
   @override
   void initState() {
     super.initState();
     checkToken();
+    profileProvider = Provider.of<ProfileProvider>(context,listen: false);
   }
 
   Future<void> getValues() async {
@@ -38,6 +40,7 @@ class _SplashScreenState extends State<SplashScreenPage> {
         await SecureStorage().readLoginCredentials(SecureStorage.userId);
     SecureStorageResponse accessTok =
         await SecureStorage().readLoginCredentials(SecureStorage.accessToken);
+    SecureStorageResponse emailAddr = await SecureStorage().readLoginCredentials(SecureStorage.userEmail);
     SecureStorageResponse roleVal =
         await SecureStorage().readLoginCredentials(SecureStorage.roleValue);
     SecureStorageResponse roleN =
@@ -60,6 +63,7 @@ class _SplashScreenState extends State<SplashScreenPage> {
         await SecureStorage().readLoginCredentials(SecureStorage.userProfileImage);
     SecureStorageResponse depart = await SecureStorage()
         .readLoginCredentials(SecureStorage.userDepartment);
+    profileProvider!.setUserInfo(name: name.value, gender: gen.value, nationality: national.value, address: addr.value, maritalStatus: marStat.value, email: emailAddr.value, doj: doj.value, department: depart.value, profilePic: profileImg.value);
     userId = _id.value;
     accessToken = accessTok.value;
     role = roleN.value;
