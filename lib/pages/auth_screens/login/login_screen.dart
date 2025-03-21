@@ -4,6 +4,7 @@ import 'package:deskgoo/classes/secure_storage.dart';
 import 'package:deskgoo/consts.dart';
 import 'package:deskgoo/pages/auth_screens/change_passowrd/change_password_screen.dart';
 import 'package:deskgoo/providers/auth_provider/user_auth_provider.dart';
+import 'package:deskgoo/providers/profile/profile_provider.dart';
 import 'package:deskgoo/routes/marketing_officer_consts.dart';
 import 'package:deskgoo/routes/route_generator_constants.dart';
 import 'package:deskgoo/services/erp_services.dart';
@@ -30,6 +31,7 @@ class LoginPage extends StatefulWidget {
 
 class _LoginPageState extends State<LoginPage> {
   UserProvider? _userProvider;
+  ProfileProvider? profileProvider;
 
   final _formKey = GlobalKey<FormState>();
   List<Map<String, dynamic>> apiData = [];
@@ -58,6 +60,7 @@ class _LoginPageState extends State<LoginPage> {
     print('User Creds');
     print('***********************************************************');
     _userProvider = Provider.of<UserProvider>(context, listen: false);
+    profileProvider = Provider.of<ProfileProvider>(context,listen: false);
     super.initState();
   }
 
@@ -110,7 +113,7 @@ class _LoginPageState extends State<LoginPage> {
                       height: 60,
                       'assets/images/deskgooBlack.png',
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 8.0,
                     ),
                     // Use the TextFromFieldWithPrefixSuffix widget with emailFocusNode
@@ -313,6 +316,7 @@ class _LoginPageState extends State<LoginPage> {
       role = data['user']['role']['role'];
       userEmail = data['user']['email'];
       roleValue = data['user']['role']['roleValue'];
+      profileProvider!.setUserInfo(name: userName, gender: userGender, nationality: userNationality, address: userAddress, maritalStatus: userMaritalStatus, email: userEmail, doj: userDoj, department: userDepartment, profilePic: profileImage);
       if (rememberMe) {
         SecureStorage().writeLoginCredentials(
             SecureStorage.userEmail, emailController.value.text.toLowerCase().trim());

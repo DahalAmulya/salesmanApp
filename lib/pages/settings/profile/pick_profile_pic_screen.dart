@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:deskgoo/consts.dart';
+import 'package:deskgoo/providers/profile/profile_provider.dart';
 import 'package:deskgoo/services/erp_services.dart';
 import 'package:deskgoo/utils/toast_message.dart';
 import 'package:deskgoo/widgets/buttons/elevated_button.dart';
@@ -11,6 +12,7 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:provider/provider.dart';
 
 import '../../../classes/secure_storage.dart';
 import '../../../routes/route_generator_constants.dart';
@@ -31,10 +33,7 @@ class _PickProfilePicScreenState extends State<PickProfilePicScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: _appBar(context),
-      body: _buildUI(context),
-    );
+    return _buildUI(context);
   }
 
   PreferredSize _appBar(context) {
@@ -57,105 +56,69 @@ class _PickProfilePicScreenState extends State<PickProfilePicScreen> {
   }
 
   Widget _buildUI(context) {
-    return CustomContainer(
-      child: Column(
-        children: [
-          CustomElevatedButton(
-            onPressed: () {
-              _pickImageFromGallery();
-            },
-            backgroundColor: CustomColors.primaryColor,
-            widget: CustomText(text: 'Choose from Gallery'),
-          ),
-          const SizedBox(height: 16,),
-          CustomElevatedButton(
-            onPressed: () {
-              _pickImageFromCamera();
-            },
-            backgroundColor: CustomColors.lightRed,
-            widget: CustomText(text: 'Take a picture'),
-          ),
-          const SizedBox(height: 16,),
-          _selectedImage != null ? Image.file(_selectedImage!) : Container(),
-          const SizedBox(height: 16,),
-          uploadingImage ? const Center(child: CircularProgressIndicator(),) : CustomElevatedButton(
-            onPressed: () {
-              print('Pressed on upload button');
-              if(_selectedImage != null){
-                postProfileImage();
-                setState(() {
-                  uploadingImage = true;
-                });
-              }else{
-                ToastMessageUtils().showToastMessage('Please select an image',ToastGravity.TOP,
-                    CustomColors.lightRed);
-              }
+    return Consumer<ProfileProvider>(
+      builder: (context, profileProvider, _) {
+        return CustomContainer(
+          width: 1,
+          child: SingleChildScrollView(
+            child: Column(
+              children: [
+                CustomElevatedButton(
+                  onPressed: () {
+                    profileProvider.pickImageFromGallery();
+                  },
+                  backgroundColor: CustomColors.primaryColor,
+                  widget: CustomText(text: 'Choose from Gallery'),
+                ),
+                const SizedBox(height: 16),
+                CustomElevatedButton(
+                  onPressed: () {
+                    profileProvider.pickImageFromCamera();
+                  },
+                  backgroundColor: CustomColors.lightRed,
+                  widget: CustomText(text: 'Take a picture'),
+                ),
+                const SizedBox(height: 16),
 
-            },
-            backgroundColor: CustomColors.primaryColor,
-            widget: CustomText(text: 'Upload Image'),
+                // ✅ Fix: Use profileProvider.selectedImage safely
+                if (profileProvider.selectedImage != null)
+                  ClipRRect(
+                    borderRadius: BorderRadius.circular(1000),
+                    child: Image.file(
+                      profileProvider.selectedImage!,
+                      height: 300,
+                      width: 300,
+                      fit: BoxFit.cover,
+                    ),
+                  ),
+
+                if (profileProvider.selectedImage != null) const SizedBox(height: 16),
+
+                if (profileProvider.selectedImage != null)
+                  profileProvider.uploadingImage
+                      ? const Center(child: CircularProgressIndicator())
+                      : CustomElevatedButton(
+                    onPressed: () {
+                      print('Pressed on upload button');
+                      if (profileProvider.selectedImage != null) {
+                        profileProvider.setUploadingImage(true);
+                        profileProvider.uploadProfileImage(context);
+                      } else {
+                        ToastMessageUtils().showToastMessage(
+                            'Please select an image',
+                            ToastGravity.TOP,
+                            CustomColors.lightRed);
+                      }
+                    },
+                    backgroundColor: CustomColors.primaryColor,
+                    widget: CustomText(text: 'Upload Image'),
+                  ),
+                const SizedBox(height: 16),
+              ],
+            ),
           ),
-        ],
-      ),
+        );
+      },
     );
-  }
-
-  Future _pickImageFromGallery() async {
-    final returnedImage = await ImagePicker().pickImage(source: ImageSource.gallery);
-
-    if(returnedImage == null) return;
-    setState(() {
-      _selectedImage = File(returnedImage!.path);
-    });
-  }
-
-  Future _pickImageFromCamera() async {
-    final returnedImage = await ImagePicker().pickImage(source: ImageSource.camera);
-
-    if(returnedImage == null) return;
-    setState(() {
-      _selectedImage = File(returnedImage!.path);
-    });
-  }
-
-  void postProfileImage() async {
-    // ERPResponse response = await ERPServices.postRequest('/img/upload', body)
-    var request = http.MultipartRequest("POST", Uri.parse('$apiURL/img/upload'));
-    request.fields['id'] = userId; // Add the ID as a field
-    request.files.add(await http.MultipartFile.fromPath(
-      'profileImage',  // The field name expected by the server
-      _selectedImage!.path,
-      filename: _selectedImage!.path, // Extract filename
-    ));
-
-    try {
-      var streamedResponse = await request.send();
-
-      // Convert StreamedResponse to Response
-      var response = await http.Response.fromStream(streamedResponse);
-
-      if (response.statusCode == 200) {
-        ToastMessageUtils().showToastMessage('Image uploaded successfully',ToastGravity.TOP,
-            CustomColors.jadeGreen);
-        // Print the response body
-        print("Response Status Code: ${response.statusCode}");
-        print("Response Body: ${response.body}");
-        Map<String,dynamic> body = jsonDecode(response.body);
-        profileImage = body['user']['profileImage'];
-        print(profileImage);
-        SecureStorage().writeLoginCredentials(
-            SecureStorage.userProfileImage, profileImage);
-        print("Upload successful!");
-        Navigator.of(context).pop();
-      } else {
-        ToastMessageUtils().showToastMessage('Image uploaded failed',ToastGravity.TOP,
-            CustomColors.lightRed);
-        print("Upload failed with status: ${response.statusCode}");
-      }
-    } catch (e) {
-      ToastMessageUtils().showToastMessage('Image uploaded failed',ToastGravity.TOP,
-          CustomColors.lightRed);
-      print("Error uploading: $e");
-    }
   }
 }

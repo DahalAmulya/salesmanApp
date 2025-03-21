@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:deskgoo/consts.dart';
+import 'package:deskgoo/pages/settings/profile/pick_profile_pic_screen.dart';
 import 'package:deskgoo/providers/profile_provider/profile_provider.dart';
 import 'package:deskgoo/providers/settings_providers/profile_provider/profile_provider.dart';
 import 'package:deskgoo/services/erp_services.dart';
@@ -11,12 +12,19 @@ import 'package:deskgoo/widgets/app_bars/custom_app_bars.dart';
 import 'package:deskgoo/widgets/bottom_navigation/gnav_bar.dart';
 import 'package:deskgoo/widgets/texts/custom_text.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
 
+import '../../../classes/secure_storage.dart';
+import '../../../providers/profile/profile_provider.dart';
 import '../../../routes/route_generator_constants.dart';
+import '../../../utils/toast_message.dart';
+import '../../../widgets/bottom_sheets/mr_officer_sheets/attendance.dart';
+import '../../../widgets/buttons/elevated_button.dart';
 import '../../../widgets/containers/custom_container.dart';
+import 'package:http/http.dart' as http;
 
 class Profile_page extends StatefulWidget {
   const Profile_page({super.key});
@@ -29,10 +37,11 @@ class _Profile_pageState extends State<Profile_page> {
   double textFontSize = 16.0;
   FontWeight fontWeight = FontWeight.w600;
   int index = 2;
-  File ? _selectedImage;
+  File? _selectedImage;
+  bool uploadingImage = false;
 
   @override
-  void initState(){
+  void initState() {
     setState(() {
       UserCred().readUserCred();
     });
@@ -91,38 +100,44 @@ class _Profile_pageState extends State<Profile_page> {
                   const SizedBox(
                     height: 16,
                   ),
-                  Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 8),
-                    child: Center(
-                      child: InkWell(
-                        onTap: () {
-                          print('Tapped on image');
-                          Navigator.of(context).pushNamed(MarketingManagerConstants.pickProfilePic);
-                        },
-                        child: ClipRRect(
-                          borderRadius: BorderRadius.circular(100), // Circular border
-                          child: profileImage.isNotEmpty
-                              ? Image.network(
-                            profileImage,
-                            fit: BoxFit.cover,
-                            width: 80,
-                            height: 80,
-                          )
-                              : Container(
-                            width: 80,
-                            height: 80,
-                            decoration: BoxDecoration(
-                              color: CustomColors.primaryColor,
-                            ),
-                            alignment: Alignment.center,
-                            child: CustomText(
-                              text: '${userName.split(' ')[0][0]}${userName.split(' ')[1][0]}',
-                              size: 24,
-                              color: CustomColors.primaryBlack,
-                              fontWeight: FontWeight.w600,
-                            ),
-                          ),
-                        ),
+                  Center(
+                    child: InkWell(
+                      onTap: () {
+                        showModalBottomSheet(
+                          isScrollControlled: true,
+                          useSafeArea: true,
+                          context: context,
+                          builder: (context) => const PickProfilePicScreen(),
+                          // _mrOfficerProfilePicPickerBottomSheet(context),
+                        );
+                        print('Tapped on image');
+                        // Navigator.of(context).pushNamed(MarketingManagerConstants.pickProfilePic);
+                      },
+                      child: ClipRRect(
+                        borderRadius:
+                            BorderRadius.circular(100), // Circular border
+                        child: profileProvider.profilePic.isNotEmpty
+                            ? Image.network(
+                                profileProvider.profilePic,
+                                fit: BoxFit.cover,
+                                width: 120,
+                                height: 120,
+                              )
+                            : Container(
+                                width: 120,
+                                height: 120,
+                                decoration: BoxDecoration(
+                                  color: CustomColors.primaryColor,
+                                ),
+                                alignment: Alignment.center,
+                                child: CustomText(
+                                  text:
+                                      '${userName.split(' ')[0][0]}${userName.split(' ')[1][0]}',
+                                  size: 24,
+                                  color: CustomColors.primaryBlack,
+                                  fontWeight: FontWeight.w600,
+                                ),
+                              ),
                       ),
                     ),
                   ),
@@ -130,63 +145,64 @@ class _Profile_pageState extends State<Profile_page> {
                     height: 8,
                   ),
                   CustomContainer(
-                      width: 1,
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Container(
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                CustomText(
-                                  text: 'Personal Info',
-                                  size: 18,
-                                  fontWeight: fontWeight,
-                                ),
-                              ],
-                            ),
+                    width: 1,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Container(
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              CustomText(
+                                text: 'Personal Info',
+                                size: 18,
+                                fontWeight: fontWeight,
+                              ),
+                            ],
                           ),
-                          SizedBox(
-                            height: 8,
-                          ),
-                          CustomText(
-                            text: "Name: ${userName}",
-                            size: textFontSize,
-                            fontWeight: fontWeight,
-                          ),
-                          CustomText(
-                            text: "DOB: ${userDob}",
-                            size: textFontSize,
-                            fontWeight: fontWeight,
-                          ),
-                          CustomText(
-                            text: "Gender: ${userGender}",
-                            size: textFontSize,
-                            fontWeight: fontWeight,
-                          ),
-                          CustomText(
-                            text: "Nationality: ${userNationality}",
-                            size: textFontSize,
-                            fontWeight: fontWeight,
-                          ),
-                          CustomText(
-                            text: "Address: ${userAddress}",
-                            size: textFontSize,
-                            fontWeight: fontWeight,
-                          ),
-                          CustomText(
-                            text: "Marital Status: ${userMaritalStatus}",
-                            size: textFontSize,
-                            fontWeight: fontWeight,
-                          ),
-                          CustomText(
-                            text: "Email: ${userEmail}",
-                            size: textFontSize,
-                            fontWeight: fontWeight,
-                          ),
-                        ],
-                      )),
-                  SizedBox(
+                        ),
+                        const SizedBox(
+                          height: 8,
+                        ),
+                        CustomText(
+                          text: "Name: $userName",
+                          size: textFontSize,
+                          fontWeight: fontWeight,
+                        ),
+                        CustomText(
+                          text: "DOB: $userDob",
+                          size: textFontSize,
+                          fontWeight: fontWeight,
+                        ),
+                        CustomText(
+                          text: "Gender: $userGender",
+                          size: textFontSize,
+                          fontWeight: fontWeight,
+                        ),
+                        CustomText(
+                          text: "Nationality: $userNationality",
+                          size: textFontSize,
+                          fontWeight: fontWeight,
+                        ),
+                        CustomText(
+                          text: "Address: $userAddress",
+                          size: textFontSize,
+                          fontWeight: fontWeight,
+                        ),
+                        CustomText(
+                          text: "Marital Status: $userMaritalStatus",
+                          size: textFontSize,
+                          fontWeight: fontWeight,
+                        ),
+                        CustomText(
+                          text: "Email: $userEmail",
+                          size: textFontSize,
+                          fontWeight: fontWeight,
+                        ),
+                      ],
+                    ),
+                  ),
+                  const SizedBox(
                     height: 8,
                   ),
                   CustomContainer(
@@ -206,37 +222,21 @@ class _Profile_pageState extends State<Profile_page> {
                             ],
                           ),
                         ),
-                        SizedBox(
+                        const SizedBox(
                           height: 8,
                         ),
                         CustomText(
-                          text: "DOJ: ${userDoj}",
+                          text: "DOJ: $userDoj",
                           size: textFontSize,
                           fontWeight: fontWeight,
                         ),
                         CustomText(
-                          text: "Department: ${userDepartment}",
+                          text: "Department: $userDepartment",
                           size: textFontSize,
                           fontWeight: fontWeight,
                         ),
                         CustomText(
-                          text: "Designation: ${userDesignation}",
-                          size: textFontSize,
-                          fontWeight: fontWeight,
-                        ),
-                        CustomText(
-                          text: "Shift: ${profileProvider.default_shift}",
-                          size: textFontSize,
-                          fontWeight: fontWeight,
-                        ),
-                        CustomText(
-                          text:
-                              "Notice Period: ${profileProvider.notice_number_of_days}",
-                          size: textFontSize,
-                          fontWeight: fontWeight,
-                        ),
-                        CustomText(
-                          text: "DOR: ${profileProvider.date_of_retirement}",
+                          text: "Designation: $userDesignation",
                           size: textFontSize,
                           fontWeight: fontWeight,
                         ),
@@ -250,47 +250,5 @@ class _Profile_pageState extends State<Profile_page> {
         },
       ),
     );
-  }
-
-  //----------------------------------------------------------------Bottom Sheet----------------------------------------------------------------//
-
-   Widget SelectProfile(context){
-    return Container(
-      color: CustomColors.primaryWhite,
-      height: MediaQuery.of(context).size.height * 0.80,
-      child: Column(
-        children: [
-
-        ],
-      ),
-    );
-   }
-
-  CustomGNavBar _bottomNavBar(context) {
-    return CustomGNavBar(
-      selectedIndex: index,
-      onTap: (value) {
-        index = value;
-        print(index);
-      },
-    );
-  }
-
-  Future _pickImageFromGallery() async {
-    final returnedImage = await ImagePicker().pickImage(source: ImageSource.gallery);
-
-    if(returnedImage == null) return;
-    setState(() {
-      _selectedImage = File(returnedImage!.path);
-    });
-  }
-
-  Future _pickImageFromCamera() async {
-    final returnedImage = await ImagePicker().pickImage(source: ImageSource.camera);
-
-    if(returnedImage == null) return;
-    setState(() {
-      _selectedImage = File(returnedImage!.path);
-    });
   }
 }
