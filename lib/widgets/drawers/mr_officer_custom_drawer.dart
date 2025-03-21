@@ -107,7 +107,7 @@ class MrOfficerCustomDrawer extends StatelessWidget {
                                     borderRadius: BorderRadius.circular(100), // Circular border
                                     child: profileImage.isNotEmpty
                                         ? Image.network(
-                                      profileImage,
+                                      profileProvider.profilePic,
                                       fit: BoxFit.cover,
                                       width: 80,
                                       height: 80,

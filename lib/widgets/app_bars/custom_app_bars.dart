@@ -1,7 +1,9 @@
+import 'package:deskgoo/providers/profile/profile_provider.dart';
 import 'package:deskgoo/themes/custom_colors.dart';
 import 'package:deskgoo/widgets/texts/custom_text.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:provider/provider.dart';
 
 import '../../consts.dart';
 
@@ -128,31 +130,35 @@ class CustomAppBar extends StatelessWidget {
                     child: Container(
                       // margin: const EdgeInsets.symmetric(horizontal: 16),
                       padding: const EdgeInsets.symmetric(horizontal: 0),
-                      child: Center(
-                        child: ClipRRect(
-                          borderRadius: BorderRadius.circular(100), // Circular border
-                          child: profileImage.isNotEmpty
-                              ? Image.network(
-                            profileImage,
-                            fit: BoxFit.fill,
-                            width: 48,
-                            height: 48,
-                          )
-                              : Container(
-                            width: 48,
-                            height: 48,
-                            decoration: BoxDecoration(
-                              color: CustomColors.darkBlue,
+                      child: Consumer<ProfileProvider>(
+                        builder: (context,profileProvider,_) {
+                          return Center(
+                            child: ClipRRect(
+                              borderRadius: BorderRadius.circular(100), // Circular border
+                              child: profileProvider.profilePic.isNotEmpty
+                                  ? Image.network(
+                                profileProvider.profilePic,
+                                fit: BoxFit.fill,
+                                width: 48,
+                                height: 48,
+                              )
+                                  : Container(
+                                width: 48,
+                                height: 48,
+                                decoration: BoxDecoration(
+                                  color: CustomColors.darkBlue,
+                                ),
+                                alignment: Alignment.center,
+                                child: CustomText(
+                                  text: '${userName.split(' ')[0][0]}${userName.split(' ')[1][0]}',
+                                  size: 24,
+                                  color: CustomColors.primaryBlack,
+                                  fontWeight: FontWeight.w600,
+                                ),
+                              ),
                             ),
-                            alignment: Alignment.center,
-                            child: CustomText(
-                              text: '${userName.split(' ')[0][0]}${userName.split(' ')[1][0]}',
-                              size: 24,
-                              color: CustomColors.primaryBlack,
-                              fontWeight: FontWeight.w600,
-                            ),
-                          ),
-                        ),
+                          );
+                        }
                       ),
                     ),
                   )
