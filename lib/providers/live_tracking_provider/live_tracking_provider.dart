@@ -91,10 +91,6 @@ class LiveTrackingProvider extends ChangeNotifier {
     Map<String, String> headersJson = {
       'Content-Type': 'Application/json',
     };
-    // final response = await http.get(
-    //   Uri.parse('http://202.51.3.49:8002/api/location'),
-    //   headers: headersJson,
-    // );
     ERPResponse response = await ERPServices.getRequest('/location/latest', context);
     // print('response = ${response.statusCode}');
     // print('response = ${response.body}');
@@ -160,10 +156,10 @@ class LiveTrackingProvider extends ChangeNotifier {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       SizedBox(
-                        height: 150,
+                        height: 300,
                         width: double.infinity,
                         child: Image.asset(
-                          '${_images[i]}',
+                          _images[i],
                           fit: BoxFit.cover,
                         ),
                       ),
@@ -189,7 +185,7 @@ class LiveTrackingProvider extends ChangeNotifier {
                               // text:
                               //     '${latestLocation['mobileTime'].toString().split('.')[0].split('T')[1]}',
                               text:
-                                  '${latestLocation['mobileTime'].toString()}',
+                                  latestLocation['mobileTime'].toString(),
                               fontWeight: ui.FontWeight.w500,
                             ),
                           ],

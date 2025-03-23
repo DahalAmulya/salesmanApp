@@ -18,7 +18,8 @@ class MarketingAdminViewUser extends StatefulWidget {
 class _MarketingAdminViewUserState extends State<MarketingAdminViewUser> {
   @override
   void initState() {
-    final createUserProvider = Provider.of<CreateUserProvider>(context,listen: false);
+    final createUserProvider =
+        Provider.of<CreateUserProvider>(context, listen: false);
     createUserProvider.getUserDetails(context);
     // TODO: implement initState
     super.initState();
@@ -27,6 +28,7 @@ class _MarketingAdminViewUserState extends State<MarketingAdminViewUser> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: CustomColors.primaryWhite,
       appBar: _appBar(context),
       body: _buildUI(context),
     );
@@ -34,7 +36,7 @@ class _MarketingAdminViewUserState extends State<MarketingAdminViewUser> {
 
   PreferredSize _appBar(context) {
     return PreferredSize(
-      preferredSize: Size.fromHeight(kToolbarHeight),
+      preferredSize: const Size.fromHeight(kToolbarHeight),
       child: Builder(
         builder: (context) {
           return CustomAppBar(
@@ -51,39 +53,126 @@ class _MarketingAdminViewUserState extends State<MarketingAdminViewUser> {
     );
   }
 
-  Widget _buildUI(BuildContext context){
-    return Scaffold(
-      body: Consumer<CreateUserProvider>(
-        builder: (context,createUserProvider,_) {
-          return Column(
-            children: [
-              Expanded(
-                child: ListView.builder(
-                    itemCount: createUserProvider.userList.length, // replace with actual number of users.
-                    itemBuilder: (context,index){
-                      String userName = createUserProvider.userData['users'][index]['username'];
-                      String userRole = createUserProvider.userData['users'][index]['role']['role'];
-                      String userDepartment = createUserProvider.userData['users'][index]['department'];
-                      String userDesignation = createUserProvider.userData['users'][index]['designation'];
-                      String userEmail = createUserProvider.userData['users'][index]['email'];
-                      String userAddress = createUserProvider.userData['users'][index]['address'];
-                      String userDOB = createUserProvider.userData['users'][index]['dob'];
-                      String userNumber = createUserProvider.userData['users'][index]['number'];
-                      String userGender = createUserProvider.userData['users'][index]['gender'];
-                      String userMaritalStatus = createUserProvider.userData['users'][index]['maritalStatus'];
-                      String userDOJ = createUserProvider.userData['users'][index]['doj'];
-                      String userNationality = createUserProvider.userData['users'][index]['nationality'];
+  Widget _buildUI(BuildContext context) {
+    return Consumer<CreateUserProvider>(
+      builder: (context, createUserProvider, _) {
+        return Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Expanded(
+              child: ListView.builder(
+                itemCount: createUserProvider
+                    .userList.length, // replace with actual number of users.
+                itemBuilder: (context, index) {
+                  String userName =
+                      createUserProvider.userData['users'][index]['username'];
+                  String userRole = createUserProvider.userData['users'][index]
+                      ['role']['role'];
+                  String userDepartment =
+                      createUserProvider.userData['users'][index]['department'];
+                  String userDesignation = createUserProvider.userData['users']
+                      [index]['designation'];
+                  String userEmail =
+                      createUserProvider.userData['users'][index]['email'];
+                  String userAddress =
+                      createUserProvider.userData['users'][index]['address'];
+                  String userDOB =
+                      createUserProvider.userData['users'][index]['dob'];
+                  String userNumber =
+                      createUserProvider.userData['users'][index]['number'];
+                  String userGender =
+                      createUserProvider.userData['users'][index]['gender'];
+                  String userMaritalStatus = createUserProvider
+                      .userData['users'][index]['maritalStatus'];
+                  String userDOJ =
+                      createUserProvider.userData['users'][index]['doj'];
+                  String userNationality = createUserProvider.userData['users']
+                      [index]['nationality'];
+                  String profileImg = createUserProvider.userData['users']
+                      [index]['profileImage'];
                   return ListTile(
-                    title:  CustomContainer(
+                    title: CustomContainer(
                       applyShadow: true,
                       child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              ClipRRect(
+                                borderRadius: BorderRadius.circular(1000),
+                                child: Image.network(
+                                  fit: BoxFit.cover,
+                                  profileImg,
+                                  height: 80,
+                                  width: 80,
+                                ),
+                              ),
+                              InkWell(
+                                onTap: () {
+                                  String name = createUserProvider
+                                      .userData['users'][index]['username'];
+                                  String role = createUserProvider
+                                      .userData['users'][index]['role']['role'];
+                                  String department = createUserProvider
+                                      .userData['users'][index]['department'];
+                                  String email = createUserProvider
+                                      .userData['users'][index]['email'];
+                                  String designation = createUserProvider
+                                      .userData['users'][index]['designation'];
+                                  String address = createUserProvider
+                                      .userData['users'][index]['address'];
+                                  String dob = createUserProvider
+                                      .userData['users'][index]['dob'];
+                                  String number = createUserProvider
+                                      .userData['users'][index]['number'];
+                                  String gender = createUserProvider
+                                      .userData['users'][index]['gender'];
+                                  String maritalStatus =
+                                      createUserProvider.userData['users']
+                                          [index]['maritalStatus'];
+                                  String doj = createUserProvider
+                                      .userData['users'][index]['doj']
+                                      .split('T')[0];
+                                  String nationality = createUserProvider
+                                      .userData['users'][index]['nationality'];
+
+                                  createUserProvider.setUserDetails(
+                                      name,
+                                      role,
+                                      department,
+                                      email,
+                                      designation,
+                                      address,
+                                      dob,
+                                      number,
+                                      gender,
+                                      maritalStatus,
+                                      doj,
+                                      nationality);
+                                  Navigator.of(context).pushNamed(
+                                      MarketingManagerConstants
+                                          .mrManagerCreateUserPage);
+                                },
+                                child: const FaIcon(
+                                  FontAwesomeIcons.pen,
+                                  size: 16,
+                                ),
+                              ),
+                            ],
+                          ),
+                          const SizedBox(
+                            height: 16,
+                          ),
                           Row(
                             children: [
                               Expanded(
                                 flex: 1,
                                 child: CustomText(
-                                  text: 'Name :',
+                                  text: 'Name',
                                   isContent: true,
                                 ),
                               ),
@@ -94,36 +183,17 @@ class _MarketingAdminViewUserState extends State<MarketingAdminViewUser> {
                                   isContent: true,
                                 ),
                               ),
-                              Spacer(),
-                              InkWell(
-                                onTap: (){
-                                  String name = createUserProvider.userData['users'][index]['username'];
-                                  String role = createUserProvider.userData['users'][index]['role']['role'];
-                                  String department = createUserProvider.userData['users'][index]['department'];
-                                  String email = createUserProvider.userData['users'][index]['email'];
-                                  String designation = createUserProvider.userData['users'][index]['designation'];
-                                  String address = createUserProvider.userData['users'][index]['address'];
-                                  String dob = createUserProvider.userData['users'][index]['dob'];
-                                  String number = createUserProvider.userData['users'][index]['number'];
-                                  String gender = createUserProvider.userData['users'][index]['gender'];
-                                  String maritalStatus = createUserProvider.userData['users'][index]['maritalStatus'];
-                                  String doj = createUserProvider.userData['users'][index]['doj'].split('T')[0];
-                                  String nationality = createUserProvider.userData['users'][index]['nationality'];
-
-                                  createUserProvider.setUserDetails(name, role, department, email, designation, address, dob, number, gender, maritalStatus, doj, nationality);
-                                  Navigator.of(context)
-                                      .pushNamed(MarketingManagerConstants.mrManagerCreateUserPage);
-                                },
-                                  child: FaIcon(FontAwesomeIcons.pen,size: 16,),
-                              )
                             ],
+                          ),
+                          const SizedBox(
+                            height: 4,
                           ),
                           Row(
                             children: [
                               Expanded(
                                 flex: 1,
                                 child: CustomText(
-                                  text: 'Role :',
+                                  text: 'Role',
                                   isContent: true,
                                 ),
                               ),
@@ -136,12 +206,15 @@ class _MarketingAdminViewUserState extends State<MarketingAdminViewUser> {
                               ),
                             ],
                           ),
+                          const SizedBox(
+                            height: 4,
+                          ),
                           Row(
                             children: [
                               Expanded(
                                 flex: 1,
                                 child: CustomText(
-                                  text: 'Department :',
+                                  text: 'Department',
                                   isContent: true,
                                 ),
                               ),
@@ -154,12 +227,15 @@ class _MarketingAdminViewUserState extends State<MarketingAdminViewUser> {
                               ),
                             ],
                           ),
+                          const SizedBox(
+                            height: 4,
+                          ),
                           Row(
                             children: [
                               Expanded(
                                 flex: 1,
                                 child: CustomText(
-                                  text: 'Email :',
+                                  text: 'Email',
                                   isContent: true,
                                 ),
                               ),
@@ -168,16 +244,20 @@ class _MarketingAdminViewUserState extends State<MarketingAdminViewUser> {
                                 child: CustomText(
                                   text: userEmail,
                                   isContent: true,
+                                  maxLines: 2,
                                 ),
                               ),
                             ],
+                          ),
+                          const SizedBox(
+                            height: 4,
                           ),
                           Row(
                             children: [
                               Expanded(
                                 flex: 1,
                                 child: CustomText(
-                                  text: 'Designation :',
+                                  text: 'Designation',
                                   isContent: true,
                                 ),
                               ),
@@ -190,13 +270,17 @@ class _MarketingAdminViewUserState extends State<MarketingAdminViewUser> {
                               ),
                             ],
                           ),
+                          const SizedBox(
+                            height: 4,
+                          ),
                           Row(
                             children: [
                               Expanded(
                                 flex: 1,
                                 child: CustomText(
-                                  text: 'Address :',
+                                  text: 'Address',
                                   isContent: true,
+                                  maxLines: 2,
                                 ),
                               ),
                               Expanded(
@@ -208,12 +292,15 @@ class _MarketingAdminViewUserState extends State<MarketingAdminViewUser> {
                               ),
                             ],
                           ),
+                          const SizedBox(
+                            height: 4,
+                          ),
                           Row(
                             children: [
                               Expanded(
                                 flex: 1,
                                 child: CustomText(
-                                  text: 'DOB :',
+                                  text: 'DOB',
                                   isContent: true,
                                 ),
                               ),
@@ -226,12 +313,15 @@ class _MarketingAdminViewUserState extends State<MarketingAdminViewUser> {
                               ),
                             ],
                           ),
+                          const SizedBox(
+                            height: 4,
+                          ),
                           Row(
                             children: [
                               Expanded(
                                 flex: 1,
                                 child: CustomText(
-                                  text: 'Number :',
+                                  text: 'Number',
                                   isContent: true,
                                 ),
                               ),
@@ -244,12 +334,15 @@ class _MarketingAdminViewUserState extends State<MarketingAdminViewUser> {
                               ),
                             ],
                           ),
+                          const SizedBox(
+                            height: 4,
+                          ),
                           Row(
                             children: [
                               Expanded(
                                 flex: 1,
                                 child: CustomText(
-                                  text: 'Gender :',
+                                  text: 'Gender',
                                   isContent: true,
                                 ),
                               ),
@@ -262,12 +355,15 @@ class _MarketingAdminViewUserState extends State<MarketingAdminViewUser> {
                               ),
                             ],
                           ),
+                          const SizedBox(
+                            height: 4,
+                          ),
                           Row(
                             children: [
                               Expanded(
                                 flex: 1,
                                 child: CustomText(
-                                  text: 'Marital Status :',
+                                  text: 'Marital Status',
                                   isContent: true,
                                 ),
                               ),
@@ -280,12 +376,15 @@ class _MarketingAdminViewUserState extends State<MarketingAdminViewUser> {
                               ),
                             ],
                           ),
+                          const SizedBox(
+                            height: 4,
+                          ),
                           Row(
                             children: [
                               Expanded(
                                 flex: 1,
                                 child: CustomText(
-                                  text: 'DOJ :',
+                                  text: 'DOJ',
                                   isContent: true,
                                 ),
                               ),
@@ -298,12 +397,15 @@ class _MarketingAdminViewUserState extends State<MarketingAdminViewUser> {
                               ),
                             ],
                           ),
+                          const SizedBox(
+                            height: 4,
+                          ),
                           Row(
                             children: [
                               Expanded(
                                 flex: 1,
                                 child: CustomText(
-                                  text: 'Nationality :',
+                                  text: 'Nationality',
                                   isContent: true,
                                 ),
                               ),
@@ -320,15 +422,12 @@ class _MarketingAdminViewUserState extends State<MarketingAdminViewUser> {
                       ),
                     ),
                   );
-                }),
+                },
               ),
-            ],
-          );
-        }
-      ),
+            ),
+          ],
+        );
+      },
     );
   }
-
-
-
 }

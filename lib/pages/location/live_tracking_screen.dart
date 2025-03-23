@@ -116,7 +116,7 @@ class _LiveTrackingScreenState extends State<LiveTrackingScreen> {
               delegate: CustomSearchDelegate(),
             );
           },
-          icon: FaIcon(FontAwesomeIcons.magnifyingGlass),
+          icon: const FaIcon(FontAwesomeIcons.magnifyingGlass),
         ),
       ],
     );
@@ -124,13 +124,14 @@ class _LiveTrackingScreenState extends State<LiveTrackingScreen> {
 
   PreferredSize _appBar(context) {
     return PreferredSize(
-      preferredSize: Size.fromHeight(kToolbarHeight),
+      preferredSize: const Size.fromHeight(kToolbarHeight),
       child: Builder(
         builder: (context) => CustomAppBar(
           tabName: 'Live',
           titleColor: CustomColors.primaryBlack,
           backgroundColor: CustomColors.primaryColor,
           showLeading: true,
+          // isLeadingImage: true,
           leadingIcon: FontAwesomeIcons.bars,
           leadingIconColor: CustomColors.primaryBlack,
           onTapLeadingIcon: () {
