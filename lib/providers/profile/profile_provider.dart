@@ -117,9 +117,10 @@ class ProfileProvider extends ChangeNotifier {
         _profilePic = body['user']['profileImage'];
         print(_profilePic);
         SecureStorage().writeLoginCredentials(
-            SecureStorage.userProfileImage, profileImage);
+            SecureStorage.userProfileImage, _profilePic);
         print("Upload successful!");
         _uploadingImage = false;
+        _selectedImage = null;
         Navigator.of(context).pop();
       } else {
         ToastMessageUtils().showToastMessage(
