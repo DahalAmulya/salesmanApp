@@ -41,7 +41,7 @@ class CustomBottomSheet {
                     Navigator.pop(context);
                     // clearMap();
                   },
-                  icon: FaIcon(FontAwesomeIcons.arrowLeft),
+                  icon: const FaIcon(FontAwesomeIcons.arrowLeft),
                 );
               }),
             ),
@@ -79,7 +79,7 @@ class CustomBottomSheet {
                                 liveTrackingProvider
                                     .searchController.value.text),
                         applyPrefix: true,
-                        prefixIcon: Icon(FontAwesomeIcons.magnifyingGlass),
+                        prefixIcon: const Icon(FontAwesomeIcons.magnifyingGlass),
                       ),
                       const SizedBox(
                         height: 12.0,
@@ -94,7 +94,7 @@ class CustomBottomSheet {
                               return s[0].toUpperCase() + s.substring(1);
                             }
 
-                            String image = liveTrackingProvider.images[index];
+                            // String image = liveTrackingProvider.images[index];
                             String name = liveTrackingProvider
                                 .employeeSearchResults[index]['username'];
                             print(liveTrackingProvider
@@ -126,12 +126,12 @@ class CustomBottomSheet {
                                       height: 36,
                                       width: 36,
                                       child: Image.asset(
-                                        image,
+                                        'assets/images/userLocation.png',
                                         fit: BoxFit.cover,
                                       ),
                                     ),
                                   ),
-                                  SizedBox(
+                                  const SizedBox(
                                     width: 12,
                                   ),
                                   CustomText(

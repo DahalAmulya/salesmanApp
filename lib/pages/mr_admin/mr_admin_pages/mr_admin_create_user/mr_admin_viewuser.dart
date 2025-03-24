@@ -164,8 +164,10 @@ class _MarketingAdminViewUserState extends State<MarketingAdminViewUser> {
                               ),
                             ],
                           ),
+                          const SizedBox(height: 4,),
+                          const Divider(),
                           const SizedBox(
-                            height: 16,
+                            height: 4,
                           ),
                           Row(
                             children: [
@@ -185,6 +187,7 @@ class _MarketingAdminViewUserState extends State<MarketingAdminViewUser> {
                               ),
                             ],
                           ),
+                          const Divider(),
                           const SizedBox(
                             height: 4,
                           ),
@@ -206,6 +209,7 @@ class _MarketingAdminViewUserState extends State<MarketingAdminViewUser> {
                               ),
                             ],
                           ),
+                          const Divider(),
                           const SizedBox(
                             height: 4,
                           ),
@@ -227,6 +231,7 @@ class _MarketingAdminViewUserState extends State<MarketingAdminViewUser> {
                               ),
                             ],
                           ),
+                          const Divider(),
                           const SizedBox(
                             height: 4,
                           ),
@@ -249,6 +254,7 @@ class _MarketingAdminViewUserState extends State<MarketingAdminViewUser> {
                               ),
                             ],
                           ),
+                          const Divider(),
                           const SizedBox(
                             height: 4,
                           ),
@@ -270,6 +276,7 @@ class _MarketingAdminViewUserState extends State<MarketingAdminViewUser> {
                               ),
                             ],
                           ),
+                          const Divider(),
                           const SizedBox(
                             height: 4,
                           ),
@@ -292,6 +299,7 @@ class _MarketingAdminViewUserState extends State<MarketingAdminViewUser> {
                               ),
                             ],
                           ),
+                          const Divider(),
                           const SizedBox(
                             height: 4,
                           ),
@@ -313,6 +321,7 @@ class _MarketingAdminViewUserState extends State<MarketingAdminViewUser> {
                               ),
                             ],
                           ),
+                          const Divider(),
                           const SizedBox(
                             height: 4,
                           ),
@@ -334,6 +343,7 @@ class _MarketingAdminViewUserState extends State<MarketingAdminViewUser> {
                               ),
                             ],
                           ),
+                          const Divider(),
                           const SizedBox(
                             height: 4,
                           ),
@@ -355,6 +365,7 @@ class _MarketingAdminViewUserState extends State<MarketingAdminViewUser> {
                               ),
                             ],
                           ),
+                          const Divider(),
                           const SizedBox(
                             height: 4,
                           ),
@@ -376,6 +387,7 @@ class _MarketingAdminViewUserState extends State<MarketingAdminViewUser> {
                               ),
                             ],
                           ),
+                          const Divider(),
                           const SizedBox(
                             height: 4,
                           ),
@@ -397,6 +409,7 @@ class _MarketingAdminViewUserState extends State<MarketingAdminViewUser> {
                               ),
                             ],
                           ),
+                          const Divider(),
                           const SizedBox(
                             height: 4,
                           ),

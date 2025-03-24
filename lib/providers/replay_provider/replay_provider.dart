@@ -104,6 +104,13 @@ class ReplayProvider extends ChangeNotifier {
         await _provider.getBytesFromAsset('assets/images/finish.png', 100);
   }
 
+  void getLatestLocation(String id,context) async {
+    ERPResponse response =
+    await ERPServices.getRequest('/location/latest?_id=$id',context);
+    print(response.body);
+    print(response.statusCode);
+  }
+
   void getEmployeeLocationById(String _id, context) async {
     resetValues();
     String from = '2025-02-01 00:00:00';
