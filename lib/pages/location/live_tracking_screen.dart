@@ -245,7 +245,7 @@ class _LiveTrackingScreenState extends State<LiveTrackingScreen> {
                   CustomInfoWindow(
                     controller: liveTrackingProvider.customInfoWindowController,
                     height: 260,
-                    width: 250,
+                    width: 260,
                     offset: 50,
                   ),
                 ],

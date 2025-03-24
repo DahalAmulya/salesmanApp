@@ -31,10 +31,10 @@ class LiveTrackingProvider extends ChangeNotifier {
   String _selectedImg = '';
   String _img = '';
   List<String> _images = [
-    'assets/images/johnCena.jpg',
-    'assets/images/willSmith.jpeg',
-    'assets/images/rdj.jpg',
-    'assets/images/keanu.jpg',
+    // 'assets/images/johnCena.jpg',
+    // 'assets/images/willSmith.jpeg',
+    // 'assets/images/rdj.jpg',
+    // 'assets/images/keanu.jpg',
   ];
 
   TextEditingController get searchController => _searchController;
@@ -117,18 +117,20 @@ class LiveTrackingProvider extends ChangeNotifier {
       _mobileTime = latestLocation['mobileTime'];
 
       print('_employeeName = $_employeeName');
+      // _images.add('assets/images/userLocation.png');
 
-      if (i < _images.length) {
-        // _img = images[i];
-        // _img = images[i];
-        // print('inside if = ${i < _images.length}');
-      } else {
-        _images.add('assets/images/userLocation.png');
-        // _img = 'assets/images/location.png';
-        print('outside if = ${i < _images.length}');
-      }
+      // if (i < _images.length) {
+      //   // _img = images[i];
+      //   // _img = images[i];
+      //   // print('inside if = ${i < _images.length}');
+      // } else {
+      //   _images.add('assets/images/userLocation.png');
+      //   // _img = 'assets/images/location.png';
+      //   print('outside if = ${i < _images.length}');
+      // }
 
-      final Uint8List? icon = await getBytesFromAsset('${_images[i]}', 120);
+      // final Uint8List? icon = await getBytesFromAsset('${_images[i]}', 120);
+      final Uint8List? icon = await getBytesFromAsset('assets/images/userLocation.png', 120);
 
       // Create a unique marker ID using the employee name or another identifier
       String markerId = 'marker_${_employeeLiveData[i]['username']}';
@@ -159,7 +161,7 @@ class LiveTrackingProvider extends ChangeNotifier {
                         height: 300,
                         width: double.infinity,
                         child: Image.asset(
-                          _images[i],
+                          'assets/images/userLocation.png',
                           fit: BoxFit.cover,
                         ),
                       ),

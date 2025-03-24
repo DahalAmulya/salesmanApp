@@ -41,7 +41,7 @@ class SelectEmployeeBottomSheet {
                   Navigator.pop(context);
                   // clearMap();
                 },
-                icon: FaIcon(FontAwesomeIcons.arrowLeft),
+                icon: const FaIcon(FontAwesomeIcons.arrowLeft),
               ),
             ),
             body: Center(
@@ -66,7 +66,7 @@ class SelectEmployeeBottomSheet {
 
                             String name = liveTrackingProvider
                                 .employeeLiveData[index]['username'];
-                            String image = liveTrackingProvider.images[index];
+                            // String image = liveTrackingProvider.images[index];
                             return InkWell(
                               onTap: () {
                                 Navigator.pop(context);
@@ -110,12 +110,12 @@ class SelectEmployeeBottomSheet {
                                         height: 36,
                                         width: 36,
                                         child: Image.asset(
-                                          image,
+                                          'assets/images/userLocation.png',
                                           fit: BoxFit.cover,
                                         ),
                                       ),
                                     ),
-                                    SizedBox(
+                                    const SizedBox(
                                       width: 12,
                                     ),
                                     CustomText(
