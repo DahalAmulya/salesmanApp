@@ -1,3 +1,4 @@
+import 'package:deskgoo/consts.dart';
 import 'package:deskgoo/providers/live_tracking_provider/live_tracking_provider.dart';
 import 'package:deskgoo/themes/custom_colors.dart';
 import 'package:deskgoo/widgets/text_fields/text_from_field.dart';
@@ -97,6 +98,7 @@ class CustomBottomSheet {
                             // String image = liveTrackingProvider.images[index];
                             String name = liveTrackingProvider
                                 .employeeSearchResults[index]['username'];
+                            String profileImage = liveTrackingProvider.employeeSearchResults[index]['profileImage'];
                             print(liveTrackingProvider
                                 .employeeSearchResults[index]);
                             return ListTile(
@@ -125,10 +127,17 @@ class CustomBottomSheet {
                                     child: SizedBox(
                                       height: 36,
                                       width: 36,
-                                      child: Image.asset(
-                                        'assets/images/userLocation.png',
+                                      child:
+                                      // Image.asset(
+                                      //   'assets/images/userLocation.png',
+                                      //   fit: BoxFit.cover,
+                                      // ),
+                                      Image.network(
+                                        profileImage,
                                         fit: BoxFit.cover,
-                                      ),
+                                        // width: 120,
+                                        // height: 120,
+                                      )
                                     ),
                                   ),
                                   const SizedBox(

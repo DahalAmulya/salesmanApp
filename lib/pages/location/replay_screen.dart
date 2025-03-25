@@ -49,7 +49,6 @@ class _ReplayScreenState extends State<ReplayScreen> {
   @override
   void initState() {
     super.initState();
-    // _provider = Provider.of<DeviceinfoProvider>(context);
     _replayProvider = Provider.of<ReplayProvider>(context, listen: false);
   }
 
