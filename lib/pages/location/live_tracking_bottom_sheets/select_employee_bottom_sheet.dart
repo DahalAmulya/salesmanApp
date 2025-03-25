@@ -66,6 +66,8 @@ class SelectEmployeeBottomSheet {
 
                             String name = liveTrackingProvider
                                 .employeeLiveData[index]['username'];
+                            String profileImage = liveTrackingProvider
+                                .employeeLiveData[index]['profileImage'];
                             // String image = liveTrackingProvider.images[index];
                             return InkWell(
                               onTap: () {
@@ -109,10 +111,15 @@ class SelectEmployeeBottomSheet {
                                       child: SizedBox(
                                         height: 36,
                                         width: 36,
-                                        child: Image.asset(
-                                          'assets/images/userLocation.png',
+                                        child:
+                                        // Image.asset(
+                                        //   'assets/images/userLocation.png',
+                                        //   fit: BoxFit.cover,
+                                        // ),
+                                        Image.network(
+                                          profileImage,
                                           fit: BoxFit.cover,
-                                        ),
+                                        )
                                       ),
                                     ),
                                     const SizedBox(

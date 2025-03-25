@@ -32,6 +32,7 @@ class MrAdminReferralLogProvider extends ChangeNotifier{
   String _selectedDistrict = 'Morang';
   String _selectedStates = 'Andhra Pradesh';
   String _selectedCity = 'Biratnagar';
+  String _profileImage = '';
   String _selectedUserId = '';
   String _selectedRegion = '';
   String _selectedCities = '';
@@ -67,6 +68,7 @@ class MrAdminReferralLogProvider extends ChangeNotifier{
   List<dynamic> get cities => _cities;
 
   String get selectedUser => _selectedUser;
+  String get profileImage => _profileImage;
   String get selectedUserId => _selectedUserId;
   String get selectedRegion => _selectedRegion;
   String get selectedDateReferralType => _selectedDateReferralType;
@@ -315,6 +317,9 @@ class MrAdminReferralLogProvider extends ChangeNotifier{
       if (response.statusCode == 200) {
         final body = jsonDecode(response.body);
         _foundReferral = body['referralLogs'];
+        print(_foundReferral);
+        _profileImage = foundReferral[0]['profileImage'];
+        // print(profileImage);
         // print(_foundReferral.runtimeType);
         // print(response.body);
       }
@@ -336,7 +341,8 @@ class MrAdminReferralLogProvider extends ChangeNotifier{
       ERPResponse response = await ERPServices.getRequest('/referral/area/country?_id=$_selectedUserId&from=$_from&to=$_to&country=$_selectedCountry',context);
       final body = jsonDecode(response.body);
       _foundReferral = body['referralLogs'];
-      // print(_foundReferralByCountry[0]['createdBy']);
+      _profileImage = foundReferral[0]['profileImage'];
+      print(_foundReferral[0]['profileImage']);
     }
     notifyListeners();
   }
@@ -352,8 +358,8 @@ class MrAdminReferralLogProvider extends ChangeNotifier{
       ERPResponse response = await ERPServices.getRequest('/referral/area/city?_id=$_selectedUserId&from=$_from&to=$_to&country=$_selectedCountry&region=$_selectedRegion&city=$_selectedCities',context);
       final body = jsonDecode(response.body);
       _foundReferral = body['referralLogs'];
+      _profileImage = foundReferral[0]['profileImage'];
       print(selectedCities);
-
     }
     notifyListeners();
   }

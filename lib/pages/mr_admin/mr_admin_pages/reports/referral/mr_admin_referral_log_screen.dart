@@ -39,14 +39,12 @@ class _ReferralLogScreenState extends State<ReferralLogScreen> {
       myAnimation = false;
     });
 
-
     Future.delayed(const Duration(milliseconds: 200), () {
       setState(() {
         myAnimation = true;
       });
     });
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -374,7 +372,7 @@ class _ReferralLogScreenState extends State<ReferralLogScreen> {
                                 ),
                               ],
                             ),
-                          SizedBox(
+                          const SizedBox(
                             height: 16,
                           ),
                           CustomElevatedButton(
@@ -389,8 +387,8 @@ class _ReferralLogScreenState extends State<ReferralLogScreen> {
                                   mrAdminReferralLogProvider.referralType[1]) {
                                 mrAdminReferralLogProvider
                                     .getReferralLogsByRegion(context);
-                              } else if(mrAdminReferralLogProvider
-                                  .selectedReferralType ==
+                              } else if (mrAdminReferralLogProvider
+                                      .selectedReferralType ==
                                   mrAdminReferralLogProvider.referralType[2]) {
                                 mrAdminReferralLogProvider
                                     .getReferralLogByCity(context);
@@ -433,14 +431,13 @@ class _ReferralLogScreenState extends State<ReferralLogScreen> {
                               children: [
                                 Row(
                                   children: [
-                                    Expanded(
-                                      flex: 2,
-                                      child: CustomText(
-                                        text: 'Created By',
-                                        isContent: true,
-                                      ),
-                                    ),
-                                    SizedBox(width: 8),
+                                    // Expanded(
+                                    //   flex: 2,
+                                    //   child: CustomText(
+                                    //     text: 'Created By',
+                                    //     isContent: true,
+                                    //   ),
+                                    // ),
                                     Expanded(
                                       flex: 3,
                                       child: CustomText(
@@ -449,8 +446,20 @@ class _ReferralLogScreenState extends State<ReferralLogScreen> {
                                         isContent: true,
                                       ),
                                     ),
+                                    ClipRRect(
+                                      borderRadius: BorderRadius.circular(1000),
+                                      child: SizedBox(
+                                        height: 52,
+                                        width: 52,
+                                        child: Image.network(
+                                          mrAdminReferralLogProvider.profileImage,
+                                          fit: BoxFit.cover,
+                                        ),
+                                      ),
+                                    ),
                                   ],
                                 ),
+                                const SizedBox(height: 0,),
                                 Row(
                                   children: [
                                     Expanded(
@@ -460,7 +469,7 @@ class _ReferralLogScreenState extends State<ReferralLogScreen> {
                                         isContent: true,
                                       ),
                                     ),
-                                    SizedBox(width: 8),
+                                    const SizedBox(width: 8),
                                     Expanded(
                                       flex: 3,
                                       child: CustomText(
@@ -471,6 +480,7 @@ class _ReferralLogScreenState extends State<ReferralLogScreen> {
                                     ),
                                   ],
                                 ),
+                                const SizedBox(height: 4,),
                                 Row(
                                   children: [
                                     Expanded(
@@ -514,6 +524,7 @@ class _ReferralLogScreenState extends State<ReferralLogScreen> {
                                     ),
                                   ],
                                 ),
+                                const SizedBox(height: 4,),
                                 Row(
                                   children: [
                                     Expanded(
@@ -523,18 +534,39 @@ class _ReferralLogScreenState extends State<ReferralLogScreen> {
                                         isContent: true,
                                       ),
                                     ),
-                                    SizedBox(width: 8),
+                                    const SizedBox(width: 8),
                                     Expanded(
                                       flex: 3,
                                       child: CustomText(
                                         text:
-                                            "${mrAdminReferralLogProvider.from} to ${mrAdminReferralLogProvider.to}",
+                                            mrAdminReferralLogProvider.from,
                                         isContent: true,
                                       ),
                                     ),
                                   ],
                                 ),
-                                SizedBox(
+                                const SizedBox(height: 4,),
+                                Row(
+                                  children: [
+                                    Expanded(
+                                      flex: 2,
+                                      child: CustomText(
+                                        text: 'To',
+                                        isContent: true,
+                                      ),
+                                    ),
+                                    const SizedBox(width: 8),
+                                    Expanded(
+                                      flex: 3,
+                                      child: CustomText(
+                                        text:
+                                            mrAdminReferralLogProvider.to,
+                                        isContent: true,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                                const SizedBox(
                                   height: 16,
                                 ),
                               ],
@@ -551,7 +583,7 @@ class _ReferralLogScreenState extends State<ReferralLogScreen> {
                           ),
                         ),
                       ),
-                SizedBox(
+                const SizedBox(
                   height: 16,
                 ),
                 mrAdminReferralLogProvider.foundReferral.length != 0
@@ -561,19 +593,33 @@ class _ReferralLogScreenState extends State<ReferralLogScreen> {
                         itemCount:
                             mrAdminReferralLogProvider.foundReferral.length,
                         itemBuilder: (context, index) {
-                          String patientName = mrAdminReferralLogProvider.foundReferral[index]['patientName'];
-                          String patientAge = mrAdminReferralLogProvider.foundReferral[index]['patientAge'].toString();
-                          String provisionalDiagnosis = mrAdminReferralLogProvider.foundReferral[index]['provisionalDiagnosis'];
-                          String country = mrAdminReferralLogProvider.foundReferral[index]['country'];
-                          String region = mrAdminReferralLogProvider.foundReferral[index]['region'];
-                          String city = mrAdminReferralLogProvider.foundReferral[index]['city'];
+                          String patientName = mrAdminReferralLogProvider
+                              .foundReferral[index]['patientName'];
+                          String patientAge = mrAdminReferralLogProvider
+                              .foundReferral[index]['patientAge']
+                              .toString();
+                          String provisionalDiagnosis =
+                              mrAdminReferralLogProvider.foundReferral[index]
+                                  ['provisionalDiagnosis'];
+                          String country = mrAdminReferralLogProvider
+                              .foundReferral[index]['country'];
+                          String region = mrAdminReferralLogProvider
+                              .foundReferral[index]['region'];
+                          String city = mrAdminReferralLogProvider
+                              .foundReferral[index]['city'];
 
-                          String createdById = mrAdminReferralLogProvider.foundReferral[index]['createdById'].toString();
-                          String createdByName = mrAdminReferralLogProvider.foundReferral[index]['createdBy'];
+                          String createdById = mrAdminReferralLogProvider
+                              .foundReferral[index]['createdById']
+                              .toString();
+                          String createdByName = mrAdminReferralLogProvider
+                              .foundReferral[index]['createdBy'];
 
-                          String pocName = mrAdminReferralLogProvider.foundReferral[index]['pocName'];
-                          String pocNumber = mrAdminReferralLogProvider.foundReferral[index]['pocNumber'];
-                          String pocCategory = mrAdminReferralLogProvider.foundReferral[index]['pocCategory'];
+                          String pocName = mrAdminReferralLogProvider
+                              .foundReferral[index]['pocName'];
+                          String pocNumber = mrAdminReferralLogProvider
+                              .foundReferral[index]['pocNumber'];
+                          String pocCategory = mrAdminReferralLogProvider
+                              .foundReferral[index]['pocCategory'];
 
                           String ambId = mrAdminReferralLogProvider
                               .foundReferral[index]['ambId'];
@@ -593,7 +639,8 @@ class _ReferralLogScreenState extends State<ReferralLogScreen> {
                               .split('T')[0];
 
                           return AnimatedContainer(
-                            duration: Duration(milliseconds: 400 + (index * 250)),
+                            duration:
+                                Duration(milliseconds: 400 + (index * 250)),
                             curve: Curves.easeInToLinear,
                             transform: Matrix4.translationValues(
                                 myAnimation ? 0 : width, 0, 0),
@@ -624,6 +671,7 @@ class _ReferralLogScreenState extends State<ReferralLogScreen> {
                                           ),
                                         ],
                                       ),
+                                      const SizedBox(height: 4,),
                                       Row(
                                         children: [
                                           Expanded(
@@ -644,6 +692,7 @@ class _ReferralLogScreenState extends State<ReferralLogScreen> {
                                           ),
                                         ],
                                       ),
+                                      const SizedBox(height: 4,),
                                       Row(
                                         children: [
                                           Expanded(
@@ -664,6 +713,7 @@ class _ReferralLogScreenState extends State<ReferralLogScreen> {
                                           ),
                                         ],
                                       ),
+                                      const SizedBox(height: 4,),
                                       Row(
                                         children: [
                                           Expanded(
@@ -684,6 +734,7 @@ class _ReferralLogScreenState extends State<ReferralLogScreen> {
                                           ),
                                         ],
                                       ),
+                                      const SizedBox(height: 4,),
                                       Row(
                                         children: [
                                           Expanded(
@@ -704,6 +755,7 @@ class _ReferralLogScreenState extends State<ReferralLogScreen> {
                                           ),
                                         ],
                                       ),
+                                      const SizedBox(height: 4,),
                                       Row(
                                         children: [
                                           Expanded(
@@ -724,6 +776,7 @@ class _ReferralLogScreenState extends State<ReferralLogScreen> {
                                           ),
                                         ],
                                       ),
+                                      const SizedBox(height: 4,),
                                       Row(
                                         children: [
                                           Expanded(
@@ -744,6 +797,7 @@ class _ReferralLogScreenState extends State<ReferralLogScreen> {
                                           ),
                                         ],
                                       ),
+                                      const SizedBox(height: 4,),
                                       Row(
                                         children: [
                                           Expanded(
@@ -764,6 +818,7 @@ class _ReferralLogScreenState extends State<ReferralLogScreen> {
                                           ),
                                         ],
                                       ),
+                                      const SizedBox(height: 4,),
                                       Row(
                                         children: [
                                           Expanded(
@@ -784,6 +839,7 @@ class _ReferralLogScreenState extends State<ReferralLogScreen> {
                                           ),
                                         ],
                                       ),
+                                      const SizedBox(height: 4,),
                                       Row(
                                         children: [
                                           Expanded(
@@ -804,6 +860,7 @@ class _ReferralLogScreenState extends State<ReferralLogScreen> {
                                           ),
                                         ],
                                       ),
+                                      const SizedBox(height: 4,),
                                       Row(
                                         children: [
                                           Expanded(
@@ -824,6 +881,7 @@ class _ReferralLogScreenState extends State<ReferralLogScreen> {
                                           ),
                                         ],
                                       ),
+                                      const SizedBox(height: 4,),
                                       Row(
                                         children: [
                                           Expanded(
@@ -888,7 +946,7 @@ class _ReferralLogScreenState extends State<ReferralLogScreen> {
                                     ],
                                   ),
                                 ),
-                                SizedBox(
+                                const SizedBox(
                                   height: 16,
                                 ),
                               ],

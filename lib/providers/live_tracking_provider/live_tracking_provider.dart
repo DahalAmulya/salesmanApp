@@ -22,6 +22,7 @@ class LiveTrackingProvider extends ChangeNotifier {
   int _batteryPercentage = 0;
   String _employeeName = '';
   String _mobileTime = '';
+  String _profileImage = '';
   List<dynamic> _employeeLiveData = [];
   List<dynamic> _employeesNameList = [];
   List<dynamic> _employeeSearchResults = [];
@@ -47,6 +48,7 @@ class LiveTrackingProvider extends ChangeNotifier {
   int get batteryPercentage => _batteryPercentage;
   String get employeeName => _employeeName;
   String get mobileTime => _mobileTime;
+  String get profileImage => _profileImage;
   List<dynamic> get employeeLiveData => _employeeLiveData;
   List<dynamic> get employeesNameList => _employeesNameList;
   List<dynamic> get employeeSearchResults => _employeeSearchResults;
@@ -91,7 +93,8 @@ class LiveTrackingProvider extends ChangeNotifier {
     Map<String, String> headersJson = {
       'Content-Type': 'Application/json',
     };
-    ERPResponse response = await ERPServices.getRequest('/location/latest', context);
+    ERPResponse response =
+        await ERPServices.getRequest('/location/latest', context);
     // print('response = ${response.statusCode}');
     // print('response = ${response.body}');
     // print(response.statusCode);
@@ -115,6 +118,7 @@ class LiveTrackingProvider extends ChangeNotifier {
       _longitude = latestLocation['longitude'];
       _batteryPercentage = latestLocation['batteryPercentage'];
       _mobileTime = latestLocation['mobileTime'];
+      _profileImage = employeeLiveData[i]['profileImage'];
 
       print('_employeeName = $_employeeName');
       // _images.add('assets/images/userLocation.png');
@@ -130,7 +134,8 @@ class LiveTrackingProvider extends ChangeNotifier {
       // }
 
       // final Uint8List? icon = await getBytesFromAsset('${_images[i]}', 120);
-      final Uint8List? icon = await getBytesFromAsset('assets/images/userLocation.png', 120);
+      final Uint8List? icon =
+          await getBytesFromAsset('assets/images/userLocation.png', 120);
 
       // Create a unique marker ID using the employee name or another identifier
       String markerId = 'marker_${_employeeLiveData[i]['username']}';
@@ -158,10 +163,15 @@ class LiveTrackingProvider extends ChangeNotifier {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       SizedBox(
-                        height: 300,
+                        height: 150,
                         width: double.infinity,
-                        child: Image.asset(
-                          'assets/images/userLocation.png',
+                        child:
+                            // Image.asset(
+                            //   'assets/images/userLocation.png',
+                            //   fit: BoxFit.cover,
+                            // ),
+                            Image.network(
+                          _profileImage,
                           fit: BoxFit.cover,
                         ),
                       ),
@@ -186,8 +196,7 @@ class LiveTrackingProvider extends ChangeNotifier {
                             CustomText(
                               // text:
                               //     '${latestLocation['mobileTime'].toString().split('.')[0].split('T')[1]}',
-                              text:
-                                  latestLocation['mobileTime'].toString(),
+                              text: latestLocation['mobileTime'].toString(),
                               fontWeight: ui.FontWeight.w500,
                             ),
                           ],
