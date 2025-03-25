@@ -647,303 +647,308 @@ class _ReferralLogScreenState extends State<ReferralLogScreen> {
                             child: Column(
                               children: [
                                 CustomContainer(
-                                  horizontalMargin: 16,
+                                  horizontalMargin: 0,
                                   applyShadow: true,
-                                  child: Column(
-                                    children: [
-                                      Row(
-                                        children: [
-                                          Expanded(
-                                            flex: 2,
-                                            child: CustomText(
-                                              text: 'Patient Name',
-                                              isContent: true,
-                                              size: 16,
+                                  child: Badge(
+                                    label: CustomText(text: '${index + 1}',isContent: true,),
+                                    backgroundColor: CustomColors.primaryColor,
+                                    child: Column(
+                                      children: [
+                                        Row(
+                                          children: [
+                                            Expanded(
+                                              flex: 2,
+                                              child: CustomText(
+                                                text: 'Patient Name',
+                                                isContent: true,
+                                                size: 16,
+                                              ),
                                             ),
-                                          ),
-                                          Expanded(
-                                            flex: 2,
-                                            child: CustomText(
-                                              text: patientName,
-                                              isContent: true,
-                                              size: 16,
+                                            Expanded(
+                                              flex: 2,
+                                              child: CustomText(
+                                                text: patientName,
+                                                isContent: true,
+                                                size: 16,
+                                              ),
                                             ),
-                                          ),
-                                        ],
-                                      ),
-                                      const SizedBox(height: 4,),
-                                      Row(
-                                        children: [
-                                          Expanded(
-                                            flex: 2,
-                                            child: CustomText(
-                                              text: 'Patient Age',
-                                              isContent: true,
-                                              size: 16,
+                                          ],
+                                        ),
+                                        const SizedBox(height: 4,),
+                                        Row(
+                                          children: [
+                                            Expanded(
+                                              flex: 2,
+                                              child: CustomText(
+                                                text: 'Patient Age',
+                                                isContent: true,
+                                                size: 16,
+                                              ),
                                             ),
-                                          ),
-                                          Expanded(
-                                            flex: 2,
-                                            child: CustomText(
-                                              text: patientAge,
-                                              isContent: true,
-                                              size: 16,
+                                            Expanded(
+                                              flex: 2,
+                                              child: CustomText(
+                                                text: patientAge,
+                                                isContent: true,
+                                                size: 16,
+                                              ),
                                             ),
-                                          ),
-                                        ],
-                                      ),
-                                      const SizedBox(height: 4,),
-                                      Row(
-                                        children: [
-                                          Expanded(
-                                            flex: 2,
-                                            child: CustomText(
-                                              text: 'Provisional Diagnosis ',
-                                              isContent: true,
-                                              size: 16,
+                                          ],
+                                        ),
+                                        const SizedBox(height: 4,),
+                                        Row(
+                                          children: [
+                                            Expanded(
+                                              flex: 2,
+                                              child: CustomText(
+                                                text: 'Provisional Diagnosis ',
+                                                isContent: true,
+                                                size: 16,
+                                              ),
                                             ),
-                                          ),
-                                          Expanded(
-                                            flex: 2,
-                                            child: CustomText(
-                                              text: provisionalDiagnosis,
-                                              isContent: true,
-                                              size: 16,
+                                            Expanded(
+                                              flex: 2,
+                                              child: CustomText(
+                                                text: provisionalDiagnosis,
+                                                isContent: true,
+                                                size: 16,
+                                                maxLines: 2,
+                                              ),
                                             ),
-                                          ),
-                                        ],
-                                      ),
-                                      const SizedBox(height: 4,),
-                                      Row(
-                                        children: [
-                                          Expanded(
-                                            flex: 2,
-                                            child: CustomText(
-                                              text: 'Country',
-                                              isContent: true,
-                                              size: 16,
+                                          ],
+                                        ),
+                                        const SizedBox(height: 4,),
+                                        Row(
+                                          children: [
+                                            Expanded(
+                                              flex: 2,
+                                              child: CustomText(
+                                                text: 'Country',
+                                                isContent: true,
+                                                size: 16,
+                                              ),
                                             ),
-                                          ),
-                                          Expanded(
-                                            flex: 2,
-                                            child: CustomText(
-                                              text: country,
-                                              isContent: true,
-                                              size: 16,
+                                            Expanded(
+                                              flex: 2,
+                                              child: CustomText(
+                                                text: country,
+                                                isContent: true,
+                                                size: 16,
+                                              ),
                                             ),
-                                          ),
-                                        ],
-                                      ),
-                                      const SizedBox(height: 4,),
-                                      Row(
-                                        children: [
-                                          Expanded(
-                                            flex: 2,
-                                            child: CustomText(
-                                              text: 'Region',
-                                              isContent: true,
-                                              size: 16,
+                                          ],
+                                        ),
+                                        const SizedBox(height: 4,),
+                                        Row(
+                                          children: [
+                                            Expanded(
+                                              flex: 2,
+                                              child: CustomText(
+                                                text: 'Region',
+                                                isContent: true,
+                                                size: 16,
+                                              ),
                                             ),
-                                          ),
-                                          Expanded(
-                                            flex: 2,
-                                            child: CustomText(
-                                              text: region,
-                                              isContent: true,
-                                              size: 16,
+                                            Expanded(
+                                              flex: 2,
+                                              child: CustomText(
+                                                text: region,
+                                                isContent: true,
+                                                size: 16,
+                                              ),
                                             ),
-                                          ),
-                                        ],
-                                      ),
-                                      const SizedBox(height: 4,),
-                                      Row(
-                                        children: [
-                                          Expanded(
-                                            flex: 2,
-                                            child: CustomText(
-                                              text: 'City',
-                                              isContent: true,
-                                              size: 16,
+                                          ],
+                                        ),
+                                        const SizedBox(height: 4,),
+                                        Row(
+                                          children: [
+                                            Expanded(
+                                              flex: 2,
+                                              child: CustomText(
+                                                text: 'City',
+                                                isContent: true,
+                                                size: 16,
+                                              ),
                                             ),
-                                          ),
-                                          Expanded(
-                                            flex: 2,
-                                            child: CustomText(
-                                              text: city,
-                                              isContent: true,
-                                              size: 16,
+                                            Expanded(
+                                              flex: 2,
+                                              child: CustomText(
+                                                text: city,
+                                                isContent: true,
+                                                size: 16,
+                                              ),
                                             ),
-                                          ),
-                                        ],
-                                      ),
-                                      const SizedBox(height: 4,),
-                                      Row(
-                                        children: [
-                                          Expanded(
-                                            flex: 2,
-                                            child: CustomText(
-                                              text: 'POC Name',
-                                              isContent: true,
-                                              size: 16,
+                                          ],
+                                        ),
+                                        const SizedBox(height: 4,),
+                                        Row(
+                                          children: [
+                                            Expanded(
+                                              flex: 2,
+                                              child: CustomText(
+                                                text: 'POC Name',
+                                                isContent: true,
+                                                size: 16,
+                                              ),
                                             ),
-                                          ),
-                                          Expanded(
-                                            flex: 2,
-                                            child: CustomText(
-                                              text: pocName,
-                                              isContent: true,
-                                              size: 16,
+                                            Expanded(
+                                              flex: 2,
+                                              child: CustomText(
+                                                text: pocName,
+                                                isContent: true,
+                                                size: 16,
+                                              ),
                                             ),
-                                          ),
-                                        ],
-                                      ),
-                                      const SizedBox(height: 4,),
-                                      Row(
-                                        children: [
-                                          Expanded(
-                                            flex: 2,
-                                            child: CustomText(
-                                              text: 'POC Number',
-                                              isContent: true,
-                                              size: 16,
+                                          ],
+                                        ),
+                                        const SizedBox(height: 4,),
+                                        Row(
+                                          children: [
+                                            Expanded(
+                                              flex: 2,
+                                              child: CustomText(
+                                                text: 'POC Number',
+                                                isContent: true,
+                                                size: 16,
+                                              ),
                                             ),
-                                          ),
-                                          Expanded(
-                                            flex: 2,
-                                            child: CustomText(
-                                              text: pocNumber,
-                                              isContent: true,
-                                              size: 16,
+                                            Expanded(
+                                              flex: 2,
+                                              child: CustomText(
+                                                text: pocNumber,
+                                                isContent: true,
+                                                size: 16,
+                                              ),
                                             ),
-                                          ),
-                                        ],
-                                      ),
-                                      const SizedBox(height: 4,),
-                                      Row(
-                                        children: [
-                                          Expanded(
-                                            flex: 2,
-                                            child: CustomText(
-                                              text: 'POC Category',
-                                              isContent: true,
-                                              size: 16,
+                                          ],
+                                        ),
+                                        const SizedBox(height: 4,),
+                                        Row(
+                                          children: [
+                                            Expanded(
+                                              flex: 2,
+                                              child: CustomText(
+                                                text: 'POC Category',
+                                                isContent: true,
+                                                size: 16,
+                                              ),
                                             ),
-                                          ),
-                                          Expanded(
-                                            flex: 2,
-                                            child: CustomText(
-                                              text: pocCategory,
-                                              isContent: true,
-                                              size: 16,
+                                            Expanded(
+                                              flex: 2,
+                                              child: CustomText(
+                                                text: pocCategory,
+                                                isContent: true,
+                                                size: 16,
+                                              ),
                                             ),
-                                          ),
-                                        ],
-                                      ),
-                                      const SizedBox(height: 4,),
-                                      Row(
-                                        children: [
-                                          Expanded(
-                                            flex: 2,
-                                            child: CustomText(
-                                              text: 'AMB Driver Name',
-                                              isContent: true,
-                                              size: 16,
+                                          ],
+                                        ),
+                                        const SizedBox(height: 4,),
+                                        Row(
+                                          children: [
+                                            Expanded(
+                                              flex: 2,
+                                              child: CustomText(
+                                                text: 'AMB Driver Name',
+                                                isContent: true,
+                                                size: 16,
+                                              ),
                                             ),
-                                          ),
-                                          Expanded(
-                                            flex: 2,
-                                            child: CustomText(
-                                              text: ambDriverName,
-                                              isContent: true,
-                                              size: 16,
+                                            Expanded(
+                                              flex: 2,
+                                              child: CustomText(
+                                                text: ambDriverName,
+                                                isContent: true,
+                                                size: 16,
+                                              ),
                                             ),
-                                          ),
-                                        ],
-                                      ),
-                                      const SizedBox(height: 4,),
-                                      Row(
-                                        children: [
-                                          Expanded(
-                                            flex: 2,
-                                            child: CustomText(
-                                              text: 'AMB Driver Number',
-                                              isContent: true,
-                                              size: 16,
+                                          ],
+                                        ),
+                                        const SizedBox(height: 4,),
+                                        Row(
+                                          children: [
+                                            Expanded(
+                                              flex: 2,
+                                              child: CustomText(
+                                                text: 'AMB Driver Number',
+                                                isContent: true,
+                                                size: 16,
+                                              ),
                                             ),
-                                          ),
-                                          Expanded(
-                                            flex: 2,
-                                            child: CustomText(
-                                              text: ambDriverNumber,
-                                              isContent: true,
-                                              size: 16,
+                                            Expanded(
+                                              flex: 2,
+                                              child: CustomText(
+                                                text: ambDriverNumber,
+                                                isContent: true,
+                                                size: 16,
+                                              ),
                                             ),
-                                          ),
-                                        ],
-                                      ),
-                                      const SizedBox(height: 4,),
-                                      Row(
-                                        children: [
-                                          Expanded(
-                                            flex: 2,
-                                            child: CustomText(
-                                              text: 'AMB Number',
-                                              isContent: true,
-                                              size: 16,
+                                          ],
+                                        ),
+                                        const SizedBox(height: 4,),
+                                        Row(
+                                          children: [
+                                            Expanded(
+                                              flex: 2,
+                                              child: CustomText(
+                                                text: 'AMB Number',
+                                                isContent: true,
+                                                size: 16,
+                                              ),
                                             ),
-                                          ),
-                                          Expanded(
-                                            flex: 2,
-                                            child: CustomText(
-                                              text: ambNumber,
-                                              isContent: true,
-                                              size: 16,
+                                            Expanded(
+                                              flex: 2,
+                                              child: CustomText(
+                                                text: ambNumber,
+                                                isContent: true,
+                                                size: 16,
+                                              ),
                                             ),
-                                          ),
-                                        ],
-                                      ),
+                                          ],
+                                        ),
 
-                                      // Row(
-                                      //   children: [
-                                      //     Expanded(
-                                      //       flex: 2,
-                                      //       child: CustomText(
-                                      //         text: 'Mobile Time',
-                                      //         isContent: true,
-                                      //         size: 16,
-                                      //       ),
-                                      //     ),
-                                      //     Expanded(
-                                      //       flex: 2,
-                                      //       child: CustomText(
-                                      //         text: mobileTime,
-                                      //         isContent: true,
-                                      //         size: 16,
-                                      //       ),
-                                      //     ),
-                                      //   ],
-                                      // ),
-                                      // Row(
-                                      //   children: [
-                                      //     Expanded(
-                                      //       flex: 2,
-                                      //       child: CustomText(
-                                      //         text: 'Referral Date',
-                                      //         isContent: true,
-                                      //         size: 16,
-                                      //       ),
-                                      //     ),
-                                      //     Expanded(
-                                      //       flex: 2,
-                                      //       child: CustomText(
-                                      //         text: referralDate,
-                                      //         isContent: true,
-                                      //         size: 16,
-                                      //       ),
-                                      //     ),
-                                      //   ],
-                                      // ),
-                                    ],
+                                        // Row(
+                                        //   children: [
+                                        //     Expanded(
+                                        //       flex: 2,
+                                        //       child: CustomText(
+                                        //         text: 'Mobile Time',
+                                        //         isContent: true,
+                                        //         size: 16,
+                                        //       ),
+                                        //     ),
+                                        //     Expanded(
+                                        //       flex: 2,
+                                        //       child: CustomText(
+                                        //         text: mobileTime,
+                                        //         isContent: true,
+                                        //         size: 16,
+                                        //       ),
+                                        //     ),
+                                        //   ],
+                                        // ),
+                                        // Row(
+                                        //   children: [
+                                        //     Expanded(
+                                        //       flex: 2,
+                                        //       child: CustomText(
+                                        //         text: 'Referral Date',
+                                        //         isContent: true,
+                                        //         size: 16,
+                                        //       ),
+                                        //     ),
+                                        //     Expanded(
+                                        //       flex: 2,
+                                        //       child: CustomText(
+                                        //         text: referralDate,
+                                        //         isContent: true,
+                                        //         size: 16,
+                                        //       ),
+                                        //     ),
+                                        //   ],
+                                        // ),
+                                      ],
+                                    ),
                                   ),
                                 ),
                                 const SizedBox(
