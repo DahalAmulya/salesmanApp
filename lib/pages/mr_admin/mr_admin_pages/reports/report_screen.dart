@@ -92,7 +92,7 @@ class _MrAdminReportScreenState extends State<MrAdminReportScreen> {
       builder: (context, adminVisitLogsProvider, _) {
         return ListView(
           children: [
-            SizedBox(
+            const SizedBox(
               height: 16,
             ),
             Column(
@@ -112,7 +112,7 @@ class _MrAdminReportScreenState extends State<MrAdminReportScreen> {
                     children: [
                       Column(
                         children: [
-                          SizedBox(
+                          const SizedBox(
                             height: 16,
                           ),
                           CustomDropdown(
@@ -123,7 +123,7 @@ class _MrAdminReportScreenState extends State<MrAdminReportScreen> {
                               adminVisitLogsProvider.setSelectedUser(value);
                             },
                           ),
-                          SizedBox(
+                          const SizedBox(
                             height: 16,
                           ),
                           CustomDropdown(
@@ -156,7 +156,7 @@ class _MrAdminReportScreenState extends State<MrAdminReportScreen> {
                                     validator: (value) {},
                                   ),
                                 ),
-                                SizedBox(
+                                const SizedBox(
                                   width: 12,
                                 ),
                                 Expanded(
@@ -175,7 +175,7 @@ class _MrAdminReportScreenState extends State<MrAdminReportScreen> {
                                 ),
                               ],
                             ),
-                          SizedBox(
+                          const SizedBox(
                             height: 16,
                           ),
                           CustomElevatedButton(
@@ -192,7 +192,7 @@ class _MrAdminReportScreenState extends State<MrAdminReportScreen> {
                               size: 20.0,
                             ),
                           ),
-                          SizedBox(
+                          const SizedBox(
                             height: 16,
                           ),
                         ],
@@ -202,7 +202,7 @@ class _MrAdminReportScreenState extends State<MrAdminReportScreen> {
                 ),
               ],
             ),
-            SizedBox(
+            const SizedBox(
               height: 16,
             ),
             adminVisitLogsProvider.visitList.length != 0
@@ -235,203 +235,210 @@ class _MrAdminReportScreenState extends State<MrAdminReportScreen> {
                             children: [
                               CustomContainer(
                                 applyShadow: true,
-                                child: Column(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
-                                      children: [
-                                        Expanded(
-                                          child: CustomText(
-                                            text: 'Date',
-                                            isContent: true,
+                                child: Badge(
+                                  label: CustomText(
+                                    text: '${index + 1}',
+                                    isContent: true,
+                                  ),
+                                  backgroundColor: CustomColors.primaryColor,
+                                  child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          Expanded(
+                                            child: CustomText(
+                                              text: 'Date',
+                                              isContent: true,
+                                            ),
                                           ),
-                                        ),
-                                        Expanded(
-                                          child: CustomText(
-                                            text: mobileTime,
-                                            isContent: true,
+                                          Expanded(
+                                            child: CustomText(
+                                              text: mobileTime,
+                                              isContent: true,
+                                            ),
                                           ),
-                                        ),
-                                      ],
-                                    ),
-                                    Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
-                                      children: [
-                                        Expanded(
-                                          child: CustomText(
-                                            text: 'POC',
-                                            isContent: true,
+                                        ],
+                                      ),
+                                      Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          Expanded(
+                                            child: CustomText(
+                                              text: 'POC',
+                                              isContent: true,
+                                            ),
                                           ),
-                                        ),
-                                        Expanded(
-                                          child: CustomText(
-                                            text: pocName,
-                                            isContent: true,
+                                          Expanded(
+                                            child: CustomText(
+                                              text: pocName,
+                                              isContent: true,
+                                            ),
                                           ),
-                                        ),
-                                      ],
-                                    ),
-                                    Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
-                                      children: [
-                                        Expanded(
-                                          child: CustomText(
-                                            text: 'Visit Type',
-                                            isContent: true,
+                                        ],
+                                      ),
+                                      Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          Expanded(
+                                            child: CustomText(
+                                              text: 'Visit Type',
+                                              isContent: true,
+                                            ),
                                           ),
-                                        ),
-                                        Expanded(
-                                          child: CustomText(
-                                            text: visitType,
-                                            isContent: true,
+                                          Expanded(
+                                            child: CustomText(
+                                              text: visitType,
+                                              isContent: true,
+                                            ),
                                           ),
-                                        ),
-                                      ],
-                                    ),
-                                    Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
-                                      children: [
-                                        Expanded(
-                                          child: CustomText(
-                                            text: 'Category',
-                                            isContent: true,
+                                        ],
+                                      ),
+                                      Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          Expanded(
+                                            child: CustomText(
+                                              text: 'Category',
+                                              isContent: true,
+                                            ),
                                           ),
-                                        ),
-                                        Expanded(
-                                          child: CustomText(
-                                            text: 'Doctor',
-                                            isContent: true,
+                                          Expanded(
+                                            child: CustomText(
+                                              text: 'Doctor',
+                                              isContent: true,
+                                            ),
                                           ),
-                                        ),
-                                      ],
-                                    ),
-                                    Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
-                                      children: [
-                                        Expanded(
-                                          child: CustomText(
-                                            text: 'Specialization',
-                                            isContent: true,
+                                        ],
+                                      ),
+                                      Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          Expanded(
+                                            child: CustomText(
+                                              text: 'Specialization',
+                                              isContent: true,
+                                            ),
                                           ),
-                                        ),
-                                        Expanded(
-                                          child: CustomText(
-                                            text: 'Cardiologist',
-                                            isContent: true,
-                                            textOverflow: TextOverflow.visible,
-                                            maxLines: 3,
+                                          Expanded(
+                                            child: CustomText(
+                                              text: 'Cardiologist',
+                                              isContent: true,
+                                              textOverflow: TextOverflow.visible,
+                                              maxLines: 3,
+                                            ),
                                           ),
-                                        ),
-                                      ],
-                                    ),
-                                    Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
-                                      children: [
-                                        Expanded(
-                                          child: CustomText(
-                                            text: 'Area',
-                                            isContent: true,
+                                        ],
+                                      ),
+                                      Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          Expanded(
+                                            child: CustomText(
+                                              text: 'Area',
+                                              isContent: true,
+                                            ),
                                           ),
-                                        ),
-                                        Expanded(
-                                          child: CustomText(
-                                            text: 'East',
-                                            isContent: true,
-                                            textOverflow: TextOverflow.visible,
-                                            maxLines: 3,
+                                          Expanded(
+                                            child: CustomText(
+                                              text: 'East',
+                                              isContent: true,
+                                              textOverflow: TextOverflow.visible,
+                                              maxLines: 3,
+                                            ),
                                           ),
-                                        ),
-                                      ],
-                                    ),
-                                    Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
-                                      children: [
-                                        Expanded(
-                                          child: CustomText(
-                                            text: 'City',
-                                            isContent: true,
+                                        ],
+                                      ),
+                                      Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          Expanded(
+                                            child: CustomText(
+                                              text: 'City',
+                                              isContent: true,
+                                            ),
                                           ),
-                                        ),
-                                        Expanded(
-                                          child: CustomText(
-                                            text: 'Damak',
-                                            isContent: true,
-                                            textOverflow: TextOverflow.visible,
-                                            maxLines: 3,
+                                          Expanded(
+                                            child: CustomText(
+                                              text: 'Damak',
+                                              isContent: true,
+                                              textOverflow: TextOverflow.visible,
+                                              maxLines: 3,
+                                            ),
                                           ),
-                                        ),
-                                      ],
-                                    ),
-                                    Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
-                                      children: [
-                                        Expanded(
-                                          child: CustomText(
-                                            text: 'Address',
-                                            isContent: true,
+                                        ],
+                                      ),
+                                      Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          Expanded(
+                                            child: CustomText(
+                                              text: 'Address',
+                                              isContent: true,
+                                            ),
                                           ),
-                                        ),
-                                        Expanded(
-                                          child: CustomText(
-                                            text: 'Damak',
-                                            isContent: true,
-                                            textOverflow: TextOverflow.visible,
-                                            maxLines: 3,
+                                          Expanded(
+                                            child: CustomText(
+                                              text: 'Damak',
+                                              isContent: true,
+                                              textOverflow: TextOverflow.visible,
+                                              maxLines: 3,
+                                            ),
                                           ),
-                                        ),
-                                      ],
-                                    ),
-                                    Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
-                                      children: [
-                                        Expanded(
-                                          child: CustomText(
-                                            text: 'Remarks',
-                                            isContent: true,
+                                        ],
+                                      ),
+                                      Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          Expanded(
+                                            child: CustomText(
+                                              text: 'Remarks',
+                                              isContent: true,
+                                            ),
                                           ),
-                                        ),
-                                        Expanded(
-                                          child: CustomText(
-                                            text: remarks,
-                                            isContent: true,
-                                            textOverflow: TextOverflow.visible,
-                                            maxLines: 3,
+                                          Expanded(
+                                            child: CustomText(
+                                              text: remarks,
+                                              isContent: true,
+                                              textOverflow: TextOverflow.visible,
+                                              maxLines: 3,
+                                            ),
                                           ),
-                                        ),
-                                      ],
-                                    ),
-                                    Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
-                                      children: [
-                                        Expanded(
-                                          child: CustomText(
-                                            text: 'Executive',
-                                            isContent: true,
+                                        ],
+                                      ),
+                                      Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          Expanded(
+                                            child: CustomText(
+                                              text: 'Executive',
+                                              isContent: true,
+                                            ),
                                           ),
-                                        ),
-                                        Expanded(
-                                          child: CustomText(
-                                            text: 'Munna Rajbanshi',
-                                            isContent: true,
-                                            textOverflow: TextOverflow.visible,
-                                            maxLines: 3,
+                                          Expanded(
+                                            child: CustomText(
+                                              text: 'Munna Rajbanshi',
+                                              isContent: true,
+                                              textOverflow: TextOverflow.visible,
+                                              maxLines: 3,
+                                            ),
                                           ),
-                                        ),
-                                      ],
-                                    ),
-                                  ],
+                                        ],
+                                      ),
+                                    ],
+                                  ),
                                 ),
                               ),
                               Container(
@@ -478,7 +485,7 @@ class _MrAdminReportScreenState extends State<MrAdminReportScreen> {
                                   ),
                                 ),
                               ),
-                              SizedBox(
+                              const SizedBox(
                                 height: 16,
                               ),
                             ],
