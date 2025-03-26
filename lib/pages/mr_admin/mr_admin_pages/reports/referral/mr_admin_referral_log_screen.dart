@@ -452,14 +452,17 @@ class _ReferralLogScreenState extends State<ReferralLogScreen> {
                                         height: 52,
                                         width: 52,
                                         child: Image.network(
-                                          mrAdminReferralLogProvider.profileImage,
+                                          mrAdminReferralLogProvider
+                                              .profileImage,
                                           fit: BoxFit.cover,
                                         ),
                                       ),
                                     ),
                                   ],
                                 ),
-                                const SizedBox(height: 0,),
+                                const SizedBox(
+                                  height: 0,
+                                ),
                                 Row(
                                   children: [
                                     Expanded(
@@ -480,7 +483,9 @@ class _ReferralLogScreenState extends State<ReferralLogScreen> {
                                     ),
                                   ],
                                 ),
-                                const SizedBox(height: 4,),
+                                const SizedBox(
+                                  height: 4,
+                                ),
                                 Row(
                                   children: [
                                     Expanded(
@@ -524,7 +529,9 @@ class _ReferralLogScreenState extends State<ReferralLogScreen> {
                                     ),
                                   ],
                                 ),
-                                const SizedBox(height: 4,),
+                                const SizedBox(
+                                  height: 4,
+                                ),
                                 Row(
                                   children: [
                                     Expanded(
@@ -538,14 +545,15 @@ class _ReferralLogScreenState extends State<ReferralLogScreen> {
                                     Expanded(
                                       flex: 3,
                                       child: CustomText(
-                                        text:
-                                            mrAdminReferralLogProvider.from,
+                                        text: mrAdminReferralLogProvider.from,
                                         isContent: true,
                                       ),
                                     ),
                                   ],
                                 ),
-                                const SizedBox(height: 4,),
+                                const SizedBox(
+                                  height: 4,
+                                ),
                                 Row(
                                   children: [
                                     Expanded(
@@ -559,8 +567,7 @@ class _ReferralLogScreenState extends State<ReferralLogScreen> {
                                     Expanded(
                                       flex: 3,
                                       child: CustomText(
-                                        text:
-                                            mrAdminReferralLogProvider.to,
+                                        text: mrAdminReferralLogProvider.to,
                                         isContent: true,
                                       ),
                                     ),
@@ -650,7 +657,10 @@ class _ReferralLogScreenState extends State<ReferralLogScreen> {
                                   horizontalMargin: 0,
                                   applyShadow: true,
                                   child: Badge(
-                                    label: CustomText(text: '${index + 1}',isContent: true,),
+                                    label: CustomText(
+                                      text: '${index + 1}',
+                                      isContent: true,
+                                    ),
                                     backgroundColor: CustomColors.primaryColor,
                                     child: Column(
                                       children: [
@@ -674,7 +684,9 @@ class _ReferralLogScreenState extends State<ReferralLogScreen> {
                                             ),
                                           ],
                                         ),
-                                        const SizedBox(height: 4,),
+                                        const SizedBox(
+                                          height: 4,
+                                        ),
                                         Row(
                                           children: [
                                             Expanded(
@@ -695,7 +707,9 @@ class _ReferralLogScreenState extends State<ReferralLogScreen> {
                                             ),
                                           ],
                                         ),
-                                        const SizedBox(height: 4,),
+                                        const SizedBox(
+                                          height: 4,
+                                        ),
                                         Row(
                                           children: [
                                             Expanded(
@@ -717,7 +731,9 @@ class _ReferralLogScreenState extends State<ReferralLogScreen> {
                                             ),
                                           ],
                                         ),
-                                        const SizedBox(height: 4,),
+                                        const SizedBox(
+                                          height: 4,
+                                        ),
                                         Row(
                                           children: [
                                             Expanded(
@@ -738,7 +754,9 @@ class _ReferralLogScreenState extends State<ReferralLogScreen> {
                                             ),
                                           ],
                                         ),
-                                        const SizedBox(height: 4,),
+                                        const SizedBox(
+                                          height: 4,
+                                        ),
                                         Row(
                                           children: [
                                             Expanded(
@@ -759,7 +777,9 @@ class _ReferralLogScreenState extends State<ReferralLogScreen> {
                                             ),
                                           ],
                                         ),
-                                        const SizedBox(height: 4,),
+                                        const SizedBox(
+                                          height: 4,
+                                        ),
                                         Row(
                                           children: [
                                             Expanded(
@@ -780,7 +800,9 @@ class _ReferralLogScreenState extends State<ReferralLogScreen> {
                                             ),
                                           ],
                                         ),
-                                        const SizedBox(height: 4,),
+                                        const SizedBox(
+                                          height: 4,
+                                        ),
                                         Row(
                                           children: [
                                             Expanded(
@@ -801,7 +823,9 @@ class _ReferralLogScreenState extends State<ReferralLogScreen> {
                                             ),
                                           ],
                                         ),
-                                        const SizedBox(height: 4,),
+                                        const SizedBox(
+                                          height: 4,
+                                        ),
                                         Row(
                                           children: [
                                             Expanded(
@@ -822,7 +846,9 @@ class _ReferralLogScreenState extends State<ReferralLogScreen> {
                                             ),
                                           ],
                                         ),
-                                        const SizedBox(height: 4,),
+                                        const SizedBox(
+                                          height: 4,
+                                        ),
                                         Row(
                                           children: [
                                             Expanded(
@@ -843,7 +869,9 @@ class _ReferralLogScreenState extends State<ReferralLogScreen> {
                                             ),
                                           ],
                                         ),
-                                        const SizedBox(height: 4,),
+                                        const SizedBox(
+                                          height: 4,
+                                        ),
                                         Row(
                                           children: [
                                             Expanded(
@@ -864,7 +892,9 @@ class _ReferralLogScreenState extends State<ReferralLogScreen> {
                                             ),
                                           ],
                                         ),
-                                        const SizedBox(height: 4,),
+                                        const SizedBox(
+                                          height: 4,
+                                        ),
                                         Row(
                                           children: [
                                             Expanded(
@@ -885,7 +915,9 @@ class _ReferralLogScreenState extends State<ReferralLogScreen> {
                                             ),
                                           ],
                                         ),
-                                        const SizedBox(height: 4,),
+                                        const SizedBox(
+                                          height: 4,
+                                        ),
                                         Row(
                                           children: [
                                             Expanded(
