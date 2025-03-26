@@ -93,7 +93,7 @@ class _ReferralLogScreenState extends State<ReferralLogScreen> {
       builder: (context, mrAdminReferralLogProvider, _) {
         return ListView(
           children: [
-            SizedBox(
+            const SizedBox(
               height: 16,
             ),
             Column(
@@ -113,7 +113,7 @@ class _ReferralLogScreenState extends State<ReferralLogScreen> {
                     children: [
                       Column(
                         children: [
-                          SizedBox(
+                          const SizedBox(
                             height: 16,
                           ),
                           CustomDropdown(
@@ -125,7 +125,7 @@ class _ReferralLogScreenState extends State<ReferralLogScreen> {
                               mrAdminReferralLogProvider.setSelectedUser(value);
                             },
                           ),
-                          SizedBox(
+                          const SizedBox(
                             height: 16,
                           ),
                           CustomDropdown(
@@ -167,7 +167,7 @@ class _ReferralLogScreenState extends State<ReferralLogScreen> {
                                     validator: (value) {},
                                   ),
                                 ),
-                                SizedBox(
+                                const SizedBox(
                                   width: 12,
                                 ),
                                 Expanded(
@@ -186,7 +186,7 @@ class _ReferralLogScreenState extends State<ReferralLogScreen> {
                                 ),
                               ],
                             ),
-                          SizedBox(
+                          const SizedBox(
                             height: 16,
                           ),
                           CustomDropdown(
@@ -199,7 +199,7 @@ class _ReferralLogScreenState extends State<ReferralLogScreen> {
                                   .setSelectedReferralType(value);
                             },
                           ),
-                          SizedBox(
+                          const SizedBox(
                             height: 16,
                           ),
                           if (mrAdminReferralLogProvider.selectedReferralType ==
@@ -234,7 +234,7 @@ class _ReferralLogScreenState extends State<ReferralLogScreen> {
                                         .setSelectedCountry(newValue);
                                   },
                                 ),
-                                SizedBox(
+                                const SizedBox(
                                   height: 16,
                                 ),
                                 TextFromFieldWithPrefixSuffix(
@@ -298,7 +298,7 @@ class _ReferralLogScreenState extends State<ReferralLogScreen> {
                                         .setSelectedCountry(newValue);
                                   },
                                 ),
-                                SizedBox(
+                                const SizedBox(
                                   height: 16,
                                 ),
                                 TextFromFieldWithPrefixSuffix(
@@ -344,7 +344,7 @@ class _ReferralLogScreenState extends State<ReferralLogScreen> {
                                             content);
                                   },
                                 ),
-                                SizedBox(
+                                const SizedBox(
                                   height: 16,
                                 ),
                                 TextFromFieldWithPrefixSuffix(
@@ -405,7 +405,7 @@ class _ReferralLogScreenState extends State<ReferralLogScreen> {
                               size: 20.0,
                             ),
                           ),
-                          SizedBox(
+                          const SizedBox(
                             height: 16,
                           ),
                         ],
@@ -413,7 +413,7 @@ class _ReferralLogScreenState extends State<ReferralLogScreen> {
                     ],
                   ),
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 16,
                 ),
                 mrAdminReferralLogProvider.foundReferral.length != 0
@@ -477,7 +477,7 @@ class _ReferralLogScreenState extends State<ReferralLogScreen> {
                                       flex: 3,
                                       child: CustomText(
                                         text:
-                                            "${mrAdminReferralLogProvider.foundReferral.length.toString()}",
+                                            mrAdminReferralLogProvider.foundReferral.length.toString(),
                                         isContent: true,
                                       ),
                                     ),
@@ -503,7 +503,9 @@ class _ReferralLogScreenState extends State<ReferralLogScreen> {
                                                 : 'City'),
                                       ),
                                     ),
-                                    SizedBox(width: 8),
+                                    const SizedBox(
+                                      width: 8,
+                                    ),
                                     Expanded(
                                       flex: 3,
                                       child: CustomText(
@@ -1056,7 +1058,7 @@ class _ReferralLogScreenState extends State<ReferralLogScreen> {
                   ],
                 ),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 16,
               ),
               Expanded(
@@ -1138,7 +1140,7 @@ class _ReferralLogScreenState extends State<ReferralLogScreen> {
                   ],
                 ),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 16,
               ),
               Expanded(

@@ -56,7 +56,7 @@ class _MrAdminVisitLogListScreenState extends State<MrAdminVisitLogListScreen> {
   Widget _buildI(context) {
     return ListView(
       children: [
-        SizedBox(
+        const SizedBox(
           height: 16,
         ),
         ListView.builder(
