@@ -334,149 +334,156 @@ class _MrAdminAttendanceReportScreenState
                             CustomContainer(
                               horizontalMargin: 16,
                               applyShadow: true,
-                              child: Column(
-                                children: [
-                                  Row(
-                                    children: [
-                                      Expanded(
-                                        flex: 2,
-                                        child: CustomText(
-                                          text: 'Check In Time',
-                                          isContent: true,
-                                          size: 16,
+                              child: Badge(
+                                label: CustomText(
+                                  text: '${index + 1}',
+                                  isContent: true,
+                                ),
+                                backgroundColor: CustomColors.primaryColor,
+                                child: Column(
+                                  children: [
+                                    Row(
+                                      children: [
+                                        Expanded(
+                                          flex: 2,
+                                          child: CustomText(
+                                            text: 'Check In Time',
+                                            isContent: true,
+                                            size: 16,
+                                          ),
                                         ),
-                                      ),
-                                      Expanded(
-                                        flex: 2,
-                                        child: CustomText(
-                                          text: checkIn,
-                                          isContent: true,
-                                          size: 16,
+                                        Expanded(
+                                          flex: 2,
+                                          child: CustomText(
+                                            text: checkIn,
+                                            isContent: true,
+                                            size: 16,
+                                          ),
                                         ),
-                                      ),
-                                    ],
-                                  ),
-                                  Row(
-                                    children: [
-                                      Expanded(
-                                        flex: 2,
-                                        child: CustomText(
-                                          text: 'Check In Latitude',
-                                          isContent: true,
-                                          size: 16,
+                                      ],
+                                    ),
+                                    Row(
+                                      children: [
+                                        Expanded(
+                                          flex: 2,
+                                          child: CustomText(
+                                            text: 'Check In Latitude',
+                                            isContent: true,
+                                            size: 16,
+                                          ),
                                         ),
-                                      ),
-                                      Expanded(
-                                        flex: 2,
-                                        child: CustomText(
-                                          text: checkInLatitude,
-                                          isContent: true,
-                                          size: 16,
+                                        Expanded(
+                                          flex: 2,
+                                          child: CustomText(
+                                            text: checkInLatitude,
+                                            isContent: true,
+                                            size: 16,
+                                          ),
                                         ),
-                                      ),
-                                    ],
-                                  ),
-                                  Row(
-                                    children: [
-                                      Expanded(
-                                        flex: 2,
-                                        child: CustomText(
-                                          text: 'Check In Longitude',
-                                          isContent: true,
-                                          size: 16,
+                                      ],
+                                    ),
+                                    Row(
+                                      children: [
+                                        Expanded(
+                                          flex: 2,
+                                          child: CustomText(
+                                            text: 'Check In Longitude',
+                                            isContent: true,
+                                            size: 16,
+                                          ),
                                         ),
-                                      ),
-                                      Expanded(
-                                        flex: 2,
-                                        child: CustomText(
-                                          text: checkInLongitude,
-                                          isContent: true,
-                                          size: 16,
+                                        Expanded(
+                                          flex: 2,
+                                          child: CustomText(
+                                            text: checkInLongitude,
+                                            isContent: true,
+                                            size: 16,
+                                          ),
                                         ),
-                                      ),
-                                    ],
-                                  ),
-                                  Row(
-                                    children: [
-                                      Expanded(
-                                        flex: 2,
-                                        child: CustomText(
-                                          text: 'Check Out Time',
-                                          isContent: true,
-                                          size: 16,
+                                      ],
+                                    ),
+                                    Row(
+                                      children: [
+                                        Expanded(
+                                          flex: 2,
+                                          child: CustomText(
+                                            text: 'Check Out Time',
+                                            isContent: true,
+                                            size: 16,
+                                          ),
                                         ),
-                                      ),
-                                      Expanded(
-                                        flex: 2,
-                                        child: CustomText(
-                                          text: checkOut,
-                                          isContent: true,
-                                          size: 16,
+                                        Expanded(
+                                          flex: 2,
+                                          child: CustomText(
+                                            text: checkOut,
+                                            isContent: true,
+                                            size: 16,
+                                          ),
                                         ),
-                                      ),
-                                    ],
-                                  ),
-                                  Row(
-                                    children: [
-                                      Expanded(
-                                        flex: 2,
-                                        child: CustomText(
-                                          text: 'Check Out Latitude',
-                                          isContent: true,
-                                          size: 16,
+                                      ],
+                                    ),
+                                    Row(
+                                      children: [
+                                        Expanded(
+                                          flex: 2,
+                                          child: CustomText(
+                                            text: 'Check Out Latitude',
+                                            isContent: true,
+                                            size: 16,
+                                          ),
                                         ),
-                                      ),
-                                      Expanded(
-                                        flex: 2,
-                                        child: CustomText(
-                                          text: checkOutLatitude,
-                                          isContent: true,
-                                          size: 16,
+                                        Expanded(
+                                          flex: 2,
+                                          child: CustomText(
+                                            text: checkOutLatitude,
+                                            isContent: true,
+                                            size: 16,
+                                          ),
                                         ),
-                                      ),
-                                    ],
-                                  ),
-                                  Row(
-                                    children: [
-                                      Expanded(
-                                        flex: 2,
-                                        child: CustomText(
-                                          text: 'Check Out Longitude',
-                                          isContent: true,
-                                          size: 16,
+                                      ],
+                                    ),
+                                    Row(
+                                      children: [
+                                        Expanded(
+                                          flex: 2,
+                                          child: CustomText(
+                                            text: 'Check Out Longitude',
+                                            isContent: true,
+                                            size: 16,
+                                          ),
                                         ),
-                                      ),
-                                      Expanded(
-                                        flex: 2,
-                                        child: CustomText(
-                                          text: checkOutLongitude,
-                                          isContent: true,
-                                          size: 16,
+                                        Expanded(
+                                          flex: 2,
+                                          child: CustomText(
+                                            text: checkOutLongitude,
+                                            isContent: true,
+                                            size: 16,
+                                          ),
                                         ),
-                                      ),
-                                    ],
-                                  ),
-                                  Row(
-                                    children: [
-                                      Expanded(
-                                        flex: 2,
-                                        child: CustomText(
-                                          text: 'Total Hour',
-                                          isContent: true,
-                                          size: 16,
+                                      ],
+                                    ),
+                                    Row(
+                                      children: [
+                                        Expanded(
+                                          flex: 2,
+                                          child: CustomText(
+                                            text: 'Total Hour',
+                                            isContent: true,
+                                            size: 16,
+                                          ),
                                         ),
-                                      ),
-                                      Expanded(
-                                        flex: 2,
-                                        child: CustomText(
-                                          text: totalHour,
-                                          isContent: true,
-                                          size: 16,
+                                        Expanded(
+                                          flex: 2,
+                                          child: CustomText(
+                                            text: totalHour,
+                                            isContent: true,
+                                            size: 16,
+                                          ),
                                         ),
-                                      ),
-                                    ],
-                                  ),
-                                ],
+                                      ],
+                                    ),
+                                  ],
+                                ),
                               ),
                             ),
                             SizedBox(
