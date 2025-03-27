@@ -632,8 +632,8 @@ class _MarketingManagerDashboardState extends State<MarketingManagerDashboard> {
               title: 'Area',
               onTap: () {
                 print('Tapped Area');
-                Navigator.of(context).pushNamed(MarketingManagerConstants
-                    .areaReportMarketingOfficersScreen);
+                // Navigator.of(context).pushNamed(MarketingManagerConstants
+                //     .areaReportMarketingOfficersScreen);
               },
             ),
             _reportRows(
