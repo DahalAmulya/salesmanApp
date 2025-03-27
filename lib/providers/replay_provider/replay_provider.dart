@@ -3,13 +3,8 @@ import 'dart:typed_data';
 import 'package:deskgoo/providers/deviceInfo_provider/deviceInfo_provider.dart';
 import 'package:deskgoo/providers/live_tracking_provider/live_tracking_provider.dart';
 import 'package:deskgoo/services/erp_services.dart';
-import 'package:deskgoo/themes/custom_colors.dart';
-import 'package:deskgoo/utils/toast_message.dart';
 import 'package:flutter/material.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-
-import '../../routes/route_generator_constants.dart';
 
 class ReplayProvider extends ChangeNotifier {
   int _employee_id = 0;
@@ -82,15 +77,13 @@ class ReplayProvider extends ChangeNotifier {
     DateTime currentDate = DateTime.now();
     DateTime yesterday = currentDate.subtract(Duration(days: 1));
     _selectedVisitType = visitType;
-    print('**********************************************************');
     if (_selectedVisitType == _visitDateTypeList[0]) {
-      _from = currentDate.toString().split(' ')[0];
-      _to = currentDate.toString().split(' ')[0];
+      _from = '${currentDate.toString().split(' ')[0]} 00:00:00';
+      _to = '${currentDate.toString().split(' ')[0]} 23:59:59';
     } else if (_selectedVisitType == _visitDateTypeList[1]) {
-      _from = yesterday.toString().split(' ')[0];
-      _to = yesterday.toString().split(' ')[0];
+      _from = '${currentDate.toString().split(' ')[0]} 00:00:00';
+      _to = '${currentDate.toString().split(' ')[0]} 23:59:59';
     } else {}
-    print('**********************************************************');
 
     notifyListeners();
   }
@@ -169,9 +162,9 @@ class ReplayProvider extends ChangeNotifier {
     //     ? await _provider.getBytesFromAsset(tempMarkerImg, 80)
     // :
     _startMarkerIcon =
-        await _provider.getBytesFromAsset('assets/images/start.png', 100);
+    await _provider.getBytesFromAsset('assets/images/start.png', 100);
     _endMarkerIcon =
-        await _provider.getBytesFromAsset('assets/images/finish.png', 100);
+    await _provider.getBytesFromAsset('assets/images/finish.png', 100);
   }
 
   void getLatestLocation(String id,context) async {
@@ -183,41 +176,24 @@ class ReplayProvider extends ChangeNotifier {
 
   void getEmployeeLocationById(String _id, context) async {
     resetValues();
-    print('****************************************************************');
     String from = '2025-03-01 00:00:00';
     String to = '${DateTime.now().toString().split(' ')[0]} 23:59:59';
     // ERPResponse response = await ERPServices.getRequest(
     //     '/location/latestByDate?_id=$_id&from=2025-02-01&to=$to', context);
-    // if(_selectedVisitType == _visitDateTypeList[2]){
-    //   if(_from.isEmpty || _to.isEmpty){
-    //     ToastMessageUtils().showToastMessage('Please select Date From and To',ToastGravity.TOP, CustomColors.lightRed);
-    //     return;
-    //   }else{
-    //     _from = '$_from 00:00:00';
-    //     _to = '$_to 23:59:59';
-    //   }
-    // }
-    // _from = '$_from 00:00:00';
-    // _to = '$_to 23:59:59';
     ERPResponse response = await ERPServices.getRequest(
         '/location/latestByDate?_id=$_id&from=$_from&to=$_to', context);
     print('****************************************************************');
     print('/location/latestByDate?_id=$_id&from=2025-02-01&to=$to');
-    // Navigator.pop(context);
-    // if(response.statusCode == 200){
-      print(response.statusCode);
-      Map<String, dynamic> body = jsonDecode(response.body);
-      print('replay body = $body');
-      _name = body['username'];
-      _locations = body['locations'];
-      print('Location length = ${_locations.length}');
-      notifyListeners();
-      print(locations);
-      print('****************************************************************');
-      locationReplay();
-    // }else{
-    //   ToastMessageUtils().showToastMessage('No Replay $_from - $_to',ToastGravity.TOP, CustomColors.lightRed);
-    // }
+    print(response.statusCode);
+    Map<String, dynamic> body = jsonDecode(response.body);
+    print('replay body = $body');
+    _name = body['username'];
+    _locations = body['locations'];
+    print('Location length = ${_locations.length}');
+    notifyListeners();
+    print(locations);
+    print('****************************************************************');
+    locationReplay();
   }
 
   void toggleIsRestartReplay() {
@@ -268,7 +244,7 @@ class ReplayProvider extends ChangeNotifier {
           imagePixelRatio: 2.3,
         ),
         position:
-            LatLng(_locations.last['latitude'], _locations.last['longitude']),
+        LatLng(_locations.last['latitude'], _locations.last['longitude']),
       ),
     );
 
@@ -329,7 +305,7 @@ class ReplayProvider extends ChangeNotifier {
 
       // Find and update the temp marker instead of recreating it
       Marker tempMarker = _positionMarkers.firstWhere(
-        (marker) => marker.markerId.value == 'temp_marker',
+            (marker) => marker.markerId.value == 'temp_marker',
         orElse: () => Marker(markerId: const MarkerId('temp_marker')),
       );
       _positionMarkers.remove(tempMarker);
