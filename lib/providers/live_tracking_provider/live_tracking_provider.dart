@@ -234,6 +234,7 @@ class LiveTrackingProvider extends ChangeNotifier {
           .toList();
     }
     _employeeSearchResults = results;
+    print('_Employee Search Result = $_employeeSearchResults');
     notifyListeners();
   }
 

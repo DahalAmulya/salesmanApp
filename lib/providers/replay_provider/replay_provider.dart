@@ -27,6 +27,13 @@ class ReplayProvider extends ChangeNotifier {
   bool _isPause = false;
   bool _isLeavePage = false;
   String _selectedImage = '';
+  List<String> _visitDateTypeList = ['Today', 'Yesterday', 'Custom'];
+  String _selectedVisitType = 'Today';
+  String _from = '';
+  String _to = '';
+
+  TextEditingController _fromTextEditingController = TextEditingController();
+  TextEditingController _toTextEditingController = TextEditingController();
 
   Uint8List? _tempMarkerIcon;
   Uint8List? _startMarkerIcon;
@@ -52,10 +59,66 @@ class ReplayProvider extends ChangeNotifier {
   bool get isPause => _isPause;
   bool get isLeavePage => _isLeavePage;
   String get selectedImage => _selectedImage;
+  List<String> get visitDateTypeList => _visitDateTypeList;
+  String get selectedVisitType => _selectedVisitType;
+  String get from => _from;
+  String get to => _to;
+
+  TextEditingController get fromTextEditingController =>
+      _fromTextEditingController;
+  TextEditingController get toTextEditingController => _toTextEditingController;
 
   ReplayProvider(context) {
     cacheIcons(_selectedImage, context); // Pre-cache marker icons
     _isLeavePage = false;
+  }
+
+  void setSelectedVisitType(visitType) {
+    DateTime currentDate = DateTime.now();
+    DateTime yesterday = currentDate.subtract(Duration(days: 1));
+    _selectedVisitType = visitType;
+    if (_selectedVisitType == _visitDateTypeList[0]) {
+      _from = currentDate.toString().split(' ')[0];
+      _to = currentDate.toString().split(' ')[0];
+    } else if (_selectedVisitType == _visitDateTypeList[1]) {
+      _from = yesterday.toString().split(' ')[0];
+      _to = yesterday.toString().split(' ')[0];
+    } else {}
+
+    notifyListeners();
+  }
+
+  Future<void> selectDateFrom(context) async {
+    print('Select date from');
+    DateTime? picked = await showDatePicker(
+      context: context,
+      initialDate: DateTime.now(),
+      firstDate: DateTime(2000),
+      lastDate: DateTime(2099),
+    );
+    if (picked == null) {
+      return;
+    } else {
+      _from = '${picked.year}-${picked.month}-${picked.day}';
+    }
+    _fromTextEditingController.text = _from;
+    notifyListeners();
+  }
+
+  Future<void> selectDateTo(context) async {
+    DateTime? picked = await showDatePicker(
+      context: context,
+      initialDate: DateTime.now(),
+      firstDate: DateTime(2000),
+      lastDate: DateTime(2099),
+    );
+    if (picked == null) {
+      return;
+    } else {
+      _to = '${picked.year}-${picked.month}-${picked.day}';
+    }
+    _toTextEditingController.text = _to;
+    notifyListeners();
   }
 
   void resetValues() {
@@ -113,10 +176,12 @@ class ReplayProvider extends ChangeNotifier {
 
   void getEmployeeLocationById(String _id, context) async {
     resetValues();
-    String from = '2025-02-01 00:00:00';
+    String from = '2025-03-01 00:00:00';
     String to = '${DateTime.now().toString().split(' ')[0]} 23:59:59';
+    // ERPResponse response = await ERPServices.getRequest(
+    //     '/location/latestByDate?_id=$_id&from=2025-02-01&to=$to', context);
     ERPResponse response = await ERPServices.getRequest(
-        '/location/latestByDate?_id=$_id&from=2025-02-01&to=$to', context);
+        '/location/latestByDate?_id=$_id&from=$_from&to=$_to', context);
     print('****************************************************************');
     print('/location/latestByDate?_id=$_id&from=2025-02-01&to=$to');
     print(response.statusCode);
