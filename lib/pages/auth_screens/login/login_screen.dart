@@ -201,9 +201,10 @@ class _LoginPageState extends State<LoginPage> {
                               onChanged: (value) {
                                 authProvider.toggleRememberMe(value!);
                                 if (authProvider.rememberMe) {
-                                  rememberMe = true;
-                                } else {
-                                  rememberMe = false;
+                                  SecureStorage().writeLoginCredentials(
+                                      SecureStorage.userEmail, emailController.value.text.toLowerCase().trim());
+                                  SecureStorage().writeLoginCredentials(
+                                      SecureStorage.password, passwordController.value.text.trim());
                                 }
                               },
                             ),
@@ -211,7 +212,7 @@ class _LoginPageState extends State<LoginPage> {
                         );
                       },
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 4.0,
                     ),
                     CustomElevatedButton(
@@ -221,7 +222,7 @@ class _LoginPageState extends State<LoginPage> {
                           login();
                           print('Form is valid');
                         } else {
-                          // login();
+                          ToastMessageUtils().showToastMessage('Please fill in the required fields');
                           print('Form is not valid');
                         }
                       },
@@ -235,10 +236,9 @@ class _LoginPageState extends State<LoginPage> {
                         size: 20.0,
                       ),
                     ),
-                    SizedBox(height: 8.0),
+                    const SizedBox(height: 8.0),
                     CustomElevatedButton(
                       onPressed: () {
-                        print('Pressed');
                         Navigator.of(context)
                             .pushNamed(MarketingManagerConstants.forgotPage);
                       },

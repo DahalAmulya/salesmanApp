@@ -128,7 +128,8 @@ class MrAdminVisitLogProvider extends ChangeNotifier {
         final body = jsonDecode(response.body);
         _foundVisit = body['visitLogs'];
         _visitList = _foundVisit['visitLogs'];
-        print(_visitList);
+        print(body);
+        // print(_visitList);
       }
       else{
         _visitList = [];
