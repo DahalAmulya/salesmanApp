@@ -240,7 +240,7 @@ class DeviceInfoProvider extends ChangeNotifier {
     Position position = await Geolocator.getCurrentPosition(
       locationSettings: LocationSettings(
         accuracy: LocationAccuracy.best,
-        distanceFilter: 0,
+        distanceFilter: 25,
       ),
     );
 
@@ -280,7 +280,7 @@ class DeviceInfoProvider extends ChangeNotifier {
       _liveLongitude,
     );
 
-    if (_connectivityType != 'none' && _distance > 3) {
+    if (_connectivityType != 'none' && _distance > 25) {
       _connectivityStatus = 'connected';
       postDeviceInfo(context);
       notifyListeners();

@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:deskgoo/consts.dart';
 import 'package:deskgoo/providers/mr_admin_provider/mr_admin_visit_logProvider.dart';
 import 'package:deskgoo/routes/route_generator_constants.dart';
 import 'package:deskgoo/themes/custom_colors.dart';
@@ -215,6 +216,14 @@ class _MrAdminReportScreenState extends State<MrAdminReportScreen> {
                     itemBuilder: (context, index) {
                       String pocName =
                           adminVisitLogsProvider.visitList[index]['pocName'];
+                      String pocAddress =
+                          adminVisitLogsProvider.visitList[index]['pocAddress'];
+                      String pocNumber =
+                          adminVisitLogsProvider.visitList[index]['pocNumber'];
+                      String pocCategory =
+                          adminVisitLogsProvider.visitList[index]['pocCategory'];
+                      String pocSpecialization =
+                          adminVisitLogsProvider.visitList[index]['pocSpecialization'];
                       String remarks =
                           adminVisitLogsProvider.visitList[index]['remarks'];
                       String visitType =
@@ -311,7 +320,7 @@ class _MrAdminReportScreenState extends State<MrAdminReportScreen> {
                                           ),
                                           Expanded(
                                             child: CustomText(
-                                              text: 'Doctor',
+                                              text: pocCategory,
                                               isContent: true,
                                             ),
                                           ),
@@ -329,7 +338,7 @@ class _MrAdminReportScreenState extends State<MrAdminReportScreen> {
                                           ),
                                           Expanded(
                                             child: CustomText(
-                                              text: 'Cardiologist',
+                                              text: pocSpecialization,
                                               isContent: true,
                                               textOverflow: TextOverflow.visible,
                                               maxLines: 3,
@@ -337,46 +346,46 @@ class _MrAdminReportScreenState extends State<MrAdminReportScreen> {
                                           ),
                                         ],
                                       ),
-                                      Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
-                                        children: [
-                                          Expanded(
-                                            child: CustomText(
-                                              text: 'Area',
-                                              isContent: true,
-                                            ),
-                                          ),
-                                          Expanded(
-                                            child: CustomText(
-                                              text: 'East',
-                                              isContent: true,
-                                              textOverflow: TextOverflow.visible,
-                                              maxLines: 3,
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                      Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
-                                        children: [
-                                          Expanded(
-                                            child: CustomText(
-                                              text: 'City',
-                                              isContent: true,
-                                            ),
-                                          ),
-                                          Expanded(
-                                            child: CustomText(
-                                              text: 'Damak',
-                                              isContent: true,
-                                              textOverflow: TextOverflow.visible,
-                                              maxLines: 3,
-                                            ),
-                                          ),
-                                        ],
-                                      ),
+                                      // Row(
+                                      //   mainAxisAlignment:
+                                      //       MainAxisAlignment.spaceBetween,
+                                      //   children: [
+                                      //     Expanded(
+                                      //       child: CustomText(
+                                      //         text: 'Area',
+                                      //         isContent: true,
+                                      //       ),
+                                      //     ),
+                                      //     Expanded(
+                                      //       child: CustomText(
+                                      //         text: 'East',
+                                      //         isContent: true,
+                                      //         textOverflow: TextOverflow.visible,
+                                      //         maxLines: 3,
+                                      //       ),
+                                      //     ),
+                                      //   ],
+                                      // ),
+                                      // Row(
+                                      //   mainAxisAlignment:
+                                      //       MainAxisAlignment.spaceBetween,
+                                      //   children: [
+                                      //     Expanded(
+                                      //       child: CustomText(
+                                      //         text: 'City',
+                                      //         isContent: true,
+                                      //       ),
+                                      //     ),
+                                      //     Expanded(
+                                      //       child: CustomText(
+                                      //         text: 'Damak',
+                                      //         isContent: true,
+                                      //         textOverflow: TextOverflow.visible,
+                                      //         maxLines: 3,
+                                      //       ),
+                                      //     ),
+                                      //   ],
+                                      // ),
                                       Row(
                                         mainAxisAlignment:
                                             MainAxisAlignment.spaceBetween,
@@ -389,7 +398,7 @@ class _MrAdminReportScreenState extends State<MrAdminReportScreen> {
                                           ),
                                           Expanded(
                                             child: CustomText(
-                                              text: 'Damak',
+                                              text: pocAddress,
                                               isContent: true,
                                               textOverflow: TextOverflow.visible,
                                               maxLines: 3,
@@ -429,7 +438,7 @@ class _MrAdminReportScreenState extends State<MrAdminReportScreen> {
                                           ),
                                           Expanded(
                                             child: CustomText(
-                                              text: 'Munna Rajbanshi',
+                                              text: userName,
                                               isContent: true,
                                               textOverflow: TextOverflow.visible,
                                               maxLines: 3,
@@ -471,14 +480,14 @@ class _MrAdminReportScreenState extends State<MrAdminReportScreen> {
                                       zoom: 13,
                                     ),
                                     compassEnabled: true,
-                                    zoomControlsEnabled: false,
+                                    zoomControlsEnabled: true,
                                     onMapCreated:
                                         (GoogleMapController controller) {
                                       _controller.complete(controller);
                                     },
                                     markers: {
                                       Marker(
-                                        markerId: MarkerId('1'),
+                                        markerId: MarkerId(index.toString()),
                                         position: LatLng(latitude, longitude),
                                       ),
                                     },
