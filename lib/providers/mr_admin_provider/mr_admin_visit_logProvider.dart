@@ -132,7 +132,7 @@ class MrAdminVisitLogProvider extends ChangeNotifier {
         _visitList = _foundVisit['visitLogs'];
         _executiveName = _foundVisit['username'];
         // print(body);
-        // print(_foundVisit);
+        print(_foundVisit);
         // print(_visitList);
       }
       else{
