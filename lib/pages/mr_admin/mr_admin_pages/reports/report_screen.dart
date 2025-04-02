@@ -215,6 +215,7 @@ class _MrAdminReportScreenState extends State<MrAdminReportScreen> {
                     itemCount: adminVisitLogsProvider.visitList.length,
                     itemBuilder: (context, index) {
                       String executiveName = adminVisitLogsProvider.executiveName;
+                      // String pocNumber = adminVisitLogsProvider.foundVisit['visitLogs']['pocNumber'];
                       String pocName =
                           adminVisitLogsProvider.visitList[index]['pocName'];
                       String pocAddress =
@@ -371,27 +372,7 @@ class _MrAdminReportScreenState extends State<MrAdminReportScreen> {
                                       // ),
                                       Row(
                                         mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
-                                        children: [
-                                          Expanded(
-                                            child: CustomText(
-                                              text: 'Address',
-                                              isContent: true,
-                                            ),
-                                          ),
-                                          Expanded(
-                                            child: CustomText(
-                                              text: pocAddress,
-                                              isContent: true,
-                                              textOverflow: TextOverflow.visible,
-                                              maxLines: 3,
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                      Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
+                                        MainAxisAlignment.spaceBetween,
                                         children: [
                                           Expanded(
                                             child: CustomText(
@@ -411,7 +392,7 @@ class _MrAdminReportScreenState extends State<MrAdminReportScreen> {
                                       ),
                                       Row(
                                         mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
+                                        MainAxisAlignment.spaceBetween,
                                         children: [
                                           Expanded(
                                             child: CustomText(
@@ -422,6 +403,26 @@ class _MrAdminReportScreenState extends State<MrAdminReportScreen> {
                                           Expanded(
                                             child: CustomText(
                                               text: executiveName,
+                                              isContent: true,
+                                              textOverflow: TextOverflow.visible,
+                                              maxLines: 3,
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                      Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          Expanded(
+                                            child: CustomText(
+                                              text: 'Address',
+                                              isContent: true,
+                                            ),
+                                          ),
+                                          Expanded(
+                                            child: CustomText(
+                                              text: pocAddress,
                                               isContent: true,
                                               textOverflow: TextOverflow.visible,
                                               maxLines: 3,
@@ -451,50 +452,50 @@ class _MrAdminReportScreenState extends State<MrAdminReportScreen> {
                                   ),
                                 ),
                               ),
-                              Container(
-                                width: MediaQuery.of(context).size.width * 0.85,
-                                height: 180,
-                                decoration: BoxDecoration(
-                                  // color: Colors.red,
-                                  borderRadius: const BorderRadius.only(
-                                    bottomLeft: Radius.circular(16),
-                                    bottomRight: Radius.circular(16),
-                                  ),
-                                  boxShadow: [
-                                    BoxShadow(
-                                      color: Colors.black.withOpacity(0.1),
-                                      spreadRadius: 2.0,
-                                      blurRadius: 1.0,
-                                      offset: const Offset(3, 3),
-                                    )
-                                  ],
-                                ),
-                                child: ClipRRect(
-                                  borderRadius: const BorderRadius.only(
-                                    bottomLeft: Radius.circular(16),
-                                    bottomRight: Radius.circular(16),
-                                  ),
-                                  child: GoogleMap(
-                                    initialCameraPosition: const CameraPosition(
-                                      target: LatLng(26.453046355563462,
-                                          87.27468530596374),
-                                      zoom: 13,
-                                    ),
-                                    compassEnabled: true,
-                                    zoomControlsEnabled: true,
-                                    onMapCreated:
-                                        (GoogleMapController controller) {
-                                      _controller.complete(controller);
-                                    },
-                                    markers: {
-                                      Marker(
-                                        markerId: MarkerId(index.toString()),
-                                        position: LatLng(latitude, longitude),
-                                      ),
-                                    },
-                                  ),
-                                ),
-                              ),
+                              // Container(
+                              //   width: MediaQuery.of(context).size.width * 0.85,
+                              //   height: 180,
+                              //   decoration: BoxDecoration(
+                              //     // color: Colors.red,
+                              //     borderRadius: const BorderRadius.only(
+                              //       bottomLeft: Radius.circular(16),
+                              //       bottomRight: Radius.circular(16),
+                              //     ),
+                              //     boxShadow: [
+                              //       BoxShadow(
+                              //         color: Colors.black.withOpacity(0.1),
+                              //         spreadRadius: 2.0,
+                              //         blurRadius: 1.0,
+                              //         offset: const Offset(3, 3),
+                              //       )
+                              //     ],
+                              //   ),
+                              //   child: ClipRRect(
+                              //     borderRadius: const BorderRadius.only(
+                              //       bottomLeft: Radius.circular(16),
+                              //       bottomRight: Radius.circular(16),
+                              //     ),
+                              //     child: GoogleMap(
+                              //       initialCameraPosition: const CameraPosition(
+                              //         target: LatLng(26.453046355563462,
+                              //             87.27468530596374),
+                              //         zoom: 13,
+                              //       ),
+                              //       compassEnabled: true,
+                              //       zoomControlsEnabled: true,
+                              //       onMapCreated:
+                              //           (GoogleMapController controller) {
+                              //         _controller.complete(controller);
+                              //       },
+                              //       markers: {
+                              //         Marker(
+                              //           markerId: MarkerId(index.toString()),
+                              //           position: LatLng(latitude, longitude),
+                              //         ),
+                              //       },
+                              //     ),
+                              //   ),
+                              // ),
                               const SizedBox(
                                 height: 16,
                               ),
