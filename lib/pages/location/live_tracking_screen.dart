@@ -170,7 +170,7 @@ class _LiveTrackingScreenState extends State<LiveTrackingScreen> {
         // }
         // deviceInfoProvider.cameraPosition(_controller);
         return GoogleMap(
-          mapType: MapType.hybrid,
+          mapType: MapType.satellite,
           initialCameraPosition: const CameraPosition(
             target: LatLng(26.45845827202604, 87.28699164913807),
             zoom: 14,
@@ -182,7 +182,7 @@ class _LiveTrackingScreenState extends State<LiveTrackingScreen> {
           zoomGesturesEnabled: true,
           // trafficEnabled: traffic,
           mapToolbarEnabled: true,
-          zoomControlsEnabled: false,
+          zoomControlsEnabled: true,
           // onMapCreated: _onMapCreated,
           onMapCreated: (GoogleMapController controller) {
             _controller.complete(controller);
@@ -209,7 +209,7 @@ class _LiveTrackingScreenState extends State<LiveTrackingScreen> {
             ? Stack(
                 children: [
                   GoogleMap(
-                    mapType: MapType.hybrid,
+                    mapType: MapType.normal,
                     initialCameraPosition: const CameraPosition(
                       target: LatLng(26.753945732907727, 87.52088961681855),
                       zoom: 9,
@@ -220,8 +220,8 @@ class _LiveTrackingScreenState extends State<LiveTrackingScreen> {
                     scrollGesturesEnabled: true,
                     zoomGesturesEnabled: true,
                     // trafficEnabled: traffic,
-                    mapToolbarEnabled: false,
-                    zoomControlsEnabled: false,
+                    mapToolbarEnabled: true,
+                    zoomControlsEnabled: true,
                     // onMapCreated: _onMapCreated,
                     onMapCreated: (GoogleMapController controller) {
                       _controller.complete(controller);

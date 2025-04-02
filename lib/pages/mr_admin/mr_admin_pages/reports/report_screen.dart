@@ -214,6 +214,7 @@ class _MrAdminReportScreenState extends State<MrAdminReportScreen> {
                         NeverScrollableScrollPhysics(), // Disables scrolling for outer ListView, so the inner ListViews can handle scrolling
                     itemCount: adminVisitLogsProvider.visitList.length,
                     itemBuilder: (context, index) {
+                      String executiveName = adminVisitLogsProvider.executiveName;
                       String pocName =
                           adminVisitLogsProvider.visitList[index]['pocName'];
                       String pocAddress =
@@ -254,24 +255,6 @@ class _MrAdminReportScreenState extends State<MrAdminReportScreen> {
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     crossAxisAlignment: CrossAxisAlignment.start,
                                     children: [
-                                      Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
-                                        children: [
-                                          Expanded(
-                                            child: CustomText(
-                                              text: 'Date',
-                                              isContent: true,
-                                            ),
-                                          ),
-                                          Expanded(
-                                            child: CustomText(
-                                              text: mobileTime,
-                                              isContent: true,
-                                            ),
-                                          ),
-                                        ],
-                                      ),
                                       Row(
                                         mainAxisAlignment:
                                             MainAxisAlignment.spaceBetween,
@@ -438,10 +421,28 @@ class _MrAdminReportScreenState extends State<MrAdminReportScreen> {
                                           ),
                                           Expanded(
                                             child: CustomText(
-                                              text: userName,
+                                              text: executiveName,
                                               isContent: true,
                                               textOverflow: TextOverflow.visible,
                                               maxLines: 3,
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                      Row(
+                                        mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          Expanded(
+                                            child: CustomText(
+                                              text: 'Date',
+                                              isContent: true,
+                                            ),
+                                          ),
+                                          Expanded(
+                                            child: CustomText(
+                                              text: mobileTime,
+                                              isContent: true,
                                             ),
                                           ),
                                         ],
