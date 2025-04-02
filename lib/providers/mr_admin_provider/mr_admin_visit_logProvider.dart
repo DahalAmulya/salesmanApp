@@ -17,6 +17,7 @@ class MrAdminVisitLogProvider extends ChangeNotifier {
   String _selectedVisitType = 'Today';
   String _from = '';
   String _to = '';
+  String _executiveName = '';
   NepaliDateTime nepaliDateTime = NepaliDateTime.now();
   NepaliDateFormat yearMonthDateBSFormat = NepaliDateFormat('yyyy-MM-dd G');
   NepaliDateTime selectedDate = NepaliDateTime.now();
@@ -35,6 +36,7 @@ class MrAdminVisitLogProvider extends ChangeNotifier {
   String get selectedVisitType => _selectedVisitType;
   String get from => _from;
   String get to => _to;
+  String get executiveName => _executiveName;
   TextEditingController get fromTextEditingController =>
       _fromTextEditingController;
   TextEditingController get toTextEditingController => _toTextEditingController;
@@ -128,7 +130,9 @@ class MrAdminVisitLogProvider extends ChangeNotifier {
         final body = jsonDecode(response.body);
         _foundVisit = body['visitLogs'];
         _visitList = _foundVisit['visitLogs'];
-        print(body);
+        _executiveName = _foundVisit['username'];
+        // print(body);
+        // print(_foundVisit);
         // print(_visitList);
       }
       else{
