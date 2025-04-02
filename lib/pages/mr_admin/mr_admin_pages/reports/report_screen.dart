@@ -139,7 +139,7 @@ class _MrAdminReportScreenState extends State<MrAdminReportScreen> {
                             value: adminVisitLogsProvider.selectedVisitType,
                             onChanged: (value) {
                               adminVisitLogsProvider
-                                  .setSelectedVisitType(value);
+                                  .setSelectedVisitDateType(value);
                             },
                           ),
                           SizedBox(
