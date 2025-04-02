@@ -365,6 +365,7 @@ class _MrAdminReportScreenState extends State<MrAdminReportScreen> {
                           CustomElevatedButton(
                             onPressed: () {
                               adminVisitLogsProvider.getVisitLogsById(context);
+                              adminVisitLogsProvider.triggerAnimation();
                             },
                             width: 0.90,
                             height: 50,
@@ -387,170 +388,176 @@ class _MrAdminReportScreenState extends State<MrAdminReportScreen> {
                 const SizedBox(
                   height: 16,
                 ),
-                CustomContainer(
-                  horizontalPad: 0,
-                  verticalPad: 0,
-                  color: Colors.transparent,
-                  child: CustomExpansionTile(
-                    title: 'Visit Log',
-                    applyAllBorderRadius: true,
-                    size: 20,
-                    fontWeight: FontWeight.w600,
-                    children: [
-                      Column(
-                        children: [
-                          Row(
-                            children: [
-                              // Expanded(
-                              //   flex: 2,
-                              //   child: CustomText(
-                              //     text: 'Created By',
-                              //     isContent: true,
-                              //   ),
-                              // ),
-                              Expanded(
-                                flex: 3,
-                                child: CustomText(
-                                  text: adminVisitLogsProvider.selectedUser,
-                                  isContent: true,
+                adminVisitLogsProvider.visitList.length != 0
+                    ? CustomContainer(
+                        horizontalPad: 0,
+                        verticalPad: 0,
+                        color: Colors.transparent,
+                        child: CustomExpansionTile(
+                          title: 'Visit Log',
+                          applyAllBorderRadius: true,
+                          size: 20,
+                          fontWeight: FontWeight.w600,
+                          children: [
+                            Column(
+                              children: [
+                                Row(
+                                  children: [
+                                    // Expanded(
+                                    //   flex: 2,
+                                    //   child: CustomText(
+                                    //     text: 'Created By',
+                                    //     isContent: true,
+                                    //   ),
+                                    // ),
+                                    Expanded(
+                                      flex: 3,
+                                      child: CustomText(
+                                        text:
+                                            adminVisitLogsProvider.selectedUser,
+                                        isContent: true,
+                                      ),
+                                    ),
+                                    // ClipRRect(
+                                    //   borderRadius: BorderRadius.circular(1000),
+                                    //   child: SizedBox(
+                                    //     height: 52,
+                                    //     width: 52,
+                                    //     child: Image.network(
+                                    //       adminVisitLogsProvider
+                                    //           .profileImage,
+                                    //       fit: BoxFit.cover,
+                                    //     ),
+                                    //   ),
+                                    // ),
+                                  ],
                                 ),
-                              ),
-                              // ClipRRect(
-                              //   borderRadius: BorderRadius.circular(1000),
-                              //   child: SizedBox(
-                              //     height: 52,
-                              //     width: 52,
-                              //     child: Image.network(
-                              //       adminVisitLogsProvider
-                              //           .profileImage,
-                              //       fit: BoxFit.cover,
-                              //     ),
-                              //   ),
-                              // ),
-                            ],
-                          ),
-                          const SizedBox(
-                            height: 0,
-                          ),
-                          Row(
-                            children: [
-                              Expanded(
-                                flex: 2,
-                                child: CustomText(
-                                  text: 'Total Visit',
-                                  isContent: true,
+                                const SizedBox(
+                                  height: 0,
                                 ),
-                              ),
-                              const SizedBox(width: 8),
-                              Expanded(
-                                flex: 3,
-                                child: CustomText(
-                                  text: adminVisitLogsProvider.visitList.length
-                                      .toString(),
-                                  isContent: true,
+                                Row(
+                                  children: [
+                                    Expanded(
+                                      flex: 2,
+                                      child: CustomText(
+                                        text: 'Total Visit',
+                                        isContent: true,
+                                      ),
+                                    ),
+                                    const SizedBox(width: 8),
+                                    Expanded(
+                                      flex: 3,
+                                      child: CustomText(
+                                        text: adminVisitLogsProvider
+                                            .visitList.length
+                                            .toString(),
+                                        isContent: true,
+                                      ),
+                                    ),
+                                  ],
                                 ),
-                              ),
-                            ],
-                          ),
-                          const SizedBox(
-                            height: 4,
-                          ),
-                          Row(
-                            children: [
-                              Expanded(
-                                flex: 2,
-                                child: CustomText(
-                                  isContent: true,
-                                  text: adminVisitLogsProvider
-                                              .selectedVisitAddress ==
-                                          'Country'
-                                      ? 'Country'
-                                      : (adminVisitLogsProvider
-                                                  .selectedVisitAddress ==
-                                              'Region'
-                                          ? 'Region'
-                                          : 'City'),
+                                const SizedBox(
+                                  height: 4,
                                 ),
-                              ),
-                              const SizedBox(
-                                width: 8,
-                              ),
-                              Expanded(
-                                flex: 3,
-                                child: CustomText(
-                                  text: adminVisitLogsProvider
-                                              .selectedVisitAddress ==
-                                          'Country'
-                                      ? adminVisitLogsProvider.selectedCountry
-                                      : (adminVisitLogsProvider
-                                                  .selectedVisitAddress ==
-                                              'City'
-                                          ? adminVisitLogsProvider
-                                              .selectedCities
-                                          : (adminVisitLogsProvider
-                                                      .selectedVisitAddress ==
-                                                  'Region'
-                                              ? adminVisitLogsProvider
-                                                  .selectedDistrict
-                                              : adminVisitLogsProvider
-                                                  .selectedState)),
-                                  isContent: true,
+                                Row(
+                                  children: [
+                                    Expanded(
+                                      flex: 2,
+                                      child: CustomText(
+                                        isContent: true,
+                                        text: adminVisitLogsProvider
+                                                    .selectedVisitAddress ==
+                                                'Country'
+                                            ? 'Country'
+                                            : (adminVisitLogsProvider
+                                                        .selectedVisitAddress ==
+                                                    'Region'
+                                                ? 'Region'
+                                                : 'City'),
+                                      ),
+                                    ),
+                                    const SizedBox(
+                                      width: 8,
+                                    ),
+                                    Expanded(
+                                      flex: 3,
+                                      child: CustomText(
+                                        text:
+                                            adminVisitLogsProvider
+                                                        .selectedVisitAddress ==
+                                                    'Country'
+                                                ? adminVisitLogsProvider
+                                                    .selectedCountry
+                                                : (adminVisitLogsProvider
+                                                            .selectedVisitAddress ==
+                                                        'City'
+                                                    ? adminVisitLogsProvider
+                                                        .selectedCities
+                                                    : (adminVisitLogsProvider
+                                                                .selectedVisitAddress ==
+                                                            'Region'
+                                                        ? adminVisitLogsProvider
+                                                            .selectedDistrict
+                                                        : adminVisitLogsProvider
+                                                            .selectedState)),
+                                        isContent: true,
+                                      ),
+                                    ),
+                                  ],
                                 ),
-                              ),
-                            ],
-                          ),
-                          const SizedBox(
-                            height: 4,
-                          ),
-                          Row(
-                            children: [
-                              Expanded(
-                                flex: 2,
-                                child: CustomText(
-                                  text: 'From',
-                                  isContent: true,
+                                const SizedBox(
+                                  height: 4,
                                 ),
-                              ),
-                              const SizedBox(width: 8),
-                              Expanded(
-                                flex: 3,
-                                child: CustomText(
-                                  text: adminVisitLogsProvider.from,
-                                  isContent: true,
+                                Row(
+                                  children: [
+                                    Expanded(
+                                      flex: 2,
+                                      child: CustomText(
+                                        text: 'From',
+                                        isContent: true,
+                                      ),
+                                    ),
+                                    const SizedBox(width: 8),
+                                    Expanded(
+                                      flex: 3,
+                                      child: CustomText(
+                                        text: adminVisitLogsProvider.from,
+                                        isContent: true,
+                                      ),
+                                    ),
+                                  ],
                                 ),
-                              ),
-                            ],
-                          ),
-                          const SizedBox(
-                            height: 4,
-                          ),
-                          Row(
-                            children: [
-                              Expanded(
-                                flex: 2,
-                                child: CustomText(
-                                  text: 'To',
-                                  isContent: true,
+                                const SizedBox(
+                                  height: 4,
                                 ),
-                              ),
-                              const SizedBox(width: 8),
-                              Expanded(
-                                flex: 3,
-                                child: CustomText(
-                                  text: adminVisitLogsProvider.to,
-                                  isContent: true,
+                                Row(
+                                  children: [
+                                    Expanded(
+                                      flex: 2,
+                                      child: CustomText(
+                                        text: 'To',
+                                        isContent: true,
+                                      ),
+                                    ),
+                                    const SizedBox(width: 8),
+                                    Expanded(
+                                      flex: 3,
+                                      child: CustomText(
+                                        text: adminVisitLogsProvider.to,
+                                        isContent: true,
+                                      ),
+                                    ),
+                                  ],
                                 ),
-                              ),
-                            ],
-                          ),
-                          const SizedBox(
-                            height: 16,
-                          ),
-                        ],
-                      ),
-                    ],
-                  ),
-                ),
+                                const SizedBox(
+                                  height: 16,
+                                ),
+                              ],
+                            ),
+                          ],
+                        ),
+                      )
+                    : Container(),
               ],
             ),
             const SizedBox(
@@ -567,6 +574,8 @@ class _MrAdminReportScreenState extends State<MrAdminReportScreen> {
                       String executiveName =
                           adminVisitLogsProvider.executiveName;
                       // String pocNumber = adminVisitLogsProvider.foundVisit['visitLogs']['pocNumber'];
+                      String approvalStatus = adminVisitLogsProvider
+                          .visitList[index]['approvalStatus'];
                       String pocName =
                           adminVisitLogsProvider.visitList[index]['pocName'];
                       String pocAddress =
@@ -588,293 +597,334 @@ class _MrAdminReportScreenState extends State<MrAdminReportScreen> {
                       double longitude =
                           adminVisitLogsProvider.visitList[index]['longitude'];
                       _moveCamera(latitude, longitude);
-                      return InkWell(
-                        onTap: () {
-                          print('Tapped $index');
-                        },
-                        child: Center(
-                          child: Column(
-                            children: [
-                              CustomContainer(
-                                applyShadow: true,
-                                child: Badge(
-                                  label: CustomText(
-                                    text: '${index + 1}',
-                                    isContent: true,
-                                  ),
-                                  backgroundColor: CustomColors.primaryColor,
-                                  child: Column(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
-                                        children: [
-                                          Expanded(
-                                            child: CustomText(
-                                              text: 'POC',
-                                              isContent: true,
+                      return AnimatedContainer(
+                        duration: Duration(milliseconds: 400 + (index * 250)),
+                        curve: Curves.easeInToLinear,
+                        transform: Matrix4.translationValues(
+                            adminVisitLogsProvider.myAnimation
+                                ? 0
+                                : adminVisitLogsProvider.width,
+                            0,
+                            0),
+                        child: InkWell(
+                          onTap: () {
+                            print('Tapped $index');
+                          },
+                          child: Center(
+                            child: Column(
+                              children: [
+                                CustomContainer(
+                                  applyShadow: true,
+                                  child: Badge(
+                                    label: CustomText(
+                                      text: '${index + 1}',
+                                      isContent: true,
+                                    ),
+                                    backgroundColor: CustomColors.primaryColor,
+                                    child: Column(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceBetween,
+                                          children: [
+                                            Expanded(
+                                              child: CustomText(
+                                                text: 'POC',
+                                                isContent: true,
+                                              ),
                                             ),
-                                          ),
-                                          Expanded(
-                                            child: CustomText(
-                                              text: pocName,
-                                              isContent: true,
+                                            Expanded(
+                                              child: CustomText(
+                                                text: pocName,
+                                                isContent: true,
+                                              ),
                                             ),
-                                          ),
-                                        ],
-                                      ),
-                                      Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
-                                        children: [
-                                          Expanded(
-                                            child: CustomText(
-                                              text: 'Visit Type',
-                                              isContent: true,
+                                          ],
+                                        ),
+                                        Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceBetween,
+                                          children: [
+                                            Expanded(
+                                              child: CustomText(
+                                                text: 'Visit Type',
+                                                isContent: true,
+                                              ),
                                             ),
-                                          ),
-                                          Expanded(
-                                            child: CustomText(
-                                              text: visitType,
-                                              isContent: true,
+                                            Expanded(
+                                              child: CustomText(
+                                                text: visitType,
+                                                isContent: true,
+                                              ),
                                             ),
-                                          ),
-                                        ],
-                                      ),
-                                      Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
-                                        children: [
-                                          Expanded(
-                                            child: CustomText(
-                                              text: 'Category',
-                                              isContent: true,
+                                          ],
+                                        ),
+                                        Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceBetween,
+                                          children: [
+                                            Expanded(
+                                              child: CustomText(
+                                                text: 'Category',
+                                                isContent: true,
+                                              ),
                                             ),
-                                          ),
-                                          Expanded(
-                                            child: CustomText(
-                                              text: pocCategory,
-                                              isContent: true,
+                                            Expanded(
+                                              child: CustomText(
+                                                text: pocCategory,
+                                                isContent: true,
+                                              ),
                                             ),
-                                          ),
-                                        ],
-                                      ),
-                                      Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
-                                        children: [
-                                          Expanded(
-                                            child: CustomText(
-                                              text: 'Specialization',
-                                              isContent: true,
+                                          ],
+                                        ),
+                                        Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceBetween,
+                                          children: [
+                                            Expanded(
+                                              child: CustomText(
+                                                text: 'Specialization',
+                                                isContent: true,
+                                              ),
                                             ),
-                                          ),
-                                          Expanded(
-                                            child: CustomText(
-                                              text: pocSpecialization,
-                                              isContent: true,
-                                              textOverflow:
-                                                  TextOverflow.visible,
-                                              maxLines: 3,
+                                            Expanded(
+                                              child: CustomText(
+                                                text: pocSpecialization,
+                                                isContent: true,
+                                                textOverflow:
+                                                    TextOverflow.visible,
+                                                maxLines: 3,
+                                              ),
                                             ),
-                                          ),
-                                        ],
-                                      ),
-                                      // Row(
-                                      //   mainAxisAlignment:
-                                      //       MainAxisAlignment.spaceBetween,
-                                      //   children: [
-                                      //     Expanded(
-                                      //       child: CustomText(
-                                      //         text: 'Area',
-                                      //         isContent: true,
-                                      //       ),
-                                      //     ),
-                                      //     Expanded(
-                                      //       child: CustomText(
-                                      //         text: 'East',
-                                      //         isContent: true,
-                                      //         textOverflow: TextOverflow.visible,
-                                      //         maxLines: 3,
-                                      //       ),
-                                      //     ),
-                                      //   ],
-                                      // ),
-                                      // Row(
-                                      //   mainAxisAlignment:
-                                      //       MainAxisAlignment.spaceBetween,
-                                      //   children: [
-                                      //     Expanded(
-                                      //       child: CustomText(
-                                      //         text: 'City',
-                                      //         isContent: true,
-                                      //       ),
-                                      //     ),
-                                      //     Expanded(
-                                      //       child: CustomText(
-                                      //         text: 'Damak',
-                                      //         isContent: true,
-                                      //         textOverflow: TextOverflow.visible,
-                                      //         maxLines: 3,
-                                      //       ),
-                                      //     ),
-                                      //   ],
-                                      // ),
-                                      Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
-                                        children: [
-                                          Expanded(
-                                            child: CustomText(
-                                              text: 'Remarks',
-                                              isContent: true,
+                                          ],
+                                        ),
+                                        // Row(
+                                        //   mainAxisAlignment:
+                                        //       MainAxisAlignment.spaceBetween,
+                                        //   children: [
+                                        //     Expanded(
+                                        //       child: CustomText(
+                                        //         text: 'Area',
+                                        //         isContent: true,
+                                        //       ),
+                                        //     ),
+                                        //     Expanded(
+                                        //       child: CustomText(
+                                        //         text: 'East',
+                                        //         isContent: true,
+                                        //         textOverflow: TextOverflow.visible,
+                                        //         maxLines: 3,
+                                        //       ),
+                                        //     ),
+                                        //   ],
+                                        // ),
+                                        // Row(
+                                        //   mainAxisAlignment:
+                                        //       MainAxisAlignment.spaceBetween,
+                                        //   children: [
+                                        //     Expanded(
+                                        //       child: CustomText(
+                                        //         text: 'City',
+                                        //         isContent: true,
+                                        //       ),
+                                        //     ),
+                                        //     Expanded(
+                                        //       child: CustomText(
+                                        //         text: 'Damak',
+                                        //         isContent: true,
+                                        //         textOverflow: TextOverflow.visible,
+                                        //         maxLines: 3,
+                                        //       ),
+                                        //     ),
+                                        //   ],
+                                        // ),
+                                        Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceBetween,
+                                          children: [
+                                            Expanded(
+                                              child: CustomText(
+                                                text: 'Remarks',
+                                                isContent: true,
+                                              ),
                                             ),
-                                          ),
-                                          Expanded(
-                                            child: CustomText(
-                                              text: remarks,
-                                              isContent: true,
-                                              textOverflow:
-                                                  TextOverflow.visible,
-                                              maxLines: 3,
+                                            Expanded(
+                                              child: CustomText(
+                                                text: remarks,
+                                                isContent: true,
+                                                textOverflow:
+                                                    TextOverflow.visible,
+                                                maxLines: 3,
+                                              ),
                                             ),
-                                          ),
-                                        ],
-                                      ),
-                                      Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
-                                        children: [
-                                          Expanded(
-                                            child: CustomText(
-                                              text: 'Executive',
-                                              isContent: true,
+                                          ],
+                                        ),
+                                        Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceBetween,
+                                          children: [
+                                            Expanded(
+                                              child: CustomText(
+                                                text: 'Executive',
+                                                isContent: true,
+                                              ),
                                             ),
-                                          ),
-                                          Expanded(
-                                            child: CustomText(
-                                              text: executiveName,
-                                              isContent: true,
-                                              textOverflow:
-                                                  TextOverflow.visible,
-                                              maxLines: 3,
+                                            Expanded(
+                                              child: CustomText(
+                                                text: executiveName,
+                                                isContent: true,
+                                                textOverflow:
+                                                    TextOverflow.visible,
+                                                maxLines: 3,
+                                              ),
                                             ),
-                                          ),
-                                        ],
-                                      ),
-                                      Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
-                                        children: [
-                                          Expanded(
-                                            child: CustomText(
-                                              text: 'Address',
-                                              isContent: true,
+                                          ],
+                                        ),
+                                        Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceBetween,
+                                          children: [
+                                            Expanded(
+                                              child: CustomText(
+                                                text: 'Address',
+                                                isContent: true,
+                                              ),
                                             ),
-                                          ),
-                                          Expanded(
-                                            child: CustomText(
-                                              text: pocAddress,
-                                              isContent: true,
-                                              textOverflow:
-                                                  TextOverflow.visible,
-                                              maxLines: 3,
+                                            Expanded(
+                                              child: CustomText(
+                                                text: pocAddress,
+                                                isContent: true,
+                                                textOverflow:
+                                                    TextOverflow.visible,
+                                                maxLines: 3,
+                                              ),
                                             ),
-                                          ),
-                                        ],
-                                      ),
-                                      Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
-                                        children: [
-                                          Expanded(
-                                            child: CustomText(
-                                              text: 'Number',
-                                              isContent: true,
+                                          ],
+                                        ),
+                                        Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceBetween,
+                                          children: [
+                                            Expanded(
+                                              child: CustomText(
+                                                text: 'Number',
+                                                isContent: true,
+                                              ),
                                             ),
-                                          ),
-                                          Expanded(
-                                            child: CustomText(
-                                              text: pocNumber,
-                                              isContent: true,
-                                              maxLines: 2,
+                                            Expanded(
+                                              child: CustomText(
+                                                text: pocNumber,
+                                                isContent: true,
+                                                maxLines: 2,
+                                              ),
                                             ),
-                                          ),
-                                        ],
-                                      ),
-                                      Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
-                                        children: [
-                                          Expanded(
-                                            child: CustomText(
-                                              text: 'Date',
-                                              isContent: true,
+                                          ],
+                                        ),
+                                        Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceBetween,
+                                          children: [
+                                            Expanded(
+                                              child: CustomText(
+                                                text: 'Date',
+                                                isContent: true,
+                                              ),
                                             ),
-                                          ),
-                                          Expanded(
-                                            child: CustomText(
-                                              text: mobileTime,
-                                              isContent: true,
+                                            Expanded(
+                                              child: CustomText(
+                                                text: mobileTime,
+                                                isContent: true,
+                                              ),
                                             ),
-                                          ),
-                                        ],
-                                      ),
-                                    ],
+                                          ],
+                                        ),
+                                        // Row(
+                                        //   mainAxisAlignment:
+                                        //       MainAxisAlignment.spaceBetween,
+                                        //   children: [
+                                        //     Expanded(
+                                        //       child: CustomText(
+                                        //         text: 'Approval Status',
+                                        //         isContent: true,
+                                        //       ),
+                                        //     ),
+                                        // Expanded(
+                                        //   child: CustomText(
+                                        //     text: approvalStatus,
+                                        //     isContent: true,
+                                        //   ),
+                                        // ),
+                                        // Expanded(
+                                        //   child:
+                                        const SizedBox(
+                                          height: 8,
+                                        ),
+                                        CustomDropdown(
+                                          labelText: 'Approval Status',
+                                          items: adminVisitLogsProvider.approvalType,
+                                          value: approvalStatus,
+                                          onChanged: (value) {},
+                                        ),
+                                        // ),
+                                        // ],
+                                        // ),
+                                      ],
+                                    ),
                                   ),
                                 ),
-                              ),
-                              // Container(
-                              //   width: MediaQuery.of(context).size.width * 0.85,
-                              //   height: 180,
-                              //   decoration: BoxDecoration(
-                              //     // color: Colors.red,
-                              //     borderRadius: const BorderRadius.only(
-                              //       bottomLeft: Radius.circular(16),
-                              //       bottomRight: Radius.circular(16),
-                              //     ),
-                              //     boxShadow: [
-                              //       BoxShadow(
-                              //         color: Colors.black.withOpacity(0.1),
-                              //         spreadRadius: 2.0,
-                              //         blurRadius: 1.0,
-                              //         offset: const Offset(3, 3),
-                              //       )
-                              //     ],
-                              //   ),
-                              //   child: ClipRRect(
-                              //     borderRadius: const BorderRadius.only(
-                              //       bottomLeft: Radius.circular(16),
-                              //       bottomRight: Radius.circular(16),
-                              //     ),
-                              //     child: GoogleMap(
-                              //       initialCameraPosition: const CameraPosition(
-                              //         target: LatLng(26.453046355563462,
-                              //             87.27468530596374),
-                              //         zoom: 13,
-                              //       ),
-                              //       compassEnabled: true,
-                              //       zoomControlsEnabled: true,
-                              //       onMapCreated:
-                              //           (GoogleMapController controller) {
-                              //         _controller.complete(controller);
-                              //       },
-                              //       markers: {
-                              //         Marker(
-                              //           markerId: MarkerId(index.toString()),
-                              //           position: LatLng(latitude, longitude),
-                              //         ),
-                              //       },
-                              //     ),
-                              //   ),
-                              // ),
-                              const SizedBox(
-                                height: 16,
-                              ),
-                            ],
+                                // Container(
+                                //   width: MediaQuery.of(context).size.width * 0.85,
+                                //   height: 180,
+                                //   decoration: BoxDecoration(
+                                //     // color: Colors.red,
+                                //     borderRadius: const BorderRadius.only(
+                                //       bottomLeft: Radius.circular(16),
+                                //       bottomRight: Radius.circular(16),
+                                //     ),
+                                //     boxShadow: [
+                                //       BoxShadow(
+                                //         color: Colors.black.withOpacity(0.1),
+                                //         spreadRadius: 2.0,
+                                //         blurRadius: 1.0,
+                                //         offset: const Offset(3, 3),
+                                //       )
+                                //     ],
+                                //   ),
+                                //   child: ClipRRect(
+                                //     borderRadius: const BorderRadius.only(
+                                //       bottomLeft: Radius.circular(16),
+                                //       bottomRight: Radius.circular(16),
+                                //     ),
+                                //     child: GoogleMap(
+                                //       initialCameraPosition: const CameraPosition(
+                                //         target: LatLng(26.453046355563462,
+                                //             87.27468530596374),
+                                //         zoom: 13,
+                                //       ),
+                                //       compassEnabled: true,
+                                //       zoomControlsEnabled: true,
+                                //       onMapCreated:
+                                //           (GoogleMapController controller) {
+                                //         _controller.complete(controller);
+                                //       },
+                                //       markers: {
+                                //         Marker(
+                                //           markerId: MarkerId(index.toString()),
+                                //           position: LatLng(latitude, longitude),
+                                //         ),
+                                //       },
+                                //     ),
+                                //   ),
+                                // ),
+                                const SizedBox(
+                                  height: 16,
+                                ),
+                              ],
+                            ),
                           ),
                         ),
                       );
