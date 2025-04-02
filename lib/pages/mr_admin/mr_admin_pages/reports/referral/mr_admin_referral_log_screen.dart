@@ -24,6 +24,7 @@ class ReferralLogScreen extends StatefulWidget {
 class _ReferralLogScreenState extends State<ReferralLogScreen> {
   bool myAnimation = false;
   double width = 0;
+
   @override
   void initState() {
     super.initState();

@@ -6,6 +6,9 @@ import 'package:flutter/material.dart';
 import 'package:nepali_utils/nepali_utils.dart';
 
 class MrAdminVisitLogProvider extends ChangeNotifier {
+  List<String> _approvalType = ['approved', 'pending', 'rejected'];
+  bool _myAnimation = false;
+  double _width = 0;
   List<String> _visitLogsUsersList = ["Select User"];
   List<dynamic> _visitLogsById = [];
   List<dynamic> _usersList = [];
@@ -22,8 +25,11 @@ class MrAdminVisitLogProvider extends ChangeNotifier {
   NepaliDateTime nepaliDateTime = NepaliDateTime.now();
   NepaliDateFormat yearMonthDateBSFormat = NepaliDateFormat('yyyy-MM-dd G');
   NepaliDateTime selectedDate = NepaliDateTime.now();
-  List<String> _visitType = ["Country","Region","City"];
-  List<String> _countryList = ['Nepal','India',];
+  List<String> _visitType = ["Country", "Region", "City"];
+  List<String> _countryList = [
+    'Nepal',
+    'India',
+  ];
   List<dynamic> _districts = [];
   List<dynamic> _stateList = [];
   List<dynamic> _searchResult = [];
@@ -47,7 +53,11 @@ class MrAdminVisitLogProvider extends ChangeNotifier {
   TextEditingController _districtController = TextEditingController();
   TextEditingController _stateController = TextEditingController();
 
-  TextEditingController get fromTextEditingController => _fromTextEditingController;
+  List<String> get approvalType => _approvalType;
+  bool get myAnimation => _myAnimation;
+  double get width => _width;
+  TextEditingController get fromTextEditingController =>
+      _fromTextEditingController;
   TextEditingController get toTextEditingController => _toTextEditingController;
   TextEditingController get searchController => _searchController;
   TextEditingController get cityController => _cityController;
@@ -89,6 +99,14 @@ class MrAdminVisitLogProvider extends ChangeNotifier {
   //     _fromTextEditingController;
   // TextEditingController get toTextEditingController => _toTextEditingController;
 
+  void triggerAnimation() {
+    _myAnimation = false;
+
+    Future.delayed(const Duration(milliseconds: 200), () {
+      _myAnimation = true;
+    });
+  }
+
   void setSelectedVisitDateType(visitType) {
     DateTime currentDate = DateTime.now();
     DateTime yesterday = currentDate.subtract(Duration(days: 1));
@@ -104,7 +122,7 @@ class MrAdminVisitLogProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  void setSelectedVisitType(newValue){
+  void setSelectedVisitType(newValue) {
     _selectedVisitAddress = newValue;
     notifyListeners();
   }
@@ -156,7 +174,7 @@ class MrAdminVisitLogProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  void setSelectedCountry(newValue){
+  void setSelectedCountry(newValue) {
     _selectedCountry = newValue;
     notifyListeners();
   }
@@ -178,20 +196,19 @@ class MrAdminVisitLogProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-
   void setSelectedCity(value) {
     _selectedCities = value;
     _cityController.text = _selectedCities;
     notifyListeners();
   }
 
-
   void getVisitLogsList(context) async {
     _visitLogsUsersList = ["Select User"];
     _selectedUser = 'Select User';
     _selectedVisitType = 'Today';
     _selectedUserId = '';
-    ERPResponse response = await ERPServices.getRequest('/visitLogs/users', context);
+    ERPResponse response =
+        await ERPServices.getRequest('/visitLogs/users', context);
     // print(response.body);
     if (response.statusCode == 200) {
       Map<String, dynamic> body = jsonDecode(response.body);
@@ -200,6 +217,11 @@ class MrAdminVisitLogProvider extends ChangeNotifier {
         _visitLogsUsersList.add(_usersList[i]['username']);
       }
     }
+    notifyListeners();
+  }
+
+  void approvalStatus(int index, String value) {
+    visitList[index]['approvalStatus'] = value;
     notifyListeners();
   }
 
@@ -213,25 +235,25 @@ class MrAdminVisitLogProvider extends ChangeNotifier {
           print('List of cities');
           _searchResult = addressList
               .where((city) => city
-              .toString()
-              .toLowerCase()
-              .contains(enteredKeyWord.toLowerCase()))
+                  .toString()
+                  .toLowerCase()
+                  .contains(enteredKeyWord.toLowerCase()))
               .toList();
         } else if (addressList[0].containsKey('district')) {
           print('List of district');
           _searchResult = addressList
               .where((district) => district['district']
-              .toString()
-              .toLowerCase()
-              .contains(enteredKeyWord.toLowerCase()))
+                  .toString()
+                  .toLowerCase()
+                  .contains(enteredKeyWord.toLowerCase()))
               .toList();
         } else if (addressList[0].containsKey('states')) {
           print('List of states');
           _searchResult = addressList
               .where((states) => states['states']
-              .toString()
-              .toLowerCase()
-              .contains(enteredKeyWord.toLowerCase()))
+                  .toString()
+                  .toLowerCase()
+                  .contains(enteredKeyWord.toLowerCase()))
               .toList();
         }
       } catch (err) {
@@ -249,7 +271,8 @@ class MrAdminVisitLogProvider extends ChangeNotifier {
       ToastMessageUtils().showToastMessage('Please select a user');
     } else {
       ERPResponse response = await ERPServices.getRequest(
-          '/visitLogs?visitLogId=$_selectedUserId&from=$_from&to=$_to', context);
+          '/visitLogs?visitLogId=$_selectedUserId&from=$_from&to=$_to',
+          context);
       if (response.statusCode == 200) {
         final body = jsonDecode(response.body);
         _foundVisit = body['visitLogs'];
@@ -258,8 +281,7 @@ class MrAdminVisitLogProvider extends ChangeNotifier {
         // print(body);
         print(_foundVisit);
         // print(_visitList);
-      }
-      else{
+      } else {
         _visitList = [];
       }
     }
