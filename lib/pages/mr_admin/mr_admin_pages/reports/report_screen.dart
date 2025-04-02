@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:convert';
 
 import 'package:deskgoo/consts.dart';
 import 'package:deskgoo/providers/mr_admin_provider/mr_admin_visit_logProvider.dart';
@@ -12,8 +13,12 @@ import 'package:deskgoo/widgets/expansion_tile/custom_expansiontile.dart';
 import 'package:deskgoo/widgets/text_fields/text_from_field.dart';
 import 'package:deskgoo/widgets/texts/custom_text.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:provider/provider.dart';
+
+import '../../../../consts.dart';
 
 class MrAdminReportScreen extends StatefulWidget {
   const MrAdminReportScreen({super.key});
@@ -28,7 +33,8 @@ class _MrAdminReportScreenState extends State<MrAdminReportScreen> {
   @override
   void initState() {
     super.initState();
-    MrAdminVisitLogProvider mrAdminVisitLogProvider = Provider.of<MrAdminVisitLogProvider>(context, listen: false);
+    MrAdminVisitLogProvider mrAdminVisitLogProvider =
+        Provider.of<MrAdminVisitLogProvider>(context, listen: false);
     mrAdminVisitLogProvider.getVisitLogsList(context);
   }
 
@@ -137,9 +143,13 @@ class _MrAdminReportScreenState extends State<MrAdminReportScreen> {
                             },
                           ),
                           SizedBox(
-                            height: adminVisitLogsProvider.selectedVisitType == 'Custom' ? 16 : 0,
+                            height: adminVisitLogsProvider.selectedVisitType ==
+                                    'Custom'
+                                ? 16
+                                : 0,
                           ),
-                          if (adminVisitLogsProvider.selectedVisitType == 'Custom')
+                          if (adminVisitLogsProvider.selectedVisitType ==
+                              'Custom')
                             Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
@@ -179,6 +189,179 @@ class _MrAdminReportScreenState extends State<MrAdminReportScreen> {
                           const SizedBox(
                             height: 16,
                           ),
+                          CustomDropdown(
+                            labelText: 'Select Visit Type',
+                            items: adminVisitLogsProvider.visitType,
+                            value: adminVisitLogsProvider.selectedVisitAddress,
+                            onChanged: (value) {
+                              adminVisitLogsProvider
+                                  .setSelectedVisitType(value);
+                            },
+                          ),
+                          const SizedBox(
+                            height: 16,
+                          ),
+                          if (adminVisitLogsProvider.selectedVisitAddress ==
+                              'Country')
+                            Column(
+                              children: [
+                                CustomDropdown(
+                                  labelText: 'Select Country',
+                                  items: adminVisitLogsProvider.countryList,
+                                  value: adminVisitLogsProvider.selectedCountry,
+                                  applyCountryFlag: true,
+                                  onChanged: (value) {
+                                    adminVisitLogsProvider
+                                        .setSelectedCountry(value);
+                                  },
+                                ),
+                              ],
+                            ),
+                          if (adminVisitLogsProvider.selectedVisitAddress ==
+                              'Region')
+                            Column(
+                              children: [
+                                CustomDropdown(
+                                  labelText: 'Country',
+                                  items: adminVisitLogsProvider.countryList,
+                                  value: adminVisitLogsProvider.selectedCountry,
+                                  applyCountryFlag: true,
+                                  onChanged: (newValue) {
+                                    adminVisitLogsProvider
+                                        .setSelectedCountry(newValue);
+                                  },
+                                ),
+                                const SizedBox(
+                                  height: 16,
+                                ),
+                                TextFromFieldWithPrefixSuffix(
+                                  controller: adminVisitLogsProvider
+                                              .selectedCountry ==
+                                          adminVisitLogsProvider.countryList[0]
+                                      ? adminVisitLogsProvider
+                                          .districtController
+                                      : adminVisitLogsProvider.stateController,
+                                  readOnly: true,
+                                  labelText: adminVisitLogsProvider
+                                              .selectedCountry ==
+                                          adminVisitLogsProvider.countryList[0]
+                                      ? 'District *'
+                                      : 'State *',
+                                  validator: (newValue) {},
+                                  onTap: () async {
+                                    String fileName = adminVisitLogsProvider
+                                                .selectedCountry ==
+                                            adminVisitLogsProvider
+                                                .countryList[0]
+                                        ? 'district'
+                                        : 'states';
+                                    final file = await rootBundle
+                                        .loadString('assets/$fileName.json');
+                                    final content = await jsonDecode(file);
+                                    showModalBottomSheet(
+                                        isScrollControlled: true,
+                                        useSafeArea: true,
+                                        context: context,
+                                        builder: (context) =>
+                                            districtBottomSheet(
+                                                context, '$fileName', content));
+                                    adminVisitLogsProvider
+                                        .searchController.text = '';
+                                    adminVisitLogsProvider.searchAddressResult(
+                                        adminVisitLogsProvider
+                                            .searchController.value.text,
+                                        content);
+                                  },
+                                ),
+                              ],
+                            ),
+                          // Condition for City
+                          if (adminVisitLogsProvider.selectedVisitAddress ==
+                              'City')
+                            Column(
+                              children: [
+                                CustomDropdown(
+                                  labelText: 'Country',
+                                  items: adminVisitLogsProvider.countryList,
+                                  value: adminVisitLogsProvider.selectedCountry,
+                                  applyCountryFlag: true,
+                                  onChanged: (newValue) {
+                                    adminVisitLogsProvider
+                                        .setSelectedCountry(newValue);
+                                  },
+                                ),
+                                const SizedBox(
+                                  height: 16,
+                                ),
+                                TextFromFieldWithPrefixSuffix(
+                                  controller: adminVisitLogsProvider
+                                              .selectedCountry ==
+                                          adminVisitLogsProvider.countryList[0]
+                                      ? adminVisitLogsProvider
+                                          .districtController
+                                      : adminVisitLogsProvider.stateController,
+                                  readOnly: true,
+                                  labelText: adminVisitLogsProvider
+                                              .selectedCountry ==
+                                          adminVisitLogsProvider.countryList[0]
+                                      ? 'District *'
+                                      : 'State *',
+                                  validator: (newValue) {},
+                                  onTap: () async {
+                                    String fileName = adminVisitLogsProvider
+                                                .selectedCountry ==
+                                            adminVisitLogsProvider
+                                                .countryList[0]
+                                        ? 'district'
+                                        : 'states';
+                                    final file = await rootBundle
+                                        .loadString('assets/$fileName.json');
+                                    final content = await jsonDecode(file);
+                                    showModalBottomSheet(
+                                        isScrollControlled: true,
+                                        useSafeArea: true,
+                                        context: context,
+                                        builder: (context) =>
+                                            districtBottomSheet(
+                                                context, '$fileName', content));
+                                    adminVisitLogsProvider
+                                        .searchController.text = '';
+                                    adminVisitLogsProvider.searchAddressResult(
+                                        adminVisitLogsProvider
+                                            .searchController.value.text,
+                                        content);
+                                  },
+                                ),
+                                const SizedBox(
+                                  height: 16,
+                                ),
+                                TextFromFieldWithPrefixSuffix(
+                                  controller:
+                                      adminVisitLogsProvider.cityController,
+                                  readOnly: true,
+                                  labelText: 'City *',
+                                  validator: (newValue) {},
+                                  onTap: () async {
+                                    adminVisitLogsProvider
+                                        .searchController.text = '';
+                                    adminVisitLogsProvider.searchAddressResult(
+                                        adminVisitLogsProvider
+                                            .searchController.value.text,
+                                        adminVisitLogsProvider.cities);
+                                    showModalBottomSheet(
+                                        isScrollControlled: true,
+                                        useSafeArea: true,
+                                        context: context,
+                                        builder: (context) => citiesBottomSheet(
+                                            context,
+                                            adminVisitLogsProvider.cities));
+                                  },
+                                ),
+                              ],
+                            ),
+                          const SizedBox(
+                            height: 16,
+                          ),
                           CustomElevatedButton(
                             onPressed: () {
                               adminVisitLogsProvider.getVisitLogsById(context);
@@ -201,6 +384,173 @@ class _MrAdminReportScreenState extends State<MrAdminReportScreen> {
                     ],
                   ),
                 ),
+                const SizedBox(
+                  height: 16,
+                ),
+                CustomContainer(
+                  horizontalPad: 0,
+                  verticalPad: 0,
+                  color: Colors.transparent,
+                  child: CustomExpansionTile(
+                    title: 'Visit Log',
+                    applyAllBorderRadius: true,
+                    size: 20,
+                    fontWeight: FontWeight.w600,
+                    children: [
+                      Column(
+                        children: [
+                          Row(
+                            children: [
+                              // Expanded(
+                              //   flex: 2,
+                              //   child: CustomText(
+                              //     text: 'Created By',
+                              //     isContent: true,
+                              //   ),
+                              // ),
+                              Expanded(
+                                flex: 3,
+                                child: CustomText(
+                                  text: adminVisitLogsProvider.selectedUser,
+                                  isContent: true,
+                                ),
+                              ),
+                              // ClipRRect(
+                              //   borderRadius: BorderRadius.circular(1000),
+                              //   child: SizedBox(
+                              //     height: 52,
+                              //     width: 52,
+                              //     child: Image.network(
+                              //       adminVisitLogsProvider
+                              //           .profileImage,
+                              //       fit: BoxFit.cover,
+                              //     ),
+                              //   ),
+                              // ),
+                            ],
+                          ),
+                          const SizedBox(
+                            height: 0,
+                          ),
+                          Row(
+                            children: [
+                              Expanded(
+                                flex: 2,
+                                child: CustomText(
+                                  text: 'Total Visit',
+                                  isContent: true,
+                                ),
+                              ),
+                              const SizedBox(width: 8),
+                              Expanded(
+                                flex: 3,
+                                child: CustomText(
+                                  text: adminVisitLogsProvider.visitList.length
+                                      .toString(),
+                                  isContent: true,
+                                ),
+                              ),
+                            ],
+                          ),
+                          const SizedBox(
+                            height: 4,
+                          ),
+                          Row(
+                            children: [
+                              Expanded(
+                                flex: 2,
+                                child: CustomText(
+                                  isContent: true,
+                                  text: adminVisitLogsProvider
+                                              .selectedVisitAddress ==
+                                          'Country'
+                                      ? 'Country'
+                                      : (adminVisitLogsProvider
+                                                  .selectedVisitAddress ==
+                                              'Region'
+                                          ? 'Region'
+                                          : 'City'),
+                                ),
+                              ),
+                              const SizedBox(
+                                width: 8,
+                              ),
+                              Expanded(
+                                flex: 3,
+                                child: CustomText(
+                                  text: adminVisitLogsProvider
+                                              .selectedVisitAddress ==
+                                          'Country'
+                                      ? adminVisitLogsProvider.selectedCountry
+                                      : (adminVisitLogsProvider
+                                                  .selectedVisitAddress ==
+                                              'City'
+                                          ? adminVisitLogsProvider
+                                              .selectedCities
+                                          : (adminVisitLogsProvider
+                                                      .selectedVisitAddress ==
+                                                  'Region'
+                                              ? adminVisitLogsProvider
+                                                  .selectedDistrict
+                                              : adminVisitLogsProvider
+                                                  .selectedState)),
+                                  isContent: true,
+                                ),
+                              ),
+                            ],
+                          ),
+                          const SizedBox(
+                            height: 4,
+                          ),
+                          Row(
+                            children: [
+                              Expanded(
+                                flex: 2,
+                                child: CustomText(
+                                  text: 'From',
+                                  isContent: true,
+                                ),
+                              ),
+                              const SizedBox(width: 8),
+                              Expanded(
+                                flex: 3,
+                                child: CustomText(
+                                  text: adminVisitLogsProvider.from,
+                                  isContent: true,
+                                ),
+                              ),
+                            ],
+                          ),
+                          const SizedBox(
+                            height: 4,
+                          ),
+                          Row(
+                            children: [
+                              Expanded(
+                                flex: 2,
+                                child: CustomText(
+                                  text: 'To',
+                                  isContent: true,
+                                ),
+                              ),
+                              const SizedBox(width: 8),
+                              Expanded(
+                                flex: 3,
+                                child: CustomText(
+                                  text: adminVisitLogsProvider.to,
+                                  isContent: true,
+                                ),
+                              ),
+                            ],
+                          ),
+                          const SizedBox(
+                            height: 16,
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                ),
               ],
             ),
             const SizedBox(
@@ -214,7 +564,8 @@ class _MrAdminReportScreenState extends State<MrAdminReportScreen> {
                         NeverScrollableScrollPhysics(), // Disables scrolling for outer ListView, so the inner ListViews can handle scrolling
                     itemCount: adminVisitLogsProvider.visitList.length,
                     itemBuilder: (context, index) {
-                      String executiveName = adminVisitLogsProvider.executiveName;
+                      String executiveName =
+                          adminVisitLogsProvider.executiveName;
                       // String pocNumber = adminVisitLogsProvider.foundVisit['visitLogs']['pocNumber'];
                       String pocName =
                           adminVisitLogsProvider.visitList[index]['pocName'];
@@ -222,10 +573,10 @@ class _MrAdminReportScreenState extends State<MrAdminReportScreen> {
                           adminVisitLogsProvider.visitList[index]['pocAddress'];
                       String pocNumber =
                           adminVisitLogsProvider.visitList[index]['pocNumber'];
-                      String pocCategory =
-                          adminVisitLogsProvider.visitList[index]['pocCategory'];
-                      String pocSpecialization =
-                          adminVisitLogsProvider.visitList[index]['pocSpecialization'];
+                      String pocCategory = adminVisitLogsProvider
+                          .visitList[index]['pocCategory'];
+                      String pocSpecialization = adminVisitLogsProvider
+                          .visitList[index]['pocSpecialization'];
                       String remarks =
                           adminVisitLogsProvider.visitList[index]['remarks'];
                       String visitType =
@@ -254,7 +605,8 @@ class _MrAdminReportScreenState extends State<MrAdminReportScreen> {
                                   backgroundColor: CustomColors.primaryColor,
                                   child: Column(
                                     mainAxisAlignment: MainAxisAlignment.center,
-                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
                                     children: [
                                       Row(
                                         mainAxisAlignment:
@@ -324,7 +676,8 @@ class _MrAdminReportScreenState extends State<MrAdminReportScreen> {
                                             child: CustomText(
                                               text: pocSpecialization,
                                               isContent: true,
-                                              textOverflow: TextOverflow.visible,
+                                              textOverflow:
+                                                  TextOverflow.visible,
                                               maxLines: 3,
                                             ),
                                           ),
@@ -372,7 +725,7 @@ class _MrAdminReportScreenState extends State<MrAdminReportScreen> {
                                       // ),
                                       Row(
                                         mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
+                                            MainAxisAlignment.spaceBetween,
                                         children: [
                                           Expanded(
                                             child: CustomText(
@@ -384,7 +737,8 @@ class _MrAdminReportScreenState extends State<MrAdminReportScreen> {
                                             child: CustomText(
                                               text: remarks,
                                               isContent: true,
-                                              textOverflow: TextOverflow.visible,
+                                              textOverflow:
+                                                  TextOverflow.visible,
                                               maxLines: 3,
                                             ),
                                           ),
@@ -392,7 +746,7 @@ class _MrAdminReportScreenState extends State<MrAdminReportScreen> {
                                       ),
                                       Row(
                                         mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
+                                            MainAxisAlignment.spaceBetween,
                                         children: [
                                           Expanded(
                                             child: CustomText(
@@ -404,7 +758,8 @@ class _MrAdminReportScreenState extends State<MrAdminReportScreen> {
                                             child: CustomText(
                                               text: executiveName,
                                               isContent: true,
-                                              textOverflow: TextOverflow.visible,
+                                              textOverflow:
+                                                  TextOverflow.visible,
                                               maxLines: 3,
                                             ),
                                           ),
@@ -424,7 +779,8 @@ class _MrAdminReportScreenState extends State<MrAdminReportScreen> {
                                             child: CustomText(
                                               text: pocAddress,
                                               isContent: true,
-                                              textOverflow: TextOverflow.visible,
+                                              textOverflow:
+                                                  TextOverflow.visible,
                                               maxLines: 3,
                                             ),
                                           ),
@@ -432,7 +788,26 @@ class _MrAdminReportScreenState extends State<MrAdminReportScreen> {
                                       ),
                                       Row(
                                         mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
+                                            MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          Expanded(
+                                            child: CustomText(
+                                              text: 'Number',
+                                              isContent: true,
+                                            ),
+                                          ),
+                                          Expanded(
+                                            child: CustomText(
+                                              text: pocNumber,
+                                              isContent: true,
+                                              maxLines: 2,
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                      Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
                                         children: [
                                           Expanded(
                                             child: CustomText(
@@ -515,6 +890,169 @@ class _MrAdminReportScreenState extends State<MrAdminReportScreen> {
                     ),
                   ),
           ],
+        );
+      },
+    );
+  }
+
+  Widget citiesBottomSheet(context, List<dynamic> content) {
+    return Consumer<MrAdminVisitLogProvider>(
+      builder: (context, adminVisitLogsProvider, _) {
+        return Container(
+          color: CustomColors.primaryWhite,
+          height: MediaQuery.of(context).size.height * 0.80,
+          child: Column(
+            children: [
+              Container(
+                padding: const EdgeInsets.only(
+                  top: 16,
+                  right: 12.0,
+                  bottom: 12,
+                ),
+                decoration: BoxDecoration(
+                  color: CustomColors.primaryColor,
+                ),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Expanded(
+                      flex: 1,
+                      child: InkWell(
+                          onTap: () {
+                            print('Pressed');
+                            Navigator.pop(context);
+                          },
+                          child: Icon(FontAwesomeIcons.arrowLeft)),
+                    ),
+                    // ),
+                    Expanded(
+                      flex: 7,
+                      child: TextFromFieldWithPrefixSuffix(
+                        controller: adminVisitLogsProvider.searchController,
+                        labelText: 'Search City',
+                        applySuffixIcon: true,
+                        suffixIcon: Icon(Icons.search),
+                        validator: (value) {},
+                        onChange: (value) =>
+                            adminVisitLogsProvider.searchAddressResult(
+                                adminVisitLogsProvider
+                                    .searchController.value.text,
+                                content),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              const SizedBox(
+                height: 16,
+              ),
+              Expanded(
+                child: ListView.builder(
+                  itemCount: adminVisitLogsProvider.searchResult.length,
+                  itemBuilder: (context, index) {
+                    String cityName =
+                        adminVisitLogsProvider.searchResult[index];
+                    return ListTile(
+                      onTap: () {
+                        Navigator.pop(context);
+                        adminVisitLogsProvider.setSelectedCity(cityName);
+                        print(adminVisitLogsProvider.searchResult[index]);
+                      },
+                      title: CustomText(
+                        text: cityName,
+                        isContent: true,
+                      ),
+                    );
+                  },
+                ),
+              ),
+            ],
+          ),
+        );
+      },
+    );
+  }
+
+  Widget districtBottomSheet(context, String type, List<dynamic> content) {
+    return Consumer<MrAdminVisitLogProvider>(
+      builder: (context, mrAdminVisitLogProvider, _) {
+        return Container(
+          color: CustomColors.primaryWhite,
+          height: MediaQuery.of(context).size.height * 0.80,
+          child: Column(
+            children: [
+              Container(
+                padding: const EdgeInsets.only(
+                  top: 16,
+                  right: 12.0,
+                  bottom: 12,
+                ),
+                decoration: BoxDecoration(
+                  color: CustomColors.primaryColor,
+                ),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Expanded(
+                      flex: 1,
+                      child: InkWell(
+                          onTap: () {
+                            print('Pressed');
+                            Navigator.pop(context);
+                          },
+                          child: Icon(FontAwesomeIcons.arrowLeft)),
+                    ),
+                    // ),
+                    Expanded(
+                      flex: 7,
+                      child: TextFromFieldWithPrefixSuffix(
+                        controller: mrAdminVisitLogProvider.searchController,
+                        labelText:
+                            mrAdminVisitLogProvider.selectedCountry == 'Nepal'
+                                ? 'Search District'
+                                : 'Search State',
+                        applySuffixIcon: true,
+                        suffixIcon: Icon(Icons.search),
+                        validator: (value) {},
+                        onChange: (value) =>
+                            mrAdminVisitLogProvider.searchAddressResult(
+                                mrAdminVisitLogProvider
+                                    .searchController.value.text,
+                                content),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              const SizedBox(
+                height: 16,
+              ),
+              Expanded(
+                child: ListView.builder(
+                  itemCount: mrAdminVisitLogProvider.searchResult.length,
+                  itemBuilder: (context, index) {
+                    String name =
+                        mrAdminVisitLogProvider.searchResult[index]['$type'];
+                    return ListTile(
+                      onTap: () {
+                        Navigator.pop(context);
+                        type == 'district'
+                            ? mrAdminVisitLogProvider.setSelectedDistrict(name)
+                            : mrAdminVisitLogProvider.setSelectedState(name);
+                        mrAdminVisitLogProvider.getCities(
+                            mrAdminVisitLogProvider.searchResult[index]
+                                ['cities']);
+                      },
+                      title: CustomText(
+                        text: name,
+                        isContent: true,
+                      ),
+                    );
+                  },
+                ),
+              ),
+            ],
+          ),
         );
       },
     );

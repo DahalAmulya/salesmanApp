@@ -15,33 +15,81 @@ class MrAdminVisitLogProvider extends ChangeNotifier {
   String _selectedUserId = '';
   String _selectedUser = 'Select User';
   String _selectedVisitType = 'Today';
+  String _selectedVisitAddress = 'Country';
   String _from = '';
   String _to = '';
   String _executiveName = '';
   NepaliDateTime nepaliDateTime = NepaliDateTime.now();
   NepaliDateFormat yearMonthDateBSFormat = NepaliDateFormat('yyyy-MM-dd G');
   NepaliDateTime selectedDate = NepaliDateTime.now();
+  List<String> _visitType = ["Country","Region","City"];
+  List<String> _countryList = ['Nepal','India',];
+  List<dynamic> _districts = [];
+  List<dynamic> _stateList = [];
+  List<dynamic> _searchResult = [];
+  List<String> _foundDistrictList = [];
+  List<String> _foundStateList = [];
+  List<String> _foundCities = [];
+  List<dynamic> _cities = [];
+  String _selectVisitTypeByAddress = 'Country';
+  String _selectedCountry = 'Nepal';
+  String _selectedDistrict = 'Morang';
+  String _selectedStates = 'Andhra Pradesh';
+  String _selectedCity = 'Biratnagar';
+  String _selectedRegion = '';
+  String _selectedCities = '';
+  String _selectedState = '';
 
   TextEditingController _fromTextEditingController = TextEditingController();
   TextEditingController _toTextEditingController = TextEditingController();
+  TextEditingController _searchController = TextEditingController();
+  TextEditingController _cityController = TextEditingController();
+  TextEditingController _districtController = TextEditingController();
+  TextEditingController _stateController = TextEditingController();
+
+  TextEditingController get fromTextEditingController => _fromTextEditingController;
+  TextEditingController get toTextEditingController => _toTextEditingController;
+  TextEditingController get searchController => _searchController;
+  TextEditingController get cityController => _cityController;
+  TextEditingController get districtController => _districtController;
+  TextEditingController get stateController => _stateController;
+
+  String get selectVisitTypeByAddress => _selectVisitTypeByAddress;
+  List<dynamic> get districts => _districts;
+  List<dynamic> get stateList => _stateList;
+  List<dynamic> get searchResult => _searchResult;
+  List<String> get foundCities => _foundCities;
+  List<String> get foundDistrictList => _foundDistrictList;
+  List<String> get foundStateList => _foundStateList;
+  List<String> get visitType => _visitType;
+  List<String> get countryList => _countryList;
+  List<dynamic> get cities => _cities;
+  String get selectedVisitType => _selectedVisitType;
+  String get selectedCountry => _selectedCountry;
+  String get selectedDistrict => _selectedDistrict;
+  String get selectedStates => _selectedStates;
+  String get selectedCity => _selectedCity;
+  String get selectedCities => _selectedCities;
+  String get selectedState => _selectedState;
+  String get selectedRegion => _selectedRegion;
 
   List<String> get visitLogsUserList => _visitLogsUsersList;
   List<dynamic> get visitLogsById => _visitLogsById;
   List<String> get visitDateTypeList => _visitDateTypeList;
+  String get selectedVisitAddress => _selectedVisitAddress;
   Map<String, dynamic> get foundVisit => _foundVisit;
   List<dynamic> get visitList => _visitList;
   String get selectedUserId => _selectedUserId;
   List<dynamic> get usersList => _usersList;
   String get selectedUser => _selectedUser;
-  String get selectedVisitType => _selectedVisitType;
   String get from => _from;
   String get to => _to;
   String get executiveName => _executiveName;
-  TextEditingController get fromTextEditingController =>
-      _fromTextEditingController;
-  TextEditingController get toTextEditingController => _toTextEditingController;
+  // TextEditingController get fromTextEditingController =>
+  //     _fromTextEditingController;
+  // TextEditingController get toTextEditingController => _toTextEditingController;
 
-  void setSelectedVisitType(visitType) {
+  void setSelectedVisitDateType(visitType) {
     DateTime currentDate = DateTime.now();
     DateTime yesterday = currentDate.subtract(Duration(days: 1));
     _selectedVisitType = visitType;
@@ -53,6 +101,11 @@ class MrAdminVisitLogProvider extends ChangeNotifier {
       _to = '${yesterday.toString().split(' ')[0]}';
     } else {}
 
+    notifyListeners();
+  }
+
+  void setSelectedVisitType(newValue){
+    _selectedVisitAddress = newValue;
     notifyListeners();
   }
 
@@ -103,6 +156,36 @@ class MrAdminVisitLogProvider extends ChangeNotifier {
     notifyListeners();
   }
 
+  void setSelectedCountry(newValue){
+    _selectedCountry = newValue;
+    notifyListeners();
+  }
+
+  void setSelectedDistrict(value) {
+    _selectedRegion = value;
+    _districtController.text = _selectedRegion;
+    notifyListeners();
+  }
+
+  void setSelectedState(value) {
+    _selectedRegion = value;
+    _stateController.text = _selectedRegion;
+    notifyListeners();
+  }
+
+  void getCities(List<dynamic> citiesList) {
+    _cities = citiesList;
+    notifyListeners();
+  }
+
+
+  void setSelectedCity(value) {
+    _selectedCities = value;
+    _cityController.text = _selectedCities;
+    notifyListeners();
+  }
+
+
   void getVisitLogsList(context) async {
     _visitLogsUsersList = ["Select User"];
     _selectedUser = 'Select User';
@@ -117,6 +200,47 @@ class MrAdminVisitLogProvider extends ChangeNotifier {
         _visitLogsUsersList.add(_usersList[i]['username']);
       }
     }
+    notifyListeners();
+  }
+
+  void searchAddressResult(String enteredKeyWord, List<dynamic> addressList) {
+    _searchResult = addressList;
+    if (enteredKeyWord.isEmpty) {
+      _searchResult = addressList;
+    } else {
+      try {
+        if (addressList[0] is String) {
+          print('List of cities');
+          _searchResult = addressList
+              .where((city) => city
+              .toString()
+              .toLowerCase()
+              .contains(enteredKeyWord.toLowerCase()))
+              .toList();
+        } else if (addressList[0].containsKey('district')) {
+          print('List of district');
+          _searchResult = addressList
+              .where((district) => district['district']
+              .toString()
+              .toLowerCase()
+              .contains(enteredKeyWord.toLowerCase()))
+              .toList();
+        } else if (addressList[0].containsKey('states')) {
+          print('List of states');
+          _searchResult = addressList
+              .where((states) => states['states']
+              .toString()
+              .toLowerCase()
+              .contains(enteredKeyWord.toLowerCase()))
+              .toList();
+        }
+      } catch (err) {
+        print('Error as $err');
+      }
+    }
+    // print(enteredKeyWord);
+    print('search result = $_searchResult');
+    // _searchController.text = '';
     notifyListeners();
   }
 

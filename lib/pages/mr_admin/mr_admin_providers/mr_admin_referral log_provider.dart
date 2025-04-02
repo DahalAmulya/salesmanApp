@@ -106,8 +106,8 @@ class MrAdminReferralLogProvider extends ChangeNotifier{
   }
 
   void getDataForState() async {
-    final respose = await rootBundle.loadString('assets/states.json');
-    List<dynamic> stateData = json.decode(respose);
+    final response = await rootBundle.loadString('assets/states.json');
+    List<dynamic> stateData = json.decode(response);
     _stateList = stateData;
     _foundStateList =
         stateData.map((item) => item['states'] as String).toList();
