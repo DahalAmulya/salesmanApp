@@ -571,6 +571,7 @@ class _MrAdminReportScreenState extends State<MrAdminReportScreen> {
                         NeverScrollableScrollPhysics(), // Disables scrolling for outer ListView, so the inner ListViews can handle scrolling
                     itemCount: adminVisitLogsProvider.visitList.length,
                     itemBuilder: (context, index) {
+                      // Color badgeColor = CustomColors.lightYellow;
                       String executiveName =
                           adminVisitLogsProvider.executiveName;
                       // String pocNumber = adminVisitLogsProvider.foundVisit['visitLogs']['pocNumber'];
@@ -620,7 +621,8 @@ class _MrAdminReportScreenState extends State<MrAdminReportScreen> {
                                       text: '${index + 1}',
                                       isContent: true,
                                     ),
-                                    backgroundColor: CustomColors.primaryColor,
+                                    backgroundColor: approvalStatus == 'approved' ? CustomColors.primaryColor : approvalStatus == 'pending' ? CustomColors.lightYellow : CustomColors.lightRed,
+                                    // backgroundColor: adminVisitLogsProvider.badgeColor,
                                     child: Column(
                                       mainAxisAlignment:
                                           MainAxisAlignment.center,
@@ -863,11 +865,26 @@ class _MrAdminReportScreenState extends State<MrAdminReportScreen> {
                                         const SizedBox(
                                           height: 8,
                                         ),
-                                        CustomDropdown(
-                                          labelText: 'Approval Status',
-                                          items: adminVisitLogsProvider.approvalType,
-                                          value: approvalStatus,
-                                          onChanged: (value) {},
+                                        Row(
+                                          children: [
+                                                Expanded(
+                                                  child: CustomText(
+                                                    text: 'Approval Status',
+                                                    isContent: true,
+                                                  ),
+                                                ),
+                                            SizedBox(
+                                              width: MediaQuery.of(context).size.width * 0.45,
+                                              child: CustomDropdown(
+                                                labelText: '',
+                                                items: adminVisitLogsProvider.approvalType,
+                                                value: approvalStatus,
+                                                onChanged: (value) {
+                                                  adminVisitLogsProvider.approvalStatus(index, value!);
+                                                },
+                                              ),
+                                            ),
+                                          ],
                                         ),
                                         // ),
                                         // ],

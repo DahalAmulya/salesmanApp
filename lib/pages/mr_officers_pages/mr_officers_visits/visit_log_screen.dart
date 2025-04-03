@@ -120,7 +120,7 @@ class _MrOfficerVisitLogStateScreen extends State<MrOfficerVisitLogScreen> {
       builder: (context, visitLogProvider, _) {
         return ListView(
           children: [
-            SizedBox(
+            const SizedBox(
               height: 16,
             ),
             Padding(
@@ -155,7 +155,7 @@ class _MrOfficerVisitLogStateScreen extends State<MrOfficerVisitLogScreen> {
                 ),
               ),
             ),
-            SizedBox(
+            const SizedBox(
               height: 16,
             ),
             visitLogProvider.visitLog.length != 0
