@@ -1,11 +1,13 @@
 import 'dart:convert';
 
 import 'package:deskgoo/services/erp_services.dart';
+import 'package:deskgoo/themes/custom_colors.dart';
 import 'package:deskgoo/utils/toast_message.dart';
 import 'package:flutter/material.dart';
 import 'package:nepali_utils/nepali_utils.dart';
 
 class MrAdminVisitLogProvider extends ChangeNotifier {
+  Color _badgeColor = CustomColors.lightYellow;
   List<String> _approvalType = ['approved', 'pending', 'rejected'];
   bool _myAnimation = false;
   double _width = 0;
@@ -95,6 +97,7 @@ class MrAdminVisitLogProvider extends ChangeNotifier {
   String get from => _from;
   String get to => _to;
   String get executiveName => _executiveName;
+  Color get badgeColor => _badgeColor;
   // TextEditingController get fromTextEditingController =>
   //     _fromTextEditingController;
   // TextEditingController get toTextEditingController => _toTextEditingController;
@@ -222,6 +225,13 @@ class MrAdminVisitLogProvider extends ChangeNotifier {
 
   void approvalStatus(int index, String value) {
     visitList[index]['approvalStatus'] = value;
+    if(visitList[index]['approvalStatus'] == 'approved'){
+      _badgeColor = CustomColors.primaryColor;
+    }else if(visitList[index]['approvalStatus'] == 'pending'){
+      _badgeColor = CustomColors.lightYellow;
+    }else{
+      _badgeColor = CustomColors.lightRed;
+    }
     notifyListeners();
   }
 

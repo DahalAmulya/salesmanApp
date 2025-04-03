@@ -82,7 +82,7 @@ class _MrOfficerNewVisitScreenState extends State<MrOfficerNewVisitScreen> {
                     text: 'Personal Details',
                     isSubHeading: true,
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 16,
                   ),
                   TextFromFieldWithPrefixSuffix(
@@ -90,7 +90,7 @@ class _MrOfficerNewVisitScreenState extends State<MrOfficerNewVisitScreen> {
                     labelText: 'Full Name *',
                     validator: (newValue) {},
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 16,
                   ),
                   TextFromFieldWithPrefixSuffix(
@@ -99,7 +99,7 @@ class _MrOfficerNewVisitScreenState extends State<MrOfficerNewVisitScreen> {
                     labelText: 'Age',
                     validator: (newValue) {},
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 16,
                   ),
                   CustomDropdown(
@@ -110,7 +110,7 @@ class _MrOfficerNewVisitScreenState extends State<MrOfficerNewVisitScreen> {
                       createVisitProvider.setSelectedGender(value!);
                     },
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 16,
                   ),
                   Row(
@@ -127,7 +127,7 @@ class _MrOfficerNewVisitScreenState extends State<MrOfficerNewVisitScreen> {
                           },
                         ),
                       ),
-                      SizedBox(
+                      const SizedBox(
                         width: 8,
                       ),
                       Expanded(
@@ -146,7 +146,7 @@ class _MrOfficerNewVisitScreenState extends State<MrOfficerNewVisitScreen> {
                       ),
                     ],
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 16,
                   ),
                   CustomDropdown(
@@ -158,7 +158,7 @@ class _MrOfficerNewVisitScreenState extends State<MrOfficerNewVisitScreen> {
                       createVisitProvider.setCountry(newValue);
                     },
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 16,
                   ),
                   TextFromFieldWithPrefixSuffix(
@@ -192,7 +192,7 @@ class _MrOfficerNewVisitScreenState extends State<MrOfficerNewVisitScreen> {
                           content);
                     },
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 16,
                   ),
                   TextFromFieldWithPrefixSuffix(
@@ -213,7 +213,7 @@ class _MrOfficerNewVisitScreenState extends State<MrOfficerNewVisitScreen> {
                               context, createVisitProvider.cities));
                     },
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 16,
                   ),
                   TextFromFieldWithPrefixSuffix(
@@ -222,14 +222,14 @@ class _MrOfficerNewVisitScreenState extends State<MrOfficerNewVisitScreen> {
                     maxLines: 2,
                     validator: (newValue) {},
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 16,
                   ),
                   CustomText(
                     text: 'More Details',
                     isSubHeading: true,
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 16,
                   ),
                   CustomDropdown(
@@ -239,7 +239,7 @@ class _MrOfficerNewVisitScreenState extends State<MrOfficerNewVisitScreen> {
                       onChanged: (newValue) {
                         createVisitProvider.setCategory(newValue);
                       }),
-                  SizedBox(
+                  const SizedBox(
                     height: 16,
                   ),
                   CustomDropdown(
@@ -252,7 +252,7 @@ class _MrOfficerNewVisitScreenState extends State<MrOfficerNewVisitScreen> {
                       createVisitProvider.setSpecialization(newValue);
                     },
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 16,
                   ),
                   createVisitProvider.selectedCategory == "Ambulance"
@@ -265,7 +265,7 @@ class _MrOfficerNewVisitScreenState extends State<MrOfficerNewVisitScreen> {
                               maxLines: 2,
                               validator: (newValue) {},
                             ),
-                            SizedBox(
+                            const SizedBox(
                               height: 16,
                             ),
                           ],
