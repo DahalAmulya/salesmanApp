@@ -315,7 +315,7 @@ class _MrAdminAttendanceReportScreenState
                       );
                     },
                   )
-                : Center(
+                : mrAdminAttendanceProvider.selectedUser == mrAdminAttendanceProvider.attendanceLogsUsersList[0] ?Center(
                     child: Padding(
                       padding: const EdgeInsets.only(top: 32.0),
                       child: CustomText(
@@ -323,7 +323,7 @@ class _MrAdminAttendanceReportScreenState
                         isSubHeading: true,
                       ),
                     ),
-                  ),
+                  ) : Container(),
             mrAdminAttendanceProvider.foundAttendance.isNotEmpty &&
                     mrAdminAttendanceProvider.selectedUser !=
                         mrAdminAttendanceProvider.attendanceLogsUsersList[0]
@@ -629,6 +629,6 @@ class _MrAdminAttendanceReportScreenState
           ],
         ),
       );
-    });
+    },);
   }
 }
