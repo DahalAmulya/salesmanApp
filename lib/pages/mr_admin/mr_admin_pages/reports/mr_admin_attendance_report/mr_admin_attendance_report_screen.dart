@@ -182,7 +182,15 @@ class _MrAdminAttendanceReportScreenState
                       ),
                       CustomElevatedButton(
                         onPressed: () {
-                          mrAdminAttendanceProvider.getAttendanceReport(context);
+                          if (mrAdminAttendanceProvider.selectedUser ==
+                              mrAdminAttendanceProvider
+                                  .attendanceLogsUsersList[0]) {
+                            mrAdminAttendanceProvider
+                                .getAllUserAttendanceReport(context);
+                          } else {
+                            mrAdminAttendanceProvider
+                                .getAttendanceReport(context);
+                          }
                           _triggerAnimation();
                         },
                         width: 0.90,
@@ -206,7 +214,119 @@ class _MrAdminAttendanceReportScreenState
             const SizedBox(
               height: 16,
             ),
-            mrAdminAttendanceProvider.foundAttendance.length != 0
+            mrAdminAttendanceProvider.selectedUser ==
+                    mrAdminAttendanceProvider.attendanceLogsUsersList[0] && mrAdminAttendanceProvider.allUserAttendanceReport.isNotEmpty
+                ? ListView.builder(
+                    shrinkWrap: true, // Shrink-wrap the ListView
+                    physics: BouncingScrollPhysics(),
+                    itemCount: mrAdminAttendanceProvider
+                        .allUserAttendanceReport.length,
+                    itemBuilder: (context, index) {
+                      String userName = mrAdminAttendanceProvider.allUserAttendanceReport[index]['username'];
+                      String totalHours = mrAdminAttendanceProvider.allUserAttendanceReport[index]['totalHoursWorked'].toString();
+                      String totalAttendance = mrAdminAttendanceProvider.allUserAttendanceReport[index]['totalAttendance'].toString();
+                      return AnimatedContainer(
+                        duration: Duration(milliseconds: 400 + (index * 250)),
+                        curve: Curves.easeInToLinear,
+                        transform: Matrix4.translationValues(
+                            myAnimation ? 0 : width, 0, 0),
+                        child: Column(
+                          children: [
+                            CustomContainer(
+                              horizontalMargin: 16,
+                              applyShadow: true,
+                              child: Badge(
+                                label: CustomText(
+                                  text: '${index + 1}',
+                                  isContent: true,
+                                ),
+                                backgroundColor: CustomColors.primaryColor,
+                                child: Column(
+                                  children: [
+                                    Row(
+                                      children: [
+                                        Expanded(
+                                          flex: 2,
+                                          child: CustomText(
+                                            text: 'Username',
+                                            isContent: true,
+                                            size: 16,
+                                          ),
+                                        ),
+                                        Expanded(
+                                          flex: 2,
+                                          child: CustomText(
+                                            text: userName,
+                                            isContent: true,
+                                            size: 16,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                    Row(
+                                      children: [
+                                        Expanded(
+                                          flex: 2,
+                                          child: CustomText(
+                                            text: 'Total Attendance',
+                                            isContent: true,
+                                            size: 16,
+                                          ),
+                                        ),
+                                        Expanded(
+                                          flex: 2,
+                                          child: CustomText(
+                                            text: totalAttendance,
+                                            isContent: true,
+                                            size: 16,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                    Row(
+                                      children: [
+                                        Expanded(
+                                          flex: 2,
+                                          child: CustomText(
+                                            text: 'Total Hours',
+                                            isContent: true,
+                                            size: 16,
+                                          ),
+                                        ),
+                                        Expanded(
+                                          flex: 2,
+                                          child: CustomText(
+                                            text: totalHours,
+                                            isContent: true,
+                                            size: 16,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
+                            const SizedBox(
+                              height: 16,
+                            ),
+                          ],
+                        ),
+                      );
+                    },
+                  )
+                : Center(
+                    child: Padding(
+                      padding: const EdgeInsets.only(top: 32.0),
+                      child: CustomText(
+                        text: 'No Attendance log found',
+                        isSubHeading: true,
+                      ),
+                    ),
+                  ),
+            mrAdminAttendanceProvider.foundAttendance.isNotEmpty &&
+                    mrAdminAttendanceProvider.selectedUser !=
+                        mrAdminAttendanceProvider.attendanceLogsUsersList[0]
                 ? CustomContainer(
                     horizontalPad: 0,
                     verticalPad: 0,
@@ -271,7 +391,8 @@ class _MrAdminAttendanceReportScreenState
                                 Expanded(
                                   flex: 2,
                                   child: CustomText(
-                                    text: mrAdminAttendanceProvider.totalHours.toStringAsFixed(3),
+                                    text: mrAdminAttendanceProvider.totalHours
+                                        .toStringAsFixed(3),
                                     isContent: true,
                                   ),
                                 ),
@@ -285,22 +406,24 @@ class _MrAdminAttendanceReportScreenState
                       ],
                     ),
                   )
-                : Center(
+                : mrAdminAttendanceProvider.selectedUser != mrAdminAttendanceProvider.attendanceLogsUsersList[0] ? Center(
                     child: Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 64.0),
+                      padding: const EdgeInsets.only(top: 32.0),
                       child: CustomText(
                         text: '',
                         isSubHeading: true,
                       ),
                     ),
-                  ),
+                  ) : Container(),
             const SizedBox(
               height: 16,
             ),
-            mrAdminAttendanceProvider.attendanceLogs.length != 0
+            mrAdminAttendanceProvider.attendanceLogs.isNotEmpty &&
+                    mrAdminAttendanceProvider.selectedUser !=
+                        mrAdminAttendanceProvider.attendanceLogsUsersList[0]
                 ? ListView.builder(
                     shrinkWrap: true, // Shrink-wrap the ListView
-                    physics: BouncingScrollPhysics(),
+                    physics: const BouncingScrollPhysics(),
                     itemCount: mrAdminAttendanceProvider.attendanceLogs.length,
                     itemBuilder: (context, index) {
                       String checkIn = mrAdminAttendanceProvider
@@ -494,7 +617,7 @@ class _MrAdminAttendanceReportScreenState
                         ),
                       );
                     })
-                : Center(
+                : mrAdminAttendanceProvider.selectedUser != mrAdminAttendanceProvider.attendanceLogsUsersList[0] ? Center(
                     child: Padding(
                       padding: const EdgeInsets.symmetric(vertical: 64.0),
                       child: CustomText(
@@ -502,7 +625,7 @@ class _MrAdminAttendanceReportScreenState
                         isSubHeading: true,
                       ),
                     ),
-                  ),
+                  ) : Container(),
           ],
         ),
       );
