@@ -259,7 +259,7 @@ class WeeklyPlanProvider with ChangeNotifier {
     }
     _foundStates = stateResult;
     notifyListeners();
-  }
+  } 
 
   void runDistrictSearchFilter(String enteredKeyword) {
     List<String> districtResult = [];
