@@ -5,15 +5,17 @@ import 'package:flutter/material.dart';
 import '../../../services/erp_services.dart';
 
 class MrAdminAttendanceProvider extends ChangeNotifier {
-  List<String> _attendanceLogsUsersList = ["Select User"];
+  List<String> _attendanceLogsUsersList = ["All Users"];
   List<String> _visitDateTypeList = ['Today', 'Yesterday', 'Custom'];
 
   List<dynamic> _usersList = [];
   List<dynamic> _attendanceLogs = [];
   Map<String, dynamic> _foundAttendance = {};
+  List<dynamic> _allUsersAttendanceReport = [];
 
+  List<dynamic> get allUserAttendanceReport => _allUsersAttendanceReport;
 
-  String _selectedUser = 'Select User';
+  String _selectedUser = 'All Users';
   String _selectedVisitType = 'Today';
   String _selectedUserId = '';
   String _from = '';
@@ -113,8 +115,8 @@ class MrAdminAttendanceProvider extends ChangeNotifier {
   }
 
   void getVisitLogsList(context) async {
-    _attendanceLogsUsersList = ["Select User"];
-    _selectedUser = 'Select User';
+    _attendanceLogsUsersList = ["All Users"];
+    _selectedUser = 'All Users';
     _selectedVisitType = 'Today';
     _selectedUserId = '';
     ERPResponse response = await ERPServices.getRequest('/visitLogs/users', context);
@@ -128,7 +130,7 @@ class MrAdminAttendanceProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  void getAttendanceReport(context)async{
+  void getAttendanceReport(context) async {
     if (_selectedUserId.isEmpty) {
       print("User ID is required");
       return;
@@ -143,6 +145,14 @@ class MrAdminAttendanceProvider extends ChangeNotifier {
       print(_totalHours);
       print(_foundAttendance);
     }
+    notifyListeners();
+  }
+
+  void getAllUserAttendanceReport(context) async {
+    ERPResponse response = await ERPServices.getRequest('/attendance/date/all?from=$_from&to=$_to',context);
+    _allUsersAttendanceReport = jsonDecode(response.body);
+    print(_allUsersAttendanceReport.length);
+    print(_allUsersAttendanceReport);
     notifyListeners();
   }
 }
