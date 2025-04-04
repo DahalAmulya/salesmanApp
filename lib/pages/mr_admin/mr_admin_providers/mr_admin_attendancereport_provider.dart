@@ -18,7 +18,7 @@ class MrAdminAttendanceProvider extends ChangeNotifier {
   String _selectedUserId = '';
   String _from = '';
   String _to = '';
-  String _totalHours = '';
+  double _totalHours = 0;
   bool _isExpanded = true;
 
   List<String> get attendanceLogsUsersList => _attendanceLogsUsersList;
@@ -37,7 +37,7 @@ class MrAdminAttendanceProvider extends ChangeNotifier {
   String get selectedUserId => _selectedUserId;
   String get from => _from;
   String get to => _to;
-  String get totalHours => _totalHours;
+  double get totalHours => _totalHours;
   String get selectedVisitType => _selectedVisitType;
   bool get isExpanded => _isExpanded;
 
@@ -139,10 +139,10 @@ class MrAdminAttendanceProvider extends ChangeNotifier {
 
     if (response.statusCode == 200) {
       print(_attendanceLogs[0]);
-      _totalHours = foundAttendance['totalTime'];
-
+      _totalHours = _foundAttendance['totalHours'];
+      print(_totalHours);
+      print(_foundAttendance);
     }
     notifyListeners();
-
   }
 }
