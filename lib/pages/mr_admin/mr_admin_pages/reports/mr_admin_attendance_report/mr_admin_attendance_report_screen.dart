@@ -110,7 +110,7 @@ class _MrAdminAttendanceReportScreenState
                 children: [
                   Column(
                     children: [
-                      SizedBox(
+                      const SizedBox(
                         height: 8,
                       ),
                       CustomDropdown(
@@ -122,7 +122,7 @@ class _MrAdminAttendanceReportScreenState
                           mrAdminAttendanceProvider.setSelectedUser(value);
                         },
                       ),
-                      SizedBox(
+                      const SizedBox(
                         height: 16,
                       ),
                       CustomDropdown(
@@ -133,7 +133,7 @@ class _MrAdminAttendanceReportScreenState
                           mrAdminAttendanceProvider.setSelectedVisitType(value);
                         },
                       ),
-                      SizedBox(
+                      const SizedBox(
                         height: 16,
                       ),
                       if (mrAdminAttendanceProvider.selectedVisitType ==
@@ -155,7 +155,7 @@ class _MrAdminAttendanceReportScreenState
                                 validator: (value) {},
                               ),
                             ),
-                            SizedBox(
+                            const SizedBox(
                               width: 12,
                             ),
                             Expanded(
@@ -195,7 +195,7 @@ class _MrAdminAttendanceReportScreenState
                           size: 20.0,
                         ),
                       ),
-                      SizedBox(
+                      const SizedBox(
                         height: 16,
                       ),
                     ],
@@ -203,7 +203,7 @@ class _MrAdminAttendanceReportScreenState
                 ],
               ),
             ),
-            SizedBox(
+            const SizedBox(
               height: 16,
             ),
             mrAdminAttendanceProvider.foundAttendance.length != 0
@@ -228,9 +228,8 @@ class _MrAdminAttendanceReportScreenState
                                     isContent: true,
                                   ),
                                 ),
-                                SizedBox(width: 8),
                                 Expanded(
-                                  flex: 3,
+                                  flex: 2,
                                   child: CustomText(
                                     text:
                                         mrAdminAttendanceProvider.selectedUser,
@@ -248,9 +247,8 @@ class _MrAdminAttendanceReportScreenState
                                     isContent: true,
                                   ),
                                 ),
-                                SizedBox(width: 8),
                                 Expanded(
-                                  flex: 3,
+                                  flex: 2,
                                   child: CustomText(
                                     text: mrAdminAttendanceProvider
                                         .attendanceLogs.length
@@ -269,17 +267,17 @@ class _MrAdminAttendanceReportScreenState
                                     isContent: true,
                                   ),
                                 ),
-                                SizedBox(width: 8),
+                                // const SizedBox(width: 8),
                                 Expanded(
-                                  flex: 3,
+                                  flex: 2,
                                   child: CustomText(
-                                    text: mrAdminAttendanceProvider.totalHours,
+                                    text: mrAdminAttendanceProvider.totalHours.toStringAsFixed(3),
                                     isContent: true,
                                   ),
                                 ),
                               ],
                             ),
-                            SizedBox(
+                            const SizedBox(
                               height: 16,
                             ),
                           ],
@@ -296,7 +294,7 @@ class _MrAdminAttendanceReportScreenState
                       ),
                     ),
                   ),
-            SizedBox(
+            const SizedBox(
               height: 16,
             ),
             mrAdminAttendanceProvider.attendanceLogs.length != 0
@@ -323,7 +321,7 @@ class _MrAdminAttendanceReportScreenState
                           .toString();
                       String totalHour = mrAdminAttendanceProvider
                           .attendanceLogs[index]['totalHour']
-                          .toString();
+                          .toStringAsFixed(2);
                       return AnimatedContainer(
                         duration: Duration(milliseconds: 400 + (index * 250)),
                         curve: Curves.easeInToLinear,
@@ -347,7 +345,7 @@ class _MrAdminAttendanceReportScreenState
                                         Expanded(
                                           flex: 2,
                                           child: CustomText(
-                                            text: 'Check In Time',
+                                            text: 'Check-in Time',
                                             isContent: true,
                                             size: 16,
                                           ),
@@ -367,7 +365,7 @@ class _MrAdminAttendanceReportScreenState
                                         Expanded(
                                           flex: 2,
                                           child: CustomText(
-                                            text: 'Check In Latitude',
+                                            text: 'Check-in Latitude',
                                             isContent: true,
                                             size: 16,
                                           ),
@@ -387,7 +385,7 @@ class _MrAdminAttendanceReportScreenState
                                         Expanded(
                                           flex: 2,
                                           child: CustomText(
-                                            text: 'Check In Longitude',
+                                            text: 'Check-in Longitude',
                                             isContent: true,
                                             size: 16,
                                           ),
@@ -402,12 +400,13 @@ class _MrAdminAttendanceReportScreenState
                                         ),
                                       ],
                                     ),
+                                    const Divider(),
                                     Row(
                                       children: [
                                         Expanded(
                                           flex: 2,
                                           child: CustomText(
-                                            text: 'Check Out Time',
+                                            text: 'Check-out Time',
                                             isContent: true,
                                             size: 16,
                                           ),
@@ -427,7 +426,7 @@ class _MrAdminAttendanceReportScreenState
                                         Expanded(
                                           flex: 2,
                                           child: CustomText(
-                                            text: 'Check Out Latitude',
+                                            text: 'Check-out Latitude',
                                             isContent: true,
                                             size: 16,
                                           ),
@@ -447,7 +446,7 @@ class _MrAdminAttendanceReportScreenState
                                         Expanded(
                                           flex: 2,
                                           child: CustomText(
-                                            text: 'Check Out Longitude',
+                                            text: 'Check-out Longitude',
                                             isContent: true,
                                             size: 16,
                                           ),
@@ -462,6 +461,7 @@ class _MrAdminAttendanceReportScreenState
                                         ),
                                       ],
                                     ),
+                                    const Divider(),
                                     Row(
                                       children: [
                                         Expanded(
@@ -482,11 +482,12 @@ class _MrAdminAttendanceReportScreenState
                                         ),
                                       ],
                                     ),
+                                    const Divider(),
                                   ],
                                 ),
                               ),
                             ),
-                            SizedBox(
+                            const SizedBox(
                               height: 16,
                             ),
                           ],
