@@ -87,6 +87,12 @@ class _MrAdminReportScreenState extends State<MrAdminReportScreen> {
         tabName: 'Visit Log Report',
         centerTitle: true,
         automaticallyImplyLeading: true,
+        showTrailingIcons: true,
+        applyShadow: true,
+        showApproveButton: true,
+        onTapTrailingApproveIcon: (){
+          print('Tapped on check button');
+        },
         onTap: () {
           Navigator.of(context).pop(MarketingManagerConstants.homePage);
         },
@@ -403,13 +409,13 @@ class _MrAdminReportScreenState extends State<MrAdminReportScreen> {
                               children: [
                                 Row(
                                   children: [
-                                    // Expanded(
-                                    //   flex: 2,
-                                    //   child: CustomText(
-                                    //     text: 'Created By',
-                                    //     isContent: true,
-                                    //   ),
-                                    // ),
+                                    Expanded(
+                                      flex: 2,
+                                      child: CustomText(
+                                        text: 'User',
+                                        isContent: true,
+                                      ),
+                                    ),
                                     Expanded(
                                       flex: 3,
                                       child: CustomText(
