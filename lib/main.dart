@@ -35,7 +35,7 @@ import 'package:deskgoo/routes/route_generator.dart';
 import 'package:deskgoo/routes/route_generator_constants.dart';
 import 'package:deskgoo/services/firebaseApi.dart';
 import 'package:deskgoo/utils/readUserCred.dart';
-import 'package:firebase_core/firebase_core.dart';
+// import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:deskgoo/providers/auth_provider/user_auth_provider.dart';
 import 'package:deskgoo/providers/themes_provider/theme_changer_provider.dart';
