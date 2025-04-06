@@ -223,10 +223,10 @@ class CustomAppBar extends StatelessWidget {
                         child: Padding(
                           padding: const EdgeInsets.only(right: 12.0),
                           child: SizedBox(
-                            height: 48,
-                            width: 48,
+                            height: 36,
+                            width: 36,
                             child: Image.asset(
-                              'assets/images/approval.png',
+                              'assets/images/check-mark.png',
                             ),
                           ),
                         ),
