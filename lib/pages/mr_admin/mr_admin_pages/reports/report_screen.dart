@@ -83,19 +83,23 @@ class _MrAdminReportScreenState extends State<MrAdminReportScreen> {
   PreferredSize _appBar(context) {
     return PreferredSize(
       preferredSize: Size.fromHeight(kToolbarHeight),
-      child: CustomAppBar(
-        tabName: 'Visit Log Report',
-        centerTitle: true,
-        automaticallyImplyLeading: true,
-        showTrailingIcons: true,
-        applyShadow: true,
-        showApproveButton: true,
-        onTapTrailingApproveIcon: (){
-          print('Tapped on check button');
-        },
-        onTap: () {
-          Navigator.of(context).pop(MarketingManagerConstants.homePage);
-        },
+      child: Consumer<MrAdminVisitLogProvider>(
+        builder: (context, mrAdminVisitLogProvider, _) {
+          return CustomAppBar(
+            tabName: 'Visit Log Report',
+            centerTitle: true,
+            automaticallyImplyLeading: true,
+            showTrailingIcons: true,
+            applyShadow: true,
+            showApproveButton: true,
+            onTapTrailingApproveIcon: (){
+              mrAdminVisitLogProvider.updateVisitLogApprovals(context);
+            },
+            onTap: () {
+              Navigator.of(context).pop(MarketingManagerConstants.homePage);
+            },
+          );
+        }
       ),
     );
   }
@@ -438,9 +442,9 @@ class _MrAdminReportScreenState extends State<MrAdminReportScreen> {
                                     // ),
                                   ],
                                 ),
-                                const SizedBox(
-                                  height: 0,
-                                ),
+                                // const SizedBox(
+                                //   height: 0,
+                                // ),
                                 Row(
                                   children: [
                                     Expanded(
@@ -450,7 +454,7 @@ class _MrAdminReportScreenState extends State<MrAdminReportScreen> {
                                         isContent: true,
                                       ),
                                     ),
-                                    const SizedBox(width: 8),
+                                    // const SizedBox(width: 8),
                                     Expanded(
                                       flex: 3,
                                       child: CustomText(
@@ -482,9 +486,9 @@ class _MrAdminReportScreenState extends State<MrAdminReportScreen> {
                                                 : 'City'),
                                       ),
                                     ),
-                                    const SizedBox(
-                                      width: 8,
-                                    ),
+                                    // const SizedBox(
+                                    //   width: 8,
+                                    // ),
                                     Expanded(
                                       flex: 3,
                                       child: CustomText(
@@ -523,7 +527,7 @@ class _MrAdminReportScreenState extends State<MrAdminReportScreen> {
                                         isContent: true,
                                       ),
                                     ),
-                                    const SizedBox(width: 8),
+                                    // const SizedBox(width: 8),
                                     Expanded(
                                       flex: 3,
                                       child: CustomText(
@@ -533,9 +537,9 @@ class _MrAdminReportScreenState extends State<MrAdminReportScreen> {
                                     ),
                                   ],
                                 ),
-                                const SizedBox(
-                                  height: 4,
-                                ),
+                                // const SizedBox(
+                                //   height: 4,
+                                // ),
                                 Row(
                                   children: [
                                     Expanded(
@@ -545,7 +549,7 @@ class _MrAdminReportScreenState extends State<MrAdminReportScreen> {
                                         isContent: true,
                                       ),
                                     ),
-                                    const SizedBox(width: 8),
+                                    // const SizedBox(width: 8),
                                     Expanded(
                                       flex: 3,
                                       child: CustomText(

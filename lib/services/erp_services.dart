@@ -50,7 +50,7 @@ class ERPServices {
     }
   }
 
-  static Future<ERPResponse> postRequest(String path, Map body, context) async {
+  static Future<ERPResponse> postRequest(String path, final body, context) async {
     try {
       Map<String, String> header = {
         'Content-Type': 'Application/json',
@@ -58,6 +58,35 @@ class ERPServices {
         '_id': userId
       };
       final response = await http.post(
+        Uri.parse('$apiURL$path'),
+        headers: header,
+        body: jsonEncode(body),
+      );
+      if(response.statusCode == 403){
+        ToastMessageUtils().showToastMessage(
+                  'Session Expired', ToastGravity.TOP, CustomColors.lightRed);
+        Navigator.of(context).pop(MarketingManagerConstants.indexPage);
+      }
+      return ERPResponse(
+        statusCode: response.statusCode,
+        body: response.body,
+      );
+    } catch (err) {
+      return ERPResponse(
+        statusCode: 69,
+        body: err.toString(),
+      );
+    }
+  }
+
+  static Future<ERPResponse> putRequest(String path, final body, context) async {
+    try {
+      Map<String, String> header = {
+        'Content-Type': 'Application/json',
+        'Authorization': 'Bearer $accessToken',
+        '_id': userId
+      };
+      final response = await http.put(
         Uri.parse('$apiURL$path'),
         headers: header,
         body: jsonEncode(body),

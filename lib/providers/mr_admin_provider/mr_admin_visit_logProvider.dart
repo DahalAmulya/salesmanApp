@@ -4,11 +4,13 @@ import 'package:deskgoo/services/erp_services.dart';
 import 'package:deskgoo/themes/custom_colors.dart';
 import 'package:deskgoo/utils/toast_message.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:nepali_utils/nepali_utils.dart';
 
 class MrAdminVisitLogProvider extends ChangeNotifier {
   Color _badgeColor = CustomColors.lightYellow;
   List<String> _approvalType = ['approved', 'pending', 'rejected'];
+  List<Map<String,dynamic>> _approvedVisitLogs = [];
   bool _myAnimation = false;
   double _width = 0;
   List<String> _visitLogsUsersList = ["Select User"];
@@ -21,8 +23,8 @@ class MrAdminVisitLogProvider extends ChangeNotifier {
   String _selectedUser = 'Select User';
   String _selectedVisitType = 'Today';
   String _selectedVisitAddress = 'Country';
-  String _from = '';
-  String _to = '';
+  String _from = '${DateTime.now().toString().split(' ')[0]}';
+  String _to = '${DateTime.now().toString().split(' ')[0]}';
   String _executiveName = '';
   NepaliDateTime nepaliDateTime = NepaliDateTime.now();
   NepaliDateFormat yearMonthDateBSFormat = NepaliDateFormat('yyyy-MM-dd G');
@@ -225,6 +227,12 @@ class MrAdminVisitLogProvider extends ChangeNotifier {
 
   void approvalStatus(int index, String value) {
     visitList[index]['approvalStatus'] = value;
+    Map<String,dynamic> log = {
+      "_id": visitList[index]["logId"],
+          "approvalStatus": visitList[index]['approvalStatus']
+    };
+    _approvedVisitLogs.add(log);
+    print(_approvedVisitLogs);
     if(visitList[index]['approvalStatus'] == 'approved'){
       _badgeColor = CustomColors.primaryColor;
     }else if(visitList[index]['approvalStatus'] == 'pending'){
@@ -296,5 +304,23 @@ class MrAdminVisitLogProvider extends ChangeNotifier {
       }
     }
     notifyListeners();
+  }
+
+  void resetValues(){
+    _selectedUserId = '';
+    _selectedUser = 'Select User';
+    _selectedVisitType = 'Today';
+  }
+  
+  void updateVisitLogApprovals(context) async {
+    ERPResponse response = await ERPServices.putRequest('/visitLogs?visitLogId=$_selectedUserId&from=$_from&to=$_to', _approvedVisitLogs, context);
+    print(response.statusCode);
+    print(response.body);
+    if(response.statusCode == 200){
+      ToastMessageUtils().showToastMessage('Logs Approved successfully', ToastGravity.TOP, CustomColors.lightGreen);
+      Navigator.pop(context);
+    }else{
+      ToastMessageUtils().showToastMessage('Logs Approved failed', ToastGravity.TOP, CustomColors.lightRed);
+    }
   }
 }
