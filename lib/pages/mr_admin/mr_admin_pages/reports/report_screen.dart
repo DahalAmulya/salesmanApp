@@ -84,23 +84,22 @@ class _MrAdminReportScreenState extends State<MrAdminReportScreen> {
     return PreferredSize(
       preferredSize: Size.fromHeight(kToolbarHeight),
       child: Consumer<MrAdminVisitLogProvider>(
-        builder: (context, mrAdminVisitLogProvider, _) {
-          return CustomAppBar(
-            tabName: 'Visit Log Report',
-            centerTitle: true,
-            automaticallyImplyLeading: true,
-            showTrailingIcons: true,
-            applyShadow: true,
-            showApproveButton: true,
-            onTapTrailingApproveIcon: (){
-              mrAdminVisitLogProvider.updateVisitLogApprovals(context);
-            },
-            onTap: () {
-              Navigator.of(context).pop(MarketingManagerConstants.homePage);
-            },
-          );
-        }
-      ),
+          builder: (context, mrAdminVisitLogProvider, _) {
+        return CustomAppBar(
+          tabName: 'Visit Log Report',
+          centerTitle: true,
+          automaticallyImplyLeading: true,
+          showTrailingIcons: true,
+          applyShadow: true,
+          showApproveButton: true,
+          onTapTrailingApproveIcon: () {
+            mrAdminVisitLogProvider.updateVisitLogApprovals(context);
+          },
+          onTap: () {
+            Navigator.of(context).pop(MarketingManagerConstants.homePage);
+          },
+        );
+      }),
     );
   }
 
@@ -377,14 +376,12 @@ class _MrAdminReportScreenState extends State<MrAdminReportScreen> {
                               adminVisitLogsProvider.getVisitLogsById(context);
                               adminVisitLogsProvider.triggerAnimation();
                             },
-                            width: 0.90,
-                            height: 50,
+                            width: 1,
+                            height: 45,
                             backgroundColor: CustomColors.primaryColor,
                             widget: CustomText(
                               text: 'Submit',
-                              fontWeight: FontWeight.w600,
-                              color: CustomColors.primaryBlack,
-                              size: 20.0,
+                              isSubHeading: true,
                             ),
                           ),
                           const SizedBox(
@@ -398,7 +395,7 @@ class _MrAdminReportScreenState extends State<MrAdminReportScreen> {
                 const SizedBox(
                   height: 16,
                 ),
-                adminVisitLogsProvider.visitList.length != 0
+                adminVisitLogsProvider.visitList.isNotEmpty
                     ? CustomContainer(
                         horizontalPad: 0,
                         verticalPad: 0,
@@ -421,7 +418,7 @@ class _MrAdminReportScreenState extends State<MrAdminReportScreen> {
                                       ),
                                     ),
                                     Expanded(
-                                      flex: 3,
+                                      flex: 2,
                                       child: CustomText(
                                         text:
                                             adminVisitLogsProvider.selectedUser,
@@ -442,9 +439,6 @@ class _MrAdminReportScreenState extends State<MrAdminReportScreen> {
                                     // ),
                                   ],
                                 ),
-                                // const SizedBox(
-                                //   height: 0,
-                                // ),
                                 Row(
                                   children: [
                                     Expanded(
@@ -456,7 +450,7 @@ class _MrAdminReportScreenState extends State<MrAdminReportScreen> {
                                     ),
                                     // const SizedBox(width: 8),
                                     Expanded(
-                                      flex: 3,
+                                      flex: 2,
                                       child: CustomText(
                                         text: adminVisitLogsProvider
                                             .visitList.length
@@ -486,11 +480,8 @@ class _MrAdminReportScreenState extends State<MrAdminReportScreen> {
                                                 : 'City'),
                                       ),
                                     ),
-                                    // const SizedBox(
-                                    //   width: 8,
-                                    // ),
                                     Expanded(
-                                      flex: 3,
+                                      flex: 2,
                                       child: CustomText(
                                         text:
                                             adminVisitLogsProvider
@@ -529,7 +520,7 @@ class _MrAdminReportScreenState extends State<MrAdminReportScreen> {
                                     ),
                                     // const SizedBox(width: 8),
                                     Expanded(
-                                      flex: 3,
+                                      flex: 2,
                                       child: CustomText(
                                         text: adminVisitLogsProvider.from,
                                         isContent: true,
@@ -537,9 +528,9 @@ class _MrAdminReportScreenState extends State<MrAdminReportScreen> {
                                     ),
                                   ],
                                 ),
-                                // const SizedBox(
-                                //   height: 4,
-                                // ),
+                                const SizedBox(
+                                  height: 4,
+                                ),
                                 Row(
                                   children: [
                                     Expanded(
@@ -551,13 +542,33 @@ class _MrAdminReportScreenState extends State<MrAdminReportScreen> {
                                     ),
                                     // const SizedBox(width: 8),
                                     Expanded(
-                                      flex: 3,
+                                      flex: 2,
                                       child: CustomText(
                                         text: adminVisitLogsProvider.to,
                                         isContent: true,
                                       ),
                                     ),
                                   ],
+                                ),
+                                const SizedBox(
+                                  height: 4,
+                                ),
+                                CustomElevatedButton(
+                                  onPressed: () {},
+                                  width: 1,
+                                  height: 45,
+                                  backgroundColor: CustomColors.primaryColor,
+                                  widget: Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      Icon(FontAwesomeIcons.mapLocation,color: CustomColors.primaryBlack,),
+                                      const SizedBox(width: 12,),
+                                      CustomText(
+                                        text: 'View on Map',
+                                        isSubHeading: true,
+                                      ),
+                                    ],
+                                  ),
                                 ),
                                 const SizedBox(
                                   height: 16,
@@ -631,7 +642,12 @@ class _MrAdminReportScreenState extends State<MrAdminReportScreen> {
                                       text: '${index + 1}',
                                       isContent: true,
                                     ),
-                                    backgroundColor: approvalStatus == 'approved' ? CustomColors.primaryColor : approvalStatus == 'pending' ? CustomColors.lightYellow : CustomColors.lightRed,
+                                    backgroundColor:
+                                        approvalStatus == 'approved'
+                                            ? CustomColors.primaryColor
+                                            : approvalStatus == 'pending'
+                                                ? CustomColors.lightYellow
+                                                : CustomColors.lightRed,
                                     // backgroundColor: adminVisitLogsProvider.badgeColor,
                                     child: Column(
                                       mainAxisAlignment:
@@ -877,20 +893,26 @@ class _MrAdminReportScreenState extends State<MrAdminReportScreen> {
                                         ),
                                         Row(
                                           children: [
-                                                Expanded(
-                                                  child: CustomText(
-                                                    text: 'Approval Status',
-                                                    isContent: true,
-                                                  ),
-                                                ),
+                                            Expanded(
+                                              child: CustomText(
+                                                text: 'Approval Status',
+                                                isContent: true,
+                                              ),
+                                            ),
                                             SizedBox(
-                                              width: MediaQuery.of(context).size.width * 0.45,
+                                              width: MediaQuery.of(context)
+                                                      .size
+                                                      .width *
+                                                  0.45,
                                               child: CustomDropdown(
                                                 labelText: '',
-                                                items: adminVisitLogsProvider.approvalType,
+                                                items: adminVisitLogsProvider
+                                                    .approvalType,
                                                 value: approvalStatus,
                                                 onChanged: (value) {
-                                                  adminVisitLogsProvider.approvalStatus(index, value!);
+                                                  adminVisitLogsProvider
+                                                      .approvalStatus(
+                                                          index, value!);
                                                 },
                                               ),
                                             ),
