@@ -1,16 +1,24 @@
 import 'dart:convert';
+import 'dart:ui' as ui;
 
+import 'package:custom_info_window/custom_info_window.dart';
 import 'package:deskgoo/services/erp_services.dart';
 import 'package:deskgoo/themes/custom_colors.dart';
 import 'package:deskgoo/utils/toast_message.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:nepali_utils/nepali_utils.dart';
+
+import '../../widgets/texts/custom_text.dart';
 
 class MrAdminVisitLogProvider extends ChangeNotifier {
   Color _badgeColor = CustomColors.lightYellow;
+  CustomInfoWindowController _customInfoWindowController =
+  CustomInfoWindowController();
   List<String> _approvalType = ['approved', 'pending', 'rejected'];
-  List<Map<String,dynamic>> _approvedVisitLogs = [];
+  List<Map<String, dynamic>> _approvedVisitLogs = [];
   bool _myAnimation = false;
   double _width = 0;
   List<String> _visitLogsUsersList = ["Select User"];
@@ -23,8 +31,8 @@ class MrAdminVisitLogProvider extends ChangeNotifier {
   String _selectedUser = 'Select User';
   String _selectedVisitType = 'Today';
   String _selectedVisitAddress = 'Country';
-  String _from = '${DateTime.now().toString().split(' ')[0]}';
-  String _to = '${DateTime.now().toString().split(' ')[0]}';
+  String _from = DateTime.now().toString().split(' ')[0];
+  String _to = DateTime.now().toString().split(' ')[0];
   String _executiveName = '';
   NepaliDateTime nepaliDateTime = NepaliDateTime.now();
   NepaliDateFormat yearMonthDateBSFormat = NepaliDateFormat('yyyy-MM-dd G');
@@ -49,6 +57,13 @@ class MrAdminVisitLogProvider extends ChangeNotifier {
   String _selectedRegion = '';
   String _selectedCities = '';
   String _selectedState = '';
+  Set<Marker> _visitLogMarkers = {};
+  double _latitude = 0;
+  double _longitude = 0;
+  String _pocName = '';
+  String _pocAddress = '';
+  String _pocNumber = '';
+  String _profileImage = '';
 
   TextEditingController _fromTextEditingController = TextEditingController();
   TextEditingController _toTextEditingController = TextEditingController();
@@ -100,6 +115,11 @@ class MrAdminVisitLogProvider extends ChangeNotifier {
   String get to => _to;
   String get executiveName => _executiveName;
   Color get badgeColor => _badgeColor;
+  CustomInfoWindowController get customInfoWindowController =>
+      _customInfoWindowController;
+  Set<Marker> get visitLogMarkers => _visitLogMarkers;
+  double get latitude => _latitude;
+  double get longitude => _longitude;
   // TextEditingController get fromTextEditingController =>
   //     _fromTextEditingController;
   // TextEditingController get toTextEditingController => _toTextEditingController;
@@ -117,11 +137,11 @@ class MrAdminVisitLogProvider extends ChangeNotifier {
     DateTime yesterday = currentDate.subtract(Duration(days: 1));
     _selectedVisitType = visitType;
     if (_selectedVisitType == _visitDateTypeList[0]) {
-      _from = '${currentDate.toString().split(' ')[0]}';
-      _to = '${currentDate.toString().split(' ')[0]}';
+      _from = currentDate.toString().split(' ')[0];
+      _to = currentDate.toString().split(' ')[0];
     } else if (_selectedVisitType == _visitDateTypeList[1]) {
-      _from = '${yesterday.toString().split(' ')[0]}';
-      _to = '${yesterday.toString().split(' ')[0]}';
+      _from = yesterday.toString().split(' ')[0];
+      _to = yesterday.toString().split(' ')[0];
     } else {}
 
     notifyListeners();
@@ -227,17 +247,17 @@ class MrAdminVisitLogProvider extends ChangeNotifier {
 
   void approvalStatus(int index, String value) {
     visitList[index]['approvalStatus'] = value;
-    Map<String,dynamic> log = {
+    Map<String, dynamic> log = {
       "_id": visitList[index]["logId"],
-          "approvalStatus": visitList[index]['approvalStatus']
+      "approvalStatus": visitList[index]['approvalStatus']
     };
     _approvedVisitLogs.add(log);
     print(_approvedVisitLogs);
-    if(visitList[index]['approvalStatus'] == 'approved'){
+    if (visitList[index]['approvalStatus'] == 'approved') {
       _badgeColor = CustomColors.primaryColor;
-    }else if(visitList[index]['approvalStatus'] == 'pending'){
+    } else if (visitList[index]['approvalStatus'] == 'pending') {
       _badgeColor = CustomColors.lightYellow;
-    }else{
+    } else {
       _badgeColor = CustomColors.lightRed;
     }
     notifyListeners();
@@ -291,14 +311,253 @@ class MrAdminVisitLogProvider extends ChangeNotifier {
       ERPResponse response = await ERPServices.getRequest(
           '/visitLogs?visitLogId=$_selectedUserId&from=$_from&to=$_to',
           context);
+      _visitLogMarkers.clear();
       if (response.statusCode == 200) {
         final body = jsonDecode(response.body);
         _foundVisit = body['visitLogs'];
         _visitList = _foundVisit['visitLogs'];
         _executiveName = _foundVisit['username'];
         // print(body);
-        print(_foundVisit);
+        // print(_foundVisit);
         // print(_visitList);
+
+        for(int index = 0; index < _visitList.length; index++){
+          _pocName = _visitList[index]['pocName'];
+          _pocAddress = _visitList[index]['pocAddress'];
+          _pocNumber = _visitList[index]['pocNumber'];
+          _latitude = _visitList[index]['latitude'];
+          _longitude = _visitList[index]['longitude'];
+          String executiveName = _selectedUser;
+          // String pocNumber = adminVisitLogsProvider.foundVisit['visitLogs']['pocNumber'];
+          String approvalStatus =
+              visitList[index]['approvalStatus'];
+          String pocName =visitList[index]['pocName'];
+          String pocAddress =visitList[index]['pocAddress'];
+          String pocNumber =
+          visitList[index]['pocNumber'];
+          String pocCategory = visitList[index]['pocCategory'];
+          String pocSpecialization = visitList[index]['pocSpecialization'];
+          String remarks =visitList[index]['remarks'];
+          String visitType =visitList[index]['visitType'];
+          String mobileTime =visitList[index]['mobileTime'];
+          double latitude =visitList[index]['latitude'];
+          double longitude =visitList[index]['longitude'];
+
+          final Uint8List? icon =
+          await getBytesFromAsset('assets/images/userLocation.png', 120);
+
+          String markerId = _visitList[index].toString();
+
+          _visitLogMarkers.add(
+            Marker(
+              markerId: MarkerId(markerId), // Ensure the MarkerId is unique
+              icon: BitmapDescriptor.bytes(
+                icon!,
+                bitmapScaling: MapBitmapScaling.auto,
+                imagePixelRatio: 2.3,
+              ),
+              onTap: () {
+                if (_customInfoWindowController.addInfoWindow != null) {
+                  _customInfoWindowController.addInfoWindow!(
+                    Container(
+                      clipBehavior: Clip.antiAlias,
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(24),
+                      ),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Row(
+                            mainAxisAlignment:
+                            MainAxisAlignment.spaceBetween,
+                            children: [
+                              Expanded(
+                                child: CustomText(
+                                  text: 'POC',
+                                  isContent: true,
+                                ),
+                              ),
+                              Expanded(
+                                child: CustomText(
+                                  text: pocName,
+                                  isContent: true,
+                                ),
+                              ),
+                            ],
+                          ),
+                          Row(
+                            mainAxisAlignment:
+                            MainAxisAlignment.spaceBetween,
+                            children: [
+                              Expanded(
+                                child: CustomText(
+                                  text: 'Visit Type',
+                                  isContent: true,
+                                ),
+                              ),
+                              Expanded(
+                                child: CustomText(
+                                  text: visitType,
+                                  isContent: true,
+                                ),
+                              ),
+                            ],
+                          ),
+                          Row(
+                            mainAxisAlignment:
+                            MainAxisAlignment.spaceBetween,
+                            children: [
+                              Expanded(
+                                child: CustomText(
+                                  text: 'Category',
+                                  isContent: true,
+                                ),
+                              ),
+                              Expanded(
+                                child: CustomText(
+                                  text: pocCategory,
+                                  isContent: true,
+                                ),
+                              ),
+                            ],
+                          ),
+                          Row(
+                            mainAxisAlignment:
+                            MainAxisAlignment.spaceBetween,
+                            children: [
+                              Expanded(
+                                child: CustomText(
+                                  text: 'Specialization',
+                                  isContent: true,
+                                ),
+                              ),
+                              Expanded(
+                                child: CustomText(
+                                  text: pocSpecialization,
+                                  isContent: true,
+                                  textOverflow:
+                                  TextOverflow.visible,
+                                  maxLines: 3,
+                                ),
+                              ),
+                            ],
+                          ),
+                          Row(
+                            mainAxisAlignment:
+                            MainAxisAlignment.spaceBetween,
+                            children: [
+                              Expanded(
+                                child: CustomText(
+                                  text: 'Remarks',
+                                  isContent: true,
+                                ),
+                              ),
+                              Expanded(
+                                child: CustomText(
+                                  text: remarks,
+                                  isContent: true,
+                                  textOverflow:
+                                  TextOverflow.visible,
+                                  maxLines: 3,
+                                ),
+                              ),
+                            ],
+                          ),
+                          Row(
+                            mainAxisAlignment:
+                            MainAxisAlignment.spaceBetween,
+                            children: [
+                              Expanded(
+                                child: CustomText(
+                                  text: 'Executive',
+                                  isContent: true,
+                                ),
+                              ),
+                              Expanded(
+                                child: CustomText(
+                                  text: executiveName,
+                                  isContent: true,
+                                  textOverflow:
+                                  TextOverflow.visible,
+                                  maxLines: 3,
+                                ),
+                              ),
+                            ],
+                          ),
+                          Row(
+                            mainAxisAlignment:
+                            MainAxisAlignment.spaceBetween,
+                            children: [
+                              Expanded(
+                                child: CustomText(
+                                  text: 'Address',
+                                  isContent: true,
+                                ),
+                              ),
+                              Expanded(
+                                child: CustomText(
+                                  text: pocAddress,
+                                  isContent: true,
+                                  textOverflow:
+                                  TextOverflow.visible,
+                                  maxLines: 3,
+                                ),
+                              ),
+                            ],
+                          ),
+                          Row(
+                            mainAxisAlignment:
+                            MainAxisAlignment.spaceBetween,
+                            children: [
+                              Expanded(
+                                child: CustomText(
+                                  text: 'Number',
+                                  isContent: true,
+                                ),
+                              ),
+                              Expanded(
+                                child: CustomText(
+                                  text: pocNumber,
+                                  isContent: true,
+                                  maxLines: 2,
+                                ),
+                              ),
+                            ],
+                          ),
+                          Row(
+                            mainAxisAlignment:
+                            MainAxisAlignment.spaceBetween,
+                            children: [
+                              Expanded(
+                                child: CustomText(
+                                  text: 'Date',
+                                  isContent: true,
+                                ),
+                              ),
+                              Expanded(
+                                child: CustomText(
+                                  text: mobileTime,
+                                  isContent: true,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
+                    ),
+                    LatLng(
+                      _latitude,
+                      _longitude,
+                    ),
+                  );
+                }
+              },
+              position: LatLng(_latitude, _longitude),
+            ),
+          );
+        }
       } else {
         _visitList = [];
       }
@@ -306,21 +565,63 @@ class MrAdminVisitLogProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  void resetValues(){
+  void resetValues() {
     _selectedUserId = '';
     _selectedUser = 'Select User';
     _selectedVisitType = 'Today';
   }
-  
+
   void updateVisitLogApprovals(context) async {
-    ERPResponse response = await ERPServices.putRequest('/visitLogs?visitLogId=$_selectedUserId&from=$_from&to=$_to', _approvedVisitLogs, context);
+    ERPResponse response = await ERPServices.putRequest(
+        '/visitLogs?visitLogId=$_selectedUserId&from=$_from&to=$_to',
+        _approvedVisitLogs,
+        context);
     print(response.statusCode);
     print(response.body);
-    if(response.statusCode == 200){
-      ToastMessageUtils().showToastMessage('Logs Approved successfully', ToastGravity.TOP, CustomColors.lightGreen);
+    if (response.statusCode == 200) {
+      ToastMessageUtils().showToastMessage('Logs Approved successfully',
+          ToastGravity.TOP, CustomColors.lightGreen);
       Navigator.pop(context);
-    }else{
-      ToastMessageUtils().showToastMessage('Logs Approved failed', ToastGravity.TOP, CustomColors.lightRed);
+    } else {
+      ToastMessageUtils().showToastMessage(
+          'Logs Approved failed', ToastGravity.TOP, CustomColors.lightRed);
+    }
+  }
+
+  Future<Uint8List?> getBytesFromAsset(String path, int size) async {
+    if (path.isNotEmpty) {
+      ByteData data = await rootBundle.load(path);
+      ui.Codec codec = await ui.instantiateImageCodec(data.buffer.asUint8List(),
+          targetWidth: size, targetHeight: size);
+      ui.FrameInfo fi = await codec.getNextFrame();
+
+      ui.PictureRecorder recorder = ui.PictureRecorder();
+      Canvas canvas = Canvas(recorder);
+
+      // Paint a circular path
+      Paint paint = Paint()..isAntiAlias = true;
+      double radius = size / 2;
+      canvas.drawCircle(Offset(radius, radius), radius, paint);
+
+      // Clip the canvas to a circle
+      canvas.clipPath(Path()
+        ..addOval(
+            Rect.fromCircle(center: Offset(radius, radius), radius: radius)));
+
+      // Draw the image
+      paintImage(
+        canvas: canvas,
+        rect: Rect.fromCircle(center: Offset(radius, radius), radius: radius),
+        image: fi.image,
+        fit: BoxFit.fill,
+      );
+
+      final img = await recorder.endRecording().toImage(size, size);
+      final dataBytes = await img.toByteData(format: ui.ImageByteFormat.png);
+
+      return dataBytes?.buffer.asUint8List();
+    } else {
+      return null;
     }
   }
 }

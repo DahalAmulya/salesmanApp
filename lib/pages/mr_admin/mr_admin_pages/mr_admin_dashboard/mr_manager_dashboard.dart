@@ -260,7 +260,7 @@ class _MarketingManagerDashboardState extends State<MarketingManagerDashboard> {
 
   // PreferredSize _appBar(context) {
   CustomDrawer _drawer(context) {
-    return CustomDrawer(
+    return const CustomDrawer(
       isHomeActive: true,
     );
   }
@@ -276,7 +276,7 @@ class _MarketingManagerDashboardState extends State<MarketingManagerDashboard> {
           backgroundColor: Colors.white,
           child: ListView(
             children: [
-              SizedBox(
+              const SizedBox(
                 height: 8,
               ),
               // CarouselSlider.builder(
@@ -447,7 +447,7 @@ class _MarketingManagerDashboardState extends State<MarketingManagerDashboard> {
               //     );
               //   },
               // ),
-              SizedBox(
+              const SizedBox(
                 height: 8,
               ),
               InkWell(
@@ -471,7 +471,7 @@ class _MarketingManagerDashboardState extends State<MarketingManagerDashboard> {
                           Row(
                             children: [
                               CustomLineBar(),
-                              SizedBox(
+                              const SizedBox(
                                 width: 8,
                               ),
                               CustomText(
@@ -480,8 +480,8 @@ class _MarketingManagerDashboardState extends State<MarketingManagerDashboard> {
                               ),
                             ],
                           ),
-                          Padding(
-                            padding: const EdgeInsets.only(right: 12.0),
+                          const Padding(
+                            padding: EdgeInsets.only(right: 12.0),
                             child: Icon(
                               FontAwesomeIcons.chevronRight,
                               size: 18,
@@ -489,8 +489,8 @@ class _MarketingManagerDashboardState extends State<MarketingManagerDashboard> {
                           ),
                         ],
                       ),
-                      Padding(
-                        padding: const EdgeInsets.only(left: 16.0),
+                      const Padding(
+                        padding: EdgeInsets.only(left: 16.0),
                         child: Divider(),
                       ),
                       Row(

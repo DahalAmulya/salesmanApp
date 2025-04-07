@@ -554,15 +554,24 @@ class _MrAdminReportScreenState extends State<MrAdminReportScreen> {
                                   height: 4,
                                 ),
                                 CustomElevatedButton(
-                                  onPressed: () {},
+                                  onPressed: () {
+                                    Navigator.of(context).pushNamed(
+                                        MarketingManagerConstants
+                                            .visitLogMapReportScreen);
+                                  },
                                   width: 1,
                                   height: 45,
                                   backgroundColor: CustomColors.primaryColor,
                                   widget: Row(
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     children: [
-                                      Icon(FontAwesomeIcons.mapLocation,color: CustomColors.primaryBlack,),
-                                      const SizedBox(width: 12,),
+                                      Icon(
+                                        FontAwesomeIcons.mapLocation,
+                                        color: CustomColors.primaryBlack,
+                                      ),
+                                      const SizedBox(
+                                        width: 12,
+                                      ),
                                       CustomText(
                                         text: 'View on Map',
                                         isSubHeading: true,
@@ -584,12 +593,12 @@ class _MrAdminReportScreenState extends State<MrAdminReportScreen> {
             const SizedBox(
               height: 16,
             ),
-            adminVisitLogsProvider.visitList.length != 0
+            adminVisitLogsProvider.visitList.isNotEmpty
                 ? ListView.builder(
                     shrinkWrap:
                         true, // This allows it to take only the required height
                     physics:
-                        NeverScrollableScrollPhysics(), // Disables scrolling for outer ListView, so the inner ListViews can handle scrolling
+                        const NeverScrollableScrollPhysics(), // Disables scrolling for outer ListView, so the inner ListViews can handle scrolling
                     itemCount: adminVisitLogsProvider.visitList.length,
                     itemBuilder: (context, index) {
                       // Color badgeColor = CustomColors.lightYellow;
@@ -730,46 +739,6 @@ class _MrAdminReportScreenState extends State<MrAdminReportScreen> {
                                             ),
                                           ],
                                         ),
-                                        // Row(
-                                        //   mainAxisAlignment:
-                                        //       MainAxisAlignment.spaceBetween,
-                                        //   children: [
-                                        //     Expanded(
-                                        //       child: CustomText(
-                                        //         text: 'Area',
-                                        //         isContent: true,
-                                        //       ),
-                                        //     ),
-                                        //     Expanded(
-                                        //       child: CustomText(
-                                        //         text: 'East',
-                                        //         isContent: true,
-                                        //         textOverflow: TextOverflow.visible,
-                                        //         maxLines: 3,
-                                        //       ),
-                                        //     ),
-                                        //   ],
-                                        // ),
-                                        // Row(
-                                        //   mainAxisAlignment:
-                                        //       MainAxisAlignment.spaceBetween,
-                                        //   children: [
-                                        //     Expanded(
-                                        //       child: CustomText(
-                                        //         text: 'City',
-                                        //         isContent: true,
-                                        //       ),
-                                        //     ),
-                                        //     Expanded(
-                                        //       child: CustomText(
-                                        //         text: 'Damak',
-                                        //         isContent: true,
-                                        //         textOverflow: TextOverflow.visible,
-                                        //         maxLines: 3,
-                                        //       ),
-                                        //     ),
-                                        //   ],
-                                        // ),
                                         Row(
                                           mainAxisAlignment:
                                               MainAxisAlignment.spaceBetween,
@@ -870,24 +839,6 @@ class _MrAdminReportScreenState extends State<MrAdminReportScreen> {
                                             ),
                                           ],
                                         ),
-                                        // Row(
-                                        //   mainAxisAlignment:
-                                        //       MainAxisAlignment.spaceBetween,
-                                        //   children: [
-                                        //     Expanded(
-                                        //       child: CustomText(
-                                        //         text: 'Approval Status',
-                                        //         isContent: true,
-                                        //       ),
-                                        //     ),
-                                        // Expanded(
-                                        //   child: CustomText(
-                                        //     text: approvalStatus,
-                                        //     isContent: true,
-                                        //   ),
-                                        // ),
-                                        // Expanded(
-                                        //   child:
                                         const SizedBox(
                                           height: 8,
                                         ),
@@ -918,9 +869,6 @@ class _MrAdminReportScreenState extends State<MrAdminReportScreen> {
                                             ),
                                           ],
                                         ),
-                                        // ),
-                                        // ],
-                                        // ),
                                       ],
                                     ),
                                   ),
