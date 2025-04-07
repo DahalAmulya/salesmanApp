@@ -18,8 +18,8 @@ class MrAdminAttendanceProvider extends ChangeNotifier {
   String _selectedUser = 'All Users';
   String _selectedVisitType = 'Today';
   String _selectedUserId = '';
-  String _from = '';
-  String _to = '';
+  String _from = DateTime.now().toString().split(' ')[0];
+  String _to = DateTime.now().toString().split(' ')[0];
   double _totalHours = 0;
   bool _isExpanded = true;
 

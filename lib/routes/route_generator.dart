@@ -10,6 +10,7 @@ import 'package:deskgoo/pages/location/show_own_location_screen.dart';
 import 'package:deskgoo/pages/marketing_officers/marketing_officers_screen.dart';
 import 'package:deskgoo/pages/mr_admin/mr_admin_pages/mr_admin_dashboard/mr_manager_dashboard.dart';
 import 'package:deskgoo/pages/mr_admin/mr_admin_pages/reports/report_screen.dart';
+import 'package:deskgoo/pages/mr_admin/mr_admin_pages/reports/visit_log_map_screen.dart';
 import 'package:deskgoo/pages/mr_officers_pages/mr_officers_dashboard/mr_officers_dashboard.dart';
 import 'package:deskgoo/pages/mr_officers_pages/mr_officers_visits/followUp_visit_screen.dart';
 import 'package:deskgoo/pages/mr_officers_pages/mr_officers_visits/new_visit_screen.dart';
@@ -133,6 +134,10 @@ class RouteGenerator {
       case MarketingManagerConstants.pickProfilePic:
         return MaterialPageRoute(
           builder: (_) => const PickProfilePicScreen(),
+        );
+        case MarketingManagerConstants.visitLogMapReportScreen:
+        return MaterialPageRoute(
+          builder: (_) => const VisitLogReportMapScreen(),
         );
 
       // Routes for MarketingStaff

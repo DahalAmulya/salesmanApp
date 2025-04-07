@@ -74,7 +74,7 @@ class _MrAdminAttendanceReportScreenState
 
   PreferredSize _appBar(context) {
     return PreferredSize(
-      preferredSize: Size.fromHeight(kToolbarHeight),
+      preferredSize: const Size.fromHeight(kToolbarHeight),
       child: CustomAppBar(
         tabName: 'Attendance Report',
         centerTitle: true,
