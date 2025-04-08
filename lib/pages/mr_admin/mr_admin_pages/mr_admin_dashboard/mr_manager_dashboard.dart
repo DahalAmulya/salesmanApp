@@ -220,14 +220,14 @@ class _MarketingManagerDashboardState extends State<MarketingManagerDashboard> {
           appBar: _appBar(context),
           drawer: _drawer(context),
           body: _buildUI(context),
-          floatingActionButton: FloatingActionButton.small(
-            backgroundColor: CustomColors.primaryColor,
-            onPressed: () {
-              Navigator.of(context).push(MaterialPageRoute(
-                  builder: (context) => NotificationScreen()));
-            },
-            child: Icon(Icons.add),
-          ),
+          // floatingActionButton: FloatingActionButton.small(
+          //   backgroundColor: CustomColors.primaryColor,
+          //   onPressed: () {
+          //     Navigator.of(context).push(MaterialPageRoute(
+          //         builder: (context) => NotificationScreen()));
+          //   },
+          //   child: Icon(Icons.add),
+          // ),
           // bottomNavigationBar: _bottomNavBar(context),
         ),
       ),
@@ -540,7 +540,7 @@ class _MarketingManagerDashboardState extends State<MarketingManagerDashboard> {
               SizedBox(
                 height: 16,
               ),
-              _marketingOfficerReport(context, marketingProvider),
+              // _marketingOfficerReport(context, marketingProvider),
               SizedBox(
                 height: 16,
               ),
@@ -614,7 +614,8 @@ class _MarketingManagerDashboardState extends State<MarketingManagerDashboard> {
               imgName: 'ambulance',
               title: 'Ambulance',
               onTap: () {
-                print('Tapped Ambulance');
+                Navigator.of(context).pushNamed(
+                    MarketingManagerConstants.ambulanceReportScreen);
               },
             ),
             _reportRows(
