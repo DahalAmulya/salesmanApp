@@ -5,6 +5,7 @@ import 'package:custom_info_window/custom_info_window.dart';
 import 'package:deskgoo/services/erp_services.dart';
 import 'package:deskgoo/themes/custom_colors.dart';
 import 'package:deskgoo/utils/toast_message.dart';
+import 'package:deskgoo/widgets/containers/custom_container.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -359,192 +360,199 @@ class MrAdminVisitLogProvider extends ChangeNotifier {
               onTap: () {
                 if (_customInfoWindowController.addInfoWindow != null) {
                   _customInfoWindowController.addInfoWindow!(
-                    Container(
-                      clipBehavior: Clip.antiAlias,
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(24),
-                      ),
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Row(
-                            mainAxisAlignment:
-                            MainAxisAlignment.spaceBetween,
-                            children: [
-                              Expanded(
-                                child: CustomText(
-                                  text: 'POC',
-                                  isContent: true,
+                    CustomContainer(
+                     applyShadow: true,
+                      child: SingleChildScrollView(
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Row(
+                              mainAxisAlignment:
+                              MainAxisAlignment.spaceBetween,
+                              children: [
+                                Expanded(
+                                  child: CustomText(
+                                    text: 'POC',
+                                    isContent: true,
+                                  ),
                                 ),
-                              ),
-                              Expanded(
-                                child: CustomText(
-                                  text: pocName,
-                                  isContent: true,
+                                Expanded(
+                                  child: CustomText(
+                                    text: pocName,
+                                    isContent: true,
+                                  ),
                                 ),
-                              ),
-                            ],
-                          ),
-                          Row(
-                            mainAxisAlignment:
-                            MainAxisAlignment.spaceBetween,
-                            children: [
-                              Expanded(
-                                child: CustomText(
-                                  text: 'Visit Type',
-                                  isContent: true,
+                              ],
+                            ),
+                            const SizedBox(height: 8,),
+                            Row(
+                              mainAxisAlignment:
+                              MainAxisAlignment.spaceBetween,
+                              children: [
+                                Expanded(
+                                  child: CustomText(
+                                    text: 'Visit Type',
+                                    isContent: true,
+                                  ),
                                 ),
-                              ),
-                              Expanded(
-                                child: CustomText(
-                                  text: visitType,
-                                  isContent: true,
+                                Expanded(
+                                  child: CustomText(
+                                    text: visitType,
+                                    isContent: true,
+                                  ),
                                 ),
-                              ),
-                            ],
-                          ),
-                          Row(
-                            mainAxisAlignment:
-                            MainAxisAlignment.spaceBetween,
-                            children: [
-                              Expanded(
-                                child: CustomText(
-                                  text: 'Category',
-                                  isContent: true,
+                              ],
+                            ),
+                            const SizedBox(height: 8,),
+                            Row(
+                              mainAxisAlignment:
+                              MainAxisAlignment.spaceBetween,
+                              children: [
+                                Expanded(
+                                  child: CustomText(
+                                    text: 'Category',
+                                    isContent: true,
+                                  ),
                                 ),
-                              ),
-                              Expanded(
-                                child: CustomText(
-                                  text: pocCategory,
-                                  isContent: true,
+                                Expanded(
+                                  child: CustomText(
+                                    text: pocCategory,
+                                    isContent: true,
+                                  ),
                                 ),
-                              ),
-                            ],
-                          ),
-                          Row(
-                            mainAxisAlignment:
-                            MainAxisAlignment.spaceBetween,
-                            children: [
-                              Expanded(
-                                child: CustomText(
-                                  text: 'Specialization',
-                                  isContent: true,
+                              ],
+                            ),
+                            const SizedBox(height: 8,),
+                            Row(
+                              mainAxisAlignment:
+                              MainAxisAlignment.spaceBetween,
+                              children: [
+                                Expanded(
+                                  child: CustomText(
+                                    text: 'Specialization',
+                                    isContent: true,
+                                  ),
                                 ),
-                              ),
-                              Expanded(
-                                child: CustomText(
-                                  text: pocSpecialization,
-                                  isContent: true,
-                                  textOverflow:
-                                  TextOverflow.visible,
-                                  maxLines: 3,
+                                Expanded(
+                                  child: CustomText(
+                                    text: pocSpecialization,
+                                    isContent: true,
+                                    textOverflow:
+                                    TextOverflow.visible,
+                                    maxLines: 3,
+                                  ),
                                 ),
-                              ),
-                            ],
-                          ),
-                          Row(
-                            mainAxisAlignment:
-                            MainAxisAlignment.spaceBetween,
-                            children: [
-                              Expanded(
-                                child: CustomText(
-                                  text: 'Remarks',
-                                  isContent: true,
+                              ],
+                            ),
+                            const SizedBox(height: 8,),
+                            Row(
+                              mainAxisAlignment:
+                              MainAxisAlignment.spaceBetween,
+                              children: [
+                                Expanded(
+                                  child: CustomText(
+                                    text: 'Remarks',
+                                    isContent: true,
+                                  ),
                                 ),
-                              ),
-                              Expanded(
-                                child: CustomText(
-                                  text: remarks,
-                                  isContent: true,
-                                  textOverflow:
-                                  TextOverflow.visible,
-                                  maxLines: 3,
+                                Expanded(
+                                  child: CustomText(
+                                    text: remarks,
+                                    isContent: true,
+                                    textOverflow:
+                                    TextOverflow.visible,
+                                    maxLines: 3,
+                                  ),
                                 ),
-                              ),
-                            ],
-                          ),
-                          Row(
-                            mainAxisAlignment:
-                            MainAxisAlignment.spaceBetween,
-                            children: [
-                              Expanded(
-                                child: CustomText(
-                                  text: 'Executive',
-                                  isContent: true,
+                              ],
+                            ),
+                            const SizedBox(height: 8,),
+                            Row(
+                              mainAxisAlignment:
+                              MainAxisAlignment.spaceBetween,
+                              children: [
+                                Expanded(
+                                  child: CustomText(
+                                    text: 'Executive',
+                                    isContent: true,
+                                  ),
                                 ),
-                              ),
-                              Expanded(
-                                child: CustomText(
-                                  text: executiveName,
-                                  isContent: true,
-                                  textOverflow:
-                                  TextOverflow.visible,
-                                  maxLines: 3,
+                                Expanded(
+                                  child: CustomText(
+                                    text: executiveName,
+                                    isContent: true,
+                                    textOverflow:
+                                    TextOverflow.visible,
+                                    maxLines: 3,
+                                  ),
                                 ),
-                              ),
-                            ],
-                          ),
-                          Row(
-                            mainAxisAlignment:
-                            MainAxisAlignment.spaceBetween,
-                            children: [
-                              Expanded(
-                                child: CustomText(
-                                  text: 'Address',
-                                  isContent: true,
+                              ],
+                            ),
+                            const SizedBox(height: 8,),
+                            Row(
+                              mainAxisAlignment:
+                              MainAxisAlignment.spaceBetween,
+                              children: [
+                                Expanded(
+                                  child: CustomText(
+                                    text: 'Address',
+                                    isContent: true,
+                                  ),
                                 ),
-                              ),
-                              Expanded(
-                                child: CustomText(
-                                  text: pocAddress,
-                                  isContent: true,
-                                  textOverflow:
-                                  TextOverflow.visible,
-                                  maxLines: 3,
+                                Expanded(
+                                  child: CustomText(
+                                    text: pocAddress,
+                                    isContent: true,
+                                    textOverflow:
+                                    TextOverflow.visible,
+                                    maxLines: 3,
+                                  ),
                                 ),
-                              ),
-                            ],
-                          ),
-                          Row(
-                            mainAxisAlignment:
-                            MainAxisAlignment.spaceBetween,
-                            children: [
-                              Expanded(
-                                child: CustomText(
-                                  text: 'Number',
-                                  isContent: true,
+                              ],
+                            ),
+                            const SizedBox(height: 8,),
+                            Row(
+                              mainAxisAlignment:
+                              MainAxisAlignment.spaceBetween,
+                              children: [
+                                Expanded(
+                                  child: CustomText(
+                                    text: 'Number',
+                                    isContent: true,
+                                  ),
                                 ),
-                              ),
-                              Expanded(
-                                child: CustomText(
-                                  text: pocNumber,
-                                  isContent: true,
-                                  maxLines: 2,
+                                Expanded(
+                                  child: CustomText(
+                                    text: pocNumber,
+                                    isContent: true,
+                                    maxLines: 2,
+                                  ),
                                 ),
-                              ),
-                            ],
-                          ),
-                          Row(
-                            mainAxisAlignment:
-                            MainAxisAlignment.spaceBetween,
-                            children: [
-                              Expanded(
-                                child: CustomText(
-                                  text: 'Date',
-                                  isContent: true,
+                              ],
+                            ),
+                            const SizedBox(height: 8,),
+                            Row(
+                              mainAxisAlignment:
+                              MainAxisAlignment.spaceBetween,
+                              children: [
+                                Expanded(
+                                  child: CustomText(
+                                    text: 'Date',
+                                    isContent: true,
+                                  ),
                                 ),
-                              ),
-                              Expanded(
-                                child: CustomText(
-                                  text: mobileTime,
-                                  isContent: true,
+                                Expanded(
+                                  child: CustomText(
+                                    text: mobileTime,
+                                    isContent: true,
+                                    maxLines: 2,
+                                  ),
                                 ),
-                              ),
-                            ],
-                          ),
-                        ],
+                              ],
+                            ),
+                          ],
+                        ),
                       ),
                     ),
                     LatLng(

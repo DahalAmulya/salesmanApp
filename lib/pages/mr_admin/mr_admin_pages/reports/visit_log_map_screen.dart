@@ -87,7 +87,7 @@ class _VisitLogReportMapScreenState extends State<VisitLogReportMapScreen> {
             ),
             CustomInfoWindow(
               controller: _mrAdminVisitLogProvider.customInfoWindowController,
-              // height: 150,
+              height: 320,
               width: 320,
               offset: 50,
             ),
