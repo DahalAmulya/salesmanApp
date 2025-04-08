@@ -649,10 +649,7 @@ class _MarketingManagerDashboardState extends State<MarketingManagerDashboard> {
     );
   }
 
-  Widget _reportRows(context,
-      {required String imgName,
-      required String title,
-      required Function() onTap}) {
+  Widget _reportRows(context, {required String imgName, required String title, required Function() onTap}) {
     return InkWell(
       onTap: onTap,
       child: Padding(
