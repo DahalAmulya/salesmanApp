@@ -605,7 +605,6 @@ class _MrAdminAttendanceReportScreenState
                                         ),
                                       ],
                                     ),
-                                    const Divider(),
                                   ],
                                 ),
                               ),

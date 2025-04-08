@@ -246,6 +246,11 @@ class MrAdminVisitLogProvider extends ChangeNotifier {
     notifyListeners();
   }
 
+  void clearMarkerOnMap(){
+    _visitLogMarkers.clear();
+    _visitLogMarkers = {};
+  }
+
   void approvalStatus(int index, String value) {
     visitList[index]['approvalStatus'] = value;
     Map<String, dynamic> log = {
@@ -314,6 +319,7 @@ class MrAdminVisitLogProvider extends ChangeNotifier {
           context);
       _visitLogMarkers.clear();
       if (response.statusCode == 200) {
+        ToastMessageUtils().showToastMessage('Logs found successful',ToastGravity.TOP, CustomColors.jadeGreen);
         final body = jsonDecode(response.body);
         _foundVisit = body['visitLogs'];
         _visitList = _foundVisit['visitLogs'];
@@ -341,8 +347,6 @@ class MrAdminVisitLogProvider extends ChangeNotifier {
           String remarks =visitList[index]['remarks'];
           String visitType =visitList[index]['visitType'];
           String mobileTime =visitList[index]['mobileTime'];
-          double latitude =visitList[index]['latitude'];
-          double longitude =visitList[index]['longitude'];
 
           final Uint8List? icon =
           await getBytesFromAsset('assets/images/userLocation.png', 120);
@@ -358,6 +362,7 @@ class MrAdminVisitLogProvider extends ChangeNotifier {
                 imagePixelRatio: 2.3,
               ),
               onTap: () {
+                print(_visitList[index]);
                 if (_customInfoWindowController.addInfoWindow != null) {
                   _customInfoWindowController.addInfoWindow!(
                     CustomContainer(
@@ -381,6 +386,7 @@ class MrAdminVisitLogProvider extends ChangeNotifier {
                                   child: CustomText(
                                     text: pocName,
                                     isContent: true,
+                                    maxLines: 2,
                                   ),
                                 ),
                               ],
@@ -556,8 +562,8 @@ class MrAdminVisitLogProvider extends ChangeNotifier {
                       ),
                     ),
                     LatLng(
-                      _latitude,
-                      _longitude,
+                        _visitList[index]['latitude'],
+                        _visitList[index]['longitude'],
                     ),
                   );
                 }
@@ -588,7 +594,7 @@ class MrAdminVisitLogProvider extends ChangeNotifier {
     print(response.body);
     if (response.statusCode == 200) {
       ToastMessageUtils().showToastMessage('Logs Approved successfully',
-          ToastGravity.TOP, CustomColors.lightGreen);
+          ToastGravity.TOP, CustomColors.jadeGreen);
       Navigator.pop(context);
     } else {
       ToastMessageUtils().showToastMessage(

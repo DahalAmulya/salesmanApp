@@ -44,6 +44,7 @@ class _VisitLogReportMapScreenState extends State<VisitLogReportMapScreen> {
           //   mrAdminVisitLogProvider.updateVisitLogApprovals(context);
           // },
           onTap: () {
+            mrAdminVisitLogProvider.clearMarkerOnMap();
             Navigator.of(context).pop(MarketingManagerConstants.homePage);
           },
         );
@@ -75,14 +76,20 @@ class _VisitLogReportMapScreenState extends State<VisitLogReportMapScreen> {
                 _controller.complete(controller);
                 // customInfoWindow(controller);
                 _mrAdminVisitLogProvider.latitude;
+                // _mrAdminVisitLogProvider.longitude;
                 _mrAdminVisitLogProvider.customInfoWindowController
                     .googleMapController = controller;
                 // _customInfoWindowController.googleMapController = controller;
               },
               markers: _mrAdminVisitLogProvider.visitLogMarkers,
               onTap: (location) {
+                // print(_mrAdminVisitLogProvider.customInfoWindowController);
                 _mrAdminVisitLogProvider
                     .customInfoWindowController.hideInfoWindow!();
+              },
+              onCameraMove: (position) {
+                _mrAdminVisitLogProvider
+                    .customInfoWindowController.onCameraMove!();
               },
             ),
             CustomInfoWindow(
