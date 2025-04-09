@@ -4,8 +4,10 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
+import '../../../services/erp_services.dart';
+
 class MrAdminAmbulanceReportProvider extends ChangeNotifier{
-  List<String> _ambulanceLogsUsersList = ["Select User"];
+  List<String> _ambulanceLogsUsersList = ["Select User",];
   List<String> _ambulanceReportDateTypeList = ['Today', 'Yesterday', 'Custom'];
   List<String> _ambulanceReferralType = ["Country","Region","City"];
   List<String> _countryList = ['Nepal','India',];
@@ -30,7 +32,7 @@ class MrAdminAmbulanceReportProvider extends ChangeNotifier{
 
 
 
-  String _selectedUser = 'All Users';
+  String _selectedUser = 'Select User';
   String _selectedAmbulanceReportDateType = 'Today';
   String _selectedAmbulanceReferralType = 'Country';
   String _selectedCountry = 'Nepal';
@@ -287,6 +289,23 @@ class MrAdminAmbulanceReportProvider extends ChangeNotifier{
     // print(enteredKeyWord);
     print('search result = $_searchResult');
     // _searchController.text = '';
+    notifyListeners();
+  }
+
+  void getAmbulanceLogList(context) async {
+    _ambulanceLogsUsersList = ["Select User"];
+    _selectedUser = 'Select User';
+    _selectedAmbulanceReportDateType = 'Today';
+    _selectedUserId = '';
+    ERPResponse response = await ERPServices.getRequest('/visitLogs/users', context);
+    // print(response.body);
+    if (response.statusCode == 200) {
+      Map<String, dynamic> body = jsonDecode(response.body);
+      _usersAmbulanceList = body['logs'];
+      for (int i = 0; i < _usersAmbulanceList.length; i++) {
+        _ambulanceLogsUsersList.add(_usersAmbulanceList[i]['username']);
+      }
+    }
     notifyListeners();
   }
 
