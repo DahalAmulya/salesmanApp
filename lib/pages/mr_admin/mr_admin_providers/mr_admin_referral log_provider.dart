@@ -8,6 +8,7 @@ import '../../../services/erp_services.dart';
 import '../../../utils/toast_message.dart';
 
 class MrAdminReferralLogProvider extends ChangeNotifier{
+  List<String> _approvalType = ['approved', 'pending', 'rejected'];
   List<String> _referralLogsUsersList = ["Select User"];
   List<String> _referralDateTypeList = ['Today', 'Yesterday', 'Custom'];
   List<String> _referralType = ["Country","Region","City"];
@@ -51,7 +52,7 @@ class MrAdminReferralLogProvider extends ChangeNotifier{
   TextEditingController _districtController = TextEditingController();
   TextEditingController _stateController = TextEditingController();
 
-
+  List<String> get approvalType => _approvalType;
   List<dynamic> get usersReferralList => _usersReferralList;
   List<dynamic> get referralList => _referralList;
   List<dynamic> get districts => _districts;
@@ -92,6 +93,10 @@ class MrAdminReferralLogProvider extends ChangeNotifier{
   TextEditingController get cityController => _cityController;
   TextEditingController get districtController => _districtController;
   TextEditingController get stateController => _stateController;
+
+  void approvalStatus(int index, String value) {
+    notifyListeners();
+  }
 
   void getDataForDistrict() async {
     final respose = await rootBundle.loadString('assets/district.json');
