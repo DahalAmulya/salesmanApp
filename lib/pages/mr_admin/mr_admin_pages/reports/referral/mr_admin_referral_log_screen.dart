@@ -430,17 +430,11 @@ class _ReferralLogScreenState extends State<ReferralLogScreen> {
                           children: [
                             Column(
                               children: [
+                                // const Divider(),
                                 Row(
                                   children: [
-                                    // Expanded(
-                                    //   flex: 2,
-                                    //   child: CustomText(
-                                    //     text: 'Created By',
-                                    //     isContent: true,
-                                    //   ),
-                                    // ),
                                     Expanded(
-                                      flex: 3,
+                                      flex: 2,
                                       child: CustomText(
                                         text: mrAdminReferralLogProvider
                                             .selectedUser,
@@ -461,8 +455,9 @@ class _ReferralLogScreenState extends State<ReferralLogScreen> {
                                     ),
                                   ],
                                 ),
+                                const Divider(),
                                 const SizedBox(
-                                  height: 0,
+                                  height: 8,
                                 ),
                                 Row(
                                   children: [
@@ -475,7 +470,7 @@ class _ReferralLogScreenState extends State<ReferralLogScreen> {
                                     ),
                                     const SizedBox(width: 8),
                                     Expanded(
-                                      flex: 3,
+                                      flex: 2,
                                       child: CustomText(
                                         text:
                                             mrAdminReferralLogProvider.foundReferral.length.toString(),
@@ -485,7 +480,7 @@ class _ReferralLogScreenState extends State<ReferralLogScreen> {
                                   ],
                                 ),
                                 const SizedBox(
-                                  height: 4,
+                                  height: 8,
                                 ),
                                 Row(
                                   children: [
@@ -504,11 +499,8 @@ class _ReferralLogScreenState extends State<ReferralLogScreen> {
                                                 : 'City'),
                                       ),
                                     ),
-                                    const SizedBox(
-                                      width: 8,
-                                    ),
                                     Expanded(
-                                      flex: 3,
+                                      flex: 2,
                                       child: CustomText(
                                         text: mrAdminReferralLogProvider
                                                     .selectedReferralType ==
@@ -544,9 +536,8 @@ class _ReferralLogScreenState extends State<ReferralLogScreen> {
                                         isContent: true,
                                       ),
                                     ),
-                                    const SizedBox(width: 8),
                                     Expanded(
-                                      flex: 3,
+                                      flex: 2,
                                       child: CustomText(
                                         text: mrAdminReferralLogProvider.from,
                                         isContent: true,
@@ -566,9 +557,8 @@ class _ReferralLogScreenState extends State<ReferralLogScreen> {
                                         isContent: true,
                                       ),
                                     ),
-                                    const SizedBox(width: 8),
                                     Expanded(
-                                      flex: 3,
+                                      flex: 2,
                                       child: CustomText(
                                         text: mrAdminReferralLogProvider.to,
                                         isContent: true,

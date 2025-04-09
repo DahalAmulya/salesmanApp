@@ -573,6 +573,7 @@ class MrAdminVisitLogProvider extends ChangeNotifier {
           );
         }
       } else {
+        ToastMessageUtils().showToastMessage('Logs found successful');
         _visitList = [];
       }
     }
