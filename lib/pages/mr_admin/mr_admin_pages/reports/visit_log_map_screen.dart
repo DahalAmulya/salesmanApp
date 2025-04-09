@@ -37,12 +37,6 @@ class _VisitLogReportMapScreenState extends State<VisitLogReportMapScreen> {
           tabName: 'Visit Log Map',
           centerTitle: true,
           automaticallyImplyLeading: true,
-          // showTrailingIcons: true,
-          // applyShadow: true,
-          // showApproveButton: true,
-          // onTapTrailingApproveIcon: () {
-          //   mrAdminVisitLogProvider.updateVisitLogApprovals(context);
-          // },
           onTap: () {
             mrAdminVisitLogProvider.clearMarkerOnMap();
             Navigator.of(context).pop(MarketingManagerConstants.homePage);
@@ -68,22 +62,16 @@ class _VisitLogReportMapScreenState extends State<VisitLogReportMapScreen> {
               compassEnabled: true,
               scrollGesturesEnabled: true,
               zoomGesturesEnabled: true,
-              // trafficEnabled: traffic,
               mapToolbarEnabled: true,
               zoomControlsEnabled: true,
-              // onMapCreated: _onMapCreated,
               onMapCreated: (GoogleMapController controller) {
                 _controller.complete(controller);
-                // customInfoWindow(controller);
                 _mrAdminVisitLogProvider.latitude;
-                // _mrAdminVisitLogProvider.longitude;
                 _mrAdminVisitLogProvider.customInfoWindowController
                     .googleMapController = controller;
-                // _customInfoWindowController.googleMapController = controller;
               },
               markers: _mrAdminVisitLogProvider.visitLogMarkers,
               onTap: (location) {
-                // print(_mrAdminVisitLogProvider.customInfoWindowController);
                 _mrAdminVisitLogProvider
                     .customInfoWindowController.hideInfoWindow!();
               },
