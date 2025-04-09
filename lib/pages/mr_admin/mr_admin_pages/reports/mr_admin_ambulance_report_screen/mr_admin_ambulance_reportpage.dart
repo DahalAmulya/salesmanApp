@@ -24,6 +24,13 @@ class MrAdminAmbulanceReportScreen extends StatefulWidget {
 }
 
 class _AmbulanceReportScreenState extends State<MrAdminAmbulanceReportScreen> {
+
+  @override
+  void initState() {
+    MrAdminAmbulanceReportProvider mrAdminAmbulanceReportProvider = Provider.of<MrAdminAmbulanceReportProvider>(context,listen: false);
+    mrAdminAmbulanceReportProvider.getAmbulanceLogList(context);
+    super.initState();
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -76,8 +83,7 @@ class _AmbulanceReportScreenState extends State<MrAdminAmbulanceReportScreen> {
                           ),
                           CustomDropdown(
                             labelText: 'Select User',
-                            items: mrAdminAmbulanceReportProvider
-                                .ambulanceLogsUsersList,
+                            items: mrAdminAmbulanceReportProvider.ambulanceLogsUsersList,
                             value: mrAdminAmbulanceReportProvider.selectedUser,
                             onChanged: (value) {
                               mrAdminAmbulanceReportProvider
@@ -106,7 +112,7 @@ class _AmbulanceReportScreenState extends State<MrAdminAmbulanceReportScreen> {
                                 ? 16
                                 : 0,
                           ),
-                          if(mrAdminAmbulanceReportProvider.ambulanceReportDateTypeList == 'Custom')
+                          if(mrAdminAmbulanceReportProvider.selectedAmbulanceReportDateType == 'Custom')
                             Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
@@ -159,7 +165,7 @@ class _AmbulanceReportScreenState extends State<MrAdminAmbulanceReportScreen> {
                           const SizedBox(
                             height: 16,
                           ),
-                          if(mrAdminAmbulanceReportProvider.ambulanceReferralType == 'Country')
+                          if(mrAdminAmbulanceReportProvider.selectedAmbulanceReferralType == 'Country')
                             Column(
                               children: [
                                 CustomDropdown(
@@ -175,7 +181,7 @@ class _AmbulanceReportScreenState extends State<MrAdminAmbulanceReportScreen> {
                                 ),
                               ],
                             ),
-                          if(mrAdminAmbulanceReportProvider.ambulanceReferralType == 'Region')
+                          if(mrAdminAmbulanceReportProvider.selectedAmbulanceReferralType == 'Region')
                             Column(
                               children: [
                                 CustomDropdown(
@@ -237,69 +243,69 @@ class _AmbulanceReportScreenState extends State<MrAdminAmbulanceReportScreen> {
                                 ),
                               ],
                             ),
-                          if(mrAdminAmbulanceReportProvider.ambulanceReferralType == 'City')
+                          if(mrAdminAmbulanceReportProvider.selectedAmbulanceReferralType == 'City')
                             Column(
                               children: [
-                                CustomDropdown(
-                                  labelText: 'Country',
-                                  items: mrAdminAmbulanceReportProvider.countryList,
-                                  value: mrAdminAmbulanceReportProvider
-                                      .selectedCountry,
-                                  applyCountryFlag: true,
-                                  onChanged: (newValue) {
-                                    mrAdminAmbulanceReportProvider
-                                        .setSelectedCountry(newValue);
-                                  },
-                                ),
-                                const SizedBox(
-                                  height: 16,
-                                ),
-                                TextFromFieldWithPrefixSuffix(
-                                  controller: mrAdminAmbulanceReportProvider
-                                      .selectedCountry ==
-                                      mrAdminAmbulanceReportProvider
-                                          .countryList[0]
-                                      ? mrAdminAmbulanceReportProvider
-                                      .districtController
-                                      : mrAdminAmbulanceReportProvider
-                                      .stateController,
-                                  readOnly: true,
-                                  labelText: mrAdminAmbulanceReportProvider
-                                      .selectedCountry ==
-                                      mrAdminAmbulanceReportProvider
-                                          .countryList[0]
-                                      ? 'District *'
-                                      : 'State *',
-                                  validator: (newValue) {},
-                                  onTap: () async {
-                                    String fileName = mrAdminAmbulanceReportProvider
-                                        .selectedCountry ==
-                                        mrAdminAmbulanceReportProvider
-                                            .countryList[0]
-                                        ? 'district'
-                                        : 'states';
-                                    final file = await rootBundle
-                                        .loadString('assets/$fileName.json');
-                                    final content = await jsonDecode(file);
-                                    showModalBottomSheet(
-                                        isScrollControlled: true,
-                                        useSafeArea: true,
-                                        context: context,
-                                        builder: (context) =>
-                                            districtBottomSheet(
-                                                context, '$fileName', content));
-                                    mrAdminAmbulanceReportProvider
-                                        .searchController.text = '';
-                                    mrAdminAmbulanceReportProvider
-                                        .searchAddressResult(
-                                        mrAdminAmbulanceReportProvider
-                                            .searchController.value.text,
-                                        content);
-                                  },
-                                ),
-                                const SizedBox(
-                                  height: 16,
-                                ),
+                                // CustomDropdown(
+                                //   labelText: 'Country',
+                                //   items: mrAdminAmbulanceReportProvider.countryList,
+                                //   value: mrAdminAmbulanceReportProvider
+                                //       .selectedCountry,
+                                //   applyCountryFlag: true,
+                                //   onChanged: (newValue) {
+                                //     mrAdminAmbulanceReportProvider
+                                //         .setSelectedCountry(newValue);
+                                //   },
+                                // ),
+                                // const SizedBox(
+                                //   height: 16,
+                                // ),
+                                // TextFromFieldWithPrefixSuffix(
+                                //   controller: mrAdminAmbulanceReportProvider
+                                //       .selectedCountry ==
+                                //       mrAdminAmbulanceReportProvider
+                                //           .countryList[0]
+                                //       ? mrAdminAmbulanceReportProvider
+                                //       .districtController
+                                //       : mrAdminAmbulanceReportProvider
+                                //       .stateController,
+                                //   readOnly: true,
+                                //   labelText: mrAdminAmbulanceReportProvider
+                                //       .selectedCountry ==
+                                //       mrAdminAmbulanceReportProvider
+                                //           .countryList[0]
+                                //       ? 'District *'
+                                //       : 'State *',
+                                //   validator: (newValue) {},
+                                //   onTap: () async {
+                                //     String fileName = mrAdminAmbulanceReportProvider
+                                //         .selectedCountry ==
+                                //         mrAdminAmbulanceReportProvider
+                                //             .countryList[0]
+                                //         ? 'district'
+                                //         : 'states';
+                                //     final file = await rootBundle
+                                //         .loadString('assets/$fileName.json');
+                                //     final content = await jsonDecode(file);
+                                //     showModalBottomSheet(
+                                //         isScrollControlled: true,
+                                //         useSafeArea: true,
+                                //         context: context,
+                                //         builder: (context) =>
+                                //             districtBottomSheet(
+                                //                 context, '$fileName', content));
+                                //     mrAdminAmbulanceReportProvider
+                                //         .searchController.text = '';
+                                //     mrAdminAmbulanceReportProvider
+                                //         .searchAddressResult(
+                                //         mrAdminAmbulanceReportProvider
+                                //             .searchController.value.text,
+                                //         content);
+                                //   },
+                                // ),
+                                // const SizedBox(
+                                //   height: 16,
+                                // ),
                                 // TextFromFieldWithPrefixSuffix(
                                 //   controller:
                                 //   mrAdminAmbulanceReportProvider.cityController,
@@ -328,7 +334,7 @@ class _AmbulanceReportScreenState extends State<MrAdminAmbulanceReportScreen> {
                         ],
                       ),
                     ]),
-              )
+              ),
             ],
           ),
         ],
