@@ -218,12 +218,12 @@ class _MrAdminAttendanceReportScreenState
                     mrAdminAttendanceProvider.attendanceLogsUsersList[0] && mrAdminAttendanceProvider.allUserAttendanceReport.isNotEmpty
                 ? ListView.builder(
                     shrinkWrap: true, // Shrink-wrap the ListView
-                    physics: BouncingScrollPhysics(),
+                    physics: const BouncingScrollPhysics(),
                     itemCount: mrAdminAttendanceProvider
                         .allUserAttendanceReport.length,
                     itemBuilder: (context, index) {
                       String userName = mrAdminAttendanceProvider.allUserAttendanceReport[index]['username'];
-                      String totalHours = mrAdminAttendanceProvider.allUserAttendanceReport[index]['totalHoursWorked'].toString();
+                      String totalHours = mrAdminAttendanceProvider.allUserAttendanceReport[index]['totalHoursWorked'].toStringAsFixed(3);
                       String totalAttendance = mrAdminAttendanceProvider.allUserAttendanceReport[index]['totalAttendance'].toString();
                       return AnimatedContainer(
                         duration: Duration(milliseconds: 400 + (index * 250)),
@@ -445,6 +445,7 @@ class _MrAdminAttendanceReportScreenState
                       String totalHour = mrAdminAttendanceProvider
                           .attendanceLogs[index]['totalHour']
                           .toStringAsFixed(2);
+                      print(totalHour);
                       return AnimatedContainer(
                         duration: Duration(milliseconds: 400 + (index * 250)),
                         curve: Curves.easeInToLinear,
