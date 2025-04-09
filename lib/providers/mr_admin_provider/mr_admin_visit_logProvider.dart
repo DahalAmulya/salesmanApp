@@ -17,7 +17,7 @@ import '../../widgets/texts/custom_text.dart';
 class MrAdminVisitLogProvider extends ChangeNotifier {
   Color _badgeColor = CustomColors.lightYellow;
   CustomInfoWindowController _customInfoWindowController =
-  CustomInfoWindowController();
+      CustomInfoWindowController();
   List<String> _approvalType = ['approved', 'pending', 'rejected'];
   List<Map<String, dynamic>> _approvedVisitLogs = [];
   bool _myAnimation = false;
@@ -246,7 +246,7 @@ class MrAdminVisitLogProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  void clearMarkerOnMap(){
+  void clearMarkerOnMap() {
     _visitLogMarkers.clear();
     _visitLogMarkers = {};
   }
@@ -319,7 +319,8 @@ class MrAdminVisitLogProvider extends ChangeNotifier {
           context);
       _visitLogMarkers.clear();
       if (response.statusCode == 200) {
-        ToastMessageUtils().showToastMessage('Logs found successful',ToastGravity.TOP, CustomColors.jadeGreen);
+        ToastMessageUtils().showToastMessage(
+            'Logs found successful', ToastGravity.TOP, CustomColors.jadeGreen);
         final body = jsonDecode(response.body);
         _foundVisit = body['visitLogs'];
         _visitList = _foundVisit['visitLogs'];
@@ -328,7 +329,7 @@ class MrAdminVisitLogProvider extends ChangeNotifier {
         // print(_foundVisit);
         // print(_visitList);
 
-        for(int index = 0; index < _visitList.length; index++){
+        for (int index = 0; index < _visitList.length; index++) {
           _pocName = _visitList[index]['pocName'];
           _pocAddress = _visitList[index]['pocAddress'];
           _pocNumber = _visitList[index]['pocNumber'];
@@ -336,20 +337,18 @@ class MrAdminVisitLogProvider extends ChangeNotifier {
           _longitude = _visitList[index]['longitude'];
           String executiveName = _selectedUser;
           // String pocNumber = adminVisitLogsProvider.foundVisit['visitLogs']['pocNumber'];
-          String approvalStatus =
-              visitList[index]['approvalStatus'];
-          String pocName =visitList[index]['pocName'];
-          String pocAddress =visitList[index]['pocAddress'];
-          String pocNumber =
-          visitList[index]['pocNumber'];
+          String approvalStatus = visitList[index]['approvalStatus'];
+          String pocName = visitList[index]['pocName'];
+          String pocAddress = visitList[index]['pocAddress'];
+          String pocNumber = visitList[index]['pocNumber'];
           String pocCategory = visitList[index]['pocCategory'];
           String pocSpecialization = visitList[index]['pocSpecialization'];
-          String remarks =visitList[index]['remarks'];
-          String visitType =visitList[index]['visitType'];
-          String mobileTime =visitList[index]['mobileTime'];
+          String remarks = visitList[index]['remarks'];
+          String visitType = visitList[index]['visitType'];
+          String mobileTime = visitList[index]['mobileTime'];
 
           final Uint8List? icon =
-          await getBytesFromAsset('assets/images/userLocation.png', 120);
+              await getBytesFromAsset('assets/images/userLocation.png', 120);
 
           String markerId = _visitList[index].toString();
 
@@ -366,15 +365,14 @@ class MrAdminVisitLogProvider extends ChangeNotifier {
                 if (_customInfoWindowController.addInfoWindow != null) {
                   _customInfoWindowController.addInfoWindow!(
                     CustomContainer(
-                     applyShadow: true,
+                      applyShadow: true,
                       child: SingleChildScrollView(
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.start,
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Row(
-                              mainAxisAlignment:
-                              MainAxisAlignment.spaceBetween,
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 Expanded(
                                   child: CustomText(
@@ -391,10 +389,11 @@ class MrAdminVisitLogProvider extends ChangeNotifier {
                                 ),
                               ],
                             ),
-                            const SizedBox(height: 8,),
+                            const SizedBox(
+                              height: 8,
+                            ),
                             Row(
-                              mainAxisAlignment:
-                              MainAxisAlignment.spaceBetween,
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 Expanded(
                                   child: CustomText(
@@ -410,10 +409,11 @@ class MrAdminVisitLogProvider extends ChangeNotifier {
                                 ),
                               ],
                             ),
-                            const SizedBox(height: 8,),
+                            const SizedBox(
+                              height: 8,
+                            ),
                             Row(
-                              mainAxisAlignment:
-                              MainAxisAlignment.spaceBetween,
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 Expanded(
                                   child: CustomText(
@@ -429,10 +429,11 @@ class MrAdminVisitLogProvider extends ChangeNotifier {
                                 ),
                               ],
                             ),
-                            const SizedBox(height: 8,),
+                            const SizedBox(
+                              height: 8,
+                            ),
                             Row(
-                              mainAxisAlignment:
-                              MainAxisAlignment.spaceBetween,
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 Expanded(
                                   child: CustomText(
@@ -444,17 +445,17 @@ class MrAdminVisitLogProvider extends ChangeNotifier {
                                   child: CustomText(
                                     text: pocSpecialization,
                                     isContent: true,
-                                    textOverflow:
-                                    TextOverflow.visible,
+                                    textOverflow: TextOverflow.visible,
                                     maxLines: 3,
                                   ),
                                 ),
                               ],
                             ),
-                            const SizedBox(height: 8,),
+                            const SizedBox(
+                              height: 8,
+                            ),
                             Row(
-                              mainAxisAlignment:
-                              MainAxisAlignment.spaceBetween,
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 Expanded(
                                   child: CustomText(
@@ -466,17 +467,17 @@ class MrAdminVisitLogProvider extends ChangeNotifier {
                                   child: CustomText(
                                     text: remarks,
                                     isContent: true,
-                                    textOverflow:
-                                    TextOverflow.visible,
+                                    textOverflow: TextOverflow.visible,
                                     maxLines: 3,
                                   ),
                                 ),
                               ],
                             ),
-                            const SizedBox(height: 8,),
+                            const SizedBox(
+                              height: 8,
+                            ),
                             Row(
-                              mainAxisAlignment:
-                              MainAxisAlignment.spaceBetween,
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 Expanded(
                                   child: CustomText(
@@ -488,17 +489,17 @@ class MrAdminVisitLogProvider extends ChangeNotifier {
                                   child: CustomText(
                                     text: executiveName,
                                     isContent: true,
-                                    textOverflow:
-                                    TextOverflow.visible,
+                                    textOverflow: TextOverflow.visible,
                                     maxLines: 3,
                                   ),
                                 ),
                               ],
                             ),
-                            const SizedBox(height: 8,),
+                            const SizedBox(
+                              height: 8,
+                            ),
                             Row(
-                              mainAxisAlignment:
-                              MainAxisAlignment.spaceBetween,
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 Expanded(
                                   child: CustomText(
@@ -510,17 +511,17 @@ class MrAdminVisitLogProvider extends ChangeNotifier {
                                   child: CustomText(
                                     text: pocAddress,
                                     isContent: true,
-                                    textOverflow:
-                                    TextOverflow.visible,
+                                    textOverflow: TextOverflow.visible,
                                     maxLines: 3,
                                   ),
                                 ),
                               ],
                             ),
-                            const SizedBox(height: 8,),
+                            const SizedBox(
+                              height: 8,
+                            ),
                             Row(
-                              mainAxisAlignment:
-                              MainAxisAlignment.spaceBetween,
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 Expanded(
                                   child: CustomText(
@@ -537,10 +538,11 @@ class MrAdminVisitLogProvider extends ChangeNotifier {
                                 ),
                               ],
                             ),
-                            const SizedBox(height: 8,),
+                            const SizedBox(
+                              height: 8,
+                            ),
                             Row(
-                              mainAxisAlignment:
-                              MainAxisAlignment.spaceBetween,
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 Expanded(
                                   child: CustomText(
@@ -562,8 +564,8 @@ class MrAdminVisitLogProvider extends ChangeNotifier {
                       ),
                     ),
                     LatLng(
-                        _visitList[index]['latitude'],
-                        _visitList[index]['longitude'],
+                      _visitList[index]['latitude'],
+                      _visitList[index]['longitude'],
                     ),
                   );
                 }
@@ -573,7 +575,7 @@ class MrAdminVisitLogProvider extends ChangeNotifier {
           );
         }
       } else {
-        ToastMessageUtils().showToastMessage('Logs found successful');
+        ToastMessageUtils().showToastMessage('No visit log found');
         _visitList = [];
       }
     }

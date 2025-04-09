@@ -28,11 +28,7 @@ class MrOfficerReferralScreen extends StatefulWidget {
 }
 
 class _MrOfficerReferralScreenState extends State<MrOfficerReferralScreen> {
-  bool _isVisibleForState = false;
-  bool _isVisibleForDistrict = true;
-
   final _formState = GlobalKey<FormState>();
-  // final link = 'http://108.181.195.185:5000/api/country/Nepal';
 
   @override
   void initState() {
@@ -97,19 +93,19 @@ class _MrOfficerReferralScreenState extends State<MrOfficerReferralScreen> {
           key: _formState,
           child: Column(
             children: [
-              SizedBox(
+              const SizedBox(
                 height: 16,
               ),
               _patientDetails(context),
-              SizedBox(
+              const SizedBox(
                 height: 16,
               ),
               _referredBy(context),
-              SizedBox(
+              const SizedBox(
                 height: 16,
               ),
               _ambulanceDetails(context),
-              SizedBox(
+              const SizedBox(
                 height: 16,
               ),
               Padding(
@@ -150,7 +146,7 @@ class _MrOfficerReferralScreenState extends State<MrOfficerReferralScreen> {
                   ],
                 ),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 24,
               ),
             ],
@@ -174,7 +170,7 @@ class _MrOfficerReferralScreenState extends State<MrOfficerReferralScreen> {
           size: 20,
           fontWeight: FontWeight.w600,
           children: [
-            SizedBox(
+            const SizedBox(
               height: 4,
             ),
             TextFromFieldWithPrefixSuffix(
@@ -201,7 +197,7 @@ class _MrOfficerReferralScreenState extends State<MrOfficerReferralScreen> {
               controller: referralsDetailProvider.patientAgeTextController,
               validator: (value) {},
             ),
-            SizedBox(
+            const SizedBox(
               height: 16,
             ),
             CustomDropdown(
@@ -211,7 +207,7 @@ class _MrOfficerReferralScreenState extends State<MrOfficerReferralScreen> {
                 onChanged: (selectedGender) {
                   referralsDetailProvider.setGender(selectedGender);
                 }),
-            SizedBox(
+            const SizedBox(
               height: 16,
             ),
             TextFromFieldWithPrefixSuffix(
@@ -228,7 +224,7 @@ class _MrOfficerReferralScreenState extends State<MrOfficerReferralScreen> {
                         : null;
               },
             ),
-            SizedBox(
+            const SizedBox(
               height: 16,
             ),
             CustomDropdown(
@@ -240,7 +236,7 @@ class _MrOfficerReferralScreenState extends State<MrOfficerReferralScreen> {
                 referralsDetailProvider.setCountry(newValue);
               },
             ),
-            SizedBox(
+            const SizedBox(
               height: 16,
             ),
             TextFromFieldWithPrefixSuffix(
@@ -274,7 +270,7 @@ class _MrOfficerReferralScreenState extends State<MrOfficerReferralScreen> {
                     content);
               },
             ),
-            SizedBox(
+            const SizedBox(
               height: 16,
             ),
             TextFromFieldWithPrefixSuffix(
@@ -295,7 +291,7 @@ class _MrOfficerReferralScreenState extends State<MrOfficerReferralScreen> {
                         context, referralsDetailProvider.cities));
               },
             ),
-            SizedBox(
+            const SizedBox(
               height: 16,
             ),
             TextFromFieldWithPrefixSuffix(
@@ -311,7 +307,7 @@ class _MrOfficerReferralScreenState extends State<MrOfficerReferralScreen> {
                         : null;
               },
             ),
-            SizedBox(
+            const SizedBox(
               height: 16,
             ),
           ],
@@ -336,7 +332,7 @@ class _MrOfficerReferralScreenState extends State<MrOfficerReferralScreen> {
           size: 20,
           fontWeight: FontWeight.w600,
           children: [
-            SizedBox(
+            const SizedBox(
               height: 4,
             ),
             TextFromFieldWithPrefixSuffix(
@@ -359,10 +355,10 @@ class _MrOfficerReferralScreenState extends State<MrOfficerReferralScreen> {
                   context: context,
                   builder: (context) => _ReferralBottomSheet(context),
                 );
-                referralsDetailProvider.GetPOCList(context);
+                referralsDetailProvider.getPOCList(context);
               },
             ),
-            SizedBox(
+            const SizedBox(
               height: 16,
             ),
             TextFromFieldWithPrefixSuffix(
@@ -380,7 +376,7 @@ class _MrOfficerReferralScreenState extends State<MrOfficerReferralScreen> {
                         : null;
               },
             ),
-            SizedBox(
+            const SizedBox(
               height: 16,
             ),
             TextFromFieldWithPrefixSuffix(
@@ -398,7 +394,7 @@ class _MrOfficerReferralScreenState extends State<MrOfficerReferralScreen> {
                         : null;
               },
             ),
-            SizedBox(
+            const SizedBox(
               height: 16,
             ),
             TextFromFieldWithPrefixSuffix(
@@ -415,7 +411,7 @@ class _MrOfficerReferralScreenState extends State<MrOfficerReferralScreen> {
                         : null;
               },
             ),
-            SizedBox(
+            const SizedBox(
               height: 16,
             ),
             TextFromFieldWithPrefixSuffix(
@@ -432,7 +428,7 @@ class _MrOfficerReferralScreenState extends State<MrOfficerReferralScreen> {
                         : null;
               },
             ),
-            SizedBox(
+            const SizedBox(
               height: 16,
             ),
             TextFromFieldWithPrefixSuffix(
@@ -450,7 +446,7 @@ class _MrOfficerReferralScreenState extends State<MrOfficerReferralScreen> {
                         : null;
               },
             ),
-            SizedBox(
+            const SizedBox(
               height: 16,
             ),
           ],
@@ -475,7 +471,7 @@ class _MrOfficerReferralScreenState extends State<MrOfficerReferralScreen> {
           size: 20,
           fontWeight: FontWeight.w600,
           children: [
-            SizedBox(
+            const SizedBox(
               height: 4,
             ),
             TextFromFieldWithPrefixSuffix(
@@ -504,7 +500,7 @@ class _MrOfficerReferralScreenState extends State<MrOfficerReferralScreen> {
                 );
               },
             ),
-            SizedBox(
+            const SizedBox(
               height: 16,
             ),
             TextFromFieldWithPrefixSuffix(
@@ -521,7 +517,7 @@ class _MrOfficerReferralScreenState extends State<MrOfficerReferralScreen> {
                         : null;
               },
             ),
-            SizedBox(
+            const SizedBox(
               height: 16,
             ),
             TextFromFieldWithPrefixSuffix(
@@ -538,7 +534,7 @@ class _MrOfficerReferralScreenState extends State<MrOfficerReferralScreen> {
                         : null;
               },
             ),
-            SizedBox(
+            const SizedBox(
               height: 16,
             ),
           ],
@@ -597,7 +593,7 @@ class _MrOfficerReferralScreenState extends State<MrOfficerReferralScreen> {
                   ],
                 ),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 16,
               ),
               Expanded(
@@ -676,7 +672,7 @@ class _MrOfficerReferralScreenState extends State<MrOfficerReferralScreen> {
                   ],
                 ),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 16,
               ),
               Expanded(
@@ -720,7 +716,7 @@ class _MrOfficerReferralScreenState extends State<MrOfficerReferralScreen> {
                 padding: EdgeInsets.symmetric(horizontal: 8),
                 height: MediaQuery.of(context).size.height * 0.10,
                 decoration: BoxDecoration(
-                  borderRadius: BorderRadius.only(
+                  borderRadius: const BorderRadius.only(
                       topLeft: Radius.circular(16),
                       topRight: Radius.circular(16)),
                   color: CustomColors.primaryColor,
@@ -732,7 +728,7 @@ class _MrOfficerReferralScreenState extends State<MrOfficerReferralScreen> {
                           Navigator.pop(context);
                         },
                         child: Icon(Icons.arrow_back)),
-                    SizedBox(
+                    const SizedBox(
                       width: 8,
                     ),
                     Expanded(
@@ -753,7 +749,7 @@ class _MrOfficerReferralScreenState extends State<MrOfficerReferralScreen> {
                   ],
                 ),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 16,
               ),
               Expanded(
@@ -784,7 +780,7 @@ class _MrOfficerReferralScreenState extends State<MrOfficerReferralScreen> {
                       String fullAddress = '$country, $region, $city, $address';
                       return ListTile(
                         onTap: () {
-                          referralsDetailProvider.GetPOCList(context);
+                          referralsDetailProvider.getPOCList(context);
                           // String organization = referralsDetailProvider.pocList[index]['organization'];
                           referralsDetailProvider.setPOCDetails(
                               id,
@@ -815,7 +811,7 @@ class _MrOfficerReferralScreenState extends State<MrOfficerReferralScreen> {
                                       )),
                                 ],
                               ),
-                              SizedBox(
+                              const SizedBox(
                                 height: 8,
                               ),
                               Row(
@@ -832,7 +828,7 @@ class _MrOfficerReferralScreenState extends State<MrOfficerReferralScreen> {
                                       )),
                                 ],
                               ),
-                              SizedBox(
+                              const SizedBox(
                                 height: 8,
                               ),
                               Row(
@@ -877,7 +873,7 @@ class _MrOfficerReferralScreenState extends State<MrOfficerReferralScreen> {
                   padding: EdgeInsets.symmetric(horizontal: 8),
                   height: MediaQuery.of(context).size.height * 0.10,
                   decoration: BoxDecoration(
-                    borderRadius: BorderRadius.only(
+                    borderRadius: const BorderRadius.only(
                         topLeft: Radius.circular(16),
                         topRight: Radius.circular(16)),
                     color: CustomColors.primaryColor,
@@ -889,7 +885,7 @@ class _MrOfficerReferralScreenState extends State<MrOfficerReferralScreen> {
                             Navigator.pop(context);
                           },
                           child: Icon(Icons.arrow_back)),
-                      SizedBox(
+                      const SizedBox(
                         width: 8,
                       ),
                       Expanded(
@@ -910,7 +906,7 @@ class _MrOfficerReferralScreenState extends State<MrOfficerReferralScreen> {
                     ],
                   ),
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 8,
                 ),
                 Expanded(
@@ -961,7 +957,7 @@ class _MrOfficerReferralScreenState extends State<MrOfficerReferralScreen> {
                                       )),
                                 ],
                               ),
-                              SizedBox(
+                              const SizedBox(
                                 height: 8,
                               ),
                               Row(
@@ -978,7 +974,7 @@ class _MrOfficerReferralScreenState extends State<MrOfficerReferralScreen> {
                                       )),
                                 ],
                               ),
-                              SizedBox(
+                              const SizedBox(
                                 height: 8,
                               ),
                               Row(

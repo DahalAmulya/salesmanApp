@@ -382,7 +382,7 @@ class ReferralsDetailProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  void GetPOCList(context) async {
+  void getPOCList(context) async {
     ERPResponse response = await ERPServices.getRequest(
         '/poc/category?createdById=$userId&category=', context);
     if (response.statusCode == 200) {
@@ -394,7 +394,7 @@ class ReferralsDetailProvider extends ChangeNotifier {
       print('Error: ${response.statusCode} - ${response.body}');
     }
     Position position = await Geolocator.getCurrentPosition(
-      locationSettings: LocationSettings(
+      locationSettings: const LocationSettings(
         accuracy: LocationAccuracy.best,
         distanceFilter: 0,
       ),

@@ -416,7 +416,7 @@ class _ReferralLogScreenState extends State<ReferralLogScreen> {
                 const SizedBox(
                   height: 16,
                 ),
-                mrAdminReferralLogProvider.foundReferral.length != 0
+                mrAdminReferralLogProvider.foundReferral.isNotEmpty
                     ? CustomContainer(
                         horizontalPad: 0,
                         verticalPad: 0,
@@ -471,8 +471,9 @@ class _ReferralLogScreenState extends State<ReferralLogScreen> {
                                     Expanded(
                                       flex: 2,
                                       child: CustomText(
-                                        text:
-                                            mrAdminReferralLogProvider.foundReferral.length.toString(),
+                                        text: mrAdminReferralLogProvider
+                                            .foundReferral.length
+                                            .toString(),
                                         isContent: true,
                                       ),
                                     ),
@@ -585,10 +586,10 @@ class _ReferralLogScreenState extends State<ReferralLogScreen> {
                 const SizedBox(
                   height: 16,
                 ),
-                mrAdminReferralLogProvider.foundReferral.length != 0
+                mrAdminReferralLogProvider.foundReferral.isNotEmpty
                     ? ListView.builder(
                         shrinkWrap: true, // Shrink-wrap the ListView
-                        physics: NeverScrollableScrollPhysics(),
+                        physics: const NeverScrollableScrollPhysics(),
                         itemCount:
                             mrAdminReferralLogProvider.foundReferral.length,
                         itemBuilder: (context, index) {
@@ -636,6 +637,8 @@ class _ReferralLogScreenState extends State<ReferralLogScreen> {
                               .foundReferral[index]['referralDate']
                               .toString()
                               .split('T')[0];
+                          String approvalStatus =
+                              mrAdminReferralLogProvider.approvalType[1];
 
                           return AnimatedContainer(
                             duration:
@@ -930,6 +933,37 @@ class _ReferralLogScreenState extends State<ReferralLogScreen> {
                                             ),
                                           ],
                                         ),
+                                        const SizedBox(
+                                          height: 8,
+                                        ),
+                                        Row(
+                                          children: [
+                                            Expanded(
+                                              child: CustomText(
+                                                text: 'Approval Status',
+                                                isContent: true,
+                                              ),
+                                            ),
+                                            SizedBox(
+                                              width: MediaQuery.of(context)
+                                                      .size
+                                                      .width *
+                                                  0.45,
+                                              child: CustomDropdown(
+                                                labelText: '',
+                                                items:
+                                                    mrAdminReferralLogProvider
+                                                        .approvalType,
+                                                value: approvalStatus,
+                                                onChanged: (value) {
+                                                  mrAdminReferralLogProvider
+                                                      .approvalStatus(
+                                                          index, value!);
+                                                },
+                                              ),
+                                            ),
+                                          ],
+                                        ),
 
                                         // Row(
                                         //   children: [
@@ -1106,7 +1140,7 @@ class _ReferralLogScreenState extends State<ReferralLogScreen> {
                             print('Pressed');
                             Navigator.pop(context);
                           },
-                          child: Icon(FontAwesomeIcons.arrowLeft)),
+                          child: const Icon(FontAwesomeIcons.arrowLeft)),
                     ),
                     // ),
                     Expanded(
@@ -1118,7 +1152,7 @@ class _ReferralLogScreenState extends State<ReferralLogScreen> {
                             ? 'Search District'
                             : 'Search State',
                         applySuffixIcon: true,
-                        suffixIcon: Icon(Icons.search),
+                        suffixIcon: const Icon(Icons.search),
                         validator: (value) {},
                         onChange: (value) =>
                             mrAdminReferralLogProvider.searchAddressResult(
