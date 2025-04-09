@@ -119,8 +119,7 @@ class _ReferralLogScreenState extends State<ReferralLogScreen> {
                           ),
                           CustomDropdown(
                             labelText: 'Select User',
-                            items: mrAdminReferralLogProvider
-                                .referralLogsUsersList,
+                            items: mrAdminReferralLogProvider.referralLogsUsersList,
                             value: mrAdminReferralLogProvider.selectedUser,
                             onChanged: (value) {
                               mrAdminReferralLogProvider.setSelectedUser(value);
@@ -1078,7 +1077,7 @@ class _ReferralLogScreenState extends State<ReferralLogScreen> {
       },
     );
   }
-  //----------------------------------------------------------------City Bottom Sheet-------------------------------------------------------------------------------------------------------------------------------------------------------//
+  //----------------------------------------------------------------District Bottom Sheet-------------------------------------------------------------------------------------------------------------------------------------------------------//
 
   Widget districtBottomSheet(context, String type, List<dynamic> content) {
     return Consumer<MrAdminReferralLogProvider>(

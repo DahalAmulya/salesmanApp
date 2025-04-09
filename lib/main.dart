@@ -5,6 +5,7 @@ import 'package:deskgoo/classes/notification_controller.dart';
 import 'package:deskgoo/consts.dart';
 import 'package:deskgoo/firebase_options.dart';
 import 'package:deskgoo/models/environment.dart';
+import 'package:deskgoo/pages/mr_admin/mr_admin_providers/mr_admin_ambulancereport_provider.dart';
 import 'package:deskgoo/pages/mr_admin/mr_admin_providers/mr_admin_attendancereport_provider.dart';
 import 'package:deskgoo/pages/mr_admin/mr_admin_providers/mr_admin_createuser_provider.dart';
 import 'package:deskgoo/pages/mr_admin/mr_admin_providers/mr_admin_referral%20log_provider.dart';
@@ -109,6 +110,7 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(create: (context) => MrAdminAreaReportProvider()),
         ChangeNotifierProvider(create: (context) => MrAdminReferralLogProvider()),
         ChangeNotifierProvider(create: (context) => MrAdminAttendanceProvider()),
+        ChangeNotifierProvider(create: (context) => MrAdminAmbulanceReportProvider()),
       ],
       child: Builder(
         builder: (BuildContext context) {
