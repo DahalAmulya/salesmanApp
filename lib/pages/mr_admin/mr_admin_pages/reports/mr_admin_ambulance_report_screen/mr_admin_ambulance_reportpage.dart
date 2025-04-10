@@ -11,6 +11,7 @@ import 'package:provider/provider.dart';
 import '../../../../../routes/route_generator_constants.dart';
 import '../../../../../themes/custom_colors.dart';
 import '../../../../../widgets/app_bars/custom_app_bars.dart';
+import '../../../../../widgets/buttons/elevated_button.dart';
 import '../../../../../widgets/drop_downs/custom_dropdown.dart';
 import '../../../../../widgets/text_fields/text_from_field.dart';
 import '../../../mr_admin_providers/mr_admin_ambulancereport_provider.dart';
@@ -25,12 +26,32 @@ class MrAdminAmbulanceReportScreen extends StatefulWidget {
 
 class _AmbulanceReportScreenState extends State<MrAdminAmbulanceReportScreen> {
 
+  bool myAnimation = false;
+  double width = 0;
+
+
   @override
   void initState() {
     MrAdminAmbulanceReportProvider mrAdminAmbulanceReportProvider = Provider.of<MrAdminAmbulanceReportProvider>(context,listen: false);
     mrAdminAmbulanceReportProvider.getAmbulanceLogList(context);
+    mrAdminAmbulanceReportProvider.getDataForDistrict();
+    mrAdminAmbulanceReportProvider.getDataForState();
     super.initState();
   }
+
+  void _triggerAnimation() {
+    setState(() {
+      myAnimation = false;
+    });
+
+    Future.delayed(const Duration(milliseconds: 200), () {
+      setState(() {
+        myAnimation = true;
+      });
+    });
+  }
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -246,91 +267,141 @@ class _AmbulanceReportScreenState extends State<MrAdminAmbulanceReportScreen> {
                           if(mrAdminAmbulanceReportProvider.selectedAmbulanceReferralType == 'City')
                             Column(
                               children: [
-                                // CustomDropdown(
-                                //   labelText: 'Country',
-                                //   items: mrAdminAmbulanceReportProvider.countryList,
-                                //   value: mrAdminAmbulanceReportProvider
-                                //       .selectedCountry,
-                                //   applyCountryFlag: true,
-                                //   onChanged: (newValue) {
-                                //     mrAdminAmbulanceReportProvider
-                                //         .setSelectedCountry(newValue);
-                                //   },
-                                // ),
-                                // const SizedBox(
-                                //   height: 16,
-                                // ),
-                                // TextFromFieldWithPrefixSuffix(
-                                //   controller: mrAdminAmbulanceReportProvider
-                                //       .selectedCountry ==
-                                //       mrAdminAmbulanceReportProvider
-                                //           .countryList[0]
-                                //       ? mrAdminAmbulanceReportProvider
-                                //       .districtController
-                                //       : mrAdminAmbulanceReportProvider
-                                //       .stateController,
-                                //   readOnly: true,
-                                //   labelText: mrAdminAmbulanceReportProvider
-                                //       .selectedCountry ==
-                                //       mrAdminAmbulanceReportProvider
-                                //           .countryList[0]
-                                //       ? 'District *'
-                                //       : 'State *',
-                                //   validator: (newValue) {},
-                                //   onTap: () async {
-                                //     String fileName = mrAdminAmbulanceReportProvider
-                                //         .selectedCountry ==
-                                //         mrAdminAmbulanceReportProvider
-                                //             .countryList[0]
-                                //         ? 'district'
-                                //         : 'states';
-                                //     final file = await rootBundle
-                                //         .loadString('assets/$fileName.json');
-                                //     final content = await jsonDecode(file);
-                                //     showModalBottomSheet(
-                                //         isScrollControlled: true,
-                                //         useSafeArea: true,
-                                //         context: context,
-                                //         builder: (context) =>
-                                //             districtBottomSheet(
-                                //                 context, '$fileName', content));
-                                //     mrAdminAmbulanceReportProvider
-                                //         .searchController.text = '';
-                                //     mrAdminAmbulanceReportProvider
-                                //         .searchAddressResult(
-                                //         mrAdminAmbulanceReportProvider
-                                //             .searchController.value.text,
-                                //         content);
-                                //   },
-                                // ),
-                                // const SizedBox(
-                                //   height: 16,
-                                // ),
-                                // TextFromFieldWithPrefixSuffix(
-                                //   controller:
-                                //   mrAdminAmbulanceReportProvider.cityController,
-                                //   readOnly: true,
-                                //   labelText: 'City *',
-                                //   validator: (newValue) {},
-                                //   onTap: () async {
-                                //     mrAdminAmbulanceReportProvider
-                                //         .searchController.text = '';
-                                //     mrAdminAmbulanceReportProvider
-                                //         .searchAddressResult(
-                                //         mrAdminAmbulanceReportProvider
-                                //             .searchController.value.text,
-                                //         mrAdminAmbulanceReportProvider.cities);
-                                //     showModalBottomSheet(
-                                //         isScrollControlled: true,
-                                //         useSafeArea: true,
-                                //         context: context,
-                                //         builder: (context) => citiesBottomSheet(
-                                //             context,
-                                //             mrAdminAmbulanceReportProvider.cities));
-                                //   },
-                                // ),
+                                CustomDropdown(
+                                  labelText: 'Country',
+                                  items: mrAdminAmbulanceReportProvider.countryList,
+                                  value: mrAdminAmbulanceReportProvider
+                                      .selectedCountry,
+                                  applyCountryFlag: true,
+                                  onChanged: (newValue) {
+                                    mrAdminAmbulanceReportProvider
+                                        .setSelectedCountry(newValue);
+                                  },
+                                ),
+                                const SizedBox(
+                                  height: 16,
+                                ),
+                                TextFromFieldWithPrefixSuffix(
+                                  controller: mrAdminAmbulanceReportProvider
+                                      .selectedCountry ==
+                                      mrAdminAmbulanceReportProvider
+                                          .countryList[0]
+                                      ? mrAdminAmbulanceReportProvider
+                                      .districtController
+                                      : mrAdminAmbulanceReportProvider
+                                      .stateController,
+                                  readOnly: true,
+                                  labelText: mrAdminAmbulanceReportProvider
+                                      .selectedCountry ==
+                                      mrAdminAmbulanceReportProvider
+                                          .countryList[0]
+                                      ? 'District *'
+                                      : 'State *',
+                                  validator: (newValue) {},
+                                  onTap: () async {
+                                    String fileName = mrAdminAmbulanceReportProvider
+                                        .selectedCountry ==
+                                        mrAdminAmbulanceReportProvider
+                                            .countryList[0]
+                                        ? 'district'
+                                        : 'states';
+                                    final file = await rootBundle
+                                        .loadString('assets/$fileName.json');
+                                    final content = await jsonDecode(file);
+                                    showModalBottomSheet(
+                                        isScrollControlled: true,
+                                        useSafeArea: true,
+                                        context: context,
+                                        builder: (context) =>
+                                            districtBottomSheet(
+                                                context, '$fileName', content));
+                                    mrAdminAmbulanceReportProvider
+                                        .searchController.text = '';
+                                    mrAdminAmbulanceReportProvider
+                                        .searchAddressResult(
+                                        mrAdminAmbulanceReportProvider
+                                            .searchController.value.text,
+                                        content);
+                                  },
+                                ),
+                                const SizedBox(
+                                  height: 16,
+                                ),
+                                TextFromFieldWithPrefixSuffix(
+                                  controller:
+                                  mrAdminAmbulanceReportProvider.cityController,
+                                  readOnly: true,
+                                  labelText: 'City *',
+                                  validator: (newValue) {},
+                                  onTap: () async {
+                                    mrAdminAmbulanceReportProvider
+                                        .searchController.text = '';
+                                    mrAdminAmbulanceReportProvider
+                                        .searchAddressResult(
+                                        mrAdminAmbulanceReportProvider
+                                            .searchController.value.text,
+                                        mrAdminAmbulanceReportProvider.cities);
+                                    showModalBottomSheet(
+                                        isScrollControlled: true,
+                                        useSafeArea: true,
+                                        context: context,
+                                        builder: (context) => citiesBottomSheet(
+                                            context,
+                                            mrAdminAmbulanceReportProvider.cities));
+                                  },
+                                ),
+
                               ],
                             ),
+                          const SizedBox(
+                            height: 16,
+                          ),
+                          CustomElevatedButton(
+                            onPressed: () {
+                              mrAdminAmbulanceReportProvider.getAmbulanceReport(context);
+                              _triggerAnimation();
+                            },
+                            width: 0.90,
+                            height: 50,
+                            backgroundColor: CustomColors.primaryColor,
+                            widget: CustomText(
+                              text: 'Submit',
+                              fontWeight: FontWeight.w600,
+                              color: CustomColors.primaryBlack,
+                              size: 20.0,
+                            ),
+                          ),
+                          const SizedBox(
+                            height: 16,
+                          ),
+                          mrAdminAmbulanceReportProvider.foundAmbulanceList.isNotEmpty ?
+                          CustomContainer(
+                            horizontalPad: 0,
+                            verticalPad: 0,
+                            color: Colors.transparent,
+                              child: Column(
+                                children: [
+                                  CustomExpansionTile(
+                                      applyAllBorderRadius: true,
+                                      size: 20,
+                                      fontWeight: FontWeight.w600,
+                                      title: 'Ambulance Report',
+                                      children: [
+
+                                      ],
+                                  )
+                                ],
+                              ),
+                          )
+                              : Center(
+                            child: Padding(
+                              padding: const EdgeInsets.symmetric(vertical: 64.0),
+                              child: CustomText(
+                                text: '',
+                                isSubHeading: true,
+                              ),
+                            ),
+                          ),
                         ],
                       ),
                     ]),
@@ -429,6 +500,86 @@ Widget districtBottomSheet(context, String type, List<dynamic> content){
       }
     );
 }
+
+//------------------------------------------------------------------------------------Cities Bottom Sheet-------------------------------------------------------------------------------------------------------------------------//
+
+ Widget citiesBottomSheet(context, List<dynamic> content){
+    return Consumer<MrAdminAmbulanceReportProvider>(
+      builder: (context,mrAdminAmbulanceReportProvider,_) {
+        return Container(
+          color: CustomColors.primaryWhite,
+          height: MediaQuery.of(context).size.height * 0.80,
+          child: Column(
+            children: [
+              Container(
+                padding: const EdgeInsets.only(
+                  top: 16,
+                  right: 12.0,
+                  bottom: 12,
+                ),
+                decoration: BoxDecoration(
+                  color: CustomColors.primaryColor,
+                ),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Expanded(
+                      flex: 1,
+                      child: InkWell(
+                          onTap: () {
+                            print('Pressed');
+                            Navigator.pop(context);
+                          },
+                          child: Icon(FontAwesomeIcons.arrowLeft)),
+                    ),
+                    // ),
+                    Expanded(
+                      flex: 7,
+                      child: TextFromFieldWithPrefixSuffix(
+                        controller: mrAdminAmbulanceReportProvider.searchController,
+                        labelText: 'Search City',
+                        applySuffixIcon: true,
+                        suffixIcon: Icon(Icons.search),
+                        validator: (value) {},
+                        onChange: (value) =>
+                            mrAdminAmbulanceReportProvider.searchAddressResult(
+                                mrAdminAmbulanceReportProvider
+                                    .searchController.value.text,
+                                content),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              const SizedBox(
+                height: 16,
+              ),
+              Expanded(
+                child: ListView.builder(
+                  itemCount: mrAdminAmbulanceReportProvider.searchResult.length,
+                  itemBuilder: (context, index) {
+                    String cityName =
+                    mrAdminAmbulanceReportProvider.searchResult[index];
+                    return ListTile(
+                      onTap: () {
+                        Navigator.pop(context);
+                        mrAdminAmbulanceReportProvider.setSelectedCity(cityName);
+                        print(mrAdminAmbulanceReportProvider.searchResult[index]);
+                      },
+                      title: CustomText(
+                        text: cityName,
+                        isContent: true,
+                      ),
+                    );
+                  },
+                ),
+              ),
+            ],
+          ),
+        );
+      }
+    );
+ }
 
 
 }

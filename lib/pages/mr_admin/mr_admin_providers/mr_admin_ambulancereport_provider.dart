@@ -3,8 +3,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-
 import '../../../services/erp_services.dart';
+import '../../../utils/toast_message.dart';
 
 class MrAdminAmbulanceReportProvider extends ChangeNotifier{
   List<String> _ambulanceLogsUsersList = ["Select User",];
@@ -14,6 +14,7 @@ class MrAdminAmbulanceReportProvider extends ChangeNotifier{
   List<String> _foundDistrictList = [];
   List<String> _foundStateList = [];
   List<String> _foundCities = [];
+  List<String> _foundAmbulanceList = [];
 
   List<dynamic> _usersList = [];
   List<dynamic> _ambulanceReportLogs = [];
@@ -44,6 +45,9 @@ class MrAdminAmbulanceReportProvider extends ChangeNotifier{
   String _selectedCities = '';
   String _selectedState = '';
   String _profileImage = '';
+  String _baseUrl = 'http://202.51.3.49:8002/api/poc/category?createdById=67bb038a43570a2502dd1ee6&category=Ambulance';
+  String _foundAmbulanceDetail = '';
+
   String _from = DateTime.now().toString().split(' ')[0];
   String _to = DateTime.now().toString().split(' ')[0];
 
@@ -76,6 +80,7 @@ class MrAdminAmbulanceReportProvider extends ChangeNotifier{
   List<dynamic> get searchResult => _searchResult;
   List<dynamic> get usersAmbulanceList => _usersAmbulanceList;
   List<dynamic> get referralList => _referralList;
+  List<String> get foundAmbulanceList => _foundAmbulanceList;
 
 
 
@@ -93,6 +98,8 @@ class MrAdminAmbulanceReportProvider extends ChangeNotifier{
   String get selectedCities => _selectedCities;
   String get selectedState => _selectedState;
   String get profileImage => _profileImage;
+  String get baseUrl => _baseUrl;
+  String get foundAmbulanceDetail => _foundAmbulanceDetail;
 
   TextEditingController get fromTextEditingController => _fromTextEditingController;
   TextEditingController get toTextEditingController => _toTextEditingController;
@@ -307,6 +314,30 @@ class MrAdminAmbulanceReportProvider extends ChangeNotifier{
       }
     }
     notifyListeners();
+  }
+
+  void getAmbulanceReport(context)async{
+    if(_selectedUserId.isEmpty){
+      ToastMessageUtils().showToastMessage('Please select a user');
+    }
+    try{
+      ERPResponse response = await ERPServices.getRequest('/poc/category?createdById=$_selectedUserId&category=Ambulance', context);
+      final body = jsonDecode(response.body);
+      // print(body);
+      if (response.statusCode == 200) {
+        _foundAmbulanceDetail = body['poc'][0]['pocName'];
+        _foundAmbulanceList = body['poc'];
+      print(_foundAmbulanceDetail);
+
+      }else{
+        print('API Error: ${response.statusCode}');
+        ToastMessageUtils().showToastMessage('Failed to fetch data');
+      }
+    }catch(err){
+      print('Error: $err');
+      ToastMessageUtils().showToastMessage('An error occurred');
+    }
+   notifyListeners();
   }
 
 }
