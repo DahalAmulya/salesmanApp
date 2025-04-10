@@ -52,6 +52,7 @@ class _AmbulanceReportScreenState extends State<MrAdminAmbulanceReportScreen> {
 
   @override
   Widget build(BuildContext context) {
+    width = MediaQuery.of(context).size.width;
     return Scaffold(
       backgroundColor: CustomColors.primaryWhite,
       appBar: _appBar(context),
@@ -491,8 +492,7 @@ class _AmbulanceReportScreenState extends State<MrAdminAmbulanceReportScreen> {
                         return AnimatedContainer(
                           duration: Duration(milliseconds: 400 + (index * 250)),
                           curve: Curves.easeInToLinear,
-                          transform: Matrix4.translationValues(
-                              myAnimation ? 0 : width, 0, 0),
+                          transform: Matrix4.translationValues(myAnimation ? 0 : width, 0, 0),
                           child: Column(
                             children: [
                               CustomContainer(
