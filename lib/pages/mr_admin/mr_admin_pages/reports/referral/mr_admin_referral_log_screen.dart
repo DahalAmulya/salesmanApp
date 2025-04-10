@@ -607,7 +607,6 @@ class _ReferralLogScreenState extends State<ReferralLogScreen> {
                               .foundReferral[index]['region'];
                           String city = mrAdminReferralLogProvider
                               .foundReferral[index]['city'];
-
                           String createdById = mrAdminReferralLogProvider
                               .foundReferral[index]['createdById']
                               .toString();
