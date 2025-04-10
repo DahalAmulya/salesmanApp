@@ -11,10 +11,11 @@ class MrAdminAmbulanceReportProvider extends ChangeNotifier{
   List<String> _ambulanceReportDateTypeList = ['Today', 'Yesterday', 'Custom'];
   List<String> _ambulanceReferralType = ["Country","Region","City"];
   List<String> _countryList = ['Nepal','India',];
+  List<String> _approvalType = ['approved', 'pending', 'rejected'];
   List<String> _foundDistrictList = [];
   List<String> _foundStateList = [];
   List<String> _foundCities = [];
-  List<String> _foundAmbulanceList = [];
+
 
   List<dynamic> _usersList = [];
   List<dynamic> _ambulanceReportLogs = [];
@@ -27,6 +28,7 @@ class MrAdminAmbulanceReportProvider extends ChangeNotifier{
   List<dynamic> _stateList = [];
   List<dynamic> _cities = [];
   List<dynamic> _searchResult = [];
+  List<dynamic> _foundAmbulanceList = [];
 
   List<dynamic> _usersAmbulanceList = [];
   List<dynamic> _referralList = [];
@@ -66,6 +68,7 @@ class MrAdminAmbulanceReportProvider extends ChangeNotifier{
   List<String> get foundDistrictList => _foundDistrictList;
   List<String> get foundStateList => _foundStateList;
   List<String> get foundCities => _foundCities;
+  List<String> get approvalType => _approvalType;
 
   List<dynamic> get usersList => _usersList;
   List<dynamic> get ambulanceReportLogs => _ambulanceReportLogs;
@@ -80,7 +83,7 @@ class MrAdminAmbulanceReportProvider extends ChangeNotifier{
   List<dynamic> get searchResult => _searchResult;
   List<dynamic> get usersAmbulanceList => _usersAmbulanceList;
   List<dynamic> get referralList => _referralList;
-  List<String> get foundAmbulanceList => _foundAmbulanceList;
+  List<dynamic> get foundAmbulanceList => _foundAmbulanceList;
 
 
 
@@ -120,6 +123,10 @@ class MrAdminAmbulanceReportProvider extends ChangeNotifier{
       }
     }
 
+    notifyListeners();
+  }
+
+  void approvalStatus(int index, String value) {
     notifyListeners();
   }
 
@@ -327,7 +334,7 @@ class MrAdminAmbulanceReportProvider extends ChangeNotifier{
       if (response.statusCode == 200) {
         _foundAmbulanceDetail = body['poc'][0]['pocName'];
         _foundAmbulanceList = body['poc'];
-      print(_foundAmbulanceDetail);
+      print(_foundAmbulanceList);
 
       }else{
         print('API Error: ${response.statusCode}');
