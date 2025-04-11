@@ -332,9 +332,15 @@ class MrAdminAmbulanceReportProvider extends ChangeNotifier{
       final body = jsonDecode(response.body);
       // print(body);
       if (response.statusCode == 200) {
-        _foundAmbulanceDetail = body['poc'][0]['pocName'];
+        // _foundAmbulanceDetail = body['poc'][0]['pocName'];
         _foundAmbulanceList = body['poc'];
       print(_foundAmbulanceList);
+
+      if(_foundAmbulanceList.isEmpty){
+       print( _foundAmbulanceDetail = '');
+      }else{
+       print( _foundAmbulanceDetail = body['poc'][0]['pocName']);
+      }
 
       }else{
         print('API Error: ${response.statusCode}');
