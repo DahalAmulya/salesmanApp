@@ -330,21 +330,16 @@ class MrAdminAmbulanceReportProvider extends ChangeNotifier{
     try{
       ERPResponse response = await ERPServices.getRequest('/poc/category?createdById=$_selectedUserId&category=Ambulance', context);
       final body = jsonDecode(response.body);
-      // print(body);
       if (response.statusCode == 200) {
         _foundAmbulanceDetail = body['poc'][0]['pocName'];
         _foundAmbulanceList = body['poc'];
-      print(_foundAmbulanceList);
 
       }else{
-        print('API Error: ${response.statusCode}');
         ToastMessageUtils().showToastMessage('Failed to fetch data');
       }
     }catch(err){
-      print('Error: $err');
       ToastMessageUtils().showToastMessage('An error occurred');
     }
    notifyListeners();
   }
-
 }

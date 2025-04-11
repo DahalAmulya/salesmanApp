@@ -104,11 +104,11 @@ class MrAdminAttendanceProvider extends ChangeNotifier {
     DateTime yesterday = currentDate.subtract(Duration(days: 1));
     _selectedVisitType = visitType;
     if (_selectedVisitType == _visitDateTypeList[0]) {
-      _from = '${currentDate.toString().split(' ')[0]}';
-      _to = '${currentDate.toString().split(' ')[0]}';
+      _from = currentDate.toString().split(' ')[0];
+      _to = currentDate.toString().split(' ')[0];
     } else if (_selectedVisitType == _visitDateTypeList[1]) {
-      _from = '${yesterday.toString().split(' ')[0]}';
-      _to = '${yesterday.toString().split(' ')[0]}';
+      _from = yesterday.toString().split(' ')[0];
+      _to = yesterday.toString().split(' ')[0];
     } else {}
 
     notifyListeners();

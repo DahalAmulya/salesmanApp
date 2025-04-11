@@ -156,14 +156,14 @@ class _MarketingOfficerReferralLogScreenState
                 ),
               ),
             ),
-            SizedBox(
+            const SizedBox(
               height: 8,
             ),
-            referralsDetailProvider.referralLogs.length != 0
+            referralsDetailProvider.referralLogs.isNotEmpty
                 ? ListView.builder(
                     shrinkWrap:
                         true, // This allows it to take only the required height
-                    physics: NeverScrollableScrollPhysics(),
+                    physics: const NeverScrollableScrollPhysics(),
                     itemCount: referralsDetailProvider.referralLogs.length,
                     itemBuilder: (context, index) {
                       String patientId = referralsDetailProvider
