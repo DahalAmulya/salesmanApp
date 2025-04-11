@@ -34,26 +34,21 @@ class _MrAdminAreaReportScreenState extends State<MrAdminAreaReportScreen> {
   List<dynamic> stateList = [];
   List<dynamic> citiesList = [];
 
-  bool _isVisibleForState = false;
-  bool _isVisibleForDistrict = true;
-
   TextEditingController stateTextEditingController = TextEditingController();
   TextEditingController districtTextEditingController = TextEditingController();
   TextEditingController cityTextEditingController = TextEditingController();
 
   void getDataForDistrict() async {
-    final respose = await rootBundle.loadString('assets/district.json');
-    print(respose.runtimeType);
-    List<dynamic> districtData = json.decode(respose);
-    // print(districtData);
+    final response = await rootBundle.loadString('assets/district.json');
+    print(response.runtimeType);
+    List<dynamic> districtData = json.decode(response);
     districtList = districtData;
   }
 
   void getDataForState() async {
-    final respose = await rootBundle.loadString('assets/states.json');
-    List<dynamic> stateData = json.decode(respose);
+    final response = await rootBundle.loadString('assets/states.json');
+    List<dynamic> stateData = json.decode(response);
     stateList = stateData;
-    // print(stateList);
   }
 
   @override
@@ -92,7 +87,7 @@ class _MrAdminAreaReportScreenState extends State<MrAdminAreaReportScreen> {
 
   PreferredSize _appBar(context) {
     return PreferredSize(
-      preferredSize: Size.fromHeight(kToolbarHeight),
+      preferredSize: const Size.fromHeight(kToolbarHeight),
       child: CustomAppBar(
         tabName: '',
         automaticallyImplyLeading: true,
@@ -118,7 +113,7 @@ class _MrAdminAreaReportScreenState extends State<MrAdminAreaReportScreen> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    SizedBox(
+                    const SizedBox(
                       height: 16,
                     ),
                     CustomText(
@@ -126,7 +121,7 @@ class _MrAdminAreaReportScreenState extends State<MrAdminAreaReportScreen> {
                       fontWeight: FontWeight.w600,
                       size: 20,
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 16,
                     ),
                     Row(
@@ -150,7 +145,7 @@ class _MrAdminAreaReportScreenState extends State<MrAdminAreaReportScreen> {
                         ),
                       ],
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 16,
                     ),
                     Row(
@@ -207,7 +202,7 @@ class _MrAdminAreaReportScreenState extends State<MrAdminAreaReportScreen> {
                         ),
                       ],
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 16,
                     ),
                     // Visibility(
@@ -274,7 +269,7 @@ class _MrAdminAreaReportScreenState extends State<MrAdminAreaReportScreen> {
                         ),
                       ],
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 24,
                     ),
                     Container(
@@ -343,7 +338,7 @@ class _MrAdminAreaReportScreenState extends State<MrAdminAreaReportScreen> {
                 ],
               ),
             ),
-            SizedBox(
+            const SizedBox(
               height: 16,
             ),
             Expanded(
@@ -416,7 +411,7 @@ class _MrAdminAreaReportScreenState extends State<MrAdminAreaReportScreen> {
                                 content),
                       ),
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 16,
                     ),
                     Expanded(
