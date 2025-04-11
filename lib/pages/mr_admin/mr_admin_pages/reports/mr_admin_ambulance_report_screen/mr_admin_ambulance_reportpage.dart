@@ -115,81 +115,81 @@ class _AmbulanceReportScreenState extends State<MrAdminAmbulanceReportScreen> {
                           const SizedBox(
                             height: 16,
                           ),
-                          CustomDropdown(
-                            labelText: 'Select Date',
-                            items: mrAdminAmbulanceReportProvider
-                                .ambulanceReportDateTypeList,
-                            value: mrAdminAmbulanceReportProvider
-                                .selectedAmbulanceReportDateType,
-                            onChanged: (value) {
-                              mrAdminAmbulanceReportProvider
-                                  .setSelectedAmbulanceVisitType(value);
-                            },
-                          ),
-                          SizedBox(
-                            height: mrAdminAmbulanceReportProvider
-                                        .selectedAmbulanceReportDateType ==
-                                    mrAdminAmbulanceReportProvider
-                                        .ambulanceReportDateTypeList[2]
-                                ? 16
-                                : 0,
-                          ),
-                          if (mrAdminAmbulanceReportProvider
-                                  .selectedAmbulanceReportDateType ==
-                              'Custom')
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Expanded(
-                                  flex: 1,
-                                  child: TextFromFieldWithPrefixSuffix(
-                                    labelText: 'From',
-                                    readOnly: true,
-                                    controller: mrAdminAmbulanceReportProvider
-                                        .fromTextEditingController,
-                                    onTap: () {
-                                      mrAdminAmbulanceReportProvider
-                                          .selectDateFrom(context);
-                                    },
-                                    validator: (value) {},
-                                  ),
-                                ),
-                                const SizedBox(
-                                  width: 12,
-                                ),
-                                Expanded(
-                                  flex: 1,
-                                  child: TextFromFieldWithPrefixSuffix(
-                                    labelText: 'To',
-                                    readOnly: true,
-                                    controller: mrAdminAmbulanceReportProvider
-                                        .toTextEditingController,
-                                    onTap: () {
-                                      mrAdminAmbulanceReportProvider
-                                          .selectDateTo(context);
-                                    },
-                                    validator: (value) {},
-                                  ),
-                                ),
-                              ],
-                            ),
-                          const SizedBox(
-                            height: 16,
-                          ),
-                          CustomDropdown(
-                            labelText: 'Select Ambulance Referral Type',
-                            items: mrAdminAmbulanceReportProvider
-                                .ambulanceReferralType,
-                            value: mrAdminAmbulanceReportProvider
-                                .selectedAmbulanceReferralType,
-                            onChanged: (value) {
-                              mrAdminAmbulanceReportProvider
-                                  .setSelectedAmbulanceReferralType(value);
-                            },
-                          ),
-                          const SizedBox(
-                            height: 16,
-                          ),
+                          // CustomDropdown(
+                          //   labelText: 'Select Date',
+                          //   items: mrAdminAmbulanceReportProvider
+                          //       .ambulanceReportDateTypeList,
+                          //   value: mrAdminAmbulanceReportProvider
+                          //       .selectedAmbulanceReportDateType,
+                          //   onChanged: (value) {
+                          //     mrAdminAmbulanceReportProvider
+                          //         .setSelectedAmbulanceVisitType(value);
+                          //   },
+                          // ),
+                          // SizedBox(
+                          //   height: mrAdminAmbulanceReportProvider
+                          //               .selectedAmbulanceReportDateType ==
+                          //           mrAdminAmbulanceReportProvider
+                          //               .ambulanceReportDateTypeList[2]
+                          //       ? 16
+                          //       : 0,
+                          // ),
+                          // if (mrAdminAmbulanceReportProvider
+                          //         .selectedAmbulanceReportDateType ==
+                          //     'Custom')
+                          //   Row(
+                          //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          //     children: [
+                          //       Expanded(
+                          //         flex: 1,
+                          //         child: TextFromFieldWithPrefixSuffix(
+                          //           labelText: 'From',
+                          //           readOnly: true,
+                          //           controller: mrAdminAmbulanceReportProvider
+                          //               .fromTextEditingController,
+                          //           onTap: () {
+                          //             mrAdminAmbulanceReportProvider
+                          //                 .selectDateFrom(context);
+                          //           },
+                          //           validator: (value) {},
+                          //         ),
+                          //       ),
+                          //       const SizedBox(
+                          //         width: 12,
+                          //       ),
+                          //       Expanded(
+                          //         flex: 1,
+                          //         child: TextFromFieldWithPrefixSuffix(
+                          //           labelText: 'To',
+                          //           readOnly: true,
+                          //           controller: mrAdminAmbulanceReportProvider
+                          //               .toTextEditingController,
+                          //           onTap: () {
+                          //             mrAdminAmbulanceReportProvider
+                          //                 .selectDateTo(context);
+                          //           },
+                          //           validator: (value) {},
+                          //         ),
+                          //       ),
+                          //     ],
+                          //   ),
+                          // const SizedBox(
+                          //   height: 16,
+                          // ),
+                          // CustomDropdown(
+                          //   labelText: 'Select Ambulance Referral Type',
+                          //   items: mrAdminAmbulanceReportProvider
+                          //       .ambulanceReferralType,
+                          //   value: mrAdminAmbulanceReportProvider
+                          //       .selectedAmbulanceReferralType,
+                          //   onChanged: (value) {
+                          //     mrAdminAmbulanceReportProvider
+                          //         .setSelectedAmbulanceReferralType(value);
+                          //   },
+                          // ),
+                          // const SizedBox(
+                          //   height: 16,
+                          // ),
                           if (mrAdminAmbulanceReportProvider
                                   .selectedAmbulanceReferralType ==
                               'Country')
