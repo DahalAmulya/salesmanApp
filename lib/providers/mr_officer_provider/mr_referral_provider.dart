@@ -412,13 +412,13 @@ class ReferralsDetailProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  void GetAmbulancePOCList(context) async {
+  void getAmbulancePOCList(context) async {
     ERPResponse response = await ERPServices.getRequest(
         '/poc/category?createdById=$userId&category=Ambulance',context);
     if (response.statusCode == 200) {
       _ambDriverList = jsonDecode(response.body)['poc'];
       _ambSearchResult = _ambDriverList;
-      print('ambDriverList = ${_ambDriverList}');
+      print('ambDriverList = $_ambDriverList');
       // Navigator.of(context).pushNamed(MarketingOfficerConstants.followUpVisit);
     } else {
       print('Error: ${response.statusCode} - ${response.body}');
@@ -449,7 +449,7 @@ class ReferralsDetailProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  void PostReferralPOCList(context) async {
+  void postReferralPOCList(context) async {
     DateTime now = DateTime.now();
     String mobileTime = DateFormat('HH:mm:ss yyyy-MM-dd').format(now);
     String dateTime = DateFormat('yyyy-MM-dd HH:mm:ss').format(now);
@@ -516,6 +516,7 @@ class ReferralsDetailProvider extends ChangeNotifier {
     ERPResponse response = await ERPServices.getRequest(
         '/referral?_id=$userId&from=$_selectedDate&to=$_selectedDate', context);
     print(response.statusCode);
+    print(response.body);
     _body = jsonDecode(response.body);
     _referralLogs = body['referralLogs'];
     print(_referralLogs);

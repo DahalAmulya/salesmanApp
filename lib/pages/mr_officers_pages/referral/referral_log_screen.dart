@@ -45,17 +45,19 @@ class _MarketingOfficerReferralLogScreenState
 
   void updateSelectedDate(String newValue) {
     final referralProvider =
-        Provider.of<ReferralsDetailProvider>(context, listen: false);
+    Provider.of<ReferralsDetailProvider>(context, listen: false);
     setState(() {
       selectedDate = newValue;
       if (selectedDate == "Today") {
+        DateTime today = DateTime.now();
         selectedDate =
-            "${DateTime.now().year}-${DateTime.now().month}-${DateTime.now().day}";
-        referralProvider.setSelectedDate(selectedDate.toString().split(" ")[0]);
+        "${today.year}-${today.month.toString().padLeft(2, '0')}-${today.day.toString().padLeft(2, '0')}";
+        referralProvider.setSelectedDate(selectedDate);
       } else if (selectedDate == "Yesterday") {
-        DateTime yesterday = DateTime.now().subtract(Duration(days: 1));
-        referralProvider.setSelectedDate(yesterday.toString().split(" ")[0]);
-        selectedDate = "${yesterday.year}-${yesterday.month}-${yesterday.day}";
+        DateTime yesterday = DateTime.now().subtract(const Duration(days: 1));
+        selectedDate =
+        "${yesterday.year}-${yesterday.month.toString().padLeft(2, '0')}-${yesterday.day.toString().padLeft(2, '0')}";
+        referralProvider.setSelectedDate(selectedDate);
       } else {
         // Open date picker for custom date selection
         selectDate(context, referralProvider);
@@ -64,6 +66,7 @@ class _MarketingOfficerReferralLogScreenState
     });
     referralProvider.getReferralLogs(context);
   }
+
 
   @override
   void initState() {
@@ -119,7 +122,7 @@ class _MarketingOfficerReferralLogScreenState
       builder: (context, referralsDetailProvider, _) {
         return ListView(
           children: [
-            SizedBox(
+            const SizedBox(
               height: 16,
             ),
             Padding(
