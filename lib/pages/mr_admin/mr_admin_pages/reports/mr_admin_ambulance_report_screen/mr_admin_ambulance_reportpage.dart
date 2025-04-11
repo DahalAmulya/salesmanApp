@@ -910,7 +910,7 @@ class _AmbulanceReportScreenState extends State<MrAdminAmbulanceReportScreen> {
                                     ],
                                   ),
                                 ),
-                              ),
+                              ) ,
                             ],
                           ),
                         );
