@@ -558,7 +558,7 @@ class _MrOfficersDashboardScreenState extends State<MrOfficersDashboardScreen>
                           )
                         ],
                       ),
-                      SizedBox(
+                      const SizedBox(
                         height: 8,
                       ),
                       Row(
@@ -581,7 +581,7 @@ class _MrOfficersDashboardScreenState extends State<MrOfficersDashboardScreen>
                           )
                         ],
                       ),
-                      SizedBox(
+                      const SizedBox(
                         height: 8,
                       ),
                       Row(
@@ -629,7 +629,7 @@ class _MrOfficersDashboardScreenState extends State<MrOfficersDashboardScreen>
             ],
           ),
         ),
-        SizedBox(
+        const SizedBox(
           height: 16,
         ),
         CustomContainer(
@@ -647,16 +647,16 @@ class _MrOfficersDashboardScreenState extends State<MrOfficersDashboardScreen>
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
-                    CustomLineBar(),
-                    SizedBox(
+                    const CustomLineBar(),
+                    const SizedBox(
                       width: 8,
                     ),
                     CustomText(
                       isSubHeading: true,
                       text: 'Today\'s Visit',
                     ),
-                    Spacer(),
-                    Padding(
+                    const Spacer(),
+                    const Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 8.0),
                       child: Icon(
                         Icons.arrow_forward_ios,
@@ -666,19 +666,19 @@ class _MrOfficersDashboardScreenState extends State<MrOfficersDashboardScreen>
                   ],
                 ),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 8,
               ),
-              Divider(
+              const Divider(
                 height: 1,
                 thickness: 1,
                 color: Colors.black,
               ),
-              SizedBox(
+              const SizedBox(
                 height: 8,
               ),
               Padding(
-                padding: EdgeInsets.symmetric(horizontal: 16),
+                padding: const EdgeInsets.symmetric(horizontal: 16),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
@@ -698,7 +698,7 @@ class _MrOfficersDashboardScreenState extends State<MrOfficersDashboardScreen>
             ],
           ),
         ),
-        SizedBox(
+        const SizedBox(
           height: 16,
         ),
       ],

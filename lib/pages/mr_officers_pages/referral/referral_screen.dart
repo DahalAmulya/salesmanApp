@@ -68,7 +68,7 @@ class _MrOfficerReferralScreenState extends State<MrOfficerReferralScreen> {
 
   PreferredSize _appBar(context) {
     return PreferredSize(
-      preferredSize: Size.fromHeight(kToolbarHeight),
+      preferredSize: const Size.fromHeight(kToolbarHeight),
       child: Consumer<ReferralsDetailProvider>(
           builder: (context, referralsDetailProvider, _) {
         return CustomAppBar(
@@ -133,7 +133,7 @@ class _MrOfficerReferralScreenState extends State<MrOfficerReferralScreen> {
                         backgroundColor: CustomColors.primaryColor,
                         onPressed: () {
                           // weeklyPlanProvider.setList()
-                          referralsDetailProvider.PostReferralPOCList(context);
+                          referralsDetailProvider.postReferralPOCList(context);
                           _formState.currentState!.validate();
                         },
                         widget: CustomText(
@@ -491,7 +491,7 @@ class _MrOfficerReferralScreenState extends State<MrOfficerReferralScreen> {
                         : null;
               },
               onTap: () {
-                referralsDetailProvider.GetAmbulancePOCList(context);
+                referralsDetailProvider.getAmbulancePOCList(context);
                 showModalBottomSheet(
                   isScrollControlled: true,
                   useSafeArea: true,
@@ -932,7 +932,7 @@ class _MrOfficerReferralScreenState extends State<MrOfficerReferralScreen> {
                           .ambSearchResult[index]['ambNumber'];
                       return ListTile(
                         onTap: () {
-                          referralsDetailProvider.GetAmbulancePOCList(context);
+                          referralsDetailProvider.getAmbulancePOCList(context);
                           // String organization = referralsDetailProvider.pocList[index]['organization'];
                           referralsDetailProvider.setAmbulancePOCDetails(
                               id, name, ambNumber, number);
