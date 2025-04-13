@@ -495,9 +495,12 @@ class _MarketingManagerDashboardState extends State<MarketingManagerDashboard> {
                       ),
                       Row(
                         children: [
-                          Image.asset('assets/images/attendance2.png',
-                            height: 88,
-                            width: 88,
+                          Padding(
+                            padding: const EdgeInsets.only(left: 16.0),
+                            child: Image.asset('assets/images/attendance2.png',
+                              height: 88,
+                              width: 88,
+                            ),
                           ),
                           SizedBox(width: 32,),
                           Column(
@@ -642,6 +645,8 @@ class _MarketingManagerDashboardState extends State<MarketingManagerDashboard> {
               imgName: 'visits',
               title: 'Average Visits',
               onTap: () {
+                Navigator.of(context).pushNamed(MarketingManagerConstants
+                         .averageVisitReportScreen);
               },
             ),
           ],
