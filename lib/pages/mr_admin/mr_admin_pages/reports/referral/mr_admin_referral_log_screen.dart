@@ -334,7 +334,7 @@ class _ReferralLogScreenState extends State<ReferralLogScreen> {
                                         context: context,
                                         builder: (context) =>
                                             districtBottomSheet(
-                                                context, '$fileName', content));
+                                                context, fileName, content));
                                     mrAdminReferralLogProvider
                                         .searchController.text = '';
                                     mrAdminReferralLogProvider
