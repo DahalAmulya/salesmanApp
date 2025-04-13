@@ -963,47 +963,6 @@ class _ReferralLogScreenState extends State<ReferralLogScreen> {
                                             ),
                                           ],
                                         ),
-
-                                        // Row(
-                                        //   children: [
-                                        //     Expanded(
-                                        //       flex: 2,
-                                        //       child: CustomText(
-                                        //         text: 'Mobile Time',
-                                        //         isContent: true,
-                                        //         size: 16,
-                                        //       ),
-                                        //     ),
-                                        //     Expanded(
-                                        //       flex: 2,
-                                        //       child: CustomText(
-                                        //         text: mobileTime,
-                                        //         isContent: true,
-                                        //         size: 16,
-                                        //       ),
-                                        //     ),
-                                        //   ],
-                                        // ),
-                                        // Row(
-                                        //   children: [
-                                        //     Expanded(
-                                        //       flex: 2,
-                                        //       child: CustomText(
-                                        //         text: 'Referral Date',
-                                        //         isContent: true,
-                                        //         size: 16,
-                                        //       ),
-                                        //     ),
-                                        //     Expanded(
-                                        //       flex: 2,
-                                        //       child: CustomText(
-                                        //         text: referralDate,
-                                        //         isContent: true,
-                                        //         size: 16,
-                                        //       ),
-                                        //     ),
-                                        //   ],
-                                        // ),
                                       ],
                                     ),
                                   ),
