@@ -90,7 +90,7 @@ class _MrAdminAreaReportScreenState extends State<MrAdminAreaReportScreen> {
     return PreferredSize(
       preferredSize: const Size.fromHeight(kToolbarHeight),
       child: CustomAppBar(
-        tabName: '',
+        tabName: 'Area Report',
         automaticallyImplyLeading: true,
         onTap: () {
           Navigator.of(context).pop(MarketingManagerConstants.homePage);
@@ -103,7 +103,7 @@ class _MrAdminAreaReportScreenState extends State<MrAdminAreaReportScreen> {
     return SafeArea(
       child: Consumer<MrAdminAreaReportProvider>(
           builder: (context, mrAdminAreaReportProvider, _) {
-        return Column(
+        return ListView(
           children: [
             CustomContainer(
               applyShadow: true,
@@ -189,8 +189,8 @@ class _MrAdminAreaReportScreenState extends State<MrAdminAreaReportScreen> {
                                 isScrollControlled: true,
                                 useSafeArea: true,
                                 context: context,
-                                builder: (context) => _DistrictBottomSheet(
-                                    context, '$fileName', content));
+                                builder: (context) => _districtBottomSheet(
+                                    context, fileName, content));
                             mrAdminAreaReportProvider.searchController.text =
                                 '';
                             mrAdminAreaReportProvider.searchAddressResult(
@@ -259,6 +259,21 @@ class _MrAdminAreaReportScreenState extends State<MrAdminAreaReportScreen> {
                 ],
               ),
             ),
+            ListView.builder(
+                shrinkWrap: true, // Shrink-wrap the ListView
+                physics: const BouncingScrollPhysics(),
+                itemCount: 10,
+                itemBuilder: (context, index) {
+                  return ListTile(
+                    onTap: () {
+                      print("Pressed");
+                    },
+                    title: CustomText(
+                      text: 'Hello $index',
+                      isContent: true,
+                    ),
+                  );
+                }),
           ],
         );
       }),
@@ -266,7 +281,7 @@ class _MrAdminAreaReportScreenState extends State<MrAdminAreaReportScreen> {
   }
   //----------------------------------------------------------------District BottomSheets----------------------------------------------------------------//
 
-  Widget _DistrictBottomSheet(context, String type, List<dynamic> content) {
+  Widget _districtBottomSheet(context, String type, List<dynamic> content) {
     return Consumer<MrAdminAreaReportProvider>(
         builder: (context, mrAdminAreaReportProvider, _) {
       return Container(
@@ -402,7 +417,7 @@ class _MrAdminAreaReportScreenState extends State<MrAdminAreaReportScreen> {
                   ),
                   Expanded(
                     child: ListView.builder(
-                        physics: ScrollPhysics(),
+                        physics: const ScrollPhysics(),
                         shrinkWrap: true,
                         itemCount:
                             mrAdminAreaReportProvider.searchResult.length,
@@ -415,9 +430,6 @@ class _MrAdminAreaReportScreenState extends State<MrAdminAreaReportScreen> {
                               isContent: true,
                             ),
                             onTap: () {
-                              // print(districtList);
-                              // selectedCity = citiesList[index];
-                              // cityTextEditingController.text = selectedCity;
                               Navigator.pop(context);
                               mrAdminAreaReportProvider
                                   .setSelectedCity(cityName);
