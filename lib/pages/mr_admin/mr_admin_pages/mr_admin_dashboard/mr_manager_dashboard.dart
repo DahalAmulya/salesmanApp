@@ -279,174 +279,6 @@ class _MarketingManagerDashboardState extends State<MarketingManagerDashboard> {
               const SizedBox(
                 height: 8,
               ),
-              // CarouselSlider.builder(
-              //   options: CarouselOptions(
-              //     height: 220,
-              //     enlargeCenterPage: true,
-              //     enlargeStrategy: CenterPageEnlargeStrategy.height,
-              //     onPageChanged: (index, reason) => setState(
-              //       () {
-              //         selectedIndex = index;
-              //       },
-              //     ),
-              //   ),
-              //   itemCount: colors.length,
-              //   itemBuilder: (BuildContext context, index, int realIndex) {
-              //     SelectedColors = colors[index];
-              //     return InkWell(
-              //       onTap: (){
-              //         Navigator.of(context).pushNamed(MarketingManagerConstants
-              //             .MrAdminAttendanceReportScreen);
-              //       },
-              //       child: CustomContainer(
-              //         horizontalMargin: 8,
-              //         verticalPad: 0,
-              //         horizontalPad: 0,
-              //         verticalMargin: 0,
-              //         color: Colors.white,
-              //         borderRadius: 16,
-              //         applyShadow: true,
-              //         child: AspectRatio(
-              //           aspectRatio: 1.3,
-              //           child: ColoredBox(
-              //             color: Colors.transparent,
-              //             child: Column(
-              //               mainAxisAlignment: MainAxisAlignment.start,
-              //               crossAxisAlignment: CrossAxisAlignment.start,
-              //               children: [
-              //                 Container(
-              //                   color: Colors.amber,
-              //                   padding: const EdgeInsets.all(8.0),
-              //                   child: CustomText(
-              //                     text: 'Today\'s Attendance',
-              //                     isSubHeading: true,
-              //                   ),
-              //                 ),
-              //                 SizedBox(
-              //                   height: 24,
-              //                 ),
-              //                 Row(
-              //                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              //                   crossAxisAlignment: CrossAxisAlignment.center,
-              //                   children: <Widget>[
-              //                     const SizedBox(
-              //                       height: 16,
-              //                     ),
-              //                     Expanded(
-              //                       child: SizedBox(
-              //                         height: 100,
-              //                         width: 100,
-              //                         // aspectRatio: 1,
-              //                         child: PieChart(
-              //                           PieChartData(
-              //                             pieTouchData: PieTouchData(
-              //                                 touchCallback: (FlTouchEvent event,
-              //                                     pieTouchResponse) {
-              //                               setState(() {
-              //                                 if (!event
-              //                                         .isInterestedForInteractions ||
-              //                                     pieTouchResponse == null ||
-              //                                     pieTouchResponse
-              //                                             .touchedSection ==
-              //                                         null) {
-              //                                   touchedIndex = -1;
-              //                                   return;
-              //                                 }
-              //                                 touchedIndex = pieTouchResponse
-              //                                     .touchedSection!
-              //                                     .touchedSectionIndex;
-              //                                 print(
-              //                                     'touchedIndex = $touchedIndex');
-              //                               });
-              //                             }),
-              //                             borderData: FlBorderData(
-              //                               show: false,
-              //                             ),
-              //                             sectionsSpace: 0,
-              //                             centerSpaceRadius: 30,
-              //                             sections: showingSections(),
-              //                           ),
-              //                         ),
-              //                       ),
-              //                     ),
-              //                     Column(
-              //                       mainAxisAlignment: MainAxisAlignment.center,
-              //                       crossAxisAlignment: CrossAxisAlignment.start,
-              //                       children: <Widget>[
-              //                         Indicator(
-              //                           color: CustomColors.jadeGreen,
-              //                           // noOfObj: '10',
-              //                           // objInPercentage: '10',
-              //                           text: 'On-Time',
-              //                           isSquare: true,
-              //                         ),
-              //                         SizedBox(
-              //                           height: 4,
-              //                         ),
-              //                         Indicator(
-              //                           color: CustomColors.lightYellow,
-              //                           text: 'Grace-Time',
-              //                           // noOfObj: '10',
-              //                           // objInPercentage: '10',
-              //                           isSquare: true,
-              //                         ),
-              //                         SizedBox(
-              //                           height: 4,
-              //                         ),
-              //                         Indicator(
-              //                           color: CustomColors.lightRed,
-              //                           text: 'Late',
-              //                           // noOfObj: '10',
-              //                           // objInPercentage: '10',
-              //                           isSquare: true,
-              //                         ),
-              //                         SizedBox(
-              //                           height: 18,
-              //                         ),
-              //                       ],
-              //                     ),
-              //                     const SizedBox(
-              //                       width: 28,
-              //                     ),
-              //                   ],
-              //                 ),
-              //               ],
-              //             ),
-              //           ),
-              //         ),
-              //
-              //         ////////////////////////////////////////////////////////
-              //         // Stack(
-              //         //   alignment: Alignment.center,
-              //         //   children: [
-              //         //     CustomText(text: 'Today\'s Attendance'),
-              //         //     PieChart(
-              //         //       swapAnimationDuration:
-              //         //           const Duration(milliseconds: 500),
-              //         //       swapAnimationCurve: Curves.easeInOut,
-              //         //       PieChartData(
-              //         //         sections: [
-              //         //           PieChartSectionData(
-              //         //             value: 33,
-              //         //             color: CustomColors.lightGreen,
-              //         //           ),
-              //         //           PieChartSectionData(
-              //         //             value: 33,
-              //         //             color: CustomColors.lightYellow,
-              //         //           ),
-              //         //           PieChartSectionData(
-              //         //             value: 33,
-              //         //             color: CustomColors.lightRed,
-              //         //           ),
-              //         //         ],
-              //         //       ),
-              //         //     ),
-              //         //   ],
-              //         // ),
-              //       ),
-              //     );
-              //   },
-              // ),
               const SizedBox(
                 height: 8,
               ),
@@ -502,7 +334,7 @@ class _MarketingManagerDashboardState extends State<MarketingManagerDashboard> {
                               width: 88,
                             ),
                           ),
-                          SizedBox(width: 32,),
+                          const SizedBox(width: 32,),
                           Column(
                             children: [
                               Row(
@@ -536,15 +368,15 @@ class _MarketingManagerDashboardState extends State<MarketingManagerDashboard> {
                   ),
                 ),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 16,
               ),
               _reports(context),
-              SizedBox(
+              const SizedBox(
                 height: 16,
               ),
               // _marketingOfficerReport(context, marketingProvider),
-              SizedBox(
+              const SizedBox(
                 height: 16,
               ),
             ],
@@ -580,8 +412,8 @@ class _MarketingManagerDashboardState extends State<MarketingManagerDashboard> {
               children: [
                 Row(
                   children: [
-                    CustomLineBar(),
-                    SizedBox(
+                    const CustomLineBar(),
+                    const SizedBox(
                       width: 8,
                     ),
                     CustomText(
@@ -599,7 +431,7 @@ class _MarketingManagerDashboardState extends State<MarketingManagerDashboard> {
                 ),
               ],
             ),
-            Padding(
+            const Padding(
               padding: const EdgeInsets.only(left: 16.0),
               child: Divider(),
             ),
@@ -635,9 +467,8 @@ class _MarketingManagerDashboardState extends State<MarketingManagerDashboard> {
               imgName: 'area',
               title: 'Area',
               onTap: () {
-                print('Tapped Area');
-                // Navigator.of(context).pushNamed(MarketingManagerConstants
-                //     .areaReportMarketingOfficersScreen);
+                Navigator.of(context).pushNamed(MarketingManagerConstants
+                    .areaReportMarketingOfficersScreen);
               },
             ),
             _reportRows(
@@ -672,7 +503,7 @@ class _MarketingManagerDashboardState extends State<MarketingManagerDashboard> {
                   width: 42,
                   height: 42,
                 ),
-                SizedBox(
+                const SizedBox(
                   width: 12,
                 ),
                 CustomText(
@@ -681,7 +512,7 @@ class _MarketingManagerDashboardState extends State<MarketingManagerDashboard> {
                 ),
               ],
             ),
-            Icon(
+            const Icon(
               FontAwesomeIcons.chevronRight,
               size: 18,
             ),
@@ -708,10 +539,10 @@ class _MarketingManagerDashboardState extends State<MarketingManagerDashboard> {
               },
               child: Row(
                 children: [
-                  CustomLineBar(),
+                  const CustomLineBar(),
                   Expanded(
                     child: Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 8.0),
+                      padding: const EdgeInsets.symmetric(horizontal: 8.0),
                       child: CustomText(
                         text: 'Marketing Officers',
                         isSubHeading: true,
@@ -729,8 +560,8 @@ class _MarketingManagerDashboardState extends State<MarketingManagerDashboard> {
                 ],
               ),
             ),
-            Padding(
-              padding: const EdgeInsets.only(left: 16.0),
+            const Padding(
+              padding: EdgeInsets.only(left: 16.0),
               child: Divider(),
             ),
             ListView.builder(
@@ -739,8 +570,8 @@ class _MarketingManagerDashboardState extends State<MarketingManagerDashboard> {
               shrinkWrap:
                   true, // This allows it to take only the required height
               physics:
-                  NeverScrollableScrollPhysics(), // Disables scrolling for outer ListView, so the inner ListViews can handle scrolling
-              padding: EdgeInsets.all(0),
+                  const NeverScrollableScrollPhysics(), // Disables scrolling for outer ListView, so the inner ListViews can handle scrolling
+              padding: const EdgeInsets.all(0),
               itemBuilder: (context, index) {
                 String name = marketingProvider.marketingOfficersDetails[index]
                     ['OfficerName'];
@@ -793,14 +624,8 @@ class _MarketingManagerDashboardState extends State<MarketingManagerDashboard> {
                               width: 30,
                             ),
                             Padding(
-                              padding: EdgeInsets.only(right: 16.0),
-                              child: Text(
-                                '${achived < 10 ? '0$achived' : achived}/$target',
-                                style: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  color: Colors.black,
-                                ),
-                              ),
+                              padding: const EdgeInsets.only(right: 16.0),
+                              child: CustomText(text: '${achived < 10 ? '0$achived' : achived}/$target',isContent: true,),
                             ),
                           ],
                         ),

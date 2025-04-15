@@ -119,7 +119,8 @@ class _ReferralLogScreenState extends State<ReferralLogScreen> {
                           ),
                           CustomDropdown(
                             labelText: 'Select User',
-                            items: mrAdminReferralLogProvider.referralLogsUsersList,
+                            items: mrAdminReferralLogProvider
+                                .referralLogsUsersList,
                             value: mrAdminReferralLogProvider.selectedUser,
                             onChanged: (value) {
                               mrAdminReferralLogProvider.setSelectedUser(value);
