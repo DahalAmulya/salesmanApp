@@ -39,7 +39,7 @@ class _MrAdminAverageReportScreenState extends State<MrAdminAverageReportScreen>
   Widget _body(context){
     return Column(
       children: [
-        SizedBox(height: 16,),
+        const SizedBox(height: 16,),
         CustomContainer(
             verticalPad: 12,
             horizontalPad: 0,
