@@ -355,7 +355,9 @@ class _AmbulanceReportScreenState extends State<MrAdminAmbulanceReportScreen> {
                                   Expanded(
                                     flex: 2,
                                     child: CustomText(
-                                        text: 'Total Ambulance Visit',isContent: true,),
+                                      text: 'Total Ambulance Visit',
+                                      isContent: true,
+                                    ),
                                   ),
                                   Expanded(
                                     flex: 2,
@@ -395,29 +397,49 @@ class _AmbulanceReportScreenState extends State<MrAdminAmbulanceReportScreen> {
                       itemCount: mrAdminAmbulanceReportProvider
                           .foundAmbulanceList.length,
                       itemBuilder: (context, index) {
-
-                        String pocName = mrAdminAmbulanceReportProvider.foundAmbulanceList[index]['pocName'];
-                        String age = mrAdminAmbulanceReportProvider.foundAmbulanceList[index]['age'].toString();
-                        String gender = mrAdminAmbulanceReportProvider.foundAmbulanceList[index]['gender'];
-                        String number = mrAdminAmbulanceReportProvider.foundAmbulanceList[index]['number'];
-                        String country = mrAdminAmbulanceReportProvider.foundAmbulanceList[index]['country'];
-                        String region = mrAdminAmbulanceReportProvider.foundAmbulanceList[index]['region'];
-                        String city = mrAdminAmbulanceReportProvider.foundAmbulanceList[index]['city'];
-                        String address = mrAdminAmbulanceReportProvider.foundAmbulanceList[index]['address'];
-                        String category = mrAdminAmbulanceReportProvider.foundAmbulanceList[index]['category'];
-                        String specialization = mrAdminAmbulanceReportProvider.foundAmbulanceList[index]['specialization'];
-                        String organization = mrAdminAmbulanceReportProvider.foundAmbulanceList[index]['organization'];
-                        String ambNumber = mrAdminAmbulanceReportProvider.foundAmbulanceList[index]['ambNumber'];
-                        String createdByName = mrAdminAmbulanceReportProvider.foundAmbulanceList[index]['createdByName'];
-                        String visitCounter = mrAdminAmbulanceReportProvider.foundAmbulanceList[index]['visitCounter'].toString();
-                        String referralCounter = mrAdminAmbulanceReportProvider.foundAmbulanceList[index]['referralCounter'].toString();
-                        String createdAt = mrAdminAmbulanceReportProvider.foundAmbulanceList[index]['createdAt'];
-                        String approvalStatus = mrAdminAmbulanceReportProvider.approvalType[1];
+                        String pocName = mrAdminAmbulanceReportProvider
+                            .foundAmbulanceList[index]['pocName'];
+                        String age = mrAdminAmbulanceReportProvider
+                            .foundAmbulanceList[index]['age']
+                            .toString();
+                        String gender = mrAdminAmbulanceReportProvider
+                            .foundAmbulanceList[index]['gender'];
+                        String number = mrAdminAmbulanceReportProvider
+                            .foundAmbulanceList[index]['number'];
+                        String country = mrAdminAmbulanceReportProvider
+                            .foundAmbulanceList[index]['country'];
+                        String region = mrAdminAmbulanceReportProvider
+                            .foundAmbulanceList[index]['region'];
+                        String city = mrAdminAmbulanceReportProvider
+                            .foundAmbulanceList[index]['city'];
+                        String address = mrAdminAmbulanceReportProvider
+                            .foundAmbulanceList[index]['address'];
+                        String category = mrAdminAmbulanceReportProvider
+                            .foundAmbulanceList[index]['category'];
+                        String specialization = mrAdminAmbulanceReportProvider
+                            .foundAmbulanceList[index]['specialization'];
+                        String organization = mrAdminAmbulanceReportProvider
+                            .foundAmbulanceList[index]['organization'];
+                        String ambNumber = mrAdminAmbulanceReportProvider
+                            .foundAmbulanceList[index]['ambNumber'];
+                        String createdByName = mrAdminAmbulanceReportProvider
+                            .foundAmbulanceList[index]['createdByName'];
+                        String visitCounter = mrAdminAmbulanceReportProvider
+                            .foundAmbulanceList[index]['visitCounter']
+                            .toString();
+                        String referralCounter = mrAdminAmbulanceReportProvider
+                            .foundAmbulanceList[index]['referralCounter']
+                            .toString();
+                        String createdAt = mrAdminAmbulanceReportProvider
+                            .foundAmbulanceList[index]['createdAt'];
+                        String approvalStatus =
+                            mrAdminAmbulanceReportProvider.approvalType[1];
 
                         return AnimatedContainer(
                           duration: Duration(milliseconds: 400 + (index * 250)),
                           curve: Curves.easeInToLinear,
-                          transform: Matrix4.translationValues(myAnimation ? 0 : width, 0, 0),
+                          transform: Matrix4.translationValues(
+                              myAnimation ? 0 : width, 0, 0),
                           child: Column(
                             children: [
                               CustomContainer(
@@ -432,8 +454,8 @@ class _AmbulanceReportScreenState extends State<MrAdminAmbulanceReportScreen> {
                                   backgroundColor: approvalStatus == 'approved'
                                       ? CustomColors.primaryColor
                                       : approvalStatus == 'pending'
-                                      ? CustomColors.lightYellow
-                                      : CustomColors.lightRed,
+                                          ? CustomColors.lightYellow
+                                          : CustomColors.lightRed,
                                   child: Column(
                                     children: [
                                       Row(
@@ -814,19 +836,19 @@ class _AmbulanceReportScreenState extends State<MrAdminAmbulanceReportScreen> {
                                           ),
                                           SizedBox(
                                             width: MediaQuery.of(context)
-                                                .size
-                                                .width *
+                                                    .size
+                                                    .width *
                                                 0.45,
                                             child: CustomDropdown(
                                               labelText: '',
                                               items:
-                                              mrAdminAmbulanceReportProvider
-                                                  .approvalType,
+                                                  mrAdminAmbulanceReportProvider
+                                                      .approvalType,
                                               value: approvalStatus,
                                               onChanged: (value) {
                                                 mrAdminAmbulanceReportProvider
                                                     .approvalStatus(
-                                                    index, value!);
+                                                        index, value!);
                                               },
                                             ),
                                           ),
@@ -835,7 +857,7 @@ class _AmbulanceReportScreenState extends State<MrAdminAmbulanceReportScreen> {
                                     ],
                                   ),
                                 ),
-                              ) ,
+                              ),
                             ],
                           ),
                         );
