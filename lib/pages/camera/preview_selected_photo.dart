@@ -54,7 +54,6 @@ class _PreviewSelectedPhotoState extends State<PreviewSelectedPhoto> {
             onTapLeadingIcon: () {
               visitScreenProvider.setIndex(4);
               Navigator.of(context).pop(MarketingManagerConstants.visitPage);
-              // Scaffold.of(context).openDrawer();
             },
           );
         });
@@ -63,7 +62,7 @@ class _PreviewSelectedPhotoState extends State<PreviewSelectedPhoto> {
   }
 
   CustomDrawer _drawer(context) {
-    return CustomDrawer(
+    return const CustomDrawer(
       isHomeActive: true,
     );
   }
@@ -77,12 +76,8 @@ class _PreviewSelectedPhotoState extends State<PreviewSelectedPhoto> {
       builder: (context, cameraProvider, _) {
         if (cameraProvider.isNewVisit) {
           photo = cameraProvider.newVisitSelectedPhoto;
-          //  selectedNewVisitPhotos(
-          //       cameraProvider.photos[cameraProvider.index]);
         } else if (cameraProvider.isFollowUp) {
           photo = cameraProvider.followUpSelectedPhoto;
-          // cameraProvider.selectedFollowUpPhotos(
-          //     cameraProvider.photos[cameraProvider.index]);
         }
         return SafeArea(
           child: Stack(
@@ -90,7 +85,7 @@ class _PreviewSelectedPhotoState extends State<PreviewSelectedPhoto> {
               InteractiveViewer(
                 panEnabled: true, // Set it to false
                 panAxis: PanAxis.free,
-                boundaryMargin: EdgeInsets.all(0),
+                boundaryMargin: const EdgeInsets.all(0),
                 onInteractionStart: (ScaleStartDetails details) {
                   print('ScaleStartDetails = $details');
                   _previousScale = _scale;
@@ -105,167 +100,15 @@ class _PreviewSelectedPhotoState extends State<PreviewSelectedPhoto> {
                   print('ScaleEndDetails = $details');
                   _previousScale = null;
                 },
-                // transformationController: TransformationController(),
-                // scaleFactor: _scale,
                 minScale: 1,
                 maxScale: 2,
                 child: Image.file(
-                  // File(cameraProvider.photos[cameraProvider.index]),
                   File(photo),
                   width: mediaSize.width,
                   height: mediaSize.height,
                   fit: BoxFit.cover, // Fit the image to the screen
                 ),
               ),
-              // GestureDetector(
-              //   onScaleStart: (ScaleStartDetails details) {
-              //     print('ScaleStartDetails = $details');
-              //     _previousScale = _scale;
-              //   },
-              //   onScaleUpdate: (ScaleUpdateDetails details) {
-              //     print('ScaleUpdateDetails = $details');
-              //     setState(() {
-              //       _scale = _previousScale * details.scale;
-              //     });
-              //   },
-              //   onScaleEnd: (ScaleEndDetails details) {
-              //     print('ScaleEndDetails = $details');
-              //     _previousScale = null;
-              //   },
-              //   onDoubleTap: () {
-              //     print('Double tapped');
-              //   },
-              // onPanUpdate: (details) {
-              //     // Swiping in right direction.
-              //     if (details.delta.dx > 0) {
-              //       cameraProvider.index > 0
-              //           ? cameraProvider.setIndex(cameraProvider.index - 1)
-              //           : null;
-              //       print('Swipped right');
-              //     }
-
-              //     // Swiping in left direction.
-              //     if (details.delta.dx < 0) {
-              //       cameraProvider.index <
-              //               cameraProvider.newVisitPhotos.length - 1
-              //           ? cameraProvider.setIndex(cameraProvider.index + 1)
-              //           : null;
-              //       print('Swipped left');
-              //     }
-              //   },
-              //   child: Transform(
-              //     transform:
-              //         new Matrix4.diagonal3(Vector3(_scale, _scale, _scale)),
-              //     alignment: FractionalOffset.center,
-              //     child: Image.file(
-              //       File(cameraProvider.newVisitPhotos[cameraProvider.index]),
-              //       width: mediaSize.width,
-              //       height: mediaSize.height,
-              //       fit: BoxFit.cover, // Fit the image to the screen
-              //     ),
-              //   ),
-              // ),
-              // Positioned(
-              //   bottom: 0,
-              //   child: Container(
-              //     // color: Colors.white.withOpacity(0.2),
-              //     padding: EdgeInsets.symmetric(vertical: 4.0),
-              //     child: Column(
-              //       children: [
-              //         SizedBox(
-              //           width: mediaSize.width, // Use the screen width
-              //           height: 150, // Set a fixed height
-              //           child: ListView.builder(
-              //             physics: BouncingScrollPhysics(),
-              //             scrollDirection: Axis.horizontal,
-              //             itemCount: cameraProvider.photos.length,
-              //             itemBuilder: (context, index) {
-              //               return GestureDetector(
-              //                 onTap: () {
-              //                   cameraProvider.setIndex(index);
-              //                 },
-              //                 onPanUpdate: (details) {
-              //                   // Swiping in right direction.
-              //                   if (details.delta.dx > 0) {
-              //                     cameraProvider.index > 0
-              //                         ? cameraProvider
-              //                             .setIndex(cameraProvider.index - 1)
-              //                         : null;
-              //                     print('Swipped right');
-              //                   }
-
-              //                   // Swiping in left direction.
-              //                   if (details.delta.dx < 0) {
-              //                     cameraProvider.index <
-              //                             cameraProvider.photos.length - 1
-              //                         ? cameraProvider
-              //                             .setIndex(cameraProvider.index + 1)
-              //                         : null;
-              //                     print('Swipped left');
-              //                   }
-              //                 },
-              //                 child: Container(
-              //                   color: cameraProvider.index == index
-              //                       ? Colors.white.withOpacity(0.3)
-              //                       : Colors.transparent,
-              //                   child: Padding(
-              //                     padding: const EdgeInsets.symmetric(
-              //                         horizontal: 4.0),
-              //                     child: SizedBox(
-              //                       height: 100,
-              //                       width: 75,
-              //                       child: Image.file(
-              //                         File(cameraProvider.photos[index]),
-              //                       ),
-              //                     ),
-              //                   ),
-              //                 ),
-              //               );
-              //             },
-              //           ),
-              //         ),
-              //         Container(
-              //           // color: Colors.red,
-              //           width: MediaQuery.of(context).size.width,
-              //           padding: EdgeInsets.symmetric(horizontal: 8),
-              //           child: Row(
-              //             mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              //             children: [
-              //               CustomElevatedButton(
-              //                 onPressed: () {
-              //                   Navigator.of(context)
-              //                       .pop(RouteGeneratorConstants.cameraPage);
-              //                 },
-              //                 backgroundColor: CustomColors.primaryColor,
-              //                 widget: CustomText(
-              //                   text: 'Retake',
-              //                   fontWeight: FontWeight.w600,
-              //                   size: 18,
-              //                 ),
-              //               ),
-              //               CustomElevatedButton(
-              //                 onPressed: () {
-              //                   cameraProvider.selectedNewVisitPhotos(
-              //                       cameraProvider
-              //                           .photos[cameraProvider.index]);
-              //                   _visitScreenProvider!.setIndex(4);
-              //                   Navigator.of(context).pushNamed(
-              //                       RouteGeneratorConstants.visitPage);
-              //                 },
-              //                 backgroundColor: CustomColors.primaryColor,
-              //                 widget: CustomText(
-              //                   text: 'Select',
-              //                   fontWeight: FontWeight.w600,
-              //                   size: 18,
-              //                 ),
-              //               ),
-              //             ],
-              //           ),
-              //         ),
-              //       ],
-              //     ),
-              //   ),
-              // ),
             ],
           ),
         );
