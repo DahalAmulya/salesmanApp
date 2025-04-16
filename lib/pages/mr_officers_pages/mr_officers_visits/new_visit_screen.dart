@@ -55,7 +55,7 @@ class _MrOfficerNewVisitScreenState extends State<MrOfficerNewVisitScreen> {
 
   PreferredSize _appBar(context) {
     return PreferredSize(
-      preferredSize: Size.fromHeight(kToolbarHeight),
+      preferredSize: const Size.fromHeight(kToolbarHeight),
       child: CustomAppBar(
         tabName: 'New Visit',
         centerTitle: true,
@@ -185,7 +185,7 @@ class _MrOfficerNewVisitScreenState extends State<MrOfficerNewVisitScreen> {
                           useSafeArea: true,
                           context: context,
                           builder: (context) => districtBottomSheet(
-                              context, '$fileName', content));
+                              context, fileName, content));
                       createVisitProvider.searchController.text = '';
                       createVisitProvider.searchAddressResult(
                           createVisitProvider.searchController.value.text,
@@ -277,7 +277,7 @@ class _MrOfficerNewVisitScreenState extends State<MrOfficerNewVisitScreen> {
                     maxLines: 2,
                     validator: (newValue) {},
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 16,
                   ),
                   TextFromFieldWithPrefixSuffix(
@@ -286,7 +286,7 @@ class _MrOfficerNewVisitScreenState extends State<MrOfficerNewVisitScreen> {
                     maxLines: 2,
                     validator: (newValue) {},
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 16,
                   ),
                   Row(
@@ -357,7 +357,7 @@ class _MrOfficerNewVisitScreenState extends State<MrOfficerNewVisitScreen> {
                   builder: (context, mrOfficerVisitProvider, _) {
                 return Column(
                   children: [
-                    SizedBox(
+                    const SizedBox(
                       height: 10,
                     ),
                     Row(
@@ -378,7 +378,7 @@ class _MrOfficerNewVisitScreenState extends State<MrOfficerNewVisitScreen> {
                         ),
                       ],
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 10,
                     ),
                     Row(
@@ -399,7 +399,7 @@ class _MrOfficerNewVisitScreenState extends State<MrOfficerNewVisitScreen> {
                         ),
                       ],
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 10,
                     ),
                     Row(
@@ -420,7 +420,7 @@ class _MrOfficerNewVisitScreenState extends State<MrOfficerNewVisitScreen> {
                         ),
                       ],
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 10,
                     ),
                     Row(
@@ -441,7 +441,7 @@ class _MrOfficerNewVisitScreenState extends State<MrOfficerNewVisitScreen> {
                         ),
                       ],
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 10,
                     ),
                     Row(
@@ -462,7 +462,7 @@ class _MrOfficerNewVisitScreenState extends State<MrOfficerNewVisitScreen> {
                         ),
                       ],
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 10,
                     ),
                     Row(
@@ -488,7 +488,7 @@ class _MrOfficerNewVisitScreenState extends State<MrOfficerNewVisitScreen> {
                         ),
                       ],
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 10,
                     ),
                     Row(
@@ -509,7 +509,7 @@ class _MrOfficerNewVisitScreenState extends State<MrOfficerNewVisitScreen> {
                         ),
                       ],
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 10,
                     ),
                     Row(
@@ -530,7 +530,7 @@ class _MrOfficerNewVisitScreenState extends State<MrOfficerNewVisitScreen> {
                         ),
                       ],
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 10,
                     ),
                     Row(
@@ -551,7 +551,7 @@ class _MrOfficerNewVisitScreenState extends State<MrOfficerNewVisitScreen> {
                         ),
                       ],
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 10,
                     ),
                     Row(
@@ -572,7 +572,7 @@ class _MrOfficerNewVisitScreenState extends State<MrOfficerNewVisitScreen> {
                         ),
                       ],
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 10,
                     ),
                     Row(
@@ -593,7 +593,7 @@ class _MrOfficerNewVisitScreenState extends State<MrOfficerNewVisitScreen> {
                         ),
                       ],
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 10,
                     ),
                     Row(
@@ -614,7 +614,7 @@ class _MrOfficerNewVisitScreenState extends State<MrOfficerNewVisitScreen> {
                         ),
                       ],
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 10,
                     ),
                     Row(
@@ -635,7 +635,7 @@ class _MrOfficerNewVisitScreenState extends State<MrOfficerNewVisitScreen> {
                         ),
                       ],
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 10,
                     ),
                   ],
@@ -707,10 +707,9 @@ class _MrOfficerNewVisitScreenState extends State<MrOfficerNewVisitScreen> {
                       flex: 1,
                       child: InkWell(
                           onTap: () {
-                            print('Pressed');
                             Navigator.pop(context);
                           },
-                          child: Icon(FontAwesomeIcons.arrowLeft)),
+                          child: const Icon(FontAwesomeIcons.arrowLeft)),
                     ),
                     // ),
                     Expanded(
@@ -721,7 +720,7 @@ class _MrOfficerNewVisitScreenState extends State<MrOfficerNewVisitScreen> {
                             ? 'Search District'
                             : 'Search State',
                         applySuffixIcon: true,
-                        suffixIcon: Icon(Icons.search),
+                        suffixIcon: const Icon(Icons.search),
                         validator: (value) {},
                         onChange: (value) => visitProvider.searchAddressResult(
                             visitProvider.searchController.value.text, content),
@@ -730,7 +729,7 @@ class _MrOfficerNewVisitScreenState extends State<MrOfficerNewVisitScreen> {
                   ],
                 ),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 16,
               ),
               Expanded(
@@ -786,10 +785,9 @@ class _MrOfficerNewVisitScreenState extends State<MrOfficerNewVisitScreen> {
                       flex: 1,
                       child: InkWell(
                           onTap: () {
-                            print('Pressed');
                             Navigator.pop(context);
                           },
-                          child: Icon(FontAwesomeIcons.arrowLeft)),
+                          child: const Icon(FontAwesomeIcons.arrowLeft)),
                     ),
                     // ),
                     Expanded(
@@ -798,7 +796,7 @@ class _MrOfficerNewVisitScreenState extends State<MrOfficerNewVisitScreen> {
                         controller: visitProvider.searchController,
                         labelText: 'Search City',
                         applySuffixIcon: true,
-                        suffixIcon: Icon(Icons.search),
+                        suffixIcon: const Icon(Icons.search),
                         validator: (value) {},
                         onChange: (value) => visitProvider.searchAddressResult(
                             visitProvider.searchController.value.text, content),
@@ -807,7 +805,7 @@ class _MrOfficerNewVisitScreenState extends State<MrOfficerNewVisitScreen> {
                   ],
                 ),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 16,
               ),
               Expanded(

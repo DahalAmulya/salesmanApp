@@ -65,7 +65,7 @@ class _MrOfficerFollowUpVisitScreenState
 
   PreferredSize _appBar(context) {
     return PreferredSize(
-      preferredSize: Size.fromHeight(kToolbarHeight),
+      preferredSize: const Size.fromHeight(kToolbarHeight),
       child: CustomAppBar(
         tabName: 'Follow Up',
         centerTitle: true,
@@ -97,7 +97,7 @@ class _MrOfficerFollowUpVisitScreenState
                           text: 'POC Details',
                           isSubHeading: true,
                         ),
-                        SizedBox(
+                        const SizedBox(
                           height: 16,
                         ),
                         TextFromFieldWithPrefixSuffix(
@@ -114,10 +114,10 @@ class _MrOfficerFollowUpVisitScreenState
                                 useSafeArea: true,
                                 context: context,
                                 builder: (context) =>
-                                    _POCModalBottomSheet(context));
+                                    _pocModalBottomSheet(context));
                           },
                         ),
-                        SizedBox(
+                        const SizedBox(
                           height: 16,
                         ),
                         TextFromFieldWithPrefixSuffix(
@@ -126,7 +126,7 @@ class _MrOfficerFollowUpVisitScreenState
                           readOnly: true,
                           validator: (newValue) {},
                         ),
-                        SizedBox(
+                        const SizedBox(
                           height: 16,
                         ),
                         TextFromFieldWithPrefixSuffix(
@@ -136,7 +136,7 @@ class _MrOfficerFollowUpVisitScreenState
                           readOnly: true,
                           validator: (newValue) {},
                         ),
-                        SizedBox(
+                        const SizedBox(
                           height: 16,
                         ),
                         TextFromFieldWithPrefixSuffix(
@@ -145,7 +145,7 @@ class _MrOfficerFollowUpVisitScreenState
                           readOnly: true,
                           validator: (newValue) {},
                         ),
-                        SizedBox(
+                        const SizedBox(
                           height: 16,
                         ),
                         TextFromFieldWithPrefixSuffix(
@@ -154,7 +154,7 @@ class _MrOfficerFollowUpVisitScreenState
                           readOnly: true,
                           validator: (newValue) {},
                         ),
-                        SizedBox(
+                        const SizedBox(
                           height: 16,
                         ),
                         TextFromFieldWithPrefixSuffix(
@@ -164,13 +164,10 @@ class _MrOfficerFollowUpVisitScreenState
                           labelText: 'Number',
                           onTap: () {},
                           validator: (value) {
-                            // return value!.isEmpty
-                            //     ? 'Phone number Required'
-                            //     : null;
                           },
                           onChange: (value) {},
                         ),
-                        SizedBox(
+                        const SizedBox(
                           height: 16,
                         ),
                         TextFromFieldWithPrefixSuffix(
@@ -180,7 +177,7 @@ class _MrOfficerFollowUpVisitScreenState
                           maxLines: 2,
                           validator: (newValue) {},
                         ),
-                        SizedBox(
+                        const SizedBox(
                           height: 16,
                         ),
                         TextFromFieldWithPrefixSuffix(
@@ -190,7 +187,7 @@ class _MrOfficerFollowUpVisitScreenState
                           maxLines: 2,
                           validator: (newValue) {},
                         ),
-                        SizedBox(
+                        const SizedBox(
                           height: 16,
                         ),
                         TextFromFieldWithPrefixSuffix(
@@ -203,7 +200,7 @@ class _MrOfficerFollowUpVisitScreenState
                                 : null;
                           },
                         ),
-                        SizedBox(
+                        const SizedBox(
                           height: 16,
                         ),
                         Row(
@@ -232,8 +229,6 @@ class _MrOfficerFollowUpVisitScreenState
                                       ToastGravity.TOP,
                                       CustomColors.lightRed);
                                 }
-                                // followUpProvider.GetPOCList();
-                                // followUpProvider.getCurrentLocation();
                               },
                               widget: CustomText(
                                 text: 'Submit',
@@ -253,9 +248,8 @@ class _MrOfficerFollowUpVisitScreenState
                   child: IconButton(
                     onPressed: () {
                       followUpProvider.clearValue();
-                      // print('Pressed on edit');
                     },
-                    icon: Icon(FontAwesomeIcons.edit),
+                    icon: const Icon(FontAwesomeIcons.edit),
                   ),
                 ),
               ],
@@ -267,7 +261,7 @@ class _MrOfficerFollowUpVisitScreenState
   }
 
 //---------------------------------------------------------------- bottomSheet-------------------------------------------------------------------//
-  Widget _POCModalBottomSheet(context) {
+  Widget _pocModalBottomSheet(context) {
     return Consumer<MrOfficerFollowUpProvider>(
       builder: (context, followUpProvider, _) {
         return ClipRRect(
@@ -292,10 +286,9 @@ class _MrOfficerFollowUpVisitScreenState
                         flex: 1,
                         child: InkWell(
                             onTap: () {
-                              print('Pressed');
                               Navigator.pop(context);
                             },
-                            child: Icon(FontAwesomeIcons.arrowLeft)),
+                            child: const Icon(FontAwesomeIcons.arrowLeft)),
                       ),
                       // ),
                       Expanded(
@@ -304,7 +297,7 @@ class _MrOfficerFollowUpVisitScreenState
                           controller: followUpProvider.searchByNameController,
                           labelText: 'Search POC name',
                           applySuffixIcon: true,
-                          suffixIcon: Icon(Icons.search),
+                          suffixIcon: const Icon(Icons.search),
                           validator: (value) {},
                           onChange: (value) => followUpProvider.searchPocName(
                               followUpProvider
@@ -315,14 +308,13 @@ class _MrOfficerFollowUpVisitScreenState
                     ],
                   ),
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 16,
                 ),
                 Expanded(
                   child: ListView.builder(
                     itemCount: followUpProvider.pocSearchResult.length,
                     itemBuilder: (context, index) {
-                      // String cityName = visitProvider.searchResult[index];
                       String id =
                           followUpProvider.pocSearchResult[index]['_id'];
                       String name =
@@ -386,7 +378,7 @@ class _MrOfficerFollowUpVisitScreenState
                                   ),
                                 ],
                               ),
-                              SizedBox(
+                              const SizedBox(
                                 height: 8.0,
                               ),
                               Row(
@@ -408,7 +400,7 @@ class _MrOfficerFollowUpVisitScreenState
                                   ),
                                 ],
                               ),
-                              SizedBox(
+                              const SizedBox(
                                 height: 8.0,
                               ),
                               Row(
