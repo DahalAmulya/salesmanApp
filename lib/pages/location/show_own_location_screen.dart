@@ -33,7 +33,6 @@ class _OwnLiveLocationScreenState extends State<OwnLiveLocationScreen> {
   double latitude = 0.0;
   double longitude = 0.0;
   final Completer<GoogleMapController> _controller = Completer();
-  // late DeviceinfoProvider _provider;
 
   Future<void> cameraPosition() async {
     GoogleMapController controller = await _controller.future;
@@ -99,7 +98,7 @@ class _OwnLiveLocationScreenState extends State<OwnLiveLocationScreen> {
 
   PreferredSize _appBar(context) {
     return PreferredSize(
-      preferredSize: Size.fromHeight(kToolbarHeight),
+      preferredSize: const Size.fromHeight(kToolbarHeight),
       child: Builder(
         builder: (context) => CustomAppBar(
           tabName: 'Live',
@@ -119,7 +118,7 @@ class _OwnLiveLocationScreenState extends State<OwnLiveLocationScreen> {
 
   // PreferredSize _appBar(context) {
   CustomDrawer _drawer(context) {
-    return CustomDrawer(
+    return const CustomDrawer(
       isHomeActive: true,
     );
   }
@@ -145,13 +144,10 @@ class _OwnLiveLocationScreenState extends State<OwnLiveLocationScreen> {
           zoomGesturesEnabled: true,
           // trafficEnabled: traffic,
           mapToolbarEnabled: true,
-          zoomControlsEnabled: false,
-          // onMapCreated: _onMapCreated,
           onMapCreated: (GoogleMapController controller) {
             _controller.complete(controller);
           },
           markers: deviceInfoProvider.livePositionMarkers,
-          // polylines: deviceInfoProvider.polylines,
         );
       },
     );
@@ -164,7 +160,7 @@ class _OwnLiveLocationScreenState extends State<OwnLiveLocationScreen> {
         longitude = deviceInfoProvider.liveLongitude;
         cameraPosition();
         // deviceInfoProvider.cameraPosition(_controller);
-        return SfMaps(
+        return const SfMaps(
           layers: [
             MapTileLayer(
               urlTemplate: 'https://tile.openstreetmap.org/{z}/{x}/{y}.png',

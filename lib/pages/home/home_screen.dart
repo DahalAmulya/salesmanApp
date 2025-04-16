@@ -36,7 +36,6 @@ class _HomeScreenState extends State<HomeScreen> {
   MarketingProvider? _marketingProvider;
   final LocalAuthentication auth = LocalAuthentication();
   int index = 0;
-  // late DeviceinfoProvider _provider;
   double screenHeight = ScreenUtil.getScreenHeight();
   double screenWidth = ScreenUtil.getScreenWidth();
 
@@ -47,10 +46,6 @@ class _HomeScreenState extends State<HomeScreen> {
       log('Location Denied');
       LocationPermission askPermission = await Geolocator.requestPermission();
     }
-    // else {
-    //   Position currentPosiont = await Geolocator.getCurrentPosition(
-    //       desiredAccuracy: LocationAccuracy.best);
-    // }
   }
 
   @override
@@ -70,16 +65,8 @@ class _HomeScreenState extends State<HomeScreen> {
       onDismissActionReceivedMethod:
           NotificationController.onDismissActionReceivedMethod,
     );
-    // NotificationUtils.sendNotification(2, 'Home', 'You are on home screen');
     super.initState();
   }
-
-  // @override
-  // void dispose() {
-  //   _provider.clearMarkers();
-  //   _provider.dispose();
-  //   super.dispose();
-  // }
 
   @override
   Widget build(BuildContext context) {
@@ -122,12 +109,8 @@ class _HomeScreenState extends State<HomeScreen> {
                     ),
                     CustomElevatedButton(
                       onPressed: () {
-                        // First navigate to the root page '/' and remove all other pages from the stack.
-                        // Navigate to the root page ('/') using GoRouter
-                        // context.go(MyAppRouteConstants.loginRouteName); // Navigates to the initial page (home)
                         Navigator.pop(context, false);
                         SystemNavigator.pop();
-                        // exit(0);
                       },
                       // backgroundColor: Colors.red,
                       borderColor: Colors.red,
@@ -146,7 +129,6 @@ class _HomeScreenState extends State<HomeScreen> {
       }),
       child: GestureDetector(
         onTap: () {
-          // Dismiss the keyboard when tapping outside TextFormFields
           FocusScopeNode currentFocus = FocusScope.of(context);
           if (!currentFocus.hasPrimaryFocus) {
             FocusScope.of(context).unfocus();
@@ -163,7 +145,7 @@ class _HomeScreenState extends State<HomeScreen> {
               Navigator.of(context).push(
                   MaterialPageRoute(builder: (context) => WeeklyPlanScreen()));
             },
-            child: Icon(
+            child: const Icon(
               Icons.gps_fixed,
             ),
           ),
@@ -173,30 +155,9 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  // PreferredSize _appBar(context) {
-  //   return PreferredSize(
-  //     preferredSize: Size.fromHeight(kToolbarHeight),
-  //     child: Builder(
-  //       builder: (context) => CustomAppBar(
-  //         tabName: 'Dashboard',
-  //         // titleColor: CustomColors.primaryBlack,
-  //         titleColor: CustomColors.primaryBlack,
-  //         backgroundColor: CustomColors.primaryColor,
-  //         showLeading: true,
-  //         leadingIcon: FontAwesomeIcons.bars,
-  //         leadingIconColor: CustomColors.primaryBlack,
-  //         onTapLeadingIcon: () {
-  //           // Use the context under the Scaffold
-  //           Scaffold.of(context).openDrawer();
-  //         },
-  //       ),
-  //     ),
-  //   );
-  // }
-
   PreferredSize _appBar(context) {
     return PreferredSize(
-      preferredSize: Size.fromHeight(kToolbarHeight),
+      preferredSize: const Size.fromHeight(kToolbarHeight),
       child: Builder(
         builder: (context) =>
             Consumer<UserProvider>(builder: (context, userProvider, _) {
@@ -213,14 +174,14 @@ class _HomeScreenState extends State<HomeScreen> {
                   Scaffold.of(context).openDrawer();
                 },
               );
-            }),
+            },),
       ),
     );
   }
 
   // PreferredSize _appBar(context) {
   CustomDrawer _drawer(context) {
-    return CustomDrawer(
+    return const CustomDrawer(
       isHomeActive: true,
     );
   }
@@ -236,7 +197,7 @@ class _HomeScreenState extends State<HomeScreen> {
           backgroundColor: Colors.white,
           child: ListView(
             children: [
-              SizedBox(
+              const SizedBox(
                 height: 16,
               ),
               CustomContainer(
@@ -287,8 +248,8 @@ class _HomeScreenState extends State<HomeScreen> {
                         ],
                       ),
                     ),
-                    Padding(
-                      padding: const EdgeInsets.only(left: 16.0),
+                    const Padding(
+                      padding: EdgeInsets.only(left: 16.0),
                       child: Divider(),
                     ),
                     ListView.builder(
@@ -298,7 +259,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       shrinkWrap:
                           true, // This allows it to take only the required height
                       physics:
-                          NeverScrollableScrollPhysics(), // Disables scrolling for outer ListView, so the inner ListViews can handle scrolling
+                      const NeverScrollableScrollPhysics(), // Disables scrolling for outer ListView, so the inner ListViews can handle scrolling
                       padding: EdgeInsets.all(0),
                       itemBuilder: (context, index) {
                         String name = marketingProvider
@@ -360,7 +321,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                       padding: EdgeInsets.only(right: 16.0),
                                       child: Text(
                                         '${achived < 10 ? '0$achived' : achived}/$target',
-                                        style: TextStyle(
+                                        style: const TextStyle(
                                           fontWeight: FontWeight.bold,
                                           color: Colors.black,
                                         ),
@@ -377,7 +338,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   ],
                 ),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 16,
               ),
             ],

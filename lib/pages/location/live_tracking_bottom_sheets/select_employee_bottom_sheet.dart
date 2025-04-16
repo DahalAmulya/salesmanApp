@@ -141,7 +141,6 @@ class SelectEmployeeBottomSheet {
                                   .employeeLiveData[index]['username'];
                               String profileImage = liveTrackingProvider
                                   .employeeLiveData[index]['profileImage'];
-                              // String image = liveTrackingProvider.images[index];
                               return InkWell(
                                 onTap: () {
                                   Navigator.pop(context);

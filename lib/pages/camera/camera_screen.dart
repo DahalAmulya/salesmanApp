@@ -23,27 +23,16 @@ class CameraPage extends StatefulWidget {
 class _CameraPageState extends State<CameraPage> {
   CameraProvider? _cameraProvider;
   CameraController? _cameraController;
-  // List<CameraDescription> cameras = [];
-  // bool _isRearCameraSelected = true;
   bool showFocusCircle = false;
   double x = 0;
   double y = 0;
-  // List<String> photos = [];
-  // bool _isFlashOn = false;
-  // FlashMode _flashMode = FlashMode.off;
 
   Future<void> _setupCameraController() async {
-    // Obtain a list of the available cameras on the device.
     List<CameraDescription> _cameras = await availableCameras();
 
-    // Check if the list of cameras is not empty before accessing it.
     if (_cameras.isNotEmpty) {
       _cameraProvider!.setCameras(_cameras);
       initCamera(_cameraProvider!.cameras[0]);
-      // setState(() {
-      //   cameras = _cameras;
-      //   initCamera(cameras[0]);
-      // });
     } else {
       print('No cameras found');
     }
@@ -52,11 +41,8 @@ class _CameraPageState extends State<CameraPage> {
   }
 
   Future initCamera(CameraDescription cameraDescription) async {
-    // create a CameraController
     _cameraController =
         CameraController(cameraDescription, ResolutionPreset.high);
-
-    // Next, initialize the controller. This returns a Future.
     try {
       await _cameraController!.initialize().then((_) {
         if (!mounted) return;
@@ -82,11 +68,7 @@ class _CameraPageState extends State<CameraPage> {
       Offset point = Offset(xp, yp);
       print("point : $point");
 
-      // Manually focus
       await _cameraController!.setFocusPoint(point);
-
-      // Manually set light exposure
-      //controller.setExposurePoint(point);
 
       setState(() {
         Future.delayed(const Duration(seconds: 2)).whenComplete(() {
@@ -99,7 +81,6 @@ class _CameraPageState extends State<CameraPage> {
   }
 
   Future takePicture() async {
-    // _cameraProvider!.isNewVisit ?
     if (!_cameraController!.value.isInitialized) {
       return null;
     }
@@ -112,28 +93,12 @@ class _CameraPageState extends State<CameraPage> {
       XFile picture = await _cameraController!.takePicture();
       if (_cameraProvider!.isNewVisit) {
         _cameraProvider!.addNewVisitPhotos(picture.path);
-        // photos = _cameraProvider!.newVisitPhotos;
       } else if (_cameraProvider!.isFollowUp) {
         _cameraProvider!.addFollowUpPhotos(picture.path);
-        // photos = _cameraProvider!.followUpPhotos;
       }
-      // _cameraProvider!.isNewVisit
-      //     ? _cameraProvider!.addNewVisitPhotos(picture.path)
-      //     : _cameraProvider!.addFollowPhotos(picture.path);
       _cameraProvider!.setIndex(_cameraProvider!.photos.length - 1);
       Navigator.of(context)
           .pushNamed(MarketingManagerConstants.previewCapturedPhotoPage);
-      // setState(() {
-      //   photos.add(picture.path);
-      // });
-      // print(photos.length);
-      // Gal.putImage(picture.path);
-      // Navigator.push(
-      //     context,
-      //     MaterialPageRoute(
-      //         builder: (context) => PreviewPage(
-      //               picture: picture,
-      //             )));
     } on CameraException catch (e) {
       debugPrint('Error occured while taking picture: $e');
       return null;
@@ -179,7 +144,7 @@ class _CameraPageState extends State<CameraPage> {
   }
 
   CustomDrawer _drawer(context) {
-    return CustomDrawer(
+    return const CustomDrawer(
       isHomeActive: true,
     );
   }
@@ -187,7 +152,6 @@ class _CameraPageState extends State<CameraPage> {
   Widget _buildUI(context) {
     final mediaSize = MediaQuery.of(context).size;
 
-    // Check if the camera controller has been initialized
     if (_cameraController == null || !_cameraController!.value.isInitialized) {
       return const Center(
         child: CircularProgressIndicator(),
@@ -231,11 +195,6 @@ class _CameraPageState extends State<CameraPage> {
                       return IconButton(
                         onPressed: () {
                           cameraProvider.toggleFlashMode();
-                          // print('FlashMode = $_flashMode');
-                          // print('_isFlashOn = $_isFlashOn');
-                          // print(photos.length);
-                          // print(
-                          // '_isRearCameraSelected = ${_isRearCameraSelected}');
                         },
                         iconSize: 32,
                         padding: EdgeInsets.zero,
@@ -258,52 +217,6 @@ class _CameraPageState extends State<CameraPage> {
                           return Column(
                             mainAxisAlignment: MainAxisAlignment.end,
                             children: [
-                              // cameraProvider.photos.isNotEmpty
-                              // ? SizedBox(
-                              //     height: 125,
-                              //     width: double.infinity,
-                              //     child: ListView.builder(
-                              //       itemCount: cameraProvider.photos.length,
-                              //       physics: const BouncingScrollPhysics(),
-                              //       scrollDirection: Axis.horizontal,
-                              //       itemBuilder: (context, index) {
-                              //         return Column(
-                              //           children: [
-                              //             InkWell(
-                              //               onTap: () {
-                              //                 cameraProvider
-                              //                     .setIndex(index);
-                              //                 Navigator.of(context).pushNamed(
-                              //                     RouteGeneratorConstants
-                              //                         .previewCapturedPhotoPage);
-                              //                 print(
-                              //                     'Selected photo $index ${cameraProvider.photos[index]}');
-                              //               },
-                              //               onLongPress: () {
-                              //                 print(
-                              //                     'Long press Selected photo  $index ${cameraProvider.photos[index]}');
-                              //               },
-                              //               child: Padding(
-                              //                 padding: const EdgeInsets
-                              //                     .symmetric(
-                              //                   horizontal: 8.0,
-                              //                 ),
-                              //                 child: SizedBox(
-                              //                   height: 125,
-                              //                   width: 75,
-                              //                   child: Image.file(
-                              //                     File(cameraProvider
-                              //                         .photos[index]),
-                              //                   ),
-                              //                 ),
-                              //               ),
-                              //             ),
-                              //           ],
-                              //         );
-                              //       },
-                              //     ),
-                              //   )
-                              // : Container(),
                               Consumer<CameraProvider>(
                                   builder: (context, cameraProvider, _) {
                                 return Row(
@@ -312,38 +225,16 @@ class _CameraPageState extends State<CameraPage> {
                                   crossAxisAlignment: CrossAxisAlignment.end,
                                   children: [
                                     Container(
-                                      padding: EdgeInsets.symmetric(
+                                      padding: const EdgeInsets.symmetric(
                                           horizontal: 16, vertical: 4),
                                       width:
                                           MediaQuery.of(context).size.width * 1,
-                                      // color: Colors.black.withOpacity(0.5),
                                       child: Row(
                                         mainAxisAlignment:
                                             MainAxisAlignment.spaceBetween,
                                         children: [
-                                          // IconButton(
-                                          //   onPressed: () {
-                                          //     cameraProvider.toggleFlashMode();
-                                          //     // print('FlashMode = $_flashMode');
-                                          //     // print('_isFlashOn = $_isFlashOn');
-                                          //     // print(photos.length);
-                                          //     // print(
-                                          //     // '_isRearCameraSelected = ${_isRearCameraSelected}');
-                                          //   },
-                                          //   iconSize: 32,
-                                          //   padding: EdgeInsets.zero,
-                                          //   constraints: const BoxConstraints(),
-                                          //   icon: Icon(
-                                          //       cameraProvider.isFlashOn
-                                          //           ? Icons.flash_on
-                                          //           : Icons.flash_off,
-                                          //       color: Colors.white),
-                                          // ),
-                                          // if (cameraProvider.photos.isNotEmpty)
                                           GestureDetector(
                                             onTap: () {
-                                              // print(
-                                              //     'Pressed ${cameraProvider.photos.length - 1}');
                                               cameraProvider.setIndex(
                                                   cameraProvider.photos.length -
                                                       1);
@@ -358,7 +249,7 @@ class _CameraPageState extends State<CameraPage> {
                                                 height: 52,
                                                 width: 52,
                                                 child: Container(
-                                                  padding: EdgeInsets.all(1),
+                                                  padding: const EdgeInsets.all(1),
                                                   color: Colors.white,
                                                   child: ClipRRect(
                                                     borderRadius:
