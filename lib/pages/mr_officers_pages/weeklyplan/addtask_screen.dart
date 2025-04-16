@@ -107,7 +107,7 @@ Widget _body(context) {
                   fontWeight: FontWeight.w600,
                   size: 18,
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 8,
                 ),
                 TextFromFieldWithPrefixSuffix(
@@ -129,7 +129,7 @@ Widget _body(context) {
                   },
                   onTap: () {},
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 8,
                 ),
                 CustomText(
@@ -137,7 +137,7 @@ Widget _body(context) {
                   fontWeight: FontWeight.w600,
                   size: 18,
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 8,
                 ),
                 TextFromFieldWithPrefixSuffix(
@@ -159,7 +159,7 @@ Widget _body(context) {
                   },
                   onTap: () {},
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 8,
                 ),
                 CustomText(
@@ -167,7 +167,7 @@ Widget _body(context) {
                   fontWeight: FontWeight.w600,
                   size: 18,
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 8,
                 ),
                 TextFromFieldWithPrefixSuffix(
@@ -189,7 +189,7 @@ Widget _body(context) {
                   },
                   onTap: () {},
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 8,
                 ),
                 Row(

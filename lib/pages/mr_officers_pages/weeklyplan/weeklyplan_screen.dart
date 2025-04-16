@@ -28,7 +28,6 @@ class WeeklyPlanScreen extends StatefulWidget {
 
 class _WeeklyPlanScreenState extends State<WeeklyPlanScreen> {
   bool isVisibleForDistrictList = false;
-  DateTime _selectedDate = DateTime.now();
 
   final _addTaskFormKey = GlobalKey<FormState>();
   final taskActivityController = TextEditingController();
@@ -52,27 +51,20 @@ class _WeeklyPlanScreenState extends State<WeeklyPlanScreen> {
     ERPResponse response = await ERPServices.getRequest(
         "/plan/today?userId=$userId&planDate=$planDate", context);
     var decodedData = jsonDecode(response.body);
-    print(decodedData);
 
     if (response.statusCode == 200) {
       todaysPlan = decodedData;
-      print(todaysPlan);
       setState(() {
         activity = todaysPlan['todaysPlan']['activity'];
         area = todaysPlan['todaysPlan']['area'];
         remark = todaysPlan['todaysPlan']['remark'];
       });
-
-      // print(response.body.runtimeType);
-      // print(response.body);
     } else {
       setState(() {
         activity = 'No activity';
         area = 'No area';
         remark = 'No remarks';
       });
-      // print(response.statusCode);
-      // print(response.body);
     }
   }
 
@@ -157,12 +149,7 @@ class _WeeklyPlanScreenState extends State<WeeklyPlanScreen> {
                         ),
                         CustomElevatedButton(
                           onPressed: () {
-                            // weeklyPlanProvider.setSelectedDate(_selectedDate);
-                            // Navigator.of(context)
-                            //     .pushNamed(MarketingOfficerConstants.addTaskConst);
                             openAlertDialog(context);
-                            // getTodayPlan();
-                            // print('hello');
                           },
                           backgroundColor: CustomColors.primaryColor,
                           widget: Row(
@@ -203,19 +190,19 @@ class _WeeklyPlanScreenState extends State<WeeklyPlanScreen> {
                   initialSelectedDate: DateTime.now(),
                   selectionColor: CustomColors.primaryColor,
                   dateTextStyle: GoogleFonts.lato(
-                    textStyle: TextStyle(
+                    textStyle: const TextStyle(
                       fontSize: 16,
                       fontWeight: FontWeight.w600,
                     ),
                   ),
                   dayTextStyle: GoogleFonts.lato(
-                    textStyle: TextStyle(
+                    textStyle: const TextStyle(
                       fontSize: 14,
                       fontWeight: FontWeight.w600,
                     ),
                   ),
                   monthTextStyle: GoogleFonts.lato(
-                    textStyle: TextStyle(
+                    textStyle: const TextStyle(
                       fontSize: 12,
                       fontWeight: FontWeight.w600,
                     ),
@@ -224,11 +211,10 @@ class _WeeklyPlanScreenState extends State<WeeklyPlanScreen> {
                     _weeklyPlanProvider.updateDate(newDate);
                     _weeklyPlanProvider
                         .getTodayPlan(newDate.toString().split(" ")[0],context);
-                    // getTodayPlan(newDate.toString().split(" ")[0]);
                   },
                 ),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 56,
               ),
               CustomContainer(
@@ -249,7 +235,7 @@ class _WeeklyPlanScreenState extends State<WeeklyPlanScreen> {
                         ),
                       ],
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 8,
                     ),
                     TextFromFieldWithPrefixSuffix(
@@ -258,7 +244,7 @@ class _WeeklyPlanScreenState extends State<WeeklyPlanScreen> {
                         controller:
                             _weeklyPlanProvider.taskActivityNoteController,
                         validator: (validator) {}),
-                    SizedBox(
+                    const SizedBox(
                       height: 8,
                     ),
                     Row(
@@ -271,7 +257,7 @@ class _WeeklyPlanScreenState extends State<WeeklyPlanScreen> {
                         ),
                       ],
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 8,
                     ),
                     TextFromFieldWithPrefixSuffix(
@@ -279,7 +265,7 @@ class _WeeklyPlanScreenState extends State<WeeklyPlanScreen> {
                         hintText: '$area',
                         controller: _weeklyPlanProvider.taskAreaNoteController,
                         validator: (validator) {}),
-                    SizedBox(
+                    const SizedBox(
                       height: 8,
                     ),
                     Row(
@@ -292,7 +278,7 @@ class _WeeklyPlanScreenState extends State<WeeklyPlanScreen> {
                         ),
                       ],
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 8,
                     ),
                     TextFromFieldWithPrefixSuffix(
@@ -339,7 +325,7 @@ class _WeeklyPlanScreenState extends State<WeeklyPlanScreen> {
                         fontWeight: FontWeight.w600,
                         size: 18,
                       ),
-                      SizedBox(
+                      const SizedBox(
                         height: 8,
                       ),
                       Consumer<WeeklyPlanProvider>(
@@ -364,7 +350,7 @@ class _WeeklyPlanScreenState extends State<WeeklyPlanScreen> {
                           onTap: () {},
                         );
                       }),
-                      SizedBox(
+                      const SizedBox(
                         height: 8,
                       ),
                       CustomText(
@@ -372,7 +358,7 @@ class _WeeklyPlanScreenState extends State<WeeklyPlanScreen> {
                         fontWeight: FontWeight.w600,
                         size: 18,
                       ),
-                      SizedBox(
+                      const SizedBox(
                         height: 8,
                       ),
                       Consumer<WeeklyPlanProvider>(
@@ -397,7 +383,7 @@ class _WeeklyPlanScreenState extends State<WeeklyPlanScreen> {
                           onTap: () {},
                         );
                       }),
-                      SizedBox(
+                      const SizedBox(
                         height: 8,
                       ),
                       CustomText(
@@ -405,7 +391,7 @@ class _WeeklyPlanScreenState extends State<WeeklyPlanScreen> {
                         fontWeight: FontWeight.w600,
                         size: 18,
                       ),
-                      SizedBox(
+                      const SizedBox(
                         height: 8,
                       ),
                       Consumer<WeeklyPlanProvider>(
