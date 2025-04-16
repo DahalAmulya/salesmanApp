@@ -186,7 +186,7 @@ class _MrOfficerReferralScreenState extends State<MrOfficerReferralScreen> {
                         : null;
               },
             ),
-            SizedBox(
+            const SizedBox(
               height: 16,
             ),
             TextFromFieldWithPrefixSuffix(
@@ -263,7 +263,7 @@ class _MrOfficerReferralScreenState extends State<MrOfficerReferralScreen> {
                     useSafeArea: true,
                     context: context,
                     builder: (context) =>
-                        districtBottomSheet(context, '$fileName', content));
+                        districtBottomSheet(context, fileName, content));
                 referralsDetailProvider.searchController.text = '';
                 referralsDetailProvider.searchAddressResult(
                     referralsDetailProvider.searchController.value.text,
@@ -353,7 +353,7 @@ class _MrOfficerReferralScreenState extends State<MrOfficerReferralScreen> {
                   isScrollControlled: true,
                   useSafeArea: true,
                   context: context,
-                  builder: (context) => _ReferralBottomSheet(context),
+                  builder: (context) => _referralBottomSheet(context),
                 );
                 referralsDetailProvider.getPOCList(context);
               },
@@ -496,7 +496,7 @@ class _MrOfficerReferralScreenState extends State<MrOfficerReferralScreen> {
                   isScrollControlled: true,
                   useSafeArea: true,
                   context: context,
-                  builder: (context) => _AmbulanceBottomSheet(context),
+                  builder: (context) => _ambulanceBottomSheet(context),
                 );
               },
             ),
@@ -569,10 +569,9 @@ class _MrOfficerReferralScreenState extends State<MrOfficerReferralScreen> {
                       flex: 1,
                       child: InkWell(
                           onTap: () {
-                            print('Pressed');
                             Navigator.pop(context);
                           },
-                          child: Icon(FontAwesomeIcons.arrowLeft)),
+                          child: const Icon(FontAwesomeIcons.arrowLeft)),
                     ),
                     // ),
                     Expanded(
@@ -583,7 +582,7 @@ class _MrOfficerReferralScreenState extends State<MrOfficerReferralScreen> {
                             ? 'Search District'
                             : 'Search State',
                         applySuffixIcon: true,
-                        suffixIcon: Icon(Icons.search),
+                        suffixIcon: const Icon(Icons.search),
                         validator: (value) {},
                         onChange: (value) =>
                             referralProvider.searchAddressResult(
@@ -652,7 +651,7 @@ class _MrOfficerReferralScreenState extends State<MrOfficerReferralScreen> {
                             print('Pressed');
                             Navigator.pop(context);
                           },
-                          child: Icon(FontAwesomeIcons.arrowLeft)),
+                          child: const Icon(FontAwesomeIcons.arrowLeft)),
                     ),
                     // ),
                     Expanded(
@@ -661,7 +660,7 @@ class _MrOfficerReferralScreenState extends State<MrOfficerReferralScreen> {
                         controller: referralProvider.searchController,
                         labelText: 'Search City',
                         applySuffixIcon: true,
-                        suffixIcon: Icon(Icons.search),
+                        suffixIcon: const Icon(Icons.search),
                         validator: (value) {},
                         onChange: (value) =>
                             referralProvider.searchAddressResult(
@@ -684,7 +683,6 @@ class _MrOfficerReferralScreenState extends State<MrOfficerReferralScreen> {
                       onTap: () {
                         Navigator.pop(context);
                         referralProvider.setSelectedCity(cityName);
-                        print(referralProvider.searchResult[index]);
                       },
                       title: CustomText(
                         text: cityName,
@@ -703,7 +701,7 @@ class _MrOfficerReferralScreenState extends State<MrOfficerReferralScreen> {
 
   //------------------------------------------------------------------------------------------------------------------------//
 
-  Widget _ReferralBottomSheet(context) {
+  Widget _referralBottomSheet(context) {
     return Consumer<ReferralsDetailProvider>(
         builder: (context, referralsDetailProvider, _) {
       return ClipRRect(
@@ -713,7 +711,7 @@ class _MrOfficerReferralScreenState extends State<MrOfficerReferralScreen> {
           child: Column(
             children: [
               Container(
-                padding: EdgeInsets.symmetric(horizontal: 8),
+                padding: const EdgeInsets.symmetric(horizontal: 8),
                 height: MediaQuery.of(context).size.height * 0.10,
                 decoration: BoxDecoration(
                   borderRadius: const BorderRadius.only(
@@ -727,7 +725,7 @@ class _MrOfficerReferralScreenState extends State<MrOfficerReferralScreen> {
                         onTap: () {
                           Navigator.pop(context);
                         },
-                        child: Icon(Icons.arrow_back)),
+                        child: const Icon(Icons.arrow_back)),
                     const SizedBox(
                       width: 8,
                     ),
@@ -737,7 +735,7 @@ class _MrOfficerReferralScreenState extends State<MrOfficerReferralScreen> {
                             referralsDetailProvider.searchByNameController,
                         labelText: 'Search POC name',
                         applySuffixIcon: true,
-                        suffixIcon: Icon(Icons.search),
+                        suffixIcon: const Icon(Icons.search),
                         validator: (newValue) {},
                         onChange: (newValue) =>
                             referralsDetailProvider.searchPocName(
@@ -790,7 +788,6 @@ class _MrOfficerReferralScreenState extends State<MrOfficerReferralScreen> {
                               age,
                               number,
                               fullAddress);
-                          print(referralsDetailProvider.pocList[index]);
                           Navigator.pop(context);
                         },
                         title: CustomContainer(
@@ -860,7 +857,7 @@ class _MrOfficerReferralScreenState extends State<MrOfficerReferralScreen> {
 
   //----------------------------------------------------------------Ambulance BottomSheet----------------------------------------------------------------//
 
-  Widget _AmbulanceBottomSheet(context) {
+  Widget _ambulanceBottomSheet(context) {
     return Consumer<ReferralsDetailProvider>(
       builder: (context, referralsDetailProvider, _) {
         return ClipRRect(
@@ -870,7 +867,7 @@ class _MrOfficerReferralScreenState extends State<MrOfficerReferralScreen> {
             child: Column(
               children: [
                 Container(
-                  padding: EdgeInsets.symmetric(horizontal: 8),
+                  padding: const EdgeInsets.symmetric(horizontal: 8),
                   height: MediaQuery.of(context).size.height * 0.10,
                   decoration: BoxDecoration(
                     borderRadius: const BorderRadius.only(
@@ -884,7 +881,7 @@ class _MrOfficerReferralScreenState extends State<MrOfficerReferralScreen> {
                           onTap: () {
                             Navigator.pop(context);
                           },
-                          child: Icon(Icons.arrow_back)),
+                          child: const Icon(Icons.arrow_back)),
                       const SizedBox(
                         width: 8,
                       ),
@@ -894,7 +891,7 @@ class _MrOfficerReferralScreenState extends State<MrOfficerReferralScreen> {
                               referralsDetailProvider.ambDriverSearchController,
                           labelText: 'Search POC name',
                           applySuffixIcon: true,
-                          suffixIcon: Icon(Icons.search),
+                          suffixIcon: const Icon(Icons.search),
                           onChange: (newValue) =>
                               referralsDetailProvider.searchAmbPocName(
                                   referralsDetailProvider
@@ -936,7 +933,6 @@ class _MrOfficerReferralScreenState extends State<MrOfficerReferralScreen> {
                           // String organization = referralsDetailProvider.pocList[index]['organization'];
                           referralsDetailProvider.setAmbulancePOCDetails(
                               id, name, ambNumber, number);
-                          print(referralsDetailProvider.ambSearchResult[index]);
                           Navigator.pop(context);
                         },
                         title: CustomContainer(
