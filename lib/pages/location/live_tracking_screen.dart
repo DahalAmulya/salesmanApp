@@ -90,11 +90,9 @@ class _LiveTrackingScreenState extends State<LiveTrackingScreen> {
               // shape: ShapeBorder.lerp(a, b, t),
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(100),
-                child: Container(
-                  child: Icon(
-                    CupertinoIcons.play_fill,
-                    color: CustomColors.primaryBlack,
-                  ),
+                child: Icon(
+                  CupertinoIcons.play_fill,
+                  color: CustomColors.primaryBlack,
                 ),
               ),
             );

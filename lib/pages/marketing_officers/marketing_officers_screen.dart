@@ -43,18 +43,7 @@ class _MarketingOfficersScreenState extends State<MarketingOfficersScreen> {
         backgroundColor: CustomColors.primaryWhite,
         appBar: _appBar(context),
         body: _buildUI(context),
-        // bottomNavigationBar: _bottomNavBar(context),
       ),
-    );
-  }
-
-  CustomGNavBar _bottomNavBar(context) {
-    return CustomGNavBar(
-      selectedIndex: index,
-      onTap: (value) {
-        index = value;
-        print(index);
-      },
     );
   }
 

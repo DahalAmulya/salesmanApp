@@ -29,7 +29,6 @@ class _ReplayScreenState extends State<ReplayScreen> {
   final LocalAuthentication auth = LocalAuthentication();
   int index = 1;
   final Completer<GoogleMapController> _controller = Completer();
-  // late DeviceinfoProvider _provider;
 
   Future<void> _moveCamera(double latitude, double longitude) async {
     final GoogleMapController controller = await _controller.future;
