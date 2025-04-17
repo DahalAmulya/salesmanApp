@@ -134,8 +134,11 @@ class LiveTrackingProvider extends ChangeNotifier {
       // }
 
       // final Uint8List? icon = await getBytesFromAsset('${_images[i]}', 120);
-      final Uint8List? icon =
-          await getBytesFromAsset('assets/images/userLocation.png', 120);
+      // final Uint8List? icon =
+      //     await getBytesFromAsset(, 120);
+
+      final Uint8List? icon = await getImageBytes(_employeeLiveData[i]['profileImage'], 120);
+
 
       // Create a unique marker ID using the employee name or another identifier
       String markerId = 'marker_${_employeeLiveData[i]['username']}';
@@ -166,12 +169,8 @@ class LiveTrackingProvider extends ChangeNotifier {
                         height: 150,
                         width: double.infinity,
                         child:
-                            // Image.asset(
-                            //   'assets/images/userLocation.png',
-                            //   fit: BoxFit.cover,
-                            // ),
                             Image.network(
-                          _profileImage,
+                          _employeeLiveData[i]['profileImage'],
                           fit: BoxFit.cover,
                         ),
                       ),
@@ -281,7 +280,56 @@ class LiveTrackingProvider extends ChangeNotifier {
     }
   }
 
-  // Future<Uint8List?> getBytesFromAsset(String path, int width) async {
+  Future<Uint8List?> getImageBytes(String path, int size) async {
+    try {
+      Uint8List imageData;
+
+      if (path.startsWith('http')) {
+        // Load from network
+        final response = await http.get(Uri.parse(path));
+        if (response.statusCode != 200) return null;
+        imageData = response.bodyBytes;
+      } else {
+        // Load from asset
+        ByteData data = await rootBundle.load(path);
+        imageData = data.buffer.asUint8List();
+      }
+
+      ui.Codec codec = await ui.instantiateImageCodec(
+        imageData,
+        targetWidth: size,
+        targetHeight: size,
+      );
+      ui.FrameInfo fi = await codec.getNextFrame();
+
+      ui.PictureRecorder recorder = ui.PictureRecorder();
+      Canvas canvas = Canvas(recorder);
+
+      Paint paint = Paint()..isAntiAlias = true;
+      double radius = size / 2;
+      canvas.drawCircle(Offset(radius, radius), radius, paint);
+
+      canvas.clipPath(Path()
+        ..addOval(Rect.fromCircle(center: Offset(radius, radius), radius: radius)));
+
+      paintImage(
+        canvas: canvas,
+        rect: Rect.fromCircle(center: Offset(radius, radius), radius: radius),
+        image: fi.image,
+        fit: BoxFit.cover,
+      );
+
+      final img = await recorder.endRecording().toImage(size, size);
+      final dataBytes = await img.toByteData(format: ui.ImageByteFormat.png);
+      return dataBytes?.buffer.asUint8List();
+    } catch (e) {
+      print('Error loading image: $e');
+      return null;
+    }
+  }
+
+
+// Future<Uint8List?> getBytesFromAsset(String path, int width) async {
   //   if (path.isNotEmpty) {
   //     ByteData data = await rootBundle.load(path);
   //     ui.Codec codec = await ui.instantiateImageCodec(data.buffer.asUint8List(),

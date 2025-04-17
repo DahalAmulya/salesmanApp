@@ -138,7 +138,6 @@ class ReplayProvider extends ChangeNotifier {
     _mobileTime = '';
     _isRestartReplay = false;
     _isPause = false;
-    // _isLeavePage = false;
     notifyListeners();
   }
 
@@ -278,9 +277,6 @@ class ReplayProvider extends ChangeNotifier {
       print('$dis = ${dis.runtimeType}');
       _distance = double.parse(dis.toString());
       _totalDistance += _distance;
-      // List<String> splitByMillisecond =
-      //     locations[i]['deviceTime'].toString().split('.');
-      // List<String> splitDateTime = splitByMillisecond[0].split('T');
       _mobileDate = _locations[i]['mobileTime'][0];
       _mobileTime = _locations[i]['mobileTime'][1];
       _mobileDateTime = _locations[i]['mobileTime'];
