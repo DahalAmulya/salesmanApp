@@ -76,39 +76,6 @@ class CameraProvider extends ChangeNotifier {
     _newVisitSelectedPhoto = '';
   }
 
-  // void offsetY(double y) {
-  //   notifyListeners();
-  // }
-
-  // Future<void> onTap(CameraController _cameraController, BuildContext context,
-  //     TapUpDetails details) async {
-  //   if (_cameraController.value.isInitialized) {
-  //     Future.microtask(() {
-  //       _showFocusCircle = true;
-  //       _x = details.localPosition.dx;
-  //       _y = details.localPosition.dy;
-  //       notifyListeners();
-  //     });
-
-  //     double fullWidth = MediaQuery.of(context).size.width;
-  //     double cameraHeight = fullWidth * _cameraController.value.aspectRatio;
-
-  //     double xp = _x / fullWidth;
-  //     double yp = _y / cameraHeight;
-
-  //     Offset point = Offset(xp, yp);
-  //     print("point : $point");
-
-  //     // Manually focus
-  //     await _cameraController.setFocusPoint(point);
-
-  //     Future.delayed(const Duration(seconds: 1)).whenComplete(() {
-  //       _showFocusCircle = false;
-  //       notifyListeners();
-  //     });
-  //   }
-  // }
-
   void toggleIsRearCameraSelected() {
     _isRearCameraSelected = !_isRearCameraSelected;
     notifyListeners();

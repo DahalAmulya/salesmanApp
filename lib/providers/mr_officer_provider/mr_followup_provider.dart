@@ -89,30 +89,6 @@ class MrOfficerFollowUpProvider extends ChangeNotifier {
     ERPResponse response = await ERPServices.getRequest('/poc/followup',context);
     print(response.statusCode);
     Map<String, dynamic> data = jsonDecode(response.body);
-    print("response : ${data}");
-    // print(data['pocName']);
-    // print(data['_id']);
-    // _fullNameController.text = data['pocName'];
-    // _categoryController.text = data['category'];
-    // _specializationController.text = data['specialization'];
-    // _ageController.text = data['age'];
-    // _numberController.text = data['number'];
-    // _addressController.text = data['address'];
-    // _organizationController.text = data['organization'];
-
-    // print(_fullNameController.text);
-    // print(_categoryController.text);
-    // print(_specializationController.text);
-
-    // String name = data['pocName'];
-    // String category = data['category'];
-    // String specialization = data['specialization'];
-    // String age = data['age'];
-    // String number = data['number'];
-    // String address = data['address'];
-    // String organization = data['organization'];
-    // setPOCDetails(
-    //     name, category, specialization, age, number, address, organization);
     notifyListeners();
   }
 
