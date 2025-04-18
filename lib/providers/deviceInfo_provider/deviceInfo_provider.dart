@@ -89,8 +89,6 @@ class DeviceInfoProvider extends ChangeNotifier {
   void getBatteryLevel() {
     _battery.onBatteryStateChanged.listen((BatteryState state) async {
       _batteryLevel = await _battery.batteryLevel;
-      // print('battery status = ${await _battery.batteryState}');
-      // print('battery save mode = ${await _battery.isInBatterySaveMode}');
       print('batteryLevel = $_batteryLevel');
       notifyListeners();
     });
@@ -105,7 +103,6 @@ class DeviceInfoProvider extends ChangeNotifier {
     getUniqueIdentifier();
     getBatteryLevel();
     getLocation(context);
-    // updateLocation();
   }
 
   void cancelLocationTimer() {
@@ -116,17 +113,14 @@ class DeviceInfoProvider extends ChangeNotifier {
 
   void updateLocation(context) async {
     clearMarkers();
-    // _locationTimer.cancel();
     if (_isAttendance) {
       _locationTimer = Timer.periodic(const Duration(seconds: 1), (timer) {
         if (_seconds == 3) {
           _seconds = 0;
           getLocation(context);
-          // backgroundLocation();
         } else {
           _seconds++;
         }
-        // print('Seconds = $seconds');
       });
     } else {
       _locationTimer.cancel();
@@ -135,16 +129,14 @@ class DeviceInfoProvider extends ChangeNotifier {
 
   Stream<Position> positionStream = Geolocator.getPositionStream(
     locationSettings: LocationSettings(
-      accuracy: LocationAccuracy.high, // High accuracy
-      // timeLimit: Duration(seconds: 10),
+      accuracy: LocationAccuracy.high,
       distanceFilter:
-          15, // Minimum distance (in meters) before an update is triggered
+          15,
     ),
   );
 
   Future<void> initConnectivity() async {
     late List<ConnectivityResult> result;
-    // Platform messages may fail, so we use a try/catch PlatformException.
     try {
       result = await _connectivity.checkConnectivity();
       _connectivityType = result[0].toString().split('.')[1];
@@ -159,17 +151,14 @@ class DeviceInfoProvider extends ChangeNotifier {
 
   Future<void> _updateConnectionStatus(List<ConnectivityResult> result) async {
     _connectionStatus = result;
-    // print('Connectivity changed: $_connectionStatus');
   }
 
   void clearMarkers() {
     _livePositionMarkers
         .removeWhere((marker) => marker.markerId.value == 'Hello');
 
-    // Clear the list of position markers
     _livePositionMarkers.clear();
 
-    // Notify listeners to update the UI
     notifyListeners();
   }
 
@@ -189,26 +178,6 @@ class DeviceInfoProvider extends ChangeNotifier {
       'connectivityStatus': _connectivityStatus,
       'distance': _distance,
     };
-
-    // try {
-    //   final response = await http.post(
-    //     url,
-    //     headers: {'Content-Type': 'application/json'},
-    //     body: jsonEncode(data),
-    //   );
-    //   if (response.statusCode == 200 || response.statusCode == 201) {
-    //     _connectivityStatus = 'connected';
-    //     print('Data Post successfull');
-    //     print('identifier = ${_uniqueIdentifier}');
-    //     notifyListeners();
-    //   } else {
-    //     print(response.statusCode);
-    //   }
-    // } catch (e) {
-    //   _connectivityStatus = 'no internet';
-    //   notifyListeners();
-    //   print('Error: $e');
-    // }
 
     String formattedDateTime =
         '${DateTime.now().toString().split('.')[1]} ${DateTime.now().toString().split('.')[0]}';
@@ -238,7 +207,7 @@ class DeviceInfoProvider extends ChangeNotifier {
     var iconPath = 'assets/images/location.png';
     final Uint8List? icon = await getBytesFromAsset(iconPath, 100);
     Position position = await Geolocator.getCurrentPosition(
-      locationSettings: LocationSettings(
+      locationSettings: const LocationSettings(
         accuracy: LocationAccuracy.best,
         distanceFilter: 25,
       ),
@@ -252,7 +221,6 @@ class DeviceInfoProvider extends ChangeNotifier {
       _livePositionMarkers.remove(marker);
       _livePositionMarkers.clear();
     }
-    // positionStream.listen((Position position) {
     _liveLatitude = position.latitude;
     _liveLongitude = position.longitude;
     _accuracy = accuracyStatus.toString().split('.')[1];

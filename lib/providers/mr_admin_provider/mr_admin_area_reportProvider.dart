@@ -151,9 +151,6 @@ class MrAdminAreaReportProvider extends ChangeNotifier {
       }
     }
     notifyListeners();
-
-    // Print the result for debugging
-    // print("Cities for $selectedItem: $foundCities");
   }
 
 }

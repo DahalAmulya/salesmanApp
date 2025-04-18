@@ -20,20 +20,15 @@ class MrOfficeVisitLogProvider extends ChangeNotifier {
     DateTime now = DateTime.now();
     String date = now.toString().split(' ')[0];
     _selectedDate = selectedDate.isEmpty ? date : _selectedDate;
-    // String from = _selectedDate;
-    // String to = _selectedDate;
-    print('selectedDate = ${_selectedDate}');
     ERPResponse response = await ERPServices.getRequest(
-        '/visitLogs?visitLogId=$userId&from=$_selectedDate&to=$_selectedDate', context);
-    print(response.statusCode);
-    print(response.body);
+        '/visitLogs?visitLogId=$userId&from=$_selectedDate&to=$_selectedDate',
+        context);
     Map<String, dynamic> body = jsonDecode(response.body);
     if (body["visitLogs"].containsKey('visitLogs')) {
       _visitLogs = body["visitLogs"]["visitLogs"];
     } else {
       _visitLogs = [];
     }
-    print(_visitLogs);
     notifyListeners();
   }
 }

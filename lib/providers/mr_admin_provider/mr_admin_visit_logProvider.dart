@@ -121,9 +121,6 @@ class MrAdminVisitLogProvider extends ChangeNotifier {
   Set<Marker> get visitLogMarkers => _visitLogMarkers;
   double get latitude => _latitude;
   double get longitude => _longitude;
-  // TextEditingController get fromTextEditingController =>
-  //     _fromTextEditingController;
-  // TextEditingController get toTextEditingController => _toTextEditingController;
 
   void triggerAnimation() {
     _myAnimation = false;

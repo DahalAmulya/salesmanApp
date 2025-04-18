@@ -72,7 +72,6 @@ class LiveTrackingProvider extends ChangeNotifier {
   void setSelectedEmpLatLong(double? lat, double? long) {
     _selectedEmpLatitude = lat;
     _selectedEmpLongitude = long;
-    notifyListeners();
   }
 
   void updateLocation(context) async {
@@ -84,25 +83,18 @@ class LiveTrackingProvider extends ChangeNotifier {
       } else {
         _seconds++;
       }
-      // print('Seconds = $seconds');
     });
   }
 
   void getAllEmployeesLocation(context) async {
-    // ERPResponse response = await ERPServices.getRequest('location');
     Map<String, String> headersJson = {
       'Content-Type': 'Application/json',
     };
     ERPResponse response =
         await ERPServices.getRequest('/location/latest', context);
-    // print('response = ${response.statusCode}');
-    // print('response = ${response.body}');
-    // print(response.statusCode);
-    // List<String> body = ;
     _employeeLiveData = jsonDecode(response.body);
     _employeeSearchResults = _employeeLiveData;
 
-    // Clear the markers set before adding new markers
     _liveTrakingMarkers.clear();
 
     for (int i = 0; i < _employeeLiveData.length; i++) {
@@ -120,27 +112,9 @@ class LiveTrackingProvider extends ChangeNotifier {
       _mobileTime = latestLocation['mobileTime'];
       _profileImage = employeeLiveData[i]['profileImage'];
 
-      print('_employeeName = $_employeeName');
-      // _images.add('assets/images/userLocation.png');
+      final Uint8List? icon =
+          await getImageBytes(_employeeLiveData[i]['profileImage'], 120);
 
-      // if (i < _images.length) {
-      //   // _img = images[i];
-      //   // _img = images[i];
-      //   // print('inside if = ${i < _images.length}');
-      // } else {
-      //   _images.add('assets/images/userLocation.png');
-      //   // _img = 'assets/images/location.png';
-      //   print('outside if = ${i < _images.length}');
-      // }
-
-      // final Uint8List? icon = await getBytesFromAsset('${_images[i]}', 120);
-      // final Uint8List? icon =
-      //     await getBytesFromAsset(, 120);
-
-      final Uint8List? icon = await getImageBytes(_employeeLiveData[i]['profileImage'], 120);
-
-
-      // Create a unique marker ID using the employee name or another identifier
       String markerId = 'marker_${_employeeLiveData[i]['username']}';
 
       _liveTrakingMarkers.add(
@@ -168,8 +142,7 @@ class LiveTrackingProvider extends ChangeNotifier {
                       SizedBox(
                         height: 150,
                         width: double.infinity,
-                        child:
-                            Image.network(
+                        child: Image.network(
                           _employeeLiveData[i]['profileImage'],
                           fit: BoxFit.cover,
                         ),
@@ -193,8 +166,6 @@ class LiveTrackingProvider extends ChangeNotifier {
                               fontWeight: ui.FontWeight.w500,
                             ),
                             CustomText(
-                              // text:
-                              //     '${latestLocation['mobileTime'].toString().split('.')[0].split('T')[1]}',
                               text: latestLocation['mobileTime'].toString(),
                               fontWeight: ui.FontWeight.w500,
                             ),
@@ -310,7 +281,8 @@ class LiveTrackingProvider extends ChangeNotifier {
       canvas.drawCircle(Offset(radius, radius), radius, paint);
 
       canvas.clipPath(Path()
-        ..addOval(Rect.fromCircle(center: Offset(radius, radius), radius: radius)));
+        ..addOval(
+            Rect.fromCircle(center: Offset(radius, radius), radius: radius)));
 
       paintImage(
         canvas: canvas,
@@ -323,23 +295,7 @@ class LiveTrackingProvider extends ChangeNotifier {
       final dataBytes = await img.toByteData(format: ui.ImageByteFormat.png);
       return dataBytes?.buffer.asUint8List();
     } catch (e) {
-      print('Error loading image: $e');
       return null;
     }
   }
-
-
-// Future<Uint8List?> getBytesFromAsset(String path, int width) async {
-  //   if (path.isNotEmpty) {
-  //     ByteData data = await rootBundle.load(path);
-  //     ui.Codec codec = await ui.instantiateImageCodec(data.buffer.asUint8List(),
-  //         targetWidth: width);
-  //     ui.FrameInfo fi = await codec.getNextFrame();
-  //     return (await fi.image.toByteData(format: ui.ImageByteFormat.png))!
-  //         .buffer
-  //         .asUint8List();
-  //   } else {
-  //     return null;
-  //   }
-  // }
 }

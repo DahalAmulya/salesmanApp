@@ -104,13 +104,11 @@ class ProfileProvider extends ChangeNotifier {
     try {
       var streamedResponse = await request.send();
 
-      // Convert StreamedResponse to Response
       var response = await http.Response.fromStream(streamedResponse);
 
       if (response.statusCode == 200) {
         ToastMessageUtils().showToastMessage('Image uploaded successfully',
             ToastGravity.TOP, CustomColors.jadeGreen);
-        // Print the response body
         print("Response Status Code: ${response.statusCode}");
         print("Response Body: ${response.body}");
         Map<String, dynamic> body = jsonDecode(response.body);
