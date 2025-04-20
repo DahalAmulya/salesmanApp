@@ -1,5 +1,5 @@
 import 'dart:developer';
-import 'package:awesome_notifications/awesome_notifications.dart';
+// import 'package:awesome_notifications/awesome_notifications.dart';
 // import 'package:deskgoo/classes/background_task_handler.dart';
 import 'package:deskgoo/classes/notification_controller.dart';
 import 'package:deskgoo/pages/mr_officers_pages/weeklyplan/weeklyplan_screen.dart';
@@ -55,16 +55,16 @@ class _HomeScreenState extends State<HomeScreen> {
     _marketingProvider = Provider.of<MarketingProvider>(context, listen: false);
     getLocationPermission();
 
-    NotificationController.getPermissions();
-    AwesomeNotifications().setListeners(
-      onActionReceivedMethod: NotificationController.onActionReceivedMethod,
-      onNotificationCreatedMethod:
-          NotificationController.onNotificationCreatedMethod,
-      onNotificationDisplayedMethod:
-          NotificationController.onNotificationDisplayedMethod,
-      onDismissActionReceivedMethod:
-          NotificationController.onDismissActionReceivedMethod,
-    );
+    // NotificationController.getPermissions();
+    // AwesomeNotifications().setListeners(
+    //   onActionReceivedMethod: NotificationController.onActionReceivedMethod,
+    //   onNotificationCreatedMethod:
+    //       NotificationController.onNotificationCreatedMethod,
+    //   onNotificationDisplayedMethod:
+    //       NotificationController.onNotificationDisplayedMethod,
+    //   onDismissActionReceivedMethod:
+    //       NotificationController.onDismissActionReceivedMethod,
+    // );
     super.initState();
   }
 

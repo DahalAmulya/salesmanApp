@@ -1,6 +1,6 @@
 import 'dart:convert';
 import 'dart:developer';
-import 'package:awesome_notifications/awesome_notifications.dart';
+// import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:deskgoo/classes/notification_controller.dart';
 import 'package:deskgoo/consts.dart';
@@ -107,16 +107,16 @@ class _MarketingManagerDashboardState extends State<MarketingManagerDashboard> {
     _marketingProvider = Provider.of<MarketingProvider>(context, listen: false);
     getLocationPermission();
 
-    NotificationController.getPermissions();
-    AwesomeNotifications().setListeners(
-      onActionReceivedMethod: NotificationController.onActionReceivedMethod,
-      onNotificationCreatedMethod:
-          NotificationController.onNotificationCreatedMethod,
-      onNotificationDisplayedMethod:
-          NotificationController.onNotificationDisplayedMethod,
-      onDismissActionReceivedMethod:
-          NotificationController.onDismissActionReceivedMethod,
-    );
+    // NotificationController.getPermissions();
+    // AwesomeNotifications().setListeners(
+    //   onActionReceivedMethod: NotificationController.onActionReceivedMethod,
+    //   onNotificationCreatedMethod:
+    //       NotificationController.onNotificationCreatedMethod,
+    //   onNotificationDisplayedMethod:
+    //       NotificationController.onNotificationDisplayedMethod,
+    //   onDismissActionReceivedMethod:
+    //       NotificationController.onDismissActionReceivedMethod,
+    // );
     // NotificationUtils.sendNotification(2, 'Home', 'You are on home screen');
     super.initState();
   }

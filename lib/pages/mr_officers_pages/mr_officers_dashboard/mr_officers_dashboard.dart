@@ -153,7 +153,7 @@ class _MrOfficersDashboardScreenState extends State<MrOfficersDashboardScreen>
     super.initState();
     WidgetsFlutterBinding
         .ensureInitialized(); // Ensure Flutter bindings are initialized
-    NotificationController.getPermissions();
+    // NotificationController.getPermissions();
     print('Not Running on browser');
     // WidgetsFlutterBinding.ensureInitialized();
 
