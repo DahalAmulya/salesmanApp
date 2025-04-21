@@ -10,6 +10,7 @@ class MarketingManagerConstants {
   static const String liveTrackingPage = '/live_tracking';
   static const String ownLiveLocationPage = '/onw_live_location';
   static const String replayPage = '/replay';
+  static const String plotLocationHistory = '/plot_location';
   static const String visitPage = '/visit';
   static const String visitOrderScreen = '/order';
   static const String visitSummaryPage = '/summary';

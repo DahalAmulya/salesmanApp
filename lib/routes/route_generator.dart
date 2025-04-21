@@ -28,6 +28,7 @@ import 'package:deskgoo/splash_screen.dart';
 import 'package:flutter/material.dart';
 import '../pages/home/DescriptionPage/officer_DescriptionPage.dart';
 import '../pages/home/DescriptionPage/officer_VisitDetailPage.dart';
+import '../pages/location/plot_location_history_screen.dart';
 import '../pages/mr_admin/mr_admin_pages/mr_admin_create_user/mr_admin_createuser.dart';
 import '../pages/mr_admin/mr_admin_pages/mr_admin_create_user/mr_admin_viewuser.dart';
 import '../pages/mr_admin/mr_admin_pages/reports/Area/report_area_screen.dart';
@@ -84,6 +85,10 @@ class RouteGenerator {
       case MarketingManagerConstants.replayPage:
         return MaterialPageRoute(
           builder: (_) => ReplayScreen(),
+        );
+      case MarketingManagerConstants.plotLocationHistory:
+        return MaterialPageRoute(
+          builder: (_) => PlotLocationHistoryScreen(),
         );
       case MarketingManagerConstants.visitPage:
         return MaterialPageRoute(

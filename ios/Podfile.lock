@@ -1,7 +1,4 @@
 PODS:
-  - awesome_notifications (0.9.3):
-    - Flutter
-    - IosAwnCore (~> 0.9.3)
   - background_task (0.0.1):
     - Flutter
   - battery_plus (1.0.0):
@@ -38,7 +35,6 @@ PODS:
     - GoogleMaps/Base
   - image_picker_ios (0.0.1):
     - Flutter
-  - IosAwnCore (0.9.3)
   - local_auth_darwin (0.0.1):
     - Flutter
     - FlutterMacOS
@@ -59,7 +55,6 @@ PODS:
     - FlutterMacOS
 
 DEPENDENCIES:
-  - awesome_notifications (from `.symlinks/plugins/awesome_notifications/ios`)
   - background_task (from `.symlinks/plugins/background_task/ios`)
   - battery_plus (from `.symlinks/plugins/battery_plus/ios`)
   - camera_avfoundation (from `.symlinks/plugins/camera_avfoundation/ios`)
@@ -86,12 +81,9 @@ SPEC REPOS:
   trunk:
     - Google-Maps-iOS-Utils
     - GoogleMaps
-    - IosAwnCore
     - SAMKeychain
 
 EXTERNAL SOURCES:
-  awesome_notifications:
-    :path: ".symlinks/plugins/awesome_notifications/ios"
   background_task:
     :path: ".symlinks/plugins/background_task/ios"
   battery_plus:
@@ -132,7 +124,6 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/video_player_avfoundation/darwin"
 
 SPEC CHECKSUMS:
-  awesome_notifications: 66d28ab7174ca2823b04d275cb043e0a4a3eb9cf
   background_task: a584ba6e093a60641252e89f7cd404ec92a30c8d
   battery_plus: 34f72fa2afeeea83bbae306c72a25828d3ec727a
   camera_avfoundation: dd002b0330f4981e1bbcb46ae9b62829237459a4
@@ -148,7 +139,6 @@ SPEC CHECKSUMS:
   google_maps_flutter_ios: e31555a04d1986ab130f2b9f24b6cdc861acc6d3
   GoogleMaps: 8939898920281c649150e0af74aa291c60f2e77d
   image_picker_ios: c560581cceedb403a6ff17f2f816d7fea1421fc1
-  IosAwnCore: b8601fbb37f7b3560f31b84ebf55a72f65812e05
   local_auth_darwin: 66e40372f1c29f383a314c738c7446e2f7fdadc3
   path_provider_foundation: 2b6b4c569c0fb62ec74538f866245ac84301af46
   permission_handler_apple: 9878588469a2b0d0fc1e048d9f43605f92e6cec2

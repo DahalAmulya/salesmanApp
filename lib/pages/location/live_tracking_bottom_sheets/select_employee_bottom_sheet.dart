@@ -156,7 +156,7 @@ class SelectEmployeeBottomSheet {
                                     liveTrackingProvider.setSelectedImage('');
                                     replayProvider.cacheIcons('', context);
                                   }
-                                  print(liveTrackingProvider.selecetedImg);
+                                  print(liveTrackingProvider.selectedImg);
                                   print(
                                       '****************************************************************');
                                   print(
@@ -169,8 +169,10 @@ class SelectEmployeeBottomSheet {
                                       liveTrackingProvider
                                           .employeeLiveData[index]['_id'],
                                       context);
+                                  // Navigator.of(context).pushNamed(
+                                  //     MarketingManagerConstants.replayPage);
                                   Navigator.of(context).pushNamed(
-                                      MarketingManagerConstants.replayPage);
+                                      MarketingManagerConstants.plotLocationHistory);
                                 },
                                 child: CustomContainer(
                                   width: 0.90,

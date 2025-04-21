@@ -76,61 +76,7 @@ class _ReplayScreenState extends State<ReplayScreen> {
         child: Scaffold(
           backgroundColor: CustomColors.primaryWhite,
           appBar: _appBar(context),
-          // drawer: _drawer(context),
-          // drawerDragStartBehavior: DragStartBehavior.start,
           body: _googleMap(context),
-          // floatingActionButton:
-          //     Consumer<ReplayProvider>(builder: (context, replayProvider, _) {
-          //   return Column(
-          //     mainAxisAlignment: MainAxisAlignment.end,
-          //     children: [
-          //       // FloatingActionButton(
-          //       //   backgroundColor: CustomColors.primaryColor,
-          //       //   onPressed: () {
-          //       //     if (!deviceinfoProvider.isRestartReplay) {
-          //       //       deviceinfoProvider.toggleIsRestartReplay();
-          //       //     }
-          //       //     deviceinfoProvider.clearMarkers();
-          //       //     deviceinfoProvider.updateLocation();
-          //       //   },
-          //       //   child: Image.asset(
-          //       //     'assets/images/stream.png',
-          //       //     width: 28,
-          //       //     height: 28,
-          //       //   ),
-          //       // ),
-          //       // SizedBox(height: 8.0),
-          //       FloatingActionButton(
-          //         backgroundColor: CustomColors.primaryColor,
-          //         onPressed: () {
-          //           // replayProvider.getEmployeeLocationById();
-          //           replayProvider.toggleIsRestartReplay();
-          //           replayProvider.clearMarkers();
-          //           if (replayProvider.isPause) {
-          //             replayProvider.toggleIsPause();
-          //           }
-          //           replayProvider.locationReplay();
-          //         },
-          //         child: Image.asset(
-          //           'assets/images/replay.png',
-          //           width: 28,
-          //           height: 28,
-          //         ),
-          //       ),
-          //       SizedBox(height: 8.0),
-          //       FloatingActionButton(
-          //         backgroundColor: CustomColors.primaryColor,
-          //         onPressed: () {
-          //           replayProvider.toggleIsPause();
-          //         },
-          //         child: Icon(
-          //           replayProvider.isPause ? Icons.play_arrow : Icons.pause,
-          //         ),
-          //       ),
-          //     ],
-          //   );
-          // }),
-          // bottomNavigationBar: _bottomNavBar(context),
         ),
       ),
     );
