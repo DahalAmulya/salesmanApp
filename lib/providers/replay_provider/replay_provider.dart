@@ -31,6 +31,13 @@ class ReplayProvider extends ChangeNotifier {
   String _selectedVisitType = 'Today';
   String _from = '';
   String _to = '';
+  Set<Marker> _locationPoints = {};
+  Set<Polyline> _locationPointsPolyline = {};
+  List<LatLng> _locationPointsPolylineCoordinates = [];
+
+  Set<Marker> get locationPoints => _locationPoints;
+  Set<Polyline> get locationPointsPolyline => _locationPointsPolyline;
+  List<LatLng> get locationPointsPolylineCoordinates => _locationPointsPolylineCoordinates;
 
   TextEditingController _fromTextEditingController = TextEditingController();
   TextEditingController _toTextEditingController = TextEditingController();
@@ -81,9 +88,12 @@ class ReplayProvider extends ChangeNotifier {
       _from = '${currentDate.toString().split(' ')[0]} 00:00:00';
       _to = '${currentDate.toString().split(' ')[0]} 23:59:59';
     } else if (_selectedVisitType == _visitDateTypeList[1]) {
-      _from = '${currentDate.toString().split(' ')[0]} 00:00:00';
-      _to = '${currentDate.toString().split(' ')[0]} 23:59:59';
+      _from =
+          '${currentDate.subtract(const Duration(days: 1)).toString().split(' ')[0]} 00:00:00';
+      _to =
+          '${currentDate.subtract(const Duration(days: 1)).toString().split(' ')[0]} 23:59:59';
     } else {}
+    print(_from + _to);
 
     notifyListeners();
   }
@@ -102,6 +112,7 @@ class ReplayProvider extends ChangeNotifier {
       _from = '${picked.year}-${picked.month}-${picked.day}';
     }
     _fromTextEditingController.text = _from;
+    print(_from + _to);
     notifyListeners();
   }
 
@@ -118,6 +129,7 @@ class ReplayProvider extends ChangeNotifier {
       _to = '${picked.year}-${picked.month}-${picked.day}';
     }
     _toTextEditingController.text = _to;
+    print(_from + _to);
     notifyListeners();
   }
 
@@ -153,32 +165,28 @@ class ReplayProvider extends ChangeNotifier {
   }
 
   void cacheIcons(String img, context) async {
-    LiveTrackingProvider _imgprovider = LiveTrackingProvider(context);
+    LiveTrackingProvider _imgProvider = LiveTrackingProvider(context);
     DeviceInfoProvider _provider = DeviceInfoProvider();
     String tempMarkerImg = img.isEmpty ? 'assets/images/userLocation.png' : img;
-    _tempMarkerIcon = await _imgprovider.getBytesFromAsset(tempMarkerImg, 100);
+    _tempMarkerIcon = await _imgProvider.getBytesFromAsset(tempMarkerImg, 100);
     // img.isEmpty
     //     ? await _provider.getBytesFromAsset(tempMarkerImg, 80)
     // :
     _startMarkerIcon =
-    await _provider.getBytesFromAsset('assets/images/start.png', 100);
+        await _provider.getBytesFromAsset('assets/images/start.png', 100);
     _endMarkerIcon =
-    await _provider.getBytesFromAsset('assets/images/finish.png', 100);
+        await _provider.getBytesFromAsset('assets/images/finish.png', 100);
   }
 
-  void getLatestLocation(String id,context) async {
+  void getLatestLocation(String id, context) async {
     ERPResponse response =
-    await ERPServices.getRequest('/location/latest?_id=$id',context);
+        await ERPServices.getRequest('/location/latest?_id=$id', context);
     print(response.body);
     print(response.statusCode);
   }
 
   void getEmployeeLocationById(String _id, context) async {
     resetValues();
-    String from = '2025-03-01 00:00:00';
-    String to = '${DateTime.now().toString().split(' ')[0]} 23:59:59';
-    // ERPResponse response = await ERPServices.getRequest(
-    //     '/location/latestByDate?_id=$_id&from=2025-02-01&to=$to', context);
     ERPResponse response = await ERPServices.getRequest(
         '/location/latestByDate?_id=$_id&from=$_from&to=$_to', context);
     print('****************************************************************');
@@ -192,7 +200,64 @@ class ReplayProvider extends ChangeNotifier {
     notifyListeners();
     print(locations);
     print('****************************************************************');
-    locationReplay();
+    plotLocationHistory();
+    // locationReplay();
+  }
+
+  void clearPlotLocationHistory(){
+    _locations.clear();
+    _locations = [];
+    _locationPoints = {};
+    _locationPointsPolyline = {};
+    _locationPointsPolylineCoordinates = [];
+    _locationPoints.clear();
+    _locationPointsPolyline.clear();
+    _locationPointsPolylineCoordinates.clear();
+    _totalDistance = 0;
+    notifyListeners();
+  }
+
+  void plotLocationHistory() {
+    _locationPoints.clear();
+    _locationPointsPolyline.clear();
+    _locationPointsPolylineCoordinates.clear();
+
+    for (int i = 0; i < _locations.length; i++) {
+      _latitude = _locations[i]['latitude'];
+      _longitude = _locations[i]['longitude'];
+      _mobileTime = _locations[i]['mobileTime'];
+      _connectionType = _locations[i]['connectivityType'];
+      _battery = _locations[i]['batteryPercentage'];
+      _distance = _locations[i]['distance'];
+      _totalDistance += _distance / 1000;
+      String markerId = 'marker_${_locations[i]['_id']}';
+
+      _locationPoints.add(
+        Marker(
+          markerId: MarkerId(markerId),
+          icon: BitmapDescriptor.defaultMarker,
+          position: LatLng(_latitude, _longitude),
+          onTap: (){
+            print('latitude and longitude $_latitude, $_longitude');
+          }
+        )
+      );
+
+      _locationPointsPolylineCoordinates.add(LatLng(_latitude, _longitude));
+
+      _locationPointsPolyline.add(
+        Polyline(
+          polylineId: const PolylineId('route_polyline'),
+          points: _locationPointsPolylineCoordinates,
+          color: Colors.blue,
+          width: 5,
+        ),
+      );
+    }
+    print('************************************************');
+    print(_totalDistance);
+    print('************************************************');
+    notifyListeners();
   }
 
   void toggleIsRestartReplay() {
@@ -243,7 +308,7 @@ class ReplayProvider extends ChangeNotifier {
           imagePixelRatio: 2.3,
         ),
         position:
-        LatLng(_locations.last['latitude'], _locations.last['longitude']),
+            LatLng(_locations.last['latitude'], _locations.last['longitude']),
       ),
     );
 
@@ -301,7 +366,7 @@ class ReplayProvider extends ChangeNotifier {
 
       // Find and update the temp marker instead of recreating it
       Marker tempMarker = _positionMarkers.firstWhere(
-            (marker) => marker.markerId.value == 'temp_marker',
+        (marker) => marker.markerId.value == 'temp_marker',
         orElse: () => Marker(markerId: const MarkerId('temp_marker')),
       );
       _positionMarkers.remove(tempMarker);

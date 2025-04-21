@@ -55,7 +55,7 @@ class LiveTrackingProvider extends ChangeNotifier {
   Set<Marker> get liveTrackingMarkers => _liveTrakingMarkers;
   Timer get liveLocationTimer => _liveLocationTimer;
   int get seconds => _seconds;
-  String get selecetedImg => _selectedImg;
+  String get selectedImg => _selectedImg;
   String get img => _img;
   List<String> get images => _images;
 

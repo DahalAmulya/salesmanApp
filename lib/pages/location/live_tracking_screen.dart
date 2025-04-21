@@ -256,24 +256,6 @@ class _LiveTrackingScreenState extends State<LiveTrackingScreen> {
       },
     );
   }
-
-  // Widget _osmMap(context) {
-  //   return Consumer<DeviceInfoProvider>(
-  //     builder: (context, deviceInfoProvider, _) {
-  //       // latitude = deviceInfoProvider.liveLatitude;
-  //       // longitude = deviceInfoProvider.liveLongitude;
-  //       // cameraPosition();
-  //       // deviceInfoProvider.cameraPosition(_controller);
-  //       return SfMaps(
-  //         layers: [
-  //           MapTileLayer(
-  //             urlTemplate: 'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
-  //           ),
-  //         ],
-  //       );
-  //     },
-  //   );
-  // }
 }
 
 class CustomSearchDelegate extends SearchDelegate {
