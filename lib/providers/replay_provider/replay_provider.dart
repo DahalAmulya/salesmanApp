@@ -7,6 +7,11 @@ import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 class ReplayProvider extends ChangeNotifier {
+  List<String> _mapTypes = ['normal', 'hybrid', 'terrain'];
+  String _selectedReplayMapTypeValue = 'normal';
+  String _selectedLocationPointMapTypeValue = 'normal';
+  MapType _selectedReplayMapType = MapType.normal;
+  MapType _selectedLocationPointMapType = MapType.normal;
   int _employee_id = 0;
   String _name = '';
   double _latitude = 0.0;
@@ -29,15 +34,16 @@ class ReplayProvider extends ChangeNotifier {
   String _selectedImage = '';
   List<String> _visitDateTypeList = ['Today', 'Yesterday', 'Custom'];
   String _selectedVisitType = 'Today';
-  String _from = '';
-  String _to = '';
+  String _from = DateTime.now().toString().split(' ')[0];
+  String _to = DateTime.now().toString().split(' ')[0];
   Set<Marker> _locationPoints = {};
   Set<Polyline> _locationPointsPolyline = {};
   List<LatLng> _locationPointsPolylineCoordinates = [];
 
   Set<Marker> get locationPoints => _locationPoints;
   Set<Polyline> get locationPointsPolyline => _locationPointsPolyline;
-  List<LatLng> get locationPointsPolylineCoordinates => _locationPointsPolylineCoordinates;
+  List<LatLng> get locationPointsPolylineCoordinates =>
+      _locationPointsPolylineCoordinates;
 
   TextEditingController _fromTextEditingController = TextEditingController();
   TextEditingController _toTextEditingController = TextEditingController();
@@ -46,6 +52,16 @@ class ReplayProvider extends ChangeNotifier {
   Uint8List? _startMarkerIcon;
   Uint8List? _endMarkerIcon;
 
+  String _radioGroupValue = '';
+
+  String get radioGroupValue => _radioGroupValue;
+
+  List<String> get mapType => _mapTypes;
+  String get selectedReplayMapTypeValue => _selectedReplayMapTypeValue;
+  String get selectedLocationPointMapTypeValue =>
+      _selectedLocationPointMapTypeValue;
+  MapType get selectedReplayMapType => _selectedReplayMapType;
+  MapType get selectedLocationPointMapType => _selectedLocationPointMapType;
   int get employee_id => _employee_id;
   String get name => _name;
   double get latitude => _latitude;
@@ -76,13 +92,24 @@ class ReplayProvider extends ChangeNotifier {
   TextEditingController get toTextEditingController => _toTextEditingController;
 
   ReplayProvider(context) {
-    cacheIcons(_selectedImage, context); // Pre-cache marker icons
+    cacheIcons(_selectedImage, context);
     _isLeavePage = false;
+  }
+
+  void selectMapType(value) {
+    _radioGroupValue = value;
+    if (value == _mapTypes[0]) {
+      _selectedLocationPointMapType = MapType.normal;
+    } else if (value == _mapTypes[1]) {
+      _selectedLocationPointMapType = MapType.hybrid;
+    } else {
+      _selectedLocationPointMapType = MapType.terrain;
+    }
+    notifyListeners();
   }
 
   void setSelectedVisitType(visitType) {
     DateTime currentDate = DateTime.now();
-    DateTime yesterday = currentDate.subtract(Duration(days: 1));
     _selectedVisitType = visitType;
     if (_selectedVisitType == _visitDateTypeList[0]) {
       _from = '${currentDate.toString().split(' ')[0]} 00:00:00';
@@ -96,6 +123,26 @@ class ReplayProvider extends ChangeNotifier {
     print(_from + _to);
 
     notifyListeners();
+  }
+
+  void locationPointsSelectMapType(String value) {
+    if (value == _mapTypes[0]) {
+      _selectedLocationPointMapType == MapType.normal;
+    } else if (value == _mapTypes[1]) {
+      _selectedLocationPointMapType == MapType.hybrid;
+    } else {
+      _selectedLocationPointMapType = MapType.terrain;
+    }
+  }
+
+  void sSelectReplayMapType(String value) {
+    if (value == _mapTypes[0]) {
+      _selectedLocationPointMapType == MapType.normal;
+    } else if (value == _mapTypes[1]) {
+      _selectedLocationPointMapType == MapType.hybrid;
+    } else {
+      _selectedLocationPointMapType = MapType.terrain;
+    }
   }
 
   Future<void> selectDateFrom(context) async {
@@ -204,7 +251,7 @@ class ReplayProvider extends ChangeNotifier {
     // locationReplay();
   }
 
-  void clearPlotLocationHistory(){
+  void clearPlotLocationHistory() {
     _locations.clear();
     _locations = [];
     _locationPoints = {};
@@ -232,16 +279,13 @@ class ReplayProvider extends ChangeNotifier {
       _totalDistance += _distance / 1000;
       String markerId = 'marker_${_locations[i]['_id']}';
 
-      _locationPoints.add(
-        Marker(
+      _locationPoints.add(Marker(
           markerId: MarkerId(markerId),
           icon: BitmapDescriptor.defaultMarker,
           position: LatLng(_latitude, _longitude),
-          onTap: (){
+          onTap: () {
             print('latitude and longitude $_latitude, $_longitude');
-          }
-        )
-      );
+          }));
 
       _locationPointsPolylineCoordinates.add(LatLng(_latitude, _longitude));
 
