@@ -2,9 +2,10 @@ import 'dart:async';
 
 import 'package:deskgoo/providers/replay_provider/replay_provider.dart';
 import 'package:deskgoo/widgets/app_bars/custom_app_bars.dart';
+import 'package:deskgoo/widgets/radio_button/custom_radio_button.dart';
 import 'package:deskgoo/widgets/texts/custom_text.dart';
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:font_awesome_icon_class/font_awesome_icon_class.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:provider/provider.dart';
 
@@ -57,10 +58,10 @@ class _PlotLocationHistoryScreenState extends State<PlotLocationHistoryScreen> {
         return Stack(
           children: [
             GoogleMap(
-              mapType: MapType.hybrid,
+              mapType: replayProvider.selectedLocationPointMapType,
               initialCameraPosition: const CameraPosition(
                 target: LatLng(26.45845827202604, 87.28699164913807),
-                zoom: 12,
+                zoom: 10,
               ),
               myLocationEnabled: false,
               compassEnabled: true,
@@ -72,11 +73,32 @@ class _PlotLocationHistoryScreenState extends State<PlotLocationHistoryScreen> {
               polylines: replayProvider.locationPointsPolyline,
             ),
             Positioned(
+              top: MediaQuery.of(context).size.height * 0.25,
+              right: 12,
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(100),
+                child: Center(
+                  child: Center(
+                    child: IconButton(
+                      onPressed: () {
+                        openAlertDialog(context);
+                      },
+                      icon: Icon(
+                        color: CustomColors.primaryBlack,
+                        FontAwesomeIcons.layerGroup,
+                        // size: 24,
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+            ),
+            Positioned(
               right: 12,
               bottom: 8,
               child: Center(
                 child: CustomContainer(
-                  verticalPad: 8,
+                  verticalPad: 12,
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -104,7 +126,7 @@ class _PlotLocationHistoryScreenState extends State<PlotLocationHistoryScreen> {
                             flex: 3,
                             child: CustomText(
                               text:
-                                  '${replayProvider.from} to ${replayProvider.to}',
+                                  '${replayProvider.from.split(' ')[0]} to ${replayProvider.to.split(' ')[0]}',
                               isContent: true,
                               maxLines: 2,
                             ),
@@ -141,6 +163,60 @@ class _PlotLocationHistoryScreenState extends State<PlotLocationHistoryScreen> {
               ),
             ),
           ],
+        );
+      },
+    );
+  }
+
+  void openAlertDialog(context) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          backgroundColor: CustomColors.primaryWhite,
+          elevation: 10,
+          title:
+              Consumer<ReplayProvider>(builder: (context, replayProvider, _) {
+            return Center(
+              child: Column(
+                children: [
+                  CustomRadioButton(
+                    radioGroupValue: replayProvider.radioGroupValue,
+                    radioValue: replayProvider.mapType[0],
+                    radioTitle: 'Normal',
+                    onChange: (value) {
+                      replayProvider.selectMapType(value);
+                    },
+                  ),
+                  const SizedBox(
+                    height: 12,
+                  ),
+                  CustomRadioButton(
+                    radioGroupValue: replayProvider.radioGroupValue,
+                    radioValue: replayProvider.mapType[1],
+                    radioTitle: 'Hybrid',
+                    onChange: (value) {
+                      replayProvider.selectMapType(value);
+                    },
+                  ),
+                  const SizedBox(
+                    height: 12,
+                  ),
+                  CustomRadioButton(
+                    radioGroupValue: replayProvider.radioGroupValue,
+                    radioValue: replayProvider.mapType[2],
+                    radioTitle: 'Terrain',
+                    onChange: (value) {
+                      replayProvider.selectMapType(value);
+                    },
+                  ),
+                  const SizedBox(
+                    height: 12,
+                  ),
+                ],
+              ),
+            );
+          }),
         );
       },
     );
