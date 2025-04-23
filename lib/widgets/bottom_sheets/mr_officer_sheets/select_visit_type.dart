@@ -64,8 +64,6 @@ class _MrOfficerSelectVisitTypeBottomSheetState
                       radioGroupValue: visitProvider.radioGroupValue,
                       radioValue: visitProvider.visitTypeList[1],
                       radioTitle: visitProvider.visitTypeList[1],
-                      // showTrailingWidget: true,
-                      // trailingWidgetTitle: '15',
                       onChange: (value) {
                         visitProvider.selectVisitType(value);
                       },
@@ -74,8 +72,6 @@ class _MrOfficerSelectVisitTypeBottomSheetState
                       radioGroupValue: visitProvider.radioGroupValue,
                       radioValue: visitProvider.visitTypeList[2],
                       radioTitle: visitProvider.visitTypeList[2],
-                      // showTrailingWidget: true,
-                      // trailingWidgetTitle: '15',
                       onChange: (value) {
                         visitProvider.selectVisitType(value);
                       },

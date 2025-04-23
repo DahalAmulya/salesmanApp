@@ -175,48 +175,49 @@ class _PlotLocationHistoryScreenState extends State<PlotLocationHistoryScreen> {
         return AlertDialog(
           backgroundColor: CustomColors.primaryWhite,
           elevation: 10,
-          title:
-              Consumer<ReplayProvider>(builder: (context, replayProvider, _) {
-            return Center(
-              child: Column(
-                children: [
-                  CustomRadioButton(
-                    radioGroupValue: replayProvider.radioGroupValue,
-                    radioValue: replayProvider.mapType[0],
-                    radioTitle: 'Normal',
-                    onChange: (value) {
-                      replayProvider.selectMapType(value);
-                    },
-                  ),
-                  const SizedBox(
-                    height: 12,
-                  ),
-                  CustomRadioButton(
-                    radioGroupValue: replayProvider.radioGroupValue,
-                    radioValue: replayProvider.mapType[1],
-                    radioTitle: 'Hybrid',
-                    onChange: (value) {
-                      replayProvider.selectMapType(value);
-                    },
-                  ),
-                  const SizedBox(
-                    height: 12,
-                  ),
-                  CustomRadioButton(
-                    radioGroupValue: replayProvider.radioGroupValue,
-                    radioValue: replayProvider.mapType[2],
-                    radioTitle: 'Terrain',
-                    onChange: (value) {
-                      replayProvider.selectMapType(value);
-                    },
-                  ),
-                  const SizedBox(
-                    height: 12,
-                  ),
-                ],
-              ),
-            );
-          }),
+          title: Consumer<ReplayProvider>(
+            builder: (context, replayProvider, _) {
+              return Center(
+                child: Column(
+                  children: [
+                    CustomRadioButton(
+                      radioGroupValue: replayProvider.radioGroupValue,
+                      radioValue: replayProvider.mapType[0],
+                      radioTitle: 'Normal',
+                      onChange: (value) {
+                        replayProvider.selectMapType(value);
+                      },
+                    ),
+                    const SizedBox(
+                      height: 12,
+                    ),
+                    CustomRadioButton(
+                      radioGroupValue: replayProvider.radioGroupValue,
+                      radioValue: replayProvider.mapType[1],
+                      radioTitle: 'Hybrid',
+                      onChange: (value) {
+                        replayProvider.selectMapType(value);
+                      },
+                    ),
+                    const SizedBox(
+                      height: 12,
+                    ),
+                    CustomRadioButton(
+                      radioGroupValue: replayProvider.radioGroupValue,
+                      radioValue: replayProvider.mapType[2],
+                      radioTitle: 'Terrain',
+                      onChange: (value) {
+                        replayProvider.selectMapType(value);
+                      },
+                    ),
+                    const SizedBox(
+                      height: 12,
+                    ),
+                  ],
+                ),
+              );
+            },
+          ),
         );
       },
     );

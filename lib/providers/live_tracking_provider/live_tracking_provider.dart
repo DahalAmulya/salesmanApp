@@ -15,6 +15,8 @@ class LiveTrackingProvider extends ChangeNotifier {
   TextEditingController _searchController = TextEditingController();
   CustomInfoWindowController _customInfoWindowController =
       CustomInfoWindowController();
+  List<String> _mapType = ['normal', 'hybrid', 'terrain'];
+  MapType _selectedMapType = MapType.normal;
   double _latitude = 0;
   double _longitude = 0;
   double? _selectedEmpLatitude;
@@ -32,12 +34,12 @@ class LiveTrackingProvider extends ChangeNotifier {
   String _selectedImg = '';
   String _img = '';
   List<String> _images = [
-    // 'assets/images/johnCena.jpg',
-    // 'assets/images/willSmith.jpeg',
-    // 'assets/images/rdj.jpg',
-    // 'assets/images/keanu.jpg',
   ];
+  String _radioGroupValue = '';
 
+  List<String> get mapType => _mapType;
+  String get radioGroupValue => _radioGroupValue;
+  MapType get selectedMapType =>  _selectedMapType;
   TextEditingController get searchController => _searchController;
   CustomInfoWindowController get customInfoWindowController =>
       _customInfoWindowController;
@@ -58,6 +60,18 @@ class LiveTrackingProvider extends ChangeNotifier {
   String get selectedImg => _selectedImg;
   String get img => _img;
   List<String> get images => _images;
+
+  void selectMapType(value) {
+    _radioGroupValue = value;
+    if (value == _mapType[0]) {
+      _selectedMapType = MapType.normal;
+    } else if (value == _mapType[1]) {
+      _selectedMapType = MapType.hybrid;
+    } else {
+      _selectedMapType = MapType.terrain;
+    }
+    notifyListeners();
+  }
 
   LiveTrackingProvider(context) {
     _liveTrakingMarkers.clear();
