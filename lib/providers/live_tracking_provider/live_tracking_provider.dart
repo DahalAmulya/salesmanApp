@@ -35,7 +35,7 @@ class LiveTrackingProvider extends ChangeNotifier {
   String _img = '';
   List<String> _images = [
   ];
-  String _radioGroupValue = '';
+  String _radioGroupValue = 'normal';
 
   List<String> get mapType => _mapType;
   String get radioGroupValue => _radioGroupValue;
@@ -70,6 +70,7 @@ class LiveTrackingProvider extends ChangeNotifier {
     } else {
       _selectedMapType = MapType.terrain;
     }
+    print('_radioGroupValue = $_radioGroupValue');
     notifyListeners();
   }
 

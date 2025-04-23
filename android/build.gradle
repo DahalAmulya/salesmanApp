@@ -18,6 +18,8 @@ buildscript {
     }
 }
 
+def flutterRoot = "/Users/shuvambc/development/flutter"
+
 allprojects {
     repositories {
         google()
