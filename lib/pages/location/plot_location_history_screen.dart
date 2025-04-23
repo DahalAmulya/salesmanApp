@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:deskgoo/providers/replay_provider/replay_provider.dart';
+import 'package:deskgoo/utils/toast_message.dart';
 import 'package:deskgoo/widgets/app_bars/custom_app_bars.dart';
 import 'package:deskgoo/widgets/radio_button/custom_radio_button.dart';
 import 'package:deskgoo/widgets/texts/custom_text.dart';
@@ -178,7 +179,14 @@ class _PlotLocationHistoryScreenState extends State<PlotLocationHistoryScreen> {
                               color: CustomColors.primaryColor,
                               child: Center(
                                 child: IconButton(
-                                  onPressed: () {},
+                                  onPressed: () {
+                                    if(replayProvider.locationPoints.isEmpty){
+                                      ToastMessageUtils().showToastMessage("No replay available");
+                                    }else{
+                                      Navigator.of(context).pushNamed(MarketingManagerConstants.replayPage);
+                                      replayProvider.locationReplay();
+                                    }
+                                  },
                                   icon: Icon(FontAwesomeIcons.play),
                                 ),
                               ),
