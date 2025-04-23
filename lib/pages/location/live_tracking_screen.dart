@@ -169,7 +169,6 @@ class _LiveTrackingScreenState extends State<LiveTrackingScreen> {
             _controller.complete(controller);
           },
           markers: deviceInfoProvider.livePositionMarkers,
-          // polylines: deviceInfoProvider.polylines,
         );
       },
     );
@@ -219,7 +218,6 @@ class _LiveTrackingScreenState extends State<LiveTrackingScreen> {
                       liveTrackingProvider
                           .customInfoWindowController.onCameraMove!();
                     },
-                    // polylines: deviceInfoProvider.polylines,
                   ),
                   CustomInfoWindow(
                     controller: liveTrackingProvider.customInfoWindowController,
@@ -228,12 +226,12 @@ class _LiveTrackingScreenState extends State<LiveTrackingScreen> {
                     offset: 50,
                   ),
                   Positioned(
-                    top: MediaQuery.of(context).size.height * 0.25,
-                    right: 12,
+                    top: MediaQuery.of(context).size.height * 0.10,
+                    right: 8,
                     child: ClipRRect(
                       borderRadius: BorderRadius.circular(100),
                       child: ColoredBox(
-                        color: Colors.white.withOpacity(0.5),
+                        color: Colors.white.withOpacity(0.7),
                         child: Center(
                           child: IconButton(
                             onPressed: () {
@@ -272,6 +270,13 @@ class _LiveTrackingScreenState extends State<LiveTrackingScreen> {
               return Center(
                 child: Column(
                   children: [
+                    CustomText(
+                      text: "Select Map Type",
+                      isSubHeading: true,
+                    ),
+                    const SizedBox(
+                      height: 16,
+                    ),
                     CustomRadioButton(
                       radioGroupValue: liveTrackingProvider.radioGroupValue,
                       radioValue: liveTrackingProvider.mapType[0],
@@ -309,6 +314,8 @@ class _LiveTrackingScreenState extends State<LiveTrackingScreen> {
                       onPressed: () {
                         Navigator.pop(context);
                       },
+                      width: 1,
+                      backgroundColor: CustomColors.primaryColor,
                       widget: CustomText(
                         text: "Done",
                         isContent: true,

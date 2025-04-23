@@ -52,7 +52,7 @@ class ReplayProvider extends ChangeNotifier {
   Uint8List? _startMarkerIcon;
   Uint8List? _endMarkerIcon;
 
-  String _radioGroupValue = '';
+  String _radioGroupValue = 'normal';
 
   String get radioGroupValue => _radioGroupValue;
 

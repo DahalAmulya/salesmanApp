@@ -11,6 +11,7 @@ import 'package:provider/provider.dart';
 
 import '../../routes/route_generator_constants.dart';
 import '../../themes/custom_colors.dart';
+import '../../widgets/buttons/elevated_button.dart';
 import '../../widgets/containers/custom_container.dart';
 
 class PlotLocationHistoryScreen extends StatefulWidget {
@@ -73,11 +74,12 @@ class _PlotLocationHistoryScreenState extends State<PlotLocationHistoryScreen> {
               polylines: replayProvider.locationPointsPolyline,
             ),
             Positioned(
-              top: MediaQuery.of(context).size.height * 0.25,
-              right: 12,
+              top: MediaQuery.of(context).size.height * 0.10,
+              right: 8,
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(100),
-                child: Center(
+                child: ColoredBox(
+                  color: Colors.white.withOpacity(0.7),
                   child: Center(
                     child: IconButton(
                       onPressed: () {
@@ -95,70 +97,97 @@ class _PlotLocationHistoryScreenState extends State<PlotLocationHistoryScreen> {
             ),
             Positioned(
               right: 12,
-              bottom: 8,
+              bottom: MediaQuery.of(context).size.height * 0.02,
               child: Center(
-                child: CustomContainer(
-                  verticalPad: 12,
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Center(
-                        child: CustomText(
-                          text: 'Location History from',
-                          isSubHeading: true,
+                child: Stack(
+                  children: [
+                    CustomContainer(
+                      verticalPad: 12,
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Center(
+                            child: CustomText(
+                              text: 'Location History from',
+                              isSubHeading: true,
+                            ),
+                          ),
+                          const SizedBox(
+                            height: 16,
+                          ),
+                          Row(
+                            children: [
+                              Expanded(
+                                flex: 2,
+                                child: CustomText(
+                                  text: 'Date',
+                                  isContent: true,
+                                  maxLines: 2,
+                                ),
+                              ),
+                              Expanded(
+                                flex: 3,
+                                child: CustomText(
+                                  text:
+                                      '${replayProvider.from.split(' ')[0]} to ${replayProvider.to.split(' ')[0]}',
+                                  isContent: true,
+                                  maxLines: 2,
+                                ),
+                              ),
+                            ],
+                          ),
+                          const SizedBox(
+                            height: 8,
+                          ),
+                          Row(
+                            children: [
+                              Expanded(
+                                flex: 2,
+                                child: CustomText(
+                                  text: 'Total Distance',
+                                  isContent: true,
+                                  maxLines: 2,
+                                ),
+                              ),
+                              Expanded(
+                                flex: 3,
+                                child: CustomText(
+                                  text:
+                                      '${replayProvider.totalDistance.toStringAsFixed(2)} km',
+                                  isContent: true,
+                                  maxLines: 2,
+                                ),
+                              ),
+                            ],
+                          ),
+                          const SizedBox(height: 12,),
+                        ],
+                      ),
+                    ),
+                    Positioned(
+                      top: 8,
+                      right: 8,
+                      child: SizedBox(
+                        height: 42,
+                        width: 42,
+                        child: Center(
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.circular(100),
+                            child: ColoredBox(
+                              color: CustomColors.primaryColor,
+                              child: Center(
+                                child: IconButton(
+                                  onPressed: () {},
+                                  icon: Icon(FontAwesomeIcons.play),
+                                ),
+                              ),
+                            ),
+                          ),
                         ),
                       ),
-                      const SizedBox(
-                        height: 8,
-                      ),
-                      Row(
-                        children: [
-                          Expanded(
-                            flex: 2,
-                            child: CustomText(
-                              text: 'Date',
-                              isContent: true,
-                              maxLines: 2,
-                            ),
-                          ),
-                          Expanded(
-                            flex: 3,
-                            child: CustomText(
-                              text:
-                                  '${replayProvider.from.split(' ')[0]} to ${replayProvider.to.split(' ')[0]}',
-                              isContent: true,
-                              maxLines: 2,
-                            ),
-                          ),
-                        ],
-                      ),
-                      const SizedBox(
-                        height: 8,
-                      ),
-                      Row(
-                        children: [
-                          Expanded(
-                            flex: 2,
-                            child: CustomText(
-                              text: 'Total Distance',
-                              isContent: true,
-                              maxLines: 2,
-                            ),
-                          ),
-                          Expanded(
-                            flex: 3,
-                            child: CustomText(
-                              text:
-                                  '${replayProvider.totalDistance.toStringAsFixed(2)} km',
-                              isContent: true,
-                              maxLines: 2,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ],
-                  ),
+                    ),
+                  ],
                 ),
               ),
             ),
@@ -180,6 +209,13 @@ class _PlotLocationHistoryScreenState extends State<PlotLocationHistoryScreen> {
               return Center(
                 child: Column(
                   children: [
+                    CustomText(
+                      text: "Select Map Type",
+                      isSubHeading: true,
+                    ),
+                    const SizedBox(
+                      height: 16,
+                    ),
                     CustomRadioButton(
                       radioGroupValue: replayProvider.radioGroupValue,
                       radioValue: replayProvider.mapType[0],
@@ -209,6 +245,20 @@ class _PlotLocationHistoryScreenState extends State<PlotLocationHistoryScreen> {
                       onChange: (value) {
                         replayProvider.selectMapType(value);
                       },
+                    ),
+                    const SizedBox(
+                      height: 12,
+                    ),
+                    CustomElevatedButton(
+                      onPressed: () {
+                        Navigator.pop(context);
+                      },
+                      width: 1,
+                      backgroundColor: CustomColors.primaryColor,
+                      widget: CustomText(
+                        text: "Done",
+                        isContent: true,
+                      ),
                     ),
                     const SizedBox(
                       height: 12,
