@@ -9,6 +9,7 @@ import 'package:deskgoo/themes/custom_colors.dart';
 import 'package:deskgoo/widgets/app_bars/custom_app_bars.dart';
 import 'package:deskgoo/widgets/bottom_navigation/gnav_bar.dart';
 import 'package:deskgoo/widgets/bottom_sheets/custom_buttom_sheet.dart';
+import 'package:deskgoo/widgets/buttons/elevated_button.dart';
 // import 'package:deskgoo/widgets/buttons/elevated_button.dart';
 import 'package:deskgoo/widgets/drawers/custom_drawer.dart';
 import 'package:deskgoo/widgets/texts/custom_text.dart';
@@ -20,6 +21,8 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 // import 'package:local_auth/local_auth.dart';
 import 'package:provider/provider.dart';
 import 'package:syncfusion_flutter_maps/maps.dart';
+
+import '../../widgets/radio_button/custom_radio_button.dart';
 // import 'package:platform_device_id_v3/platform_device_id.dart';
 
 class LiveTrackingScreen extends StatefulWidget {
@@ -71,23 +74,15 @@ class _LiveTrackingScreenState extends State<LiveTrackingScreen> {
         child: Scaffold(
           backgroundColor: CustomColors.primaryWhite,
           appBar: _appBar(context),
-          // appBar: _searchAppBar(context),
           drawer: _drawer(context),
-          // drawerDragStartBehavior: DragStartBehavior.start,
           body: _googleMap(context),
-          // body: isAdmin ? _googleMap(context) : _ownGoogleMap(context),
-          // body: _ownGoogleMap(context),
           floatingActionButton: Consumer<DeviceInfoProvider>(
               builder: (context, deviceInfoProvider, _) {
             return FloatingActionButton.small(
               backgroundColor: CustomColors.primaryColor,
               onPressed: () {
-                // deviceInfoProvider.deviceInfoProvider();
                 SelectEmployeeBottomSheet.showBottomSheetForm(context);
-                // Navigator.of(context)
-                //     .pushNamed(RouteGeneratorConstants.replayPage);
               },
-              // shape: ShapeBorder.lerp(a, b, t),
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(100),
                 child: Icon(
@@ -97,7 +92,6 @@ class _LiveTrackingScreenState extends State<LiveTrackingScreen> {
               ),
             );
           }),
-          // bottomNavigationBar: _bottomNavBar(context),
         ),
       ),
     );
@@ -140,10 +134,6 @@ class _LiveTrackingScreenState extends State<LiveTrackingScreen> {
           trailingSearchIcon: true,
           onTapTrailingSearchIcon: () {
             CustomBottomSheet.showBottomSheetForm(context);
-            // showSearch(
-            //   context: context,
-            //   delegate: CustomSearchDelegate(),
-            // );
           },
         ),
       ),
@@ -160,13 +150,6 @@ class _LiveTrackingScreenState extends State<LiveTrackingScreen> {
   Widget _ownGoogleMap(context) {
     return Consumer<DeviceInfoProvider>(
       builder: (context, deviceInfoProvider, _) {
-        // deviceInfoProvider.locationReplay();
-        // latitude = deviceInfoProvider.liveLatitude;
-        // longitude = deviceInfoProvider.liveLongitude;
-        // if (latitude != null && longitude != null) {
-        //   cameraPosition();
-        // }
-        // deviceInfoProvider.cameraPosition(_controller);
         return GoogleMap(
           mapType: MapType.satellite,
           initialCameraPosition: const CameraPosition(
@@ -197,8 +180,6 @@ class _LiveTrackingScreenState extends State<LiveTrackingScreen> {
       builder: (context, liveTrackingProvider, _) {
         if (liveTrackingProvider.selectedEmpLatitude != null &&
             liveTrackingProvider.selectedEmpLongitude != null) {
-          // longitude = liveTrackingProvider.selectedEmpLatitude!;
-          // latitude = liveTrackingProvider.selectedEmpLongitude!;
           cameraPosition(liveTrackingProvider.selectedEmpLatitude!,
               liveTrackingProvider.selectedEmpLongitude!);
           liveTrackingProvider.setSelectedEmpLatLong(null, null);
@@ -207,7 +188,7 @@ class _LiveTrackingScreenState extends State<LiveTrackingScreen> {
             ? Stack(
                 children: [
                   GoogleMap(
-                    mapType: MapType.normal,
+                    mapType: liveTrackingProvider.selectedMapType,
                     initialCameraPosition: const CameraPosition(
                       target: LatLng(26.753945732907727, 87.52088961681855),
                       zoom: 9,
@@ -246,6 +227,28 @@ class _LiveTrackingScreenState extends State<LiveTrackingScreen> {
                     width: 260,
                     offset: 50,
                   ),
+                  Positioned(
+                    top: MediaQuery.of(context).size.height * 0.25,
+                    right: 12,
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(100),
+                      child: ColoredBox(
+                        color: Colors.white.withOpacity(0.5),
+                        child: Center(
+                          child: IconButton(
+                            onPressed: () {
+                              openAlertDialog(context);
+                            },
+                            icon: Icon(
+                              color: CustomColors.primaryBlack,
+                              FontAwesomeIcons.layerGroup,
+                              // size: 24,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
                 ],
               )
             : Center(
@@ -256,11 +259,76 @@ class _LiveTrackingScreenState extends State<LiveTrackingScreen> {
       },
     );
   }
+
+  void openAlertDialog(context) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          backgroundColor: CustomColors.primaryWhite,
+          elevation: 10,
+          title: Consumer<LiveTrackingProvider>(
+            builder: (context, liveTrackingProvider, _) {
+              return Center(
+                child: Column(
+                  children: [
+                    CustomRadioButton(
+                      radioGroupValue: liveTrackingProvider.radioGroupValue,
+                      radioValue: liveTrackingProvider.mapType[0],
+                      radioTitle: 'Normal',
+                      onChange: (value) {
+                        liveTrackingProvider.selectMapType(value);
+                      },
+                    ),
+                    const SizedBox(
+                      height: 12,
+                    ),
+                    CustomRadioButton(
+                      radioGroupValue: liveTrackingProvider.radioGroupValue,
+                      radioValue: liveTrackingProvider.mapType[1],
+                      radioTitle: 'Hybrid',
+                      onChange: (value) {
+                        liveTrackingProvider.selectMapType(value);
+                      },
+                    ),
+                    const SizedBox(
+                      height: 12,
+                    ),
+                    CustomRadioButton(
+                      radioGroupValue: liveTrackingProvider.radioGroupValue,
+                      radioValue: liveTrackingProvider.mapType[2],
+                      radioTitle: 'Terrain',
+                      onChange: (value) {
+                        liveTrackingProvider.selectMapType(value);
+                      },
+                    ),
+                    const SizedBox(
+                      height: 12,
+                    ),
+                    CustomElevatedButton(
+                      onPressed: () {
+                        Navigator.pop(context);
+                      },
+                      widget: CustomText(
+                        text: "Done",
+                        isContent: true,
+                      ),
+                    ),
+                    const SizedBox(
+                      height: 12,
+                    ),
+                  ],
+                ),
+              );
+            },
+          ),
+        );
+      },
+    );
+  }
 }
 
 class CustomSearchDelegate extends SearchDelegate {
-  // LiveTrackingProvider _liveTrackingProvider =
-  //     Provider.of<LiveTrackingProvider>(context,listen: false);
   List<String> searchTerms = [
     'samsung SM-G980F',
     'Redmi M2006C3MII',
