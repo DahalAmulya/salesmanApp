@@ -15,6 +15,9 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:local_auth/local_auth.dart';
 import 'package:provider/provider.dart';
 import 'package:syncfusion_flutter_maps/maps.dart';
+
+import '../../widgets/buttons/elevated_button.dart';
+import '../../widgets/radio_button/custom_radio_button.dart';
 // import 'package:platform_device_id_v3/platform_device_id.dart';
 
 class ReplayScreen extends StatefulWidget {
@@ -124,7 +127,7 @@ class _ReplayScreenState extends State<ReplayScreen> {
             ? Stack(
                 children: [
                   GoogleMap(
-                    mapType: MapType.hybrid,
+                    mapType: replayProvider.selectedReplayMapType,
                     initialCameraPosition: const CameraPosition(
                       target: LatLng(26.45845827202604, 87.28699164913807),
                       zoom: 14,
@@ -140,7 +143,7 @@ class _ReplayScreenState extends State<ReplayScreen> {
                   ),
                   Positioned(
                     right: 12,
-                    bottom: 8,
+                    bottom: MediaQuery.of(context).size.height * 0.03,
                     child: Center(
                       child: CustomContainer(
                         verticalPad: 8,
@@ -155,26 +158,8 @@ class _ReplayScreenState extends State<ReplayScreen> {
                                   fontWeight: FontWeight.w600,
                                   size: 18,
                                 ),
-                                // CustomElevatedButton(
-                                //   width: 0.15,
-                                //   borderRadius: 100,
-                                //   height: 48,
-                                //   // onPressed: (){},
-                                //   onPressed: () {
-                                //     replayProvider.toggleIsPause();
-                                //   },
-                                //   backgroundColor: CustomColors.primaryColor,
-                                //   widget: Icon(
-                                //     replayProvider.isPause
-                                //         ? Icons.play_arrow
-                                //         : Icons.pause,
-                                //   ),
-                                // )
                               ],
                             ),
-                            // SizedBox(
-                            //   height: 8,
-                            // ),
                             Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
@@ -216,7 +201,29 @@ class _ReplayScreenState extends State<ReplayScreen> {
                     ),
                   ),
                   Positioned(
-                    bottom: 80,
+                    top: MediaQuery.of(context).size.height * 0.10,
+                    right: 8,
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(100),
+                      child: ColoredBox(
+                        color: Colors.white.withOpacity(0.7),
+                        child: Center(
+                          child: IconButton(
+                            onPressed: () {
+                              openAlertDialog(context);
+                            },
+                            icon: Icon(
+                              color: CustomColors.primaryBlack,
+                              FontAwesomeIcons.layerGroup,
+                              // size: 24,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                  Positioned(
+                    bottom: MediaQuery.of(context).size.height * 0.11,
                     right: 12,
                     child: InkWell(
                       onTap: () {
@@ -246,6 +253,82 @@ class _ReplayScreenState extends State<ReplayScreen> {
                   color: CustomColors.primaryColor,
                 ),
               );
+      },
+    );
+  }
+
+  void openAlertDialog(context) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          backgroundColor: CustomColors.primaryWhite,
+          elevation: 10,
+          title: Consumer<ReplayProvider>(
+            builder: (context, replayProvider, _) {
+              return Center(
+                child: Column(
+                  children: [
+                    CustomText(
+                      text: "Select Map Type",
+                      isSubHeading: true,
+                    ),
+                    const SizedBox(
+                      height: 16,
+                    ),
+                    CustomRadioButton(
+                      radioGroupValue: replayProvider.radioGroupValue,
+                      radioValue: replayProvider.mapType[0],
+                      radioTitle: 'Normal',
+                      onChange: (value) {
+                        replayProvider.selectMapType(value);
+                      },
+                    ),
+                    const SizedBox(
+                      height: 12,
+                    ),
+                    CustomRadioButton(
+                      radioGroupValue: replayProvider.radioGroupValue,
+                      radioValue: replayProvider.mapType[1],
+                      radioTitle: 'Hybrid',
+                      onChange: (value) {
+                        replayProvider.selectMapType(value);
+                      },
+                    ),
+                    const SizedBox(
+                      height: 12,
+                    ),
+                    CustomRadioButton(
+                      radioGroupValue: replayProvider.radioGroupValue,
+                      radioValue: replayProvider.mapType[2],
+                      radioTitle: 'Terrain',
+                      onChange: (value) {
+                        replayProvider.selectMapType(value);
+                      },
+                    ),
+                    const SizedBox(
+                      height: 12,
+                    ),
+                    CustomElevatedButton(
+                      onPressed: () {
+                        Navigator.pop(context);
+                      },
+                      width: 1,
+                      backgroundColor: CustomColors.primaryColor,
+                      widget: CustomText(
+                        text: "Done",
+                        isContent: true,
+                      ),
+                    ),
+                    const SizedBox(
+                      height: 12,
+                    ),
+                  ],
+                ),
+              );
+            },
+          ),
+        );
       },
     );
   }

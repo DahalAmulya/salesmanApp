@@ -53,8 +53,10 @@ class ReplayProvider extends ChangeNotifier {
   Uint8List? _endMarkerIcon;
 
   String _radioGroupValue = 'normal';
+  String _radioReplayGroupValue = 'normal';
 
   String get radioGroupValue => _radioGroupValue;
+  String get radioReplayGroupValue => _radioReplayGroupValue;
 
   List<String> get mapType => _mapTypes;
   String get selectedReplayMapTypeValue => _selectedReplayMapTypeValue;
@@ -97,13 +99,24 @@ class ReplayProvider extends ChangeNotifier {
   }
 
   void selectMapType(value) {
-    _radioGroupValue = value;
+    _radioReplayGroupValue = value;
     if (value == _mapTypes[0]) {
       _selectedLocationPointMapType = MapType.normal;
     } else if (value == _mapTypes[1]) {
       _selectedLocationPointMapType = MapType.hybrid;
     } else {
       _selectedLocationPointMapType = MapType.terrain;
+    }
+    notifyListeners();
+  }
+  void selectReplayMapType(value) {
+    _radioGroupValue = value;
+    if (value == _mapTypes[0]) {
+      _selectedReplayMapType = MapType.normal;
+    } else if (value == _mapTypes[1]) {
+      _selectedReplayMapType = MapType.hybrid;
+    } else {
+      _selectedReplayMapType = MapType.terrain;
     }
     notifyListeners();
   }
