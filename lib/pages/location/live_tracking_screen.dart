@@ -123,11 +123,9 @@ class _LiveTrackingScreenState extends State<LiveTrackingScreen> {
           titleColor: CustomColors.primaryBlack,
           backgroundColor: CustomColors.primaryColor,
           showLeading: true,
-          // isLeadingImage: true,
           leadingIcon: FontAwesomeIcons.bars,
           leadingIconColor: CustomColors.primaryBlack,
           onTapLeadingIcon: () {
-            // Use the context under the Scaffold
             Scaffold.of(context).openDrawer();
           },
           showTrailingIcons: true,
@@ -400,11 +398,6 @@ class CustomSearchDelegate extends SearchDelegate {
         var result = matchQuery[index];
         return ListTile(
           title: Text(result),
-          // onTap: () {
-          //   // update the search bar with the selected suggestion
-          //   updateSearch(context, result);
-          //   close(context, null);
-          // },
         );
       },
     );

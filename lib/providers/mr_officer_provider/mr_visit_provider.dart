@@ -319,9 +319,7 @@ class MrOfficerVisitProvider with ChangeNotifier {
         print('Error as $err');
       }
     }
-    // print(enteredKeyWord);
     print('search result = $_searchResult');
-    // _searchController.text = '';
     notifyListeners();
   }
 
