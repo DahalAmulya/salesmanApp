@@ -1,91 +1,90 @@
 import 'dart:convert';
 
+import 'package:deskgoo/services/erp_services.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 
 class MrAdminAreaReportProvider extends ChangeNotifier {
 
-  List<String> _country = ['Nepal', 'India'];
-  String _defaultValue = 'Nepal';
-
-  String _selectedDistrict = '';
-  String _selectedState = '';
-  String _selectedCity = '';
-
-  List<dynamic> _districtList = [];
-  List<dynamic> _stateList = [];
-  List<dynamic> _cityList = [];
-  List<dynamic> _cities = [];
+  List<String> _countryList = [
+    'Nepal',
+    'India',
+  ];
   List<dynamic> _districts = [];
-  List<dynamic> _foundCities = [];
+  List<dynamic> _stateList = [];
   List<dynamic> _searchResult = [];
+  List<String> _foundDistrictList = [];
+  List<String> _foundStateList = [];
+  List<String> _foundCities = [];
+  List<dynamic> _cities = [];
+  String _selectedRegion = '';
+  String _selectedCities = '';
+  String _selectedState = '';
+  String _selectVisitTypeByAddress = 'Country';
+  String _selectedCountry = 'Nepal';
+  String _selectedDistrict = 'Morang';
+  String _selectedStates = 'Andhra Pradesh';
+  String _selectedCity = 'Biratnagar';
 
-  final _stateTextEditingController = TextEditingController();
-  final _districtTextEditingController = TextEditingController();
-  final _cityTextEditingController = TextEditingController();
-  final _searchController = TextEditingController();
-
-  TextEditingController get stateTextEditingController => _stateTextEditingController;
-  TextEditingController get districtTextEditingController => _districtTextEditingController;
-  TextEditingController get cityTextEditingController => _cityTextEditingController;
+  TextEditingController _fromTextEditingController = TextEditingController();
+  TextEditingController _toTextEditingController = TextEditingController();
+  TextEditingController _searchController = TextEditingController();
+  TextEditingController _cityController = TextEditingController();
+  TextEditingController _districtController = TextEditingController();
+  TextEditingController _stateController = TextEditingController();
 
   TextEditingController get searchController => _searchController;
+  TextEditingController get cityController => _cityController;
+  TextEditingController get districtController => _districtController;
+  TextEditingController get stateController => _stateController;
 
-  List<String> get country => _country;
-
-  List<dynamic> get districtList => _districtList;
-  List<dynamic> get stateList => _stateList;
-  List<dynamic> get cityList => _cityList;
   List<dynamic> get districts => _districts;
-  List<dynamic> get foundCities => _foundCities;
-  List<dynamic> get cities => _cities;
-
+  List<dynamic> get stateList => _stateList;
   List<dynamic> get searchResult => _searchResult;
-
-  String get defaultValue => _defaultValue;
-
+  List<String> get foundCities => _foundCities;
+  List<String> get foundDistrictList => _foundDistrictList;
+  List<String> get foundStateList => _foundStateList;
+  List<String> get countryList => _countryList;
+  List<dynamic> get cities => _cities;
+  String get selectedCountry => _selectedCountry;
   String get selectedDistrict => _selectedDistrict;
-  String get selectedState => _selectedState;
+  String get selectedStates => _selectedStates;
   String get selectedCity => _selectedCity;
+  String get selectedCities => _selectedCities;
+  String get selectedState => _selectedState;
+  String get selectedRegion => _selectedRegion;
 
+  void setSelectedCountry(newValue) {
+    _selectedCountry = newValue;
+    notifyListeners();
+  }
 
-  void getDataForDistrict() async {
-    final respose = await rootBundle.loadString('assets/district.json');
-    print(respose.runtimeType);
-    List<dynamic> districtData = json.decode(respose);
-    // print(districtData);
-    _districtList = districtData;
+  void setSelectedDistrict(value) {
+    _selectedRegion = value;
+    _districtController.text = _selectedRegion;
+    notifyListeners();
+  }
+
+  void setSelectedState(value) {
+    _selectedRegion = value;
+    _stateController.text = _selectedRegion;
+    notifyListeners();
   }
 
   void getCities(List<dynamic> citiesList) {
-    _cityList = citiesList;
-    notifyListeners();
-  }
-
-  void setCountry(value){
-    _defaultValue = value;
-    notifyListeners();
-  }
-
-  void setSelectedDistrict(value){
-    _selectedDistrict = value;
-    _districtTextEditingController.text = _selectedDistrict;
-    notifyListeners();
-  }
-  void setSelectedState(value) {
-    _selectedState = value;
-    _stateTextEditingController.text = _selectedState;
+    _cities = citiesList;
     notifyListeners();
   }
 
   void setSelectedCity(value) {
-    _selectedCity = value;
-    _cityTextEditingController.text = _selectedCity;
+    _selectedCities = value;
+    _cityController.text = _selectedCities;
     notifyListeners();
   }
 
   void searchAddressResult(String enteredKeyWord, List<dynamic> addressList) {
+    print("AddressList = $addressList");
     _searchResult = addressList;
     if (enteredKeyWord.isEmpty) {
       _searchResult = addressList;
@@ -145,12 +144,17 @@ class MrAdminAreaReportProvider extends ChangeNotifier {
     // Search for the district in the districtList
     for (var districtData in _districts) {
       if (districtData["district"] == selectedItem) {
-        // Extract the cities list
         _foundCities = List<String>.from(districtData["cities"] ?? []);
-        break; // Exit the loop once the district is found
+        break;
       }
     }
     notifyListeners();
+  }
+
+  void getAreaReport(context) async {
+    ERPResponse response = await ERPServices.getRequest('/poc/area$_selectedCountry$_selectedCity', context);
+    print(response.body);
+    print(response.statusCode);
   }
 
 }

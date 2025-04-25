@@ -294,11 +294,6 @@ class _MrOfficerNewVisitScreenState extends State<MrOfficerNewVisitScreen> {
                     children: [
                       CustomElevatedButton(
                         onPressed: () async {
-                          // Navigator.of(context).pop(
-                          //     MarketingOfficerConstants.mrStaffDashboardConst);
-                          // final file = await rootBundle
-                          //     .loadString('assets/district.json');
-                          // final content = await jsonDecode(file);
                           Navigator.of(context).pop();
                         },
                         widget: CustomText(
@@ -311,13 +306,6 @@ class _MrOfficerNewVisitScreenState extends State<MrOfficerNewVisitScreen> {
                         onPressed: () {
                           createVisitProvider.createPOC();
                           pocDetails(context);
-                          // showModalBottomSheet(
-                          //     isScrollControlled: true,
-                          //     useSafeArea: true,
-                          //     context: context,
-                          //     builder: (context) => districtBottomSheet());
-                          // Navigator.of(context).pushNamed(
-                          //     MarketingOfficerConstants.productConst);
                         },
                         widget: CustomText(
                           text: 'Submit',
@@ -662,8 +650,6 @@ class _MrOfficerNewVisitScreenState extends State<MrOfficerNewVisitScreen> {
                     CustomElevatedButton(
                       onPressed: () {
                         mrOfficerVisitProvider.postPOCDetails(context);
-                        // mrOfficerVisitProvider.postPOCDetails(body, context);
-                        // Navigator.pop(context); // passing false
                       },
                       backgroundColor: CustomColors.primaryColor,
                       widget: CustomText(

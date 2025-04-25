@@ -254,8 +254,8 @@ class _MrAdminReportScreenState extends State<MrAdminReportScreen> {
                                   labelText: adminVisitLogsProvider
                                               .selectedCountry ==
                                           adminVisitLogsProvider.countryList[0]
-                                      ? 'District *'
-                                      : 'State *',
+                                      ? 'Select District'
+                                      : 'Select State',
                                   validator: (newValue) {},
                                   onTap: () async {
                                     String fileName = adminVisitLogsProvider
@@ -313,8 +313,8 @@ class _MrAdminReportScreenState extends State<MrAdminReportScreen> {
                                   labelText: adminVisitLogsProvider
                                               .selectedCountry ==
                                           adminVisitLogsProvider.countryList[0]
-                                      ? 'District *'
-                                      : 'State *',
+                                      ? 'Select District *'
+                                      : 'Select State *',
                                   validator: (newValue) {},
                                   onTap: () async {
                                     String fileName = adminVisitLogsProvider
@@ -326,6 +326,7 @@ class _MrAdminReportScreenState extends State<MrAdminReportScreen> {
                                     final file = await rootBundle
                                         .loadString('assets/$fileName.json');
                                     final content = await jsonDecode(file);
+                                    print('Content = $content');
                                     showModalBottomSheet(
                                         isScrollControlled: true,
                                         useSafeArea: true,

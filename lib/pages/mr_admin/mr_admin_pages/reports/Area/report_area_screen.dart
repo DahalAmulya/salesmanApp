@@ -9,7 +9,6 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
 
 import '../../../../../providers/mr_admin_provider/mr_admin_area_reportProvider.dart';
-import '../../../../../routes/marketing_officer_consts.dart';
 import '../../../../../routes/route_generator_constants.dart';
 import '../../../../../themes/custom_colors.dart';
 import '../../../../../widgets/app_bars/custom_app_bars.dart';
@@ -136,13 +135,15 @@ class _MrAdminAreaReportScreenState extends State<MrAdminAreaReportScreen> {
                       Expanded(
                         flex: 2,
                         child: CustomDropdown(
-                            labelText: 'Select Country',
-                            items: mrAdminAreaReportProvider.country,
-                            value: mrAdminAreaReportProvider.defaultValue,
-                            applyCountryFlag: true,
-                            onChanged: (newValue) {
-                              mrAdminAreaReportProvider.setCountry(newValue);
-                            }),
+                          labelText: 'Select Country',
+                          items: mrAdminAreaReportProvider.countryList,
+                          value: mrAdminAreaReportProvider.selectedCountry,
+                          applyCountryFlag: true,
+                          onChanged: (value) {
+                            mrAdminAreaReportProvider
+                                .setSelectedCountry(value);
+                          },
+                        ),
                       ),
                     ],
                   ),
@@ -154,8 +155,8 @@ class _MrAdminAreaReportScreenState extends State<MrAdminAreaReportScreen> {
                       Expanded(
                         flex: 1,
                         child: CustomText(
-                          text: mrAdminAreaReportProvider.defaultValue ==
-                                  mrAdminAreaReportProvider.country[0]
+                          text: mrAdminAreaReportProvider.selectedCountry ==
+                                  mrAdminAreaReportProvider.countryList[0]
                               ? 'District'
                               : 'States',
                         ),
@@ -163,43 +164,44 @@ class _MrAdminAreaReportScreenState extends State<MrAdminAreaReportScreen> {
                       Expanded(
                         flex: 2,
                         child: TextFromFieldWithPrefixSuffix(
-                          controller: mrAdminAreaReportProvider.defaultValue ==
-                                  mrAdminAreaReportProvider.country[0]
+                          controller: mrAdminAreaReportProvider
+                              .selectedCountry ==
+                              mrAdminAreaReportProvider.countryList[0]
                               ? mrAdminAreaReportProvider
-                                  .districtTextEditingController
-                              : mrAdminAreaReportProvider
-                                  .stateTextEditingController,
-                          labelText: mrAdminAreaReportProvider.defaultValue ==
-                                  mrAdminAreaReportProvider.country[0]
-                              ? 'District'
-                              : 'States',
+                              .districtController
+                              : mrAdminAreaReportProvider.stateController,
                           readOnly: true,
+                          labelText: mrAdminAreaReportProvider
+                              .selectedCountry ==
+                              mrAdminAreaReportProvider.countryList[0]
+                              ? 'Select District *'
+                              : 'Select State *',
+                          validator: (newValue) {},
                           onTap: () async {
-                            // weeklyPlanProvider.setStateList();
-                            // _AddTaskBottomSheetForDistrict(context);
-                            String fileName =
-                                mrAdminAreaReportProvider.defaultValue ==
-                                        mrAdminAreaReportProvider.country[0]
-                                    ? 'district'
-                                    : 'states';
+                            String fileName = mrAdminAreaReportProvider
+                                .selectedCountry ==
+                                mrAdminAreaReportProvider
+                                    .countryList[0]
+                                ? 'district'
+                                : 'states';
                             final file = await rootBundle
                                 .loadString('assets/$fileName.json');
                             final content = await jsonDecode(file);
+                            print('Content = $content');
                             showModalBottomSheet(
                                 isScrollControlled: true,
                                 useSafeArea: true,
                                 context: context,
-                                builder: (context) => _districtBottomSheet(
-                                    context, fileName, content));
-                            mrAdminAreaReportProvider.searchController.text =
-                                '';
+                                builder: (context) =>
+                                    districtBottomSheet(
+                                        context, '$fileName', content));
+                            mrAdminAreaReportProvider
+                                .searchController.text = '';
                             mrAdminAreaReportProvider.searchAddressResult(
                                 mrAdminAreaReportProvider
                                     .searchController.value.text,
                                 content);
                           },
-                          onChange: (value) => () {},
-                          validator: (Value) {},
                         ),
                       ),
                     ],
@@ -218,13 +220,14 @@ class _MrAdminAreaReportScreenState extends State<MrAdminAreaReportScreen> {
                       Expanded(
                         flex: 2,
                         child: TextFromFieldWithPrefixSuffix(
-                          controller: mrAdminAreaReportProvider
-                              .cityTextEditingController,
-                          labelText: 'City',
+                          controller:
+                          mrAdminAreaReportProvider.cityController,
                           readOnly: true,
+                          labelText: 'City *',
+                          validator: (newValue) {},
                           onTap: () async {
-                            mrAdminAreaReportProvider.searchController.text =
-                                '';
+                            mrAdminAreaReportProvider
+                                .searchController.text = '';
                             mrAdminAreaReportProvider.searchAddressResult(
                                 mrAdminAreaReportProvider
                                     .searchController.value.text,
@@ -234,10 +237,9 @@ class _MrAdminAreaReportScreenState extends State<MrAdminAreaReportScreen> {
                                 useSafeArea: true,
                                 context: context,
                                 builder: (context) => citiesBottomSheet(
-                                    context, mrAdminAreaReportProvider.cities));
+                                    context,
+                                    mrAdminAreaReportProvider.cities));
                           },
-                          onChange: (value) => () {},
-                          validator: (Value) {},
                         ),
                       ),
                     ],
@@ -281,170 +283,159 @@ class _MrAdminAreaReportScreenState extends State<MrAdminAreaReportScreen> {
   }
   //----------------------------------------------------------------District BottomSheets----------------------------------------------------------------//
 
-  Widget _districtBottomSheet(context, String type, List<dynamic> content) {
+  Widget districtBottomSheet(context, String type, List<dynamic> content) {
     return Consumer<MrAdminAreaReportProvider>(
-        builder: (context, mrAdminAreaReportProvider, _) {
-      return Container(
-        color: CustomColors.primaryWhite,
-        height: MediaQuery.of(context).size.height * 0.80,
-        child: Column(
-          children: [
-            Container(
-              padding: const EdgeInsets.only(
-                top: 16,
-                right: 12.0,
-                bottom: 12,
-              ),
-              decoration: BoxDecoration(
-                color: CustomColors.primaryColor,
-              ),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Expanded(
-                    flex: 1,
-                    child: InkWell(
-                        onTap: () {
-                          Navigator.pop(context);
-                        },
-                        child: const Icon(FontAwesomeIcons.arrowLeft)),
-                  ),
-                  Expanded(
-                    flex: 7,
-                    child: TextFromFieldWithPrefixSuffix(
-                      controller: mrAdminAreaReportProvider.searchController,
-                      labelText:
-                          mrAdminAreaReportProvider.defaultValue == 'Nepal'
-                              ? 'Search District'
-                              : 'Search State',
-                      applySuffixIcon: true,
-                      suffixIcon: Icon(Icons.search),
-                      validator: (value) {},
-                      onChange: (value) =>
-                          mrAdminAreaReportProvider.searchAddressResult(
-                              mrAdminAreaReportProvider
-                                  .searchController.value.text,
-                              content),
+      builder: (context, mrAdminAreaReportProvider, _) {
+        return Container(
+          color: CustomColors.primaryWhite,
+          height: MediaQuery.of(context).size.height * 0.80,
+          child: Column(
+            children: [
+              // SizedBox(
+              //   height: 16,
+              // ),
+              Container(
+                padding: const EdgeInsets.only(
+                  top: 16,
+                  right: 12.0,
+                  bottom: 12,
+                ),
+                decoration: BoxDecoration(
+                  color: CustomColors.primaryColor,
+                ),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Expanded(
+                      flex: 1,
+                      child: InkWell(
+                          onTap: () {
+                            Navigator.pop(context);
+                          },
+                          child: const Icon(FontAwesomeIcons.arrowLeft)),
                     ),
-                  ),
-                ],
+                    // ),
+                    Expanded(
+                      flex: 7,
+                      child: TextFromFieldWithPrefixSuffix(
+                        controller: mrAdminAreaReportProvider.searchController,
+                        labelText: mrAdminAreaReportProvider.selectedCountry == 'Nepal'
+                            ? 'Search District'
+                            : 'Search State',
+                        applySuffixIcon: true,
+                        suffixIcon: const Icon(Icons.search),
+                        validator: (value) {},
+                        onChange: (value) => mrAdminAreaReportProvider.searchAddressResult(
+                            mrAdminAreaReportProvider.searchController.value.text, content),
+                      ),
+                    ),
+                  ],
+                ),
               ),
-            ),
-            const SizedBox(
-              height: 16,
-            ),
-            Expanded(
-              child: ListView.builder(
-                  physics: const ScrollPhysics(),
-                  shrinkWrap: true,
+              const SizedBox(
+                height: 16,
+              ),
+              Expanded(
+                child: ListView.builder(
                   itemCount: mrAdminAreaReportProvider.searchResult.length,
                   itemBuilder: (context, index) {
-                    String name =
-                        mrAdminAreaReportProvider.searchResult[index]['$type'];
+                    String name = mrAdminAreaReportProvider.searchResult[index]['$type'];
                     return ListTile(
+                      onTap: () {
+                        Navigator.pop(context);
+                        type == 'district'
+                            ? mrAdminAreaReportProvider.setSelectedDistrict(name)
+                            : mrAdminAreaReportProvider.setSelectedState(name);
+                        mrAdminAreaReportProvider.getCities(
+                            mrAdminAreaReportProvider.searchResult[index]['cities']);
+                        print(mrAdminAreaReportProvider.searchResult[index]);
+                      },
                       title: CustomText(
                         text: name,
                         isContent: true,
                       ),
-                      onTap: () {
-                        // selectedDistrict = districtList[index]['district'];
-                        // citiesList = districtList[index]['cities'];
-                        // districtTextEditingController.text = selectedDistrict;
-                        Navigator.pop(context);
-                        type == 'district'
-                            ? mrAdminAreaReportProvider
-                                .setSelectedDistrict(name)
-                            : mrAdminAreaReportProvider.setSelectedState(name);
-                        mrAdminAreaReportProvider.getCities(
-                            mrAdminAreaReportProvider.searchResult[index]
-                                ['cities']);
-                      },
                     );
-                  }),
-            ),
-          ],
-        ),
-      );
-    });
+                  },
+                ),
+              ),
+            ],
+          ),
+        );
+      },
+    );
   }
 
   //--------------------------------------------------------------City BottomSheet------------------------------------------------------------------//
   Widget citiesBottomSheet(context, List<dynamic> content) {
     return Consumer<MrAdminAreaReportProvider>(
-        builder: (context, mrAdminAreaReportProvider, _) {
-      return Container(
-        color: CustomColors.primaryWhite,
-        height: MediaQuery.of(context).size.height * 0.80,
-        child: Column(
-          children: [
-            Container(
-              padding: const EdgeInsets.only(
-                top: 16,
-                right: 12.0,
-                bottom: 12,
-              ),
-              decoration: BoxDecoration(
-                color: CustomColors.primaryColor,
-              ),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Expanded(
-                    flex: 1,
-                    child: InkWell(
-                        onTap: () {
-                          Navigator.pop(context);
-                        },
-                        child: const Icon(FontAwesomeIcons.arrowLeft)),
-                  ),
-                  Expanded(
-                    flex: 7,
-                    child: TextFromFieldWithPrefixSuffix(
-                      controller: mrAdminAreaReportProvider.searchController,
-                      labelText: 'Search City',
-                      applySuffixIcon: true,
-                      suffixIcon: const Icon(Icons.search),
-                      validator: (value) {},
-                      onChange: (value) =>
-                          mrAdminAreaReportProvider.searchAddressResult(
-                              mrAdminAreaReportProvider
-                                  .searchController.value.text,
-                              content),
+      builder: (context, mrAdminAreaReportProvider, _) {
+        return Container(
+          color: CustomColors.primaryWhite,
+          height: MediaQuery.of(context).size.height * 0.80,
+          child: Column(
+            children: [
+              Container(
+                padding: const EdgeInsets.only(
+                  top: 16,
+                  right: 12.0,
+                  bottom: 12,
+                ),
+                decoration: BoxDecoration(
+                  color: CustomColors.primaryColor,
+                ),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Expanded(
+                      flex: 1,
+                      child: InkWell(
+                          onTap: () {
+                            Navigator.pop(context);
+                          },
+                          child: const Icon(FontAwesomeIcons.arrowLeft)),
                     ),
-                  ),
-                  const SizedBox(
-                    height: 16,
-                  ),
-                  Expanded(
-                    child: ListView.builder(
-                        physics: const ScrollPhysics(),
-                        shrinkWrap: true,
-                        itemCount:
-                            mrAdminAreaReportProvider.searchResult.length,
-                        itemBuilder: (context, index) {
-                          String cityName =
-                              mrAdminAreaReportProvider.searchResult[index];
-                          return ListTile(
-                            title: CustomText(
-                              text: cityName,
-                              isContent: true,
-                            ),
-                            onTap: () {
-                              Navigator.pop(context);
-                              mrAdminAreaReportProvider
-                                  .setSelectedCity(cityName);
-                              print(mrAdminAreaReportProvider
-                                  .searchResult[index]);
-                            },
-                          );
-                        }),
-                  ),
-                ],
+                    // ),
+                    Expanded(
+                      flex: 7,
+                      child: TextFromFieldWithPrefixSuffix(
+                        controller: mrAdminAreaReportProvider.searchController,
+                        labelText: 'Search City',
+                        applySuffixIcon: true,
+                        suffixIcon: const Icon(Icons.search),
+                        validator: (value) {},
+                        onChange: (value) => mrAdminAreaReportProvider.searchAddressResult(
+                            mrAdminAreaReportProvider.searchController.value.text, content),
+                      ),
+                    ),
+                  ],
+                ),
               ),
-            ),
-          ],
-        ),
-      );
-    });
+              const SizedBox(
+                height: 16,
+              ),
+              Expanded(
+                child: ListView.builder(
+                  itemCount: mrAdminAreaReportProvider.searchResult.length,
+                  itemBuilder: (context, index) {
+                    String cityName = mrAdminAreaReportProvider.searchResult[index];
+                    return ListTile(
+                      onTap: () {
+                        Navigator.pop(context);
+                        mrAdminAreaReportProvider.setSelectedCity(cityName);
+                        print(mrAdminAreaReportProvider.searchResult[index]);
+                      },
+                      title: CustomText(
+                        text: cityName,
+                        isContent: true,
+                      ),
+                    );
+                  },
+                ),
+              ),
+            ],
+          ),
+        );
+      },
+    );
   }
 }

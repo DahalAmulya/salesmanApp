@@ -267,6 +267,7 @@ class MrAdminVisitLogProvider extends ChangeNotifier {
   }
 
   void searchAddressResult(String enteredKeyWord, List<dynamic> addressList) {
+    print("AddressList = $addressList");
     _searchResult = addressList;
     if (enteredKeyWord.isEmpty) {
       _searchResult = addressList;
