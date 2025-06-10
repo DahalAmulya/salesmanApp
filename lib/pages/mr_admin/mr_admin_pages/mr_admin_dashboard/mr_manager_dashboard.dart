@@ -30,7 +30,7 @@ import 'package:geolocator/geolocator.dart';
 import 'package:local_auth/local_auth.dart';
 import 'package:provider/provider.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
-import 'package:fl_chart/fl_chart.dart';
+// import 'package:fl_chart/fl_chart.dart';
 import 'package:percent_indicator/percent_indicator.dart';
 
 import '../../../../services/erp_services.dart';
@@ -641,62 +641,62 @@ class _MarketingManagerDashboardState extends State<MarketingManagerDashboard> {
     );
   }
 
-  List<PieChartSectionData> showingSections() {
-    return List.generate(3, (i) {
-      final isTouched = i == touchedIndex;
-      final fontSize = isTouched ? 20.0 : 14.0;
-      final radius = isTouched ? 50.0 : 40.0;
-      final shadows = [
-        Shadow(
-          color: Colors.black.withOpacity(0.8),
-          blurRadius: 2,
-        )
-      ];
-      switch (i) {
-        case 0:
-          return PieChartSectionData(
-            color: CustomColors.jadeGreen,
-            value: 20,
-            title: '20%',
-            radius: radius,
-            titleStyle: TextStyle(
-              fontSize: fontSize,
-              fontWeight: FontWeight.bold,
-              color: Colors.white,
-              shadows: shadows,
-            ),
-          );
-        case 1:
-          return PieChartSectionData(
-            color: CustomColors.lightYellow,
-            value: 20,
-            title: '20%',
-            radius: radius,
-            titleStyle: TextStyle(
-              fontSize: fontSize,
-              fontWeight: FontWeight.bold,
-              color: Colors.white,
-              shadows: shadows,
-            ),
-          );
-        case 2:
-          return PieChartSectionData(
-            color: CustomColors.lightRed,
-            value: 20,
-            title: '20%',
-            radius: radius,
-            titleStyle: TextStyle(
-              fontSize: fontSize,
-              fontWeight: FontWeight.bold,
-              color: Colors.white,
-              shadows: shadows,
-            ),
-          );
-        default:
-          throw Error();
-      }
-    });
-  }
+  // List<PieChartSectionData> showingSections() {
+  //   return List.generate(3, (i) {
+  //     final isTouched = i == touchedIndex;
+  //     final fontSize = isTouched ? 20.0 : 14.0;
+  //     final radius = isTouched ? 50.0 : 40.0;
+  //     final shadows = [
+  //       Shadow(
+  //         color: Colors.black.withOpacity(0.8),
+  //         blurRadius: 2,
+  //       )
+  //     ];
+  //     switch (i) {
+  //       case 0:
+  //         return PieChartSectionData(
+  //           color: CustomColors.jadeGreen,
+  //           value: 20,
+  //           title: '20%',
+  //           radius: radius,
+  //           titleStyle: TextStyle(
+  //             fontSize: fontSize,
+  //             fontWeight: FontWeight.bold,
+  //             color: Colors.white,
+  //             shadows: shadows,
+  //           ),
+  //         );
+  //       case 1:
+  //         return PieChartSectionData(
+  //           color: CustomColors.lightYellow,
+  //           value: 20,
+  //           title: '20%',
+  //           radius: radius,
+  //           titleStyle: TextStyle(
+  //             fontSize: fontSize,
+  //             fontWeight: FontWeight.bold,
+  //             color: Colors.white,
+  //             shadows: shadows,
+  //           ),
+  //         );
+  //       case 2:
+  //         return PieChartSectionData(
+  //           color: CustomColors.lightRed,
+  //           value: 20,
+  //           title: '20%',
+  //           radius: radius,
+  //           titleStyle: TextStyle(
+  //             fontSize: fontSize,
+  //             fontWeight: FontWeight.bold,
+  //             color: Colors.white,
+  //             shadows: shadows,
+  //           ),
+  //         );
+  //       default:
+  //         throw Error();
+  //     }
+  //   });
+  // }
 
   Widget buildIndicator() => AnimatedSmoothIndicator(
         activeIndex: selectedIndex,

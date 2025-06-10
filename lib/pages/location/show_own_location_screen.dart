@@ -18,7 +18,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:local_auth/local_auth.dart';
 import 'package:provider/provider.dart';
-import 'package:syncfusion_flutter_maps/maps.dart';
+// import 'package:syncfusion_flutter_maps/maps.dart';
 // import 'package:platform_device_id_v3/platform_device_id.dart';
 
 class OwnLiveLocationScreen extends StatefulWidget {
@@ -153,23 +153,23 @@ class _OwnLiveLocationScreenState extends State<OwnLiveLocationScreen> {
     );
   }
 
-  Widget _osmMap(context) {
-    return Consumer<DeviceInfoProvider>(
-      builder: (context, deviceInfoProvider, _) {
-        latitude = deviceInfoProvider.liveLatitude;
-        longitude = deviceInfoProvider.liveLongitude;
-        cameraPosition();
-        // deviceInfoProvider.cameraPosition(_controller);
-        return const SfMaps(
-          layers: [
-            MapTileLayer(
-              urlTemplate: 'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
-            ),
-          ],
-        );
-      },
-    );
-  }
+  // Widget _osmMap(context) {
+  //   return Consumer<DeviceInfoProvider>(
+  //     builder: (context, deviceInfoProvider, _) {
+  //       latitude = deviceInfoProvider.liveLatitude;
+  //       longitude = deviceInfoProvider.liveLongitude;
+  //       cameraPosition();
+  //       // deviceInfoProvider.cameraPosition(_controller);
+  //       return const SfMaps(
+  //         layers: [
+  //           MapTileLayer(
+  //             urlTemplate: 'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
+  //           ),
+  //         ],
+  //       );
+  //     },
+  //   );
+  // }
 
   CustomGNavBar _bottomNavBar(context) {
     return CustomGNavBar(

@@ -91,7 +91,7 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(create: (context) => AttendanceProvider()),
         ChangeNotifierProvider(create: (context) => DeviceInfoProvider()),
         ChangeNotifierProvider(create: (context) => ReplayProvider(context)),
-        ChangeNotifierProvider(create: (context) => CameraProvider()),
+        // ChangeNotifierProvider(create: (context) => CameraProvider()),
         ChangeNotifierProvider(create: (context) => ProfileProvider()),
         ChangeNotifierProvider(create: (context) => MarketingProvider()),
         ChangeNotifierProvider(create: (context) => OfficerDetailProvider()),

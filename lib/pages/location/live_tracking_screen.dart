@@ -20,7 +20,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 // import 'package:local_auth/local_auth.dart';
 import 'package:provider/provider.dart';
-import 'package:syncfusion_flutter_maps/maps.dart';
+// import 'package:syncfusion_flutter_maps/maps.dart';
 
 import '../../widgets/radio_button/custom_radio_button.dart';
 // import 'package:platform_device_id_v3/platform_device_id.dart';

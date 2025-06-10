@@ -62,18 +62,18 @@ class RouteGenerator {
         return MaterialPageRoute(
           builder: (_) => MarketingManagerDashboard(),
         );
-      case MarketingManagerConstants.cameraPage:
-        return MaterialPageRoute(
-          builder: (_) => const CameraPage(),
-        );
-      case MarketingManagerConstants.previewCapturedPhotoPage:
-        return MaterialPageRoute(
-          builder: (_) => const PreviewCapturedPhotos(),
-        );
-      case MarketingManagerConstants.previewSelectedPhotoPage:
-        return MaterialPageRoute(
-          builder: (_) => const PreviewSelectedPhoto(),
-        );
+      // case MarketingManagerConstants.cameraPage:
+      //   return MaterialPageRoute(
+      //     builder: (_) => const CameraPage(),
+      //   );
+      // case MarketingManagerConstants.previewCapturedPhotoPage:
+      //   return MaterialPageRoute(
+      //     builder: (_) => const PreviewCapturedPhotos(),
+      //   );
+      // case MarketingManagerConstants.previewSelectedPhotoPage:
+      //   return MaterialPageRoute(
+      //     builder: (_) => const PreviewSelectedPhoto(),
+      //   );
       case MarketingManagerConstants.liveTrackingPage:
         return MaterialPageRoute(
           builder: (_) => LiveTrackingScreen(),

@@ -3,8 +3,6 @@ PODS:
     - Flutter
   - battery_plus (1.0.0):
     - Flutter
-  - camera_avfoundation (0.0.1):
-    - Flutter
   - connectivity_plus (0.0.1):
     - Flutter
   - device_info_plus (0.0.1):
@@ -57,7 +55,6 @@ PODS:
 DEPENDENCIES:
   - background_task (from `.symlinks/plugins/background_task/ios`)
   - battery_plus (from `.symlinks/plugins/battery_plus/ios`)
-  - camera_avfoundation (from `.symlinks/plugins/camera_avfoundation/ios`)
   - connectivity_plus (from `.symlinks/plugins/connectivity_plus/ios`)
   - device_info_plus (from `.symlinks/plugins/device_info_plus/ios`)
   - Flutter (from `Flutter`)
@@ -88,8 +85,6 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/background_task/ios"
   battery_plus:
     :path: ".symlinks/plugins/battery_plus/ios"
-  camera_avfoundation:
-    :path: ".symlinks/plugins/camera_avfoundation/ios"
   connectivity_plus:
     :path: ".symlinks/plugins/connectivity_plus/ios"
   device_info_plus:
@@ -126,7 +121,6 @@ EXTERNAL SOURCES:
 SPEC CHECKSUMS:
   background_task: a584ba6e093a60641252e89f7cd404ec92a30c8d
   battery_plus: 34f72fa2afeeea83bbae306c72a25828d3ec727a
-  camera_avfoundation: dd002b0330f4981e1bbcb46ae9b62829237459a4
   connectivity_plus: 2a701ffec2c0ae28a48cf7540e279787e77c447d
   device_info_plus: 97af1d7e84681a90d0693e63169a5d50e0839a0d
   Flutter: e0871f40cf51350855a761d2e70bf5af5b9b5de7
