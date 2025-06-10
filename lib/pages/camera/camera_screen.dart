@@ -1,337 +1,337 @@
-import 'dart:io';
-
-import 'package:camera/camera.dart';
-import 'package:deskgoo/providers/camera_provider/camera_provider.dart';
-import 'package:deskgoo/routes/route_generator_constants.dart';
-import 'package:deskgoo/themes/custom_colors.dart';
-import 'package:deskgoo/widgets/app_bars/custom_app_bars.dart';
-import 'package:deskgoo/widgets/drawers/custom_drawer.dart';
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'dart:math' as math;
-
-import 'package:provider/provider.dart';
-
-class CameraPage extends StatefulWidget {
-  const CameraPage({super.key});
-
-  @override
-  State<CameraPage> createState() => _CameraPageState();
-}
-
-class _CameraPageState extends State<CameraPage> {
-  CameraProvider? _cameraProvider;
-  CameraController? _cameraController;
-  bool showFocusCircle = false;
-  double x = 0;
-  double y = 0;
-
-  Future<void> _setupCameraController() async {
-    List<CameraDescription> _cameras = await availableCameras();
-
-    if (_cameras.isNotEmpty) {
-      _cameraProvider!.setCameras(_cameras);
-      initCamera(_cameraProvider!.cameras[0]);
-    } else {
-      print('No cameras found');
-    }
-    print('cameras = ${_cameraProvider!.cameras}');
-    _cameraProvider!.setIsNewVisit();
-  }
-
-  Future initCamera(CameraDescription cameraDescription) async {
-    _cameraController =
-        CameraController(cameraDescription, ResolutionPreset.high);
-    try {
-      await _cameraController!.initialize().then((_) {
-        if (!mounted) return;
-        setState(() {});
-      });
-    } on CameraException catch (e) {
-      debugPrint("camera error $e");
-    }
-  }
-
-  Future<void> _onTap(TapUpDetails details) async {
-    if (_cameraController!.value.isInitialized) {
-      showFocusCircle = true;
-      x = details.localPosition.dx;
-      y = details.localPosition.dy;
-
-      double fullWidth = MediaQuery.of(context).size.width;
-      double cameraHeight = fullWidth * _cameraController!.value.aspectRatio;
-
-      double xp = x / fullWidth;
-      double yp = y / cameraHeight;
-
-      Offset point = Offset(xp, yp);
-      print("point : $point");
-
-      await _cameraController!.setFocusPoint(point);
-
-      setState(() {
-        Future.delayed(const Duration(seconds: 2)).whenComplete(() {
-          setState(() {
-            showFocusCircle = false;
-          });
-        });
-      });
-    }
-  }
-
-  Future takePicture() async {
-    if (!_cameraController!.value.isInitialized) {
-      return null;
-    }
-    if (_cameraController!.value.isTakingPicture) {
-      return null;
-    }
-    try {
-      await _cameraController!.setFlashMode(_cameraProvider!.flashMode);
-      _cameraController!.setFocusPoint(Offset(x, y));
-      XFile picture = await _cameraController!.takePicture();
-      if (_cameraProvider!.isNewVisit) {
-        _cameraProvider!.addNewVisitPhotos(picture.path);
-      } else if (_cameraProvider!.isFollowUp) {
-        _cameraProvider!.addFollowUpPhotos(picture.path);
-      }
-      _cameraProvider!.setIndex(_cameraProvider!.photos.length - 1);
-      Navigator.of(context)
-          .pushNamed(MarketingManagerConstants.previewCapturedPhotoPage);
-    } on CameraException catch (e) {
-      debugPrint('Error occured while taking picture: $e');
-      return null;
-    }
-  }
-
-  @override
-  void initState() {
-    super.initState();
-    _cameraProvider = Provider.of<CameraProvider>(context, listen: false);
-    _setupCameraController();
-  }
-
-  @override
-  void dispose() {
-    _cameraController?.dispose();
-    super.dispose();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: _appBar(context),
-      drawer: _drawer(context),
-      body: _buildUI(context),
-    );
-  }
-
-  PreferredSize _appBar(context) {
-    return PreferredSize(
-      preferredSize: Size.fromHeight(kToolbarHeight),
-      child: Builder(builder: (context) {
-        return CustomAppBar(
-          tabName: 'Camera',
-          showLeading: true,
-          leadingIcon: FontAwesomeIcons.bars,
-          onTapLeadingIcon: () {
-            Scaffold.of(context).openDrawer();
-          },
-        );
-      }),
-    );
-  }
-
-  CustomDrawer _drawer(context) {
-    return const CustomDrawer(
-      isHomeActive: true,
-    );
-  }
-
-  Widget _buildUI(context) {
-    final mediaSize = MediaQuery.of(context).size;
-
-    if (_cameraController == null || !_cameraController!.value.isInitialized) {
-      return const Center(
-        child: CircularProgressIndicator(),
-      );
-    }
-
-    final scale =
-        1 / (_cameraController!.value.aspectRatio * mediaSize.aspectRatio);
-    return _cameraController!.value.isInitialized
-        ? SizedBox(
-            height: double.infinity,
-            width: double.infinity,
-            child: GestureDetector(
-              onTapUp: (details) {
-                _onTap(details);
-              },
-              child: Stack(
-                children: [
-                  _cameraProvider!.isRearCameraSelected
-                      ? Transform.scale(
-                          scale: scale,
-                          child: CameraPreview(
-                            _cameraController!,
-                          ),
-                        )
-                      : Transform.scale(
-                          scale: scale,
-                          child: Transform(
-                            alignment: Alignment.center,
-                            transform: Matrix4.rotationY(math.pi),
-                            child: CameraPreview(
-                              _cameraController!,
-                            ),
-                          ),
-                        ),
-                  Positioned(
-                    top: 4,
-                    right: 4,
-                    child: Consumer<CameraProvider>(
-                        builder: (context, cameraProvider, _) {
-                      return IconButton(
-                        onPressed: () {
-                          cameraProvider.toggleFlashMode();
-                        },
-                        iconSize: 32,
-                        padding: EdgeInsets.zero,
-                        constraints: const BoxConstraints(),
-                        icon: Icon(
-                            cameraProvider.isFlashOn
-                                ? Icons.flash_on
-                                : Icons.flash_off,
-                            color: Colors.white),
-                      );
-                    }),
-                  ),
-                  Positioned(
-                    bottom: 0,
-                    child: Container(
-                      width: MediaQuery.of(context).size.width * 1,
-                      color: Colors.black.withOpacity(0.7),
-                      child: Consumer<CameraProvider>(
-                        builder: (context, cameraProvider, _) {
-                          return Column(
-                            mainAxisAlignment: MainAxisAlignment.end,
-                            children: [
-                              Consumer<CameraProvider>(
-                                  builder: (context, cameraProvider, _) {
-                                return Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceAround,
-                                  crossAxisAlignment: CrossAxisAlignment.end,
-                                  children: [
-                                    Container(
-                                      padding: const EdgeInsets.symmetric(
-                                          horizontal: 16, vertical: 4),
-                                      width:
-                                          MediaQuery.of(context).size.width * 1,
-                                      child: Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
-                                        children: [
-                                          GestureDetector(
-                                            onTap: () {
-                                              cameraProvider.setIndex(
-                                                  cameraProvider.photos.length -
-                                                      1);
-                                              Navigator.of(context).pushNamed(
-                                                  MarketingManagerConstants
-                                                      .previewCapturedPhotoPage);
-                                            },
-                                            child: ClipRRect(
-                                              borderRadius:
-                                                  BorderRadius.circular(100),
-                                              child: SizedBox(
-                                                height: 52,
-                                                width: 52,
-                                                child: Container(
-                                                  padding: const EdgeInsets.all(1),
-                                                  color: Colors.white,
-                                                  child: ClipRRect(
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            100),
-                                                    child: cameraProvider
-                                                            .photos.isNotEmpty
-                                                        ? Image.file(
-                                                            File(cameraProvider
-                                                                .photos.last),
-                                                            fit: BoxFit.cover,
-                                                          )
-                                                        : Container(
-                                                            color: Colors.black,
-                                                          ),
-                                                  ),
-                                                ),
-                                              ),
-                                            ),
-                                          ),
-
-                                          IconButton(
-                                            onPressed: takePicture,
-                                            iconSize: 72,
-                                            padding: EdgeInsets.zero,
-                                            constraints: const BoxConstraints(),
-                                            icon: const Icon(Icons.circle,
-                                                color: Colors.white),
-                                          ),
-                                          IconButton(
-                                            padding: EdgeInsets.zero,
-                                            constraints: const BoxConstraints(),
-                                            iconSize: 32,
-                                            icon: Icon(
-                                                cameraProvider
-                                                        .isRearCameraSelected
-                                                    ? CupertinoIcons
-                                                        .switch_camera
-                                                    : CupertinoIcons
-                                                        .switch_camera_solid,
-                                                color: Colors.white),
-                                            onPressed: () {
-                                              cameraProvider
-                                                  .toggleIsRearCameraSelected();
-                                              initCamera(cameraProvider.cameras[
-                                                  cameraProvider
-                                                          .isRearCameraSelected
-                                                      ? 0
-                                                      : 1]);
-                                            },
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                  ],
-                                );
-                              }),
-                            ],
-                          );
-                        },
-                      ),
-                    ),
-                  ),
-                  if (showFocusCircle)
-                    Positioned(
-                      top: y - 20,
-                      left: x - 20,
-                      child: Container(
-                        height: 50,
-                        width: 50,
-                        decoration: BoxDecoration(
-                          shape: BoxShape.circle,
-                          border: Border.all(color: Colors.white, width: 1.5),
-                        ),
-                      ),
-                    ),
-                ],
-              ),
-            ),
-          )
-        : const Center(
-            child: CircularProgressIndicator(),
-          );
-  }
-}
+// import 'dart:io';
+//
+// import 'package:camera/camera.dart';
+// import 'package:deskgoo/providers/camera_provider/camera_provider.dart';
+// import 'package:deskgoo/routes/route_generator_constants.dart';
+// import 'package:deskgoo/themes/custom_colors.dart';
+// import 'package:deskgoo/widgets/app_bars/custom_app_bars.dart';
+// import 'package:deskgoo/widgets/drawers/custom_drawer.dart';
+// import 'package:flutter/cupertino.dart';
+// import 'package:flutter/material.dart';
+// import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+// import 'dart:math' as math;
+//
+// import 'package:provider/provider.dart';
+//
+// class CameraPage extends StatefulWidget {
+//   const CameraPage({super.key});
+//
+//   @override
+//   State<CameraPage> createState() => _CameraPageState();
+// }
+//
+// class _CameraPageState extends State<CameraPage> {
+//   CameraProvider? _cameraProvider;
+//   CameraController? _cameraController;
+//   bool showFocusCircle = false;
+//   double x = 0;
+//   double y = 0;
+//
+//   Future<void> _setupCameraController() async {
+//     List<CameraDescription> _cameras = await availableCameras();
+//
+//     if (_cameras.isNotEmpty) {
+//       _cameraProvider!.setCameras(_cameras);
+//       initCamera(_cameraProvider!.cameras[0]);
+//     } else {
+//       print('No cameras found');
+//     }
+//     print('cameras = ${_cameraProvider!.cameras}');
+//     _cameraProvider!.setIsNewVisit();
+//   }
+//
+//   Future initCamera(CameraDescription cameraDescription) async {
+//     _cameraController =
+//         CameraController(cameraDescription, ResolutionPreset.high);
+//     try {
+//       await _cameraController!.initialize().then((_) {
+//         if (!mounted) return;
+//         setState(() {});
+//       });
+//     } on CameraException catch (e) {
+//       debugPrint("camera error $e");
+//     }
+//   }
+//
+//   Future<void> _onTap(TapUpDetails details) async {
+//     if (_cameraController!.value.isInitialized) {
+//       showFocusCircle = true;
+//       x = details.localPosition.dx;
+//       y = details.localPosition.dy;
+//
+//       double fullWidth = MediaQuery.of(context).size.width;
+//       double cameraHeight = fullWidth * _cameraController!.value.aspectRatio;
+//
+//       double xp = x / fullWidth;
+//       double yp = y / cameraHeight;
+//
+//       Offset point = Offset(xp, yp);
+//       print("point : $point");
+//
+//       await _cameraController!.setFocusPoint(point);
+//
+//       setState(() {
+//         Future.delayed(const Duration(seconds: 2)).whenComplete(() {
+//           setState(() {
+//             showFocusCircle = false;
+//           });
+//         });
+//       });
+//     }
+//   }
+//
+//   Future takePicture() async {
+//     if (!_cameraController!.value.isInitialized) {
+//       return null;
+//     }
+//     if (_cameraController!.value.isTakingPicture) {
+//       return null;
+//     }
+//     try {
+//       await _cameraController!.setFlashMode(_cameraProvider!.flashMode);
+//       _cameraController!.setFocusPoint(Offset(x, y));
+//       XFile picture = await _cameraController!.takePicture();
+//       if (_cameraProvider!.isNewVisit) {
+//         _cameraProvider!.addNewVisitPhotos(picture.path);
+//       } else if (_cameraProvider!.isFollowUp) {
+//         _cameraProvider!.addFollowUpPhotos(picture.path);
+//       }
+//       _cameraProvider!.setIndex(_cameraProvider!.photos.length - 1);
+//       Navigator.of(context)
+//           .pushNamed(MarketingManagerConstants.previewCapturedPhotoPage);
+//     } on CameraException catch (e) {
+//       debugPrint('Error occured while taking picture: $e');
+//       return null;
+//     }
+//   }
+//
+//   @override
+//   void initState() {
+//     super.initState();
+//     _cameraProvider = Provider.of<CameraProvider>(context, listen: false);
+//     _setupCameraController();
+//   }
+//
+//   @override
+//   void dispose() {
+//     _cameraController?.dispose();
+//     super.dispose();
+//   }
+//
+//   @override
+//   Widget build(BuildContext context) {
+//     return Scaffold(
+//       appBar: _appBar(context),
+//       drawer: _drawer(context),
+//       body: _buildUI(context),
+//     );
+//   }
+//
+//   PreferredSize _appBar(context) {
+//     return PreferredSize(
+//       preferredSize: Size.fromHeight(kToolbarHeight),
+//       child: Builder(builder: (context) {
+//         return CustomAppBar(
+//           tabName: 'Camera',
+//           showLeading: true,
+//           leadingIcon: FontAwesomeIcons.bars,
+//           onTapLeadingIcon: () {
+//             Scaffold.of(context).openDrawer();
+//           },
+//         );
+//       }),
+//     );
+//   }
+//
+//   CustomDrawer _drawer(context) {
+//     return const CustomDrawer(
+//       isHomeActive: true,
+//     );
+//   }
+//
+//   Widget _buildUI(context) {
+//     final mediaSize = MediaQuery.of(context).size;
+//
+//     if (_cameraController == null || !_cameraController!.value.isInitialized) {
+//       return const Center(
+//         child: CircularProgressIndicator(),
+//       );
+//     }
+//
+//     final scale =
+//         1 / (_cameraController!.value.aspectRatio * mediaSize.aspectRatio);
+//     return _cameraController!.value.isInitialized
+//         ? SizedBox(
+//             height: double.infinity,
+//             width: double.infinity,
+//             child: GestureDetector(
+//               onTapUp: (details) {
+//                 _onTap(details);
+//               },
+//               child: Stack(
+//                 children: [
+//                   _cameraProvider!.isRearCameraSelected
+//                       ? Transform.scale(
+//                           scale: scale,
+//                           child: CameraPreview(
+//                             _cameraController!,
+//                           ),
+//                         )
+//                       : Transform.scale(
+//                           scale: scale,
+//                           child: Transform(
+//                             alignment: Alignment.center,
+//                             transform: Matrix4.rotationY(math.pi),
+//                             child: CameraPreview(
+//                               _cameraController!,
+//                             ),
+//                           ),
+//                         ),
+//                   Positioned(
+//                     top: 4,
+//                     right: 4,
+//                     child: Consumer<CameraProvider>(
+//                         builder: (context, cameraProvider, _) {
+//                       return IconButton(
+//                         onPressed: () {
+//                           cameraProvider.toggleFlashMode();
+//                         },
+//                         iconSize: 32,
+//                         padding: EdgeInsets.zero,
+//                         constraints: const BoxConstraints(),
+//                         icon: Icon(
+//                             cameraProvider.isFlashOn
+//                                 ? Icons.flash_on
+//                                 : Icons.flash_off,
+//                             color: Colors.white),
+//                       );
+//                     }),
+//                   ),
+//                   Positioned(
+//                     bottom: 0,
+//                     child: Container(
+//                       width: MediaQuery.of(context).size.width * 1,
+//                       color: Colors.black.withOpacity(0.7),
+//                       child: Consumer<CameraProvider>(
+//                         builder: (context, cameraProvider, _) {
+//                           return Column(
+//                             mainAxisAlignment: MainAxisAlignment.end,
+//                             children: [
+//                               Consumer<CameraProvider>(
+//                                   builder: (context, cameraProvider, _) {
+//                                 return Row(
+//                                   mainAxisAlignment:
+//                                       MainAxisAlignment.spaceAround,
+//                                   crossAxisAlignment: CrossAxisAlignment.end,
+//                                   children: [
+//                                     Container(
+//                                       padding: const EdgeInsets.symmetric(
+//                                           horizontal: 16, vertical: 4),
+//                                       width:
+//                                           MediaQuery.of(context).size.width * 1,
+//                                       child: Row(
+//                                         mainAxisAlignment:
+//                                             MainAxisAlignment.spaceBetween,
+//                                         children: [
+//                                           GestureDetector(
+//                                             onTap: () {
+//                                               cameraProvider.setIndex(
+//                                                   cameraProvider.photos.length -
+//                                                       1);
+//                                               Navigator.of(context).pushNamed(
+//                                                   MarketingManagerConstants
+//                                                       .previewCapturedPhotoPage);
+//                                             },
+//                                             child: ClipRRect(
+//                                               borderRadius:
+//                                                   BorderRadius.circular(100),
+//                                               child: SizedBox(
+//                                                 height: 52,
+//                                                 width: 52,
+//                                                 child: Container(
+//                                                   padding: const EdgeInsets.all(1),
+//                                                   color: Colors.white,
+//                                                   child: ClipRRect(
+//                                                     borderRadius:
+//                                                         BorderRadius.circular(
+//                                                             100),
+//                                                     child: cameraProvider
+//                                                             .photos.isNotEmpty
+//                                                         ? Image.file(
+//                                                             File(cameraProvider
+//                                                                 .photos.last),
+//                                                             fit: BoxFit.cover,
+//                                                           )
+//                                                         : Container(
+//                                                             color: Colors.black,
+//                                                           ),
+//                                                   ),
+//                                                 ),
+//                                               ),
+//                                             ),
+//                                           ),
+//
+//                                           IconButton(
+//                                             onPressed: takePicture,
+//                                             iconSize: 72,
+//                                             padding: EdgeInsets.zero,
+//                                             constraints: const BoxConstraints(),
+//                                             icon: const Icon(Icons.circle,
+//                                                 color: Colors.white),
+//                                           ),
+//                                           IconButton(
+//                                             padding: EdgeInsets.zero,
+//                                             constraints: const BoxConstraints(),
+//                                             iconSize: 32,
+//                                             icon: Icon(
+//                                                 cameraProvider
+//                                                         .isRearCameraSelected
+//                                                     ? CupertinoIcons
+//                                                         .switch_camera
+//                                                     : CupertinoIcons
+//                                                         .switch_camera_solid,
+//                                                 color: Colors.white),
+//                                             onPressed: () {
+//                                               cameraProvider
+//                                                   .toggleIsRearCameraSelected();
+//                                               initCamera(cameraProvider.cameras[
+//                                                   cameraProvider
+//                                                           .isRearCameraSelected
+//                                                       ? 0
+//                                                       : 1]);
+//                                             },
+//                                           ),
+//                                         ],
+//                                       ),
+//                                     ),
+//                                   ],
+//                                 );
+//                               }),
+//                             ],
+//                           );
+//                         },
+//                       ),
+//                     ),
+//                   ),
+//                   if (showFocusCircle)
+//                     Positioned(
+//                       top: y - 20,
+//                       left: x - 20,
+//                       child: Container(
+//                         height: 50,
+//                         width: 50,
+//                         decoration: BoxDecoration(
+//                           shape: BoxShape.circle,
+//                           border: Border.all(color: Colors.white, width: 1.5),
+//                         ),
+//                       ),
+//                     ),
+//                 ],
+//               ),
+//             ),
+//           )
+//         : const Center(
+//             child: CircularProgressIndicator(),
+//           );
+//   }
+// }

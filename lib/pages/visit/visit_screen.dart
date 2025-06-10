@@ -1295,129 +1295,129 @@ class _VisitScreenState extends State<VisitScreen>
                     SizedBox(
                       height: 16,
                     ),
-                    Consumer<CameraProvider>(
-                      builder: (context, cameraProvider, _) {
-                        if (cameraProvider.isNewVisit) {
-                          photo = cameraProvider.newVisitSelectedPhoto;
-                        }
-                        if (cameraProvider.isFollowUp) {
-                          photo = cameraProvider.followUpSelectedPhoto;
-                        }
-                        return GestureDetector(
-                          onTap: () {
-                            if (visitScreenProvider.followUpNote.isEmpty) {
-                              visitScreenProvider.setFollowUpNote(
-                                  followUpNoteController.value.text);
-                            }
-                            cameraProvider.setIsFollowUp();
-                            Navigator.of(context).pushNamed(
-                                MarketingManagerConstants.cameraPage);
-                            print('Tapped on image contaier');
-                          },
-                          child: CustomContainer(
-                            borderRadius: 8,
-                            verticalPad: 12,
-                            borderColor: CustomColors.primaryBlack,
-                            color: CustomColors.primaryWhite,
-                            child: Column(
-                              children: [
-                                Row(
-                                  mainAxisAlignment: MainAxisAlignment.end,
-                                  children: [
-                                    // CustomText(
-                                    //     text: 'Tap to select click an image'),
-                                    Consumer<CameraProvider>(
-                                      builder: (context, cameraProvider, _) {
-                                        return GestureDetector(
-                                          onTap: () {
-                                            if (visitScreenProvider
-                                                .followUpNote.isEmpty) {
-                                              visitScreenProvider
-                                                  .setFollowUpNote(
-                                                      followUpNoteController
-                                                          .value.text);
-                                            }
-                                            cameraProvider.setIsFollowUp();
-                                            Navigator.of(context).pushNamed(
-                                                MarketingManagerConstants
-                                                    .cameraPage);
-                                            print('image Icon Tapped');
-                                          },
-                                          child: SizedBox(
-                                            height: 28,
-                                            width: 24,
-                                            child: Image.asset(
-                                              'assets/images/camera.png',
-                                              color: Colors.grey.shade600,
-                                            ),
-                                          ),
-                                        );
-                                      },
-                                    ),
-                                  ],
-                                ),
-                                SizedBox(
-                                  height: photo.isNotEmpty ? 2 : 0,
-                                ),
-                                if (photo.isNotEmpty)
-                                  GestureDetector(
-                                    onTap: () {
-                                      Navigator.of(context).pushNamed(
-                                          MarketingManagerConstants
-                                              .previewSelectedPhotoPage);
-                                      print('Image tapped');
-                                    },
-                                    child: SizedBox(
-                                      height: 325,
-                                      width: double.infinity,
-                                      child: InteractiveViewer(
-                                        panEnabled: true, // Set it to false
-                                        panAxis: PanAxis.free,
-                                        boundaryMargin: EdgeInsets.all(0),
-                                        minScale: 1,
-                                        maxScale: 2.5,
-                                        child: Image.file(
-                                          File(photo),
-                                          fit: BoxFit.fitWidth,
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                              ],
-                            ),
-                          ),
-                        );
-                      },
-                    ),
-                    SizedBox(
-                      height: 8.0,
-                    ),
-                    Consumer<CameraProvider>(
-                        builder: (context, cameraProvider, _) {
-                      return CustomElevatedButton(
-                        onPressed: () {
-                          print(followUpNoteController.value.text);
-                          detailsProvider.addFollowUpVisitDetails(
-                            visitScreenProvider.clientName,
-                            visitScreenProvider.clientAddress,
-                            visitScreenProvider.clientPhone,
-                            visitScreenProvider.clientVisitedDateTime,
-                            followUpNoteController.value.text,
-                            photo,
-                          );
-                          visitScreenProvider.setIndex(1);
-                          cameraProvider.resetCameraStroredPhotos();
-                          visitScreenProvider.resetClientDetailsValues();
-                          clearNewVisitValues();
-                          followUpNoteController.clear();
-                        },
-                        backgroundColor: CustomColors.primaryColor,
-                        widget: CustomText(
-                          text: 'Submit',
-                          fontWeight: FontWeight.w500,
-                        ),
-                      );
-                    }),
+                    // Consumer<CameraProvider>(
+                    //   builder: (context, cameraProvider, _) {
+                    //     if (cameraProvider.isNewVisit) {
+                    //       photo = cameraProvider.newVisitSelectedPhoto;
+                    //     }
+                    //     if (cameraProvider.isFollowUp) {
+                    //       photo = cameraProvider.followUpSelectedPhoto;
+                    //     }
+                    //     return GestureDetector(
+                    //       onTap: () {
+                    //         if (visitScreenProvider.followUpNote.isEmpty) {
+                    //           visitScreenProvider.setFollowUpNote(
+                    //               followUpNoteController.value.text);
+                    //         }
+                    //         cameraProvider.setIsFollowUp();
+                    //         Navigator.of(context).pushNamed(
+                    //             MarketingManagerConstants.cameraPage);
+                    //         print('Tapped on image contaier');
+                    //       },
+                    //       child: CustomContainer(
+                    //         borderRadius: 8,
+                    //         verticalPad: 12,
+                    //         borderColor: CustomColors.primaryBlack,
+                    //         color: CustomColors.primaryWhite,
+                    //         child: Column(
+                    //           children: [
+                    //             Row(
+                    //               mainAxisAlignment: MainAxisAlignment.end,
+                    //               children: [
+                    //                 // CustomText(
+                    //                 //     text: 'Tap to select click an image'),
+                    //                 Consumer<CameraProvider>(
+                    //                   builder: (context, cameraProvider, _) {
+                    //                     return GestureDetector(
+                    //                       onTap: () {
+                    //                         if (visitScreenProvider
+                    //                             .followUpNote.isEmpty) {
+                    //                           visitScreenProvider
+                    //                               .setFollowUpNote(
+                    //                                   followUpNoteController
+                    //                                       .value.text);
+                    //                         }
+                    //                         cameraProvider.setIsFollowUp();
+                    //                         Navigator.of(context).pushNamed(
+                    //                             MarketingManagerConstants
+                    //                                 .cameraPage);
+                    //                         print('image Icon Tapped');
+                    //                       },
+                    //                       child: SizedBox(
+                    //                         height: 28,
+                    //                         width: 24,
+                    //                         child: Image.asset(
+                    //                           'assets/images/camera.png',
+                    //                           color: Colors.grey.shade600,
+                    //                         ),
+                    //                       ),
+                    //                     );
+                    //                   },
+                    //                 ),
+                    //               ],
+                    //             ),
+                    //             SizedBox(
+                    //               height: photo.isNotEmpty ? 2 : 0,
+                    //             ),
+                    //             if (photo.isNotEmpty)
+                    //               GestureDetector(
+                    //                 onTap: () {
+                    //                   Navigator.of(context).pushNamed(
+                    //                       MarketingManagerConstants
+                    //                           .previewSelectedPhotoPage);
+                    //                   print('Image tapped');
+                    //                 },
+                    //                 child: SizedBox(
+                    //                   height: 325,
+                    //                   width: double.infinity,
+                    //                   child: InteractiveViewer(
+                    //                     panEnabled: true, // Set it to false
+                    //                     panAxis: PanAxis.free,
+                    //                     boundaryMargin: EdgeInsets.all(0),
+                    //                     minScale: 1,
+                    //                     maxScale: 2.5,
+                    //                     child: Image.file(
+                    //                       File(photo),
+                    //                       fit: BoxFit.fitWidth,
+                    //                     ),
+                    //                   ),
+                    //                 ),
+                    //               ),
+                    //           ],
+                    //         ),
+                    //       ),
+                    //     );
+                    //   },
+                    // ),
+                    // SizedBox(
+                    //   height: 8.0,
+                    // ),
+                    // Consumer<CameraProvider>(
+                    //     builder: (context, cameraProvider, _) {
+                    //   return CustomElevatedButton(
+                    //     onPressed: () {
+                    //       print(followUpNoteController.value.text);
+                    //       detailsProvider.addFollowUpVisitDetails(
+                    //         visitScreenProvider.clientName,
+                    //         visitScreenProvider.clientAddress,
+                    //         visitScreenProvider.clientPhone,
+                    //         visitScreenProvider.clientVisitedDateTime,
+                    //         followUpNoteController.value.text,
+                    //         photo,
+                    //       );
+                    //       visitScreenProvider.setIndex(1);
+                    //       cameraProvider.resetCameraStroredPhotos();
+                    //       visitScreenProvider.resetClientDetailsValues();
+                    //       clearNewVisitValues();
+                    //       followUpNoteController.clear();
+                    //     },
+                    //     backgroundColor: CustomColors.primaryColor,
+                    //     widget: CustomText(
+                    //       text: 'Submit',
+                    //       fontWeight: FontWeight.w500,
+                    //     ),
+                    //   );
+                    // }),
                   ],
                 ),
               ),

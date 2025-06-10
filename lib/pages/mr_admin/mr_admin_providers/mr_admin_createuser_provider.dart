@@ -33,20 +33,6 @@ class CreateUserProvider extends ChangeNotifier {
   String _radioGroupValue = '';
   int _tabIndex = 0;
 
-  // String _userName = '';
-  // String _userPassword = '';
-  // String _userRole = '';
-  // String _userDepartment = '';
-  // String _userEmail = '';
-  // String _userDesignation = '';
-  // String _userAddress = '';
-  // String _userDOB = '';
-  // String _userNumber = '';
-  // String _userGender = '';
-  // String _userMaritalStatus = '';
-  // String _userDOJ = '';
-  // String _userNationality = '';
-
   List<String> _department = [
     "Marketing",
     "Administrator",

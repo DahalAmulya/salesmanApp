@@ -14,7 +14,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:local_auth/local_auth.dart';
 import 'package:provider/provider.dart';
-import 'package:syncfusion_flutter_maps/maps.dart';
+// import 'package:syncfusion_flutter_maps/maps.dart';
 
 import '../../widgets/buttons/elevated_button.dart';
 import '../../widgets/radio_button/custom_radio_button.dart';
@@ -281,7 +281,7 @@ class _ReplayScreenState extends State<ReplayScreen> {
                       radioValue: replayProvider.mapType[0],
                       radioTitle: 'Normal',
                       onChange: (value) {
-                        replayProvider.selectMapType(value);
+                        replayProvider.selectReplayMapType(value);
                       },
                     ),
                     const SizedBox(
@@ -292,7 +292,7 @@ class _ReplayScreenState extends State<ReplayScreen> {
                       radioValue: replayProvider.mapType[1],
                       radioTitle: 'Hybrid',
                       onChange: (value) {
-                        replayProvider.selectMapType(value);
+                        replayProvider.selectReplayMapType(value);
                       },
                     ),
                     const SizedBox(
@@ -303,7 +303,7 @@ class _ReplayScreenState extends State<ReplayScreen> {
                       radioValue: replayProvider.mapType[2],
                       radioTitle: 'Terrain',
                       onChange: (value) {
-                        replayProvider.selectMapType(value);
+                        replayProvider.selectReplayMapType(value);
                       },
                     ),
                     const SizedBox(
@@ -333,23 +333,23 @@ class _ReplayScreenState extends State<ReplayScreen> {
     );
   }
 
-  Widget _osmMap(context) {
-    return Consumer<ReplayProvider>(
-      builder: (context, replayProvider, _) {
-        // latitude = replayProvider.latitude;
-        // longitude = replayProvider.longitude;
-        // cameraPosition();
-        // deviceInfoProvider.cameraPosition(_controller);
-        return SfMaps(
-          layers: [
-            MapTileLayer(
-              urlTemplate: 'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
-            ),
-          ],
-        );
-      },
-    );
-  }
+  // Widget _osmMap(context) {
+  //   return Consumer<ReplayProvider>(
+  //     builder: (context, replayProvider, _) {
+  //       // latitude = replayProvider.latitude;
+  //       // longitude = replayProvider.longitude;
+  //       // cameraPosition();
+  //       // deviceInfoProvider.cameraPosition(_controller);
+  //       return SfMaps(
+  //         layers: [
+  //           MapTileLayer(
+  //             urlTemplate: 'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
+  //           ),
+  //         ],
+  //       );
+  //     },
+  //   );
+  // }
 
   CustomGNavBar _bottomNavBar(context) {
     return CustomGNavBar(

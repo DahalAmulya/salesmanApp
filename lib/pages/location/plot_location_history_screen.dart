@@ -229,7 +229,7 @@ class _PlotLocationHistoryScreenState extends State<PlotLocationHistoryScreen> {
                       radioValue: replayProvider.mapType[0],
                       radioTitle: 'Normal',
                       onChange: (value) {
-                        replayProvider.selectMapType(value);
+                        replayProvider.setSelectLocationPointMapType(value);
                       },
                     ),
                     const SizedBox(
@@ -240,7 +240,7 @@ class _PlotLocationHistoryScreenState extends State<PlotLocationHistoryScreen> {
                       radioValue: replayProvider.mapType[1],
                       radioTitle: 'Hybrid',
                       onChange: (value) {
-                        replayProvider.selectMapType(value);
+                        replayProvider.setSelectLocationPointMapType(value);
                       },
                     ),
                     const SizedBox(
@@ -251,7 +251,7 @@ class _PlotLocationHistoryScreenState extends State<PlotLocationHistoryScreen> {
                       radioValue: replayProvider.mapType[2],
                       radioTitle: 'Terrain',
                       onChange: (value) {
-                        replayProvider.selectMapType(value);
+                        replayProvider.setSelectLocationPointMapType(value);
                       },
                     ),
                     const SizedBox(

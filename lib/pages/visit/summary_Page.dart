@@ -9,7 +9,7 @@ import 'package:deskgoo/widgets/texts/custom_text.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_icon_class/font_awesome_icon_class.dart';
 import 'package:provider/provider.dart';
-import 'package:signature/signature.dart';
+// import 'package:signature/signature.dart';
 import '../../themes/custom_colors.dart';
 import '../../widgets/buttons/elevated_button.dart';
 
@@ -48,11 +48,11 @@ class VisitSummary extends StatelessWidget {
   double totalAmount = 0;
   String productName = '';
   double containerHeight = 160;
-  final SignatureController _controller = SignatureController(
-    penStrokeWidth: 5,
-    penColor: Colors.red,
-    exportBackgroundColor: Colors.lightBlue,
-  );
+  // final SignatureController _controller = SignatureController(
+  //   penStrokeWidth: 5,
+  //   penColor: Colors.red,
+  //   exportBackgroundColor: Colors.lightBlue,
+  // );
 
   @override
   Widget build(BuildContext context) {
@@ -463,7 +463,7 @@ class VisitSummary extends StatelessWidget {
                             ),
                             InkWell(
                               onTap: () {
-                                _controller.clear();
+                                // _controller.clear();
                               },
                               child: Icon(FontAwesomeIcons.rotateRight),
                             ),
@@ -471,14 +471,14 @@ class VisitSummary extends StatelessWidget {
                         ),
                       ),
                     ),
-                    Container(
-                      height: MediaQuery.of(context).size.height * 0.2,
-                      width: MediaQuery.of(context).size.width * 1,
-                      child: Signature(
-                        controller: _controller,
-                        backgroundColor: Colors.grey.shade300,
-                      ),
-                    ),
+                    // Container(
+                    //   height: MediaQuery.of(context).size.height * 0.2,
+                    //   width: MediaQuery.of(context).size.width * 1,
+                    //   child: Signature(
+                    //     controller: _controller,
+                    //     backgroundColor: Colors.grey.shade300,
+                    //   ),
+                    // ),
                     SizedBox(
                       height: 16,
                     ),

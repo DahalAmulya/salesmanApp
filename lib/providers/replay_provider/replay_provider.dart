@@ -7,7 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 class ReplayProvider extends ChangeNotifier {
-  List<String> _mapTypes = ['normal', 'hybrid', 'terrain'];
+  List<String> _mapType = ['normal', 'hybrid', 'terrain'];
   String _selectedReplayMapTypeValue = 'normal';
   String _selectedLocationPointMapTypeValue = 'normal';
   MapType _selectedReplayMapType = MapType.normal;
@@ -58,7 +58,7 @@ class ReplayProvider extends ChangeNotifier {
   String get radioGroupValue => _radioGroupValue;
   String get radioReplayGroupValue => _radioReplayGroupValue;
 
-  List<String> get mapType => _mapTypes;
+  List<String> get mapType => _mapType;
   String get selectedReplayMapTypeValue => _selectedReplayMapTypeValue;
   String get selectedLocationPointMapTypeValue =>
       _selectedLocationPointMapTypeValue;
@@ -98,22 +98,24 @@ class ReplayProvider extends ChangeNotifier {
     _isLeavePage = false;
   }
 
-  void selectMapType(value) {
-    _radioReplayGroupValue = value;
-    if (value == _mapTypes[0]) {
+  void setSelectLocationPointMapType(value) {
+    _radioGroupValue = value;
+    if (value == _mapType[0]) {
       _selectedLocationPointMapType = MapType.normal;
-    } else if (value == _mapTypes[1]) {
+    } else if (value == _mapType[1]) {
       _selectedLocationPointMapType = MapType.hybrid;
     } else {
       _selectedLocationPointMapType = MapType.terrain;
     }
+    print('_radioGroupValue = $_radioGroupValue');
     notifyListeners();
   }
+
   void selectReplayMapType(value) {
     _radioGroupValue = value;
-    if (value == _mapTypes[0]) {
+    if (value == _mapType[0]) {
       _selectedReplayMapType = MapType.normal;
-    } else if (value == _mapTypes[1]) {
+    } else if (value == _mapType[1]) {
       _selectedReplayMapType = MapType.hybrid;
     } else {
       _selectedReplayMapType = MapType.terrain;
@@ -139,9 +141,9 @@ class ReplayProvider extends ChangeNotifier {
   }
 
   void locationPointsSelectMapType(String value) {
-    if (value == _mapTypes[0]) {
+    if (value == _mapType[0]) {
       _selectedLocationPointMapType == MapType.normal;
-    } else if (value == _mapTypes[1]) {
+    } else if (value == _mapType[1]) {
       _selectedLocationPointMapType == MapType.hybrid;
     } else {
       _selectedLocationPointMapType = MapType.terrain;
@@ -149,9 +151,9 @@ class ReplayProvider extends ChangeNotifier {
   }
 
   void sSelectReplayMapType(String value) {
-    if (value == _mapTypes[0]) {
+    if (value == _mapType[0]) {
       _selectedLocationPointMapType == MapType.normal;
-    } else if (value == _mapTypes[1]) {
+    } else if (value == _mapType[1]) {
       _selectedLocationPointMapType == MapType.hybrid;
     } else {
       _selectedLocationPointMapType = MapType.terrain;
