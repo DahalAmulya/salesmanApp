@@ -479,7 +479,7 @@ class _MrOfficerReferralScreenState extends State<MrOfficerReferralScreen> {
               readOnly: true,
               hintText: 'Driver Name',
               labelText: 'Driver Name',
-              controller: referralsDetailProvider.ambDriverSearchController,
+              controller: referralsDetailProvider.ambDriverNameTextController,
               onChange: (value) => referralsDetailProvider.searchPocName(
                   referralsDetailProvider.ambDriverSearchController.value.text,
                   referralsDetailProvider.pocList),
@@ -930,6 +930,7 @@ class _MrOfficerReferralScreenState extends State<MrOfficerReferralScreen> {
                       return ListTile(
                         onTap: () {
                           referralsDetailProvider.getAmbulancePOCList(context);
+                          print(referralsDetailProvider.ambSearchResult[index]);
                           // String organization = referralsDetailProvider.pocList[index]['organization'];
                           referralsDetailProvider.setAmbulancePOCDetails(
                               id, name, ambNumber, number);

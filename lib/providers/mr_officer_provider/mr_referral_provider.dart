@@ -409,6 +409,10 @@ class ReferralsDetailProvider extends ChangeNotifier {
     _ambDriverNameTextController.text = name;
     _ambNumberTextController.text = ambNumber;
     _ambPhoneNumberTextController.text = number;
+    print(_ambId);
+    print(_ambDriverNameTextController.value.text);
+    print(_ambNumberTextController.value.text);
+    print(_ambPhoneNumberTextController.value.text);
     notifyListeners();
   }
 
