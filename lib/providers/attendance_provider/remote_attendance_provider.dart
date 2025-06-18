@@ -70,28 +70,29 @@ class AttendanceProvider extends ChangeNotifier {
   }
 
   void calculateTimeDifference(String checkInTime) {
-    // Parse checkInTime as DateTime and ensure it stays in local time
-    DateTime inTime = DateTime.parse(checkInTime);
+    // Parse check-in time as UTC and convert to local time
+    DateTime inTimeUtc = DateTime.parse(checkInTime).toUtc();
+    DateTime inTimeLocal = inTimeUtc.toLocal();
 
-    // Get the current DateTime without timezone adjustments
+    // Get current local time
     DateTime currentTime = DateTime.now();
 
-    // Remove microseconds for consistency
-    inTime = DateTime(inTime.year, inTime.month, inTime.day, inTime.hour,
-        inTime.minute, inTime.second);
+    // Remove microseconds and milliseconds for consistency
+    inTimeLocal = DateTime(inTimeLocal.year, inTimeLocal.month, inTimeLocal.day,
+        inTimeLocal.hour, inTimeLocal.minute, inTimeLocal.second);
     currentTime = DateTime(currentTime.year, currentTime.month, currentTime.day,
         currentTime.hour, currentTime.minute, currentTime.second);
 
     // Calculate the difference
-    Duration difference = currentTime.difference(inTime);
+    Duration difference = currentTime.difference(inTimeLocal);
 
-    print('checkInTime = $inTime');
+    print('checkInTime (local) = $inTimeLocal');
     print('currentTime = $currentTime');
     print('difference = $difference');
 
     // Convert the difference to hours and minutes
     int hours = difference.inHours;
-    int minutes = difference.inMinutes % 60;
+    int minutes = difference.inMinutes.remainder(60);
 
     // Format hours and minutes with zero-padding
     _hours = hours.toString().padLeft(2, '0');

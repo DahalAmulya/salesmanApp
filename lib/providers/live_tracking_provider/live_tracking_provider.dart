@@ -107,6 +107,8 @@ class LiveTrackingProvider extends ChangeNotifier {
     };
     ERPResponse response =
         await ERPServices.getRequest('/location/latest', context);
+    print(response.statusCode);
+    print(response.body);
     _employeeLiveData = jsonDecode(response.body);
     _employeeSearchResults = _employeeLiveData;
 

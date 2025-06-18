@@ -42,6 +42,8 @@ class MrOfficerVisitProvider with ChangeNotifier {
     'Practitioner',
     'Police',
     'Politician',
+    'Medical Officer (MO)',
+    'Emergency in Charge'
     'Others'
   ];
   String _selectedCategory = 'Doctor';
