@@ -8,6 +8,7 @@ import 'package:deskgoo/providers/profile/profile_provider.dart';
 import 'package:deskgoo/routes/marketing_officer_consts.dart';
 import 'package:deskgoo/routes/route_generator_constants.dart';
 import 'package:deskgoo/services/erp_services.dart';
+import 'package:deskgoo/terms_of_use.dart';
 import 'package:deskgoo/themes/custom_colors.dart';
 import 'package:deskgoo/utils/readUserCred.dart';
 import 'package:deskgoo/utils/toast_message.dart';
@@ -60,7 +61,7 @@ class _LoginPageState extends State<LoginPage> {
     print('User Creds');
     print('***********************************************************');
     _userProvider = Provider.of<UserProvider>(context, listen: false);
-    profileProvider = Provider.of<ProfileProvider>(context,listen: false);
+    profileProvider = Provider.of<ProfileProvider>(context, listen: false);
     super.initState();
   }
 
@@ -94,164 +95,166 @@ class _LoginPageState extends State<LoginPage> {
   Widget _buildUI(BuildContext context) {
     print('body build');
     return SafeArea(
-      child: Center(
+      child: Container(
+        width: double.infinity,
+        height: double.infinity, // Fill entire screen
+        padding: const EdgeInsets.symmetric(horizontal: 16.0),
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment
+              .spaceBetween, // Space between main form and bottom
           children: [
-            CustomContainer(
-              color: Colors.white,
-              width: 0.90,
-              applyShadow: true,
-              child: Form(
-                key: _formKey,
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Image.asset(
-                      width: 170,
-                      height: 60,
-                      'assets/images/deskgooBlack.png',
-                    ),
-                    const SizedBox(
-                      height: 8.0,
-                    ),
-                    // Use the TextFromFieldWithPrefixSuffix widget with emailFocusNode
-                    TextFromFieldWithPrefixSuffix(
-                      // focusNode: emailFocusNode, // Pass the FocusNode here
-                      keyboardType: TextInputType.emailAddress,
-                      controller: emailController,
-                      autoFocus: true, // Disable autoFocus for manual control
-                      onTap: () {
-                        // emailFocusNode
-                        //     .requestFocus(); // Manually request focus when tapped
-                      },
-                      validator: (value) {
-                        String pattern =
-                            r'^[a-zA-Z]{3,}(?:\.[a-zA-Z]{2,})?@[a-zA-Z]{2,}\.[a-zA-Z]{2,}$';
-                        RegExp regex = RegExp(pattern);
-                        return value!.isEmpty
-                            ? 'Email required'
-                            // : !regex.hasMatch(value)
-                            //     ? 'Invalid email'
-                            : null;
-                      },
-                      onChange: (value) {},
-                      hintText: 'jane@example.com',
-                      prefixIcon: Icon(
-                        Icons.email,
-                        color: Colors.grey.shade600,
+            const SizedBox(), // Placeholder to push content downward slightly (optional)
+
+            // Centered login form
+            Center(
+              child: CustomContainer(
+                color: Colors.white,
+                width: 0.90,
+                applyShadow: true,
+                child: Form(
+                  key: _formKey,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Image.asset(
+                        width: 170,
+                        height: 60,
+                        'assets/images/deskgooBlack.png',
                       ),
-                      applySuffixIcon: false,
-                    ),
-                    SizedBox(
-                      height: 16.0,
-                    ),
-                    // Use TextFromFieldWithPrefixSuffix for password with passwordFocusNode
-                    Consumer<UserAuthProvider>(
-                      builder: (context, authProvider, _) {
-                        return TextFromFieldWithPrefixSuffix(
-                          // focusNode:
-                          //     passwordFocusNode, // Pass the FocusNode here
-                          controller: passwordController,
-                          obscure: authProvider.obscure,
-                          onTap: () {
-                            // passwordFocusNode
-                            //     .requestFocus(); // Manually request focus when tapped
-                          },
-                          validator: (value) {
-                            return value!.isEmpty ? 'Password required' : null;
-                          },
-                          onChange: (value) {},
-                          hintText: '••••••',
-                          prefixIcon: Icon(
-                            Icons.lock,
-                            color: Colors.grey.shade600,
-                          ),
-                          applySuffixIcon: true,
-                          suffixIcon: InkWell(
-                            onTap: () {
-                              authProvider.toggleObscure();
-                            },
-                            child: Icon(
-                              authProvider.obscure
-                                  ? Icons.visibility_off
-                                  : Icons.visibility,
+                      const SizedBox(height: 8.0),
+                      TextFromFieldWithPrefixSuffix(
+                        keyboardType: TextInputType.emailAddress,
+                        controller: emailController,
+                        autoFocus: true,
+                        onTap: () {},
+                        validator: (value) {
+                          String pattern =
+                              r'^[a-zA-Z]{3,}(?:\.[a-zA-Z]{2,})?@[a-zA-Z]{2,}\.[a-zA-Z]{2,}$';
+                          RegExp regex = RegExp(pattern);
+                          return value!.isEmpty ? 'Email required' : null;
+                        },
+                        onChange: (value) {},
+                        hintText: 'jane@example.com',
+                        prefixIcon: Icon(
+                          Icons.email,
+                          color: Colors.grey.shade600,
+                        ),
+                        applySuffixIcon: false,
+                      ),
+                      const SizedBox(height: 16.0),
+                      Consumer<UserAuthProvider>(
+                        builder: (context, authProvider, _) {
+                          return TextFromFieldWithPrefixSuffix(
+                            controller: passwordController,
+                            obscure: authProvider.obscure,
+                            onTap: () {},
+                            validator: (value) =>
+                                value!.isEmpty ? 'Password required' : null,
+                            onChange: (value) {},
+                            hintText: '••••••',
+                            prefixIcon: Icon(
+                              Icons.lock,
                               color: Colors.grey.shade600,
                             ),
+                            applySuffixIcon: true,
+                            suffixIcon: InkWell(
+                              onTap: () {
+                                authProvider.toggleObscure();
+                              },
+                              child: Icon(
+                                authProvider.obscure
+                                    ? Icons.visibility_off
+                                    : Icons.visibility,
+                                color: Colors.grey.shade600,
+                              ),
+                            ),
+                          );
+                        },
+                      ),
+                      const SizedBox(height: 4.0),
+                      Consumer<UserAuthProvider>(
+                        builder: (context, authProvider, _) {
+                          return Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              CustomText(
+                                text: 'Remember me ?',
+                                isSubHeading: true,
+                              ),
+                              Checkbox(
+                                activeColor: CustomColors.primaryColor,
+                                value: authProvider.rememberMe,
+                                onChanged: (value) {
+                                  authProvider.toggleRememberMe(value!);
+                                  if (authProvider.rememberMe) {
+                                    SecureStorage().writeLoginCredentials(
+                                        SecureStorage.userEmail,
+                                        emailController.value.text
+                                            .toLowerCase()
+                                            .trim());
+                                    SecureStorage().writeLoginCredentials(
+                                        SecureStorage.password,
+                                        passwordController.value.text.trim());
+                                  }
+                                },
+                              ),
+                            ],
+                          );
+                        },
+                      ),
+                      const SizedBox(height: 4.0),
+                      Consumer<UserAuthProvider>(
+                          builder: (context, userAuthProvider, _) {
+                        return CustomElevatedButton(
+                          onPressed: () {
+                            if (_formKey.currentState!.validate()) {
+                              if (userAuthProvider.isAgreedPrivacyPolicy &&
+                                  userAuthProvider.isAgreedTermsAndConditions) {
+                                login();
+                                print('Form is valid');
+                              } else {
+                                ToastMessageUtils().showToastMessage(
+                                  'Please Accept Terms and Conditions and Privacy Policy to continue',
+                                );
+                              }
+                            } else {
+                              ToastMessageUtils().showToastMessage(
+                                  'Please fill in the required fields');
+                              print('Form is not valid');
+                            }
+                          },
+                          width: 0.90,
+                          height: 50,
+                          backgroundColor: CustomColors.primaryColor,
+                          widget: CustomText(
+                            text: 'Login',
+                            fontWeight: FontWeight.w600,
+                            color: CustomColors.primaryBlack,
+                            size: 20.0,
                           ),
                         );
-                      },
-                    ),
-                    SizedBox(
-                      height: 4.0,
-                    ),
-                    Consumer<UserAuthProvider>(
-                      builder: (context, authProvider, _) {
-                        return Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            CustomText(
-                              text: 'Remember me ?',
-                              isSubHeading: true,
-                            ),
-                            Checkbox(
-                              activeColor: CustomColors.primaryColor,
-                              value: authProvider.rememberMe,
-                              onChanged: (value) {
-                                authProvider.toggleRememberMe(value!);
-                                if (authProvider.rememberMe) {
-                                  SecureStorage().writeLoginCredentials(
-                                      SecureStorage.userEmail, emailController.value.text.toLowerCase().trim());
-                                  SecureStorage().writeLoginCredentials(
-                                      SecureStorage.password, passwordController.value.text.trim());
-                                }
-                              },
-                            ),
-                          ],
-                        );
-                      },
-                    ),
-                    const SizedBox(
-                      height: 4.0,
-                    ),
-                    CustomElevatedButton(
-                      onPressed: () {
-                        if (_formKey.currentState!.validate()) {
-                          // login api call logic
-                          login();
-                          print('Form is valid');
-                        } else {
-                          ToastMessageUtils().showToastMessage('Please fill in the required fields');
-                          print('Form is not valid');
-                        }
-                      },
-                      width: 0.90,
-                      height: 50,
-                      backgroundColor: CustomColors.primaryColor,
-                      widget: CustomText(
-                        text: 'Login',
-                        fontWeight: FontWeight.w600,
-                        color: CustomColors.primaryBlack,
-                        size: 20.0,
+                      }),
+                      const SizedBox(height: 8.0),
+                      CustomElevatedButton(
+                        onPressed: () {
+                          Navigator.of(context)
+                              .pushNamed(MarketingManagerConstants.forgotPage);
+                        },
+                        widget: CustomText(
+                          text: 'Forgot Password?',
+                          fontWeight: FontWeight.w600,
+                          color: CustomColors.primaryBlack,
+                        ),
                       ),
-                    ),
-                    const SizedBox(height: 8.0),
-                    CustomElevatedButton(
-                      onPressed: () {
-                        Navigator.of(context)
-                            .pushNamed(MarketingManagerConstants.forgotPage);
-                      },
-                      widget: CustomText(
-                        text: 'Forgot Password?',
-                        fontWeight: FontWeight.w600,
-                        color: CustomColors.primaryBlack,
-                      ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
               ),
             ),
+
+            // 👇 Pushes to the bottom
+            TermsOfUse(),
           ],
         ),
       ),
@@ -316,10 +319,19 @@ class _LoginPageState extends State<LoginPage> {
       role = data['user']['role']['role'];
       userEmail = data['user']['email'];
       roleValue = data['user']['role']['roleValue'];
-      profileProvider!.setUserInfo(name: userName, gender: userGender, nationality: userNationality, address: userAddress, maritalStatus: userMaritalStatus, email: userEmail, doj: userDoj, department: userDepartment, profilePic: profileImage);
+      profileProvider!.setUserInfo(
+          name: userName,
+          gender: userGender,
+          nationality: userNationality,
+          address: userAddress,
+          maritalStatus: userMaritalStatus,
+          email: userEmail,
+          doj: userDoj,
+          department: userDepartment,
+          profilePic: profileImage);
       if (rememberMe) {
-        SecureStorage().writeLoginCredentials(
-            SecureStorage.userEmail, emailController.value.text.toLowerCase().trim());
+        SecureStorage().writeLoginCredentials(SecureStorage.userEmail,
+            emailController.value.text.toLowerCase().trim());
         SecureStorage().writeLoginCredentials(
             SecureStorage.password, passwordController.value.text.trim());
       }
@@ -348,8 +360,8 @@ class _LoginPageState extends State<LoginPage> {
           .writeLoginCredentials(SecureStorage.roleValue, roleValue.toString());
       SecureStorage().writeLoginCredentials(
           SecureStorage.rememberMe, rememberMe.toString());
-      SecureStorage().writeLoginCredentials(
-          SecureStorage.userProfileImage, profileImage);
+      SecureStorage()
+          .writeLoginCredentials(SecureStorage.userProfileImage, profileImage);
       emailController.clear();
       passwordController.clear();
       print(data);

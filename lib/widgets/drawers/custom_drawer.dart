@@ -1,4 +1,4 @@
-import 'package:cloudinary_url_gen/asset/cld_image.dart';
+// import 'package:cloudinary_url_gen/asset/cld_image.dart';
 import 'package:deskgoo/consts.dart';
 import 'package:deskgoo/pages/mr_officers_pages/weeklyplan/weeklyplan_screen.dart';
 import 'package:deskgoo/providers/profile_provider/profile_provider.dart';
