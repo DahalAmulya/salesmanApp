@@ -9,11 +9,27 @@ class UserAuthProvider extends ChangeNotifier {
   bool _rememberMe = false;
   TextEditingController _emailController = TextEditingController();
   TextEditingController _passwordController = TextEditingController();
+  bool _isAgreedTermsAndConditions = false;
+  bool _onTapTermsAndConditionsBtn = false;
+  bool _isAgreedPrivacyPolicy = false;
+  bool _onTapPrivacyPolicyBtn = false;
 
   bool get obscure => _obscure;
   TextEditingController get emailController => _emailController;
   TextEditingController get passwordController => _passwordController;
   bool get rememberMe => _rememberMe;
+  bool get isAgreedTermsAndConditions => _isAgreedTermsAndConditions;
+  bool get isAgreedPrivacyPolicy => _isAgreedPrivacyPolicy;
+
+  void toggleTermsAndConditions(bool value) {
+    _isAgreedTermsAndConditions = value;
+    notifyListeners();
+  }
+
+  void togglePrivacyPolicy(bool value) {
+    _isAgreedPrivacyPolicy = value;
+    notifyListeners();
+  }
 
   void toggleObscure() {
     _obscure = !_obscure;

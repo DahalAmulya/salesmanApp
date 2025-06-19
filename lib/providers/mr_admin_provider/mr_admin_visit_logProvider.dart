@@ -639,4 +639,18 @@ class MrAdminVisitLogProvider extends ChangeNotifier {
       return null;
     }
   }
+
+  void downloadVisitLogReport() {
+    _visitList = [];
+    _foundVisit = {};
+    _visitLogMarkers.clear();
+    _visitLogMarkers = {};
+    _selectedUserId = '';
+    _selectedUser = 'Select User';
+    _selectedVisitType = 'Today';
+    _from = DateTime.now().toString().split(' ')[0];
+    _to = DateTime.now().toString().split(' ')[0];
+    _executiveName = '';
+    notifyListeners();
+  }
 }

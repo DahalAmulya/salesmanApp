@@ -581,6 +581,35 @@ class _MrAdminReportScreenState extends State<MrAdminReportScreen> {
                                   ),
                                 ),
                                 const SizedBox(
+                                  height: 4,
+                                ),
+                                CustomElevatedButton(
+                                  onPressed: () {
+                                    Navigator.of(context).pushNamed(
+                                        MarketingManagerConstants
+                                            .visitLogMapReportScreen);
+                                  },
+                                  width: 1,
+                                  height: 45,
+                                  backgroundColor: CustomColors.primaryColor,
+                                  widget: Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      Icon(
+                                        FontAwesomeIcons.download,
+                                        color: CustomColors.primaryBlack,
+                                      ),
+                                      const SizedBox(
+                                        width: 12,
+                                      ),
+                                      CustomText(
+                                        text: 'Download Report',
+                                        isSubHeading: true,
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                                const SizedBox(
                                   height: 16,
                                 ),
                               ],

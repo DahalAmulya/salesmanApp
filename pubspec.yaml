@@ -43,9 +43,11 @@ dependencies:
   smooth_page_indicator: ^1.2.0+3
   flutter_secure_storage: ^9.2.3
   image_picker: ^1.1.2
-  cloudinary_flutter: ^1.3.0
-  cloudinary_url_gen: ^1.7.0
+#  cloudinary_flutter: ^1.3.0
+#  cloudinary_url_gen: ^1.7.0
   percent_indicator: ^4.2.4
+  flutter_markdown_plus: ^1.0.3
+  animations: ^2.0.11
 
 dev_dependencies:
   flutter_test:
@@ -78,6 +80,8 @@ flutter:
     - assets/reports_img/
     - assets/district.json
     - assets/states.json
+    - assets/privacy_policy.md
+    - assets/terms_and_conditions.md
   #   - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see

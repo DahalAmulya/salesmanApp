@@ -37,7 +37,7 @@ class CreateUserProvider extends ChangeNotifier {
     "Marketing",
     "Administrator",
   ];
-  List<String> _designation = ["Marketing Manager", "Marketing Staff"];
+  List<String> _designation = ["Marketing Manager", "Hospital Representative"];
   List<String> _gender = ["Male", "Female", "Other"];
   List<String> _maritalStatus = ["Unmarried", "Married"];
   List<String> _nationality = ["Nepali", "Indian"];
@@ -48,7 +48,7 @@ class CreateUserProvider extends ChangeNotifier {
   String get selectedCountry => _selectedCountry;
   Map<String, dynamic> _selectedRoleMap = {};
 
-  String _designationDefaultValue = "Marketing Staff";
+  String _designationDefaultValue = "Hospital Representative";
   String _departmentDefaultValue = "Marketing";
   String _genderDefaultValue = "Male";
   String _maritalStatusDefaultValue = "Unmarried";
@@ -83,20 +83,6 @@ class CreateUserProvider extends ChangeNotifier {
   String get selectedGender => _selectedGender;
   String get selectedMaritalStatus => _selectedMaritalStatus;
   String get selectedNationality => _selectedNationality;
-
-  // String get userName => _userName;
-  // String get userPassword => _userPassword;
-  // String get userRole => _userRole;
-  // String get userDepartment => _userDepartment;
-  // String get userEmail => _userEmail;
-  // String get userDesignation => _userDesignation;
-  // String get userAddress => _userAddress;
-  // String get userDOB => _userDOB;
-  // String get userNumber => _userNumber;
-  // String get userGender => _userGender;
-  // String get userMaritalStatus => _userMaritalStatus;
-  // String get userDOJ => _userDOJ;
-  // String get userNationality => _userNationality;
 
   String get selectedUserVisitType => _selectedUserVisitType;
   String get radioGroupValue => _radioGroupValue;

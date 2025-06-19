@@ -47,7 +47,7 @@ android {
         applicationId = "com.deskgooGolden"
         minSdkVersion 21
         targetSdkVersion 34
-        versionCode flutterVersionCode.toInteger()
+        versionCode 3
         versionName flutterVersionName
         multiDexEnabled true
     }
