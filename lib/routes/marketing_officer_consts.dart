@@ -8,4 +8,6 @@ class MarketingOfficerConstants {
   static const String referralLog = 'mr_office_referral_log';
   static const String addTaskConst = 'mr_office_add_task';
   static const String productConst = 'mr_office_product';
+  static const String termsAndConditionScreen = '/terms_and_condition_screen';
+  static const String privacyPolicyScreen = '/privacy_policy_screen';
 }

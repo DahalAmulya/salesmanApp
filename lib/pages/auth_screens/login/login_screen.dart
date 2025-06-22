@@ -101,7 +101,7 @@ class _LoginPageState extends State<LoginPage> {
         padding: const EdgeInsets.symmetric(horizontal: 16.0),
         child: Column(
           mainAxisAlignment: MainAxisAlignment
-              .spaceBetween, // Space between main form and bottom
+              .center, // Space between main form and bottom
           children: [
             const SizedBox(), // Placeholder to push content downward slightly (optional)
 
@@ -209,15 +209,8 @@ class _LoginPageState extends State<LoginPage> {
                         return CustomElevatedButton(
                           onPressed: () {
                             if (_formKey.currentState!.validate()) {
-                              if (userAuthProvider.isAgreedPrivacyPolicy &&
-                                  userAuthProvider.isAgreedTermsAndConditions) {
                                 login();
                                 print('Form is valid');
-                              } else {
-                                ToastMessageUtils().showToastMessage(
-                                  'Please Accept Terms and Conditions and Privacy Policy to continue',
-                                );
-                              }
                             } else {
                               ToastMessageUtils().showToastMessage(
                                   'Please fill in the required fields');

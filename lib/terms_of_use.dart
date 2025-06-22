@@ -13,12 +13,12 @@ class TermsOfUse extends StatelessWidget {
       child: RichText(
         textAlign: TextAlign.center,
         text: TextSpan(
-            text: 'By creating an account, you are agreeing to our\n',
-            style: Theme.of(context).textTheme.bodyMedium,
+            text: 'By tapping an Login, you are agreeing to our\n',
+            style: TextStyle(color: Colors.grey.shade800),
             children: [
               TextSpan(
                   text: 'Terms & Conditions',
-                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+                  style: TextStyle(fontWeight: FontWeight.w900, fontSize: 16),
                   recognizer: TapGestureRecognizer()
                     ..onTap = () {
                       // OpenDialog to show terms and conditions
@@ -28,10 +28,10 @@ class TermsOfUse extends StatelessWidget {
                         );
                       });
                     }),
-              TextSpan(text: ' and '),
+              TextSpan(text: ' and ', style: TextStyle(color: Colors.grey.shade800)),
               TextSpan(
                   text: 'Privacy Policy!',
-                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+                  style: TextStyle(fontWeight: FontWeight.w900, fontSize: 16),
                   recognizer: TapGestureRecognizer()..onTap = () {
                     showModal(context: context, configuration: FadeScaleTransitionConfiguration(), builder: (context){
                       return PolicyDialog(
