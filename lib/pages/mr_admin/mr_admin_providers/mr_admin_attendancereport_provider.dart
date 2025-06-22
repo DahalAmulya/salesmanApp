@@ -1,8 +1,14 @@
 import 'dart:convert';
+import 'dart:io';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import '../../../services/erp_services.dart';
+import 'package:path/path.dart' as path;
+
+import '../../../themes/custom_colors.dart';
+import '../../../utils/toast_message.dart';
 
 class MrAdminAttendanceProvider extends ChangeNotifier {
   List<String> _attendanceLogsUsersList = ["All Users"];
@@ -43,14 +49,10 @@ class MrAdminAttendanceProvider extends ChangeNotifier {
   String get selectedVisitType => _selectedVisitType;
   bool get isExpanded => _isExpanded;
 
-
   void setExpanded() {
     _isExpanded = false;
     notifyListeners();
   }
-
-
-
 
   Future<void> selectDateFrom(context) async {
     print('Select date from');
@@ -146,6 +148,39 @@ class MrAdminAttendanceProvider extends ChangeNotifier {
       print(_foundAttendance);
     }
     notifyListeners();
+  }
+
+  void downloadAttendanceReport(context) async {
+    if (_selectedUserId.isEmpty) {
+      print("User ID is required");
+      return;
+    }
+    ERPResponse response = await ERPServices.getRequest('/attendance/download?userId=$_selectedUserId&from=$_from&to=$_to', context);
+    if (response.statusCode == 200) {
+      String csvContent = response.body;
+      // Handle the file download logic here
+      // 2. Get the download directory (Android only)
+      Directory downloadDir = Directory('/storage/emulated/0/Download');
+
+      // 3. Create VisitLogs/Rajan Kumar folder
+      String folderPath = path.join(downloadDir.path, 'Attendance', _selectedUser);
+      Directory nestedDir = Directory(folderPath);
+
+      if (!nestedDir.existsSync()) {
+        nestedDir.createSync(recursive: true); // Create all folders
+      }
+
+      // 4. Create file inside the folder
+      String filePath = path.join(nestedDir.path, '${selectedUser}_Attendance${_from}_to_$_to.csv');
+      File file = File(filePath);
+
+      await file.writeAsString(csvContent);
+      ToastMessageUtils().showToastMessage(
+          "Success! CSV file saved to: \n$filePath", ToastGravity.TOP, CustomColors.jadeGreen
+      );
+    } else {
+      ToastMessageUtils().showToastMessage("Error! Failed to download visit log.");
+    }
   }
 
   void getAllUserAttendanceReport(context) async {

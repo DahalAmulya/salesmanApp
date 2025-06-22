@@ -314,16 +314,7 @@ class MrAdminVisitLogProvider extends ChangeNotifier {
 
   void downloadVisitLogReport() async {
     try {
-      // Step 1: Ask for permission (Android 13+ uses MediaLocation, older use storage)
-      // if (Platform.isAndroid) {
-      //   final status = await Permission.storage.request();
-      //   if (!status.isGranted) {
-      //     ToastMessageUtils().showToastMessage("Permission Denied!\nStorage access is needed to save the file.");
-      //     return;
-      //   }
-      // }
-
-      // Step 2: Make the request (your existing logic)
+      // Step 1: Make the request (your existing logic)
       ERPResponse response = await ERPServices.getRequest(
         '/visitLogs/download?visitLogId=$_selectedUserId&from=$_from&to=$_to',
         null,
@@ -332,10 +323,10 @@ class MrAdminVisitLogProvider extends ChangeNotifier {
       if (response.statusCode == 200) {
         String csvContent = response.body;
 
-        // 3. Get the download directory (Android only)
+        // 2. Get the download directory (Android only)
         Directory downloadDir = Directory('/storage/emulated/0/Download');
 
-        // 4. Create VisitLogs/Rajan Kumar folder
+        // 3. Create VisitLogs/Rajan Kumar folder
         String folderPath = path.join(downloadDir.path, 'VisitLogs', _selectedUser);
         Directory nestedDir = Directory(folderPath);
 
@@ -343,8 +334,8 @@ class MrAdminVisitLogProvider extends ChangeNotifier {
           nestedDir.createSync(recursive: true); // Create all folders
         }
 
-        // 5. Create file inside the folder
-        String filePath = path.join(nestedDir.path, 'visit_log_$_from.csv');
+        // 4. Create file inside the folder
+        String filePath = path.join(nestedDir.path, '${selectedUser}_VisitLog_${_from}_to_$_to.csv');
         File file = File(filePath);
 
         await file.writeAsString(csvContent);
