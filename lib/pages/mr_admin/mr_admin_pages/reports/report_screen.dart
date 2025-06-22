@@ -552,62 +552,70 @@ class _MrAdminReportScreenState extends State<MrAdminReportScreen> {
                                   ],
                                 ),
                                 const SizedBox(
-                                  height: 4,
+                                  height: 8,
                                 ),
-                                CustomElevatedButton(
-                                  onPressed: () {
-                                    Navigator.of(context).pushNamed(
-                                        MarketingManagerConstants
-                                            .visitLogMapReportScreen);
-                                  },
-                                  width: 1,
-                                  height: 45,
-                                  backgroundColor: CustomColors.primaryColor,
-                                  widget: Row(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      Icon(
-                                        FontAwesomeIcons.mapLocation,
-                                        color: CustomColors.primaryBlack,
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Expanded(
+                                      child: CustomElevatedButton(
+                                        onPressed: () {
+                                          adminVisitLogsProvider.downloadVisitLogReport();
+                                        },
+                                        // width: 1,
+                                        height: 45,
+                                        backgroundColor: CustomColors.primaryColor,
+                                        widget: Row(
+                                          mainAxisAlignment: MainAxisAlignment.center,
+                                          children: [
+                                            Icon(
+                                              FontAwesomeIcons.download,
+                                              color: CustomColors.primaryBlack,
+                                            ),
+                                            const SizedBox(
+                                              width: 12,
+                                            ),
+                                            CustomText(
+                                              text: 'Download',
+                                              isSubHeading: true,
+                                            ),
+                                          ],
+                                        ),
                                       ),
-                                      const SizedBox(
-                                        width: 12,
+                                    ),
+                                    SizedBox(width: 8,),
+                                    Expanded(
+                                      child: CustomElevatedButton(
+                                        onPressed: () {
+                                          Navigator.of(context).pushNamed(
+                                              MarketingManagerConstants
+                                                  .visitLogMapReportScreen);
+                                        },
+                                        width: 0.40,
+                                        height: 45,
+                                        backgroundColor: CustomColors.primaryColor,
+                                        widget: Row(
+                                          mainAxisAlignment: MainAxisAlignment.center,
+                                          children: [
+                                            Icon(
+                                              FontAwesomeIcons.mapLocation,
+                                              color: CustomColors.primaryBlack,
+                                            ),
+                                            const SizedBox(
+                                              width: 12,
+                                            ),
+                                            CustomText(
+                                              text: 'Map',
+                                              isSubHeading: true,
+                                            ),
+                                          ],
+                                        ),
                                       ),
-                                      CustomText(
-                                        text: 'View on Map',
-                                        isSubHeading: true,
-                                      ),
-                                    ],
-                                  ),
+                                    ),
+                                  ],
                                 ),
                                 const SizedBox(
                                   height: 4,
-                                ),
-                                CustomElevatedButton(
-                                  onPressed: () {
-                                    Navigator.of(context).pushNamed(
-                                        MarketingManagerConstants
-                                            .visitLogMapReportScreen);
-                                  },
-                                  width: 1,
-                                  height: 45,
-                                  backgroundColor: CustomColors.primaryColor,
-                                  widget: Row(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      Icon(
-                                        FontAwesomeIcons.download,
-                                        color: CustomColors.primaryBlack,
-                                      ),
-                                      const SizedBox(
-                                        width: 12,
-                                      ),
-                                      CustomText(
-                                        text: 'Download Report',
-                                        isSubHeading: true,
-                                      ),
-                                    ],
-                                  ),
                                 ),
                                 const SizedBox(
                                   height: 16,

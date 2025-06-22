@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:io';
 import 'dart:ui' as ui;
 
 import 'package:custom_info_window/custom_info_window.dart';
@@ -11,6 +12,9 @@ import 'package:flutter/services.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:nepali_utils/nepali_utils.dart';
+import 'package:path_provider/path_provider.dart';
+import 'package:path/path.dart' as path;
+import 'package:permission_handler/permission_handler.dart';
 
 import '../../widgets/texts/custom_text.dart';
 
@@ -306,6 +310,55 @@ class MrAdminVisitLogProvider extends ChangeNotifier {
     print('search result = $_searchResult');
     // _searchController.text = '';
     notifyListeners();
+  }
+
+  void downloadVisitLogReport() async {
+    try {
+      // Step 1: Ask for permission (Android 13+ uses MediaLocation, older use storage)
+      // if (Platform.isAndroid) {
+      //   final status = await Permission.storage.request();
+      //   if (!status.isGranted) {
+      //     ToastMessageUtils().showToastMessage("Permission Denied!\nStorage access is needed to save the file.");
+      //     return;
+      //   }
+      // }
+
+      // Step 2: Make the request (your existing logic)
+      ERPResponse response = await ERPServices.getRequest(
+        '/visitLogs/download?visitLogId=$_selectedUserId&from=$_from&to=$_to',
+        null,
+      );
+
+      if (response.statusCode == 200) {
+        String csvContent = response.body;
+
+        // 3. Get the download directory (Android only)
+        Directory downloadDir = Directory('/storage/emulated/0/Download');
+
+        // 4. Create VisitLogs/Rajan Kumar folder
+        String folderPath = path.join(downloadDir.path, 'VisitLogs', _selectedUser);
+        Directory nestedDir = Directory(folderPath);
+
+        if (!nestedDir.existsSync()) {
+          nestedDir.createSync(recursive: true); // Create all folders
+        }
+
+        // 5. Create file inside the folder
+        String filePath = path.join(nestedDir.path, 'visit_log_$_from.csv');
+        File file = File(filePath);
+
+        await file.writeAsString(csvContent);
+
+        ToastMessageUtils().showToastMessage(
+          "Success! CSV file saved to: \n$filePath", ToastGravity.TOP, CustomColors.jadeGreen
+        );
+      } else {
+        ToastMessageUtils().showToastMessage("Error! Failed to download visit log.");
+      }
+    } catch (e) {
+      print('Error: $e');
+      ToastMessageUtils().showToastMessage("Error!\nSomething went wrong while saving the file.");
+    }
   }
 
   void getVisitLogsById(context) async {
@@ -638,19 +691,5 @@ class MrAdminVisitLogProvider extends ChangeNotifier {
     } else {
       return null;
     }
-  }
-
-  void downloadVisitLogReport() {
-    _visitList = [];
-    _foundVisit = {};
-    _visitLogMarkers.clear();
-    _visitLogMarkers = {};
-    _selectedUserId = '';
-    _selectedUser = 'Select User';
-    _selectedVisitType = 'Today';
-    _from = DateTime.now().toString().split(' ')[0];
-    _to = DateTime.now().toString().split(' ')[0];
-    _executiveName = '';
-    notifyListeners();
   }
 }

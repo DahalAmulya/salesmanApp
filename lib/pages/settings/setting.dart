@@ -1,3 +1,4 @@
+import 'package:deskgoo/routes/marketing_officer_consts.dart';
 import 'package:deskgoo/routes/route_generator_constants.dart';
 import 'package:deskgoo/themes/custom_colors.dart';
 import 'package:deskgoo/widgets/app_bars/custom_app_bars.dart';
@@ -157,6 +158,42 @@ class SettingPage extends StatelessWidget {
                       // color: Colors.red,
                       child: CustomText(
                         text: 'User',
+                        fontWeight: labelFontWeight,
+                        size: labelSize,
+                      ),
+                    ),
+                  ),
+                  Divider(),
+                  InkWell(
+                    onTap: () {
+                      print('Terms & Conditions Tapped');
+                      Navigator.of(context).pushNamed(MarketingOfficerConstants.termsAndConditionScreen);
+                    },
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 16.0,
+                        vertical: 2,
+                      ),
+                      child: CustomText(
+                        text: 'Terms & Conditions',
+                        fontWeight: labelFontWeight,
+                        size: labelSize,
+                      ),
+                    ),
+                  ),
+                  Divider(),
+                  InkWell(
+                    onTap: (){
+                      print('Privacy Policy Tapped');
+                      Navigator.of(context).pushNamed(MarketingOfficerConstants.privacyPolicyScreen);
+                    },
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 16.0,
+                        vertical: 2,
+                      ),
+                      child: CustomText(
+                        text: 'Privacy Policy',
                         fontWeight: labelFontWeight,
                         size: labelSize,
                       ),

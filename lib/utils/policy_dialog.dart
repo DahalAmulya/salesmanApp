@@ -44,35 +44,17 @@ class PolicyDialog extends StatelessWidget {
                   }
                 }),
           ),
-          Consumer<UserAuthProvider>(
-            builder: (context, userAuthProvider, _) {
-              return Column(
-                children: [
-                  Row(
-                    children: [
-                      Checkbox(
-                        activeColor: Colors.red,
-                          value: mdFileName == 'terms_and_conditions.md' ? userAuthProvider.isAgreedTermsAndConditions : userAuthProvider.isAgreedPrivacyPolicy,
-                          onChanged: (value){
-                            mdFileName == 'terms_and_conditions.md'
-                              ? userAuthProvider.toggleTermsAndConditions(value!)
-                              : userAuthProvider.togglePrivacyPolicy(value!);
-                      }),
-                      CustomText(text: mdFileName == 'terms_and_conditions.md' ? 'I agree to the Terms and Conditions' : 'I agree to the Privacy Policy', isContent: true, color: Colors.red,),
-                    ],
-                  ),
-                  CustomElevatedButton(
-                    onPressed: () {
-                      Navigator.of(context).pop();
-                    },
-                    width: 1,
-                    borderRadius: 0,
-                    backgroundColor: Colors.red,
-                    widget: CustomText(text: 'Agree', color: Colors.white,isSubHeading: true,),
-                  ),
-                ],
-              );
-            }
+          CustomElevatedButton(
+            onPressed: () {
+              Navigator.of(context).pop();
+            },
+            width: 1,
+            borderRadius: 0,
+            backgroundColor: Colors.grey.shade200,
+            widget: CustomText(
+              text: 'Close',
+              isSubHeading: true,
+            ),
           ),
         ],
       ),
