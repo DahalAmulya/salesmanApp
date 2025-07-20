@@ -31,18 +31,14 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
   bool obscureConfirmPassword = true;
 
   void togglePasswordVisibility() {
-    // This function can be used to toggle password visibility if needed
     setState(() {
       obscurePassword = !obscurePassword;
-      print(obscurePassword);
     });
   }
 
   void toggleConfirmPasswordVisibility() {
-    // This function can be used to toggle password visibility if needed
     setState(() {
       obscureConfirmPassword = !obscureConfirmPassword;
-      print(obscureConfirmPassword);
     });
   }
 
