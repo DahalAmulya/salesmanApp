@@ -1,0 +1,2 @@
+/Users/shuvambc/Telemko_Company/salesmanApp/android/app/.cxx/RelWithDebInfo/3b21uk3l/x86/CMakeFiles/edit_cache.dir
+/Users/shuvambc/Telemko_Company/salesmanApp/android/app/.cxx/RelWithDebInfo/3b21uk3l/x86/CMakeFiles/rebuild_cache.dir

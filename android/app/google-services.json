@@ -1,13 +1,13 @@
 {
   "project_info": {
-    "project_number": "490201849342",
-    "project_id": "deskgoo-golden",
-    "storage_bucket": "deskgoo-golden.firebasestorage.app"
+    "project_number": "352452686126",
+    "project_id": "deskgoo-track",
+    "storage_bucket": "deskgoo-track.firebasestorage.app"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:490201849342:android:7dd70b4fb2cf049e46b4af",
+        "mobilesdk_app_id": "1:352452686126:android:74605311c18f30e1d08abf",
         "android_client_info": {
           "package_name": "com.deskgooGolden"
         }
@@ -15,7 +15,7 @@
       "oauth_client": [],
       "api_key": [
         {
-          "current_key": "AIzaSyCJ721vU1dja9Qib1XrNWUoKFWXulFonHA"
+          "current_key": "AIzaSyBD1Qq9Fuc10oibehzgv0i9kCnnAQa14vc"
         }
       ],
       "services": {

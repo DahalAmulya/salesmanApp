@@ -110,7 +110,7 @@ class _MrOfficerSelectVisitTypeBottomSheetState
                                       MarketingOfficerConstants.newVisit);
                                 } else if (visitProvider.selectedVisitType ==
                                     visitProvider.visitTypeList[1]) {
-                                  Navigator.pop(context);
+                                  // Navigator.pop(context);
                                   followUpProvider.GetPOCList(context);
                                   // Navigator.of(context).pushNamed(
                                   //     MarketingOfficerConstants.followUpVisit);

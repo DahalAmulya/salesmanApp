@@ -46,18 +46,18 @@ class MrOfficerFollowUpProvider extends ChangeNotifier {
   DateTime get updatedDate => _updatedDate;
 
   void GetPOCList(context) async {
-    ERPResponse response =
-        await ERPServices.getRequest('/poc/createdBy?createdById=$userId', context);
+    ERPResponse response = await ERPServices.getRequest('/poc/createdUserId/$userId', context);
     if (response.statusCode == 200) {
       _pocList = jsonDecode(response.body)['poc'];
       _pocSearchResult = _pocList;
       print(_pocList);
-      if (context.mounted) {
+      // if (context.mounted) {
+      Navigator.pop(context);
         Navigator.of(context)
             .pushNamed(MarketingOfficerConstants.followUpVisit);
-      } else {
-        print('Error: ${response.statusCode} - ${response.body}');
-      }
+      // } else {
+      //   print('Error: ${response.statusCode} - ${response.body}');
+      // }
     }
     notifyListeners();
   }
@@ -120,21 +120,74 @@ class MrOfficerFollowUpProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  void searchPocName(String enteredKeyWord, List<dynamic> pocNames) {
-    _pocSearchResult = pocNames;
-    if (enteredKeyWord.isEmpty) {
-      _pocSearchResult = pocNames;
-    } else {
-      _pocSearchResult = pocNames
-          .where((poc) => poc['pocName']
-              .toString()
-              .toLowerCase()
-              .contains(enteredKeyWord.toLowerCase()))
-          .toList();
+  void searchPocName(String enteredKeyword, BuildContext context) async {
+    try {
+      ERPResponse response = await ERPServices.getRequest(
+        '/poc/createdUserId/$userId?keyword=${enteredKeyword.trim()}',
+        context,
+      );
+
+      if (response.statusCode == 200) {
+        List<dynamic> pocList = jsonDecode(response.body)['poc'];
+        _pocSearchResult = pocList;
+      } else {
+        _pocSearchResult = [];
+      }
+
+      notifyListeners();
+    } catch (e) {
+      print('Error while searching: $e');
+      _pocSearchResult = [];
+      notifyListeners();
     }
-    print('Search Result = $_pocSearchResult');
-    notifyListeners();
   }
+
+  // void searchPocName(String enteredKeyWord, context) async {
+  //   try{
+  //     print('************************* _pocSearchResult **********************************');
+  //     print(enteredKeyWord);
+  //     ERPResponse response = await ERPServices.getRequest('/poc/createdUserId/$userId?keyword=${enteredKeyWord.trim()}', context);
+  //     print(response.body);
+  //     if(response.statusCode == 200){
+  //       List<dynamic> pocNames = jsonDecode(response.body)['poc'];
+  //       _pocSearchResult = pocNames;
+  //       if (enteredKeyWord.trim().isEmpty) {
+  //         _pocSearchResult = pocNames;
+  //       } else {
+  //         _pocSearchResult = pocNames
+  //             .where((poc) => poc['pocName']
+  //             .toString()
+  //             .toLowerCase()
+  //             .contains(enteredKeyWord.toLowerCase()))
+  //             .toList();
+  //       }
+  //       print('Search Result = $_pocSearchResult');
+  //       print('***********************************************************');
+  //     }else{
+  //       _pocSearchResult = [];
+  //     }
+  //     notifyListeners();
+  //   }catch (e){
+  //     _pocSearchResult = [];
+  //     print(e.toString());
+  //   }
+  // }
+
+  // void searchPocName(String enteredKeyWord, List<dynamic> pocNames) {
+  //   _pocSearchResult = pocNames;
+  //   if (enteredKeyWord.isEmpty) {
+  //     _pocSearchResult = pocNames;
+  //   } else {
+  //     _pocSearchResult = pocNames
+  //         .where((poc) => poc['pocName']
+  //         .toString()
+  //         .toLowerCase()
+  //         .contains(enteredKeyWord.toLowerCase()))
+  //         .toList();
+  //   }
+  //   print('Search Result = $_pocSearchResult');
+  //   notifyListeners();
+  // }
 
   void postFollowUp(context) async {
     DateTime now = DateTime.now();
