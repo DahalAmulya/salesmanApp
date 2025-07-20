@@ -302,7 +302,7 @@ class _MrOfficerFollowUpVisitScreenState
                           onChange: (value) => followUpProvider.searchPocName(
                               followUpProvider
                                   .searchByNameController.value.text,
-                              followUpProvider.pocList),
+                              context),
                         ),
                       ),
                     ],

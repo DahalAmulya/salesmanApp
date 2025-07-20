@@ -16,16 +16,26 @@ class MrOfficeVisitLogProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  void getVisitLogs(context) async {
+  void getVisitLogs(BuildContext context) async {
     DateTime now = DateTime.now();
     String date = now.toString().split(' ')[0];
     _selectedDate = selectedDate.isEmpty ? date : _selectedDate;
+
     ERPResponse response = await ERPServices.getRequest(
-        '/visitLogs?visitLogId=$userId&from=$_selectedDate&to=$_selectedDate',
-        context);
+      '/visitLogs?visitLogId=$userId&from=$_selectedDate&to=$_selectedDate',
+      context,
+    );
+
+    print(response.body);
+
     Map<String, dynamic> body = jsonDecode(response.body);
-    if (body["visitLogs"].containsKey('visitLogs')) {
+
+    // Defensive parsing
+    if (body["visitLogs"] is Map && body["visitLogs"].containsKey("visitLogs")) {
       _visitLogs = body["visitLogs"]["visitLogs"];
+    } else if (body["visitLogs"] is List) {
+      // If the API just returns an empty list
+      _visitLogs = [];
     } else {
       _visitLogs = [];
     }

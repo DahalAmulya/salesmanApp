@@ -169,6 +169,8 @@ class _MrOfficerVisitLogStateScreen extends State<MrOfficerVisitLogScreen> {
                     itemBuilder: (context, index) {
                       String pocName =
                           visitLogProvider.visitLog[index]['pocName'];
+                      String number =
+                          visitLogProvider.visitLog[index]['pocNumber'];
                       String dateTime =
                           visitLogProvider.visitLog[index]['mobileTime'];
                       String time = dateTime.split(' ')[0];
@@ -196,6 +198,20 @@ class _MrOfficerVisitLogStateScreen extends State<MrOfficerVisitLogScreen> {
                                     flex: 3,
                                     child: CustomText(
                                         text: pocName, isContent: true),
+                                  ),
+                                ],
+                              ),
+                              Row(
+                                children: [
+                                  Expanded(
+                                    flex: 1,
+                                    child: CustomText(
+                                        text: 'Number', isContent: true),
+                                  ),
+                                  Expanded(
+                                    flex: 3,
+                                    child: CustomText(
+                                        text: number, isContent: true),
                                   ),
                                 ],
                               ),

@@ -99,156 +99,160 @@ class _LoginPageState extends State<LoginPage> {
         width: double.infinity,
         height: double.infinity, // Fill entire screen
         padding: const EdgeInsets.symmetric(horizontal: 16.0),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment
-              .center, // Space between main form and bottom
-          children: [
-            const SizedBox(), // Placeholder to push content downward slightly (optional)
+        child: Center(
+          child: SingleChildScrollView(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment
+                  .center, // Space between main form and bottom
+              children: [
+                const SizedBox(), // Placeholder to push content downward slightly (optional)
 
-            // Centered login form
-            Center(
-              child: CustomContainer(
-                color: Colors.white,
-                width: 0.90,
-                applyShadow: true,
-                child: Form(
-                  key: _formKey,
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      Image.asset(
-                        width: 170,
-                        height: 60,
-                        'assets/images/deskgooBlack.png',
-                      ),
-                      const SizedBox(height: 8.0),
-                      TextFromFieldWithPrefixSuffix(
-                        keyboardType: TextInputType.emailAddress,
-                        controller: emailController,
-                        autoFocus: true,
-                        onTap: () {},
-                        validator: (value) {
-                          String pattern =
-                              r'^[a-zA-Z]{3,}(?:\.[a-zA-Z]{2,})?@[a-zA-Z]{2,}\.[a-zA-Z]{2,}$';
-                          RegExp regex = RegExp(pattern);
-                          return value!.isEmpty ? 'Email required' : null;
-                        },
-                        onChange: (value) {},
-                        hintText: 'jane@example.com',
-                        prefixIcon: Icon(
-                          Icons.email,
-                          color: Colors.grey.shade600,
-                        ),
-                        applySuffixIcon: false,
-                      ),
-                      const SizedBox(height: 16.0),
-                      Consumer<UserAuthProvider>(
-                        builder: (context, authProvider, _) {
-                          return TextFromFieldWithPrefixSuffix(
-                            controller: passwordController,
-                            obscure: authProvider.obscure,
+                // Centered login form
+                Center(
+                  child: CustomContainer(
+                    color: Colors.white,
+                    width: 0.90,
+                    applyShadow: true,
+                    child: Form(
+                      key: _formKey,
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          Image.asset(
+                            width: 170,
+                            height: 60,
+                            'assets/images/deskgooBlack.png',
+                          ),
+                          const SizedBox(height: 8.0),
+                          TextFromFieldWithPrefixSuffix(
+                            keyboardType: TextInputType.emailAddress,
+                            controller: emailController,
+                            autoFocus: true,
                             onTap: () {},
-                            validator: (value) =>
-                                value!.isEmpty ? 'Password required' : null,
+                            validator: (value) {
+                              String pattern =
+                                  r'^[a-zA-Z]{3,}(?:\.[a-zA-Z]{2,})?@[a-zA-Z]{2,}\.[a-zA-Z]{2,}$';
+                              RegExp regex = RegExp(pattern);
+                              return value!.isEmpty ? 'Email required' : null;
+                            },
                             onChange: (value) {},
-                            hintText: '••••••',
+                            hintText: 'jane@example.com',
                             prefixIcon: Icon(
-                              Icons.lock,
+                              Icons.email,
                               color: Colors.grey.shade600,
                             ),
-                            applySuffixIcon: true,
-                            suffixIcon: InkWell(
-                              onTap: () {
-                                authProvider.toggleObscure();
-                              },
-                              child: Icon(
-                                authProvider.obscure
-                                    ? Icons.visibility_off
-                                    : Icons.visibility,
-                                color: Colors.grey.shade600,
-                              ),
-                            ),
-                          );
-                        },
-                      ),
-                      const SizedBox(height: 4.0),
-                      Consumer<UserAuthProvider>(
-                        builder: (context, authProvider, _) {
-                          return Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              CustomText(
-                                text: 'Remember me ?',
-                                isSubHeading: true,
-                              ),
-                              Checkbox(
-                                activeColor: CustomColors.primaryColor,
-                                value: authProvider.rememberMe,
-                                onChanged: (value) {
-                                  authProvider.toggleRememberMe(value!);
-                                  if (authProvider.rememberMe) {
-                                    SecureStorage().writeLoginCredentials(
-                                        SecureStorage.userEmail,
-                                        emailController.value.text
-                                            .toLowerCase()
-                                            .trim());
-                                    SecureStorage().writeLoginCredentials(
-                                        SecureStorage.password,
-                                        passwordController.value.text.trim());
-                                  }
-                                },
-                              ),
-                            ],
-                          );
-                        },
-                      ),
-                      const SizedBox(height: 4.0),
-                      Consumer<UserAuthProvider>(
-                          builder: (context, userAuthProvider, _) {
-                        return CustomElevatedButton(
-                          onPressed: () {
-                            if (_formKey.currentState!.validate()) {
-                                login();
-                                print('Form is valid');
-                            } else {
-                              ToastMessageUtils().showToastMessage(
-                                  'Please fill in the required fields');
-                              print('Form is not valid');
-                            }
-                          },
-                          width: 0.90,
-                          height: 50,
-                          backgroundColor: CustomColors.primaryColor,
-                          widget: CustomText(
-                            text: 'Login',
-                            fontWeight: FontWeight.w600,
-                            color: CustomColors.primaryBlack,
-                            size: 20.0,
+                            applySuffixIcon: false,
                           ),
-                        );
-                      }),
-                      const SizedBox(height: 8.0),
-                      CustomElevatedButton(
-                        onPressed: () {
-                          Navigator.of(context)
-                              .pushNamed(MarketingManagerConstants.forgotPage);
-                        },
-                        widget: CustomText(
-                          text: 'Forgot Password?',
-                          fontWeight: FontWeight.w600,
-                          color: CustomColors.primaryBlack,
-                        ),
+                          const SizedBox(height: 16.0),
+                          Consumer<UserAuthProvider>(
+                            builder: (context, authProvider, _) {
+                              return TextFromFieldWithPrefixSuffix(
+                                controller: passwordController,
+                                obscure: authProvider.obscure,
+                                onTap: () {},
+                                validator: (value) =>
+                                    value!.isEmpty ? 'Password required' : null,
+                                onChange: (value) {},
+                                hintText: '••••••',
+                                prefixIcon: Icon(
+                                  Icons.lock,
+                                  color: Colors.grey.shade600,
+                                ),
+                                applySuffixIcon: true,
+                                suffixIcon: InkWell(
+                                  onTap: () {
+                                    authProvider.toggleObscure();
+                                  },
+                                  child: Icon(
+                                    authProvider.obscure
+                                        ? Icons.visibility_off
+                                        : Icons.visibility,
+                                    color: Colors.grey.shade600,
+                                  ),
+                                ),
+                              );
+                            },
+                          ),
+                          const SizedBox(height: 4.0),
+                          Consumer<UserAuthProvider>(
+                            builder: (context, authProvider, _) {
+                              return Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                children: [
+                                  CustomText(
+                                    text: 'Remember me ?',
+                                    isSubHeading: true,
+                                  ),
+                                  Checkbox(
+                                    activeColor: CustomColors.primaryColor,
+                                    value: authProvider.rememberMe,
+                                    onChanged: (value) {
+                                      authProvider.toggleRememberMe(value!);
+                                      if (authProvider.rememberMe) {
+                                        SecureStorage().writeLoginCredentials(
+                                            SecureStorage.userEmail,
+                                            emailController.value.text
+                                                .toLowerCase()
+                                                .trim());
+                                        SecureStorage().writeLoginCredentials(
+                                            SecureStorage.password,
+                                            passwordController.value.text.trim());
+                                      }
+                                    },
+                                  ),
+                                ],
+                              );
+                            },
+                          ),
+                          const SizedBox(height: 4.0),
+                          Consumer<UserAuthProvider>(
+                              builder: (context, userAuthProvider, _) {
+                            return CustomElevatedButton(
+                              onPressed: () {
+                                if (_formKey.currentState!.validate()) {
+                                    login();
+                                    print('Form is valid');
+                                } else {
+                                  ToastMessageUtils().showToastMessage(
+                                      'Please fill in the required fields');
+                                  print('Form is not valid');
+                                }
+                              },
+                              width: 0.90,
+                              height: 50,
+                              backgroundColor: CustomColors.primaryColor,
+                              widget: CustomText(
+                                text: 'Login',
+                                fontWeight: FontWeight.w600,
+                                color: CustomColors.primaryBlack,
+                                size: 20.0,
+                              ),
+                            );
+                          }),
+                          const SizedBox(height: 8.0),
+                          CustomElevatedButton(
+                            onPressed: () {
+                              Navigator.of(context)
+                                  .pushNamed(MarketingManagerConstants.forgotPage);
+                            },
+                            widget: CustomText(
+                              text: 'Forgot Password?',
+                              fontWeight: FontWeight.w600,
+                              color: CustomColors.primaryBlack,
+                            ),
+                          ),
+                        ],
                       ),
-                    ],
+                    ),
                   ),
                 ),
-              ),
-            ),
 
-            // 👇 Pushes to the bottom
-            TermsOfUse(),
-          ],
+                // 👇 Pushes to the bottom
+                TermsOfUse(),
+              ],
+            ),
+          ),
         ),
       ),
     );

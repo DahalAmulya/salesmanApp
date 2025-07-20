@@ -325,6 +325,19 @@ class MrOfficerVisitProvider with ChangeNotifier {
     notifyListeners();
   }
 
+  String formatPhoneNumber(String selectedCountryCode, String rawInput) {
+    // Remove all non-digit characters
+    String cleanedNumber = rawInput.replaceAll(RegExp(r'\D'), '');
+
+    // Remove the country code prefix if user typed it again
+    if (cleanedNumber.startsWith(selectedCountryCode.replaceAll('+', ''))) {
+      cleanedNumber = cleanedNumber.substring(selectedCountryCode.length - 1);
+    }
+
+    // Return sanitized number
+    return '$selectedCountryCode$cleanedNumber';
+  }
+
   void createPOC() async {
     Position position = await Geolocator.getCurrentPosition(
       locationSettings: LocationSettings(
@@ -337,12 +350,15 @@ class MrOfficerVisitProvider with ChangeNotifier {
     List timeList =
         DateTime.now().toString().split('.')[0].toString().split(' ');
     _dateTime = '${timeList[1]} ${timeList[0]}';
-
+    String finalNumber = formatPhoneNumber(
+      _selectedCountryCode,
+      _phoneNoController.value.text,
+    );
     _body = {
       "pocName": _nameController.value.text,
       "age": _ageController.value.text,
       "gender": _selectedGender,
-      "number": '$_selectedCountryCode${_phoneNoController.value.text}',
+      "number": finalNumber.toString(),
       "country": _selectedCountry,
       "region":
           _selectedCountry == 'Nepal' ? _selectedDistrict : _selectedState,

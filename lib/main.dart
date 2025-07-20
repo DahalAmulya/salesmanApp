@@ -1,9 +1,4 @@
 import 'dart:async';
-import 'package:background_task/background_task.dart';
-import 'package:deskgoo/classes/background_task_handler.dart';
-import 'package:deskgoo/classes/notification_controller.dart';
-import 'package:deskgoo/consts.dart';
-import 'package:deskgoo/firebase_options.dart';
 import 'package:deskgoo/models/environment.dart';
 import 'package:deskgoo/pages/mr_admin/mr_admin_providers/mr_admin_ambulancereport_provider.dart';
 import 'package:deskgoo/pages/mr_admin/mr_admin_providers/mr_admin_attendancereport_provider.dart';
@@ -12,7 +7,6 @@ import 'package:deskgoo/pages/mr_admin/mr_admin_providers/mr_admin_referral%20lo
 import 'package:deskgoo/providers/profile/profile_provider.dart';
 import 'package:deskgoo/providers/attendance_provider/remote_attendance_provider.dart';
 import 'package:deskgoo/providers/auth_provider/change_password_provider.dart';
-import 'package:deskgoo/providers/camera_provider/camera_provider.dart';
 import 'package:deskgoo/providers/deviceInfo_provider/deviceInfo_provider.dart';
 import 'package:deskgoo/providers/live_tracking_provider/live_tracking_provider.dart';
 import 'package:deskgoo/providers/login_provider/login_provider.dart';
@@ -27,16 +21,13 @@ import 'package:deskgoo/providers/replay_provider/replay_provider.dart';
 import 'package:deskgoo/providers/marketing_provider/officerName_provider.dart';
 import 'package:deskgoo/providers/marketing_provider/officerdetail_provider.dart';
 import 'package:deskgoo/providers/marketing_provider/officersDescription_provider.dart';
-import 'package:deskgoo/providers/settings_providers/profile_provider/profile_provider.dart';
 import 'package:deskgoo/providers/visit_provider/order_provider.dart';
 import 'package:deskgoo/providers/visit_provider/visit_screen_provider.dart';
 import 'package:deskgoo/providers/weeklyplan_provider/weeklyplan_provider.dart';
-import 'package:deskgoo/routes/marketing_officer_consts.dart';
 import 'package:deskgoo/routes/route_generator.dart';
 import 'package:deskgoo/routes/route_generator_constants.dart';
-import 'package:deskgoo/services/firebaseApi.dart';
 import 'package:deskgoo/utils/readUserCred.dart';
-// import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:deskgoo/providers/auth_provider/user_auth_provider.dart';
 import 'package:deskgoo/providers/themes_provider/theme_changer_provider.dart';
@@ -44,9 +35,17 @@ import 'package:device_preview/device_preview.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:provider/provider.dart';
+import 'firebase_msg.dart';
+import 'firebase_options.dart';
 
 Future<void> main() async {
-  // WidgetsFlutterBinding.ensureInitialized(); // ✅ ADD THIS FIRST!
+  WidgetsFlutterBinding.ensureInitialized(); // ✅ ADD THIS FIRST!
+
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
+
+  await FirebaseMsg().initFCM();
 
   await dotenv.load(
     fileName: Environment.fileName,
