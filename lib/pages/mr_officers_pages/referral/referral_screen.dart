@@ -195,7 +195,13 @@ class _MrOfficerReferralScreenState extends State<MrOfficerReferralScreen> {
               labelText: 'Age',
               keyboardType: TextInputType.number,
               controller: referralsDetailProvider.patientAgeTextController,
-              validator: (value) {},
+              validator: (value) {
+                return value!.isEmpty
+                    ? 'Age is required'
+                    : value.length < 1
+                        ? 'Enter at least 1 characters'
+                        : null;
+              },
             ),
             const SizedBox(
               height: 16,
@@ -203,7 +209,7 @@ class _MrOfficerReferralScreenState extends State<MrOfficerReferralScreen> {
             CustomDropdown(
                 labelText: 'Select Gender',
                 items: referralsDetailProvider.gender,
-                value: referralsDetailProvider.defaultGenderValue,
+                value: referralsDetailProvider.selectedGender,
                 onChanged: (selectedGender) {
                   referralsDetailProvider.setGender(selectedGender);
                 }),
@@ -249,7 +255,14 @@ class _MrOfficerReferralScreenState extends State<MrOfficerReferralScreen> {
                       referralsDetailProvider.country[0]
                   ? 'District *'
                   : 'State *',
-              validator: (newValue) {},
+              validator: (newValue) {
+                return newValue!.isEmpty
+                    ? referralsDetailProvider.selectedCountry ==
+                            referralsDetailProvider.country[0]
+                        ? 'District is required'
+                        : 'State is required'
+                        : null;
+              },
               onTap: () async {
                 String fileName = referralsDetailProvider.selectedCountry ==
                         referralsDetailProvider.country[0]
@@ -277,7 +290,11 @@ class _MrOfficerReferralScreenState extends State<MrOfficerReferralScreen> {
               controller: referralsDetailProvider.cityController,
               readOnly: true,
               labelText: 'City *',
-              validator: (newValue) {},
+              validator: (newValue) {
+                return newValue!.isEmpty
+                    ? 'City is required'
+                        : null;
+              },
               onTap: () async {
                 referralsDetailProvider.searchController.text = '';
                 referralsDetailProvider.searchAddressResult(
@@ -302,6 +319,22 @@ class _MrOfficerReferralScreenState extends State<MrOfficerReferralScreen> {
               validator: (value) {
                 return value!.isEmpty
                     ? 'Address is required'
+                    : value.length < 3
+                        ? 'Enter at least 3 characters'
+                        : null;
+              },
+            ),
+            const SizedBox(
+              height: 16,
+            ),
+            TextFromFieldWithPrefixSuffix(
+              autoFocus: false,
+              hintText: 'Remarks',
+              labelText: 'Remarks',
+              controller: referralsDetailProvider.remarksTextController,
+              validator: (value) {
+                return value!.isEmpty
+                    ? 'Remarks is required'
                     : value.length < 3
                         ? 'Enter at least 3 characters'
                         : null;
@@ -397,23 +430,23 @@ class _MrOfficerReferralScreenState extends State<MrOfficerReferralScreen> {
             const SizedBox(
               height: 16,
             ),
-            TextFromFieldWithPrefixSuffix(
-              autoFocus: false,
-              readOnly: true,
-              labelText: 'Age',
-              hintText: 'Age',
-              controller: referralsDetailProvider.referralAgeTextController,
-              validator: (value) {
-                return value!.isEmpty
-                    ? 'Number is required'
-                    : value.length < 1
-                        ? 'Enter at least 2 characters'
-                        : null;
-              },
-            ),
-            const SizedBox(
-              height: 16,
-            ),
+            // TextFromFieldWithPrefixSuffix(
+            //   autoFocus: false,
+            //   readOnly: true,
+            //   labelText: 'Age',
+            //   hintText: 'Age',
+            //   controller: referralsDetailProvider.referralAgeTextController,
+            //   validator: (value) {
+            //     return value!.isEmpty
+            //         ? 'Number is required'
+            //         : value.length < 1
+            //             ? 'Enter at least 2 characters'
+            //             : null;
+            //   },
+            // ),
+            // const SizedBox(
+            //   height: 16,
+            // ),
             TextFromFieldWithPrefixSuffix(
               autoFocus: false,
               readOnly: true,
@@ -482,7 +515,7 @@ class _MrOfficerReferralScreenState extends State<MrOfficerReferralScreen> {
               controller: referralsDetailProvider.ambDriverNameTextController,
               onChange: (value) => referralsDetailProvider.searchPocName(
                   referralsDetailProvider.ambDriverSearchController.value.text,
-                  referralsDetailProvider.pocList),
+                  context),
               validator: (value) {
                 return value!.isEmpty
                     ? 'Driver Name is required'
@@ -491,13 +524,13 @@ class _MrOfficerReferralScreenState extends State<MrOfficerReferralScreen> {
                         : null;
               },
               onTap: () {
-                referralsDetailProvider.getAmbulancePOCList(context);
                 showModalBottomSheet(
                   isScrollControlled: true,
                   useSafeArea: true,
                   context: context,
                   builder: (context) => _ambulanceBottomSheet(context),
                 );
+                referralsDetailProvider.getAmbulancePOCList(context);
               },
             ),
             const SizedBox(
@@ -741,7 +774,7 @@ class _MrOfficerReferralScreenState extends State<MrOfficerReferralScreen> {
                             referralsDetailProvider.searchPocName(
                                 referralsDetailProvider
                                     .searchByNameController.value.text,
-                                referralsDetailProvider.pocList),
+                                context),
                       ),
                     ),
                   ],
@@ -762,33 +795,21 @@ class _MrOfficerReferralScreenState extends State<MrOfficerReferralScreen> {
                           .pocSearchResult[index]['category'];
                       String specialization = referralsDetailProvider
                           .pocSearchResult[index]['specialization'];
-                      String age = referralsDetailProvider
-                          .pocSearchResult[index]['age']
-                          .toString();
                       String number = referralsDetailProvider
                           .pocSearchResult[index]['number'];
-                      String country = referralsDetailProvider
-                          .pocSearchResult[index]['country'];
-                      String region = referralsDetailProvider
-                          .pocSearchResult[index]['region'];
-                      String city = referralsDetailProvider
-                          .pocSearchResult[index]['city'];
                       String address = referralsDetailProvider
                           .pocSearchResult[index]['address'];
-                      String fullAddress = '$country, $region, $city, $address';
                       return ListTile(
                         onTap: () {
                           referralsDetailProvider.getPOCList(context);
-                          // String organization = referralsDetailProvider.pocList[index]['organization'];
                           referralsDetailProvider.setPOCDetails(
                               id,
                               name,
                               category,
                               specialization,
-                              age,
                               number,
-                              fullAddress);
-                          Navigator.pop(context);
+                              address,
+                          context);
                         },
                         title: CustomContainer(
                           applyShadow: true,
@@ -805,6 +826,24 @@ class _MrOfficerReferralScreenState extends State<MrOfficerReferralScreen> {
                                       flex: 2,
                                       child: CustomText(
                                         text: name,
+                                        maxLines: 2,
+                                      )),
+                                ],
+                              ),
+                              const SizedBox(
+                                height: 8,
+                              ),
+                              Row(
+                                children: [
+                                  Expanded(
+                                      flex: 1,
+                                      child: CustomText(
+                                        text: 'Category',
+                                      )),
+                                  Expanded(
+                                      flex: 2,
+                                      child: CustomText(
+                                        text: category,
                                       )),
                                 ],
                               ),
@@ -838,7 +877,8 @@ class _MrOfficerReferralScreenState extends State<MrOfficerReferralScreen> {
                                   Expanded(
                                       flex: 2,
                                       child: CustomText(
-                                        text: fullAddress,
+                                        text: address,
+                                        maxLines: 3,
                                       )),
                                 ],
                               ),
@@ -896,7 +936,7 @@ class _MrOfficerReferralScreenState extends State<MrOfficerReferralScreen> {
                               referralsDetailProvider.searchAmbPocName(
                                   referralsDetailProvider
                                       .ambDriverSearchController.value.text,
-                                  referralsDetailProvider.ambDriverList),
+                                  context),
                           validator: (newValue) {},
                         ),
                       ),
@@ -916,17 +956,12 @@ class _MrOfficerReferralScreenState extends State<MrOfficerReferralScreen> {
                           .ambSearchResult[index]['pocName'];
                       String number = referralsDetailProvider
                           .ambSearchResult[index]['number'];
-                      String country = referralsDetailProvider
-                          .ambSearchResult[index]['country'];
-                      String region = referralsDetailProvider
-                          .ambSearchResult[index]['region'];
-                      String city = referralsDetailProvider
-                          .ambSearchResult[index]['city'];
-                      String address = referralsDetailProvider
-                          .ambSearchResult[index]['address'];
-                      String fullAddress = '$country, $region, $city, $address';
+                      String category = referralsDetailProvider
+                          .ambSearchResult[index]['category'];
                       String ambNumber = referralsDetailProvider
                           .ambSearchResult[index]['ambNumber'];
+                      String address = referralsDetailProvider
+                          .ambSearchResult[index]['address'];
                       return ListTile(
                         onTap: () {
                           referralsDetailProvider.getAmbulancePOCList(context);
@@ -951,6 +986,7 @@ class _MrOfficerReferralScreenState extends State<MrOfficerReferralScreen> {
                                       flex: 2,
                                       child: CustomText(
                                         text: name,
+                                        maxLines: 2,
                                       )),
                                 ],
                               ),
@@ -979,12 +1015,47 @@ class _MrOfficerReferralScreenState extends State<MrOfficerReferralScreen> {
                                   Expanded(
                                       flex: 1,
                                       child: CustomText(
+                                        text: 'Category',
+                                      )),
+                                  Expanded(
+                                      flex: 2,
+                                      child: CustomText(
+                                        text: category,
+                                      )),
+                                ],
+                              ),
+                              const SizedBox(
+                                height: 8,
+                              ),
+                              Row(
+                                children: [
+                                  Expanded(
+                                      flex: 1,
+                                      child: CustomText(
+                                        text: 'Amb Number',
+                                      )),
+                                  Expanded(
+                                      flex: 2,
+                                      child: CustomText(
+                                        text: ambNumber,
+                                      )),
+                                ],
+                              ),
+                              const SizedBox(
+                                height: 8,
+                              ),
+                              Row(
+                                children: [
+                                  Expanded(
+                                      flex: 1,
+                                      child: CustomText(
                                         text: 'Address',
                                       )),
                                   Expanded(
                                       flex: 2,
                                       child: CustomText(
-                                        text: fullAddress,
+                                        text: address,
+                                        maxLines: 3,
                                       )),
                                 ],
                               ),

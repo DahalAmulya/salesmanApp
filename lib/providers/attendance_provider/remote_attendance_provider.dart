@@ -1,15 +1,21 @@
 import 'dart:convert';
 
 import 'package:deskgoo/consts.dart';
+import 'package:deskgoo/pages/mr_officers_pages/attendance_logs/model/attendance_model.dart';
+import 'package:deskgoo/services/database_service.dart';
 import 'package:deskgoo/services/erp_services.dart';
 import 'package:deskgoo/themes/custom_colors.dart';
 import 'package:deskgoo/utils/hourToHMS.dart';
+import 'package:deskgoo/utils/toast_message.dart';
 import 'package:deskgoo/widgets/buttons/elevated_button.dart';
 import 'package:deskgoo/widgets/texts/custom_text.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:intl/intl.dart';
 import 'package:nepali_utils/nepali_utils.dart';
+
+import '../../pages/mr_officers_pages/attendance_logs/today_attendance_log_model.dart';
 
 class AttendanceProvider extends ChangeNotifier {
   TextEditingController _checkInTimeController = TextEditingController();
@@ -21,8 +27,8 @@ class AttendanceProvider extends ChangeNotifier {
   bool _isBiometricAuthenticated = false;
   bool _isCheckedOut = false;
   bool _checkOutConfirmation = false;
-  double _latitude = 0.0;
-  double _longitude = 0.0;
+  double _latitude = 26.454444412001187;
+  double _longitude = 87.27256880944243;
   String _time = 'Unknown';
   double _distance = 0.0;
   DateTime _checkInTime = DateTime.now();
@@ -33,6 +39,18 @@ class AttendanceProvider extends ChangeNotifier {
   String _checkOutTimeStr = 'Unknown';
   String _hours = '00';
   String _minutes = '00';
+  bool _responseReceived = true;
+  List<String> _attendanceStatusList = ['Check-In', 'Check-Out'];
+  String _selectedAttendanceStatus = 'Check-In';
+  AttendanceModel _lastAttendance = AttendanceModel();
+  AttendanceModel _attendanceModel = AttendanceModel();
+  DatabaseService _dbService = DatabaseService.instance;
+  List<String> _attendanceFilterList = [
+    'Online','Offline'
+  ];
+  String _selectedAttendanceFilter = 'Online';
+  List<AttendanceModel> _offlineAttendanceList = [];
+  bool _isOffline = false;
 
   TextEditingController get checkInTimeController => _checkInTimeController;
   TextEditingController get checkOutTimeController => _checkOutTimeController;
@@ -55,17 +73,54 @@ class AttendanceProvider extends ChangeNotifier {
   String get checkOutTimeStr => _checkOutTimeStr;
   String get hours => _hours;
   String get minutes => _minutes;
+  bool get responseReceived => _responseReceived;
+  List<String> get attendanceStatusList => _attendanceStatusList;
+  String get selectedAttendanceStatus => _selectedAttendanceStatus;
+  AttendanceModel get lastAttendance => _lastAttendance;
+  AttendanceModel get attendanceModel => _attendanceModel;
+  DatabaseService get dbService => _dbService;
+  List<String> get attendanceFilterList => _attendanceFilterList;
+  String get selectedAttendanceFilter => _selectedAttendanceFilter;
+  List<AttendanceModel> get offlineAttendanceList => _offlineAttendanceList;
+  bool get isOffline => _isOffline;
+
+  void setIsOffline(bool value) {
+    debugPrint('Attendance Provider Offline mode set to: $value');
+    _isOffline = value;
+    notifyListeners();
+  }
+
+  void setSelectedAttendanceFilter(context, String value) {
+    _selectedAttendanceFilter = value;
+    // if(_selectedAttendanceFilter == _attendanceFilterList[0]){
+    //   // Navigator.pop(context);
+    // } else {
+    //   _isOffline = true;
+    // }
+    notifyListeners();
+  }
+
+  void setSelectedAttendanceStatus(String value) {
+    _selectedAttendanceStatus = value;
+    notifyListeners();
+  }
+
+  void setResponseReceived(bool value) {
+    _responseReceived = value;
+    notifyListeners();
+  }
 
   void resetCheckOutConfirmation() {
     _checkOutConfirmation = false;
   }
 
-  void getCurrentLocation() async {
+  Future<void> getCurrentLocation() async {
     Position position = await Geolocator.getCurrentPosition();
     _latitude = position.latitude;
     _longitude = position.longitude;
     List timeList = _checkInTime.toString().split('.')[0].toString().split(' ');
     _time = '${timeList[1]} ${timeList[0]}';
+    debugPrint('Latitude: $_latitude, Longitude: $_longitude');
     notifyListeners();
   }
 
@@ -163,6 +218,11 @@ class AttendanceProvider extends ChangeNotifier {
 
   void switchRemoteAttendanceSwitch(context) async {
     getCurrentLocation();
+    showDialog(
+      context: context,
+      barrierDismissible: false, // cannot close by tapping outside
+      builder: (context) => Center(child: CircularProgressIndicator(color: CustomColors.primaryColor,)),
+    );
     try {
       _time = '${DateFormat('HH:mm:ss dd/MM/yyyy').format(DateTime.now())}';
       Map<String, dynamic> body = {
@@ -173,7 +233,7 @@ class AttendanceProvider extends ChangeNotifier {
       };
       print(body);
       ERPResponse response = await ERPServices.postRequest(
-          '/attendance/userId?userId=$userId', body, context);
+          '/attendance/userId?userId=$userId', body, context).timeout(const Duration(seconds: 7));
       if (response.statusCode == 200) {
         _isRemoteAttendanceSwitched = !_isRemoteAttendanceSwitched;
         final data = jsonDecode(response.body);
@@ -183,7 +243,10 @@ class AttendanceProvider extends ChangeNotifier {
         print('Error: ${response.statusCode}');
         print('Response: ${response.body}');
       }
+      Navigator.pop(context);
     } catch (err) {
+      Navigator.pop(context);
+      ToastMessageUtils().showToastMessage('Something went wrong.\nPlease try again later.');
       print('Err = $err');
     }
     notifyListeners();
@@ -288,4 +351,137 @@ class AttendanceProvider extends ChangeNotifier {
           ),
         ),
       );
+
+  TodayAttendanceLog todayAttendanceLog = TodayAttendanceLog();
+
+  void getTodayAttendance(BuildContext context) async {
+    try {
+      showDialog(context: context, builder: (context) => Center(child: CircularProgressIndicator(color: CustomColors.primaryColor,),));
+      ERPResponse response = await ERPServices
+          .getRequest('/attendance/today/$userId', context)
+          .timeout(const Duration(seconds: 7));
+
+      debugPrint('StatusCode=${response.statusCode}');
+      if (response.statusCode == 200) {
+        final data = jsonDecode(response.body);
+        todayAttendanceLog = TodayAttendanceLog.fromJson(data);
+        if(todayAttendanceLog.attendance!.attendanceLogs.isEmpty){
+          ToastMessageUtils().showToastMessage('No attendance found for today');
+        }
+        print(data);
+        Navigator.pop(context);
+      } else {
+        Navigator.pop(context);
+        print('Error: ${response.statusCode}');
+        print('Response: ${response.body}');
+      }
+    } catch (err) {
+      debugPrint('Err = $err');
+      Navigator.pop(context);
+      ToastMessageUtils().showToastMessage('Something went wrong');
+    }
+    notifyListeners();
+  }
+
+  void deleteUserAttendanceById(context, id) async {
+    showDialog(context: context, builder: (context) => Center(child: CircularProgressIndicator(color: CustomColors.primaryColor,),));
+    ERPResponse response = await ERPServices.deleteRequest('/attendance/today/delete/$userId?attendanceId=$id',context);
+    if (response.statusCode == 200) {
+      // final body = response.body;
+      final data = jsonDecode(response.body);
+      todayAttendanceLog = TodayAttendanceLog.fromJson(data);
+      // print(todayAttendanceLog.attendance!.attendanceLogs[0].checkIn);
+      print(data);
+      Navigator.pop(context);
+    } else {
+      Navigator.pop(context);
+      print('Error: ${response.statusCode}');
+      print('Response: ${response.body}');
+    }
+    notifyListeners();
+  }
+
+  // Offline Attendance
+
+  Future<void> getLocationPermission() async {
+    LocationPermission permission = await Geolocator.checkPermission();
+    if (permission == LocationPermission.denied ||
+        permission == LocationPermission.deniedForever) {
+      debugPrint('Location Denied');
+      LocationPermission askPermission = await Geolocator.requestPermission();
+    }
+  }
+
+  Future<void> saveAttendanceOffline(context) async {
+    attendanceModel.deviceTime = _time = '${DateFormat('HH:mm:ss dd/MM/yyyy').format(DateTime.now())}';
+    attendanceModel.attendanceTime = DateTime.now();
+    attendanceModel.latitude = _latitude;
+    attendanceModel.longitude = _longitude;
+    attendanceModel.status = _selectedAttendanceStatus;
+    debugPrint('Attendance Model: ${attendanceModel.toJson()}');
+    await _dbService.createAttendance(attendanceModel);
+    Navigator.pop(context);
+    await getLastAttendanceOffline(context);
+    notifyListeners();
+  }
+
+  Future<void> getLastAttendanceOffline(context) async {
+    _lastAttendance = await _dbService.getLastAttendance();
+    debugPrint('Last Attendance: ${_lastAttendance.toJson()}');
+    notifyListeners();
+  }
+
+  void getOfflineAttendanceList(context) async {
+    showDialog(context: context, builder: (context) => Center(child: CircularProgressIndicator(),));
+    _offlineAttendanceList = await _dbService.getAllAttendance();
+    debugPrint('Offline Attendance List: ${_offlineAttendanceList.length}');
+
+    if(_offlineAttendanceList.isEmpty){
+      _offlineAttendanceList = [];
+      ToastMessageUtils().showToastMessage('No offline attendance found');
+    }
+    Navigator.pop(context);
+    notifyListeners();
+  }
+
+  void deleteOfflineAttendanceById(context, id) async {
+    // debugPrint('Deleting Attendance ID: ${attendance.toJson()}');
+    showDialog(context: context, builder: (context) => Center(child: CircularProgressIndicator(),));
+    int response = await _dbService.deleteAttendanceById(id);
+    debugPrint(response.toString());
+    getOfflineAttendanceList(context);
+    Navigator.pop(context);
+    notifyListeners();
+  }
+
+  void postOfflineAttendance(context,{required AttendanceModel attendance}) async {
+    Navigator.pop(context);
+    showDialog(context: context, builder: (_) => const Center(child: CircularProgressIndicator(),));
+    try{
+      ERPResponse response = await ERPServices.postRequest(
+          '/attendance/userId?userId=$userId', attendance.toJson(), context);
+      if(response.statusCode == 200) {
+        debugPrint('Attendance posted successfully: ${attendance.toJson()}');
+        deleteOfflineAttendanceById(context, attendance.attendanceId!);
+        Navigator.pop(context);
+        ToastMessageUtils().showToastMessage(
+          'Offline attendance posted successfully.',
+          ToastGravity.TOP,
+          CustomColors.jadeGreen,
+        );
+      } else {
+        print('Error posting offline attendance: ${response.statusCode}');
+        print('Response: ${response.body}');
+        Navigator.pop(context);
+        ToastMessageUtils().showToastMessage(
+            'Failed to post offline attendance.'
+        );
+      }
+    }catch (err){
+      Navigator.pop(context);
+      debugPrint('Err = $err');
+      ToastMessageUtils().showToastMessage('Something went wrong');
+    }
+
+  }
 }

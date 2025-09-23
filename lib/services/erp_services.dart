@@ -108,6 +108,69 @@ class ERPServices {
     }
   }
 
+  static Future<ERPResponse> patchRequest(String path, final body, context) async {
+    try {
+      Map<String, String> header = {
+        'Content-Type': 'Application/json',
+        'Authorization': 'Bearer $accessToken',
+        '_id': userId
+      };
+      final response = await http.patch(
+        Uri.parse('$apiURL$path'),
+        headers: header,
+        body: jsonEncode(body),
+      );
+      if (response.statusCode == 403) {
+        ToastMessageUtils().showToastMessage(
+          'Session Expired',
+          ToastGravity.TOP,
+          CustomColors.lightRed,
+        );
+        Navigator.of(context).popAndPushNamed(MarketingManagerConstants.indexPage);
+      }
+      return ERPResponse(
+        statusCode: response.statusCode,
+        body: response.body,
+      );
+    } catch (err) {
+      return ERPResponse(
+        statusCode: 69,
+        body: err.toString(),
+      );
+    }
+  }
+
+  static Future<ERPResponse> deleteRequest(String path, context) async {
+    try {
+      Map<String, String> header = {
+        'Content-Type': 'Application/json',
+        'Authorization': 'Bearer $accessToken',
+        '_id': userId
+      };
+      final response = await http.delete(
+        Uri.parse('$apiURL$path'),
+        headers: header,
+      );
+      if (response.statusCode == 403) {
+        ToastMessageUtils().showToastMessage(
+          'Session Expired',
+          ToastGravity.TOP,
+          CustomColors.lightRed,
+        );
+        Navigator.of(context).popAndPushNamed(MarketingManagerConstants.indexPage);
+      }
+      return ERPResponse(
+        statusCode: response.statusCode,
+        body: response.body,
+      );
+    } catch (err) {
+      return ERPResponse(
+        statusCode: 69,
+        body: err.toString(),
+      );
+    }
+  }
+
   static Future<ERPResponse> ERPlogin(Map<String, dynamic> body) async {
     try {
       String url = '$apiURL/auth';

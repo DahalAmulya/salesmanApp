@@ -10,4 +10,5 @@ class MarketingOfficerConstants {
   static const String productConst = 'mr_office_product';
   static const String termsAndConditionScreen = '/terms_and_condition_screen';
   static const String privacyPolicyScreen = '/privacy_policy_screen';
+  static const String offlineModeScreen = '/offline_mode_screen';
 }

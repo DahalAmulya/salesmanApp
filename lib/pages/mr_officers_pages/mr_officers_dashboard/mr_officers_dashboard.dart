@@ -1,14 +1,14 @@
 import 'dart:developer';
 import 'package:background_task/background_task.dart';
 import 'package:deskgoo/classes/background_task_handler.dart';
-import 'package:deskgoo/classes/is_token_expired.dart';
-import 'package:deskgoo/classes/notification_controller.dart';
-import 'package:deskgoo/classes/secure_storage.dart';
 import 'package:deskgoo/consts.dart';
+import 'package:deskgoo/notifications/notiService.dart';
+import 'package:deskgoo/pages/mr_officers_pages/attendance_logs/todays_attendance_log_screen.dart';
 import 'package:deskgoo/providers/attendance_provider/remote_attendance_provider.dart';
 import 'package:deskgoo/providers/deviceInfo_provider/deviceInfo_provider.dart';
+import 'package:deskgoo/providers/mr_officer_provider/mr_visit_provider.dart';
 import 'package:deskgoo/routes/marketing_officer_consts.dart';
-import 'package:deskgoo/routes/route_generator_constants.dart';
+import 'package:deskgoo/services/database_service.dart';
 import 'package:deskgoo/services/erp_services.dart';
 import 'package:deskgoo/themes/custom_colors.dart';
 import 'package:deskgoo/utils/readUserCred.dart';
@@ -25,8 +25,10 @@ import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'dart:convert';
 import 'package:flutter/services.dart' show SystemNavigator, rootBundle;
+import 'package:workmanager/workmanager.dart';
 
 import '../../../../providers/login_provider/login_provider.dart';
+import '../../../providers/mr_officer_provider/mr_visitLog_provider.dart';
 
 class MrOfficersDashboardScreen extends StatefulWidget {
   const MrOfficersDashboardScreen({super.key});
@@ -71,10 +73,6 @@ class _MrOfficersDashboardScreenState extends State<MrOfficersDashboardScreen>
       log('Location Denied');
       LocationPermission askPermission = await Geolocator.requestPermission();
     }
-    // else {
-    //   Position currentPosiont = await Geolocator.getCurrentPosition(
-    //       desiredAccuracy: LocationAccuracy.best);
-    // }
   }
 
   void loadData() async {
@@ -147,6 +145,8 @@ class _MrOfficersDashboardScreenState extends State<MrOfficersDashboardScreen>
   // void checkToken() async {
     // await isTokenExpired(context);
   // }
+
+  final DatabaseService _dbService = DatabaseService.instance;
 
   @override
   void initState() {
@@ -289,6 +289,27 @@ class _MrOfficersDashboardScreenState extends State<MrOfficersDashboardScreen>
         drawer: MrOfficerCustomDrawer(
           isHomeActive: true,
         ),
+        floatingActionButton: FloatingActionButton.small(
+          onPressed: () async {
+            // await _dbService.updatePOCById(1, {
+            //   'remarks': 'new remark',
+            // });
+            await _dbService.deletePOCById(5);
+            // _dbService.getAllPOCs();
+            // Position position = await Geolocator.getCurrentPosition(
+            //     desiredAccuracy: LocationAccuracy.best);
+            // NotiService().showNotification(title: 'Test Notification', body: 'This is a test notification');
+            // NotiService().scheduleNotification(title: 'Test Notification', body: 'This is a test notification', hour: 16, minute: 4);
+            // Workmanager().registerOneOffTask('1234', 'download_task', initialDelay: Duration(seconds: 10), inputData: {
+            //   'latitude': position.latitude,
+            //   'longitude': position.longitude,
+            // });
+            //
+            // Workmanager().registerPeriodicTask('65434', 'download_task', frequency: Duration(minutes: 15), inputData: {
+            //   'latitude': position.latitude,
+            //   'longitude': position.longitude,
+            // });
+        }, child: Icon(Icons.notifications),),
       ),
     );
   }
@@ -318,390 +339,230 @@ class _MrOfficersDashboardScreenState extends State<MrOfficersDashboardScreen>
   }
 
   Widget _body(context) {
-    return ListView(
-      children: [
-        const SizedBox(
-          height: 16,
-        ),
-        CustomContainer(
-          horizontalPad: 0,
-          horizontalMargin: 16,
-          verticalPad: 12,
-          applyShadow: true,
-          child: Column(
-            children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+    return SingleChildScrollView(
+      padding: const EdgeInsets.all(16),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          // Today's Plans Section
+          Card(
+            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+            elevation: 6,
+            shadowColor: Colors.black12,
+            margin: const EdgeInsets.only(bottom: 20),
+            color: Colors.white,
+            child: Padding(
+              padding: const EdgeInsets.all(20),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const CustomLineBar(),
-                  const SizedBox(
-                    width: 8,
+                  Row(
+                    children: const [
+                      Icon(Icons.event_note, color: Colors.blueAccent, size: 26),
+                      SizedBox(width: 8),
+                      Text("Today's Plan",
+                          style: TextStyle(
+                              fontSize: 18, fontWeight: FontWeight.bold)),
+                    ],
                   ),
-                  CustomText(
-                    isSubHeading: true,
-                    text: 'Today\'s Plans',
+                  const SizedBox(height: 12),
+                  Text(
+                    todaysDateTime,
+                    style: const TextStyle(
+                        fontSize: 14, color: Colors.grey, fontStyle: FontStyle.italic),
                   ),
-                  const Spacer(),
-                  const Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                    child: Icon(
-                      Icons.arrow_forward_ios,
-                      size: 18,
-                    ),
-                  ),
-                ],
-              ),
-              const SizedBox(
-                height: 8,
-              ),
-              const Divider(
-                height: 1,
-                thickness: 1,
-                color: Colors.black,
-              ),
-              const SizedBox(
-                height: 8,
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                    child: CustomText(
-                      isSubHeading: true,
-                      text: todaysDateTime,
-                    ),
-                  ),
-                ],
-              ),
-              const SizedBox(
-                height: 12,
-              ),
-              Container(
-                padding: EdgeInsets.symmetric(horizontal: 16),
-                child: Column(
-                  children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Expanded(
-                          flex: 1,
-                          child: CustomText(
-                            text: 'Activities',
-                            isSubHeading: true,
-                          ),
-                        ),
-                        Expanded(
-                          flex: 1,
-                          child: CustomText(
-                            text: activity,
-                            isContent: true,
-                            maxLines: 2,
-                          ),
-                        ),
-                      ],
-                    ),
-                    const SizedBox(
-                      height: 12,
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Expanded(
-                          flex: 1,
-                          child: CustomText(
-                            text: 'Areas',
-                            isSubHeading: true,
-                          ),
-                        ),
-                        Expanded(
-                          flex: 1,
-                          child: CustomText(
-                            maxLines: 3,
-                            textOverflow: TextOverflow.visible,
-                            text: area,
-                            isContent: true,
-                          ),
-                        ),
-                      ],
-                    ),
-                    const SizedBox(
-                      height: 12,
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Expanded(
-                          flex: 1,
-                          child: CustomText(
-                            text: 'Remarks',
-                            isSubHeading: true,
-                            maxLines: 2,
-                          ),
-                        ),
-                        Expanded(
-                          flex: 1,
-                          child: CustomText(
-                            maxLines: 4,
-                            textOverflow: TextOverflow.visible,
-                            text: remark,
-                            isContent: true,
-                          ),
-                        )
-                      ],
-                    ),
-                  ],
-                ),
-              ),
-            ],
-          ),
-        ),
-        const SizedBox(
-          height: 16,
-        ),
-        CustomContainer(
-          horizontalPad: 0,
-          horizontalMargin: 16,
-          verticalPad: 12,
-          applyShadow: true,
-          child: Column(
-            children: [
-              InkWell(
-                onTap: () {
-                  showModalBottomSheet(
-                    isScrollControlled: true,
-                    useSafeArea: true,
-                    context: context,
-                    builder: (context) => MrOfficerAttendanceBottomSheet(),
-                  );
-                  print('Pressed');
-                },
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
-                    const CustomLineBar(),
-                    const SizedBox(
-                      width: 8,
-                    ),
-                    CustomText(
-                      isSubHeading: true,
-                      text: 'Attendance',
-                    ),
-                    const Spacer(),
-                    const Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                      child: Icon(
-                        Icons.arrow_forward_ios,
-                        size: 18,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              const SizedBox(
-                height: 8,
-              ),
-              const Divider(
-                height: 1,
-                thickness: 1,
-                color: Colors.black,
-              ),
-              const SizedBox(
-                height: 8,
-              ),
-              Padding(
-                padding: EdgeInsets.symmetric(horizontal: 16),
-                child: Consumer<AttendanceProvider>(
-                    builder: (context, attendanceProvider, _) {
-                  return Column(
+                  const Divider(height: 24),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Expanded(
-                            flex: 1,
-                            child: CustomText(
-                              text: 'Status',
-                              isSubHeading: true,
-                              maxLines: 3,
-                            ),
-                          ),
-                          Expanded(
-                            flex: 1,
-                            child: CustomText(
-                              text: attendanceProvider.status,
-                              isContent: true,
-                            ),
-                          ),
-                        ],
-                      ),
-                      const SizedBox(
-                        height: 8,
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Expanded(
-                            flex: 1,
-                            child: CustomText(
-                              text: 'Check-in Time',
-                              isSubHeading: true,
-                              maxLines: 3,
-                            ),
-                          ),
-                          Expanded(
-                            flex: 1,
-                            child: CustomText(
-                              text: attendanceProvider.checkInTimeStr,
-                              isContent: true,
-                            ),
-                          )
-                        ],
-                      ),
-                      const SizedBox(
-                        height: 8,
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Expanded(
-                            flex: 1,
-                            child: CustomText(
-                              text: 'Check-out Time',
-                              isSubHeading: true,
-                              maxLines: 3,
-                            ),
-                          ),
-                          Expanded(
-                            flex: 1,
-                            child: CustomText(
-                              text: attendanceProvider.checkOutTimeStr,
-                              isContent: true,
-                            ),
-                          )
-                        ],
-                      ),
-                      const SizedBox(
-                        height: 8,
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Expanded(
-                            flex: 1,
-                            child: CustomText(
-                              text: 'Total Time',
-                              isSubHeading: true,
-                              maxLines: 3,
-                            ),
-                          ),
-                          Expanded(
-                            flex: 1,
-                            child: Row(
-                              // mainAxisAlignment: MainAxisAlignment.start,
-                              // crossAxisAlignment: CrossAxisAlignment.center,
-                              children: [
-                                CustomText(
-                                  text: attendanceProvider.hours,
-                                  isContent: true,
-                                ),
-                                CustomText(
-                                  text: 'H ',
-                                  isSmallText: true,
-                                ),
-                                CustomText(
-                                  text: attendanceProvider.minutes,
-                                  isContent: true,
-                                ),
-                                CustomText(
-                                  text: 'M',
-                                  isSmallText: true,
-                                ),
-                              ],
-                            ),
-                          )
-                        ],
+                      const Text("Activity:",
+                          style: TextStyle(fontWeight: FontWeight.w600)),
+                      Expanded(
+                        child: Text(activity,
+                            textAlign: TextAlign.end,
+                            style: const TextStyle(color: Colors.black87)),
                       ),
                     ],
-                  );
-                }),
-              ),
-            ],
-          ),
-        ),
-        const SizedBox(
-          height: 16,
-        ),
-        CustomContainer(
-          horizontalPad: 0,
-          horizontalMargin: 16,
-          verticalPad: 12,
-          applyShadow: true,
-          child: Column(
-            children: [
-              InkWell(
-                onTap: () {
-                  Navigator.of(context)
-                      .pushNamed(MarketingOfficerConstants.visitLog);
-                },
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
-                    const CustomLineBar(),
-                    const SizedBox(
-                      width: 8,
-                    ),
-                    CustomText(
-                      isSubHeading: true,
-                      text: 'Today\'s Visit',
-                    ),
-                    const Spacer(),
-                    const Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                      child: Icon(
-                        Icons.arrow_forward_ios,
-                        size: 18,
+                  ),
+                  const SizedBox(height: 8),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      const Text("Area:",
+                          style: TextStyle(fontWeight: FontWeight.w600)),
+                      Expanded(
+                        child: Text(area,
+                            textAlign: TextAlign.end,
+                            style: const TextStyle(color: Colors.black87)),
                       ),
-                    ),
-                  ],
-                ),
+                    ],
+                  ),
+                  const SizedBox(height: 8),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      const Text("Remark:",
+                          style: TextStyle(fontWeight: FontWeight.w600)),
+                      Expanded(
+                        child: Text(remark,
+                            textAlign: TextAlign.end,
+                            style: const TextStyle(color: Colors.black87)),
+                      ),
+                    ],
+                  ),
+                ],
               ),
-              const SizedBox(
-                height: 8,
-              ),
-              const Divider(
-                height: 1,
-                thickness: 1,
-                color: Colors.black,
-              ),
-              const SizedBox(
-                height: 8,
-              ),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 16),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    CustomText(
-                      text: 'Total Visit',
-                      isSubHeading: true,
-                    ),
-                    CustomText(
-                      maxLines: 3,
-                      textOverflow: TextOverflow.clip,
-                      text: totalVisit.toString(),
-                      isContent: true,
-                    )
-                  ],
-                ),
-              ),
-            ],
+            ),
           ),
-        ),
-        const SizedBox(
-          height: 16,
-        ),
-      ],
+
+          // Attendance Section
+          InkWell(
+            onTap: (){
+              showModalBottomSheet(
+                isScrollControlled: true,
+                useSafeArea: true,
+                context: context,
+                builder: (context) =>
+                    MrOfficerAttendanceBottomSheet(),
+              );
+            },
+            child: Card(
+              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+              elevation: 6,
+              color: Colors.white,
+              shadowColor: Colors.black12,
+              margin: const EdgeInsets.only(bottom: 20),
+              child: Padding(
+                padding: const EdgeInsets.all(20),
+                child: Consumer<AttendanceProvider>(
+                  builder: (context, attendanceProvider, _) {
+                    return Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Row(
+                          children: const [
+                            Icon(Icons.access_time_filled,
+                                color: Colors.orangeAccent, size: 26),
+                            SizedBox(width: 8),
+                            Text("Attendance",
+                                style: TextStyle(
+                                    fontSize: 18, fontWeight: FontWeight.bold)),
+                          ],
+                        ),
+                        const Divider(height: 24),
+                        _infoRow("Status", attendanceProvider.status),
+                        _infoRow("Check-in", attendanceProvider.checkInTimeStr),
+                        _infoRow("Check-out", attendanceProvider.checkOutTimeStr),
+                        _infoRow(
+                          "Total Time",
+                          "${attendanceProvider.hours}H ${attendanceProvider.minutes}M",
+                        ),
+                        const SizedBox(height: 16),
+                        SizedBox(
+                          width: double.infinity,
+                          child: ElevatedButton.icon(
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: CustomColors.primaryColor,
+                              padding: const EdgeInsets.symmetric(vertical: 14),
+                              shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(14)),
+                            ),
+                            onPressed: () {
+                              Navigator.of(context).push(MaterialPageRoute(
+                                  builder: (context) =>
+                                  const TodayAttendanceLogScreen()));
+                              attendanceProvider.setIsOffline(false);
+                              attendanceProvider.getTodayAttendance(context);
+                            },
+                            icon: Image.asset(
+                              'assets/images/biometricAttendanceWhite.png',
+                              scale: 14,
+                              color: Colors.black,
+                            ),
+                            label: const Text("View Today's Attendance Log",
+                                style: TextStyle(
+                                  fontSize: 16,
+                                    fontWeight: FontWeight.w600,
+                                    color: Colors.black)),
+                          ),
+                        ),
+                      ],
+                    );
+                  },
+                ),
+              ),
+            ),
+          ),
+
+          // Today's Visits Section
+          Consumer2<MrOfficeVisitLogProvider, MrOfficerVisitProvider>(
+            builder: (context, visitLogProvider, visitProvider, _) {
+              return Card(
+                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+                elevation: 6,
+                color: Colors.white,
+                shadowColor: Colors.black12,
+                margin: const EdgeInsets.only(bottom: 20),
+                child: InkWell(
+                  borderRadius: BorderRadius.circular(20),
+                  onTap: () {
+                    visitLogProvider.setIsOffline(false);
+                    visitProvider.setIsOffline(false);
+                    Navigator.of(context)
+                        .pushNamed(MarketingOfficerConstants.visitLog);
+                  },
+                  child: Padding(
+                    padding: const EdgeInsets.all(20),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Row(
+                          children: const [
+                            Icon(Icons.location_on,
+                                color: Colors.green, size: 26),
+                            SizedBox(width: 8),
+                            Text("Today's Visits",
+                                style: TextStyle(
+                                    fontSize: 18, fontWeight: FontWeight.bold)),
+                          ],
+                        ),
+                        const Divider(height: 24),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            const Text("Total Visits",
+                                style: TextStyle(fontWeight: FontWeight.w600)),
+                            Text("$totalVisit",
+                                style: const TextStyle(
+                                    fontSize: 16, color: Colors.black87)),
+                          ],
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              );
+            }
+          ),
+        ],
+      ),
     );
   }
+
+  /// Helper method for cleaner rows
+  Widget _infoRow(String label, String value) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 6),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Text(label,
+              style: const TextStyle(
+                  fontWeight: FontWeight.w600, color: Colors.black54)),
+          Text(value, style: const TextStyle(color: Colors.black87)),
+        ],
+      ),
+    );
+  }
+
 }

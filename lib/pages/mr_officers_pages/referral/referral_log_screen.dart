@@ -64,7 +64,7 @@ class _MarketingOfficerReferralLogScreenState
       }
       print("Selected Date: $selectedDate");
     });
-    referralProvider.getReferralLogs(context);
+    referralProvider.getReferralLogsByDate(context);
   }
 
 
@@ -72,7 +72,7 @@ class _MarketingOfficerReferralLogScreenState
   void initState() {
     final referralProvider =
         Provider.of<ReferralsDetailProvider>(context, listen: false);
-    referralProvider.getReferralLogs(context);
+    referralProvider.getReferralLogsByDate(context);
     super.initState();
   }
 
@@ -166,52 +166,34 @@ class _MarketingOfficerReferralLogScreenState
                     physics: const NeverScrollableScrollPhysics(),
                     itemCount: referralsDetailProvider.referralLogs.length,
                     itemBuilder: (context, index) {
-                      String patientId = referralsDetailProvider
-                          .body['referralLogs'][index]['patientId'];
-                      String patientName = referralsDetailProvider
-                          .body['referralLogs'][index]['patientName'];
-                      String patientCreatorId = referralsDetailProvider
-                          .body['referralLogs'][index]['createdById'];
-                      String patientCreatorName = referralsDetailProvider
-                          .body['referralLogs'][index]['createdByName'];
-                      String pocId = referralsDetailProvider
-                          .body['referralLogs'][index]['pocId'];
-                      String pocName = referralsDetailProvider
-                          .body['referralLogs'][index]['pocName'];
-                      String pocNumber = referralsDetailProvider
-                          .body['referralLogs'][index]['pocNumber'];
-                      String ambulanceId = referralsDetailProvider
-                          .body['referralLogs'][index]['ambId'];
-                      String ambulanceDriverName = referralsDetailProvider
-                          .body['referralLogs'][index]['ambDriverName'];
-                      String ambulanceDriverNumber = referralsDetailProvider
-                          .body['referralLogs'][index]['ambDriverNumber'];
-                      String ambulanceNumber = referralsDetailProvider
-                          .body['referralLogs'][index]['ambNumber'];
-                      String latitude = referralsDetailProvider
-                          .body['referralLogs'][index]['latitude']
-                          .toString();
-                      String longitude = referralsDetailProvider
-                          .body['referralLogs'][index]['longitude']
-                          .toString();
-                      String mobileTime = referralsDetailProvider
-                          .body['referralLogs'][index]['mobileTime']
-                          .toString()
-                          .split(' ')[0];
-                      String referralDate = referralsDetailProvider
-                          .body['referralLogs'][index]['referralDate']
-                          .toString()
-                          .split('T')[0];
-                      String id = referralsDetailProvider.body['referralLogs']
-                          [index]['_id'];
-                      String createdAt = referralsDetailProvider
-                          .body['referralLogs'][index]['createdAt']
-                          .toString()
-                          .split('T')[0];
-                      String updatedAt = referralsDetailProvider
-                          .body['referralLogs'][index]['updatedAt']
-                          .toString()
-                          .split('T')[0];
+                      String patientId = referralsDetailProvider.referralLogs[index]['_id']?.toString() ?? '';
+                      String patientName = referralsDetailProvider.referralLogs[index]['fullName']?.toString() ?? '';
+                      String patientCreatorId = referralsDetailProvider.referralLogs[index]['userId']?['_id']?.toString() ?? '';
+                      String patientCreatorName = referralsDetailProvider.referralLogs[index]['userId']?['username']?.toString() ?? '';
+                      String pocId = referralsDetailProvider.referralLogs[index]['pocId']?['_id']?.toString() ?? '';
+                      String pocName = referralsDetailProvider.referralLogs[index]['pocId']?['pocName']?.toString() ?? '';
+                      String pocNumber = referralsDetailProvider.referralLogs[index]['pocId']?['number']?.toString() ?? '';
+                      String ambulanceId = referralsDetailProvider.referralLogs[index]['ambId']?['_id']?.toString() ?? '';
+                      String ambulanceDriverName = referralsDetailProvider.referralLogs[index]['ambId']?['pocName']?.toString() ?? '';
+                      String ambulanceDriverNumber = referralsDetailProvider.referralLogs[index]['ambId']?['number']?.toString() ?? '';
+                      String ambulanceNumber = referralsDetailProvider.referralLogs[index]['ambId']?['ambNumber']?.toString() ?? '';
+                      String latitude = referralsDetailProvider.referralLogs[index]['latitude']?.toString() ?? '';
+                      String longitude = referralsDetailProvider.referralLogs[index]['longitude']?.toString() ?? '';
+
+                      String mobileTimeRaw = referralsDetailProvider.referralLogs[index]['mobileTime']?.toString() ?? '';
+                      String mobileTime = mobileTimeRaw.isNotEmpty ? mobileTimeRaw.split(' ')[0] : '';
+
+                      String referralDateRaw = referralsDetailProvider.referralLogs[index]['createdAt']?.toString() ?? '';
+                      String referralDate = referralDateRaw.contains('T') ? referralDateRaw.split('T')[0] : '';
+
+                      String id = referralsDetailProvider.referralLogs[index]['_id']?.toString() ?? '';
+
+                      String createdAtRaw = referralsDetailProvider.referralLogs[index]['createdAt']?.toString() ?? '';
+                      String createdAt = createdAtRaw.contains('T') ? createdAtRaw.split('T')[0] : '';
+
+                      String updatedAtRaw = referralsDetailProvider.referralLogs[index]['updatedAt']?.toString() ?? '';
+                      String updatedAt = updatedAtRaw.contains('T') ? updatedAtRaw.split('T')[0] : '';
+
                       return ListTile(
                         title: CustomContainer(
                           applyShadow: true,

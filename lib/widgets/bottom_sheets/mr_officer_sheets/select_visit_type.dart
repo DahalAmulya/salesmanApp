@@ -12,6 +12,8 @@ import 'package:deskgoo/widgets/texts/custom_text.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import '../../../providers/mr_officer_provider/mr_visitLog_provider.dart';
+
 class MrOfficerSelectVisitTypeBottomSheet extends StatefulWidget {
   const MrOfficerSelectVisitTypeBottomSheet({super.key});
 
@@ -96,39 +98,35 @@ class _MrOfficerSelectVisitTypeBottomSheetState
                             fontWeight: FontWeight.w500,
                           ),
                         ),
-                        Consumer<MrOfficerFollowUpProvider>(
-                            builder: (context, followUpProvider, _) {
-                          return CustomElevatedButton(
-                            onPressed: () async {
-                              bool isSelected =
-                                  visitProvider.setSelectedVisitType();
-                              if (isSelected) {
-                                if (visitProvider.selectedVisitType ==
-                                    visitProvider.visitTypeList[0]) {
-                                  Navigator.pop(context);
-                                  Navigator.of(context).pushNamed(
-                                      MarketingOfficerConstants.newVisit);
-                                } else if (visitProvider.selectedVisitType ==
-                                    visitProvider.visitTypeList[1]) {
-                                  // Navigator.pop(context);
-                                  followUpProvider.GetPOCList(context);
-                                  // Navigator.of(context).pushNamed(
-                                  //     MarketingOfficerConstants.followUpVisit);
-                                } else {
-                                  Navigator.pop(context);
-                                  Navigator.of(context).pushNamed(
-                                      MarketingOfficerConstants.visitLog);
+                        Consumer3<MrOfficerFollowUpProvider, MrOfficeVisitLogProvider, MrOfficerVisitProvider>(
+                          builder: (context, followUpProvider, visitLogProvider, visitProvider, _) {
+                            return CustomElevatedButton(
+                              onPressed: () async {
+                                bool isSelected = visitProvider.setSelectedVisitType();
+                                visitProvider.setIsOffline(false);
+                                visitLogProvider.setIsOffline(false);
+                                if (isSelected) {
+                                  if (visitProvider.selectedVisitType == visitProvider.visitTypeList[0]) {
+                                    Navigator.pop(context);
+                                    Navigator.of(context).pushNamed(MarketingOfficerConstants.newVisit);
+                                  } else if (visitProvider.selectedVisitType == visitProvider.visitTypeList[1]) {
+                                    // Navigator.pop(context);
+                                    followUpProvider.GetPOCList(context);
+                                  } else {
+                                    Navigator.pop(context);
+                                    Navigator.of(context).pushNamed(MarketingOfficerConstants.visitLog);
+                                  }
                                 }
-                              }
-                            },
-                            backgroundColor: CustomColors.primaryColor,
-                            widget: CustomText(
-                              text: 'Next',
-                              color: CustomColors.primaryBlack,
-                              fontWeight: FontWeight.w500,
-                            ),
-                          );
-                        }),
+                              },
+                              backgroundColor: CustomColors.primaryColor,
+                              widget: CustomText(
+                                text: 'Next',
+                                color: CustomColors.primaryBlack,
+                                fontWeight: FontWeight.w500,
+                              ),
+                            );
+                          },
+                        )
                       ],
                     ),
                     const SizedBox(

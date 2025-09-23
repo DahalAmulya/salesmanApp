@@ -1,32 +1,17 @@
 buildscript {
-    ext.kotlin_version = '1.8.10'
+    ext.kotlin_version = '2.1.0' // updated Kotlin
+
     repositories {
-//        google()
-//        mavenCentral()
+        google()
         mavenCentral()
-        jcenter()
-        maven {
-            url 'https://maven.google.com/'
-            name 'Google'
-        }
     }
 
     dependencies {
+        classpath "com.android.tools.build:gradle:8.3.2"
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
-        classpath 'com.android.tools.build:gradle:7.0.0'
-        classpath 'com.google.gms:google-services:4.3.10'
+        classpath 'com.google.gms:google-services:4.4.2'
     }
 }
-
-//plugins {
-//    // ...
-//
-//    // Add the dependency for the Google services Gradle plugin
-//    id 'com.google.gms.google-services' version '4.4.3' apply false
-//
-//}
-
-def flutterRoot = "/Users/shuvambc/development/flutter"
 
 allprojects {
     repositories {
@@ -38,8 +23,6 @@ allprojects {
 rootProject.buildDir = "../build"
 subprojects {
     project.buildDir = "${rootProject.buildDir}/${project.name}"
-}
-subprojects {
     project.evaluationDependsOn(":app")
 }
 

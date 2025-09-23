@@ -171,7 +171,7 @@ class MrAdminAttendanceProvider extends ChangeNotifier {
       }
 
       // 4. Create file inside the folder
-      String filePath = path.join(nestedDir.path, '${selectedUser}_Attendance${_from}_to_$_to.csv');
+      String filePath = path.join(nestedDir.path, '${selectedUser}_Attendance_${_from}_to_$_to.csv');
       File file = File(filePath);
 
       await file.writeAsString(csvContent);

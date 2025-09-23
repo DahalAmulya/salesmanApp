@@ -125,14 +125,15 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                             onTap: () {},
                             validator: (value) {
                               String pattern =
-                                  r'^[a-zA-Z]{3,}(?:\.[a-zA-Z]{2,})?@[a-zA-Z]{2,}\.[a-zA-Z]{2,}$';
+                                  r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$';
                               RegExp regex = RegExp(pattern);
 
-                              return value!.isEmpty
-                                  ? 'email is required'
-                                  : !regex.hasMatch(value)
-                                      ? 'Invalid email'
-                                      : null;
+                              if (value == null || value.isEmpty) {
+                                return 'Email required';
+                              } else if (!regex.hasMatch(value)) {
+                                return 'Enter a valid email';
+                              }
+                              return null; // ✅ valid
                             },
                             onChange: (value) {},
                             hintText: 'Email Address',

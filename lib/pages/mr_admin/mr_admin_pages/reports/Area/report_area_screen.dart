@@ -102,180 +102,236 @@ class _MrAdminAreaReportScreenState extends State<MrAdminAreaReportScreen> {
     return SafeArea(
       child: Consumer<MrAdminAreaReportProvider>(
           builder: (context, mrAdminAreaReportProvider, _) {
-        return ListView(
+        return Stack(
           children: [
-            CustomContainer(
-              applyShadow: true,
-              verticalPad: 8,
-              horizontalPad: 18,
-              verticalMargin: 18,
-              horizontalMargin: 18,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  const SizedBox(
-                    height: 16,
-                  ),
-                  CustomText(
-                    text: 'Apply Filter',
-                    fontWeight: FontWeight.w600,
-                    size: 20,
-                  ),
-                  const SizedBox(
-                    height: 16,
-                  ),
-                  Row(
-                    children: [
-                      Expanded(
-                        flex: 1,
-                        child: CustomText(
-                          text: 'Country',
+            ListView(
+              children: [
+                mrAdminAreaReportProvider.showFilter
+                    ? CustomContainer(
+                        applyShadow: true,
+                        verticalPad: 8,
+                        horizontalPad: 18,
+                        verticalMargin: 18,
+                        horizontalMargin: 18,
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            const SizedBox(
+                              height: 16,
+                            ),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                CustomText(
+                                  text: 'Apply Filter',
+                                  fontWeight: FontWeight.w600,
+                                  size: 20,
+                                ),
+                                InkWell(
+                                  onTap: (){
+                                    mrAdminAreaReportProvider.toggleFilter();
+                                  },
+                                  child: CircleAvatar(
+                                    radius: 24,
+                                      backgroundColor: CustomColors.primaryColor,
+                                      child: Icon(FontAwesomeIcons.filterCircleXmark,color: Colors.black,)),
+                                ),
+                              ],
+                            ),
+                            const SizedBox(
+                              height: 16,
+                            ),
+                            Row(
+                              children: [
+                                Expanded(
+                                  flex: 1,
+                                  child: CustomText(
+                                    text: 'Country',
+                                  ),
+                                ),
+                                Expanded(
+                                  flex: 2,
+                                  child: CustomDropdown(
+                                    labelText: 'Select Country',
+                                    items:
+                                        mrAdminAreaReportProvider.countryList,
+                                    value: mrAdminAreaReportProvider
+                                        .selectedCountry,
+                                    applyCountryFlag: true,
+                                    onChanged: (value) {
+                                      mrAdminAreaReportProvider
+                                          .setSelectedCountry(value);
+                                    },
+                                  ),
+                                ),
+                              ],
+                            ),
+                            const SizedBox(
+                              height: 16,
+                            ),
+                            Row(
+                              children: [
+                                Expanded(
+                                  flex: 1,
+                                  child: CustomText(
+                                    text: mrAdminAreaReportProvider
+                                                .selectedCountry ==
+                                            mrAdminAreaReportProvider
+                                                .countryList[0]
+                                        ? 'District'
+                                        : 'States',
+                                  ),
+                                ),
+                                Expanded(
+                                  flex: 2,
+                                  child: TextFromFieldWithPrefixSuffix(
+                                    controller: mrAdminAreaReportProvider
+                                                .selectedCountry ==
+                                            mrAdminAreaReportProvider
+                                                .countryList[0]
+                                        ? mrAdminAreaReportProvider
+                                            .districtController
+                                        : mrAdminAreaReportProvider
+                                            .stateController,
+                                    readOnly: true,
+                                    labelText: mrAdminAreaReportProvider
+                                                .selectedCountry ==
+                                            mrAdminAreaReportProvider
+                                                .countryList[0]
+                                        ? 'Select District *'
+                                        : 'Select State *',
+                                    validator: (newValue) {},
+                                    onTap: () async {
+                                      String fileName =
+                                          mrAdminAreaReportProvider
+                                                      .selectedCountry ==
+                                                  mrAdminAreaReportProvider
+                                                      .countryList[0]
+                                              ? 'district'
+                                              : 'states';
+                                      final file = await rootBundle
+                                          .loadString('assets/$fileName.json');
+                                      final content = await jsonDecode(file);
+                                      print('Content = $content');
+                                      showModalBottomSheet(
+                                          isScrollControlled: true,
+                                          useSafeArea: true,
+                                          context: context,
+                                          builder: (context) =>
+                                              districtBottomSheet(context,
+                                                  '$fileName', content));
+                                      mrAdminAreaReportProvider
+                                          .searchController.text = '';
+                                      mrAdminAreaReportProvider
+                                          .searchAddressResult(
+                                              mrAdminAreaReportProvider
+                                                  .searchController.value.text,
+                                              content);
+                                    },
+                                  ),
+                                ),
+                              ],
+                            ),
+                            const SizedBox(
+                              height: 16,
+                            ),
+                            Row(
+                              children: [
+                                Expanded(
+                                  flex: 1,
+                                  child: CustomText(
+                                    text: 'City',
+                                  ),
+                                ),
+                                Expanded(
+                                  flex: 2,
+                                  child: TextFromFieldWithPrefixSuffix(
+                                    controller: mrAdminAreaReportProvider
+                                        .cityController,
+                                    readOnly: true,
+                                    labelText: 'City *',
+                                    validator: (newValue) {},
+                                    onTap: () async {
+                                      mrAdminAreaReportProvider
+                                          .searchController.text = '';
+                                      mrAdminAreaReportProvider
+                                          .searchAddressResult(
+                                              mrAdminAreaReportProvider
+                                                  .searchController.value.text,
+                                              mrAdminAreaReportProvider.cities);
+                                      showModalBottomSheet(
+                                          isScrollControlled: true,
+                                          useSafeArea: true,
+                                          context: context,
+                                          builder: (context) =>
+                                              citiesBottomSheet(
+                                                  context,
+                                                  mrAdminAreaReportProvider
+                                                      .cities));
+                                    },
+                                  ),
+                                ),
+                              ],
+                            ),
+                            const SizedBox(
+                              height: 8,
+                            ),
+                            CustomElevatedButton(
+                              onPressed: () {
+                                print('Pressed');
+                              },
+                              backgroundColor: CustomColors.primaryColor,
+                              width: 1,
+                              widget: CustomText(
+                                text: 'Submit',
+                                isContent: true,
+                              ),
+                            ),
+                          ],
                         ),
-                      ),
-                      Expanded(
-                        flex: 2,
-                        child: CustomDropdown(
-                          labelText: 'Select Country',
-                          items: mrAdminAreaReportProvider.countryList,
-                          value: mrAdminAreaReportProvider.selectedCountry,
-                          applyCountryFlag: true,
-                          onChanged: (value) {
-                            mrAdminAreaReportProvider
-                                .setSelectedCountry(value);
+                      )
+                    : SizedBox.shrink(),
+                ListView.builder(
+                  padding: EdgeInsets.symmetric(vertical: 36, horizontal: 12),
+                    shrinkWrap: true, // Shrink-wrap the ListView
+                    physics: const BouncingScrollPhysics(),
+                    itemCount: 20,
+                    itemBuilder: (context, index) {
+                      return Card(
+                        color: Colors.white,
+                        elevation: 5,
+                        child: ListTile(
+                          onTap: () {
+                            print("Pressed");
                           },
+                          title: CustomText(
+                            text: 'Hello $index',
+                            isContent: true,
+                          ),
                         ),
-                      ),
-                    ],
-                  ),
-                  const SizedBox(
-                    height: 16,
-                  ),
-                  Row(
-                    children: [
-                      Expanded(
-                        flex: 1,
-                        child: CustomText(
-                          text: mrAdminAreaReportProvider.selectedCountry ==
-                                  mrAdminAreaReportProvider.countryList[0]
-                              ? 'District'
-                              : 'States',
-                        ),
-                      ),
-                      Expanded(
-                        flex: 2,
-                        child: TextFromFieldWithPrefixSuffix(
-                          controller: mrAdminAreaReportProvider
-                              .selectedCountry ==
-                              mrAdminAreaReportProvider.countryList[0]
-                              ? mrAdminAreaReportProvider
-                              .districtController
-                              : mrAdminAreaReportProvider.stateController,
-                          readOnly: true,
-                          labelText: mrAdminAreaReportProvider
-                              .selectedCountry ==
-                              mrAdminAreaReportProvider.countryList[0]
-                              ? 'Select District *'
-                              : 'Select State *',
-                          validator: (newValue) {},
-                          onTap: () async {
-                            String fileName = mrAdminAreaReportProvider
-                                .selectedCountry ==
-                                mrAdminAreaReportProvider
-                                    .countryList[0]
-                                ? 'district'
-                                : 'states';
-                            final file = await rootBundle
-                                .loadString('assets/$fileName.json');
-                            final content = await jsonDecode(file);
-                            print('Content = $content');
-                            showModalBottomSheet(
-                                isScrollControlled: true,
-                                useSafeArea: true,
-                                context: context,
-                                builder: (context) =>
-                                    districtBottomSheet(
-                                        context, '$fileName', content));
-                            mrAdminAreaReportProvider
-                                .searchController.text = '';
-                            mrAdminAreaReportProvider.searchAddressResult(
-                                mrAdminAreaReportProvider
-                                    .searchController.value.text,
-                                content);
-                          },
-                        ),
-                      ),
-                    ],
-                  ),
-                  const SizedBox(
-                    height: 16,
-                  ),
-                  Row(
-                    children: [
-                      Expanded(
-                        flex: 1,
-                        child: CustomText(
-                          text: 'City',
-                        ),
-                      ),
-                      Expanded(
-                        flex: 2,
-                        child: TextFromFieldWithPrefixSuffix(
-                          controller:
-                          mrAdminAreaReportProvider.cityController,
-                          readOnly: true,
-                          labelText: 'City *',
-                          validator: (newValue) {},
-                          onTap: () async {
-                            mrAdminAreaReportProvider
-                                .searchController.text = '';
-                            mrAdminAreaReportProvider.searchAddressResult(
-                                mrAdminAreaReportProvider
-                                    .searchController.value.text,
-                                mrAdminAreaReportProvider.cities);
-                            showModalBottomSheet(
-                                isScrollControlled: true,
-                                useSafeArea: true,
-                                context: context,
-                                builder: (context) => citiesBottomSheet(
-                                    context,
-                                    mrAdminAreaReportProvider.cities));
-                          },
-                        ),
-                      ),
-                    ],
-                  ),
-                  const SizedBox(
-                    height: 8,
-                  ),
-                  CustomElevatedButton(
-                    onPressed: () {
-                      print('Pressed');
-                    },
-                    backgroundColor: CustomColors.primaryColor,
-                    width: 1,
-                    widget: CustomText(
-                      text: 'Submit',
-                      isContent: true,
-                    ),
-                  ),
-                ],
-              ),
+                      );
+                    }),
+              ],
             ),
-            ListView.builder(
-                shrinkWrap: true, // Shrink-wrap the ListView
-                physics: const BouncingScrollPhysics(),
-                itemCount: 10,
-                itemBuilder: (context, index) {
-                  return ListTile(
-                    onTap: () {
-                      print("Pressed");
-                    },
-                    title: CustomText(
-                      text: 'Hello $index',
-                      isContent: true,
+            !mrAdminAreaReportProvider.showFilter
+                ? Positioned(
+                    top: 16,
+                    right: 16,
+                    child: InkWell(
+                      onTap: (){
+                        mrAdminAreaReportProvider.toggleFilter();
+                      },
+                      child: CircleAvatar(
+                        radius: 24,
+                        backgroundColor: CustomColors.primaryColor,
+                        child: Icon(
+                          FontAwesomeIcons.filter,
+                          color: Colors.black,
+                        ),
+                      ),
                     ),
-                  );
-                }),
+                  )
+                : SizedBox.shrink(),
           ],
         );
       }),
@@ -319,14 +375,18 @@ class _MrAdminAreaReportScreenState extends State<MrAdminAreaReportScreen> {
                       flex: 7,
                       child: TextFromFieldWithPrefixSuffix(
                         controller: mrAdminAreaReportProvider.searchController,
-                        labelText: mrAdminAreaReportProvider.selectedCountry == 'Nepal'
-                            ? 'Search District'
-                            : 'Search State',
+                        labelText:
+                            mrAdminAreaReportProvider.selectedCountry == 'Nepal'
+                                ? 'Search District'
+                                : 'Search State',
                         applySuffixIcon: true,
                         suffixIcon: const Icon(Icons.search),
                         validator: (value) {},
-                        onChange: (value) => mrAdminAreaReportProvider.searchAddressResult(
-                            mrAdminAreaReportProvider.searchController.value.text, content),
+                        onChange: (value) =>
+                            mrAdminAreaReportProvider.searchAddressResult(
+                                mrAdminAreaReportProvider
+                                    .searchController.value.text,
+                                content),
                       ),
                     ),
                   ],
@@ -339,15 +399,18 @@ class _MrAdminAreaReportScreenState extends State<MrAdminAreaReportScreen> {
                 child: ListView.builder(
                   itemCount: mrAdminAreaReportProvider.searchResult.length,
                   itemBuilder: (context, index) {
-                    String name = mrAdminAreaReportProvider.searchResult[index]['$type'];
+                    String name =
+                        mrAdminAreaReportProvider.searchResult[index]['$type'];
                     return ListTile(
                       onTap: () {
                         Navigator.pop(context);
                         type == 'district'
-                            ? mrAdminAreaReportProvider.setSelectedDistrict(name)
+                            ? mrAdminAreaReportProvider
+                                .setSelectedDistrict(name)
                             : mrAdminAreaReportProvider.setSelectedState(name);
                         mrAdminAreaReportProvider.getCities(
-                            mrAdminAreaReportProvider.searchResult[index]['cities']);
+                            mrAdminAreaReportProvider.searchResult[index]
+                                ['cities']);
                         print(mrAdminAreaReportProvider.searchResult[index]);
                       },
                       title: CustomText(
@@ -403,8 +466,11 @@ class _MrAdminAreaReportScreenState extends State<MrAdminAreaReportScreen> {
                         applySuffixIcon: true,
                         suffixIcon: const Icon(Icons.search),
                         validator: (value) {},
-                        onChange: (value) => mrAdminAreaReportProvider.searchAddressResult(
-                            mrAdminAreaReportProvider.searchController.value.text, content),
+                        onChange: (value) =>
+                            mrAdminAreaReportProvider.searchAddressResult(
+                                mrAdminAreaReportProvider
+                                    .searchController.value.text,
+                                content),
                       ),
                     ),
                   ],
@@ -417,7 +483,8 @@ class _MrAdminAreaReportScreenState extends State<MrAdminAreaReportScreen> {
                 child: ListView.builder(
                   itemCount: mrAdminAreaReportProvider.searchResult.length,
                   itemBuilder: (context, index) {
-                    String cityName = mrAdminAreaReportProvider.searchResult[index];
+                    String cityName =
+                        mrAdminAreaReportProvider.searchResult[index];
                     return ListTile(
                       onTap: () {
                         Navigator.pop(context);
