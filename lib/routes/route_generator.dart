@@ -15,6 +15,7 @@ import 'package:deskgoo/pages/mr_officers_pages/mr_officers_dashboard/mr_officer
 import 'package:deskgoo/pages/mr_officers_pages/mr_officers_visits/followUp_visit_screen.dart';
 import 'package:deskgoo/pages/mr_officers_pages/mr_officers_visits/new_visit_screen.dart';
 import 'package:deskgoo/pages/mr_officers_pages/mr_officers_visits/visit_log_screen.dart';
+import 'package:deskgoo/pages/mr_officers_pages/offline_mode_dashboard.dart';
 import 'package:deskgoo/pages/mr_officers_pages/referral/referral_log_screen.dart';
 import 'package:deskgoo/pages/mr_officers_pages/referral/referral_screen.dart';
 import 'package:deskgoo/pages/mr_officers_pages/weeklyplan/addtask_screen.dart';
@@ -182,6 +183,8 @@ class RouteGenerator {
         return MaterialPageRoute(builder: (_) => TermsAndConditionScreen());
         case MarketingOfficerConstants.privacyPolicyScreen:
         return MaterialPageRoute(builder: (_) => PrivacyPolicyScreen());
+        case MarketingOfficerConstants.offlineModeScreen:
+        return MaterialPageRoute(builder: (_) => OfflineModeDashboardScreen());
       default:
         return MaterialPageRoute(builder: (_) => ErrorPage());
     }

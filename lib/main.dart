@@ -35,17 +35,46 @@ import 'package:device_preview/device_preview.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:provider/provider.dart';
+import 'package:workmanager/workmanager.dart';
 import 'firebase_msg.dart';
 import 'firebase_options.dart';
+import 'notifications/notiService.dart';
+
+@pragma('vm:entry-point')
+void callbackDispatcher() {
+  Workmanager().executeTask((task, inputData) async {
+    // print("Native called background task: $task"); //simpleTask will be emitted here.
+    // print("inputData = $inputData");
+    // You can see the notification
+    if(task == 'download_task'){
+      debugPrint('**********************************************************************');
+      debugPrint('Background download task executed');
+      debugPrint('data = $inputData');
+      debugPrint('**********************************************************************');
+    }
+    if(task == 'upload_task'){
+      debugPrint('Background upload task executed');
+    }
+    NotiService().showNotification(
+      title: 'Deskgoo',
+      body: 'Background Notification $inputData',
+    );
+    return Future.value(true);
+  });
+}
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized(); // ✅ ADD THIS FIRST!
+
+  NotiService().initNotification();
+  
+  Workmanager().initialize(callbackDispatcher);
 
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
 
-  await FirebaseMsg().initFCM();
+  // await FirebaseMsg().initFCM();
 
   await dotenv.load(
     fileName: Environment.fileName,
@@ -114,6 +143,7 @@ class MyApp extends StatelessWidget {
         builder: (BuildContext context) {
           final themeChangerProvider =
               Provider.of<ThemeChangerProvider>(context);
+          // return MaterialApp.router(
           return MaterialApp(
             debugShowCheckedModeBanner: false,
             themeMode: themeChangerProvider.themeMode,
@@ -123,6 +153,7 @@ class MyApp extends StatelessWidget {
               primarySwatch: Colors.blue,
               useMaterial3: true,
             ),
+            // routerConfig: appRouter,
             initialRoute: MarketingManagerConstants.splash,
             onGenerateRoute: RouteGenerator.generateRoute,
           );

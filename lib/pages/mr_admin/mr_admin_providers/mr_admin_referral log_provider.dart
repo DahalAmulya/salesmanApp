@@ -1,18 +1,27 @@
 import 'dart:convert';
+import 'dart:io';
+import 'package:deskgoo/pages/mr_admin/mr_admin_pages/reports/referral/model/approval_status_payload.dart';
+import 'package:deskgoo/pages/mr_admin/mr_admin_pages/reports/referral/model/patient_referral_by_user_model.dart';
+import 'package:deskgoo/themes/custom_colors.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 import '../../../services/erp_services.dart';
 import '../../../utils/toast_message.dart';
+import 'package:path/path.dart' as path;
 
-class MrAdminReferralLogProvider extends ChangeNotifier{
-  List<String> _approvalType = ['approved', 'pending', 'rejected'];
+class MrAdminReferralLogProvider extends ChangeNotifier {
+  List<String> _approvalType = ['Approved', 'Pending', 'Rejected'];
   List<String> _referralLogsUsersList = ["Select User"];
   List<String> _referralDateTypeList = ['Today', 'Yesterday', 'Custom'];
-  List<String> _referralType = ["Country","Region","City"];
-  List<String> _countryList = ['Nepal','India',];
+  List<String> _referralType = ["Country", "Region", "City"];
+  List<String> _countryList = [
+    'Nepal',
+    'India',
+  ];
   List<dynamic> _districts = [];
   List<dynamic> _stateList = [];
   List<dynamic> _searchResult = [];
@@ -87,26 +96,20 @@ class MrAdminReferralLogProvider extends ChangeNotifier{
   List<dynamic> get foundReferralByCountry => _foundReferralByCountry;
   List<dynamic> get foundReferralByCity => _foundReferralByCity;
 
-  TextEditingController get fromTextEditingController => _fromTextEditingController;
+  TextEditingController get fromTextEditingController =>
+      _fromTextEditingController;
   TextEditingController get toTextEditingController => _toTextEditingController;
   TextEditingController get searchController => _searchController;
   TextEditingController get cityController => _cityController;
   TextEditingController get districtController => _districtController;
   TextEditingController get stateController => _stateController;
 
-  void approvalStatus(int index, String value) {
-    notifyListeners();
-  }
-
   void getDataForDistrict() async {
     final respose = await rootBundle.loadString('assets/district.json');
-    // print(respose.runtimeType);
     List<dynamic> districtData = json.decode(respose);
-    // print(districtData);
     _districts = districtData;
     _foundDistrictList =
         districtData.map((item) => item['district'] as String).toList();
-    // print(foundDistrictList);
     notifyListeners();
   }
 
@@ -116,14 +119,12 @@ class MrAdminReferralLogProvider extends ChangeNotifier{
     _stateList = stateData;
     _foundStateList =
         stateData.map((item) => item['states'] as String).toList();
-    // print(stateList);
     notifyListeners();
   }
 
   void getCitiesForSelection(
-      String selectedItem,
-      ) {
-    // Clear the previous list of cities
+    String selectedItem,
+  ) {
     _foundCities.clear();
 
     // Search for the state in the stateList
@@ -160,25 +161,25 @@ class MrAdminReferralLogProvider extends ChangeNotifier{
           print('List of cities');
           _searchResult = addressList
               .where((city) => city
-              .toString()
-              .toLowerCase()
-              .contains(enteredKeyWord.toLowerCase()))
+                  .toString()
+                  .toLowerCase()
+                  .contains(enteredKeyWord.toLowerCase()))
               .toList();
         } else if (addressList[0].containsKey('district')) {
           print('List of district');
           _searchResult = addressList
               .where((district) => district['district']
-              .toString()
-              .toLowerCase()
-              .contains(enteredKeyWord.toLowerCase()))
+                  .toString()
+                  .toLowerCase()
+                  .contains(enteredKeyWord.toLowerCase()))
               .toList();
         } else if (addressList[0].containsKey('states')) {
           print('List of states');
           _searchResult = addressList
               .where((states) => states['states']
-              .toString()
-              .toLowerCase()
-              .contains(enteredKeyWord.toLowerCase()))
+                  .toString()
+                  .toLowerCase()
+                  .contains(enteredKeyWord.toLowerCase()))
               .toList();
         }
       } catch (err) {
@@ -190,7 +191,6 @@ class MrAdminReferralLogProvider extends ChangeNotifier{
     // _searchController.text = '';
     notifyListeners();
   }
-
 
   void setSelectedUser(user) {
     _selectedUser = user;
@@ -206,12 +206,12 @@ class MrAdminReferralLogProvider extends ChangeNotifier{
     notifyListeners();
   }
 
-  void setSelectedReferralType(newValue){
+  void setSelectedReferralType(newValue) {
     _selectedReferralType = newValue;
     notifyListeners();
   }
 
-  void setSelectedCountry(newValue){
+  void setSelectedCountry(newValue) {
     _selectedCountry = newValue;
     notifyListeners();
   }
@@ -233,14 +233,11 @@ class MrAdminReferralLogProvider extends ChangeNotifier{
     notifyListeners();
   }
 
-
   void setSelectedCity(value) {
     _selectedCities = value;
     _cityController.text = _selectedCities;
     notifyListeners();
   }
-
-
 
   void setSelectedVisitType(visitType) {
     DateTime currentDate = DateTime.now();
@@ -268,7 +265,8 @@ class MrAdminReferralLogProvider extends ChangeNotifier{
     if (picked == null) {
       return;
     } else {
-      _from = '${picked.year}-${picked.month}-${picked.day}';
+      _from =
+          '${picked.year}-${picked.month < 10 ? '0${picked.month}' : picked.month}-${picked.day}';
     }
     _fromTextEditingController.text = _from;
     notifyListeners();
@@ -284,7 +282,8 @@ class MrAdminReferralLogProvider extends ChangeNotifier{
     if (picked == null) {
       return;
     } else {
-      _to = '${picked.year}-${picked.month}-${picked.day}';
+      _to =
+          '${picked.year}-${picked.month < 10 ? '0${picked.month}' : picked.month}-${picked.day}';
     }
     _toTextEditingController.text = _to;
     notifyListeners();
@@ -295,7 +294,8 @@ class MrAdminReferralLogProvider extends ChangeNotifier{
     _selectedUser = 'Select User';
     _selectedDateReferralType = 'Today';
     _selectedUserId = '';
-    ERPResponse response = await ERPServices.getRequest('/visitLogs/users', context);
+    ERPResponse response =
+        await ERPServices.getRequest('/visitLogs/users', context);
     // print(response.body);
     if (response.statusCode == 200) {
       Map<String, dynamic> body = jsonDecode(response.body);
@@ -311,14 +311,14 @@ class MrAdminReferralLogProvider extends ChangeNotifier{
     if (_selectedUserId.isEmpty) {
       ToastMessageUtils().showToastMessage('Please select a user');
     } else {
-
       if (_selectedUserId.isEmpty || _from.isEmpty || _to.isEmpty) {
-        ToastMessageUtils().showToastMessage('Please select a user and provide valid dates');
+        ToastMessageUtils()
+            .showToastMessage('Please select a user and provide valid dates');
         return;
       }
       ERPResponse response = await ERPServices.getRequest(
-        '/referral/area/region?_id=$_selectedUserId&from=$_from&to=$_to&country=$_selectedCountry&region=$_selectedRegion',context
-      );
+          '/referral/area/region?_id=$_selectedUserId&from=$_from&to=$_to&country=$_selectedCountry&region=$_selectedRegion',
+          context);
       if (response.statusCode == 200) {
         final body = jsonDecode(response.body);
         _foundReferral = body['referralLogs'];
@@ -327,23 +327,25 @@ class MrAdminReferralLogProvider extends ChangeNotifier{
         // print(profileImage);
         // print(_foundReferral.runtimeType);
         // print(response.body);
-      }
-      else{
+      } else {
         _referralList = [];
       }
     }
     notifyListeners();
   }
 
-  void getReferralByCountry(context)async{
+  void getReferralByCountry(context) async {
     if (_selectedUserId.isEmpty) {
       ToastMessageUtils().showToastMessage('Please select a user');
-      }else{
+    } else {
       if (_selectedUserId.isEmpty || _from.isEmpty || _to.isEmpty) {
-        ToastMessageUtils().showToastMessage('Please select a user and provide valid dates');
+        ToastMessageUtils()
+            .showToastMessage('Please select a user and provide valid dates');
         return;
       }
-      ERPResponse response = await ERPServices.getRequest('/referral/area/country?_id=$_selectedUserId&from=$_from&to=$_to&country=$_selectedCountry',context);
+      ERPResponse response = await ERPServices.getRequest(
+          '/referral/area/country?_id=$_selectedUserId&from=$_from&to=$_to&country=$_selectedCountry',
+          context);
       final body = jsonDecode(response.body);
       _foundReferral = body['referralLogs'];
       _profileImage = foundReferral[0]['profileImage'];
@@ -352,15 +354,18 @@ class MrAdminReferralLogProvider extends ChangeNotifier{
     notifyListeners();
   }
 
-  void getReferralLogByCity(context)async{
+  void getReferralLogByCity(context) async {
     if (_selectedUserId.isEmpty) {
       ToastMessageUtils().showToastMessage('Please select a user');
-    }else{
+    } else {
       if (_selectedUserId.isEmpty || _from.isEmpty || _to.isEmpty) {
-        ToastMessageUtils().showToastMessage('Please select a user and provide valid dates');
+        ToastMessageUtils()
+            .showToastMessage('Please select a user and provide valid dates');
         return;
       }
-      ERPResponse response = await ERPServices.getRequest('/referral/area/city?_id=$_selectedUserId&from=$_from&to=$_to&country=$_selectedCountry&region=$_selectedRegion&city=$_selectedCities',context);
+      ERPResponse response = await ERPServices.getRequest(
+          '/referral/area/city?_id=$_selectedUserId&from=$_from&to=$_to&country=$_selectedCountry&region=$_selectedRegion&city=$_selectedCities',
+          context);
       final body = jsonDecode(response.body);
       _foundReferral = body['referralLogs'];
       _profileImage = foundReferral[0]['profileImage'];
@@ -369,9 +374,141 @@ class MrAdminReferralLogProvider extends ChangeNotifier{
     notifyListeners();
   }
 
-  void exportData(context)async{
-    ERPResponse response = await ERPServices.getRequest('/referral/area/export',context);
+  void exportData(context) async {
+    ERPResponse response =
+        await ERPServices.getRequest('/referral/area/export', context);
     print(response.statusCode);
     print(response.body);
+  }
+
+  //// New API Model
+
+  PatientReferralByUserModel _patientReferralModel =
+      PatientReferralByUserModel();
+  PatientReferralByUserModel get patientReferralModel => _patientReferralModel;
+
+  List<Map<String, dynamic>> payload = [];
+
+  void approvalStatus(int index, String value) {
+    _patientReferralModel.data![index].approvalStatus = value;
+
+    String referralId = _patientReferralModel.data![index].id;
+    String approvalStatus = _patientReferralModel.data![index].approvalStatus;
+
+    // Check if referralId already exists in payload
+    int existingIndex =
+        payload.indexWhere((item) => item['referralId'] == referralId);
+
+    if (existingIndex != -1) {
+      // Exists → check if approvalStatus is different
+      if (payload[existingIndex]['approvalStatus'] != approvalStatus) {
+        payload[existingIndex]['approvalStatus'] = approvalStatus;
+      }
+    } else {
+      // Doesn't exist → add new entry
+      payload.add({
+        "referralId": referralId,
+        "approvalStatus": approvalStatus,
+      });
+    }
+
+    debugPrint('Payload: $payload');
+    notifyListeners();
+  }
+
+  void getPatientReferralByUser(context) async {
+    showDialog(
+        context: context,
+        builder: (context) => Center(
+              child: CircularProgressIndicator(
+                color: CustomColors.primaryColor,
+              ),
+            ));
+    debugPrint('from = $_from');
+    debugPrint('to = $_to');
+    ERPResponse response = await ERPServices.getRequest(
+        '/patient-referral/by-user/$_selectedUserId?from=$_from&to=$_to',
+        context);
+    // ERPResponse response = await ERPServices.getRequest('/patient-referral/by-user/$_selectedUserId?from=$_from&to=$_to', context);
+    debugPrint('Status code = ${response.statusCode}');
+    debugPrint('Body = ${response.body}');
+    _patientReferralModel =
+        PatientReferralByUserModel.fromJson(jsonDecode(response.body));
+    debugPrint('Patient Referral Model Data: ${_patientReferralModel.data}');
+    if(_patientReferralModel.data!.length == 0){
+      ToastMessageUtils().showToastMessage('No referral data found for the selected user and date range.', ToastGravity.TOP, CustomColors.lightRed);
+    }
+    Navigator.pop(context);
+    notifyListeners();
+  }
+
+  void downloadReferralReport(context) async {
+    ERPResponse response = await ERPServices.getRequest(
+        '/patient-referral/csv/by-user/$_selectedUserId?from=$_from&to=$_to',
+        context);
+    debugPrint('Download Referral Report Response: ${response.statusCode}');
+    debugPrint('Download Referral Report Response: ${response.body}');
+    if (response.statusCode == 200) {
+      String csvContent = response.body;
+      // Handle the file download logic here
+      // 2. Get the download directory (Android only)
+      Directory downloadDir = Directory('/storage/emulated/0/Download');
+
+      // 3. Create VisitLogs/Rajan Kumar folder
+      String folderPath =
+          path.join(downloadDir.path, 'Referral', _selectedUser);
+      Directory nestedDir = Directory(folderPath);
+
+      if (!nestedDir.existsSync()) {
+        nestedDir.createSync(recursive: true); // Create all folders
+      }
+
+      // 4. Create file inside the folder
+      String filePath = path.join(
+          nestedDir.path, '${selectedUser}_Referral_${_from}_to_$_to.csv');
+      File file = File(filePath);
+
+      await file.writeAsString(csvContent);
+      ToastMessageUtils().showToastMessage(
+          "Success! CSV file saved to: \n$filePath",
+          ToastGravity.TOP,
+          CustomColors.jadeGreen);
+    } else {
+      ToastMessageUtils()
+          .showToastMessage("Error! Failed to download visit log.");
+    }
+  }
+
+  void updateApprovalStatus(context) async {
+    showDialog(
+        context: context,
+        builder: (context) {
+          return Center(
+            child: CircularProgressIndicator(
+              color: CustomColors.primaryColor,
+              strokeWidth: 5,
+            ),
+          );
+        });
+    debugPrint('Updating approval status with payload: $payload');
+    ERPResponse response = await ERPServices.patchRequest(
+        '/patient-referral/by-user/$_selectedUserId', payload, context);
+    if (response.statusCode == 200) {
+      ToastMessageUtils().showToastMessage(
+          'Referral status updated successfully',
+          ToastGravity.TOP,
+          CustomColors.jadeGreen);
+      debugPrint('Update Response: ${response.statusCode}');
+      debugPrint('Update Response: ${response.body}');
+      payload.clear();
+      Navigator.pop(context);
+      getPatientReferralByUser(context);
+    } else {
+      Navigator.pop(context);
+      ToastMessageUtils().showToastMessage(
+        'Failed to update referral status',
+      );
+    }
+    notifyListeners();
   }
 }

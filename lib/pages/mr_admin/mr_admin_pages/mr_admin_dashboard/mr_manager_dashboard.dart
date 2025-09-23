@@ -471,15 +471,15 @@ class _MarketingManagerDashboardState extends State<MarketingManagerDashboard> {
                     .areaReportMarketingOfficersScreen);
               },
             ),
-            _reportRows(
-              context,
-              imgName: 'visits',
-              title: 'Average Visits',
-              onTap: () {
-                Navigator.of(context).pushNamed(MarketingManagerConstants
-                         .averageVisitReportScreen);
-              },
-            ),
+            // _reportRows(
+            //   context,
+            //   imgName: 'visits',
+            //   title: 'Average Visits',
+            //   onTap: () {
+            //     Navigator.of(context).pushNamed(MarketingManagerConstants
+            //              .averageVisitReportScreen);
+            //   },
+            // ),
           ],
         ),
       ),

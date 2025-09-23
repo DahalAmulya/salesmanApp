@@ -19,6 +19,7 @@ import 'package:deskgoo/widgets/texts/custom_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:font_awesome_icon_class/font_awesome_icon_class.dart';
 import 'package:provider/provider.dart';
 
 import '../../../providers/login_provider/login_provider.dart';
@@ -234,6 +235,20 @@ class _LoginPageState extends State<LoginPage> {
                           CustomElevatedButton(
                             onPressed: () {
                               Navigator.of(context)
+                                  .pushNamed(MarketingOfficerConstants.offlineModeScreen);
+                            },
+                            width: 1,
+                            height: 50,
+                            backgroundColor: CustomColors.lightRed,
+                            widget: CustomText(
+                              text: 'Go Offline',
+                              fontWeight: FontWeight.w600,
+                              color: CustomColors.primaryBlack,
+                            ),
+                          ),
+                          CustomElevatedButton(
+                            onPressed: () {
+                              Navigator.of(context)
                                   .pushNamed(MarketingManagerConstants.forgotPage);
                             },
                             widget: CustomText(
@@ -259,64 +274,85 @@ class _LoginPageState extends State<LoginPage> {
   }
 
   void login() async {
+    showDialog(
+      context: context,
+      builder: (_) => const Center(child: CircularProgressIndicator()),
+    );
+
     Map<String, dynamic> body = {
       'email': emailController.value.text.toLowerCase().trim(),
       'password': passwordController.value.text.trim(),
-      // 'email': emailController.value.text.isEmpty
-      //     ? 'farhan@gmail.com'
-      //     : emailController.value.text,
-      // 'password': passwordController.value.text.isEmpty
-      //     ? 'farhan123@'
-      //     : passwordController.value.text,
-      // shuvam@gmail.com
-      // shuvam123@
-      // farhan@gmail.com
-      // farhan123@
-      // nimesh@gmail.com
-      // nimesh123@
-      // location@gmail.com
-      // location123@
-      // jyoti@gmail.com
-      // jyoti123@
-      // hemnarayan@gmail.com
-      // hemnarayan123@
-      // amulya@gmail.com
-      // amulya123@
     };
 
     print('Called login api');
     print(body);
-    ERPResponse response = await ERPServices.ERPlogin(body);
-    print(response.statusCode);
-    print(response.body);
-    if (response.statusCode == 200) {
-      ToastMessageUtils().showToastMessage(
-          'Login successful', ToastGravity.TOP, CustomColors.jadeGreen);
+
+    try {
+      ERPResponse response = await ERPServices.ERPlogin(body)
+          .timeout(const Duration(seconds: 7), onTimeout: () {
+        Navigator.pop(context); // close loading dialog
+        showDialog(
+          context: context,
+          builder: (_) => AlertDialog(
+            title: const Text('Request Timeout'),
+            content: const Text(
+                'The server is taking too long to respond.\nPlease try again later. Offline mode is available.'),
+            actions: [
+              TextButton(
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+                child: const Text('Cancel'),
+              ),
+              TextButton(
+                onPressed: () {
+                  Navigator.pop(context);
+                  Navigator.of(context).pushNamed(
+                      MarketingOfficerConstants.offlineModeScreen);
+                },
+                child: const Text('Go Offline'),
+              ),
+            ],
+          ),
+        );
+        ToastMessageUtils().showToastMessage(
+            'Login Timeout !\nPlease try again later', ToastGravity.TOP);
+        // return a dummy response to satisfy return type
+        return ERPResponse(statusCode: 408, body: '{"message":"timeout"}');
+      });
+
       print(response.statusCode);
-      final decodedBody = jsonDecode(response.body);
-      Map<String, dynamic> data = decodedBody;
-      print(data);
-      print(data['user']);
-      accessToken = data['accessToken'];
-      refreshToken = data['refreshToken'];
-      userId = data['user']['_id'];
-      userName = data['user']['username'];
-      userDob = data['user']['dob'];
-      userGender = data['user']['gender'];
-      userNationality = data['user']['nationality'];
-      userAddress = data['user']['address'];
-      userMaritalStatus = data['user']['maritalStatus'];
-      userEmail = data['user']['email'];
-      profileImage = data['user']['profileImage'];
-      userDoj = data['user']['doj'].toString().split('T')[0];
-      userDepartment = data['user']['department'];
-      userDesignation = data['user']['designation'];
-      isFirstLogin = data['user']['isFirstLogin'];
-      isResetMobile = data['user']['reset'];
-      role = data['user']['role']['role'];
-      userEmail = data['user']['email'];
-      roleValue = data['user']['role']['roleValue'];
-      profileProvider!.setUserInfo(
+      print(response.body);
+
+      if (response.statusCode == 200) {
+        Navigator.pop(context);
+        ToastMessageUtils().showToastMessage(
+            'Login successful', ToastGravity.TOP, CustomColors.jadeGreen);
+        // 🔹 your existing success logic untouched...
+        final decodedBody = jsonDecode(response.body);
+        Map<String, dynamic> data = decodedBody;
+        print(data);
+        print(data['user']);
+        accessToken = data['accessToken'];
+        refreshToken = data['refreshToken'];
+        userId = data['user']['_id'];
+        userName = data['user']['username'];
+        userDob = data['user']['dob'];
+        userGender = data['user']['gender'];
+        userNationality = data['user']['nationality'];
+        userAddress = data['user']['address'];
+        userMaritalStatus = data['user']['maritalStatus'];
+        userEmail = data['user']['email'];
+        profileImage = data['user']['profileImage'];
+        userDoj = data['user']['doj'].toString().split('T')[0];
+        userDepartment = data['user']['department'];
+        userDesignation = data['user']['designation'];
+        isFirstLogin = data['user']['isFirstLogin'];
+        isResetMobile = data['user']['reset'];
+        role = data['user']['role']['role'];
+        userEmail = data['user']['email'];
+        roleValue = data['user']['role']['roleValue'];
+        profileProvider!.setUserInfo(
           name: userName,
           gender: userGender,
           nationality: userNationality,
@@ -325,60 +361,96 @@ class _LoginPageState extends State<LoginPage> {
           email: userEmail,
           doj: userDoj,
           department: userDepartment,
-          profilePic: profileImage);
-      if (rememberMe) {
-        SecureStorage().writeLoginCredentials(SecureStorage.userEmail,
-            emailController.value.text.toLowerCase().trim());
+          profilePic: profileImage,
+        );
+        if (rememberMe) {
+          SecureStorage().writeLoginCredentials(SecureStorage.userEmail,
+              emailController.value.text.toLowerCase().trim());
+          SecureStorage().writeLoginCredentials(
+              SecureStorage.password, passwordController.value.text.trim());
+        }
+        SecureStorage()
+            .writeLoginCredentials(SecureStorage.accessToken, accessToken);
+        SecureStorage().writeLoginCredentials(SecureStorage.userName, userName);
+        SecureStorage()
+            .writeLoginCredentials(SecureStorage.refreshToken, refreshToken);
+        SecureStorage().writeLoginCredentials(SecureStorage.userId, userId);
+        SecureStorage().writeLoginCredentials(SecureStorage.userDoj, userDoj);
+        SecureStorage().writeLoginCredentials(SecureStorage.userDob, userDob);
+        SecureStorage()
+            .writeLoginCredentials(SecureStorage.userAddress, userAddress);
+        SecureStorage()
+            .writeLoginCredentials(SecureStorage.userGender, userGender);
         SecureStorage().writeLoginCredentials(
-            SecureStorage.password, passwordController.value.text.trim());
-      }
-      SecureStorage()
-          .writeLoginCredentials(SecureStorage.accessToken, accessToken);
-      SecureStorage().writeLoginCredentials(SecureStorage.userName, userName);
-      SecureStorage()
-          .writeLoginCredentials(SecureStorage.refreshToken, refreshToken);
-      SecureStorage().writeLoginCredentials(SecureStorage.userId, userId);
-      SecureStorage().writeLoginCredentials(SecureStorage.userDoj, userDoj);
-      SecureStorage().writeLoginCredentials(SecureStorage.userDob, userDob);
-      SecureStorage()
-          .writeLoginCredentials(SecureStorage.userAddress, userAddress);
-      SecureStorage()
-          .writeLoginCredentials(SecureStorage.userGender, userGender);
-      SecureStorage().writeLoginCredentials(
-          SecureStorage.userMaritalStatus, userMaritalStatus);
-      SecureStorage().writeLoginCredentials(
-          SecureStorage.userNationality, userNationality);
-      SecureStorage()
-          .writeLoginCredentials(SecureStorage.userDepartment, userDepartment);
-      SecureStorage().writeLoginCredentials(
-          SecureStorage.userDesignation, userDesignation);
-      SecureStorage().writeLoginCredentials(SecureStorage.role, role);
-      SecureStorage()
-          .writeLoginCredentials(SecureStorage.roleValue, roleValue.toString());
-      SecureStorage().writeLoginCredentials(
-          SecureStorage.rememberMe, rememberMe.toString());
-      SecureStorage()
-          .writeLoginCredentials(SecureStorage.userProfileImage, profileImage);
-      emailController.clear();
-      passwordController.clear();
-      print(data);
-      if (isFirstLogin || isResetMobile) {
-        print('$isFirstLogin, $isResetMobile');
-        Navigator.of(context).push(
-            MaterialPageRoute(builder: (context) => ChangePasswordScreen()));
+            SecureStorage.userMaritalStatus, userMaritalStatus);
+        SecureStorage().writeLoginCredentials(
+            SecureStorage.userNationality, userNationality);
+        SecureStorage()
+            .writeLoginCredentials(SecureStorage.userDepartment, userDepartment);
+        SecureStorage().writeLoginCredentials(
+            SecureStorage.userDesignation, userDesignation);
+        SecureStorage().writeLoginCredentials(SecureStorage.role, role);
+        SecureStorage()
+            .writeLoginCredentials(SecureStorage.roleValue, roleValue.toString());
+        SecureStorage().writeLoginCredentials(
+            SecureStorage.rememberMe, rememberMe.toString());
+        SecureStorage().writeLoginCredentials(
+            SecureStorage.userProfileImage, profileImage);
+        emailController.clear();
+        passwordController.clear();
+        print(data);
+        if (isFirstLogin || isResetMobile) {
+          print('$isFirstLogin, $isResetMobile');
+          Navigator.of(context).push(
+              MaterialPageRoute(builder: (context) => ChangePasswordScreen()));
+        } else {
+          if (roleValue == 1011) {
+            Navigator.of(context).pushNamed(MarketingManagerConstants.homePage);
+            print('Administrator');
+          } else if (roleValue == 3031) {
+            Navigator.of(context)
+                .pushNamed(MarketingOfficerConstants.mrStaffDashboardConst);
+            print('Marketing Officer');
+          }
+        }
       } else {
-        if (roleValue == 1011) {
-          Navigator.of(context).pushNamed(MarketingManagerConstants.homePage);
-          print('Administrator');
-        } else if (roleValue == 3031) {
-          Navigator.of(context)
-              .pushNamed(MarketingOfficerConstants.mrStaffDashboardConst);
-          print('Marketing Officer');
+        Navigator.pop(context);
+        try {
+          ToastMessageUtils().showToastMessage(
+              jsonDecode(response.body)['message'], ToastGravity.TOP);
+        } catch (err) {
+          showDialog(
+            context: context,
+            builder: (_) => AlertDialog(
+              title: const Text('Something went wrong !'),
+              content: const Text(
+                  'An unexpected error occurred. Please try again later. Offline mode is available.'),
+              actions: [
+                TextButton(
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                  child: const Text('Cancel'),
+                ),
+                TextButton(
+                  onPressed: () {
+                    Navigator.pop(context);
+                    Navigator.of(context).pushNamed(
+                        MarketingOfficerConstants.offlineModeScreen);
+                  },
+                  child: const Text('Go Offline'),
+                ),
+              ],
+            ),
+          );
+          ToastMessageUtils().showToastMessage(
+              'Login Failed !\nPlease try again later', ToastGravity.TOP);
         }
       }
-    } else {
+    } catch (e) {
+      Navigator.pop(context);
       ToastMessageUtils().showToastMessage(
-          jsonDecode(response.body)['message'], ToastGravity.TOP);
+          'Unexpected error: $e', ToastGravity.TOP);
     }
   }
 }

@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:core';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:geolocator/geolocator.dart';
@@ -48,6 +49,7 @@ class ReferralsDetailProvider extends ChangeNotifier {
   final _patientStateTextController = TextEditingController();
   final _patientCityTextController = TextEditingController();
   final _patientAddressTextController = TextEditingController();
+  final _remarksTextController = TextEditingController();
 
   final _textController = TextEditingController();
   final _referralNameTextController = TextEditingController();
@@ -74,9 +76,7 @@ class ReferralsDetailProvider extends ChangeNotifier {
   List<String> _citiesList = [];
   List<String> _gender = ["Male", "Female", "Others"];
 
-  String _selectedGender = '';
-  String _defaultGenderValue = 'Male';
-
+  String _selectedGender = 'Male';
   String _pocId = '';
   String _ambId = '';
 
@@ -110,6 +110,8 @@ class ReferralsDetailProvider extends ChangeNotifier {
       _patientCityTextController;
   TextEditingController get patientAddressTextController =>
       _patientAddressTextController;
+  TextEditingController get remarksTextController =>
+      _remarksTextController;
 
   TextEditingController get textController => _textController;
   TextEditingController get referralNameTextController =>
@@ -156,7 +158,6 @@ class ReferralsDetailProvider extends ChangeNotifier {
 
   String get pocId => _pocId;
   String get ambId => _ambId;
-  String get defaultGenderValue => _defaultGenderValue;
 
   List<dynamic> _ambDriverList = [];
   List<dynamic> get ambDriverList => _ambDriverList;
@@ -371,26 +372,30 @@ class ReferralsDetailProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  void setPOCDetails(id, name, category, specialization, age, number, address) {
+  void setPOCDetails(id, name, category, specialization, number, address, context) {
     _pocId = id;
     _referralNameTextController.text = name;
     _referredCategoryTextController.text = category;
     _referredSpecializationTextController.text = specialization;
-    _referralAgeTextController.text = age;
+    // _referralAgeTextController.text = age;
     _referredNumberTextController.text = number;
     _referredAddressTextController.text = address;
+    Navigator.pop(context);
     notifyListeners();
   }
 
   void getPOCList(context) async {
+    showDialog(context: context, builder: (context) => Center(child: CircularProgressIndicator(color: CustomColors.primaryColor,),));
     ERPResponse response = await ERPServices.getRequest(
-        '/poc/category?createdById=$userId&category=', context);
+        '/poc/createdUserId/$userId?category=POC&keyword=', context);
     if (response.statusCode == 200) {
       _pocList = jsonDecode(response.body)['poc'];
       _pocSearchResult = _pocList;
-      // print(_pocList);
-      // Navigator.of(context).pushNamed(MarketingOfficerConstants.followUpVisit);
+      Navigator.pop(context);
     } else {
+      Navigator.pop(context);
+      ToastMessageUtils().showToastMessage(
+          'Failed to load POC list', ToastGravity.TOP, CustomColors.lightRed);
       print('Error: ${response.statusCode} - ${response.body}');
     }
     Position position = await Geolocator.getCurrentPosition(
@@ -404,7 +409,7 @@ class ReferralsDetailProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  void setAmbulancePOCDetails(id, name, ambNumber, number) {
+  void setAmbulancePOCDetails(id, name,ambNumber, number) {
     _ambId = id;
     _ambDriverNameTextController.text = name;
     _ambNumberTextController.text = ambNumber;
@@ -417,14 +422,19 @@ class ReferralsDetailProvider extends ChangeNotifier {
   }
 
   void getAmbulancePOCList(context) async {
+    showDialog(context: context, builder: (context) => Center(child: CircularProgressIndicator(color: CustomColors.primaryColor,),));
     ERPResponse response = await ERPServices.getRequest(
-        '/poc/category?createdById=$userId&category=Ambulance',context);
+        '/poc/createdUserId/$userId?category=Ambulance&keyword=',context);
     if (response.statusCode == 200) {
+      Navigator.pop(context);
       _ambDriverList = jsonDecode(response.body)['poc'];
       _ambSearchResult = _ambDriverList;
       print('ambDriverList = $_ambDriverList');
       // Navigator.of(context).pushNamed(MarketingOfficerConstants.followUpVisit);
     } else {
+      Navigator.pop(context);
+      ToastMessageUtils().showToastMessage(
+          'Failed to load Ambulance POC list', ToastGravity.TOP, CustomColors.lightRed);
       print('Error: ${response.statusCode} - ${response.body}');
     }
     notifyListeners();
@@ -438,6 +448,7 @@ class ReferralsDetailProvider extends ChangeNotifier {
     _patientDistrictTextController.text = '';
     _patientCityTextController.text = '';
     _patientAddressTextController.text = '';
+    _remarksTextController.text = '';
     _referralNameTextController.text = '';
     _referredCategoryTextController.text = '';
     _referredSpecializationTextController.text = '';
@@ -454,8 +465,18 @@ class ReferralsDetailProvider extends ChangeNotifier {
   }
 
   void postReferralPOCList(context) async {
+    showDialog(context: context, builder: (context) => Center(child: CircularProgressIndicator(color: CustomColors.primaryColor,),));
+    Position position = await Geolocator.getCurrentPosition(
+      locationSettings: const LocationSettings(
+        accuracy: LocationAccuracy.best,
+        distanceFilter: 0,
+      ),
+    );
+    _referralLatitude = position.latitude;
+    _referralLongitude = position.longitude;
+
     DateTime now = DateTime.now();
-    String mobileTime = DateFormat('HH:mm:ss yyyy-MM-dd').format(now);
+    String mobileTime = DateFormat('MMMM-dd, yyyy').format(now);
     String dateTime = DateFormat('yyyy-MM-dd HH:mm:ss').format(now);
     String region = '';
 
@@ -479,33 +500,30 @@ class ReferralsDetailProvider extends ChangeNotifier {
       "region": region,
       "city": _cityController.value.text,
       "address": _patientAddressTextController.value.text,
-      "createdById": userId,
-      "createdByName": userName,
-      "pocId": _pocId,
-      "pocName": _referralNameTextController.value.text,
-      "pocNumber": _referredNumberTextController.value.text,
-      "ambId": _ambId,
-      "ambDriverName": _ambDriverNameTextController.value.text,
-      "ambDriverNumber": _ambPhoneNumberTextController.value.text,
-      "ambNumber": _ambNumberTextController.value.text,
+      "remarks": _remarksTextController.value.text,
+      "userId": userId,
+      "pocId": _pocId.isEmpty ? null : _pocId,
+      "ambId": _ambId.isEmpty ? null : _ambId,
       "latitude": _referralLatitude,
       "longitude": _referralLongitude,
       "mobileTime": mobileTime,
-      "dateTime": dateTime
+      "dateTime": dateTime,
     };
 
     print(_body);
     ERPResponse response =
-        await ERPServices.postRequest('/referral?createdById=$userId', _body, context);
+        await ERPServices.postRequest('/patient-referral', _body, context);
     print(response.statusCode);
     print(response.body);
-    if (response.statusCode == 200) {
+    if (response.statusCode == 201) {
       ToastMessageUtils().showToastMessage('Referral created successfully',
           ToastGravity.TOP, CustomColors.jadeGreen);
+      Navigator.pop(context);
       Navigator.of(context)
           .popAndPushNamed(MarketingOfficerConstants.mrStaffDashboardConst);
       print('success');
     } else {
+      Navigator.pop(context);
       ToastMessageUtils().showToastMessage(
           'Something went wrong', ToastGravity.TOP, CustomColors.lightRed);
       print('something is missing');
@@ -519,43 +537,104 @@ class ReferralsDetailProvider extends ChangeNotifier {
     print('selectedDate = ${_selectedDate}');
     ERPResponse response = await ERPServices.getRequest(
         '/referral?_id=$userId&from=$_selectedDate&to=$_selectedDate', context);
-    print(response.statusCode);
-    print(response.body);
+    // print(response.statusCode);
+    // print(response.body);
     _body = jsonDecode(response.body);
     _referralLogs = body['referralLogs'];
-    print(_referralLogs);
+    // print(_referralLogs);
     notifyListeners();
   }
 
-  void searchPocName(String enteredKeyWord, List<dynamic> pocNames) {
-    _pocSearchResult = pocNames;
-    if (enteredKeyWord.isEmpty) {
-      _pocSearchResult = pocNames;
-    } else {
-      _pocSearchResult = pocNames
-          .where((poc) => poc['pocName']
-              .toString()
-              .toLowerCase()
-              .contains(enteredKeyWord.toLowerCase()))
-          .toList();
+  void getReferralLogsByDate(context) async {
+    ERPResponse response = await ERPServices.getRequest(
+        '/patient-referral/by-user/$userId?from=$_selectedDate&to=2$_selectedDate', context);
+    final decodedBody = jsonDecode(response.body);
+    // print(decodedBody['data'].runtimeType);
+    if(decodedBody['data'].isNotEmpty){
+      _referralLogs = decodedBody['data'];
+      print(_referralLogs[0]['_id']);
+    }else{
+      _referralLogs.clear();
     }
-    print('Search Result = $_pocSearchResult');
+    // print(response.body);
     notifyListeners();
   }
 
-  void searchAmbPocName(String enteredKeyWord, List<dynamic> pocNames) {
-    _ambSearchResult = pocNames;
-    if (enteredKeyWord.isEmpty) {
-      _ambSearchResult = pocNames;
-    } else {
-      _ambSearchResult = pocNames
-          .where((poc) => poc['pocName']
-              .toString()
-              .toLowerCase()
-              .contains(enteredKeyWord.toLowerCase()))
-          .toList();
+  // void searchAmbPocName(String enteredKeyWord, List<dynamic> pocNames) {
+  //   _ambSearchResult = pocNames;
+  //   if (enteredKeyWord.isEmpty) {
+  //     _ambSearchResult = pocNames;
+  //   } else {
+  //     _ambSearchResult = pocNames
+  //         .where((poc) => poc['pocName']
+  //             .toString()
+  //             .toLowerCase()
+  //             .contains(enteredKeyWord.toLowerCase()))
+  //         .toList();
+  //   }
+  //   print('Search Result = $_ambSearchResult');
+  //   notifyListeners();
+  // }
+
+  // void searchPocName(String enteredKeyWord, List<dynamic> pocNames) {
+  //   _pocSearchResult = pocNames;
+  //   if (enteredKeyWord.isEmpty) {
+  //     _pocSearchResult = pocNames;
+  //   } else {
+  //     _pocSearchResult = pocNames
+  //         .where((poc) => poc['pocName']
+  //             .toString()
+  //             .toLowerCase()
+  //             .contains(enteredKeyWord.toLowerCase()))
+  //         .toList();
+  //   }
+  //   print('Search Result = $_pocSearchResult');
+  //   notifyListeners();
+  // }
+
+  void searchAmbPocName(String enteredKeyword, BuildContext context) async {
+    try {
+      ERPResponse response = await ERPServices.getRequest(
+        '/poc/createdUserId/$userId?category=Ambulance&keyword=${enteredKeyword.trim()}',
+        context,
+      );
+
+      if (response.statusCode == 200) {
+        List<dynamic> pocList = jsonDecode(response.body)['poc'];
+        debugPrint('pocList = ${pocList}');
+        _ambSearchResult = pocList;
+      } else {
+        _ambSearchResult = [];
+      }
+
+      notifyListeners();
+    } catch (e) {
+      print('Error while searching: $e');
+      _ambSearchResult = [];
+      notifyListeners();
     }
-    print('Search Result = $_ambSearchResult');
-    notifyListeners();
+  }
+
+  void searchPocName(String enteredKeyword, BuildContext context) async {
+    try {
+      ERPResponse response = await ERPServices.getRequest(
+        '/poc/createdUserId/$userId?category=POC&keyword=${enteredKeyword.trim()}',
+        context,
+      );
+
+      if (response.statusCode == 200) {
+        List<dynamic> pocList = jsonDecode(response.body)['poc'];
+        debugPrint('pocList = ${pocList}');
+        _pocSearchResult = pocList;
+      } else {
+        _pocSearchResult = [];
+      }
+
+      notifyListeners();
+    } catch (e) {
+      print('Error while searching: $e');
+      _pocSearchResult = [];
+      notifyListeners();
+    }
   }
 }

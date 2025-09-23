@@ -13,7 +13,7 @@ class TermsOfUse extends StatelessWidget {
       child: RichText(
         textAlign: TextAlign.center,
         text: TextSpan(
-            text: 'By tapping an Login, you are agreeing to our\n',
+            text: 'By tapping on Login, you are agreeing to our\n',
             style: TextStyle(color: Colors.grey.shade800),
             children: [
               TextSpan(

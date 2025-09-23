@@ -157,4 +157,19 @@ class MrAdminAreaReportProvider extends ChangeNotifier {
     print(response.statusCode);
   }
 
+  // New Area Report Method and Variables
+
+  bool _showFilter = true;
+  bool get showFilter => _showFilter;
+
+  void toggleFilter() {
+    _showFilter = !_showFilter;
+    notifyListeners();
+  }
+
+  void setSelectedVisitTypeByAddress(String value) {
+    _selectVisitTypeByAddress = value;
+    notifyListeners();
+  }
+
 }

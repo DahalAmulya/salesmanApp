@@ -17,6 +17,7 @@ class MrOfficerFollowUpProvider extends ChangeNotifier {
   final _ageController = TextEditingController();
   final _genderController = TextEditingController();
   final _numberController = TextEditingController();
+  final _ambulanceNumberController = TextEditingController();
   final _addressController = TextEditingController();
   final _organizationController = TextEditingController();
   final _remarksController = TextEditingController();
@@ -36,6 +37,7 @@ class MrOfficerFollowUpProvider extends ChangeNotifier {
   TextEditingController get ageController => _ageController;
   TextEditingController get genderController => _genderController;
   TextEditingController get numberController => _numberController;
+  TextEditingController get ambulanceNumberController => _ambulanceNumberController;
   TextEditingController get addressController => _addressController;
   TextEditingController get organizationController => _organizationController;
   TextEditingController get remarksController => _remarksController;
@@ -46,18 +48,22 @@ class MrOfficerFollowUpProvider extends ChangeNotifier {
   DateTime get updatedDate => _updatedDate;
 
   void GetPOCList(context) async {
-    ERPResponse response = await ERPServices.getRequest('/poc/createdUserId/$userId', context);
-    if (response.statusCode == 200) {
-      _pocList = jsonDecode(response.body)['poc'];
-      _pocSearchResult = _pocList;
-      print(_pocList);
-      // if (context.mounted) {
-      Navigator.pop(context);
+    try{
+      showDialog(context: context, builder: (_) => const Center(child: CircularProgressIndicator(),));
+      ERPResponse response = await ERPServices.getRequest('/poc/createdUserId/$userId', context).timeout(const Duration(seconds: 7));
+      if (response.statusCode == 200) {
+        _pocList = jsonDecode(response.body)['poc'];
+        _pocSearchResult = _pocList;
+        print(_pocList);
+        Navigator.pop(context);
+        Navigator.pop(context);
         Navigator.of(context)
             .pushNamed(MarketingOfficerConstants.followUpVisit);
-      // } else {
-      //   print('Error: ${response.statusCode} - ${response.body}');
-      // }
+      }
+    }catch (err){
+      Navigator.pop(context);
+      ToastMessageUtils().showToastMessage('Something went wrong!\nPlease try again later.');
+      debugPrint(err.toString());
     }
     notifyListeners();
   }
@@ -92,16 +98,16 @@ class MrOfficerFollowUpProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  void setPOCDetails(id, name, category, specialization, age, gender, number,
+  void setPOCDetails(id, name, category, specialization, gender, number, ambNumber,
       address, organization) {
     _pocId = id;
     _fullNameController.text = name;
     _categoryController.text = category;
     _specializationController.text = specialization;
-    _ageController.text = age;
     _genderController.text = gender;
     _numberController.text = number;
     _addressController.text = address;
+    _ambulanceNumberController.text = ambNumber;
     _organizationController.text = organization;
     notifyListeners();
   }
@@ -115,6 +121,7 @@ class MrOfficerFollowUpProvider extends ChangeNotifier {
     _genderController.text = '';
     _numberController.text = '';
     _addressController.text = '';
+    _ambulanceNumberController.text = '';
     _organizationController.text = '';
     _remarksController.text = '';
     notifyListeners();
@@ -190,33 +197,46 @@ class MrOfficerFollowUpProvider extends ChangeNotifier {
   // }
 
   void postFollowUp(context) async {
-    DateTime now = DateTime.now();
-    String mobileTime = DateFormat('HH:mm:ss yyyy-MM-dd').format(now);
-    DateTime currentTime = DateTime.now();
+    try {
+      showDialog(context: context,
+          builder: (_) => const Center(child: CircularProgressIndicator(),));
+      DateTime now = DateTime.now();
+      String mobileTime = DateFormat('HH:mm:ss yyyy-MM-dd').format(now);
+      DateTime currentTime = DateTime.now();
 
-    Map<String, dynamic> body = {
-      "pocId": _pocId,
-      "pocName": _fullNameController.value.text,
-      "createdById": userId,
-      "remarks": _remarksController.value.text,
-      "mobileTime": mobileTime,
-      "visitDate": currentTime.toString(),
-      "latitude": _latitude,
-      "longitude": _longitude,
-    };
+      Map<String, dynamic> body = {
+        "pocId": _pocId,
+        "pocName": _fullNameController.value.text,
+        "createdById": userId,
+        "remarks": _remarksController.value.text,
+        "mobileTime": mobileTime,
+        "visitDate": currentTime.toString(),
+        "latitude": _latitude,
+        "longitude": _longitude,
+      };
 
-    ERPResponse response = await ERPServices.postRequest('/poc/followup', body, context);
-    print(response.statusCode);
-    print(response.body);
-    print("response : ${body}");
-    if (response.statusCode == 200) {
-      clearValue();
+      ERPResponse response = await ERPServices.postRequest(
+          '/poc/followup', body, context).timeout(const Duration(seconds: 7));
+      print(response.statusCode);
+      print(response.body);
+      print("response : ${body}");
+      if (response.statusCode == 200) {
+        Navigator.pop(context);
+        clearValue();
+        ToastMessageUtils().showToastMessage(
+            'Follow Up successful', ToastGravity.TOP, CustomColors.jadeGreen);
+        Navigator.of(context)
+            .popAndPushNamed(MarketingOfficerConstants.mrStaffDashboardConst);
+      } else {
+        Navigator.pop(context);
+        ToastMessageUtils().showToastMessage('Something went wrong');
+      }
+    } catch (e) {
+      Navigator.pop(context);
       ToastMessageUtils().showToastMessage(
-          'Follow Up successful', ToastGravity.TOP, CustomColors.jadeGreen);
-      Navigator.of(context)
-          .popAndPushNamed(MarketingOfficerConstants.mrStaffDashboardConst);
-    } else {
-      ToastMessageUtils().showToastMessage('Something went wrong');
+          'Something went wrong!\nPlease try again later.');
+      debugPrint(e.toString());
     }
+    notifyListeners();
   }
 }

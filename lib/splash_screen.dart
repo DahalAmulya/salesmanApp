@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:io' show Platform;
 import 'package:deskgoo/classes/secure_storage.dart';
 import 'package:deskgoo/consts.dart';
@@ -36,34 +37,48 @@ class _SplashScreenState extends State<SplashScreenPage> {
     debugPrint(
         '************************** Splash Screen *******************************************');
     debugPrint('Checking token expire');
+
     SecureStorageResponse _id =
-        await SecureStorage().readLoginCredentials(SecureStorage.userId);
+    await SecureStorage().readLoginCredentials(SecureStorage.userId);
     SecureStorageResponse accessTok =
-        await SecureStorage().readLoginCredentials(SecureStorage.accessToken);
-    SecureStorageResponse emailAddr = await SecureStorage().readLoginCredentials(SecureStorage.userEmail);
+    await SecureStorage().readLoginCredentials(SecureStorage.accessToken);
+    SecureStorageResponse emailAddr =
+    await SecureStorage().readLoginCredentials(SecureStorage.userEmail);
     SecureStorageResponse roleVal =
-        await SecureStorage().readLoginCredentials(SecureStorage.roleValue);
+    await SecureStorage().readLoginCredentials(SecureStorage.roleValue);
     SecureStorageResponse roleN =
-        await SecureStorage().readLoginCredentials(SecureStorage.role);
+    await SecureStorage().readLoginCredentials(SecureStorage.role);
     SecureStorageResponse name =
-        await SecureStorage().readLoginCredentials(SecureStorage.userName);
+    await SecureStorage().readLoginCredentials(SecureStorage.userName);
     SecureStorageResponse gen =
-        await SecureStorage().readLoginCredentials(SecureStorage.userGender);
+    await SecureStorage().readLoginCredentials(SecureStorage.userGender);
     SecureStorageResponse doj =
-        await SecureStorage().readLoginCredentials(SecureStorage.userDoj);
+    await SecureStorage().readLoginCredentials(SecureStorage.userDoj);
     SecureStorageResponse dob =
-        await SecureStorage().readLoginCredentials(SecureStorage.userDob);
-    SecureStorageResponse national = await SecureStorage()
-        .readLoginCredentials(SecureStorage.userNationality);
+    await SecureStorage().readLoginCredentials(SecureStorage.userDob);
+    SecureStorageResponse national =
+    await SecureStorage().readLoginCredentials(SecureStorage.userNationality);
     SecureStorageResponse marStat = await SecureStorage()
         .readLoginCredentials(SecureStorage.userMaritalStatus);
     SecureStorageResponse addr =
-        await SecureStorage().readLoginCredentials(SecureStorage.userAddress);
+    await SecureStorage().readLoginCredentials(SecureStorage.userAddress);
     SecureStorageResponse profileImg =
-        await SecureStorage().readLoginCredentials(SecureStorage.userProfileImage);
-    SecureStorageResponse depart = await SecureStorage()
-        .readLoginCredentials(SecureStorage.userDepartment);
-    profileProvider!.setUserInfo(name: name.value, gender: gen.value, nationality: national.value, address: addr.value, maritalStatus: marStat.value, email: emailAddr.value, doj: doj.value, department: depart.value, profilePic: profileImg.value);
+    await SecureStorage().readLoginCredentials(SecureStorage.userProfileImage);
+    SecureStorageResponse depart =
+    await SecureStorage().readLoginCredentials(SecureStorage.userDepartment);
+
+    profileProvider!.setUserInfo(
+      name: name.value,
+      gender: gen.value,
+      nationality: national.value,
+      address: addr.value,
+      maritalStatus: marStat.value,
+      email: emailAddr.value,
+      doj: doj.value,
+      department: depart.value,
+      profilePic: profileImg.value,
+    );
+
     userId = _id.value;
     accessToken = accessTok.value;
     role = roleN.value;
@@ -77,39 +92,50 @@ class _SplashScreenState extends State<SplashScreenPage> {
     userMaritalStatus = marStat.value;
     profileImage = profileImg.value;
 
-    userId = _id.value;
-    accessToken = accessTok.value;
-    role = roleN.value;
-    userName = name.value;
     Map<String, String> header = {
       'Content-Type': 'Application/json',
       'Authorization': 'Bearer $accessToken',
       '_id': userId
     };
+
     if (userId.isNotEmpty) {
       roleValue = int.parse(roleVal.value);
-      final response = await http.get(
-        Uri.parse('${Environment.apiUrl}/hello'),
-        headers: header,
-      );
-      print(response.statusCode);
-      print(response.body);
-      // ERPResponse response = await ERPServices.getRequest('/hello');
-      if (response.statusCode == 200) {
-        if (roleValue == 1011) {
-          Navigator.of(context).pushNamed(MarketingManagerConstants.homePage);
-          print('Administrator');
-        } else if (roleValue == 3031) {
-          Navigator.of(context)
-              .pushNamed(MarketingOfficerConstants.mrStaffDashboardConst);
-          print('Marketing Officer');
+
+      try {
+        final response = await http
+            .get(
+          Uri.parse('${Environment.apiUrl}/hello'),
+          headers: header,
+        )
+            .timeout(const Duration(seconds: 7)); // ⏳ timeout
+
+        print(response.statusCode);
+        print(response.body);
+
+        if (response.statusCode == 200) {
+          if (roleValue == 1011) {
+            Navigator.of(context).pushNamed(MarketingManagerConstants.homePage);
+            print('Administrator');
+          } else if (roleValue == 3031) {
+            Navigator.of(context)
+                .pushNamed(MarketingOfficerConstants.mrStaffDashboardConst);
+            print('Marketing Officer');
+          }
+        } else {
+          Navigator.of(context).pushNamed(MarketingManagerConstants.indexPage);
         }
-      } else {
+      } on TimeoutException {
+        // if request > 10 sec
+        debugPrint("Request timed out after 10 seconds");
+        Navigator.of(context).pushNamed(MarketingManagerConstants.indexPage);
+      } catch (e) {
+        debugPrint("Error: $e");
         Navigator.of(context).pushNamed(MarketingManagerConstants.indexPage);
       }
     } else {
       Navigator.of(context).pushNamed(MarketingManagerConstants.indexPage);
     }
+
     print(accessToken);
     print(userId);
     debugPrint(

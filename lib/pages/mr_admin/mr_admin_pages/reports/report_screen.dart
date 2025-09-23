@@ -86,7 +86,7 @@ class _MrAdminReportScreenState extends State<MrAdminReportScreen> {
       child: Consumer<MrAdminVisitLogProvider>(
           builder: (context, mrAdminVisitLogProvider, _) {
         return CustomAppBar(
-          tabName: 'Visit Log Report',
+          tabName: 'Visit Report',
           centerTitle: true,
           automaticallyImplyLeading: true,
           showTrailingIcons: true,

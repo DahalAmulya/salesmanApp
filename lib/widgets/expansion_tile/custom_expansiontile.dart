@@ -19,6 +19,7 @@ class CustomExpansionTile extends StatelessWidget {
   final bool applyTopBorderRadius;
   final bool applyBottomBorderRadius;
   final bool applyAllBorderRadius;
+  final Widget? trailing;
   // final Function onExpansionChanged;
 
   const CustomExpansionTile({
@@ -43,6 +44,7 @@ class CustomExpansionTile extends StatelessWidget {
     this.applyTopBorderRadius = false,
     this.applyBottomBorderRadius = false,
     this.applyAllBorderRadius = false,
+    this.trailing,
     // required
   });
 
@@ -98,21 +100,12 @@ class CustomExpansionTile extends StatelessWidget {
               fontSize: size,
             ),
           ),
-          trailing: Icon(Icons.keyboard_arrow_down),
+          trailing: trailing ?? Icon(Icons.keyboard_arrow_down),
           children: children,
           onExpansionChanged: (bool value) {
             // setState(() => _customIcon = value);
           },
         ),
-        //       childrenPadding: EdgeInsets.symmetric(
-        //           horizontal: horizontalPad, vertical: verticalPad),
-        //       title: Text(title),
-        //       trailing: Icon(Icons.keyboard_arrow_down),
-        //       children: children,
-        //       onExpansionChanged: (bool value) {
-        //         // setState(() => _customIcon = value);
-        //       },
-        //     ),
       ),
     );
   }

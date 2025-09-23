@@ -78,291 +78,294 @@ class MrOfficerCustomDrawer extends StatelessWidget {
       child: Consumer<UserProvider>(
         builder: (context, userProvider, _) {
           return Consumer<ProfileProvider>(
-            builder: (context, profileProvider, _) {
-              return SafeArea(
-                child: Container(
-                  color: CustomColors.primaryColor,
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      InkWell(
-                        onTap: () {
-                          Navigator.pop(context);
-                          Navigator.of(context)
-                              .pushNamed(MarketingManagerConstants.profilePage);
-                        },
-                        child: Padding(
-                          padding: const EdgeInsets.only(
-                            top: 16.0,
-                            left: 16.0,
-                            bottom: 8.0,
-                          ),
-                          child: Row(
-                            children: [
-                              Container(
-                                padding: const EdgeInsets.symmetric(horizontal: 8),
-                                child: Center(
-                                  child: ClipRRect(
-                                    borderRadius: BorderRadius.circular(100), // Circular border
-                                    child: profileImage.isNotEmpty
-                                        ? Image.network(
-                                      profileProvider.profilePic,
-                                      fit: BoxFit.cover,
-                                      width: 80,
-                                      height: 80,
-                                    )
-                                        : Container(
-                                      width: 80,
-                                      height: 80,
-                                      decoration: BoxDecoration(
-                                        color: CustomColors.primaryBlack,
-                                      ),
-                                      alignment: Alignment.center,
-                                      child: CustomText(
-                                        text: '${profileProvider.name.split(' ')[0][0]}${profileProvider.name.split(' ')[1][0]}',
-                                        size: 24,
-                                        color: CustomColors.primaryWhite,
-                                        fontWeight: FontWeight.w600,
-                                      ),
-                                    ),
-                                  ),
+              builder: (context, profileProvider, _) {
+            return SafeArea(
+              child: Container(
+                color: CustomColors.primaryColor,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    InkWell(
+                      onTap: () {
+                        Navigator.pop(context);
+                        Navigator.of(context)
+                            .pushNamed(MarketingManagerConstants.profilePage);
+                      },
+                      child: Padding(
+                        padding: const EdgeInsets.only(
+                          top: 16.0,
+                          left: 16.0,
+                          bottom: 8.0,
+                        ),
+                        child: Row(
+                          children: [
+                            Container(
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 8),
+                              child: Center(
+                                child: ClipRRect(
+                                  borderRadius: BorderRadius.circular(
+                                      100), // Circular border
+                                  child: profileImage.isNotEmpty
+                                      ? Image.network(
+                                          profileProvider.profilePic,
+                                          fit: BoxFit.cover,
+                                          width: 80,
+                                          height: 80,
+                                        )
+                                      : Container(
+                                          width: 80,
+                                          height: 80,
+                                          decoration: BoxDecoration(
+                                            color: CustomColors.primaryBlack,
+                                          ),
+                                          alignment: Alignment.center,
+                                          child: CustomText(
+                                            text:
+                                                '${profileProvider.name.split(' ')[0][0]}${profileProvider.name.split(' ')[1][0]}',
+                                            size: 24,
+                                            color: CustomColors.primaryWhite,
+                                            fontWeight: FontWeight.w600,
+                                          ),
+                                        ),
                                 ),
                               ),
-                              SizedBox(
-                                width: 16.0,
-                              ),
-                              Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  CustomText(
-                                    text: profileProvider.name,
-                                    color: CustomColors.primaryBlack,
-                                    fontWeight: FontWeight.w600,
-                                  ),
-                                  CustomText(
-                                    text: role,
-                                    color: CustomColors.primaryBlack,
-                                    fontWeight: FontWeight.w500,
-                                    size: 14,
-                                  ),
-                                ],
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                      Divider(
-                        color: CustomColors.primaryBlack,
-                      ),
-                      Expanded(
-                        child: ListView(
-                          children: [
-                            CustomListTile(
-                              onTap: () {
-                                Navigator.of(context).pushNamed(
-                                    MarketingOfficerConstants
-                                        .mrStaffDashboardConst);
-                              },
-                              isTabActive: isHomeActive,
-                              icon: FontAwesomeIcons.house,
-                              text: 'Dashboard',
                             ),
-                            CustomListTile(
-                              onTap: () {
-                                Navigator.of(context).pushNamed(
-                                    MarketingOfficerConstants.weeklyPlanConst);
-                                print('WeeklyPlanScreen');
-                              },
-                              isTabActive: isWeeklyPlanActive,
-                              text: 'Weekly Plan',
-                              isIcon: false,
-                              imgName: 'assets/images/plan.png',
-                              imgBoxFit: BoxFit.scaleDown,
-                              imgHeigt: 32,
-                              imgWidth: 32,
+                            SizedBox(
+                              width: 16.0,
                             ),
-                            CustomListTile(
-                              onTap: () {
-                                Navigator.pop(context);
-                                showModalBottomSheet(
-                                  isScrollControlled: true,
-                                  useSafeArea: true,
-                                  context: context,
-                                  builder: (context) =>
-                                      MrOfficerSelectVisitTypeBottomSheet(),
-                                );
-                              },
-                              isTabActive: isVisitActive,
-                              isIcon: false,
-                              imgName: 'assets/images/visitor.png',
-                              imgBoxFit: BoxFit.scaleDown,
-                              imgHeigt: 32,
-                              imgWidth: 32,
-                              // imgColor: Colors.transparent,
-                              text: 'Visit',
-                              textColor: CustomColors.primaryBlack,
-                            ),
-                            // CustomListTile(
-                            //   onTap: () {
-                            //     // GoRouter.of(context).pushReplacementNamed(
-                            //     //     MyAppRouteConstants.visitRouteName);
-                            //     Navigator.of(context)
-                            //         .pushNamed(MarketingManagerConstants.visitPage);
-                            //   },
-                            //   isTabActive: isVisitActive,
-                            //   isIcon: false,
-                            //   imgName: 'assets/images/order.png',
-                            //   imgBoxFit: BoxFit.scaleDown,
-                            //   imgHeigt: 32,
-                            //   imgWidth: 32,
-                            //   // imgColor: Colors.transparent,
-                            //   text: 'Order',
-                            //   textColor: CustomColors.primaryBlack,
-                            // ),
-                            CustomListTile(
-                              onTap: () {
-                                Navigator.pop(context);
-                                // MrOfficerAttendanceBottomSheet.attendanceBottomSheet(
-                                //     context);
-                                showModalBottomSheet(
-                                  isScrollControlled: true,
-                                  useSafeArea: true,
-                                  context: context,
-                                  builder: (context) =>
-                                      MrOfficerAttendanceBottomSheet(),
-                                );
-                              },
-                              isTabActive: isAttendanceActive,
-                              isIcon: false,
-                              imgName: 'assets/images/biometricAttendanceWhite.png',
-                              imgBoxFit: BoxFit.scaleDown,
-                              imgHeigt: 32,
-                              imgWidth: 32,
-                              imgColor: CustomColors.primaryBlack,
-                              text: 'Attendance',
-                              textColor: CustomColors.primaryBlack,
-                            ),
-                            CustomListTile(
-                              onTap: () {
-                                Navigator.pop(context);
-                                showModalBottomSheet(
-                                  isScrollControlled: true,
-                                  useSafeArea: true,
-                                  context: context,
-                                  builder: (context) =>
-                                      MrOfficerSelectReferralTypeBottomSheet(),
-                                );
-                              },
-                              isTabActive: isAlertDialog,
-                              text: 'Referral',
-                              icon: Icons.share,
-                            ),
-                            CustomListTile(
-                              onTap: () {
-                                showDialog(
-                                  context: context,
-                                  builder: (_) {
-                                    return AlertDialog(
-                                      elevation: 10,
-                                      backgroundColor: CustomColors.primaryWhite,
-                                      title: CustomText(
-                                        text: 'Logout ?',
-                                        isHeading: true,
-                                        // fontWeight: FontWeight.bold,
-                                        // size: 24.0,
-                                        // color: Colors.red,
-                                      ),
-                                      content: CustomText(
-                                        text: 'Are you sure you want to logout ?',
-                                        maxLines: 2,
-                                        isSubHeading: true,
-                                      ),
-                                      actions: [
-                                        Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.spaceBetween,
-                                          children: [
-                                            CustomElevatedButton(
-                                              onPressed: () {
-                                                Navigator.pop(context, false);
-                                              },
-                                              // backgroundColor: Colors.green,
-                                              backgroundColor:
-                                                  CustomColors.primaryColor,
-                                              widget: CustomText(
-                                                text: 'No',
-                                                isContent: true,
-                                              ),
-                                            ),
-                                            CustomElevatedButton(
-                                              onPressed: () {
-                                                // First navigate to the root page '/' and remove all other pages from the stack.
-                                                // Navigate to the root page ('/') using GoRouter
-                                                // context.go(MyAppRouteConstants.loginRouteName); // Navigates to the initial page (home)
-                                                // Navigator.pop(context, false);
-
-                                                // SystemNavigator.pop();
-                                                AttendanceProvider?
-                                                    attendanceProvider;
-                                                MrOfficerVisitProvider?
-                                                    mrOfficerVisitProvider;
-                                                ChangePasswordProvider?
-                                                    changePasswordProvider;
-                                                attendanceProvider =
-                                                    Provider.of<AttendanceProvider>(
-                                                        context,
-                                                        listen: false);
-                                                mrOfficerVisitProvider = Provider
-                                                    .of<MrOfficerVisitProvider>(
-                                                        context,
-                                                        listen: false);
-                                                changePasswordProvider = Provider
-                                                    .of<ChangePasswordProvider>(
-                                                        context,
-                                                        listen: false);
-                                                attendanceProvider.resetValue();
-                                                mrOfficerVisitProvider
-                                                    .clearTextControllersValue();
-                                                changePasswordProvider
-                                                    .resetValues();
-                                                Navigator.pop(context);
-                                                Navigator.of(context).pushNamed(
-                                                    MarketingManagerConstants
-                                                        .indexPage);
-                                                // exit(0);
-                                              },
-                                              // backgroundColor: Colors.red,
-                                              backgroundColor:
-                                                  CustomColors.lightRed,
-                                              widget: CustomText(
-                                                text: 'Yes',
-                                                isContent: true,
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                      ],
-                                    );
-                                  },
-                                );
-                                // Navigator.of(context)
-                                //     .pushNamed(MarketingManagerConstants.indexPage);
-                              },
-                              isTabActive: isAlertDialog,
-                              text: 'Logout',
-                              icon: Icons.logout,
-                              iconSize: 22.0,
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                CustomText(
+                                  text: profileProvider.name,
+                                  color: CustomColors.primaryBlack,
+                                  fontWeight: FontWeight.w600,
+                                ),
+                                CustomText(
+                                  text: role,
+                                  color: CustomColors.primaryBlack,
+                                  fontWeight: FontWeight.w500,
+                                  size: 14,
+                                ),
+                              ],
                             ),
                           ],
                         ),
                       ),
-                    ],
-                  ),
+                    ),
+                    Divider(
+                      color: CustomColors.primaryBlack,
+                    ),
+                    Expanded(
+                      child: ListView(
+                        children: [
+                          CustomListTile(
+                            onTap: () {
+                              Navigator.of(context).pushNamed(
+                                  MarketingOfficerConstants
+                                      .mrStaffDashboardConst);
+                            },
+                            isTabActive: isHomeActive,
+                            icon: FontAwesomeIcons.house,
+                            text: 'Dashboard',
+                          ),
+                          CustomListTile(
+                            onTap: () {
+                              Navigator.of(context).pushNamed(
+                                  MarketingOfficerConstants.weeklyPlanConst);
+                              print('WeeklyPlanScreen');
+                            },
+                            isTabActive: isWeeklyPlanActive,
+                            text: 'Weekly Plan',
+                            isIcon: false,
+                            imgName: 'assets/images/plan.png',
+                            imgBoxFit: BoxFit.scaleDown,
+                            imgHeigt: 32,
+                            imgWidth: 32,
+                          ),
+                          CustomListTile(
+                            onTap: () {
+                              Navigator.pop(context);
+                              showModalBottomSheet(
+                                isScrollControlled: true,
+                                useSafeArea: true,
+                                context: context,
+                                builder: (context) =>
+                                    MrOfficerSelectVisitTypeBottomSheet(),
+                              );
+                            },
+                            isTabActive: isVisitActive,
+                            isIcon: false,
+                            imgName: 'assets/images/visitor.png',
+                            imgBoxFit: BoxFit.scaleDown,
+                            imgHeigt: 32,
+                            imgWidth: 32,
+                            // imgColor: Colors.transparent,
+                            text: 'Visit',
+                            textColor: CustomColors.primaryBlack,
+                          ),
+                          // CustomListTile(
+                          //   onTap: () {
+                          //     // GoRouter.of(context).pushReplacementNamed(
+                          //     //     MyAppRouteConstants.visitRouteName);
+                          //     Navigator.of(context)
+                          //         .pushNamed(MarketingManagerConstants.visitPage);
+                          //   },
+                          //   isTabActive: isVisitActive,
+                          //   isIcon: false,
+                          //   imgName: 'assets/images/order.png',
+                          //   imgBoxFit: BoxFit.scaleDown,
+                          //   imgHeigt: 32,
+                          //   imgWidth: 32,
+                          //   // imgColor: Colors.transparent,
+                          //   text: 'Order',
+                          //   textColor: CustomColors.primaryBlack,
+                          // ),
+                          CustomListTile(
+                            onTap: () {
+                              Navigator.pop(context);
+                              // MrOfficerAttendanceBottomSheet.attendanceBottomSheet(
+                              //     context);
+                              showModalBottomSheet(
+                                isScrollControlled: true,
+                                useSafeArea: true,
+                                context: context,
+                                builder: (context) =>
+                                    MrOfficerAttendanceBottomSheet(),
+                              );
+                            },
+                            isTabActive: isAttendanceActive,
+                            isIcon: false,
+                            imgName:
+                                'assets/images/biometricAttendanceWhite.png',
+                            imgBoxFit: BoxFit.scaleDown,
+                            imgHeigt: 32,
+                            imgWidth: 32,
+                            imgColor: CustomColors.primaryBlack,
+                            text: 'Attendance',
+                            textColor: CustomColors.primaryBlack,
+                          ),
+                          CustomListTile(
+                            onTap: () {
+                              Navigator.pop(context);
+                              showModalBottomSheet(
+                                isScrollControlled: true,
+                                useSafeArea: true,
+                                context: context,
+                                builder: (context) =>
+                                    MrOfficerSelectReferralTypeBottomSheet(),
+                              );
+                            },
+                            isTabActive: isAlertDialog,
+                            text: 'Referral',
+                            icon: Icons.share,
+                          ),
+                          CustomListTile(
+                            onTap: () {
+                              showDialog(
+                                context: context,
+                                builder: (_) {
+                                  return AlertDialog(
+                                    elevation: 10,
+                                    backgroundColor: CustomColors.primaryWhite,
+                                    title: CustomText(
+                                      text: 'Logout ?',
+                                      isHeading: true,
+                                      // fontWeight: FontWeight.bold,
+                                      // size: 24.0,
+                                      // color: Colors.red,
+                                    ),
+                                    content: CustomText(
+                                      text: 'Are you sure you want to logout ?',
+                                      maxLines: 2,
+                                      isSubHeading: true,
+                                    ),
+                                    actions: [
+                                      Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          CustomElevatedButton(
+                                            onPressed: () {
+                                              Navigator.pop(context, false);
+                                            },
+                                            // backgroundColor: Colors.green,
+                                            backgroundColor:
+                                                CustomColors.primaryColor,
+                                            widget: CustomText(
+                                              text: 'No',
+                                              isContent: true,
+                                            ),
+                                          ),
+                                          CustomElevatedButton(
+                                            onPressed: () {
+                                              // First navigate to the root page '/' and remove all other pages from the stack.
+                                              // Navigate to the root page ('/') using GoRouter
+                                              // context.go(MyAppRouteConstants.loginRouteName); // Navigates to the initial page (home)
+                                              // Navigator.pop(context, false);
+
+                                              // SystemNavigator.pop();
+                                              AttendanceProvider?
+                                                  attendanceProvider;
+                                              MrOfficerVisitProvider?
+                                                  mrOfficerVisitProvider;
+                                              ChangePasswordProvider?
+                                                  changePasswordProvider;
+                                              attendanceProvider = Provider.of<
+                                                      AttendanceProvider>(
+                                                  context,
+                                                  listen: false);
+                                              mrOfficerVisitProvider = Provider
+                                                  .of<MrOfficerVisitProvider>(
+                                                      context,
+                                                      listen: false);
+                                              changePasswordProvider = Provider
+                                                  .of<ChangePasswordProvider>(
+                                                      context,
+                                                      listen: false);
+                                              attendanceProvider.resetValue();
+                                              mrOfficerVisitProvider
+                                                  .clearTextControllersValue();
+                                              changePasswordProvider
+                                                  .resetValues();
+                                              Navigator.pop(context);
+                                              Navigator.of(context).pushNamed(
+                                                  MarketingManagerConstants
+                                                      .indexPage);
+                                              // exit(0);
+                                            },
+                                            // backgroundColor: Colors.red,
+                                            backgroundColor:
+                                                CustomColors.lightRed,
+                                            widget: CustomText(
+                                              text: 'Yes',
+                                              isContent: true,
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ],
+                                  );
+                                },
+                              );
+                              // Navigator.of(context)
+                              //     .pushNamed(MarketingManagerConstants.indexPage);
+                            },
+                            isTabActive: isAlertDialog,
+                            text: 'Logout',
+                            icon: Icons.logout,
+                            iconSize: 22.0,
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
                 ),
-              );
-            }
-          );
+              ),
+            );
+          });
         },
       ),
     );

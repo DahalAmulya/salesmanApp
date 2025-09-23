@@ -21,47 +21,54 @@ class ReferralLogScreen extends StatefulWidget {
   State<ReferralLogScreen> createState() => _ReferralLogScreenState();
 }
 
-class _ReferralLogScreenState extends State<ReferralLogScreen> {
-  bool myAnimation = false;
-  double width = 0;
+class _ReferralLogScreenState extends State<ReferralLogScreen>
+    with SingleTickerProviderStateMixin {
+  bool _animateList = false;
+  double _screenWidth = 0;
+  late final AnimationController _pulseCtrl;
 
   @override
   void initState() {
     super.initState();
-    MrAdminReferralLogProvider mrAdminReferralLogProvider =
-        Provider.of<MrAdminReferralLogProvider>(context, listen: false);
-    mrAdminReferralLogProvider.getDataForDistrict();
-    mrAdminReferralLogProvider.getDataForState();
-    mrAdminReferralLogProvider.getVisitLogsList(context);
+    _pulseCtrl = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 900),
+      lowerBound: 0.98,
+      upperBound: 1.02,
+    )..repeat(reverse: true);
+
+    final mr = Provider.of<MrAdminReferralLogProvider>(context, listen: false);
+    mr.getDataForDistrict();
+    mr.getDataForState();
+    mr.getVisitLogsList(context);
   }
 
-  void _triggerAnimation() {
-    setState(() {
-      myAnimation = false;
-    });
+  @override
+  void dispose() {
+    _pulseCtrl.dispose();
+    super.dispose();
+  }
 
-    Future.delayed(const Duration(milliseconds: 200), () {
-      setState(() {
-        myAnimation = true;
-      });
+  void _stagger() {
+    setState(() => _animateList = false);
+    Future.delayed(const Duration(milliseconds: 120), () {
+      if (mounted) setState(() => _animateList = true);
     });
   }
 
   @override
   Widget build(BuildContext context) {
-    width = MediaQuery.of(context).size.width;
+    _screenWidth = MediaQuery.of(context).size.width;
+
     return PopScope(
       canPop: false,
-      onPopInvoked: ((didpop) {
-        if (didpop) {
-          return;
-        }
+      onPopInvoked: (didpop) {
+        if (didpop) return;
         Navigator.of(context).pop(MarketingManagerConstants.homePage);
-      }),
+      },
       child: GestureDetector(
         onTap: () {
-          // Dismiss the keyboard when tapping outside TextFormFields
-          FocusScopeNode currentFocus = FocusScope.of(context);
+          final currentFocus = FocusScope.of(context);
           if (!currentFocus.hasPrimaryFocus) {
             FocusScope.of(context).unfocus();
           }
@@ -75,916 +82,183 @@ class _ReferralLogScreenState extends State<ReferralLogScreen> {
     );
   }
 
-  PreferredSize _appBar(context) {
+  PreferredSize _appBar(BuildContext context) {
     return PreferredSize(
-      preferredSize: Size.fromHeight(kToolbarHeight),
-      child: CustomAppBar(
-        tabName: 'Referral Log Report',
-        centerTitle: true,
-        automaticallyImplyLeading: true,
-        onTap: () {
-          Navigator.of(context).pop(MarketingManagerConstants.homePage);
+      preferredSize: const Size.fromHeight(kToolbarHeight),
+      child: Consumer<MrAdminReferralLogProvider>(
+        builder: (context, mr, _) {
+          return CustomAppBar(
+            tabName: 'Referral Report',
+            centerTitle: true,
+            automaticallyImplyLeading: true,
+            showTrailingIcons: true,
+            showApproveButton: true,
+            onTapTrailingApproveIcon: () {
+              mr.updateApprovalStatus(context);
+            },
+            onTap: () {
+              Navigator.of(context).pop(MarketingManagerConstants.homePage);
+            },
+          );
         },
       ),
     );
   }
 
-  Widget _body(context) {
+  Widget _body(BuildContext context) {
     return Consumer<MrAdminReferralLogProvider>(
-      builder: (context, mrAdminReferralLogProvider, _) {
-        return ListView(
+      builder: (context, mr, _) {
+        final hasData = mr.patientReferralModel.data != null &&
+            mr.patientReferralModel.data!.isNotEmpty;
+
+        return RefreshIndicator(
+          onRefresh: () async {
+            await Future.delayed(const Duration(milliseconds: 300));
+            mr.getVisitLogsList(context);
+          },
+          child: ListView(
+            padding: const EdgeInsets.only(bottom: 24),
+            children: [
+              const SizedBox(height: 12),
+
+              // Sticky-ish summary card (appears when data is present)
+              AnimatedSwitcher(
+                duration: const Duration(milliseconds: 300),
+                child: hasData
+                    ? Padding(
+                        key: const ValueKey('summary'),
+                        padding: const EdgeInsets.symmetric(horizontal: 12),
+                        child: _summaryHeader(context, mr),
+                      )
+                    : const SizedBox.shrink(key: ValueKey('nosummary')),
+              ),
+
+              const SizedBox(height: 12),
+
+              // FILTERS
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 12),
+                child: _filters(context, mr),
+              ),
+
+              const SizedBox(height: 12),
+
+              // RESULT HEADER + DOWNLOAD
+              if (hasData)
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 12),
+                  child: _resultHeader(context, mr),
+                ),
+
+              const SizedBox(height: 8),
+
+              // LIST
+              AnimatedSwitcher(
+                duration: const Duration(milliseconds: 300),
+                child: hasData
+                    ? Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 12),
+                        child: _referralList(context, mr),
+                      )
+                    : _emptyState(context),
+              ),
+            ],
+          ),
+        );
+      },
+    );
+  }
+
+  Widget _summaryHeader(BuildContext context, MrAdminReferralLogProvider mr) {
+    final username = mr.patientReferralModel.data![0].userId.username;
+    final profile = mr.patientReferralModel.data![0].userId.profileImage ?? '';
+
+    final total = mr.patientReferralModel.data!.length;
+
+    return ScaleTransition(
+      scale: _pulseCtrl,
+      child: CustomContainer(
+        horizontalPad: 16,
+        verticalPad: 16,
+        applyShadow: true,
+        child: Row(
           children: [
-            const SizedBox(
-              height: 16,
-            ),
-            Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                CustomContainer(
-                  horizontalPad: 0,
-                  verticalPad: 0,
-                  color: Colors.transparent,
-                  child: CustomExpansionTile(
-                    initiallyExpanded: mrAdminReferralLogProvider.isExpanded,
-                    applyAllBorderRadius: true,
-                    title: 'Select User',
-                    size: 20,
-                    fontWeight: FontWeight.w600,
+            _safeAvatar(profile, username),
+            const SizedBox(width: 12),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  CustomText(text: username, isSubHeading: true),
+                  const SizedBox(height: 6),
+                  Row(
                     children: [
-                      Column(
-                        children: [
-                          const SizedBox(
-                            height: 16,
-                          ),
-                          CustomDropdown(
-                            labelText: 'Select User',
-                            items: mrAdminReferralLogProvider
-                                .referralLogsUsersList,
-                            value: mrAdminReferralLogProvider.selectedUser,
-                            onChanged: (value) {
-                              mrAdminReferralLogProvider.setSelectedUser(value);
-                            },
-                          ),
-                          const SizedBox(
-                            height: 16,
-                          ),
-                          CustomDropdown(
-                            labelText: 'Select Date',
-                            items:
-                                mrAdminReferralLogProvider.referralDateTypeList,
-                            value: mrAdminReferralLogProvider
-                                .selectedDateReferralType,
-                            onChanged: (value) {
-                              mrAdminReferralLogProvider
-                                  .setSelectedVisitType(value);
-                            },
-                          ),
-                          SizedBox(
-                            height: mrAdminReferralLogProvider
-                                        .selectedDateReferralType ==
-                                    mrAdminReferralLogProvider
-                                        .referralDateTypeList[2]
-                                ? 16
-                                : 0,
-                          ),
-                          if (mrAdminReferralLogProvider
-                                  .selectedDateReferralType ==
-                              'Custom')
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Expanded(
-                                  flex: 1,
-                                  child: TextFromFieldWithPrefixSuffix(
-                                    labelText: 'From',
-                                    readOnly: true,
-                                    controller: mrAdminReferralLogProvider
-                                        .fromTextEditingController,
-                                    onTap: () {
-                                      mrAdminReferralLogProvider
-                                          .selectDateFrom(context);
-                                    },
-                                    validator: (value) {},
-                                  ),
-                                ),
-                                const SizedBox(
-                                  width: 12,
-                                ),
-                                Expanded(
-                                  flex: 1,
-                                  child: TextFromFieldWithPrefixSuffix(
-                                    labelText: 'To',
-                                    readOnly: true,
-                                    controller: mrAdminReferralLogProvider
-                                        .toTextEditingController,
-                                    onTap: () {
-                                      mrAdminReferralLogProvider
-                                          .selectDateTo(context);
-                                    },
-                                    validator: (value) {},
-                                  ),
-                                ),
-                              ],
-                            ),
-                          const SizedBox(
-                            height: 16,
-                          ),
-                          CustomDropdown(
-                            labelText: 'Select Referral Type',
-                            items: mrAdminReferralLogProvider.referralType,
-                            value:
-                                mrAdminReferralLogProvider.selectedReferralType,
-                            onChanged: (value) {
-                              mrAdminReferralLogProvider
-                                  .setSelectedReferralType(value);
-                            },
-                          ),
-                          const SizedBox(
-                            height: 16,
-                          ),
-                          if (mrAdminReferralLogProvider.selectedReferralType ==
-                              'Country')
-                            Column(
-                              children: [
-                                CustomDropdown(
-                                  labelText: 'Select Country',
-                                  items: mrAdminReferralLogProvider.countryList,
-                                  value: mrAdminReferralLogProvider
-                                      .selectedCountry,
-                                  applyCountryFlag: true,
-                                  onChanged: (value) {
-                                    mrAdminReferralLogProvider
-                                        .setSelectedCountry(value);
-                                  },
-                                ),
-                              ],
-                            ),
-                          if (mrAdminReferralLogProvider.selectedReferralType ==
-                              'Region')
-                            Column(
-                              children: [
-                                CustomDropdown(
-                                  labelText: 'Country',
-                                  items: mrAdminReferralLogProvider.countryList,
-                                  value: mrAdminReferralLogProvider
-                                      .selectedCountry,
-                                  applyCountryFlag: true,
-                                  onChanged: (newValue) {
-                                    mrAdminReferralLogProvider
-                                        .setSelectedCountry(newValue);
-                                  },
-                                ),
-                                const SizedBox(
-                                  height: 16,
-                                ),
-                                TextFromFieldWithPrefixSuffix(
-                                  controller: mrAdminReferralLogProvider
-                                              .selectedCountry ==
-                                          mrAdminReferralLogProvider
-                                              .countryList[0]
-                                      ? mrAdminReferralLogProvider
-                                          .districtController
-                                      : mrAdminReferralLogProvider
-                                          .stateController,
-                                  readOnly: true,
-                                  labelText: mrAdminReferralLogProvider
-                                              .selectedCountry ==
-                                          mrAdminReferralLogProvider
-                                              .countryList[0]
-                                      ? 'District *'
-                                      : 'State *',
-                                  validator: (newValue) {},
-                                  onTap: () async {
-                                    String fileName = mrAdminReferralLogProvider
-                                                .selectedCountry ==
-                                            mrAdminReferralLogProvider
-                                                .countryList[0]
-                                        ? 'district'
-                                        : 'states';
-                                    final file = await rootBundle
-                                        .loadString('assets/$fileName.json');
-                                    final content = await jsonDecode(file);
-                                    showModalBottomSheet(
-                                        isScrollControlled: true,
-                                        useSafeArea: true,
-                                        context: context,
-                                        builder: (context) =>
-                                            districtBottomSheet(
-                                                context, '$fileName', content));
-                                    mrAdminReferralLogProvider
-                                        .searchController.text = '';
-                                    mrAdminReferralLogProvider
-                                        .searchAddressResult(
-                                            mrAdminReferralLogProvider
-                                                .searchController.value.text,
-                                            content);
-                                  },
-                                ),
-                              ],
-                            ),
-                          // Condition for City
-                          if (mrAdminReferralLogProvider.selectedReferralType ==
-                              'City')
-                            Column(
-                              children: [
-                                CustomDropdown(
-                                  labelText: 'Country',
-                                  items: mrAdminReferralLogProvider.countryList,
-                                  value: mrAdminReferralLogProvider
-                                      .selectedCountry,
-                                  applyCountryFlag: true,
-                                  onChanged: (newValue) {
-                                    mrAdminReferralLogProvider
-                                        .setSelectedCountry(newValue);
-                                  },
-                                ),
-                                const SizedBox(
-                                  height: 16,
-                                ),
-                                TextFromFieldWithPrefixSuffix(
-                                  controller: mrAdminReferralLogProvider
-                                              .selectedCountry ==
-                                          mrAdminReferralLogProvider
-                                              .countryList[0]
-                                      ? mrAdminReferralLogProvider
-                                          .districtController
-                                      : mrAdminReferralLogProvider
-                                          .stateController,
-                                  readOnly: true,
-                                  labelText: mrAdminReferralLogProvider
-                                              .selectedCountry ==
-                                          mrAdminReferralLogProvider
-                                              .countryList[0]
-                                      ? 'District *'
-                                      : 'State *',
-                                  validator: (newValue) {},
-                                  onTap: () async {
-                                    String fileName = mrAdminReferralLogProvider
-                                                .selectedCountry ==
-                                            mrAdminReferralLogProvider
-                                                .countryList[0]
-                                        ? 'district'
-                                        : 'states';
-                                    final file = await rootBundle
-                                        .loadString('assets/$fileName.json');
-                                    final content = await jsonDecode(file);
-                                    showModalBottomSheet(
-                                        isScrollControlled: true,
-                                        useSafeArea: true,
-                                        context: context,
-                                        builder: (context) =>
-                                            districtBottomSheet(
-                                                context, fileName, content));
-                                    mrAdminReferralLogProvider
-                                        .searchController.text = '';
-                                    mrAdminReferralLogProvider
-                                        .searchAddressResult(
-                                            mrAdminReferralLogProvider
-                                                .searchController.value.text,
-                                            content);
-                                  },
-                                ),
-                                const SizedBox(
-                                  height: 16,
-                                ),
-                                TextFromFieldWithPrefixSuffix(
-                                  controller:
-                                      mrAdminReferralLogProvider.cityController,
-                                  readOnly: true,
-                                  labelText: 'City *',
-                                  validator: (newValue) {},
-                                  onTap: () async {
-                                    mrAdminReferralLogProvider
-                                        .searchController.text = '';
-                                    mrAdminReferralLogProvider
-                                        .searchAddressResult(
-                                            mrAdminReferralLogProvider
-                                                .searchController.value.text,
-                                            mrAdminReferralLogProvider.cities);
-                                    showModalBottomSheet(
-                                        isScrollControlled: true,
-                                        useSafeArea: true,
-                                        context: context,
-                                        builder: (context) => citiesBottomSheet(
-                                            context,
-                                            mrAdminReferralLogProvider.cities));
-                                  },
-                                ),
-                              ],
-                            ),
-                          const SizedBox(
-                            height: 16,
-                          ),
-                          CustomElevatedButton(
-                            onPressed: () {
-                              if (mrAdminReferralLogProvider
-                                      .selectedReferralType ==
-                                  mrAdminReferralLogProvider.referralType[0]) {
-                                mrAdminReferralLogProvider
-                                    .getReferralByCountry(context);
-                              } else if (mrAdminReferralLogProvider
-                                      .selectedReferralType ==
-                                  mrAdminReferralLogProvider.referralType[1]) {
-                                mrAdminReferralLogProvider
-                                    .getReferralLogsByRegion(context);
-                              } else if (mrAdminReferralLogProvider
-                                      .selectedReferralType ==
-                                  mrAdminReferralLogProvider.referralType[2]) {
-                                mrAdminReferralLogProvider
-                                    .getReferralLogByCity(context);
-                              }
-                              _triggerAnimation();
-                            },
-                            width: 0.90,
-                            height: 50,
-                            backgroundColor: CustomColors.primaryColor,
-                            widget: CustomText(
-                              text: 'Submit',
-                              fontWeight: FontWeight.w600,
-                              color: CustomColors.primaryBlack,
-                              size: 20.0,
-                            ),
-                          ),
-                          const SizedBox(
-                            height: 16,
-                          ),
-                        ],
-                      ),
+                      _miniInfo('', mr.from),
+                      _dot(),
+                      _miniInfo('', mr.to),
+                      // _dot(),
+                      // _miniInfo(
+                      //   mr.selectedReferralType == 'Country'
+                      //       ? 'Country'
+                      //       : mr.selectedReferralType == 'Region'
+                      //       ? 'Region'
+                      //       : 'City',
+                      //   mr.selectedReferralType == 'Country'
+                      //       ? mr.selectedCountry
+                      //       : mr.selectedReferralType == 'City'
+                      //       ? mr.selectedCities
+                      //       : mr.selectedReferralType == 'Region'
+                      //       ? mr.selectedDistrict
+                      //       : mr.selectedState,
+                      // ),
                     ],
                   ),
-                ),
-                const SizedBox(
-                  height: 16,
-                ),
-                mrAdminReferralLogProvider.foundReferral.isNotEmpty
-                    ? CustomContainer(
-                        horizontalPad: 0,
-                        verticalPad: 0,
-                        color: Colors.transparent,
-                        child: CustomExpansionTile(
-                          title: 'Referral Log',
-                          applyAllBorderRadius: true,
-                          size: 20,
-                          fontWeight: FontWeight.w600,
-                          children: [
-                            Column(
-                              children: [
-                                // const Divider(),
-                                Row(
-                                  children: [
-                                    Expanded(
-                                      flex: 2,
-                                      child: CustomText(
-                                        text: mrAdminReferralLogProvider
-                                            .selectedUser,
-                                        isContent: true,
-                                      ),
-                                    ),
-                                    ClipRRect(
-                                      borderRadius: BorderRadius.circular(1000),
-                                      child: SizedBox(
-                                        height: 52,
-                                        width: 52,
-                                        child: Image.network(
-                                          mrAdminReferralLogProvider
-                                              .profileImage,
-                                          fit: BoxFit.cover,
-                                        ),
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                                const Divider(),
-                                const SizedBox(
-                                  height: 8,
-                                ),
-                                Row(
-                                  children: [
-                                    Expanded(
-                                      flex: 2,
-                                      child: CustomText(
-                                        text: 'Total Referral',
-                                        isContent: true,
-                                      ),
-                                    ),
-                                    const SizedBox(width: 8),
-                                    Expanded(
-                                      flex: 2,
-                                      child: CustomText(
-                                        text: mrAdminReferralLogProvider
-                                            .foundReferral.length
-                                            .toString(),
-                                        isContent: true,
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                                const SizedBox(
-                                  height: 8,
-                                ),
-                                Row(
-                                  children: [
-                                    Expanded(
-                                      flex: 2,
-                                      child: CustomText(
-                                        isContent: true,
-                                        text: mrAdminReferralLogProvider
-                                                    .selectedReferralType ==
-                                                'Country'
-                                            ? 'Country'
-                                            : (mrAdminReferralLogProvider
-                                                        .selectedReferralType ==
-                                                    'Region'
-                                                ? 'Region'
-                                                : 'City'),
-                                      ),
-                                    ),
-                                    Expanded(
-                                      flex: 2,
-                                      child: CustomText(
-                                        text: mrAdminReferralLogProvider
-                                                    .selectedReferralType ==
-                                                'Country'
-                                            ? mrAdminReferralLogProvider
-                                                .selectedCountry
-                                            : (mrAdminReferralLogProvider
-                                                        .selectedReferralType ==
-                                                    'City'
-                                                ? mrAdminReferralLogProvider
-                                                    .selectedCities
-                                                : (mrAdminReferralLogProvider
-                                                            .selectedReferralType ==
-                                                        'Region'
-                                                    ? mrAdminReferralLogProvider
-                                                        .selectedDistrict
-                                                    : mrAdminReferralLogProvider
-                                                        .selectedState)),
-                                        isContent: true,
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                                const SizedBox(
-                                  height: 4,
-                                ),
-                                Row(
-                                  children: [
-                                    Expanded(
-                                      flex: 2,
-                                      child: CustomText(
-                                        text: 'From',
-                                        isContent: true,
-                                      ),
-                                    ),
-                                    Expanded(
-                                      flex: 2,
-                                      child: CustomText(
-                                        text: mrAdminReferralLogProvider.from,
-                                        isContent: true,
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                                const SizedBox(
-                                  height: 4,
-                                ),
-                                Row(
-                                  children: [
-                                    Expanded(
-                                      flex: 2,
-                                      child: CustomText(
-                                        text: 'To',
-                                        isContent: true,
-                                      ),
-                                    ),
-                                    Expanded(
-                                      flex: 2,
-                                      child: CustomText(
-                                        text: mrAdminReferralLogProvider.to,
-                                        isContent: true,
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                                const SizedBox(
-                                  height: 16,
-                                ),
-                              ],
-                            ),
-                          ],
-                        ),
-                      )
-                    : Center(
-                        child: Padding(
-                          padding: const EdgeInsets.symmetric(vertical: 64.0),
-                          child: CustomText(
-                            text: '',
-                            isSubHeading: true,
-                          ),
-                        ),
-                      ),
-                const SizedBox(
-                  height: 16,
-                ),
-                mrAdminReferralLogProvider.foundReferral.isNotEmpty
-                    ? ListView.builder(
-                        shrinkWrap: true, // Shrink-wrap the ListView
-                        physics: const NeverScrollableScrollPhysics(),
-                        itemCount:
-                            mrAdminReferralLogProvider.foundReferral.length,
-                        itemBuilder: (context, index) {
-                          String patientName = mrAdminReferralLogProvider
-                              .foundReferral[index]['patientName'];
-                          String patientAge = mrAdminReferralLogProvider
-                              .foundReferral[index]['patientAge']
-                              .toString();
-                          String provisionalDiagnosis =
-                              mrAdminReferralLogProvider.foundReferral[index]
-                                  ['provisionalDiagnosis'];
-                          String country = mrAdminReferralLogProvider
-                              .foundReferral[index]['country'];
-                          String region = mrAdminReferralLogProvider
-                              .foundReferral[index]['region'];
-                          String city = mrAdminReferralLogProvider
-                              .foundReferral[index]['city'];
-                          String createdById = mrAdminReferralLogProvider
-                              .foundReferral[index]['createdById']
-                              .toString();
-                          String createdByName = mrAdminReferralLogProvider
-                              .foundReferral[index]['createdBy'];
+                ],
+              ),
+            ),
+            _animatedCount('Total', total),
+          ],
+        ),
+      ),
+    );
+  }
 
-                          String pocName = mrAdminReferralLogProvider
-                              .foundReferral[index]['pocName'];
-                          String pocNumber = mrAdminReferralLogProvider
-                              .foundReferral[index]['pocNumber'];
-                          String pocCategory = mrAdminReferralLogProvider
-                              .foundReferral[index]['pocCategory'];
+  Widget _miniInfo(String label, String value) {
+    return Row(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        // CustomText(text: '$label: ', isContent: true),
+        CustomText(text: value, isContent: true),
+      ],
+    );
+  }
 
-                          String ambId = mrAdminReferralLogProvider
-                              .foundReferral[index]['ambId'];
-                          String ambDriverName = mrAdminReferralLogProvider
-                              .foundReferral[index]['ambName'];
-                          String ambDriverNumber = mrAdminReferralLogProvider
-                              .foundReferral[index]['ambNumber'];
-                          String ambNumber = mrAdminReferralLogProvider
-                              .foundReferral[index]['ambVehicleNumber'];
-                          String mobileTime = mrAdminReferralLogProvider
-                              .foundReferral[index]['mobileTime']
-                              .toString()
-                              .split(' ')[0];
-                          String referralDate = mrAdminReferralLogProvider
-                              .foundReferral[index]['referralDate']
-                              .toString()
-                              .split('T')[0];
-                          String approvalStatus =
-                              mrAdminReferralLogProvider.approvalType[1];
+  Widget _dot() {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 8.0),
+      child: Container(
+        width: 4,
+        height: 4,
+        decoration: BoxDecoration(
+          color: CustomColors.primaryBlack.withOpacity(0.4),
+          shape: BoxShape.circle,
+        ),
+      ),
+    );
+  }
 
-                          return AnimatedContainer(
-                            duration:
-                                Duration(milliseconds: 400 + (index * 250)),
-                            curve: Curves.easeInToLinear,
-                            transform: Matrix4.translationValues(
-                                myAnimation ? 0 : width, 0, 0),
-                            child: Column(
-                              children: [
-                                CustomContainer(
-                                  horizontalMargin: 0,
-                                  applyShadow: true,
-                                  child: Badge(
-                                    label: CustomText(
-                                      text: '${index + 1}',
-                                      isContent: true,
-                                    ),
-                                    backgroundColor: CustomColors.primaryColor,
-                                    child: Column(
-                                      children: [
-                                        Row(
-                                          children: [
-                                            Expanded(
-                                              flex: 2,
-                                              child: CustomText(
-                                                text: 'Patient Name',
-                                                isContent: true,
-                                                size: 16,
-                                              ),
-                                            ),
-                                            Expanded(
-                                              flex: 2,
-                                              child: CustomText(
-                                                text: patientName,
-                                                isContent: true,
-                                                size: 16,
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                        const SizedBox(
-                                          height: 4,
-                                        ),
-                                        Row(
-                                          children: [
-                                            Expanded(
-                                              flex: 2,
-                                              child: CustomText(
-                                                text: 'Patient Age',
-                                                isContent: true,
-                                                size: 16,
-                                              ),
-                                            ),
-                                            Expanded(
-                                              flex: 2,
-                                              child: CustomText(
-                                                text: patientAge,
-                                                isContent: true,
-                                                size: 16,
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                        const SizedBox(
-                                          height: 4,
-                                        ),
-                                        Row(
-                                          children: [
-                                            Expanded(
-                                              flex: 2,
-                                              child: CustomText(
-                                                text: 'Provisional Diagnosis ',
-                                                isContent: true,
-                                                size: 16,
-                                              ),
-                                            ),
-                                            Expanded(
-                                              flex: 2,
-                                              child: CustomText(
-                                                text: provisionalDiagnosis,
-                                                isContent: true,
-                                                size: 16,
-                                                maxLines: 2,
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                        const SizedBox(
-                                          height: 4,
-                                        ),
-                                        Row(
-                                          children: [
-                                            Expanded(
-                                              flex: 2,
-                                              child: CustomText(
-                                                text: 'Country',
-                                                isContent: true,
-                                                size: 16,
-                                              ),
-                                            ),
-                                            Expanded(
-                                              flex: 2,
-                                              child: CustomText(
-                                                text: country,
-                                                isContent: true,
-                                                size: 16,
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                        const SizedBox(
-                                          height: 4,
-                                        ),
-                                        Row(
-                                          children: [
-                                            Expanded(
-                                              flex: 2,
-                                              child: CustomText(
-                                                text: 'Region',
-                                                isContent: true,
-                                                size: 16,
-                                              ),
-                                            ),
-                                            Expanded(
-                                              flex: 2,
-                                              child: CustomText(
-                                                text: region,
-                                                isContent: true,
-                                                size: 16,
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                        const SizedBox(
-                                          height: 4,
-                                        ),
-                                        Row(
-                                          children: [
-                                            Expanded(
-                                              flex: 2,
-                                              child: CustomText(
-                                                text: 'City',
-                                                isContent: true,
-                                                size: 16,
-                                              ),
-                                            ),
-                                            Expanded(
-                                              flex: 2,
-                                              child: CustomText(
-                                                text: city,
-                                                isContent: true,
-                                                size: 16,
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                        const SizedBox(
-                                          height: 4,
-                                        ),
-                                        Row(
-                                          children: [
-                                            Expanded(
-                                              flex: 2,
-                                              child: CustomText(
-                                                text: 'POC Name',
-                                                isContent: true,
-                                                size: 16,
-                                              ),
-                                            ),
-                                            Expanded(
-                                              flex: 2,
-                                              child: CustomText(
-                                                text: pocName,
-                                                isContent: true,
-                                                size: 16,
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                        const SizedBox(
-                                          height: 4,
-                                        ),
-                                        Row(
-                                          children: [
-                                            Expanded(
-                                              flex: 2,
-                                              child: CustomText(
-                                                text: 'POC Number',
-                                                isContent: true,
-                                                size: 16,
-                                              ),
-                                            ),
-                                            Expanded(
-                                              flex: 2,
-                                              child: CustomText(
-                                                text: pocNumber,
-                                                isContent: true,
-                                                size: 16,
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                        const SizedBox(
-                                          height: 4,
-                                        ),
-                                        Row(
-                                          children: [
-                                            Expanded(
-                                              flex: 2,
-                                              child: CustomText(
-                                                text: 'POC Category',
-                                                isContent: true,
-                                                size: 16,
-                                              ),
-                                            ),
-                                            Expanded(
-                                              flex: 2,
-                                              child: CustomText(
-                                                text: pocCategory,
-                                                isContent: true,
-                                                size: 16,
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                        const SizedBox(
-                                          height: 4,
-                                        ),
-                                        Row(
-                                          children: [
-                                            Expanded(
-                                              flex: 2,
-                                              child: CustomText(
-                                                text: 'AMB Driver Name',
-                                                isContent: true,
-                                                size: 16,
-                                              ),
-                                            ),
-                                            Expanded(
-                                              flex: 2,
-                                              child: CustomText(
-                                                text: ambDriverName,
-                                                isContent: true,
-                                                size: 16,
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                        const SizedBox(
-                                          height: 4,
-                                        ),
-                                        Row(
-                                          children: [
-                                            Expanded(
-                                              flex: 2,
-                                              child: CustomText(
-                                                text: 'AMB Driver Number',
-                                                isContent: true,
-                                                size: 16,
-                                              ),
-                                            ),
-                                            Expanded(
-                                              flex: 2,
-                                              child: CustomText(
-                                                text: ambDriverNumber,
-                                                isContent: true,
-                                                size: 16,
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                        const SizedBox(
-                                          height: 4,
-                                        ),
-                                        Row(
-                                          children: [
-                                            Expanded(
-                                              flex: 2,
-                                              child: CustomText(
-                                                text: 'AMB Number',
-                                                isContent: true,
-                                                size: 16,
-                                              ),
-                                            ),
-                                            Expanded(
-                                              flex: 2,
-                                              child: CustomText(
-                                                text: ambNumber,
-                                                isContent: true,
-                                                size: 16,
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                        const SizedBox(
-                                          height: 8,
-                                        ),
-                                        Row(
-                                          children: [
-                                            Expanded(
-                                              child: CustomText(
-                                                text: 'Approval Status',
-                                                isContent: true,
-                                              ),
-                                            ),
-                                            SizedBox(
-                                              width: MediaQuery.of(context)
-                                                      .size
-                                                      .width *
-                                                  0.45,
-                                              child: CustomDropdown(
-                                                labelText: '',
-                                                items:
-                                                    mrAdminReferralLogProvider
-                                                        .approvalType,
-                                                value: approvalStatus,
-                                                onChanged: (value) {
-                                                  mrAdminReferralLogProvider
-                                                      .approvalStatus(
-                                                          index, value!);
-                                                },
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                ),
-                                const SizedBox(
-                                  height: 16,
-                                ),
-                              ],
-                            ),
-                          );
-                        })
-                    : Center(
-                        child: Padding(
-                          padding: const EdgeInsets.symmetric(vertical: 64.0),
-                          child: CustomText(
-                            text: 'No Referral log found',
-                            isSubHeading: true,
-                          ),
-                        ),
-                      ),
-              ],
+  Widget _animatedCount(String label, int value) {
+    return TweenAnimationBuilder<int>(
+      tween: IntTween(begin: 0, end: value),
+      duration: const Duration(milliseconds: 700),
+      builder: (context, v, _) {
+        return Column(
+          crossAxisAlignment: CrossAxisAlignment.end,
+          children: [
+            CustomText(text: label, isContent: true),
+            CustomText(
+              text: '$v',
+              isSubHeading: true,
             ),
           ],
         );
@@ -992,169 +266,625 @@ class _ReferralLogScreenState extends State<ReferralLogScreen> {
     );
   }
 
-  //----------------------------------------------------------------City Bottom Sheet-------------------------------------------------------------------------------------------------------------------------------------------------------//
-  Widget citiesBottomSheet(context, List<dynamic> content) {
-    return Consumer<MrAdminReferralLogProvider>(
-      builder: (context, mrAdminReferralLogProvider, _) {
-        return Container(
-          color: CustomColors.primaryWhite,
-          height: MediaQuery.of(context).size.height * 0.80,
-          child: Column(
-            children: [
-              Container(
-                padding: const EdgeInsets.only(
-                  top: 16,
-                  right: 12.0,
-                  bottom: 12,
-                ),
-                decoration: BoxDecoration(
-                  color: CustomColors.primaryColor,
-                ),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+  Widget _filters(BuildContext context, MrAdminReferralLogProvider mr) {
+    return CustomContainer(
+      horizontalPad: 0,
+      verticalPad: 0,
+      color: Colors.transparent,
+      child: CustomExpansionTile(
+        initiallyExpanded: mr.isExpanded,
+        applyAllBorderRadius: true,
+        title: 'Filters',
+        size: 20,
+        fontWeight: FontWeight.w600,
+        trailing: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            const Icon(FontAwesomeIcons.sliders),
+            const SizedBox(width: 8),
+          ],
+        ),
+        children: [
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 8),
+            child: Column(
+              children: [
+                // User selection
+                Row(
                   children: [
                     Expanded(
-                      flex: 1,
-                      child: InkWell(
-                          onTap: () {
-                            print('Pressed');
-                            Navigator.pop(context);
-                          },
-                          child: Icon(FontAwesomeIcons.arrowLeft)),
-                    ),
-                    // ),
-                    Expanded(
-                      flex: 7,
-                      child: TextFromFieldWithPrefixSuffix(
-                        controller: mrAdminReferralLogProvider.searchController,
-                        labelText: 'Search City',
-                        applySuffixIcon: true,
-                        suffixIcon: Icon(Icons.search),
-                        validator: (value) {},
-                        onChange: (value) =>
-                            mrAdminReferralLogProvider.searchAddressResult(
-                                mrAdminReferralLogProvider
-                                    .searchController.value.text,
-                                content),
+                      child: CustomDropdown(
+                        labelText: 'Select User',
+                        items: mr.referralLogsUsersList,
+                        value: mr.selectedUser,
+                        onChanged: (value) {
+                          mr.setSelectedUser(value);
+                        },
                       ),
                     ),
                   ],
                 ),
-              ),
-              const SizedBox(
-                height: 16,
-              ),
-              Expanded(
-                child: ListView.builder(
-                  itemCount: mrAdminReferralLogProvider.searchResult.length,
-                  itemBuilder: (context, index) {
-                    String cityName =
-                        mrAdminReferralLogProvider.searchResult[index];
-                    return ListTile(
-                      onTap: () {
-                        Navigator.pop(context);
-                        mrAdminReferralLogProvider.setSelectedCity(cityName);
-                        print(mrAdminReferralLogProvider.searchResult[index]);
-                      },
-                      title: CustomText(
-                        text: cityName,
-                        isContent: true,
-                      ),
-                    );
-                  },
+                const SizedBox(height: 12),
+
+                // Date quick chips
+                Align(
+                  alignment: Alignment.centerLeft,
+                  child: Wrap(
+                    spacing: 8,
+                    runSpacing: 8,
+                    children: mr.referralDateTypeList.map((type) {
+                      final selected = mr.selectedDateReferralType == type;
+                      return AnimatedContainer(
+                        duration: const Duration(milliseconds: 200),
+                        curve: Curves.easeInOut,
+                        decoration: BoxDecoration(
+                          color: selected
+                              ? CustomColors.primaryColor.withOpacity(0.15)
+                              : Colors.transparent,
+                          border: Border.all(
+                            color: selected
+                                ? CustomColors.primaryColor
+                                : CustomColors.primaryBlack.withOpacity(0.15),
+                          ),
+                          borderRadius: BorderRadius.circular(24),
+                        ),
+                        child: InkWell(
+                          borderRadius: BorderRadius.circular(24),
+                          onTap: () {
+                            mr.setSelectedVisitType(type);
+                          },
+                          child: Padding(
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 12, vertical: 8),
+                            child: Row(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                Icon(
+                                  selected
+                                      ? FontAwesomeIcons.solidCircleCheck
+                                      : FontAwesomeIcons.circle,
+                                  size: 14,
+                                  color: selected
+                                      ? CustomColors.primaryColor
+                                      : CustomColors.primaryBlack
+                                          .withOpacity(0.65),
+                                ),
+                                const SizedBox(width: 8),
+                                CustomText(
+                                  text: type,
+                                  isContent: true,
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                      );
+                    }).toList(),
+                  ),
                 ),
+
+                // Custom date range
+                AnimatedCrossFade(
+                  firstChild: const SizedBox.shrink(),
+                  secondChild: Padding(
+                    padding: const EdgeInsets.only(top: 12.0),
+                    child: Row(
+                      children: [
+                        Expanded(
+                          child: TextFromFieldWithPrefixSuffix(
+                            labelText: 'From',
+                            readOnly: true,
+                            controller: mr.fromTextEditingController,
+                            onTap: () => mr.selectDateFrom(context),
+                            validator: (value) {},
+                          ),
+                        ),
+                        const SizedBox(width: 12),
+                        Expanded(
+                          child: TextFromFieldWithPrefixSuffix(
+                            labelText: 'To',
+                            readOnly: true,
+                            controller: mr.toTextEditingController,
+                            onTap: () => mr.selectDateTo(context),
+                            validator: (value) {},
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  crossFadeState: mr.selectedDateReferralType == 'Custom'
+                      ? CrossFadeState.showSecond
+                      : CrossFadeState.showFirst,
+                  duration: const Duration(milliseconds: 250),
+                ),
+
+                const SizedBox(height: 16),
+
+                // Submit button
+                Row(
+                  children: [
+                    Expanded(
+                      child: CustomElevatedButton(
+                        onPressed: () {
+                          mr.getPatientReferralByUser(context);
+                          _stagger();
+                        },
+                        height: 50,
+                        backgroundColor: CustomColors.primaryColor,
+                        widget: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            const Icon(FontAwesomeIcons.magnifyingGlass),
+                            const SizedBox(width: 10),
+                            CustomText(
+                              text: 'Apply Filters',
+                              fontWeight: FontWeight.w600,
+                              color: CustomColors.primaryBlack,
+                              size: 18.0,
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 8),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _resultHeader(BuildContext context, MrAdminReferralLogProvider mr) {
+    final total = mr.patientReferralModel.data!.length;
+
+    return CustomContainer(
+      horizontalPad: 12,
+      verticalPad: 12,
+      applyShadow: true,
+      child: Row(
+        children: [
+          const Icon(FontAwesomeIcons.clipboardList),
+          const SizedBox(width: 8),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                CustomText(text: 'Referral Log', isSubHeading: true),
+                const SizedBox(height: 4),
+                CustomText(
+                  text: '$total records',
+                  isContent: true,
+                ),
+              ],
+            ),
+          ),
+          CustomElevatedButton(
+            onPressed: () {
+              mr.downloadReferralReport(context);
+            },
+            borderColor: CustomColors.jadeGreen,
+            widget: Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Icon(FontAwesomeIcons.download, color: CustomColors.jadeGreen),
+                const SizedBox(width: 8),
+                CustomText(
+                  text: 'Download',
+                  isContent: true,
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _referralList(BuildContext context, MrAdminReferralLogProvider mr) {
+    final list = mr.patientReferralModel.data!;
+    return ListView.separated(
+      shrinkWrap: true,
+      physics: const NeverScrollableScrollPhysics(),
+      itemCount: list.length,
+      separatorBuilder: (_, __) => const SizedBox(height: 12),
+      itemBuilder: (context, index) {
+        final patient = list[index];
+        final poc = patient.pocId;
+        final amb = patient.ambId;
+
+        // animated entrance per item
+        final delay = 60 + (index * 35);
+        return TweenAnimationBuilder<double>(
+          tween: Tween(begin: 1, end: 0),
+          duration: Duration(milliseconds: 400 + delay),
+          curve: Curves.easeOutCubic,
+          builder: (context, value, child) {
+            final dx = (_animateList ? 0.0 : 1.0) + value;
+            return Transform.translate(
+              offset: Offset(dx * _screenWidth * 0.08, value * 8),
+              child: Opacity(
+                opacity: 1 - (value * 0.9),
+                child: child,
               ),
-            ],
+            );
+          },
+          child: CustomContainer(
+            horizontalMargin: 0,
+            applyShadow: true,
+            child: Column(
+              children: [
+                Row(
+                  children: [
+                    _indexBadge(index + 1, patient.approvalStatus),
+                    const SizedBox(width: 12),
+                    Expanded(
+                      child: _titleRow(patient.fullName, patient.age),
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 8),
+                Row(
+                  children: [
+                    const Icon(FontAwesomeIcons.solidCalendarDays, size: 18),
+                    const SizedBox(width: 16),
+                    CustomText(text: '${patient.createdAtBS}', isContent: true,),
+                  ],
+                ),
+                const SizedBox(height: 8),
+                Row(
+                  children: [
+                    const Icon(Icons.note, size: 18),
+                    const SizedBox(width: 16),
+                    Expanded(child: CustomText(text: '${patient.remarks}', isContent: true, maxLines: 3,)),
+                  ],
+                ),
+                const SizedBox(height: 8),
+                const Divider(),
+                const SizedBox(height: 8),
+
+                _kv('Provisional Diagnosis', patient.provisionalDiagnosis,
+                    maxLines: 3),
+                const SizedBox(height: 6),
+
+                Wrap(
+                  spacing: 12,
+                  runSpacing: 8,
+                  children: [
+                    _chipKV('Country', patient.country),
+                    _chipKV('Region', patient.region),
+                    _chipKV('City', patient.city),
+                  ],
+                ),
+                const SizedBox(height: 8),
+
+                const Divider(),
+                const SizedBox(height: 8),
+
+                // POC
+                Row(
+                  children: [
+                    _iconLabel(FontAwesomeIcons.userDoctor, 'POC'),
+                    const SizedBox(width: 12),
+                    Expanded(
+                      child: Wrap(
+                        spacing: 8,
+                        runSpacing: 6,
+                        children: [
+                          _softPill('Name', poc == null ? 'N/A' : poc.pocName),
+                          _softPill('Number', poc == null ? 'N/A' : poc.number),
+                          _softPill(
+                              'Category', poc == null ? 'N/A' : poc.category),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+
+                const SizedBox(height: 8),
+
+                // AMB
+                Row(
+                  children: [
+                    _iconLabel(FontAwesomeIcons.truckMedical, 'Ambulance'),
+                    const SizedBox(width: 12),
+                    Expanded(
+                      child: Wrap(
+                        spacing: 8,
+                        runSpacing: 6,
+                        children: [
+                          _softPill('Driver',
+                              amb == null ? 'N/A' : (amb.pocName ?? 'N/A')),
+                          _softPill(
+                              'Number', amb == null ? 'N/A' : (amb.number)),
+                          _softPill('AMB',
+                              amb == null ? 'N/A' : (amb.ambNumber ?? 'N/A')),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+
+                const SizedBox(height: 12),
+                _approvalRow(context, mr, index, patient.approvalStatus),
+              ],
+            ),
           ),
         );
       },
     );
   }
-  //----------------------------------------------------------------District Bottom Sheet-------------------------------------------------------------------------------------------------------------------------------------------------------//
 
-  Widget districtBottomSheet(context, String type, List<dynamic> content) {
-    return Consumer<MrAdminReferralLogProvider>(
-      builder: (context, mrAdminReferralLogProvider, _) {
-        return Container(
-          color: CustomColors.primaryWhite,
-          height: MediaQuery.of(context).size.height * 0.80,
-          child: Column(
-            children: [
-              Container(
-                padding: const EdgeInsets.only(
-                  top: 16,
-                  right: 12.0,
-                  bottom: 12,
-                ),
-                decoration: BoxDecoration(
-                  color: CustomColors.primaryColor,
-                ),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Expanded(
-                      flex: 1,
-                      child: InkWell(
-                          onTap: () {
-                            print('Pressed');
-                            Navigator.pop(context);
-                          },
-                          child: const Icon(FontAwesomeIcons.arrowLeft)),
-                    ),
-                    // ),
-                    Expanded(
-                      flex: 7,
-                      child: TextFromFieldWithPrefixSuffix(
-                        controller: mrAdminReferralLogProvider.searchController,
-                        labelText: mrAdminReferralLogProvider.selectedCountry ==
-                                'Nepal'
-                            ? 'Search District'
-                            : 'Search State',
-                        applySuffixIcon: true,
-                        suffixIcon: const Icon(Icons.search),
-                        validator: (value) {},
-                        onChange: (value) =>
-                            mrAdminReferralLogProvider.searchAddressResult(
-                                mrAdminReferralLogProvider
-                                    .searchController.value.text,
-                                content),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              const SizedBox(
-                height: 16,
-              ),
-              Expanded(
-                child: ListView.builder(
-                  itemCount: mrAdminReferralLogProvider.searchResult.length,
-                  itemBuilder: (context, index) {
-                    String name =
-                        mrAdminReferralLogProvider.searchResult[index]['$type'];
-                    return ListTile(
-                      onTap: () {
-                        Navigator.pop(context);
-                        type == 'district'
-                            ? mrAdminReferralLogProvider
-                                .setSelectedDistrict(name)
-                            : mrAdminReferralLogProvider.setSelectedState(name);
-                        mrAdminReferralLogProvider.getCities(
-                            mrAdminReferralLogProvider.searchResult[index]
-                                ['cities']);
-                      },
-                      title: CustomText(
-                        text: name,
-                        isContent: true,
-                      ),
-                    );
-                  },
-                ),
-              ),
-            ],
-          ),
-        );
-      },
+  Widget _indexBadge(int index, String status) {
+    Color bg;
+    if (status == 'Approved') {
+      bg = CustomColors.jadeGreen;
+    } else if (status == 'Pending') {
+      bg = CustomColors.lightYellow;
+    } else {
+      bg = CustomColors.lightRed;
+    }
+
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+      decoration: BoxDecoration(
+        color: bg.withOpacity(0.15),
+        borderRadius: BorderRadius.circular(12),
+        border: Border.all(color: bg),
+      ),
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          const Icon(FontAwesomeIcons.hashtag, size: 12),
+          const SizedBox(width: 6),
+          CustomText(text: '$index', isContent: true),
+        ],
+      ),
     );
+  }
+
+  Widget _titleRow(String name, int age) {
+    return Row(
+      children: [
+        Expanded(
+          child: CustomText(
+            text: name,
+            isSubHeading: true,
+            maxLines: 4,
+          ),
+        ),
+        const SizedBox(width: 8),
+        Container(
+          padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+          decoration: BoxDecoration(
+            color: CustomColors.primaryBlack.withOpacity(0.03),
+            borderRadius: BorderRadius.circular(20),
+            border: Border.all(
+              color: CustomColors.primaryBlack.withOpacity(0.08),
+            ),
+          ),
+          child: Row(
+            children: [CustomText(text: 'Age: '), CustomText(text: '$age')],
+          ),
+        )
+      ],
+    );
+  }
+
+  Widget _kv(String k, String v, {int? maxLines}) {
+    return Row(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Expanded(
+            flex: 1,
+            child: CustomText(
+              text: k,
+              isContent: true,
+              size: 16,
+              maxLines: 2,
+            )),
+        const SizedBox(width: 8),
+        Expanded(
+          flex: 1,
+          child: CustomText(
+            text: v,
+            isContent: true,
+            size: 16,
+            maxLines: 3,
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget _chipKV(String k, String v) {
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 7),
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(24),
+        border: Border.all(
+          color: CustomColors.primaryBlack.withOpacity(0.12),
+        ),
+      ),
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          CustomText(text: '$k: ', isContent: true),
+          CustomText(text: v, isContent: true),
+        ],
+      ),
+    );
+  }
+
+  Widget _iconLabel(IconData icon, String label) {
+    return Row(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        Icon(icon, size: 16),
+        const SizedBox(width: 6),
+        CustomText(text: label, isContent: true),
+      ],
+    );
+  }
+
+  Widget _softPill(String k, String v) {
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+      decoration: BoxDecoration(
+        color: CustomColors.primaryBlack.withOpacity(0.03),
+        borderRadius: BorderRadius.circular(20),
+        border: Border.all(
+          color: CustomColors.primaryBlack.withOpacity(0.08),
+        ),
+      ),
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Expanded(
+              child: CustomText(
+            text: '$k: ',
+            isContent: true,
+            maxLines: 3,
+          )),
+          Expanded(
+              child: CustomText(
+            text: v,
+            isContent: true,
+            maxLines: 3,
+          )),
+        ],
+      ),
+    );
+  }
+
+  Widget _approvalRow(BuildContext context, MrAdminReferralLogProvider mr,
+      int index, String status) {
+    Color bg;
+    Color textColor = CustomColors.primaryBlack;
+    if (status == 'Approved') {
+      bg = CustomColors.jadeGreen.withOpacity(0.15);
+    } else if (status == 'Pending') {
+      bg = CustomColors.lightYellow.withOpacity(0.25);
+    } else {
+      bg = CustomColors.lightRed.withOpacity(0.15);
+    }
+
+    return Row(
+      children: [
+        Expanded(
+          child: Container(
+            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
+            decoration: BoxDecoration(
+              color: bg,
+              borderRadius: BorderRadius.circular(12),
+              border: Border.all(
+                color: CustomColors.primaryBlack.withOpacity(0.08),
+              ),
+            ),
+            child: Row(
+              children: [
+                const Icon(FontAwesomeIcons.circleCheck, size: 14),
+                const SizedBox(width: 8),
+                CustomText(text: 'Status', isContent: true),
+                const Spacer(),
+                // Container(
+                //   padding:
+                //   const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+                //   decoration: BoxDecoration(
+                //     borderRadius: BorderRadius.circular(24),
+                //     border: Border.all(
+                //       color: CustomColors.primaryBlack.withOpacity(0.1),
+                //     ),
+                //   ),
+                //   child: CustomText(text: status, isContent: true),
+                // ),
+              ],
+            ),
+          ),
+        ),
+        const SizedBox(width: 12),
+        SizedBox(
+          width: MediaQuery.of(context).size.width * 0.42,
+          child: CustomDropdown(
+            labelText: '',
+            items: mr.approvalType,
+            value: status,
+            onChanged: (value) {
+              if (value != null) {
+                mr.approvalStatus(index, value);
+              }
+            },
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget _emptyState(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 64.0, horizontal: 24),
+      child: Column(
+        children: [
+          const Icon(
+            FontAwesomeIcons.clipboardQuestion,
+            size: 48,
+          ),
+          const SizedBox(height: 16),
+          CustomText(
+            text: 'No Referral log found',
+            isSubHeading: true,
+          ),
+          const SizedBox(height: 8),
+          CustomText(
+            text: 'Try adjusting filters or refreshing.',
+            isContent: true,
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _safeAvatar(String profileUrl, String username) {
+    if (profileUrl.isEmpty) {
+      return CircleAvatar(
+        radius: 26,
+        backgroundColor: CustomColors.primaryBlack.withOpacity(0.08),
+        child: CustomText(
+          text: _initials(username),
+          isSubHeading: true,
+        ),
+      );
+    }
+    return ClipRRect(
+      borderRadius: BorderRadius.circular(1000),
+      child: SizedBox(
+        height: 52,
+        width: 52,
+        child: Image.network(
+          profileUrl,
+          fit: BoxFit.cover,
+          errorBuilder: (_, __, ___) => CircleAvatar(
+            radius: 26,
+            backgroundColor: CustomColors.primaryBlack.withOpacity(0.08),
+            child: CustomText(
+              text: _initials(username),
+              isSubHeading: true,
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
+  String _initials(String name) {
+    final parts = name.trim().split(RegExp(r'\s+'));
+    if (parts.length == 1) {
+      return (parts.first.isNotEmpty ? parts.first[0] : '?').toUpperCase();
+    }
+    final first = parts.first.isNotEmpty ? parts.first[0] : '';
+    final last = parts.last.isNotEmpty ? parts.last[0] : '';
+    return (first + last).toUpperCase();
   }
 }

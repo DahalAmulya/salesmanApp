@@ -1,5 +1,7 @@
 import 'dart:convert';
+import 'package:deskgoo/pages/mr_officers_pages/mr_officers_visits/new_visit_screen.dart';
 import 'package:deskgoo/providers/mr_officer_provider/mr_followup_provider.dart';
+import 'package:deskgoo/providers/mr_officer_provider/mr_visit_provider.dart';
 import 'package:deskgoo/providers/visit_provider/visit_type/follow_up_visit_provider.dart';
 import 'package:deskgoo/themes/custom_colors.dart';
 import 'package:deskgoo/utils/toast_message.dart';
@@ -14,27 +16,12 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
 
-class MrOfficerFollowUpVisitScreen extends StatefulWidget {
-  const MrOfficerFollowUpVisitScreen({super.key});
+class MrOfficerFollowUpVisitScreen extends StatelessWidget {
+   MrOfficerFollowUpVisitScreen({super.key});
 
-  @override
-  State<MrOfficerFollowUpVisitScreen> createState() =>
-      _MrOfficerFollowUpVisitScreenState();
-}
-
-class _MrOfficerFollowUpVisitScreenState
-    extends State<MrOfficerFollowUpVisitScreen> {
   TextEditingController fullNameController = TextEditingController();
-  final _followUpFromKey = GlobalKey<FormState>();
-  List<String> country = ['Nepal', 'India'];
-  String selectedCountry = '';
-  MrOfficerFollowUpProvider? _followUp;
 
-  @override
-  void initState() {
-    super.initState();
-    _followUp = Provider.of<MrOfficerFollowUpProvider>(context, listen: false);
-  }
+  final _followUpFromKey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
@@ -66,20 +53,23 @@ class _MrOfficerFollowUpVisitScreenState
   PreferredSize _appBar(context) {
     return PreferredSize(
       preferredSize: const Size.fromHeight(kToolbarHeight),
-      child: CustomAppBar(
-        tabName: 'Follow Up',
-        centerTitle: true,
-        automaticallyImplyLeading: true,
-        onTapLeadingIcon: () {
-          Navigator.of(context).pop();
-          _followUp!.clearValue();
-        },
+      child: Consumer<MrOfficerFollowUpProvider>(
+        builder: (context, followUpProvider, _) {
+          return CustomAppBar(
+            tabName: 'Follow Up',
+            centerTitle: true,
+            automaticallyImplyLeading: true,
+            onTapLeadingIcon: () {
+              followUpProvider.clearValue();
+              Navigator.of(context).pop();
+            },
+          );
+        }
       ),
     );
   }
 
   Widget _buildUI(BuildContext context) {
-    selectedCountry = country[0];
     return Consumer<MrOfficerFollowUpProvider>(
       builder: (context, followUpProvider, _) {
         return SingleChildScrollView(
@@ -139,15 +129,15 @@ class _MrOfficerFollowUpVisitScreenState
                         const SizedBox(
                           height: 16,
                         ),
-                        TextFromFieldWithPrefixSuffix(
-                          controller: followUpProvider.ageController,
-                          labelText: 'Age',
-                          readOnly: true,
-                          validator: (newValue) {},
-                        ),
-                        const SizedBox(
-                          height: 16,
-                        ),
+                        // TextFromFieldWithPrefixSuffix(
+                        //   controller: followUpProvider.ageController,
+                        //   labelText: 'Age',
+                        //   readOnly: true,
+                        //   validator: (newValue) {},
+                        // ),
+                        // const SizedBox(
+                        //   height: 16,
+                        // ),
                         TextFromFieldWithPrefixSuffix(
                           controller: followUpProvider.genderController,
                           labelText: 'Gender',
@@ -166,6 +156,16 @@ class _MrOfficerFollowUpVisitScreenState
                           validator: (value) {
                           },
                           onChange: (value) {},
+                        ),
+                        const SizedBox(
+                          height: 16,
+                        ),
+                        TextFromFieldWithPrefixSuffix(
+                          controller: followUpProvider.ambulanceNumberController,
+                          readOnly: true,
+                          labelText: 'Ambulance Number',
+                          maxLines: 2,
+                          validator: (newValue) {},
                         ),
                         const SizedBox(
                           height: 16,
@@ -208,9 +208,7 @@ class _MrOfficerFollowUpVisitScreenState
                           children: [
                             CustomElevatedButton(
                               onPressed: () async {
-                                final file = await rootBundle
-                                    .loadString('assets/district.json');
-                                final content = await jsonDecode(file);
+                                followUpProvider.clearValue();
                                 Navigator.of(context).pop();
                               },
                               widget: CustomText(
@@ -245,11 +243,23 @@ class _MrOfficerFollowUpVisitScreenState
                 Positioned(
                   right: 8,
                   top: 28,
-                  child: IconButton(
-                    onPressed: () {
-                      followUpProvider.clearValue();
-                    },
-                    icon: const Icon(FontAwesomeIcons.edit),
+                  child: Consumer<MrOfficerVisitProvider>(
+                    builder: (context, provider, _) {
+                      return IconButton(
+                        onPressed: () {
+                          if(followUpProvider.fullNameController.value.text.isNotEmpty){
+                            provider.setControllerValues(context, pocId: followUpProvider.pocId, isEdit: true);
+                            Navigator.of(context).push(MaterialPageRoute(builder: (context) => MrOfficerNewVisitScreen()));
+                          }else{
+                            ToastMessageUtils().showToastMessage(
+                                'Please select POC',
+                                ToastGravity.TOP,
+                                CustomColors.lightRed);
+                          }
+                        },
+                        icon: const Icon(FontAwesomeIcons.penToSquare),
+                      );
+                    }
                   ),
                 ),
               ],
@@ -323,13 +333,15 @@ class _MrOfficerFollowUpVisitScreenState
                           followUpProvider.pocSearchResult[index]['category'];
                       String specialization = followUpProvider
                           .pocSearchResult[index]['specialization'];
-                      String age = followUpProvider.pocSearchResult[index]
-                              ['age']
-                          .toString();
+                      // String age = followUpProvider.pocSearchResult[index]
+                      //         ['age']
+                      //     .toString();
                       String gender =
                           followUpProvider.pocSearchResult[index]['gender'];
                       String number =
                           followUpProvider.pocSearchResult[index]['number'];
+                      String ambNumber =
+                          followUpProvider.pocSearchResult[index]['ambNumber'] ?? '';
                       String address =
                           followUpProvider.pocSearchResult[index]['address'];
                       String organization = followUpProvider
@@ -344,9 +356,9 @@ class _MrOfficerFollowUpVisitScreenState
                               name,
                               category,
                               specialization,
-                              age,
                               gender,
                               number,
+                              ambNumber,
                               address,
                               organization);
                           Navigator.pop(context);
