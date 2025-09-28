@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:deskgoo/providers/mr_officer_provider/mr_visitLog_provider.dart';
 import 'package:deskgoo/providers/mr_officer_provider/mr_visit_provider.dart';
 import 'package:deskgoo/themes/custom_colors.dart';
 import 'package:deskgoo/widgets/app_bars/custom_app_bars.dart';
@@ -633,7 +634,7 @@ class _MrOfficerNewVisitScreenState extends State<MrOfficerNewVisitScreen> {
                     const SizedBox(
                       height: 10,
                     ),
-                    if (!mrOfficerVisitProvider.isEditPoc)
+                    mrOfficerVisitProvider.isEditPoc == false ?
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
@@ -646,12 +647,12 @@ class _MrOfficerNewVisitScreenState extends State<MrOfficerNewVisitScreen> {
                           Expanded(
                             child: CustomText(
                               maxLines: 3,
-                              text: mrOfficerVisitProvider.body['remarks'],
+                              text: mrOfficerVisitProvider.body.containsKey('remarks') ? mrOfficerVisitProvider.body['remarks'] : 'N/A',
                               isContent: true,
                             ),
                           ),
                         ],
-                      ),
+                      ) : SizedBox.shrink(),
                     const SizedBox(
                       height: 10,
                     ),
@@ -709,6 +710,7 @@ class _MrOfficerNewVisitScreenState extends State<MrOfficerNewVisitScreen> {
                               mrOfficerVisitProvider.postPOCDetails(context);
                             }
                             if(mrOfficerVisitProvider.isEditPoc == true){
+                              Navigator.pop(context);
                               mrOfficerVisitProvider.updatePOC(context);
                             }
                           },
@@ -1019,8 +1021,8 @@ class _MrOfficerNewVisitScreenState extends State<MrOfficerNewVisitScreen> {
               }),
             ),
             actions: [
-              Consumer<MrOfficerVisitProvider>(
-                builder: (context, mrOfficerVisitProvider, _) {
+              Consumer2<MrOfficerVisitProvider, MrOfficeVisitLogProvider>(
+                builder: (context, mrOfficerVisitProvider, visitLogProvider, _) {
                   final bool isLoading = mrOfficerVisitProvider.isLoading;
                   final bool isOffline = mrOfficerVisitProvider.isOffline ?? false;
                   final bool isEdit = mrOfficerVisitProvider.isEditPoc ?? false;
@@ -1061,12 +1063,13 @@ class _MrOfficerNewVisitScreenState extends State<MrOfficerNewVisitScreen> {
                           ),
                         )
                             :  CustomElevatedButton(
-                          onPressed: () {
+                          onPressed: () async {
                             if(isEdit && isOffline){
                               debugPrint('*************************************************************');
                               debugPrint('\t\tUpdate Locally');
                               debugPrint('*************************************************************');
-                              mrOfficerVisitProvider.updateLocalPoc(context);
+                              await mrOfficerVisitProvider.updateLocalPoc(context);
+                              visitLogProvider.getOfflinePocList();
                               return;
                             }
                             if(isOffline){

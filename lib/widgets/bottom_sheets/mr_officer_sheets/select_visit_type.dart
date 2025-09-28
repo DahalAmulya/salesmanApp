@@ -33,8 +33,8 @@ class _MrOfficerSelectVisitTypeBottomSheetState
     return CustomContainer(
       width: 1,
       verticalPad: 12,
-      child: Consumer<MrOfficerVisitProvider>(
-        builder: (context, visitProvider, _) {
+      child: Consumer2<MrOfficerVisitProvider, MrOfficerFollowUpProvider>(
+        builder: (context, visitProvider, followupProvider, _) {
           return SingleChildScrollView(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -68,6 +68,7 @@ class _MrOfficerSelectVisitTypeBottomSheetState
                       radioTitle: visitProvider.visitTypeList[1],
                       onChange: (value) {
                         visitProvider.selectVisitType(value);
+                        followupProvider.clearValue();
                       },
                     ),
                     CustomRadioButton(

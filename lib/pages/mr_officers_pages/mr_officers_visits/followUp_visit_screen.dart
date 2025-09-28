@@ -249,6 +249,7 @@ class MrOfficerFollowUpVisitScreen extends StatelessWidget {
                         onPressed: () {
                           if(followUpProvider.fullNameController.value.text.isNotEmpty){
                             provider.setControllerValues(context, pocId: followUpProvider.pocId, isEdit: true);
+                            followUpProvider.clearValue();
                             Navigator.of(context).push(MaterialPageRoute(builder: (context) => MrOfficerNewVisitScreen()));
                           }else{
                             ToastMessageUtils().showToastMessage(

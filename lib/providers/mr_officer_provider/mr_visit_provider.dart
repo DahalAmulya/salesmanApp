@@ -439,7 +439,9 @@ class MrOfficerVisitProvider with ChangeNotifier {
   }
 
   void clearTextControllersValue() {
-    _nameController.text = "";
+    pocDetails = null;
+    pocModel = PocModel();
+    _nameController.text = '';
     _districtController.text = "";
     _stateController.text = "";
     _cityController.text = "";
@@ -454,8 +456,6 @@ class MrOfficerVisitProvider with ChangeNotifier {
     _selectedDistrict = '';
     _selectedState = '';
     _selectedCity = '';
-    pocDetails = null;
-    pocModel = PocModel();
     _isEditPOC = false;
     _selectedLocalPocId = -1;
     notifyListeners();
@@ -643,7 +643,7 @@ class MrOfficerVisitProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  void updateLocalPoc(context) async {
+  Future<void> updateLocalPoc(context) async {
     String finalNumber = formatPhoneNumber(
       _selectedCountryCode,
       _phoneNoController.value.text,
@@ -681,11 +681,13 @@ class MrOfficerVisitProvider with ChangeNotifier {
     ToastMessageUtils().showToastMessage('POC updated locally', ToastGravity.TOP, CustomColors.jadeGreen);
     clearTextControllersValue();
     Navigator.pop(context);
+    Navigator.pop(context);
     notifyListeners();
   }
 
   void updatePOC(context) async {
     try{
+      showDialog(context: context, builder: (_) => const Center(child: CircularProgressIndicator(),));
       _body.clear();
       String finalNumber = formatPhoneNumber(
         _selectedCountryCode,
@@ -706,14 +708,15 @@ class MrOfficerVisitProvider with ChangeNotifier {
         "organization": _organizationController.value.text,
         "createdById": userId,
       };
-      ERPResponse response = await ERPServices.patchRequest('/poc/update/${pocDetails!.id}?createdById=$userId', _body, context);
+      debugPrint('Update POC Body: $_body');
+      ERPResponse response = await ERPServices.patchRequest('/poc/update/${pocDetails!.id}?createdById=$userId', _body, context).timeout(const Duration(seconds: 7));
       debugPrint('Response status: ${response.statusCode}');
       debugPrint('Response body: ${response.body}');
       // _dbService.createPOC(pocModel);
       if (response.statusCode == 200) {
+        clearTextControllersValue();
         ToastMessageUtils().showToastMessage('POC details updated successfully',
             ToastGravity.TOP, CustomColors.jadeGreen);
-        clearTextControllersValue();
         pocDetails = null;
         Navigator.pop(context);
         Navigator.of(context)
@@ -724,6 +727,7 @@ class MrOfficerVisitProvider with ChangeNotifier {
         Navigator.pop(context);
       }
     }catch (err){
+      Navigator.pop(context);
       print('Error as $err');
     }
   }

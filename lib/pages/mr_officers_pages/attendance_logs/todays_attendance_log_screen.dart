@@ -70,8 +70,10 @@ class _TodayAttendanceLogScreenState extends State<TodayAttendanceLogScreen>
                     onPressed: () {
                       if (attendanceProvider.selectedAttendanceFilter ==
                           attendanceProvider.attendanceFilterList[0]) {
+                        if(attendanceProvider.isOffline == false) {
+                            attendanceProvider.getTodayAttendance(context);
+                        }
                         Navigator.pop(context);
-                        attendanceProvider.getTodayAttendance(context);
                       }
                       if (attendanceProvider.selectedAttendanceFilter ==
                           attendanceProvider.attendanceFilterList[1]) {
