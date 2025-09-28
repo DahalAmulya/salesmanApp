@@ -12,31 +12,13 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_icon_class/font_awesome_icon_class.dart';
 import 'package:provider/provider.dart';
 
-class MrOfficerVisitLogScreen extends StatefulWidget {
-  const MrOfficerVisitLogScreen({super.key});
+class MrOfficerVisitLogScreen extends StatelessWidget {
+   const MrOfficerVisitLogScreen({super.key});
 
-  @override
-  State<MrOfficerVisitLogScreen> createState() =>
-      _MrOfficerVisitLogStateScreen();
-}
-
-class _MrOfficerVisitLogStateScreen extends State<MrOfficerVisitLogScreen> {
   // List<String> dateList = ["Today", "Yesterday", "Custom", "Offline Visit"];
-  // String defaultValue = "Today";
-  // String selectedDate = "";
-  // bool isVisible = false;
-  // final DatabaseService _dbService = DatabaseService.instance;
+  // MrOfficeVisitLogProvider? _visitLogProvider;
 
-  MrOfficeVisitLogProvider? _visitLogProvider;
-
-  @override
-  void initState() {
-    _visitLogProvider =
-        Provider.of<MrOfficeVisitLogProvider>(context, listen: false);
-    _visitLogProvider?.getVisitLogs(context);
-    super.initState();
-  }
-
+  // @override
   @override
   Widget build(BuildContext context) {
     return PopScope(
@@ -303,7 +285,12 @@ class _MrOfficerVisitLogStateScreen extends State<MrOfficerVisitLogScreen> {
                                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                                   children: [
                                     CustomElevatedButton(onPressed: (){
-                                      visitProvider.setLocalControllerValues(context, poc: visitLogProvider.offlinePoc[index]);
+                                      if(visitProvider.isOffline == false){
+                                        ToastMessageUtils().showToastMessage('Please switch to offline mode to edit offline visit');
+                                        return;
+                                      }else{
+                                        visitProvider.setLocalControllerValues(context, poc: visitLogProvider.offlinePoc[index]);
+                                      }
                                     },backgroundColor: CustomColors.lightRed, widget: CustomText(text: 'Edit')),
                                     CustomElevatedButton(
                                         onPressed: (){
@@ -391,6 +378,8 @@ class _MrOfficerVisitLogStateScreen extends State<MrOfficerVisitLogScreen> {
                           visitLogProvider.visitLog[index]['ambNumber'];
                       String remarks =
                           visitLogProvider.visitLog[index]['remarks'];
+                      String visitType =
+                          visitLogProvider.visitLog[index]['visitType'];
                       return ListTile(
                         onTap: () {
                           print(visitLogProvider.visitLog[index]);
@@ -496,6 +485,20 @@ class _MrOfficerVisitLogStateScreen extends State<MrOfficerVisitLogScreen> {
                                     flex: 3,
                                     child: CustomText(
                                         text: '$time  $date', isContent: true),
+                                  ),
+                                ],
+                              ),
+                              Row(
+                                children: [
+                                  Expanded(
+                                    flex: 2,
+                                    child: CustomText(
+                                        text: 'Visit Type', isContent: true),
+                                  ),
+                                  Expanded(
+                                    flex: 3,
+                                    child: CustomText(
+                                        text: visitType, isContent: true),
                                   ),
                                 ],
                               ),

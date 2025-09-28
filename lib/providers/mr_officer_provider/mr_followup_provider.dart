@@ -124,6 +124,7 @@ class MrOfficerFollowUpProvider extends ChangeNotifier {
     _ambulanceNumberController.text = '';
     _organizationController.text = '';
     _remarksController.text = '';
+    debugPrint('All values cleared');
     notifyListeners();
   }
 
@@ -148,53 +149,6 @@ class MrOfficerFollowUpProvider extends ChangeNotifier {
       notifyListeners();
     }
   }
-
-  // void searchPocName(String enteredKeyWord, context) async {
-  //   try{
-  //     print('************************* _pocSearchResult **********************************');
-  //     print(enteredKeyWord);
-  //     ERPResponse response = await ERPServices.getRequest('/poc/createdUserId/$userId?keyword=${enteredKeyWord.trim()}', context);
-  //     print(response.body);
-  //     if(response.statusCode == 200){
-  //       List<dynamic> pocNames = jsonDecode(response.body)['poc'];
-  //       _pocSearchResult = pocNames;
-  //       if (enteredKeyWord.trim().isEmpty) {
-  //         _pocSearchResult = pocNames;
-  //       } else {
-  //         _pocSearchResult = pocNames
-  //             .where((poc) => poc['pocName']
-  //             .toString()
-  //             .toLowerCase()
-  //             .contains(enteredKeyWord.toLowerCase()))
-  //             .toList();
-  //       }
-  //       print('Search Result = $_pocSearchResult');
-  //       print('***********************************************************');
-  //     }else{
-  //       _pocSearchResult = [];
-  //     }
-  //     notifyListeners();
-  //   }catch (e){
-  //     _pocSearchResult = [];
-  //     print(e.toString());
-  //   }
-  // }
-
-  // void searchPocName(String enteredKeyWord, List<dynamic> pocNames) {
-  //   _pocSearchResult = pocNames;
-  //   if (enteredKeyWord.isEmpty) {
-  //     _pocSearchResult = pocNames;
-  //   } else {
-  //     _pocSearchResult = pocNames
-  //         .where((poc) => poc['pocName']
-  //         .toString()
-  //         .toLowerCase()
-  //         .contains(enteredKeyWord.toLowerCase()))
-  //         .toList();
-  //   }
-  //   print('Search Result = $_pocSearchResult');
-  //   notifyListeners();
-  // }
 
   void postFollowUp(context) async {
     try {

@@ -91,12 +91,17 @@ class AttendanceProvider extends ChangeNotifier {
   }
 
   void setSelectedAttendanceFilter(context, String value) {
+    debugPrint('Selected Attendance Filter: $value');
     _selectedAttendanceFilter = value;
-    // if(_selectedAttendanceFilter == _attendanceFilterList[0]){
-    //   // Navigator.pop(context);
-    // } else {
-    //   _isOffline = true;
-    // }
+    if(_selectedAttendanceFilter == _attendanceFilterList[0] && _isOffline == true){
+      ToastMessageUtils().showToastMessage('Cannot view online attendance in offline mode.',);
+      todayAttendanceLog = TodayAttendanceLog();
+      // Navigator.pop(context);
+    } else if(_selectedAttendanceFilter == _attendanceFilterList[1] && _isOffline == false) {
+      getTodayAttendance(context);
+    }else{
+      getOfflineAttendanceList(context);
+    }
     notifyListeners();
   }
 
@@ -446,6 +451,7 @@ class AttendanceProvider extends ChangeNotifier {
 
   void deleteOfflineAttendanceById(context, id) async {
     // debugPrint('Deleting Attendance ID: ${attendance.toJson()}');
+    Navigator.pop(context);
     showDialog(context: context, builder: (context) => Center(child: CircularProgressIndicator(),));
     int response = await _dbService.deleteAttendanceById(id);
     debugPrint(response.toString());

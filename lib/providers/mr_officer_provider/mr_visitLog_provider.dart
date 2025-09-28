@@ -12,7 +12,7 @@ class MrOfficeVisitLogProvider extends ChangeNotifier {
   List<dynamic> _visitLogs = [];
   List<String> _dateList = ["Today", "Yesterday", "Custom", "Offline Visit"];
   String _defaultValue = "Today";
-  String _selectedDate = DateTime.now().toString().split(' ')[0];
+  String _selectedDate = "${DateTime.now().year}-${DateTime.now().month < 10 ? '0${DateTime.now().month}' : DateTime.now().month}-${DateTime.now().day}";
   bool _isVisible = false;
   final DatabaseService _dbService = DatabaseService.instance;
   List<PocModel> _offlinePoc = [];
@@ -42,6 +42,11 @@ class MrOfficeVisitLogProvider extends ChangeNotifier {
     notifyListeners();
   }
 
+  Future<void> getOfflinePocList() async {
+    _offlinePoc = await _dbService.getAllPOCs();
+    notifyListeners();
+  }
+
   void setSelectedDate(String date) {
     _selectedDate = date;
     notifyListeners();
@@ -58,7 +63,7 @@ class MrOfficeVisitLogProvider extends ChangeNotifier {
     if (picked == null) {
       return;
     } else {
-        _selectedDate = "${picked.year}-${picked.month}-${picked.day}";
+        _selectedDate = "${picked.year}-${picked.month < 10 ? '0${picked.month}' : picked.month}-${picked.day}";
         setSelectedDate(selectedDate);
     }
     print(_selectedDate);
@@ -75,22 +80,25 @@ class MrOfficeVisitLogProvider extends ChangeNotifier {
         _offlinePoc.clear();
         _offlinePoc = await _dbService.getAllPOCs();
         debugPrint('offlinePoc length: ${_offlinePoc.length}');
+        notifyListeners();
         if(_offlinePoc.length == 0){
           ToastMessageUtils().showToastMessage('No Offline Visits found');
         }
-        notifyListeners();
         return;
       }
-
+      if(_isOffline == true){
+        ToastMessageUtils().showToastMessage('You are in Offline Mode.\nPlease switch to Online Mode to view online visit logs.');
+        return;
+      }
       if (_selectedDate == "Today") {
         _selectedDate =
-        "${DateTime.now().year}-${DateTime.now().month}-${DateTime.now().day}";
+        "${DateTime.now().year}-${DateTime.now().month < 10 ? '0${DateTime.now().month}' : DateTime.now().month}-${DateTime.now().day}";
         setSelectedDate(selectedDate.toString().split(" ")[0]);
         getVisitLogs(context);
       }
       if (_selectedDate == "Yesterday") {
         DateTime yesterday = DateTime.now().subtract(Duration(days: 1));
-        _selectedDate = "${yesterday.year}-${yesterday.month}-${yesterday.day}";
+        _selectedDate = "${yesterday.year}-${yesterday.month < 10 ? '0${yesterday.month}' : yesterday.month}-${yesterday.day}";
         setSelectedDate(yesterday.toString().split(" ")[0]);
         getVisitLogs(context);
       }
@@ -99,7 +107,7 @@ class MrOfficeVisitLogProvider extends ChangeNotifier {
         selectDate(context);
       }
       print("Selected Date: $selectedDate");
-      // notifyListeners();
+      notifyListeners();
     // });
   }
 
@@ -107,7 +115,7 @@ class MrOfficeVisitLogProvider extends ChangeNotifier {
     try {
       _offlinePoc.clear();
       DateTime now = DateTime.now();
-      String date = now.toString().split(' ')[0];
+      String date = "${DateTime.now().year}-${DateTime.now().month < 10 ? '0${DateTime.now().month}' : DateTime.now().month}-${DateTime.now().day}";
       debugPrint('Before _selectedDate before API call: $_selectedDate');
       _selectedDate = selectedDate.isEmpty ? date : _selectedDate;
       debugPrint('After _selectedDate before API call: $_selectedDate');

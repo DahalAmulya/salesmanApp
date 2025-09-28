@@ -85,10 +85,12 @@ class _OfflineModeDashboardScreenState extends State<OfflineModeDashboardScreen>
                                 _gradientButton(
                                   text: "View Offline Attendance",
                                   onPressed: () {
-                                    attendanceProvider.setIsOffline(true);
                                     Navigator.of(context).push(MaterialPageRoute(
-                                        builder: (context) =>
-                                        const TodayAttendanceLogScreen()));
+                                      builder: (context) =>
+                                      const TodayAttendanceLogScreen()));
+                                    attendanceProvider.setIsOffline(true);
+                                    attendanceProvider.setSelectedAttendanceFilter(context, attendanceProvider.attendanceFilterList[1]);
+
                                   },
                                 ),
                               ],
@@ -119,11 +121,12 @@ class _OfflineModeDashboardScreenState extends State<OfflineModeDashboardScreen>
                                   return _gradientButton(
                                     text: "View Offline Visits",
                                     onPressed: () {
+                                      Navigator.of(context).pushNamed(
+                                      MarketingOfficerConstants.visitLog,
+                                    );
+                                      visitLogProvider.updateSelectedDate(visitLogProvider.dateList[3], context);
                                       visitProvider.setIsOffline(true);
                                       visitLogProvider.setIsOffline(true);
-                                      Navigator.of(context).pushNamed(
-                                        MarketingOfficerConstants.visitLog,
-                                      );
                                     },
                                   );
                                 }),

@@ -122,10 +122,8 @@ class _MrOfficersDashboardScreenState extends State<MrOfficersDashboardScreen>
   }
 
   void getVisitLogs() async {
-    DateTime now = DateTime.now();
-    String date = now.toString().split(' ')[0];
-    String from = '${date} 00:00:00';
-    String to = '${date} 23:59:59';
+    String from = '${DateTime.now().year}-${DateTime.now().month < 10 ? '0${DateTime.now().month}' : DateTime.now().month}-${DateTime.now().day}';
+    String to = '${DateTime.now().year}-${DateTime.now().month < 10 ? '0${DateTime.now().month}' : DateTime.now().month}-${DateTime.now().day}';
     ERPResponse response = await ERPServices.getRequest(
         '/visitLogs?visitLogId=$userId&from=$from&to=$to', context);
     Map<String, dynamic> body = jsonDecode(response.body);
@@ -134,6 +132,9 @@ class _MrOfficersDashboardScreenState extends State<MrOfficersDashboardScreen>
       List<dynamic> visitLogs = body["visitLogs"]["visitLogs"];
       setState(() {
         totalVisit = visitLogs.length;
+        debugPrint('*********************** \t\t Total Visits: $from \t\t *****************************');
+        debugPrint('*********************** \t\t Total Visits: $to \t\t *****************************');
+        debugPrint('*********************** \t\t Total Visits: $totalVisit \t\t *****************************');
       });
       print(totalVisit);
       print(response.statusCode);
@@ -282,34 +283,38 @@ class _MrOfficersDashboardScreenState extends State<MrOfficersDashboardScreen>
           },
         );
       }),
-      child: Scaffold(
-        backgroundColor: CustomColors.primaryWhite,
-        appBar: _appBar(context),
-        body: _body(context),
-        drawer: MrOfficerCustomDrawer(
-          isHomeActive: true,
-        ),
-        floatingActionButton: FloatingActionButton.small(
-          onPressed: () async {
-            // await _dbService.updatePOCById(1, {
-            //   'remarks': 'new remark',
-            // });
-            await _dbService.deletePOCById(5);
-            // _dbService.getAllPOCs();
-            // Position position = await Geolocator.getCurrentPosition(
-            //     desiredAccuracy: LocationAccuracy.best);
-            // NotiService().showNotification(title: 'Test Notification', body: 'This is a test notification');
-            // NotiService().scheduleNotification(title: 'Test Notification', body: 'This is a test notification', hour: 16, minute: 4);
-            // Workmanager().registerOneOffTask('1234', 'download_task', initialDelay: Duration(seconds: 10), inputData: {
-            //   'latitude': position.latitude,
-            //   'longitude': position.longitude,
-            // });
-            //
-            // Workmanager().registerPeriodicTask('65434', 'download_task', frequency: Duration(minutes: 15), inputData: {
-            //   'latitude': position.latitude,
-            //   'longitude': position.longitude,
-            // });
-        }, child: Icon(Icons.notifications),),
+      child: Consumer<AttendanceProvider>(
+        builder: (context, attendanceProvider, _) {
+          return Scaffold(
+            backgroundColor: CustomColors.primaryWhite,
+            appBar: _appBar(context),
+            body: _body(context),
+            drawer: MrOfficerCustomDrawer(
+              isHomeActive: true,
+            ),
+            // floatingActionButton: FloatingActionButton.small(
+            //   onPressed: () async {
+            //     // await _dbService.updatePOCById(1, {
+            //     //   'remarks': 'new remark',
+            //     // });
+            //     await _dbService.deletePOCById(5);
+            //     // _dbService.getAllPOCs();
+            //     // Position position = await Geolocator.getCurrentPosition(
+            //     //     desiredAccuracy: LocationAccuracy.best);
+            //     // NotiService().showNotification(title: 'Test Notification', body: 'This is a test notification');
+            //     // NotiService().scheduleNotification(title: 'Test Notification', body: 'This is a test notification', hour: 16, minute: 4);
+            //     // Workmanager().registerOneOffTask('1234', 'download_task', initialDelay: Duration(seconds: 10), inputData: {
+            //     //   'latitude': position.latitude,
+            //     //   'longitude': position.longitude,
+            //     // });
+            //     //
+            //     // Workmanager().registerPeriodicTask('65434', 'download_task', frequency: Duration(minutes: 15), inputData: {
+            //     //   'latitude': position.latitude,
+            //     //   'longitude': position.longitude,
+            //     // });
+            // }, child: Icon(Icons.notifications),),
+          );
+        }
       ),
     );
   }
@@ -339,178 +344,25 @@ class _MrOfficersDashboardScreenState extends State<MrOfficersDashboardScreen>
   }
 
   Widget _body(context) {
-    return SingleChildScrollView(
-      padding: const EdgeInsets.all(16),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          // Today's Plans Section
-          Card(
-            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
-            elevation: 6,
-            shadowColor: Colors.black12,
-            margin: const EdgeInsets.only(bottom: 20),
-            color: Colors.white,
-            child: Padding(
-              padding: const EdgeInsets.all(20),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Row(
-                    children: const [
-                      Icon(Icons.event_note, color: Colors.blueAccent, size: 26),
-                      SizedBox(width: 8),
-                      Text("Today's Plan",
-                          style: TextStyle(
-                              fontSize: 18, fontWeight: FontWeight.bold)),
-                    ],
-                  ),
-                  const SizedBox(height: 12),
-                  Text(
-                    todaysDateTime,
-                    style: const TextStyle(
-                        fontSize: 14, color: Colors.grey, fontStyle: FontStyle.italic),
-                  ),
-                  const Divider(height: 24),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      const Text("Activity:",
-                          style: TextStyle(fontWeight: FontWeight.w600)),
-                      Expanded(
-                        child: Text(activity,
-                            textAlign: TextAlign.end,
-                            style: const TextStyle(color: Colors.black87)),
-                      ),
-                    ],
-                  ),
-                  const SizedBox(height: 8),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      const Text("Area:",
-                          style: TextStyle(fontWeight: FontWeight.w600)),
-                      Expanded(
-                        child: Text(area,
-                            textAlign: TextAlign.end,
-                            style: const TextStyle(color: Colors.black87)),
-                      ),
-                    ],
-                  ),
-                  const SizedBox(height: 8),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      const Text("Remark:",
-                          style: TextStyle(fontWeight: FontWeight.w600)),
-                      Expanded(
-                        child: Text(remark,
-                            textAlign: TextAlign.end,
-                            style: const TextStyle(color: Colors.black87)),
-                      ),
-                    ],
-                  ),
-                ],
-              ),
-            ),
-          ),
-
-          // Attendance Section
-          InkWell(
-            onTap: (){
-              showModalBottomSheet(
-                isScrollControlled: true,
-                useSafeArea: true,
-                context: context,
-                builder: (context) =>
-                    MrOfficerAttendanceBottomSheet(),
-              );
-            },
-            child: Card(
-              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
-              elevation: 6,
-              color: Colors.white,
-              shadowColor: Colors.black12,
-              margin: const EdgeInsets.only(bottom: 20),
-              child: Padding(
-                padding: const EdgeInsets.all(20),
-                child: Consumer<AttendanceProvider>(
-                  builder: (context, attendanceProvider, _) {
-                    return Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Row(
-                          children: const [
-                            Icon(Icons.access_time_filled,
-                                color: Colors.orangeAccent, size: 26),
-                            SizedBox(width: 8),
-                            Text("Attendance",
-                                style: TextStyle(
-                                    fontSize: 18, fontWeight: FontWeight.bold)),
-                          ],
-                        ),
-                        const Divider(height: 24),
-                        _infoRow("Status", attendanceProvider.status),
-                        _infoRow("Check-in", attendanceProvider.checkInTimeStr),
-                        _infoRow("Check-out", attendanceProvider.checkOutTimeStr),
-                        _infoRow(
-                          "Total Time",
-                          "${attendanceProvider.hours}H ${attendanceProvider.minutes}M",
-                        ),
-                        const SizedBox(height: 16),
-                        SizedBox(
-                          width: double.infinity,
-                          child: ElevatedButton.icon(
-                            style: ElevatedButton.styleFrom(
-                              backgroundColor: CustomColors.primaryColor,
-                              padding: const EdgeInsets.symmetric(vertical: 14),
-                              shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(14)),
-                            ),
-                            onPressed: () {
-                              Navigator.of(context).push(MaterialPageRoute(
-                                  builder: (context) =>
-                                  const TodayAttendanceLogScreen()));
-                              attendanceProvider.setIsOffline(false);
-                              attendanceProvider.getTodayAttendance(context);
-                            },
-                            icon: Image.asset(
-                              'assets/images/biometricAttendanceWhite.png',
-                              scale: 14,
-                              color: Colors.black,
-                            ),
-                            label: const Text("View Today's Attendance Log",
-                                style: TextStyle(
-                                  fontSize: 16,
-                                    fontWeight: FontWeight.w600,
-                                    color: Colors.black)),
-                          ),
-                        ),
-                      ],
-                    );
-                  },
-                ),
-              ),
-            ),
-          ),
-
-          // Today's Visits Section
-          Consumer2<MrOfficeVisitLogProvider, MrOfficerVisitProvider>(
-            builder: (context, visitLogProvider, visitProvider, _) {
-              return Card(
-                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
-                elevation: 6,
-                color: Colors.white,
-                shadowColor: Colors.black12,
-                margin: const EdgeInsets.only(bottom: 20),
-                child: InkWell(
-                  borderRadius: BorderRadius.circular(20),
-                  onTap: () {
-                    visitLogProvider.setIsOffline(false);
-                    visitProvider.setIsOffline(false);
-                    Navigator.of(context)
-                        .pushNamed(MarketingOfficerConstants.visitLog);
-                  },
+    return Consumer<AttendanceProvider>(
+      builder: (context, attendanceProvider, _) {
+        return RefreshIndicator(
+          onRefresh: () async {
+            await Future.delayed(const Duration(milliseconds: 300));
+            attendanceProvider.getTodayAttendance(context);
+          },
+          child: SingleChildScrollView(
+            padding: const EdgeInsets.all(16),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                // Today's Plans Section
+                Card(
+                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+                  elevation: 6,
+                  shadowColor: Colors.black12,
+                  margin: const EdgeInsets.only(bottom: 20),
+                  color: Colors.white,
                   child: Padding(
                     padding: const EdgeInsets.all(20),
                     child: Column(
@@ -518,34 +370,200 @@ class _MrOfficersDashboardScreenState extends State<MrOfficersDashboardScreen>
                       children: [
                         Row(
                           children: const [
-                            Icon(Icons.location_on,
-                                color: Colors.green, size: 26),
+                            Icon(Icons.event_note, color: Colors.blueAccent, size: 26),
                             SizedBox(width: 8),
-                            Text("Today's Visits",
+                            Text("Today's Plan",
                                 style: TextStyle(
                                     fontSize: 18, fontWeight: FontWeight.bold)),
                           ],
+                        ),
+                        const SizedBox(height: 12),
+                        Text(
+                          todaysDateTime,
+                          style: const TextStyle(
+                              fontSize: 14, color: Colors.grey, fontStyle: FontStyle.italic),
                         ),
                         const Divider(height: 24),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            const Text("Total Visits",
+                            const Text("Activity:",
                                 style: TextStyle(fontWeight: FontWeight.w600)),
-                            Text("$totalVisit",
-                                style: const TextStyle(
-                                    fontSize: 16, color: Colors.black87)),
+                            Expanded(
+                              child: Text(activity,
+                                  textAlign: TextAlign.end,
+                                  style: const TextStyle(color: Colors.black87)),
+                            ),
+                          ],
+                        ),
+                        const SizedBox(height: 8),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            const Text("Area:",
+                                style: TextStyle(fontWeight: FontWeight.w600)),
+                            Expanded(
+                              child: Text(area,
+                                  textAlign: TextAlign.end,
+                                  style: const TextStyle(color: Colors.black87)),
+                            ),
+                          ],
+                        ),
+                        const SizedBox(height: 8),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            const Text("Remark:",
+                                style: TextStyle(fontWeight: FontWeight.w600)),
+                            Expanded(
+                              child: Text(remark,
+                                  textAlign: TextAlign.end,
+                                  style: const TextStyle(color: Colors.black87)),
+                            ),
                           ],
                         ),
                       ],
                     ),
                   ),
                 ),
-              );
-            }
+
+                // Attendance Section
+                InkWell(
+                  onTap: (){
+                    showModalBottomSheet(
+                      isScrollControlled: true,
+                      useSafeArea: true,
+                      context: context,
+                      builder: (context) =>
+                          MrOfficerAttendanceBottomSheet(),
+                    );
+                  },
+                  child: Card(
+                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+                    elevation: 6,
+                    color: Colors.white,
+                    shadowColor: Colors.black12,
+                    margin: const EdgeInsets.only(bottom: 20),
+                    child: Padding(
+                      padding: const EdgeInsets.all(20),
+                      child: Consumer<AttendanceProvider>(
+                        builder: (context, attendanceProvider, _) {
+                          return Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Row(
+                                children: const [
+                                  Icon(Icons.access_time_filled,
+                                      color: Colors.orangeAccent, size: 26),
+                                  SizedBox(width: 8),
+                                  Text("Attendance",
+                                      style: TextStyle(
+                                          fontSize: 18, fontWeight: FontWeight.bold)),
+                                ],
+                              ),
+                              const Divider(height: 24),
+                              _infoRow("Status", attendanceProvider.status),
+                              _infoRow("Check-in", attendanceProvider.checkInTimeStr),
+                              _infoRow("Check-out", attendanceProvider.checkOutTimeStr),
+                              _infoRow(
+                                "Total Time",
+                                "${attendanceProvider.hours}H ${attendanceProvider.minutes}M",
+                              ),
+                              const SizedBox(height: 16),
+                              SizedBox(
+                                width: double.infinity,
+                                child: ElevatedButton.icon(
+                                  style: ElevatedButton.styleFrom(
+                                    backgroundColor: CustomColors.primaryColor,
+                                    padding: const EdgeInsets.symmetric(vertical: 14),
+                                    shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(14)),
+                                  ),
+                                  onPressed: () {
+                                    Navigator.of(context).push(MaterialPageRoute(
+                                        builder: (context) =>
+                                        const TodayAttendanceLogScreen()));
+                                    attendanceProvider.setIsOffline(false);
+                                    attendanceProvider.setSelectedAttendanceFilter(context, attendanceProvider.attendanceFilterList[0]);
+                                    attendanceProvider.getTodayAttendance(context);
+                                  },
+                                  icon: Image.asset(
+                                    'assets/images/biometricAttendanceWhite.png',
+                                    scale: 14,
+                                    color: Colors.black,
+                                  ),
+                                  label: const Text("View Today's Attendance Log",
+                                      style: TextStyle(
+                                        fontSize: 16,
+                                          fontWeight: FontWeight.w600,
+                                          color: Colors.black)),
+                                ),
+                              ),
+                            ],
+                          );
+                        },
+                      ),
+                    ),
+                  ),
+                ),
+
+                // Today's Visits Section
+                Consumer2<MrOfficeVisitLogProvider, MrOfficerVisitProvider>(
+                  builder: (context, visitLogProvider, visitProvider, _) {
+                    return Card(
+                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+                      elevation: 6,
+                      color: Colors.white,
+                      shadowColor: Colors.black12,
+                      margin: const EdgeInsets.only(bottom: 20),
+                      child: InkWell(
+                        borderRadius: BorderRadius.circular(20),
+                        onTap: () {
+                          visitLogProvider.setIsOffline(false);
+                          visitProvider.setIsOffline(false);
+                          visitLogProvider.updateSelectedDate(visitLogProvider.dateList[0], context);
+                          visitLogProvider.getVisitLogs(context);
+                          Navigator.of(context)
+                              .pushNamed(MarketingOfficerConstants.visitLog);
+                        },
+                        child: Padding(
+                          padding: const EdgeInsets.all(20),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Row(
+                                children: const [
+                                  Icon(Icons.location_on,
+                                      color: Colors.green, size: 26),
+                                  SizedBox(width: 8),
+                                  Text("Today's Visits",
+                                      style: TextStyle(
+                                          fontSize: 18, fontWeight: FontWeight.bold)),
+                                ],
+                              ),
+                              const Divider(height: 24),
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                children: [
+                                  const Text("Total Visits",
+                                      style: TextStyle(fontWeight: FontWeight.w600)),
+                                  Text("$totalVisit",
+                                      style: const TextStyle(
+                                          fontSize: 16, color: Colors.black87)),
+                                ],
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    );
+                  }
+                ),
+              ],
+            ),
           ),
-        ],
-      ),
+        );
+      }
     );
   }
 
