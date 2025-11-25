@@ -78,7 +78,7 @@ class ProfileProvider extends ChangeNotifier {
         await ImagePicker().pickImage(source: ImageSource.gallery);
 
     if (returnedImage == null) return;
-    _selectedImage = File(returnedImage!.path);
+    _selectedImage = File(returnedImage.path);
     notifyListeners();
   }
 
@@ -87,7 +87,7 @@ class ProfileProvider extends ChangeNotifier {
         await ImagePicker().pickImage(source: ImageSource.camera);
 
     if (returnedImage == null) return;
-    _selectedImage = File(returnedImage!.path);
+    _selectedImage = File(returnedImage.path);
     notifyListeners();
   }
 

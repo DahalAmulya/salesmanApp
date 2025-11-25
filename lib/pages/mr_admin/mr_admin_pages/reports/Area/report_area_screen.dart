@@ -200,7 +200,9 @@ class _MrAdminAreaReportScreenState extends State<MrAdminAreaReportScreen> {
                                                 .countryList[0]
                                         ? 'Select District *'
                                         : 'Select State *',
-                                    validator: (newValue) {},
+                                    validator: (newValue) {
+                                      return null;
+                                    },
                                     onTap: () async {
                                       String fileName =
                                           mrAdminAreaReportProvider
@@ -250,7 +252,9 @@ class _MrAdminAreaReportScreenState extends State<MrAdminAreaReportScreen> {
                                         .cityController,
                                     readOnly: true,
                                     labelText: 'City *',
-                                    validator: (newValue) {},
+                                    validator: (newValue) {
+                                      return null;
+                                    },
                                     onTap: () async {
                                       mrAdminAreaReportProvider
                                           .searchController.text = '';
@@ -381,7 +385,9 @@ class _MrAdminAreaReportScreenState extends State<MrAdminAreaReportScreen> {
                                 : 'Search State',
                         applySuffixIcon: true,
                         suffixIcon: const Icon(Icons.search),
-                        validator: (value) {},
+                        validator: (value) {
+                          return null;
+                        },
                         onChange: (value) =>
                             mrAdminAreaReportProvider.searchAddressResult(
                                 mrAdminAreaReportProvider
@@ -465,7 +471,9 @@ class _MrAdminAreaReportScreenState extends State<MrAdminAreaReportScreen> {
                         labelText: 'Search City',
                         applySuffixIcon: true,
                         suffixIcon: const Icon(Icons.search),
-                        validator: (value) {},
+                        validator: (value) {
+                          return null;
+                        },
                         onChange: (value) =>
                             mrAdminAreaReportProvider.searchAddressResult(
                                 mrAdminAreaReportProvider

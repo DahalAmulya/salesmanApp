@@ -1,4 +1,3 @@
-import 'package:deskgoo/widgets/texts/custom_text.dart';
 import 'package:flutter/material.dart';
 
 class Indicator extends StatelessWidget {

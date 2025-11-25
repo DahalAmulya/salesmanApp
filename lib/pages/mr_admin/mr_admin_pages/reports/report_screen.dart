@@ -1,7 +1,6 @@
 import 'dart:async';
 import 'dart:convert';
 
-import 'package:deskgoo/consts.dart';
 import 'package:deskgoo/providers/mr_admin_provider/mr_admin_visit_logProvider.dart';
 import 'package:deskgoo/routes/route_generator_constants.dart';
 import 'package:deskgoo/themes/custom_colors.dart';
@@ -18,7 +17,6 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:provider/provider.dart';
 
-import '../../../../consts.dart';
 
 class MrAdminReportScreen extends StatefulWidget {
   const MrAdminReportScreen({super.key});
@@ -173,7 +171,9 @@ class _MrAdminReportScreenState extends State<MrAdminReportScreen> {
                                       adminVisitLogsProvider
                                           .selectDateFrom(context);
                                     },
-                                    validator: (value) {},
+                                    validator: (value) {
+                                      return null;
+                                    },
                                   ),
                                 ),
                                 const SizedBox(
@@ -190,7 +190,9 @@ class _MrAdminReportScreenState extends State<MrAdminReportScreen> {
                                       adminVisitLogsProvider
                                           .selectDateTo(context);
                                     },
-                                    validator: (value) {},
+                                    validator: (value) {
+                                      return null;
+                                    },
                                   ),
                                 ),
                               ],
@@ -256,7 +258,9 @@ class _MrAdminReportScreenState extends State<MrAdminReportScreen> {
                                           adminVisitLogsProvider.countryList[0]
                                       ? 'Select District'
                                       : 'Select State',
-                                  validator: (newValue) {},
+                                  validator: (newValue) {
+                                    return null;
+                                  },
                                   onTap: () async {
                                     String fileName = adminVisitLogsProvider
                                                 .selectedCountry ==
@@ -315,7 +319,9 @@ class _MrAdminReportScreenState extends State<MrAdminReportScreen> {
                                           adminVisitLogsProvider.countryList[0]
                                       ? 'Select District *'
                                       : 'Select State *',
-                                  validator: (newValue) {},
+                                  validator: (newValue) {
+                                    return null;
+                                  },
                                   onTap: () async {
                                     String fileName = adminVisitLogsProvider
                                                 .selectedCountry ==
@@ -350,7 +356,9 @@ class _MrAdminReportScreenState extends State<MrAdminReportScreen> {
                                       adminVisitLogsProvider.cityController,
                                   readOnly: true,
                                   labelText: 'City *',
-                                  validator: (newValue) {},
+                                  validator: (newValue) {
+                                    return null;
+                                  },
                                   onTap: () async {
                                     adminVisitLogsProvider
                                         .searchController.text = '';
@@ -1017,7 +1025,9 @@ class _MrAdminReportScreenState extends State<MrAdminReportScreen> {
                         labelText: 'Search City',
                         applySuffixIcon: true,
                         suffixIcon: Icon(Icons.search),
-                        validator: (value) {},
+                        validator: (value) {
+                          return null;
+                        },
                         onChange: (value) =>
                             adminVisitLogsProvider.searchAddressResult(
                                 adminVisitLogsProvider
@@ -1098,7 +1108,9 @@ class _MrAdminReportScreenState extends State<MrAdminReportScreen> {
                                 : 'Search State',
                         applySuffixIcon: true,
                         suffixIcon: Icon(Icons.search),
-                        validator: (value) {},
+                        validator: (value) {
+                          return null;
+                        },
                         onChange: (value) =>
                             mrAdminVisitLogProvider.searchAddressResult(
                                 mrAdminVisitLogProvider

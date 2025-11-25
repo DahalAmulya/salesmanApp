@@ -4,7 +4,6 @@ import 'package:nepali_date_picker/nepali_date_picker.dart';
 import 'package:nepali_utils/nepali_utils.dart';
 import '../../../themes/custom_colors.dart';
 import '../../../widgets/text_fields/text_from_field.dart';
-import '../../../widgets/texts/custom_text.dart';
 
 class ChequeSummary_BottomSheet extends StatefulWidget {
   const ChequeSummary_BottomSheet({super.key});
@@ -38,7 +37,7 @@ class _BankSummary_BottomSheetState extends State<ChequeSummary_BottomSheet> {
 
   Future<String?> datePicker() async {
     String date = '';
-    NepaliDateTime? _selectedDateTime = await picker.showMaterialDatePicker(
+    NepaliDateTime? _selectedDateTime = await picker.showNepaliDatePicker(
       context: context,
       initialDate: selectedDate,
       firstDate: NepaliDateTime(2000),
@@ -55,7 +54,6 @@ class _BankSummary_BottomSheetState extends State<ChequeSummary_BottomSheet> {
               onPrimary: CustomColors.primaryBlack, // selected text color
               onSurface: CustomColors.primaryBlack, // default text color
             ),
-            dialogBackgroundColor: Colors.white,
             textButtonTheme: TextButtonThemeData(
               style: TextButton.styleFrom(
                 foregroundColor: CustomColors.primaryBlack,
@@ -75,7 +73,7 @@ class _BankSummary_BottomSheetState extends State<ChequeSummary_BottomSheet> {
                   borderRadius: BorderRadius.circular(50),
                 ),
               ),
-            ),
+            ), dialogTheme: DialogThemeData(backgroundColor: Colors.white),
           ),
           child: child!,
         );

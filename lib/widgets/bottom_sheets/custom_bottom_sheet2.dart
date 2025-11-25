@@ -68,7 +68,9 @@ class _CustomBottomSheet2State extends State<CustomBottomSheet2> {
                       });
                     },
                     onChange: (value) => _stateFilter(value!),
-                    validator: (Value) {},
+                    validator: (Value) {
+                      return null;
+                    },
                   ),
               ),
               SizedBox(height: 12,),

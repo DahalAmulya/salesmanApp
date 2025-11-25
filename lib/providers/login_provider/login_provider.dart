@@ -1,4 +1,3 @@
-import 'package:deskgoo/consts.dart';
 import 'package:flutter/material.dart';
 
 class UserProvider extends ChangeNotifier {

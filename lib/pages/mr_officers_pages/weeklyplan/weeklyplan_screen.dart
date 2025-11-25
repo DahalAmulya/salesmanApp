@@ -6,7 +6,6 @@ import 'package:deskgoo/themes/custom_colors.dart';
 import 'package:deskgoo/widgets/app_bars/custom_app_bars.dart';
 import 'package:deskgoo/widgets/buttons/elevated_button.dart';
 import 'package:deskgoo/widgets/containers/custom_container.dart';
-import 'package:deskgoo/widgets/expansion_tile/custom_expansiontile.dart';
 import 'package:deskgoo/widgets/texts/custom_text.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -15,7 +14,6 @@ import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import '../../../../routes/marketing_officer_consts.dart';
 import '../../../../widgets/drawers/mr_officer_custom_drawer.dart';
-import '../../../../widgets/drop_downs/custom_dropdown.dart';
 import '../../../../widgets/text_fields/text_from_field.dart';
 import '../../../services/erp_services.dart';
 
@@ -243,7 +241,9 @@ class _WeeklyPlanScreenState extends State<WeeklyPlanScreen> {
                         hintText: '$activity',
                         controller:
                             _weeklyPlanProvider.taskActivityNoteController,
-                        validator: (validator) {}),
+                        validator: (validator) {
+                          return null;
+                        }),
                     const SizedBox(
                       height: 8,
                     ),
@@ -264,7 +264,9 @@ class _WeeklyPlanScreenState extends State<WeeklyPlanScreen> {
                         readOnly: true,
                         hintText: '$area',
                         controller: _weeklyPlanProvider.taskAreaNoteController,
-                        validator: (validator) {}),
+                        validator: (validator) {
+                          return null;
+                        }),
                     const SizedBox(
                       height: 8,
                     ),
@@ -285,7 +287,9 @@ class _WeeklyPlanScreenState extends State<WeeklyPlanScreen> {
                       readOnly: true,
                       hintText: '$remark',
                       controller: _weeklyPlanProvider.taskRemarkNoteController,
-                      validator: (validator) {},
+                      validator: (validator) {
+                        return null;
+                      },
                     ),
                   ],
                 ),

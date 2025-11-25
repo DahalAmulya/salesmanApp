@@ -1,9 +1,7 @@
 import 'dart:async';
-import 'dart:convert';
 import 'dart:io';
 import 'package:deskgoo/consts.dart';
 import 'package:deskgoo/services/erp_services.dart';
-import 'package:http/http.dart' as http;
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 import 'package:geolocator/geolocator.dart';
@@ -142,7 +140,7 @@ class DeviceInfoProvider extends ChangeNotifier {
       _connectivityType = result[0].toString().split('.')[1];
       print('connection type = $_connectivityType');
       notifyListeners();
-    } on PlatformException catch (e) {
+    } on PlatformException {
       print('Couldn\'t check connectivity status error');
       return;
     }

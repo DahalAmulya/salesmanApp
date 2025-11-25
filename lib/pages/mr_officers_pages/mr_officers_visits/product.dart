@@ -1,6 +1,5 @@
 import 'package:deskgoo/providers/visit_provider/order_items.dart';
 import 'package:deskgoo/providers/visit_provider/order_provider.dart';
-import 'package:deskgoo/providers/visit_provider/visit_screen_provider.dart';
 import 'package:deskgoo/themes/custom_colors.dart';
 import 'package:deskgoo/widgets/buttons/elevated_button.dart';
 import 'package:deskgoo/widgets/containers/custom_container.dart';

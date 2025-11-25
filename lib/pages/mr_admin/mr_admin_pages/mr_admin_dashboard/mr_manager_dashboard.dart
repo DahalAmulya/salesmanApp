@@ -1,10 +1,7 @@
 import 'dart:convert';
 import 'dart:developer';
 // import 'package:awesome_notifications/awesome_notifications.dart';
-import 'package:carousel_slider/carousel_slider.dart';
-import 'package:deskgoo/classes/notification_controller.dart';
 import 'package:deskgoo/consts.dart';
-import 'package:deskgoo/pages/notification_screen.dart';
 import 'package:deskgoo/providers/attendance_provider/remote_attendance_provider.dart';
 import 'package:deskgoo/providers/auth_provider/change_password_provider.dart';
 import 'package:deskgoo/providers/deviceInfo_provider/deviceInfo_provider.dart';
@@ -21,7 +18,6 @@ import 'package:deskgoo/widgets/buttons/elevated_button.dart';
 import 'package:deskgoo/widgets/containers/CustomLineBar.dart';
 import 'package:deskgoo/widgets/containers/custom_container.dart';
 import 'package:deskgoo/widgets/drawers/custom_drawer.dart';
-import 'package:deskgoo/widgets/indicators/indicator.dart';
 import 'package:deskgoo/widgets/texts/custom_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -31,7 +27,6 @@ import 'package:local_auth/local_auth.dart';
 import 'package:provider/provider.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 // import 'package:fl_chart/fl_chart.dart';
-import 'package:percent_indicator/percent_indicator.dart';
 
 import '../../../../services/erp_services.dart';
 

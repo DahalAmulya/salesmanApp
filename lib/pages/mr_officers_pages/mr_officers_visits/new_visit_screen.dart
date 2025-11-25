@@ -301,7 +301,9 @@ class _MrOfficerNewVisitScreenState extends State<MrOfficerNewVisitScreen> {
                       controller: createVisitProvider.organizationController,
                       labelText: 'Organization',
                       maxLines: 2,
-                      validator: (newValue) {},
+                      validator: (newValue) {
+                        return null;
+                      },
                     ),
                     const SizedBox(
                       height: 16,
@@ -1139,7 +1141,9 @@ class _MrOfficerNewVisitScreenState extends State<MrOfficerNewVisitScreen> {
                             : 'Search State',
                         applySuffixIcon: true,
                         suffixIcon: const Icon(Icons.search),
-                        validator: (value) {},
+                        validator: (value) {
+                          return null;
+                        },
                         onChange: (value) => visitProvider.searchAddressResult(
                             visitProvider.searchController.value.text, content),
                       ),
@@ -1215,7 +1219,9 @@ class _MrOfficerNewVisitScreenState extends State<MrOfficerNewVisitScreen> {
                         labelText: 'Search City',
                         applySuffixIcon: true,
                         suffixIcon: const Icon(Icons.search),
-                        validator: (value) {},
+                        validator: (value) {
+                          return null;
+                        },
                         onChange: (value) => visitProvider.searchAddressResult(
                             visitProvider.searchController.value.text, content),
                       ),

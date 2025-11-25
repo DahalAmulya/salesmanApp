@@ -19,7 +19,6 @@ import 'package:deskgoo/widgets/texts/custom_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:font_awesome_icon_class/font_awesome_icon_class.dart';
 import 'package:provider/provider.dart';
 
 import '../../../providers/login_provider/login_provider.dart';

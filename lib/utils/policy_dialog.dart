@@ -1,11 +1,9 @@
-import 'package:deskgoo/providers/auth_provider/user_auth_provider.dart';
 import 'package:deskgoo/themes/custom_colors.dart';
 import 'package:deskgoo/widgets/buttons/elevated_button.dart';
 import 'package:deskgoo/widgets/texts/custom_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_markdown_plus/flutter_markdown_plus.dart';
-import 'package:provider/provider.dart';
 
 class PolicyDialog extends StatelessWidget {
   PolicyDialog({

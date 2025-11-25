@@ -1,30 +1,18 @@
-import 'dart:convert';
 import 'dart:io';
 
 import 'package:deskgoo/consts.dart';
 import 'package:deskgoo/pages/settings/profile/pick_profile_pic_screen.dart';
-import 'package:deskgoo/providers/profile_provider/profile_provider.dart';
-import 'package:deskgoo/providers/settings_providers/profile_provider/profile_provider.dart';
-import 'package:deskgoo/services/erp_services.dart';
 import 'package:deskgoo/themes/custom_colors.dart';
 import 'package:deskgoo/utils/readUserCred.dart';
 import 'package:deskgoo/widgets/app_bars/custom_app_bars.dart';
-import 'package:deskgoo/widgets/bottom_navigation/gnav_bar.dart';
 import 'package:deskgoo/widgets/texts/custom_text.dart';
 import 'package:flutter/material.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
 
-import '../../../classes/secure_storage.dart';
 import '../../../providers/profile/profile_provider.dart';
 import '../../../routes/route_generator_constants.dart';
-import '../../../utils/toast_message.dart';
-import '../../../widgets/bottom_sheets/mr_officer_sheets/attendance.dart';
-import '../../../widgets/buttons/elevated_button.dart';
 import '../../../widgets/containers/custom_container.dart';
-import 'package:http/http.dart' as http;
 
 class Profile_page extends StatefulWidget {
   const Profile_page({super.key});

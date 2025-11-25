@@ -1,8 +1,6 @@
-import 'dart:convert';
 import 'package:deskgoo/pages/mr_officers_pages/mr_officers_visits/new_visit_screen.dart';
 import 'package:deskgoo/providers/mr_officer_provider/mr_followup_provider.dart';
 import 'package:deskgoo/providers/mr_officer_provider/mr_visit_provider.dart';
-import 'package:deskgoo/providers/visit_provider/visit_type/follow_up_visit_provider.dart';
 import 'package:deskgoo/themes/custom_colors.dart';
 import 'package:deskgoo/utils/toast_message.dart';
 import 'package:deskgoo/widgets/app_bars/custom_app_bars.dart';
@@ -11,7 +9,6 @@ import 'package:deskgoo/widgets/containers/custom_container.dart';
 import 'package:deskgoo/widgets/text_fields/text_from_field.dart';
 import 'package:deskgoo/widgets/texts/custom_text.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
@@ -114,7 +111,9 @@ class MrOfficerFollowUpVisitScreen extends StatelessWidget {
                           controller: followUpProvider.categoryController,
                           labelText: 'Category',
                           readOnly: true,
-                          validator: (newValue) {},
+                          validator: (newValue) {
+                            return null;
+                          },
                         ),
                         const SizedBox(
                           height: 16,
@@ -124,7 +123,9 @@ class MrOfficerFollowUpVisitScreen extends StatelessWidget {
                           labelText: 'Specialization',
                           maxLines: 2,
                           readOnly: true,
-                          validator: (newValue) {},
+                          validator: (newValue) {
+                            return null;
+                          },
                         ),
                         const SizedBox(
                           height: 16,
@@ -142,7 +143,9 @@ class MrOfficerFollowUpVisitScreen extends StatelessWidget {
                           controller: followUpProvider.genderController,
                           labelText: 'Gender',
                           readOnly: true,
-                          validator: (newValue) {},
+                          validator: (newValue) {
+                            return null;
+                          },
                         ),
                         const SizedBox(
                           height: 16,
@@ -154,6 +157,8 @@ class MrOfficerFollowUpVisitScreen extends StatelessWidget {
                           labelText: 'Number',
                           onTap: () {},
                           validator: (value) {
+                            return null;
+                          
                           },
                           onChange: (value) {},
                         ),
@@ -165,7 +170,9 @@ class MrOfficerFollowUpVisitScreen extends StatelessWidget {
                           readOnly: true,
                           labelText: 'Ambulance Number',
                           maxLines: 2,
-                          validator: (newValue) {},
+                          validator: (newValue) {
+                            return null;
+                          },
                         ),
                         const SizedBox(
                           height: 16,
@@ -175,7 +182,9 @@ class MrOfficerFollowUpVisitScreen extends StatelessWidget {
                           readOnly: true,
                           labelText: 'Address',
                           maxLines: 2,
-                          validator: (newValue) {},
+                          validator: (newValue) {
+                            return null;
+                          },
                         ),
                         const SizedBox(
                           height: 16,
@@ -185,7 +194,9 @@ class MrOfficerFollowUpVisitScreen extends StatelessWidget {
                           readOnly: true,
                           labelText: 'Organization',
                           maxLines: 2,
-                          validator: (newValue) {},
+                          validator: (newValue) {
+                            return null;
+                          },
                         ),
                         const SizedBox(
                           height: 16,
@@ -309,7 +320,9 @@ class MrOfficerFollowUpVisitScreen extends StatelessWidget {
                           labelText: 'Search POC name',
                           applySuffixIcon: true,
                           suffixIcon: const Icon(Icons.search),
-                          validator: (value) {},
+                          validator: (value) {
+                            return null;
+                          },
                           onChange: (value) => followUpProvider.searchPocName(
                               followUpProvider
                                   .searchByNameController.value.text,

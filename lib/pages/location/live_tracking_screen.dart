@@ -6,7 +6,6 @@ import 'package:deskgoo/providers/live_tracking_provider/live_tracking_provider.
 import 'package:deskgoo/routes/route_generator_constants.dart';
 import 'package:deskgoo/themes/custom_colors.dart';
 import 'package:deskgoo/widgets/app_bars/custom_app_bars.dart';
-import 'package:deskgoo/widgets/bottom_navigation/gnav_bar.dart';
 import 'package:deskgoo/widgets/bottom_sheets/custom_buttom_sheet.dart';
 import 'package:deskgoo/widgets/buttons/elevated_button.dart';
 // import 'package:deskgoo/widgets/buttons/elevated_button.dart';

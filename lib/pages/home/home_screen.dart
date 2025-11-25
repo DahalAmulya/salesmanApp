@@ -1,7 +1,6 @@
 import 'dart:developer';
 // import 'package:awesome_notifications/awesome_notifications.dart';
 // import 'package:deskgoo/classes/background_task_handler.dart';
-import 'package:deskgoo/classes/notification_controller.dart';
 import 'package:deskgoo/pages/mr_officers_pages/weeklyplan/weeklyplan_screen.dart';
 import 'package:deskgoo/providers/deviceInfo_provider/deviceInfo_provider.dart';
 import 'package:deskgoo/routes/route_generator_constants.dart';

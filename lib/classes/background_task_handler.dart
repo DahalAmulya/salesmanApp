@@ -5,7 +5,6 @@ import 'package:battery_plus/battery_plus.dart';
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:deskgoo/classes/secure_storage.dart';
 import 'package:deskgoo/consts.dart';
-import 'package:deskgoo/models/environment.dart';
 import 'package:device_info_plus/device_info_plus.dart';
 import 'package:geolocator/geolocator.dart';
 // import 'package:deskgoo/utils/notification.dart';

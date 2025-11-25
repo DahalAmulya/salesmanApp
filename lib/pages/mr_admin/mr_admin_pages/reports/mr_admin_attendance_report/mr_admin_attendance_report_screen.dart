@@ -154,7 +154,9 @@ class _MrAdminAttendanceReportScreenState
                                     mrAdminAttendanceProvider
                                         .selectDateFrom(context);
                                   },
-                                  validator: (value) {},
+                                  validator: (value) {
+                                    return null;
+                                  },
                                 ),
                               ),
                               const SizedBox(
@@ -171,7 +173,9 @@ class _MrAdminAttendanceReportScreenState
                                     mrAdminAttendanceProvider
                                         .selectDateTo(context);
                                   },
-                                  validator: (value) {},
+                                  validator: (value) {
+                                    return null;
+                                  },
                                 ),
                               ),
                             ],

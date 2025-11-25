@@ -4,7 +4,6 @@ import 'package:deskgoo/themes/custom_colors.dart';
 import 'package:deskgoo/widgets/buttons/elevated_button.dart';
 import 'package:deskgoo/widgets/texts/custom_text.dart';
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
 
 class TestingDecodingAndEncoding extends StatefulWidget {
   const TestingDecodingAndEncoding({super.key});

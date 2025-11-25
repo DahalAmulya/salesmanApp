@@ -1,6 +1,5 @@
 import 'dart:convert';
 import 'package:deskgoo/routes/marketing_officer_consts.dart';
-import 'package:deskgoo/services/erp_services.dart';
 import 'package:deskgoo/themes/custom_colors.dart';
 import 'package:deskgoo/widgets/app_bars/custom_app_bars.dart';
 import 'package:deskgoo/widgets/buttons/elevated_button.dart';
@@ -14,10 +13,8 @@ import '../../../../providers/weeklyplan_provider/weeklyplan_provider.dart';
 import '../../../../widgets/drop_downs/custom_dropdown.dart';
 import '../../../../widgets/expansion_tile/custom_expansiontile.dart';
 import '../../../../widgets/text_fields/text_from_field.dart';
-import 'package:http/http.dart' as http;
 
 import '../../../providers/mr_officer_provider/mr_referral_provider.dart';
-import '../../../providers/mr_officer_provider/mr_visit_provider.dart';
 
 class MrOfficerReferralScreen extends StatefulWidget {
   const MrOfficerReferralScreen({super.key});
@@ -616,7 +613,9 @@ class _MrOfficerReferralScreenState extends State<MrOfficerReferralScreen> {
                             : 'Search State',
                         applySuffixIcon: true,
                         suffixIcon: const Icon(Icons.search),
-                        validator: (value) {},
+                        validator: (value) {
+                          return null;
+                        },
                         onChange: (value) =>
                             referralProvider.searchAddressResult(
                                 referralProvider.searchController.value.text, content),
@@ -694,7 +693,9 @@ class _MrOfficerReferralScreenState extends State<MrOfficerReferralScreen> {
                         labelText: 'Search City',
                         applySuffixIcon: true,
                         suffixIcon: const Icon(Icons.search),
-                        validator: (value) {},
+                        validator: (value) {
+                          return null;
+                        },
                         onChange: (value) =>
                             referralProvider.searchAddressResult(
                                 referralProvider.searchController.value.text,
@@ -769,7 +770,9 @@ class _MrOfficerReferralScreenState extends State<MrOfficerReferralScreen> {
                         labelText: 'Search POC name',
                         applySuffixIcon: true,
                         suffixIcon: const Icon(Icons.search),
-                        validator: (newValue) {},
+                        validator: (newValue) {
+                          return null;
+                        },
                         onChange: (newValue) =>
                             referralsDetailProvider.searchPocName(
                                 referralsDetailProvider
@@ -937,7 +940,9 @@ class _MrOfficerReferralScreenState extends State<MrOfficerReferralScreen> {
                                   referralsDetailProvider
                                       .ambDriverSearchController.value.text,
                                   context),
-                          validator: (newValue) {},
+                          validator: (newValue) {
+                            return null;
+                          },
                         ),
                       ),
                     ],

@@ -1,9 +1,7 @@
 import 'dart:async';
-import 'dart:io';
 
 import 'package:deskgoo/pages/visit/summary_Page.dart';
 import 'package:deskgoo/pages/visit/visit_order_screen.dart';
-import 'package:deskgoo/providers/camera_provider/camera_provider.dart';
 import 'package:deskgoo/providers/marketing_provider/officersDescription_provider.dart';
 import 'package:deskgoo/providers/visit_provider/order_items.dart';
 import 'package:deskgoo/providers/visit_provider/order_provider.dart';
@@ -1430,7 +1428,7 @@ class _VisitScreenState extends State<VisitScreen>
 
   Future<String?> datePicker() async {
     String date = '';
-    NepaliDateTime? _selectedDateTime = await picker.showMaterialDatePicker(
+    NepaliDateTime? _selectedDateTime = await picker.showNepaliDatePicker(
       context: context,
       initialDate: selectedDate,
       firstDate: NepaliDateTime(2000),
@@ -1447,7 +1445,6 @@ class _VisitScreenState extends State<VisitScreen>
               onPrimary: CustomColors.primaryBlack, // selected text color
               onSurface: CustomColors.primaryBlack, // default text color
             ),
-            dialogBackgroundColor: Colors.white,
             textButtonTheme: TextButtonThemeData(
               style: TextButton.styleFrom(
                 foregroundColor: CustomColors.primaryBlack,
@@ -1467,7 +1464,7 @@ class _VisitScreenState extends State<VisitScreen>
                   borderRadius: BorderRadius.circular(50),
                 ),
               ),
-            ),
+            ), dialogTheme: DialogThemeData(backgroundColor: Colors.white),
           ),
           child: child!,
         );

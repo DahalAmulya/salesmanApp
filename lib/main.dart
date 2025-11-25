@@ -36,7 +36,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:provider/provider.dart';
 import 'package:workmanager/workmanager.dart';
-import 'firebase_msg.dart';
 import 'firebase_options.dart';
 import 'notifications/notiService.dart';
 
@@ -66,13 +65,17 @@ void callbackDispatcher() {
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized(); // ✅ ADD THIS FIRST!
 
-  NotiService().initNotification();
-  
-  Workmanager().initialize(callbackDispatcher);
-
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
+
+  NotiService().initNotification();
+
+
+
+  Workmanager().initialize(callbackDispatcher);
+
+
 
   // await FirebaseMsg().initFCM();
 
@@ -127,8 +130,7 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(create: (context) => DetailsProvider()),
         ChangeNotifierProvider(create: (context) => MrOfficerVisitProvider()),
         ChangeNotifierProvider(create: (context) => MrOfficeVisitLogProvider()),
-        ChangeNotifierProvider(
-            create: (context) => MrOfficerFollowUpProvider()),
+        ChangeNotifierProvider(create: (context) => MrOfficerFollowUpProvider()),
         ChangeNotifierProvider(create: (context) => WeeklyPlanProvider()),
         ChangeNotifierProvider(create: (context) => UserProvider()),
         ChangeNotifierProvider(create: (context) => ReferralsDetailProvider()),

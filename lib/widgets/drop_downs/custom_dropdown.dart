@@ -27,7 +27,7 @@ class CustomDropdown extends StatelessWidget {
     return ColoredBox(
       color: color ?? CustomColors.primaryWhite,
       child: DropdownButtonFormField(
-        value: value,
+        initialValue: value,
         isExpanded: true,
         dropdownColor: Colors.white,
         items: items.map((item) {

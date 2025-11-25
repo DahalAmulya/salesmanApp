@@ -170,7 +170,9 @@ class _AmbulanceReportScreenState extends State<MrAdminAmbulanceReportScreen> {
                                               .countryList[0]
                                       ? 'District *'
                                       : 'State *',
-                                  validator: (newValue) {},
+                                  validator: (newValue) {
+                                    return null;
+                                  },
                                   onTap: () async {
                                     String fileName =
                                         mrAdminAmbulanceReportProvider
@@ -236,7 +238,9 @@ class _AmbulanceReportScreenState extends State<MrAdminAmbulanceReportScreen> {
                                               .countryList[0]
                                       ? 'District *'
                                       : 'State *',
-                                  validator: (newValue) {},
+                                  validator: (newValue) {
+                                    return null;
+                                  },
                                   onTap: () async {
                                     String fileName =
                                         mrAdminAmbulanceReportProvider
@@ -272,7 +276,9 @@ class _AmbulanceReportScreenState extends State<MrAdminAmbulanceReportScreen> {
                                       .cityController,
                                   readOnly: true,
                                   labelText: 'City *',
-                                  validator: (newValue) {},
+                                  validator: (newValue) {
+                                    return null;
+                                  },
                                   onTap: () async {
                                     mrAdminAmbulanceReportProvider
                                         .searchController.text = '';
@@ -922,7 +928,9 @@ class _AmbulanceReportScreenState extends State<MrAdminAmbulanceReportScreen> {
                               : 'Search State',
                       applySuffixIcon: true,
                       suffixIcon: Icon(Icons.search),
-                      validator: (value) {},
+                      validator: (value) {
+                        return null;
+                      },
                       onChange: (value) =>
                           mrAdminAmbulanceReportProvider.searchAddressResult(
                               mrAdminAmbulanceReportProvider
@@ -1008,7 +1016,9 @@ class _AmbulanceReportScreenState extends State<MrAdminAmbulanceReportScreen> {
                       labelText: 'Search City',
                       applySuffixIcon: true,
                       suffixIcon: Icon(Icons.search),
-                      validator: (value) {},
+                      validator: (value) {
+                        return null;
+                      },
                       onChange: (value) =>
                           mrAdminAmbulanceReportProvider.searchAddressResult(
                               mrAdminAmbulanceReportProvider

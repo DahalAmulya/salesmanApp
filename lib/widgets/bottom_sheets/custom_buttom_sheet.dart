@@ -1,4 +1,3 @@
-import 'package:deskgoo/consts.dart';
 import 'package:deskgoo/providers/live_tracking_provider/live_tracking_provider.dart';
 import 'package:deskgoo/themes/custom_colors.dart';
 import 'package:deskgoo/widgets/text_fields/text_from_field.dart';

@@ -15,7 +15,6 @@ import 'package:deskgoo/widgets/bottom_sheets/mr_officer_sheets/select_visit_typ
 import 'package:deskgoo/widgets/drawers/drawers_items/custom_listTile.dart';
 import 'package:deskgoo/widgets/texts/custom_text.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 import 'package:provider/provider.dart';
@@ -62,6 +61,7 @@ class MrOfficerCustomDrawer extends StatelessWidget {
         currentTime.difference(DateTime.parse(previousTime));
     // String formattedDate = DateFormat("hh:mm:ss").format(DateTime.parse(currentDifference));
     print(currentDifference);
+    return null;
   }
 
   void setTime() {

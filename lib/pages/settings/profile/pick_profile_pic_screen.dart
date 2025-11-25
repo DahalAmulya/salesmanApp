@@ -1,9 +1,6 @@
-import 'dart:convert';
 import 'dart:io';
 
-import 'package:deskgoo/consts.dart';
 import 'package:deskgoo/providers/profile/profile_provider.dart';
-import 'package:deskgoo/services/erp_services.dart';
 import 'package:deskgoo/utils/toast_message.dart';
 import 'package:deskgoo/widgets/buttons/elevated_button.dart';
 import 'package:deskgoo/widgets/containers/custom_container.dart';
@@ -11,14 +8,11 @@ import 'package:deskgoo/widgets/texts/custom_text.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
 
-import '../../../classes/secure_storage.dart';
 import '../../../routes/route_generator_constants.dart';
 import '../../../themes/custom_colors.dart';
 import '../../../widgets/app_bars/custom_app_bars.dart';
-import 'package:http/http.dart' as http;
 
 class PickProfilePicScreen extends StatefulWidget {
   const PickProfilePicScreen({super.key});

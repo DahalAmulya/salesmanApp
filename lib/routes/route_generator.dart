@@ -1,8 +1,5 @@
 import 'package:deskgoo/pages/auth_screens/forgot_password/forgot_password_screen.dart';
 import 'package:deskgoo/pages/auth_screens/login/login_screen.dart';
-import 'package:deskgoo/pages/camera/camera_screen.dart';
-import 'package:deskgoo/pages/camera/preview_photos.dart';
-import 'package:deskgoo/pages/camera/preview_selected_photo.dart';
 import 'package:deskgoo/pages/error/error_page.dart';
 import 'package:deskgoo/pages/location/live_tracking_screen.dart';
 import 'package:deskgoo/pages/location/replay_screen.dart';

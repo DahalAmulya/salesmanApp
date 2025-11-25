@@ -6,13 +6,10 @@ import 'package:deskgoo/widgets/texts/custom_text.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
-import '../../../providers/marketing_provider/officerName_provider.dart';
-import '../../../providers/marketing_provider/officerName_provider.dart';
 import '../../../routes/route_generator_constants.dart';
 import '../../../utils/ScreenWIdth.dart';
 import '../../../widgets/app_bars/custom_app_bars.dart';
 import '../../../widgets/containers/custom_container.dart';
-import 'officer_VisitDetailPage.dart';
 
 class OfficerDescriptionPage extends StatefulWidget {
   const OfficerDescriptionPage({super.key});

@@ -1,6 +1,4 @@
-import 'dart:convert';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
 import '../../../../../routes/route_generator_constants.dart';
@@ -376,7 +374,9 @@ class _ReferralLogScreenState extends State<ReferralLogScreen>
                             readOnly: true,
                             controller: mr.fromTextEditingController,
                             onTap: () => mr.selectDateFrom(context),
-                            validator: (value) {},
+                            validator: (value) {
+                              return null;
+                            },
                           ),
                         ),
                         const SizedBox(width: 12),
@@ -386,7 +386,9 @@ class _ReferralLogScreenState extends State<ReferralLogScreen>
                             readOnly: true,
                             controller: mr.toTextEditingController,
                             onTap: () => mr.selectDateTo(context),
-                            validator: (value) {},
+                            validator: (value) {
+                              return null;
+                            },
                           ),
                         ),
                       ],

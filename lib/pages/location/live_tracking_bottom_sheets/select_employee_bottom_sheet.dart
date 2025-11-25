@@ -96,7 +96,9 @@ class SelectEmployeeBottomSheet {
                                     onTap: () {
                                       _replayProvider.selectDateFrom(context);
                                     },
-                                    validator: (value) {},
+                                    validator: (value) {
+                                      return null;
+                                    },
                                   ),
                                 ),
                                 const SizedBox(
@@ -112,7 +114,9 @@ class SelectEmployeeBottomSheet {
                                     onTap: () {
                                       _replayProvider.selectDateTo(context);
                                     },
-                                    validator: (value) {},
+                                    validator: (value) {
+                                      return null;
+                                    },
                                   ),
                                 ),
                               ],
